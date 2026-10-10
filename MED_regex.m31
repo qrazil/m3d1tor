@@ -106,6 +106,10 @@ pub type Regex {
     pub str error = "";
     pub bool icase = false;
     pub int ngroups = 0;
+    /// Bit n is set once group n has been closed (a back reference needs it).
+    pub int ended = 0;
+    /// Back references to a group not closed yet (an error unless look-behind applies to them).
+    pub List<int> bad_refs = [];
     pub List<int> op = [];
     pub List<int> pa = [];
     pub List<int> pb = [];
@@ -360,12 +364,16 @@ int Regex.parse_piece(int depth) {
     if (!ok || atom < 0) {
         return atom;
     }
-    while (ok) {
+    for (int once in 0 .. 1) {
         peek();
         if (!mg) {
             break;
         }
         int t = tok;
+        if ((nk[atom] == N_ZS || nk[atom] == N_ZE) && (t == 42 || t == 43 || t == 123)) {
+            fail("E64: Nothing to repeat");
+            return -1;
+        }
         if (t == 42) {
             advance();
             atom = node(N_REPEAT, 0, -1, [atom]);
@@ -445,9 +453,18 @@ int Regex.parse_piece(int depth) {
                 fail("E59: Invalid character after \\@");
                 return -1;
             }
+            if (kind == LK_BEHIND || kind == LK_NOT_BEHIND) {
+                bad_refs.clear();
+            }
             atom = node(N_LOOK, kind, limit, [atom]);
         } else {
             break;
+        }
+        // A multi cannot follow a multi (Vim's E61 / E62).
+        peek();
+        if (ok && mg && (tok == 42 || tok == 43 || tok == 61 || tok == 63 || tok == 123 || tok == 64)) {
+            fail("E62: Nested multi");
+            return -1;
         }
     }
     return atom;
@@ -518,6 +535,7 @@ int Regex.parse_atom(int depth) {
             return -1;
         }
         advance();
+        ended = ended | (1 << idx);
         return node(N_GROUP, idx, 0, [inner]);
     }
     if (t == 37) {
@@ -548,7 +566,11 @@ int Regex.parse_atom(int depth) {
     }
     if (t >= 49 && t <= 57) {
         advance();
-        return node(N_BACKREF, t - 48, 0, []);
+        int ref = node(N_BACKREF, t - 48, 0, []);
+        if ((ended & (1 << (t - 48))) == 0) {
+            bad_refs.push(ref);
+        }
+        return ref;
     }
     if (t == 95) {
         advance();
@@ -746,9 +768,10 @@ bool Regex.named_class(List<int> lo, List<int> hi, str name) {
         add_range(lo, hi, 65, 90);
         add_range(lo, hi, 97, 122);
     } else if (name == "lower") {
-        add_range(lo, hi, 97, 122);
+        // exact (never case-folded), like nvim: ranges are offset by EXACT
+        add_range(lo, hi, EXACT + 97, EXACT + 122);
     } else if (name == "upper") {
-        add_range(lo, hi, 65, 90);
+        add_range(lo, hi, EXACT + 65, EXACT + 90);
     } else if (name == "space") {
         add_range(lo, hi, 9, 13);
         add_range(lo, hi, 32, 32);
@@ -1174,6 +1197,8 @@ pub Match Regex.search_line(MED_buffer.Buffer buf, int row, int col) {
     return none;
 }
 
+const int EXACT = 16777216;
+
 // ------------------------------------------------------------ tiny helpers
 
 bool is_combining(int cp) {
@@ -1334,6 +1359,11 @@ pub Regex compile(str pattern, bool ignorecase, bool smartcase, str tilde) {
             re.fail("E55: Unmatched \\)");
         }
     }
+    // nvim reports a reference to a group that is not closed yet, except when
+    // a look-behind follows it (nvim's NFA engine accepts that).
+    if (re.ok && re.bad_refs.size() > 0) {
+        re.fail("E65: Illegal back reference");
+    }
     if (!re.ok) {
         return re;
     }
@@ -1491,7 +1521,12 @@ bool Run.set_ok(Regex re, int idx, int ch, bool icase) {
         alt2 = MED_case.upper_cp(ch);
     }
     for (int k in 0 .. lo.size()) {
-        if ((ch >= lo[k] && ch <= hi[k]) || (alt1 >= lo[k] && alt1 <= hi[k]) || (alt2 >= lo[k] && alt2 <= hi[k])) {
+        if (lo[k] >= EXACT) {
+            if (ch >= lo[k] - EXACT && ch <= hi[k] - EXACT) {
+                hit = true;
+                break;
+            }
+        } else if ((ch >= lo[k] && ch <= hi[k]) || (alt1 >= lo[k] && alt1 <= hi[k]) || (alt2 >= lo[k] && alt2 <= hi[k])) {
             hit = true;
             break;
         }
@@ -1629,8 +1664,12 @@ bool Run.go(Regex re, int pc0, int r0, int c0) {
             set_slot(re.pa[pc], cur());
             pc = pc + 1;
         } else if (opc == OP_BACKREF) {
-            int s = saves[re.pa[pc] * 2];
-            int e = saves[re.pa[pc] * 2 + 1];
+            int s = -1;
+            int e = -1;
+            if (re.pa[pc] <= re.ngroups) {
+                s = saves[re.pa[pc] * 2];
+                e = saves[re.pa[pc] * 2 + 1];
+            }
             if (s >= 0 && e >= 0) {
                 List<int> text = group_cps(s, e);
                 for (int want in text) {
@@ -1665,7 +1704,7 @@ bool Run.go(Regex re, int pc0, int r0, int c0) {
             good = row == 0 && ci == 0;
             pc = pc + 1;
         } else if (opc == OP_EOF) {
-            good = row >= nlines - 1 && ci == cps.size();
+            good = row == nlines - 1 && ci == cps.size();
             pc = pc + 1;
         } else if (opc == OP_LNUM) {
             good = byte_col_ok(re.pb[pc], re.pa[pc], row + 1);

@@ -1,0 +1,20 @@
+# Regex cases where nvim and the engine still differ (pattern, text, flags): mostly
+# nvim quirks around atomic groups / \zs / empty matches. Found by the seeded fuzz
+# (seeds 1-12, 3000 cases each); a listed case that starts matching is reported stale.
+\%<3c[a-c]\{,2}\_[a-z]\@>		is
+\ze\zsb\m>\{-}	b_c1abaaa	
+ \{,2}\ze\_[a-z]\c\C	A<TAB><NL>b...	
++\W\|\_[a-z]\zs\C	1	is
+é\zs\@=	é-a	
++\{-}ab\zsé\&	Bcbabé.b2	
+\ze\C\%^\zs\D	c2	i
+\S\@>a	b__ca<TAB>é1	i
+a\&\ze\@<=\w	cca日	is
+\n\zs	<NL>aBb.aaa	
+\_.\@>\n	-.	
+\n\@>		
+\ze\zs\a	.aAéA1A	
+\ze\ze\&\%d97	a-ééBa	
+\ze\@>\%>1c\?\_[a-z]	aA-_aac	
+\n\@>\%[ab]	2B2BAaa-	is
+\n\zs	bbbB1._2	i

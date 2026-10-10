@@ -4,8 +4,8 @@
 //
 // A case line is tab separated: index, hex(pattern), hex(text), flags where
 // flags holds `i` (ignorecase) and `s` (smartcase). The result line is
-// `index  start  end  hex(whole);hex(\1);...;hex(\9)` for the leftmost match
-// (byte offsets, `\zs`/`\ze` applied), `index none` for no match and
+// `index  srow  scol  erow  ecol  hex(whole);hex(\1);...;hex(\9)` for the first
+// match in row 0 (byte offsets, `\zs`/`\ze` applied), `index none` for no match and
 // `index err` when the pattern does not compile. nvim_regex.lua prints the same.
 
 import MED_regex;
@@ -48,7 +48,8 @@ str run_case(str line) {
     if (!re.ok) {
         return f[0] + "\terr";
     }
-    MED_buffer.Buffer buf = MED_buffer.load(text);
+    MED_buffer.Buffer buf = MED_buffer.load("");
+    buf.lines = text.split("\n");
     MED_regex.Match m = re.search_line(buf, 0, 0);
     if (!m.ok) {
         return f[0] + "\tnone";
@@ -57,7 +58,7 @@ str run_case(str line) {
     for (str g in m.groups) {
         parts.push(hex_of(g));
     }
-    return f[0] + "\t" + m.scol.to_str() + "\t" + m.ecol.to_str() + "\t" + parts.join(";");
+    return f[0] + "\t" + m.srow.to_str() + "\t" + m.scol.to_str() + "\t" + m.erow.to_str() + "\t" + m.ecol.to_str() + "\t" + parts.join(";");
 }
 
 List<str> arguments = os.args();

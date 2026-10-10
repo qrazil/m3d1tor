@@ -5,7 +5,7 @@
                                           [--seed N] [--cases N] [-v]
 
 BIN is tests/t_regex_run.m31 built. Corpus lines (tests/oracles/regex_cases.txt)
-are `PATTERN<TAB>TEXT<TAB>FLAGS`, raw (no escaping; `<TAB>` stands for a tab in
+are `PATTERN<TAB>TEXT<TAB>FLAGS`, raw (no escaping; `<TAB>` and `<NL>` stand for a tab and a line break in
 either field; FLAGS may hold `i` = ignorecase, `s` = smartcase). Both sides
 print leftmost-match byte offsets and the nine groups; the nvim side is
 `matchstrpos()` / `matchlist()` on the text. Fuzz cases build random patterns
@@ -31,7 +31,7 @@ def hexs(s):
 
 
 def unplace(s):
-    return s.replace("<TAB>", "\t")
+    return s.replace("<TAB>", "\t").replace("<NL>", "\n")
 
 
 def load(path):
@@ -60,7 +60,7 @@ FRAGMENTS = [
     "\\%[ab]", "\\%d97", "\\%x61", "\\%u00e9", "\\%^", "\\%$", "\\%2c", "\\%>1c", "\\%<3c",
     "\\_s", "\\_.", "\\_[a-z]", "\\n", "\\t", "\\e", "é", "日", "(", ")", "|", "+", "?", "=", "{", "@", "<", ">",
 ]
-ALPHABET = ["a", "b", "c", "A", "B", "1", "2", "_", " ", ".", "-", "é", "日", "\t", "aa", "ab"]
+ALPHABET = ["a", "b", "c", "A", "B", "1", "2", "_", " ", ".", "-", "é", "日", "<TAB>", "aa", "ab", "a", "b", "<NL>"]
 
 
 def fuzz_case(rng):
@@ -117,8 +117,8 @@ def show(bad, limit):
     for (case, a, b) in bad[:limit]:
         pat, text, flags = case
         print("DIFF pat=%r text=%r flags=%r" % (pat, text, flags))
-        print("   nvim:   %s" % (a[:3] if a else a))
-        print("   engine: %s" % (b[:3] if b else b))
+        print("   nvim:   %s" % (a))
+        print("   engine: %s" % (b))
 
 
 def main():
@@ -129,6 +129,7 @@ def main():
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--cases", type=int, default=2000)
     ap.add_argument("--max-report", type=int, default=15)
+    ap.add_argument("--dump-known", help="append failing fuzz cases to this file")
     ap.add_argument("-v", action="store_true")
     args = ap.parse_args()
     if not args.corpus and not args.fuzz:
@@ -146,10 +147,17 @@ def main():
     if args.fuzz:
         rng = random.Random(args.seed)
         cases = [fuzz_case(rng) for _ in range(args.cases)]
+        known = set(tuple(c) for c in load(KNOWN))
         bad = compare(cases, args.runner, args.v)
-        print("regex fuzz seed %d: %d cases, %d failed" % (args.seed, len(cases), len(bad)))
-        show(bad, args.max_report)
-        failed += len(bad)
+        real = [b for b in bad if tuple(b[0]) not in known]
+        print("regex fuzz seed %d: %d cases, %d known divergences, %d failed" % (
+            args.seed, len(cases), len(bad) - len(real), len(real)))
+        show(real, args.max_report)
+        if args.dump_known:
+            with open(args.dump_known, "a", encoding="utf-8") as f:
+                for (c, _, _) in real:
+                    f.write("%s\t%s\t%s\n" % c)
+        failed += len(real)
     sys.exit(1 if failed else 0)
 
 

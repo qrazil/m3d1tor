@@ -1,0 +1,186 @@
+# pattern<TAB>text<TAB>flags (i=ignorecase s=smartcase); <NL> <TAB> escapes
+foo	a foo b
+foo	FOO	i
+Foo	foo	is
+foo	FOO	is
+\cfoo	FOO
+\Cfoo	FOO	i
+^a	ba
+^a	a
+a$	ba
+a$	ab
+^$	
+^$	a<NL>
+a*	baaa
+a\+	baaa
+a\=	ba
+a\?	ca
+a\{2}	baaa
+a\{2,}	baaaa
+a\{-1,}	baaaa
+a\{-}	aaa
+a\{,2}	aaa
+\(a\)\(b\)	xab
+\(a\)\1	xaa
+\(a\|b\)\+	xabba
+\%(a\|b\)\+	xabba
+\v(a|b)+	xabba
+\v<foo>	a foo b
+\<foo\>	afoo foo
+\vfoo>	foo
+\w\+	  hello world
+\s\+	a  <TAB> b
+\d\+	ab123c
+\D\+	12ab34
+\a\+	12ab34
+\u\+	abCDe
+\l\+	ABcdE
+\x\+	zz0fAgg
+\h\+	12ab_c3
+\k\+	-foo-
+\i\+	  a1
+\f\+	 a/b.c 
+[abc]\+	xxabcabxx
+[^abc]\+	abcxyzabc
+[a-c]\+	xabcx
+[[:digit:]]\+	ab12
+[[:upper:]]\+	abCDe
+[]a]\+	a]b
+[^]a]\+	a]bc
+[\d]\+	ab12
+[\n]	a<NL>b
+\_s\+	a <NL> b
+\_[a-z]\+	ab<NL>cd
+\_.\+	ab<NL>cd
+a\nb	a<NL>b
+a\n	a<NL>b
+\nb	a<NL>b
+a.b	a<NL>b
+.*	abc
+\.	a.b
+\*	a*b
+*a	*a
+\^a	^a
+a\$	a$
+\%^a	a<NL>a
+a\%$	a<NL>a
+\%2lb	a<NL>b<NL>b
+\%>1lb	a<NL>b<NL>b
+\%<2lb	b<NL>b
+\%3cb	aabab
+\%>2cb	baabab
+\%<3cb	aabab
+\%2vb	abab
+\%d97	bab
+\%x61	bab
+\%u00e9	aéb
+\%o141	bab
+é	aéb
+日\+	a日日b
+.\{3}	日本語x
+\%[ab]x	ax
+fu\%[nction]	func
+fu\%[nction]	fu
+foo\zsbar	foobar
+foo\zebar	foobar
+\zsfoo	foo
+foo\ze	foo
+\(foo\)\@<=bar	foobar
+\(foo\)\@<!bar	foobar
+\(foo\)\@<!bar	xbar
+foo\(bar\)\@=	foobar
+foo\(bar\)\@!	foobaz
+\(a*\)\@>a	aaa
+\(a*\)\@>b	aaab
+a\&.	ab
+.*a\&.*b	ab
+\(a\)\@=\(.\)	ab
+\(\)	abc
+\(a\|\)b	b
+\|a	a
+a\|b	xb
+a\|b\|c	xc
+foo\|foobar	foobar
+foobar\|foo	foobar
+\Vfoo.bar	foo.bar
+\Vfoo.bar	fooxbar
+\Va\.b	axb
+\Mfoo.*	foo.*
+\Mfoo.*	foo.x
+\v^a$	a
+\v(a)(b)(c)(d)(e)(f)(g)(h)(i)\9	abcdefghii
+\v\d{2,3}	a1234
+\v\d{-2,3}	a1234
+\va{2}b	aaab
+\v<a.*>	b a c
+\v%(ab)+	xababab
+\v(ab)@<=c	abc
+\v(ab)@<!c	abc
+\v[abc]+	xxcab
+\v\s+$	foo  
+\v^\s*$	   
+\~	abc
+a\{	a{
+a\{1	a
+\(	a
+\)	a
+\%(	a
+[a	a
+[	a
+\%[	a
+a**	aa
+a\+\+	aa
+\zs\zs	a
+\1	a
+\(a\)\2	aa
+\%d	a
+\%x	a
+\@=	a
+\{1}	a
+\z	a
+\_	a
+^*	*
+\(^a\)	a
+a\(^b\)	a^b
+a\|^b	b
+\(a$\)	a
+\(a$\)b	a$b
+a$b	a$b
+\n\+	a<NL><NL>b
+\n*	a<NL>b
+\(\n\)\1	a<NL><NL>
+a\{-1,}b	aaab
+\v(\w+)\s+\1	hello hello world
+\v(\w+)\s+\1	hello world
+\(\w\+\) \(\w\+\)	hello world
+\v(a)|(b)	b
+\v(a)|(b)\2	bb
+x\{0}	x
+.\{-}b	aabab
+\<\k	  foo
+\k\>	foo  
+\%^	<NL>a
+\%$	a<NL>
+.\%$	a<NL>b
+[[:alpha:][:digit:]]\+	-a1b2-
+[a-z]\+	AbCdEf	i
+[A-Z]\+	abcDEF	i
+\u\+	abcDEF	i
+\l\+	ABCdef	i
+[[:lower:]]\+	ABCdef	i
+\%d97\+	aaa
+é\+	ééé
+É	é	i
+\.\.	a..b
+/	a/b
+\/	a/b
+\\	a\b
+\e	a<TAB>b
+\t	a<TAB>b
+\r	a<NL>b
+\b	a<NL>b
+\%d10	a<NL>b
+\_^a	b<NL>a
+b\_$	b<NL>a
+a\_$\_s*b	a<NL>  b
+\_s*b	a<NL> b
