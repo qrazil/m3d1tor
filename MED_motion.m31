@@ -35,6 +35,8 @@ pub type Motion {
     /// The motion moved as far as it could and then failed (Vim beeps but
     /// keeps the cursor where it got to).
     pub bool beep = false;
+    /// A failed motion that still moved the cursor to `row`, `col`.
+    pub bool moved = false;
 }
 
 pub Motion failed() {
@@ -103,6 +105,54 @@ pub int Cur.cls(bool big) {
 
 pub bool Cur.empty_line() {
     return col == 0 && buf.line_size(row) == 0;
+}
+
+/// Vim's `incl`: like `inc` but never rests on the NUL of a non-empty line.
+pub int Cur.incl() {
+    int r = inc();
+    if (r >= 1 && col > 0) {
+        r = inc();
+    }
+    return r;
+}
+
+/// Vim's `decl`: like `dec` but skips the NUL when crossing a line.
+pub int Cur.decl() {
+    int r = dec();
+    if (r == 1 && col > 0) {
+        r = dec();
+    }
+    return r;
+}
+
+/// Vim's `oneleft`: false at column 0.
+pub bool Cur.oneleft() {
+    if (col == 0) {
+        return false;
+    }
+    col = MED_text.prev_col(buf.line(row), col);
+    return true;
+}
+
+/// The code point under the cursor, 0 on the NUL.
+pub int Cur.ch() {
+    int cp = MED_text.cp_at(buf.line(row), col);
+    if (cp < 0) {
+        return 0;
+    }
+    return cp;
+}
+
+/// Vim's `back_in_line`: back to the start of the run of one class.
+pub void Cur.back_in_line(bool big) {
+    int sclass = cls(big);
+    while (col > 0) {
+        dec();
+        if (cls(big) != sclass) {
+            inc();
+            break;
+        }
+    }
 }
 
 bool skip_chars(Cur c, int cclass, int dir, bool big) {
@@ -382,4 +432,137 @@ pub Motion find_char(str line, int col, int target, int dir, bool until, int cou
     m.col = at;
     m.inclusive = dir > 0;
     return m;
+}
+
+// ---------------------------------------------------------------- sentences
+
+bool is_white_ch(int c) {
+    return c == 32 || c == 9;
+}
+
+bool in_set(str set, int c) {
+    if (c == 0) {
+        return false;
+    }
+    return set.index_of(str.from_chars([c])).is_some();
+}
+
+bool para_start(MED_buffer.Buffer buf, int row) {
+    str line = buf.line(row);
+    return line.size() == 0 || line.byte_at(0) == 12;
+}
+
+/// Vim's `findsent`: `(` (dir -1) and `)` (dir 1). Moves `cur` on success.
+pub bool findsent(Cur cur, int dir, int count) {
+    Cur pos = Cur(cur.buf, cur.row, cur.col);
+    bool noskip = false;
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        bool found = false;
+        if (pos.ch() == 0) {
+            while (true) {
+                int r = 0;
+                if (dir > 0) {
+                    r = pos.incl();
+                } else {
+                    r = pos.decl();
+                }
+                if (r == -1) {
+                    break;
+                }
+                if (pos.ch() != 0) {
+                    break;
+                }
+            }
+            if (dir > 0) {
+                found = true;
+            }
+        } else if (dir > 0 && pos.col == 0 && para_start(pos.buf, pos.row)) {
+            if (pos.row == pos.buf.line_count() - 1) {
+                return false;
+            }
+            pos.row = pos.row + 1;
+            found = true;
+        } else if (dir < 0) {
+            pos.decl();
+        }
+        if (!found) {
+            bool found_dot = false;
+            while (true) {
+                int c = pos.ch();
+                if (!(is_white_ch(c) || in_set(".!?)]\"'", c))) {
+                    break;
+                }
+                Cur tpos = Cur(pos.buf, pos.row, pos.col);
+                if (tpos.decl() == -1 || (tpos.buf.line_size(tpos.row) == 0 && dir > 0)) {
+                    break;
+                }
+                if (found_dot) {
+                    break;
+                }
+                if (in_set(".!?", c)) {
+                    found_dot = true;
+                }
+                if (in_set(")]\"'", c) && !in_set(".!?)]\"'", tpos.ch())) {
+                    break;
+                }
+                pos.decl();
+            }
+            int startrow = pos.row;
+            while (true) {
+                int c = pos.ch();
+                if (c == 0 || (pos.col == 0 && para_start(pos.buf, pos.row))) {
+                    if (dir < 0 && pos.row != startrow) {
+                        pos.row = pos.row + 1;
+                        pos.col = 0;
+                    }
+                    break;
+                }
+                if (c == 46 || c == 33 || c == 63) {
+                    Cur tpos = Cur(pos.buf, pos.row, pos.col);
+                    int cc = 0;
+                    while (true) {
+                        cc = tpos.inc();
+                        if (cc == -1) {
+                            break;
+                        }
+                        if (!in_set(")]\"'", tpos.ch())) {
+                            break;
+                        }
+                    }
+                    int ch = tpos.ch();
+                    if (cc == -1 || ch == 32 || ch == 9 || ch == 0) {
+                        pos.row = tpos.row;
+                        pos.col = tpos.col;
+                        if (pos.ch() == 0) {
+                            pos.inc();
+                        }
+                        break;
+                    }
+                }
+                int stepped = 0;
+                if (dir > 0) {
+                    stepped = pos.incl();
+                } else {
+                    stepped = pos.decl();
+                }
+                if (stepped == -1) {
+                    if (left > 0) {
+                        return false;
+                    }
+                    noskip = true;
+                    break;
+                }
+            }
+        }
+        while (!noskip && is_white_ch(pos.ch())) {
+            if (pos.incl() == -1) {
+                break;
+            }
+        }
+    }
+    cur.row = pos.row;
+    cur.col = pos.col;
+    return true;
 }

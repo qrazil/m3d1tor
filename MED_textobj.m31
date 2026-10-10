@@ -1,0 +1,1280 @@
+// Text objects (`iw aw iW aW ip ap i" a" i( a( ...`), ported from Vim's
+// textobject.c and checked against nvim.
+//
+// API
+// ---
+//   MED_textobj.select(buf, cursor, vis, vstart, vmode, obj, include, count) -> Sel
+//
+// Every object works in operator-pending mode and in Visual mode. In
+// operator-pending mode (`vis` false) the result is the range `start`..`end`
+// with `inclusive` and `linewise` set. In Visual mode `start` is the new
+// Visual anchor, `end` the new cursor, and `vmode` the mode the selection
+// must switch to (-1 keeps the current one).
+
+import MED_buffer;
+import MED_motion;
+import MED_text;
+
+pub type Sel {
+    pub bool ok = true;
+    pub MED_buffer.Pos start = MED_buffer.Pos(0, 0);
+    pub MED_buffer.Pos end = MED_buffer.Pos(0, 0);
+    pub bool linewise = false;
+    pub bool inclusive = false;
+    pub int vmode = -1;
+    pub bool jump = false;
+    /// A failed object that still moved the cursor (to `end`), as Vim's does.
+    pub bool moved = false;
+}
+
+Sel failed_at(MED_motion.Cur c) {
+    Sel s = Sel();
+    s.ok = false;
+    s.moved = true;
+    s.end = MED_buffer.Pos(c.row, c.col);
+    return s;
+}
+
+Sel failed() {
+    Sel s = Sel();
+    s.ok = false;
+    return s;
+}
+
+MED_buffer.Pos pos_of(MED_motion.Cur c) {
+    return MED_buffer.Pos(c.row, c.col);
+}
+
+bool before(MED_buffer.Pos a, MED_buffer.Pos b) {
+    return a.cmp(b) < 0;
+}
+
+// ------------------------------------------------------------------- words
+
+Sel current_word(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int count, bool include, bool big) {
+    MED_motion.Cur c = MED_motion.Cur(buf, cursor.row, cursor.col);
+    MED_buffer.Pos start = MED_buffer.Pos(vstart.row, vstart.col);
+    MED_buffer.Pos vs = MED_buffer.Pos(vstart.row, vstart.col);
+    bool include_white = false;
+    bool inclusive = true;
+    int left = count;
+    if (!vis || cursor.eq(vstart)) {
+        c.back_in_line(big);
+        MED_buffer.Pos start_pos = pos_of(c);
+        if ((c.cls(big) == 0) == include) {
+            if (!MED_motion.end_word(c, 1, big, true, true)) {
+                return failed_at(c);
+            }
+        } else {
+            MED_motion.fwd_word(c, 1, big, true);
+            if (c.col == 0) {
+                c.decl();
+            } else {
+                c.oneleft();
+            }
+            if (include) {
+                include_white = true;
+            }
+        }
+        start = start_pos;
+        vs = start_pos;
+        left = left - 1;
+    }
+    while (left > 0) {
+        inclusive = true;
+        if (vis && before(pos_of(c), vs)) {
+            if (c.decl() == -1) {
+                return failed_at(c);
+            }
+            if (include != (c.cls(big) != 0)) {
+                if (!MED_motion.bck_word(c, 1, big, true)) {
+                    return failed_at(c);
+                }
+            } else {
+                if (!MED_motion.bckend_word(c, 1, big, true)) {
+                    return failed_at(c);
+                }
+                c.incl();
+            }
+        } else {
+            if (c.incl() == -1) {
+                return failed_at(c);
+            }
+            if (include != (c.cls(big) == 0)) {
+                if (!MED_motion.fwd_word(c, 1, big, true) && left > 1) {
+                    return failed_at(c);
+                }
+                if (!c.oneleft()) {
+                    inclusive = false;
+                }
+            } else if (!MED_motion.end_word(c, 1, big, true, true)) {
+                return failed_at(c);
+            }
+        }
+        left = left - 1;
+    }
+    if (include_white && (c.cls(big) != 0 || (c.col == 0 && !inclusive))) {
+        MED_motion.Cur b = MED_motion.Cur(buf, vs.row, vs.col);
+        if (b.oneleft()) {
+            b.back_in_line(big);
+            if (b.cls(big) == 0 && b.col > 0) {
+                start = pos_of(b);
+                if (!vis) {
+                    vs = start;
+                }
+            }
+        }
+    }
+    Sel r = Sel();
+    r.start = start;
+    r.end = pos_of(c);
+    r.inclusive = inclusive;
+    if (vis) {
+        r.vmode = 118;
+    }
+    return r;
+}
+
+// ------------------------------------------------------------------ blocks
+
+// Number of backslashes right before `col`.
+int backslashes(str line, int col) {
+    int n = 0;
+    int at = col;
+    while (at > 0 && line.byte_at(at - 1) == 92) {
+        n = n + 1;
+        at = at - 1;
+    }
+    return n;
+}
+
+/// Vim's findmatchlimit for a bracket with the quotes ignored (the 'cpo'
+/// "%" flag): starting just past `pos`, the first `findc` not matched by an
+/// `initc` met on the way. `backwards` picks the direction.
+pub Sel find_unmatched(MED_buffer.Buffer buf, MED_buffer.Pos from, int initc, int findc, bool backwards) {
+    int row = from.row;
+    int col = from.col;
+    int count = 0;
+    int escaped = backslashes(buf.line(row), col) % 2;
+    while (true) {
+        str line = buf.line(row);
+        if (backwards) {
+            if (col == 0) {
+                if (row == 0) {
+                    return failed();
+                }
+                row = row - 1;
+                col = buf.line_size(row);
+                continue;
+            }
+            col = MED_text.prev_col(line, col);
+        } else if (col >= line.size()) {
+            if (row + 1 >= buf.line_count()) {
+                return failed();
+            }
+            row = row + 1;
+            col = 0;
+        } else {
+            col = MED_text.next_col(line, col);
+        }
+        line = buf.line(row);
+        if (col >= line.size()) {
+            continue;
+        }
+        int ch = line.byte_at(col);
+        if (ch == initc || ch == findc) {
+            if (backslashes(line, col) % 2 == escaped) {
+                if (ch == initc) {
+                    count = count + 1;
+                } else {
+                    if (count == 0) {
+                        Sel r = Sel();
+                        r.start = MED_buffer.Pos(row, col);
+                        return r;
+                    }
+                    count = count - 1;
+                }
+            }
+        }
+    }
+}
+
+// findmatch(NULL, what): `what` is a bracket, the search is for its pair in
+// the direction implied (an opener searches back, a closer forward).
+Sel findmatch(MED_buffer.Buffer buf, MED_buffer.Pos from, int what) {
+    if (what == 40) {
+        return find_unmatched(buf, from, 41, 40, true);
+    }
+    if (what == 123) {
+        return find_unmatched(buf, from, 125, 123, true);
+    }
+    if (what == 91) {
+        return find_unmatched(buf, from, 93, 91, true);
+    }
+    if (what == 60) {
+        return find_unmatched(buf, from, 62, 60, true);
+    }
+    if (what == 41) {
+        return find_unmatched(buf, from, 40, 41, false);
+    }
+    if (what == 125) {
+        return find_unmatched(buf, from, 123, 125, false);
+    }
+    if (what == 93) {
+        return find_unmatched(buf, from, 91, 93, false);
+    }
+    return find_unmatched(buf, from, 60, 62, false);
+}
+
+bool in_indent(str line, int col) {
+    int n = 0;
+    while (n < line.size() && (line.byte_at(n) == 32 || line.byte_at(n) == 9)) {
+        n = n + 1;
+    }
+    return n >= col + 1;
+}
+
+Sel current_block(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int count, bool include, int what, int other) {
+    MED_motion.Cur c = MED_motion.Cur(buf, cursor.row, cursor.col);
+    MED_buffer.Pos old_start = MED_buffer.Pos(cursor.row, cursor.col);
+    MED_buffer.Pos old_end = MED_buffer.Pos(cursor.row, cursor.col);
+    if (!vis || cursor.eq(vstart)) {
+        if (what == 123) {
+            while (in_indent(buf.line(c.row), c.col)) {
+                if (c.inc() != 0) {
+                    break;
+                }
+            }
+        }
+        if (c.ch() == what) {
+            c.col = c.col + 1;
+        }
+    } else if (before(vstart, cursor)) {
+        old_start = MED_buffer.Pos(vstart.row, vstart.col);
+        c.row = vstart.row;
+        c.col = vstart.col;
+    } else {
+        old_end = MED_buffer.Pos(vstart.row, vstart.col);
+    }
+    MED_buffer.Pos start_pos = pos_of(c);
+    Sel found = findmatch(buf, pos_of(c), what);
+    int left = count;
+    if (found.ok) {
+        while (left > 0) {
+            left = left - 1;
+            found = findmatch(buf, pos_of(c), what);
+            if (!found.ok) {
+                break;
+            }
+            c.row = found.start.row;
+            c.col = found.start.col;
+            start_pos = found.start;
+        }
+    } else {
+        while (left > 0) {
+            left = left - 1;
+            found = find_unmatched(buf, pos_of(c), other, what, false);
+            if (!found.ok) {
+                break;
+            }
+            c.row = found.start.row;
+            c.col = found.start.col;
+            start_pos = found.start;
+        }
+    }
+    if (!found.ok) {
+        return failed();
+    }
+    Sel end_found = findmatch(buf, pos_of(c), other);
+    if (!end_found.ok) {
+        return failed();
+    }
+    c.row = end_found.start.row;
+    c.col = end_found.start.col;
+    bool sol = false;
+    while (!include) {
+        MED_motion.Cur s = MED_motion.Cur(buf, start_pos.row, start_pos.col);
+        s.incl();
+        start_pos = pos_of(s);
+        sol = c.col == 0;
+        c.decl();
+        while (in_indent(buf.line(c.row), c.col)) {
+            sol = true;
+            if (c.decl() != 0) {
+                break;
+            }
+        }
+        if (vis && !before(start_pos, old_start) && !before(old_end, pos_of(c)) && !start_pos.eq(pos_of(c))) {
+            c.row = old_start.row;
+            c.col = old_start.col;
+            c.decl();
+            found = findmatch(buf, pos_of(c), what);
+            if (!found.ok) {
+                return failed();
+            }
+            start_pos = found.start;
+            end_found = findmatch(buf, found.start, other);
+            if (!end_found.ok) {
+                return failed();
+            }
+            c.row = end_found.start.row;
+            c.col = end_found.start.col;
+        } else {
+            break;
+        }
+    }
+    Sel r = Sel();
+    r.jump = true;
+    r.start = start_pos;
+    if (vis) {
+        if (sol && c.ch() != 0) {
+            c.inc();
+        }
+        r.end = pos_of(c);
+        r.vmode = 118;
+        return r;
+    }
+    if (sol) {
+        c.incl();
+    } else if (!before(pos_of(c), start_pos)) {
+        r.inclusive = true;
+    } else {
+        c.row = start_pos.row;
+        c.col = start_pos.col;
+    }
+    r.end = pos_of(c);
+    return r;
+}
+
+// ------------------------------------------------------------------ quotes
+
+// Next quote at or after `col`; an `escape` byte skips the byte after it.
+int find_next_quote(str line, int col, int quote, int escape) {
+    int at = col;
+    while (at < line.size()) {
+        int ch = line.byte_at(at);
+        if (escape >= 0 && ch == escape) {
+            at = at + 1;
+            if (at >= line.size()) {
+                return -1;
+            }
+        } else if (ch == quote) {
+            return at;
+        }
+        at = MED_text.next_col(line, at);
+    }
+    return -1;
+}
+
+int find_prev_quote(str line, int col, int quote, int escape) {
+    int at = col;
+    while (at > 0) {
+        at = MED_text.prev_col(line, at);
+        int n = 0;
+        if (escape >= 0) {
+            while (at - n > 0 && line.byte_at(at - n - 1) == escape) {
+                n = n + 1;
+            }
+        }
+        if (n % 2 == 1) {
+            at = at - n;
+        } else if (line.byte_at(at) == quote) {
+            break;
+        }
+    }
+    return at;
+}
+
+int byte_or_nul(str line, int col) {
+    if (col < 0 || col >= line.size()) {
+        return 0;
+    }
+    return line.byte_at(col);
+}
+
+Sel current_quote(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int count, bool include, int quote) {
+    str line = buf.line(cursor.row);
+    int col_start = cursor.col;
+    int col_end = 0;
+    bool inclusive = false;
+    bool vis_empty = true;
+    bool vis_bef_curs = false;
+    bool inside_quotes = false;
+    bool selected_quote = false;
+    if (vis) {
+        if (vstart.row != cursor.row) {
+            return failed();
+        }
+        vis_bef_curs = before(vstart, cursor);
+        vis_empty = vstart.eq(cursor);
+        if (!vis_empty) {
+            int i = 0;
+            if (vis_bef_curs) {
+                inside_quotes = vstart.col > 0 && byte_or_nul(line, vstart.col - 1) == quote && byte_or_nul(line, cursor.col) != 0 && byte_or_nul(line, cursor.col + 1) == quote;
+                i = vstart.col;
+                col_end = cursor.col;
+            } else {
+                inside_quotes = cursor.col > 0 && byte_or_nul(line, cursor.col - 1) == quote && byte_or_nul(line, vstart.col) != 0 && byte_or_nul(line, vstart.col + 1) == quote;
+                i = cursor.col;
+                col_end = vstart.col;
+            }
+            while (i <= col_end) {
+                if (byte_or_nul(line, i) == 0) {
+                    break;
+                }
+                i = i + 1;
+                if (byte_or_nul(line, i - 1) == quote) {
+                    selected_quote = true;
+                    break;
+                }
+            }
+        }
+    }
+    if (!vis_empty && byte_or_nul(line, col_start) == quote) {
+        if (vis_bef_curs) {
+            col_start = find_next_quote(line, col_start + 1, quote, -1);
+            if (col_start < 0) {
+                return failed();
+            }
+            col_end = find_next_quote(line, col_start + 1, quote, 92);
+            if (col_end < 0) {
+                col_end = col_start;
+                col_start = cursor.col;
+            }
+        } else {
+            col_end = find_prev_quote(line, col_start, quote, -1);
+            if (byte_or_nul(line, col_end) != quote) {
+                return failed();
+            }
+            col_start = find_prev_quote(line, col_end, quote, 92);
+            if (byte_or_nul(line, col_start) != quote) {
+                col_start = col_end;
+                col_end = cursor.col;
+            }
+        }
+    } else if (byte_or_nul(line, col_start) == quote || !vis_empty) {
+        int first_col = col_start;
+        if (!vis_empty) {
+            if (vis_bef_curs) {
+                first_col = find_next_quote(line, col_start, quote, -1);
+            } else {
+                first_col = find_prev_quote(line, col_start, quote, -1);
+            }
+        }
+        col_start = 0;
+        while (true) {
+            col_start = find_next_quote(line, col_start, quote, -1);
+            if (col_start < 0 || col_start > first_col) {
+                return failed();
+            }
+            col_end = find_next_quote(line, col_start + 1, quote, 92);
+            if (col_end < 0) {
+                return failed();
+            }
+            if (col_start <= first_col && first_col <= col_end) {
+                break;
+            }
+            col_start = col_end + 1;
+        }
+    } else {
+        col_start = find_prev_quote(line, col_start, quote, 92);
+        if (byte_or_nul(line, col_start) != quote) {
+            col_start = find_next_quote(line, col_start, quote, -1);
+            if (col_start < 0) {
+                return failed();
+            }
+        }
+        col_end = find_next_quote(line, col_start + 1, quote, 92);
+        if (col_end < 0) {
+            return failed();
+        }
+    }
+    if (include) {
+        if (is_white(byte_or_nul(line, col_end + 1))) {
+            while (is_white(byte_or_nul(line, col_end + 1))) {
+                col_end = col_end + 1;
+            }
+        } else {
+            while (col_start > 0 && is_white(byte_or_nul(line, col_start - 1))) {
+                col_start = col_start - 1;
+            }
+        }
+    }
+    if (!include && count < 2 && (vis_empty || !inside_quotes)) {
+        col_start = col_start + 1;
+    }
+    Sel r = Sel();
+    MED_buffer.Pos new_vis = MED_buffer.Pos(vstart.row, vstart.col);
+    if (vis) {
+        if (vis_empty || (vis_bef_curs && !selected_quote && (inside_quotes || (byte_or_nul(line, vstart.col) != quote && (vstart.col == 0 || byte_or_nul(line, vstart.col - 1) != quote))))) {
+            new_vis = MED_buffer.Pos(cursor.row, col_start);
+        }
+    } else {
+        r.start = MED_buffer.Pos(cursor.row, col_start);
+    }
+    int end_col = col_end;
+    if (include || count > 1 || (!vis_empty && inside_quotes)) {
+        if (end_col < line.size()) {
+            end_col = MED_text.next_col(line, end_col);
+            if (end_col >= line.size()) {
+                inclusive = true;
+            }
+        }
+    }
+    if (vis) {
+        MED_buffer.Pos cur_end = MED_buffer.Pos(cursor.row, end_col);
+        if (vis_empty || vis_bef_curs) {
+            if (cur_end.col > 0) {
+                cur_end.col = MED_text.prev_col(line, cur_end.col);
+            }
+        } else {
+            if (inside_quotes || (!selected_quote && byte_or_nul(line, vstart.col) != quote && (byte_or_nul(line, vstart.col) == 0 || byte_or_nul(line, vstart.col + 1) != quote))) {
+                int d = end_col;
+                if (d > 0) {
+                    d = MED_text.prev_col(line, d);
+                }
+                new_vis = MED_buffer.Pos(cursor.row, d);
+            }
+            cur_end = MED_buffer.Pos(cursor.row, col_start);
+        }
+        r.start = new_vis;
+        r.end = cur_end;
+        r.vmode = 118;
+        return r;
+    }
+    r.end = MED_buffer.Pos(cursor.row, end_col);
+    r.inclusive = inclusive;
+    return r;
+}
+
+bool is_white(int ch) {
+    return ch == 32 || ch == 9;
+}
+
+// -------------------------------------------------------------- paragraphs
+
+bool linewhite(MED_buffer.Buffer buf, int row) {
+    str line = buf.line(row);
+    return MED_text.first_nonblank(line) >= line.size();
+}
+
+// An empty line or a form feed starts a paragraph (nroff macros are not
+// recognised).
+bool start_ps(MED_buffer.Buffer buf, int row) {
+    str line = buf.line(row);
+    return line.size() == 0 || line.byte_at(0) == 12;
+}
+
+Sel current_par(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int vmode, int count, bool include) {
+    int last = buf.line_count() - 1;
+    int start_lnum = cursor.row;
+    bool extend = vis && start_lnum != vstart.row;
+    if (!extend) {
+        bool white_in_front = linewhite(buf, start_lnum);
+        while (start_lnum > 0) {
+            if (white_in_front) {
+                if (!linewhite(buf, start_lnum - 1)) {
+                    break;
+                }
+            } else if (linewhite(buf, start_lnum - 1) || start_ps(buf, start_lnum)) {
+                break;
+            }
+            start_lnum = start_lnum - 1;
+        }
+        int end_lnum = start_lnum;
+        while (end_lnum <= last && linewhite(buf, end_lnum)) {
+            end_lnum = end_lnum + 1;
+        }
+        end_lnum = end_lnum - 1;
+        int i = count;
+        if (!include && white_in_front) {
+            i = i - 1;
+        }
+        bool do_white = false;
+        while (i > 0) {
+            i = i - 1;
+            if (end_lnum == last) {
+                return failed();
+            }
+            if (!include) {
+                do_white = linewhite(buf, end_lnum + 1);
+            }
+            if (include || !do_white) {
+                end_lnum = end_lnum + 1;
+                while (end_lnum < last && !linewhite(buf, end_lnum + 1) && !start_ps(buf, end_lnum + 1)) {
+                    end_lnum = end_lnum + 1;
+                }
+            }
+            if (i == 0 && white_in_front && include) {
+                break;
+            }
+            if (include || do_white) {
+                while (end_lnum < last && linewhite(buf, end_lnum + 1)) {
+                    end_lnum = end_lnum + 1;
+                }
+            }
+        }
+        if (!white_in_front && !linewhite(buf, end_lnum) && include) {
+            while (start_lnum > 0 && linewhite(buf, start_lnum - 1)) {
+                start_lnum = start_lnum - 1;
+            }
+        }
+        if (!(vis && vmode == 86 && start_lnum == cursor.row)) {
+            Sel r = Sel();
+            r.linewise = true;
+            r.start = MED_buffer.Pos(start_lnum, 0);
+            r.end = MED_buffer.Pos(end_lnum, 0);
+            if (vis) {
+                if (vstart.row != start_lnum) {
+                    r.start = MED_buffer.Pos(start_lnum, 0);
+                } else {
+                    r.start = MED_buffer.Pos(vstart.row, vstart.col);
+                }
+                r.vmode = 86;
+            }
+            return r;
+        }
+    }
+    // extend an existing Visual selection by whole paragraphs
+    int dir = 1;
+    if (start_lnum < vstart.row) {
+        dir = -1;
+    }
+    int edge = last;
+    if (dir < 0) {
+        edge = 0;
+    }
+    bool failed_ext = false;
+    int n = count;
+    while (n > 0) {
+        n = n - 1;
+        if (start_lnum == edge) {
+            failed_ext = true;
+            break;
+        }
+        int prev_white = -1;
+        for (int t in 0 .. 2) {
+            start_lnum = start_lnum + dir;
+            int start_is_white = 0;
+            if (linewhite(buf, start_lnum)) {
+                start_is_white = 1;
+            }
+            if (prev_white == start_is_white) {
+                start_lnum = start_lnum - dir;
+                break;
+            }
+            while (true) {
+                if (start_lnum == edge) {
+                    break;
+                }
+                bool next_white = linewhite(buf, start_lnum + dir);
+                if ((start_is_white == 1) != next_white) {
+                    break;
+                }
+                if (start_is_white == 0) {
+                    int probe = start_lnum;
+                    if (dir > 0) {
+                        probe = probe + 1;
+                    }
+                    if (start_ps(buf, probe)) {
+                        break;
+                    }
+                }
+                start_lnum = start_lnum + dir;
+            }
+            if (!include) {
+                break;
+            }
+            if (start_lnum == edge) {
+                break;
+            }
+            prev_white = start_is_white;
+        }
+    }
+    Sel r = Sel();
+    r.linewise = true;
+    r.start = MED_buffer.Pos(vstart.row, vstart.col);
+    r.end = MED_buffer.Pos(start_lnum, 0);
+    r.ok = !failed_ext;
+    return r;
+}
+
+// --------------------------------------------------------------- sentences
+
+bool white_at(MED_motion.Cur c) {
+    int ch = c.ch();
+    return ch == 32 || ch == 9;
+}
+
+void find_first_blank(MED_motion.Cur c) {
+    while (c.decl() != -1) {
+        if (!white_at(c)) {
+            c.incl();
+            break;
+        }
+    }
+}
+
+void findsent_forward(MED_motion.Cur c, int count, bool at_start) {
+    bool at_start_sent = at_start;
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        MED_motion.findsent(c, 1, 1);
+        if (at_start_sent) {
+            find_first_blank(c);
+        }
+        if (left == 0 || at_start_sent) {
+            c.decl();
+        }
+        at_start_sent = !at_start_sent;
+    }
+}
+
+Sel current_sent(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int count, bool include) {
+    MED_motion.Cur c = MED_motion.Cur(buf, cursor.row, cursor.col);
+    MED_buffer.Pos start_pos = MED_buffer.Pos(cursor.row, cursor.col);
+    MED_motion.Cur pos = MED_motion.Cur(buf, cursor.row, cursor.col);
+    MED_motion.findsent(c, 1, 1);
+    bool extend = vis && !start_pos.eq(vstart);
+    int n = count;
+    while (true) {
+        if (extend) {
+            if (before(start_pos, vstart)) {
+                bool at_start_sent = true;
+                pos.decl();
+                while (before(pos_of(pos), pos_of(c))) {
+                    if (!white_at(pos)) {
+                        at_start_sent = false;
+                        break;
+                    }
+                    pos.incl();
+                }
+                if (!at_start_sent) {
+                    MED_motion.findsent(c, -1, 1);
+                    if (pos_of(c).eq(start_pos)) {
+                        at_start_sent = true;
+                    } else {
+                        MED_motion.findsent(c, 1, 1);
+                    }
+                }
+                if (include) {
+                    n = n * 2;
+                }
+                while (n > 0) {
+                    n = n - 1;
+                    if (at_start_sent) {
+                        find_first_blank(c);
+                    }
+                    if (!at_start_sent || (!include && !white_at(c))) {
+                        MED_motion.findsent(c, -1, 1);
+                    }
+                    at_start_sent = !at_start_sent;
+                }
+            } else {
+                pos.incl();
+                bool at_start_sent = true;
+                if (!pos_of(pos).eq(pos_of(c))) {
+                    at_start_sent = false;
+                    while (before(pos_of(pos), pos_of(c))) {
+                        if (!white_at(pos)) {
+                            at_start_sent = true;
+                            break;
+                        }
+                        pos.incl();
+                    }
+                    if (at_start_sent) {
+                        MED_motion.findsent(c, -1, 1);
+                    } else {
+                        c.row = start_pos.row;
+                        c.col = start_pos.col;
+                    }
+                }
+                if (include) {
+                    n = n * 2;
+                }
+                findsent_forward(c, n, at_start_sent);
+            }
+            Sel r = Sel();
+            r.start = vstart;
+            r.end = pos_of(c);
+            r.vmode = 118;
+            return r;
+        }
+        while (white_at(pos)) {
+            pos.incl();
+        }
+        bool start_blank = false;
+        if (pos_of(pos).eq(pos_of(c))) {
+            start_blank = true;
+            MED_motion.Cur sp = MED_motion.Cur(buf, start_pos.row, start_pos.col);
+            find_first_blank(sp);
+            start_pos = pos_of(sp);
+        } else {
+            MED_motion.findsent(c, -1, 1);
+            start_pos = pos_of(c);
+        }
+        int ncount = 0;
+        if (include) {
+            ncount = n * 2;
+        } else {
+            ncount = n;
+            if (start_blank) {
+                ncount = ncount - 1;
+            }
+        }
+        if (ncount > 0) {
+            findsent_forward(c, ncount, true);
+        } else {
+            c.decl();
+        }
+        if (include) {
+            if (start_blank) {
+                find_first_blank(c);
+                if (white_at(c)) {
+                    c.decl();
+                }
+            } else if (!white_at(c)) {
+                MED_motion.Cur sp = MED_motion.Cur(buf, start_pos.row, start_pos.col);
+                find_first_blank(sp);
+                start_pos = pos_of(sp);
+            }
+        }
+        if (vis) {
+            if (start_pos.eq(pos_of(c))) {
+                extend = true;
+                pos = MED_motion.Cur(buf, cursor.row, cursor.col);
+                continue;
+            }
+            Sel r = Sel();
+            r.start = start_pos;
+            r.end = pos_of(c);
+            r.vmode = 118;
+            return r;
+        }
+        Sel r = Sel();
+        r.inclusive = c.incl() == -1;
+        r.start = start_pos;
+        r.end = pos_of(c);
+        return r;
+    }
+}
+
+// -------------------------------------------------------------------- tags
+
+// The byte at a position; a line break reads as 10 (not on the last line).
+int stream_ch(MED_buffer.Buffer buf, int row, int col) {
+    str line = buf.line(row);
+    if (col < line.size()) {
+        return line.byte_at(col);
+    }
+    if (row + 1 < buf.line_count()) {
+        return 10;
+    }
+    return -1;
+}
+
+// The first `>` after (row, col), row -1 when there is none.
+MED_buffer.Pos find_gt(MED_buffer.Buffer buf, int row, int col) {
+    int r = row;
+    int c = col + 1;
+    while (r < buf.line_count()) {
+        str line = buf.line(r);
+        while (c < line.size()) {
+            if (line.byte_at(c) == 62) {
+                return MED_buffer.Pos(r, c);
+            }
+            c = c + 1;
+        }
+        r = r + 1;
+        c = 0;
+    }
+    return MED_buffer.Pos(-1, 0);
+}
+
+// Whether the `>` at q ends a tag whose whitespace is at (row, p): the char
+// before it is not `/` (and, when `plain`, not a line break).
+bool tag_close_ok(MED_buffer.Buffer buf, int row, int p, bool plain) {
+    MED_buffer.Pos q = find_gt(buf, row, p);
+    if (q.row < 0) {
+        return false;
+    }
+    if (q.col == 0) {
+        return !plain;
+    }
+    if (q.row == row && q.col < p + 2) {
+        return false;
+    }
+    return buf.line(q.row).byte_at(q.col - 1) != 47;
+}
+
+// `<[^ \t>/!]\+\%(\_s\_[^>]\{-}[^/]>\|$\|\_s\=>\)` at (row, col).
+bool start_tag_at(MED_buffer.Buffer buf, int row, int col) {
+    str line = buf.line(row);
+    if (col >= line.size() || line.byte_at(col) != 60) {
+        return false;
+    }
+    int p = col + 1;
+    int k = 0;
+    while (p < line.size()) {
+        int b = line.byte_at(p);
+        if (b == 32 || b == 9 || b == 62 || b == 47 || b == 33) {
+            break;
+        }
+        p = p + 1;
+        k = k + 1;
+    }
+    if (k == 0) {
+        return false;
+    }
+    if (p >= line.size()) {
+        return true;
+    }
+    int ch = line.byte_at(p);
+    if (ch == 62) {
+        return true;
+    }
+    if (ch == 32 || ch == 9) {
+        if (p + 1 < line.size() && line.byte_at(p + 1) == 62) {
+            return true;
+        }
+        return tag_close_ok(buf, row, p, true);
+    }
+    return false;
+}
+
+// `</[^>]*>` at (row, col).
+bool end_tag_at(MED_buffer.Buffer buf, int row, int col) {
+    str line = buf.line(row);
+    if (col + 1 >= line.size() || line.byte_at(col) != 60 || line.byte_at(col + 1) != 47) {
+        return false;
+    }
+    int p = col + 2;
+    while (p < line.size()) {
+        if (line.byte_at(p) == 62) {
+            return true;
+        }
+        p = p + 1;
+    }
+    return false;
+}
+
+bool keyword_at(str line, int col) {
+    if (col < 0 || col >= line.size()) {
+        return false;
+    }
+    int cp = MED_text.cp_at(line, col);
+    return MED_text.class_of(cp) >= 2;
+}
+
+// Does `name` (lowercased) sit at `col`, then a word end?
+bool name_at(str line, int col, str name) {
+    int n = name.size();
+    if (col + n > line.size()) {
+        return false;
+    }
+    if (line.substr(col, col + n).to_lower() != name) {
+        return false;
+    }
+    return true;
+}
+
+// `<name\>\%(\_s\_[^>]\{-}\_[^/]>\|\_s\?>\)\c` at (row, col).
+bool named_start_at(MED_buffer.Buffer buf, int row, int col, str name) {
+    str line = buf.line(row);
+    if (col >= line.size() || line.byte_at(col) != 60 || !name_at(line, col + 1, name)) {
+        return false;
+    }
+    int p = col + 1 + name.size();
+    if (!keyword_at(line, MED_text.prev_col(line, p)) || keyword_at(line, p)) {
+        return false;
+    }
+    if (p < line.size() && line.byte_at(p) == 62) {
+        return true;
+    }
+    int ch = stream_ch(buf, row, p);
+    if (ch == 32 || ch == 9 || ch == 10) {
+        int nr = row;
+        int nc = p + 1;
+        if (ch == 10) {
+            nr = row + 1;
+            nc = 0;
+        }
+        if (nc < buf.line_size(nr) && buf.line(nr).byte_at(nc) == 62) {
+            return true;
+        }
+        return tag_close_ok(buf, row, p, false);
+    }
+    return false;
+}
+
+bool named_end_at(MED_buffer.Buffer buf, int row, int col, str name) {
+    str line = buf.line(row);
+    if (col + 1 >= line.size() || line.byte_at(col) != 60 || line.byte_at(col + 1) != 47) {
+        return false;
+    }
+    if (!name_at(line, col + 2, name)) {
+        return false;
+    }
+    int p = col + 2 + name.size();
+    return p < line.size() && line.byte_at(p) == 62;
+}
+
+// do_searchpair backwards for an unclosed start tag, from `c` (excluded).
+bool search_open_tag(MED_motion.Cur c) {
+    int nest = 1;
+    int row = c.row;
+    int col = c.col;
+    while (true) {
+        if (col == 0) {
+            if (row == 0) {
+                return false;
+            }
+            row = row - 1;
+            col = c.buf.line_size(row);
+            continue;
+        }
+        col = MED_text.prev_col(c.buf.line(row), col);
+        if (end_tag_at(c.buf, row, col)) {
+            nest = nest + 1;
+        } else if (start_tag_at(c.buf, row, col)) {
+            nest = nest - 1;
+            if (nest == 0) {
+                c.row = row;
+                c.col = col;
+                return true;
+            }
+        }
+    }
+}
+
+// do_searchpair forwards for the end tag matching `name`.
+bool search_close_tag(MED_motion.Cur c, str name) {
+    int nest = 1;
+    int row = c.row;
+    int col = c.col;
+    while (true) {
+        str line = c.buf.line(row);
+        if (col >= line.size()) {
+            if (row + 1 >= c.buf.line_count()) {
+                return false;
+            }
+            row = row + 1;
+            col = 0;
+        } else {
+            col = MED_text.next_col(line, col);
+        }
+        if (named_start_at(c.buf, row, col, name)) {
+            nest = nest + 1;
+        } else if (named_end_at(c.buf, row, col, name)) {
+            nest = nest - 1;
+            if (nest == 0) {
+                c.row = row;
+                c.col = col;
+                return true;
+            }
+        }
+    }
+}
+
+// Vim's in_html_tag.
+bool in_html_tag(MED_buffer.Buffer buf, MED_buffer.Pos at, bool end_tag) {
+    str line = buf.line(at.row);
+    int p = at.col;
+    while (p > 0) {
+        if (p < line.size() && line.byte_at(p) == 60) {
+            break;
+        }
+        p = MED_text.prev_col(line, p);
+        if (p < line.size() && line.byte_at(p) == 62) {
+            break;
+        }
+    }
+    if (p >= line.size() || line.byte_at(p) != 60) {
+        return false;
+    }
+    int after = 0;
+    if (p + 1 < line.size()) {
+        after = line.byte_at(p + 1);
+    }
+    if (end_tag) {
+        return after == 47;
+    }
+    if (after == 47) {
+        return false;
+    }
+    MED_motion.Cur q = MED_motion.Cur(buf, at.row, p);
+    int lc = 0;
+    while (true) {
+        if (q.inc() < 0) {
+            return false;
+        }
+        int ch = q.ch();
+        if (ch == 62) {
+            break;
+        }
+        lc = ch;
+    }
+    return lc != 47;
+}
+
+Sel current_tag(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int count_arg, bool include) {
+    MED_motion.Cur c = MED_motion.Cur(buf, cursor.row, cursor.col);
+    MED_buffer.Pos old_pos = MED_buffer.Pos(cursor.row, cursor.col);
+    MED_buffer.Pos old_end = MED_buffer.Pos(cursor.row, cursor.col);
+    MED_buffer.Pos old_start = MED_buffer.Pos(cursor.row, cursor.col);
+    bool do_include = include;
+    bool is_inclusive = true;
+    int count = count_arg;
+    if (!vis || vstart.eq(cursor)) {
+        while (in_indent(buf.line(c.row), c.col)) {
+            if (c.inc() != 0) {
+                break;
+            }
+        }
+        if (in_html_tag(buf, pos_of(c), false)) {
+            while (c.ch() != 62) {
+                if (c.inc() < 0) {
+                    break;
+                }
+            }
+        } else if (in_html_tag(buf, pos_of(c), true)) {
+            while (c.ch() != 60) {
+                if (c.dec() < 0) {
+                    break;
+                }
+            }
+            c.dec();
+            old_end = pos_of(c);
+        }
+    } else if (before(vstart, cursor)) {
+        old_start = MED_buffer.Pos(vstart.row, vstart.col);
+        c.row = vstart.row;
+        c.col = vstart.col;
+    } else {
+        old_end = MED_buffer.Pos(vstart.row, vstart.col);
+    }
+    MED_buffer.Pos start_pos = pos_of(c);
+    MED_buffer.Pos end_pos = pos_of(c);
+    while (true) {
+        for (int n in 0 .. count) {
+            if (!search_open_tag(c)) {
+                return failed();
+            }
+        }
+        start_pos = pos_of(c);
+        c.inc();
+        str line = buf.line(c.row);
+        int e = c.col;
+        while (e < line.size() && line.byte_at(e) != 62 && !is_white(line.byte_at(e))) {
+            e = MED_text.next_col(line, e);
+        }
+        str name = line.substr(c.col, e).to_lower();
+        if (name.size() == 0) {
+            return failed();
+        }
+        bool found = search_close_tag(c, name);
+        if (!found || before(pos_of(c), old_end)) {
+            count = 1;
+            c.row = start_pos.row;
+            c.col = start_pos.col;
+            continue;
+        }
+        if (do_include) {
+            while (c.ch() != 62) {
+                if (c.inc() < 0) {
+                    break;
+                }
+            }
+        } else if (c.ch() == 60 && !vis && c.col == 0) {
+            is_inclusive = false;
+        } else if (c.ch() == 60) {
+            c.dec();
+        }
+        end_pos = pos_of(c);
+        if (!do_include) {
+            c.row = start_pos.row;
+            c.col = start_pos.col;
+            while (c.inc() >= 0) {
+                if (c.ch() == 62) {
+                    c.inc();
+                    start_pos = pos_of(c);
+                    break;
+                }
+            }
+            c.row = end_pos.row;
+            c.col = end_pos.col;
+            if (vis && start_pos.eq(old_start) && end_pos.eq(old_end)) {
+                do_include = true;
+                c.row = old_start.row;
+                c.col = old_start.col;
+                count = count_arg;
+                continue;
+            }
+        }
+        break;
+    }
+    Sel r = Sel();
+    r.start = start_pos;
+    if (vis) {
+        if (before(end_pos, start_pos)) {
+            r.end = start_pos;
+        } else {
+            r.end = end_pos;
+        }
+        r.vmode = 118;
+        r.jump = true;
+        return r;
+    }
+    r.jump = true;
+    if (before(end_pos, start_pos)) {
+        r.end = start_pos;
+        r.inclusive = false;
+    } else {
+        r.end = end_pos;
+        r.inclusive = is_inclusive;
+    }
+    return r;
+}
+
+// ------------------------------------------------------------------- entry
+
+/// The object `obj` (`w W p ( ) b { } B [ ] < > " ' `` `` s t`) with `i` or
+/// `a`. `vmode` is the Visual mode key (v, V or CTRL-V) when `vis`.
+pub Sel select(MED_buffer.Buffer buf, MED_buffer.Pos cursor, bool vis, MED_buffer.Pos vstart, int vmode, int obj, bool include, int count) {
+    int n = count;
+    if (n < 1) {
+        n = 1;
+    }
+    if (obj == 119) {
+        return current_word(buf, cursor, vis, vstart, n, include, false);
+    }
+    if (obj == 87) {
+        return current_word(buf, cursor, vis, vstart, n, include, true);
+    }
+    if (obj == 116) {
+        return current_tag(buf, cursor, vis, vstart, n, include);
+    }
+    if (obj == 115) {
+        return current_sent(buf, cursor, vis, vstart, n, include);
+    }
+    if (obj == 112) {
+        return current_par(buf, cursor, vis, vstart, vmode, n, include);
+    }
+    if (obj == 40 || obj == 41 || obj == 98) {
+        return current_block(buf, cursor, vis, vstart, n, include, 40, 41);
+    }
+    if (obj == 123 || obj == 125 || obj == 66) {
+        return current_block(buf, cursor, vis, vstart, n, include, 123, 125);
+    }
+    if (obj == 91 || obj == 93) {
+        return current_block(buf, cursor, vis, vstart, n, include, 91, 93);
+    }
+    if (obj == 60 || obj == 62) {
+        return current_block(buf, cursor, vis, vstart, n, include, 60, 62);
+    }
+    if (obj == 34 || obj == 39 || obj == 96) {
+        return current_quote(buf, cursor, vis, vstart, n, include, obj);
+    }
+    return failed();
+}

@@ -1,0 +1,1288 @@
+# text objects
+foo bar baz		fbdiw
+foo bar baz		Gdiw
+foo bar baz		2wdiw
+foo bar baz		daw
+foo bar baz		fhdaw
+foo bar baz		f{daw
+foo bar baz		f{diW
+foo bar baz		jjjdiW
+foo bar baz		diW
+foo bar baz		2wdaW
+foo bar baz		wdaW
+foo bar baz		f`daW
+foo bar baz		f`ciwX<Esc>
+foo bar baz		fhciwX<Esc>
+foo bar baz		$ciwX<Esc>
+foo bar baz		fad2aw
+foo bar baz		fbd2aw
+foo bar baz		wd2aw
+foo bar baz		f{d3iw
+foo bar baz		d3iw
+foo bar baz		Gd3iw
+foo bar baz		f(yiwP
+foo bar baz		f`yiwP
+foo bar baz		wwwwwyiwP
+foo bar baz		2wd2iW
+foo bar baz		f"d2iW
+foo bar baz		fhd2iW
+foo bar baz		fadas
+foo bar baz		wwdas
+foo bar baz		f`das
+foo bar baz		wwdis
+foo bar baz		f`dis
+foo bar baz		jjdis
+foo bar baz		f"dip
+foo bar baz		wwdip
+foo bar baz		f`dip
+foo bar baz		dap
+foo bar baz		fhdap
+foo bar baz		f`dap
+foo bar baz		f(d2ap
+foo bar baz		fad2ap
+foo bar baz		$d2ap
+foo bar baz		2wd2ip
+foo bar baz		fhd2ip
+foo bar baz		wwd2ip
+foo bar baz		jjyap
+foo bar baz		2wyap
+foo bar baz		$yap
+foo bar baz		f(ci(X<Esc>
+foo bar baz		wwci(X<Esc>
+foo bar baz		Gci(X<Esc>
+foo bar baz		f(da(
+foo bar baz		f"da(
+foo bar baz		f`da(
+foo bar baz		jjdib
+foo bar baz		dib
+foo bar baz		2wdib
+foo bar baz		fhdab
+foo bar baz		wwdab
+foo bar baz		f"dab
+foo bar baz		fbci{X<Esc>
+foo bar baz		wci{X<Esc>
+foo bar baz		2wci{X<Esc>
+foo bar baz		jjda{
+foo bar baz		fhda{
+foo bar baz		f`da{
+foo bar baz		diB
+foo bar baz		jjdiB
+foo bar baz		jjjdiB
+foo bar baz		jjjdaB
+foo bar baz		wdaB
+foo bar baz		wwwwwdaB
+foo bar baz		Gci[X<Esc>
+foo bar baz		fhci[X<Esc>
+foo bar baz		wwwwwci[X<Esc>
+foo bar baz		f`da[
+foo bar baz		Gda[
+foo bar baz		2wda[
+foo bar baz		2wci<X<Esc>
+foo bar baz		f{ci<X<Esc>
+foo bar baz		f"ci<X<Esc>
+foo bar baz		2wda<
+foo bar baz		da<
+foo bar baz		wwwwwda<
+foo bar baz		di"
+foo bar baz		Gdi"
+foo bar baz		2wdi"
+foo bar baz		fada"
+foo bar baz		da"
+foo bar baz		fbda"
+foo bar baz		fhci"X<Esc>
+foo bar baz		2wci"X<Esc>
+foo bar baz		f(ci"X<Esc>
+foo bar baz		di'
+foo bar baz		f{di'
+foo bar baz		f`di'
+foo bar baz		2wda'
+foo bar baz		jjda'
+foo bar baz		$da'
+foo bar baz		$di`
+foo bar baz		fadi`
+foo bar baz		f`di`
+foo bar baz		f"d2i(
+foo bar baz		2wd2i(
+foo bar baz		fbd2i(
+foo bar baz		Gd2a(
+foo bar baz		f"d2a(
+foo bar baz		fbd2a(
+foo bar baz		fbd2i"
+foo bar baz		fad2i"
+foo bar baz		f{d2i"
+foo bar baz		$dit
+foo bar baz		jjdit
+foo bar baz		Gdit
+foo bar baz		Gdat
+foo bar baz		fhdat
+foo bar baz		wwwwwdat
+  foo.bar(baz)  qux		wdiw
+  foo.bar(baz)  qux		f(diw
+  foo.bar(baz)  qux		f`diw
+  foo.bar(baz)  qux		f(daw
+  foo.bar(baz)  qux		2wdaw
+  foo.bar(baz)  qux		fbdaw
+  foo.bar(baz)  qux		GdiW
+  foo.bar(baz)  qux		f"diW
+  foo.bar(baz)  qux		wwdiW
+  foo.bar(baz)  qux		jjjdaW
+  foo.bar(baz)  qux		wwwwwdaW
+  foo.bar(baz)  qux		GdaW
+  foo.bar(baz)  qux		wwciwX<Esc>
+  foo.bar(baz)  qux		wwwwwciwX<Esc>
+  foo.bar(baz)  qux		jjjciwX<Esc>
+  foo.bar(baz)  qux		jjjd2aw
+  foo.bar(baz)  qux		wwwwwd2aw
+  foo.bar(baz)  qux		wwd2aw
+  foo.bar(baz)  qux		wwd3iw
+  foo.bar(baz)  qux		jjjd3iw
+  foo.bar(baz)  qux		f`d3iw
+  foo.bar(baz)  qux		jjyiwP
+  foo.bar(baz)  qux		f{yiwP
+  foo.bar(baz)  qux		wwyiwP
+  foo.bar(baz)  qux		wd2iW
+  foo.bar(baz)  qux		f`d2iW
+  foo.bar(baz)  qux		jjd2iW
+  foo.bar(baz)  qux		fadas
+  foo.bar(baz)  qux		das
+  foo.bar(baz)  qux		$das
+  foo.bar(baz)  qux		Gdis
+  foo.bar(baz)  qux		fhdis
+  foo.bar(baz)  qux		wwwwwdis
+  foo.bar(baz)  qux		f"dip
+  foo.bar(baz)  qux		jjjdip
+  foo.bar(baz)  qux		f(dip
+  foo.bar(baz)  qux		wwwwwdap
+  foo.bar(baz)  qux		dap
+  foo.bar(baz)  qux		jjjdap
+  foo.bar(baz)  qux		wd2ap
+  foo.bar(baz)  qux		fad2ap
+  foo.bar(baz)  qux		f{d2ap
+  foo.bar(baz)  qux		jjjd2ip
+  foo.bar(baz)  qux		fhd2ip
+  foo.bar(baz)  qux		$d2ip
+  foo.bar(baz)  qux		wwwwwyap
+  foo.bar(baz)  qux		Gyap
+  foo.bar(baz)  qux		jjyap
+  foo.bar(baz)  qux		wwwwwci(X<Esc>
+  foo.bar(baz)  qux		jjjci(X<Esc>
+  foo.bar(baz)  qux		faci(X<Esc>
+  foo.bar(baz)  qux		fhda(
+  foo.bar(baz)  qux		wda(
+  foo.bar(baz)  qux		wwda(
+  foo.bar(baz)  qux		fhdib
+  foo.bar(baz)  qux		2wdib
+  foo.bar(baz)  qux		wwdib
+  foo.bar(baz)  qux		wdab
+  foo.bar(baz)  qux		fhdab
+  foo.bar(baz)  qux		f(dab
+  foo.bar(baz)  qux		jjci{X<Esc>
+  foo.bar(baz)  qux		wwci{X<Esc>
+  foo.bar(baz)  qux		f{ci{X<Esc>
+  foo.bar(baz)  qux		2wda{
+  foo.bar(baz)  qux		fbda{
+  foo.bar(baz)  qux		f{da{
+  foo.bar(baz)  qux		f`diB
+  foo.bar(baz)  qux		GdiB
+  foo.bar(baz)  qux		f"diB
+  foo.bar(baz)  qux		jjjdaB
+  foo.bar(baz)  qux		f{daB
+  foo.bar(baz)  qux		wwwwwdaB
+  foo.bar(baz)  qux		jjci[X<Esc>
+  foo.bar(baz)  qux		f{ci[X<Esc>
+  foo.bar(baz)  qux		f(ci[X<Esc>
+  foo.bar(baz)  qux		wwwwwda[
+  foo.bar(baz)  qux		wda[
+  foo.bar(baz)  qux		f(da[
+  foo.bar(baz)  qux		2wci<X<Esc>
+  foo.bar(baz)  qux		jjjci<X<Esc>
+  foo.bar(baz)  qux		f{ci<X<Esc>
+  foo.bar(baz)  qux		jjjda<
+  foo.bar(baz)  qux		wwda<
+  foo.bar(baz)  qux		wda<
+  foo.bar(baz)  qux		f`di"
+  foo.bar(baz)  qux		wwwwwdi"
+  foo.bar(baz)  qux		fbdi"
+  foo.bar(baz)  qux		Gda"
+  foo.bar(baz)  qux		wda"
+  foo.bar(baz)  qux		fada"
+  foo.bar(baz)  qux		Gci"X<Esc>
+  foo.bar(baz)  qux		f`ci"X<Esc>
+  foo.bar(baz)  qux		jjci"X<Esc>
+  foo.bar(baz)  qux		wdi'
+  foo.bar(baz)  qux		fadi'
+  foo.bar(baz)  qux		wwwwwdi'
+  foo.bar(baz)  qux		Gda'
+  foo.bar(baz)  qux		fbda'
+  foo.bar(baz)  qux		f`da'
+  foo.bar(baz)  qux		fbdi`
+  foo.bar(baz)  qux		fhdi`
+  foo.bar(baz)  qux		f{di`
+  foo.bar(baz)  qux		fbd2i(
+  foo.bar(baz)  qux		fad2i(
+  foo.bar(baz)  qux		Gd2i(
+  foo.bar(baz)  qux		jjd2a(
+  foo.bar(baz)  qux		2wd2a(
+  foo.bar(baz)  qux		jjjd2a(
+  foo.bar(baz)  qux		2wd2i"
+  foo.bar(baz)  qux		jjd2i"
+  foo.bar(baz)  qux		fhd2i"
+  foo.bar(baz)  qux		dit
+  foo.bar(baz)  qux		f{dit
+  foo.bar(baz)  qux		fbdit
+  foo.bar(baz)  qux		fbdat
+  foo.bar(baz)  qux		2wdat
+  foo.bar(baz)  qux		jjjdat
+a  b   c		fbdiw
+a  b   c		f{diw
+a  b   c		wwwwwdiw
+a  b   c		Gdaw
+a  b   c		2wdaw
+a  b   c		wwwwwdaw
+a  b   c		GdiW
+a  b   c		f`diW
+a  b   c		fhdiW
+a  b   c		fhdaW
+a  b   c		2wdaW
+a  b   c		f`daW
+a  b   c		2wciwX<Esc>
+a  b   c		fhciwX<Esc>
+a  b   c		f"ciwX<Esc>
+a  b   c		f"d2aw
+a  b   c		2wd2aw
+a  b   c		f`d2aw
+a  b   c		wwwwwd3iw
+a  b   c		fbd3iw
+a  b   c		wwd3iw
+a  b   c		f(yiwP
+a  b   c		fhyiwP
+a  b   c		2wyiwP
+a  b   c		f`d2iW
+a  b   c		wwwwwd2iW
+a  b   c		Gd2iW
+a  b   c		wwdas
+a  b   c		Gdas
+a  b   c		jjjdas
+a  b   c		fhdis
+a  b   c		wwdis
+a  b   c		jjdis
+a  b   c		fhdip
+a  b   c		wwwwwdip
+a  b   c		jjdip
+a  b   c		fbdap
+a  b   c		Gdap
+a  b   c		dap
+a  b   c		f(d2ap
+a  b   c		wwd2ap
+a  b   c		jjd2ap
+a  b   c		f"d2ip
+a  b   c		jjd2ip
+a  b   c		jjjd2ip
+a  b   c		2wyap
+a  b   c		$yap
+a  b   c		fayap
+a  b   c		2wci(X<Esc>
+a  b   c		jjjci(X<Esc>
+a  b   c		Gci(X<Esc>
+a  b   c		wda(
+a  b   c		f{da(
+a  b   c		$da(
+a  b   c		2wdib
+a  b   c		dib
+a  b   c		wwdib
+a  b   c		$dab
+a  b   c		2wdab
+a  b   c		wwdab
+a  b   c		f`ci{X<Esc>
+a  b   c		$ci{X<Esc>
+a  b   c		fbci{X<Esc>
+a  b   c		wda{
+a  b   c		f(da{
+a  b   c		f{da{
+a  b   c		GdiB
+a  b   c		f(diB
+a  b   c		jjjdiB
+a  b   c		wwdaB
+a  b   c		jjdaB
+a  b   c		$daB
+a  b   c		f{ci[X<Esc>
+a  b   c		Gci[X<Esc>
+a  b   c		2wci[X<Esc>
+a  b   c		da[
+a  b   c		2wda[
+a  b   c		f(da[
+a  b   c		fbci<X<Esc>
+a  b   c		fhci<X<Esc>
+a  b   c		f(ci<X<Esc>
+a  b   c		$da<
+a  b   c		Gda<
+a  b   c		fhda<
+a  b   c		Gdi"
+a  b   c		di"
+a  b   c		fbdi"
+a  b   c		jjda"
+a  b   c		wda"
+a  b   c		wwwwwda"
+a  b   c		jjjci"X<Esc>
+a  b   c		jjci"X<Esc>
+a  b   c		wwwwwci"X<Esc>
+a  b   c		Gdi'
+a  b   c		fhdi'
+a  b   c		wwdi'
+a  b   c		fhda'
+a  b   c		f(da'
+a  b   c		f`da'
+a  b   c		Gdi`
+a  b   c		f{di`
+a  b   c		wwdi`
+a  b   c		2wd2i(
+a  b   c		jjd2i(
+a  b   c		f(d2i(
+a  b   c		f`d2a(
+a  b   c		$d2a(
+a  b   c		wwd2a(
+a  b   c		wwd2i"
+a  b   c		2wd2i"
+a  b   c		fhd2i"
+a  b   c		dit
+a  b   c		f(dit
+a  b   c		wdit
+a  b   c		jjjdat
+a  b   c		jjdat
+a  b   c		f"dat
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdiw
+foo\n\nbar baz\nqux\n\n\nend		2wdiw
+foo\n\nbar baz\nqux\n\n\nend		jjjdiw
+foo\n\nbar baz\nqux\n\n\nend		fadaw
+foo\n\nbar baz\nqux\n\n\nend		f(daw
+foo\n\nbar baz\nqux\n\n\nend		f"daw
+foo\n\nbar baz\nqux\n\n\nend		f{diW
+foo\n\nbar baz\nqux\n\n\nend		f`diW
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdiW
+foo\n\nbar baz\nqux\n\n\nend		f`daW
+foo\n\nbar baz\nqux\n\n\nend		GdaW
+foo\n\nbar baz\nqux\n\n\nend		f(daW
+foo\n\nbar baz\nqux\n\n\nend		faciwX<Esc>
+foo\n\nbar baz\nqux\n\n\nend		fhciwX<Esc>
+foo\n\nbar baz\nqux\n\n\nend		wwciwX<Esc>
+foo\n\nbar baz\nqux\n\n\nend		fbd2aw
+foo\n\nbar baz\nqux\n\n\nend		Gd2aw
+foo\n\nbar baz\nqux\n\n\nend		wwwwwd2aw
+foo\n\nbar baz\nqux\n\n\nend		f`d3iw
+foo\n\nbar baz\nqux\n\n\nend		wwwwwd3iw
+foo\n\nbar baz\nqux\n\n\nend		f(d3iw
+foo\n\nbar baz\nqux\n\n\nend		yiwP
+foo\n\nbar baz\nqux\n\n\nend		2wyiwP
+foo\n\nbar baz\nqux\n\n\nend		wwwwwyiwP
+foo\n\nbar baz\nqux\n\n\nend		f`d2iW
+foo\n\nbar baz\nqux\n\n\nend		f"d2iW
+foo\n\nbar baz\nqux\n\n\nend		wwwwwd2iW
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdas
+foo\n\nbar baz\nqux\n\n\nend		f{das
+foo\n\nbar baz\nqux\n\n\nend		das
+foo\n\nbar baz\nqux\n\n\nend		$dis
+foo\n\nbar baz\nqux\n\n\nend		jjjdis
+foo\n\nbar baz\nqux\n\n\nend		jjdis
+foo\n\nbar baz\nqux\n\n\nend		f"dip
+foo\n\nbar baz\nqux\n\n\nend		$dip
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdip
+foo\n\nbar baz\nqux\n\n\nend		wdap
+foo\n\nbar baz\nqux\n\n\nend		fadap
+foo\n\nbar baz\nqux\n\n\nend		wwdap
+foo\n\nbar baz\nqux\n\n\nend		fad2ap
+foo\n\nbar baz\nqux\n\n\nend		d2ap
+foo\n\nbar baz\nqux\n\n\nend		f{d2ap
+foo\n\nbar baz\nqux\n\n\nend		fbd2ip
+foo\n\nbar baz\nqux\n\n\nend		$d2ip
+foo\n\nbar baz\nqux\n\n\nend		f{d2ip
+foo\n\nbar baz\nqux\n\n\nend		wyap
+foo\n\nbar baz\nqux\n\n\nend		$yap
+foo\n\nbar baz\nqux\n\n\nend		f{yap
+foo\n\nbar baz\nqux\n\n\nend		fbci(X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		fhci(X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		wwci(X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		jjda(
+foo\n\nbar baz\nqux\n\n\nend		wwwwwda(
+foo\n\nbar baz\nqux\n\n\nend		f{da(
+foo\n\nbar baz\nqux\n\n\nend		f`dib
+foo\n\nbar baz\nqux\n\n\nend		fbdib
+foo\n\nbar baz\nqux\n\n\nend		jjjdib
+foo\n\nbar baz\nqux\n\n\nend		$dab
+foo\n\nbar baz\nqux\n\n\nend		dab
+foo\n\nbar baz\nqux\n\n\nend		fadab
+foo\n\nbar baz\nqux\n\n\nend		wwwwwci{X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f`ci{X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f"ci{X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		jjjda{
+foo\n\nbar baz\nqux\n\n\nend		jjda{
+foo\n\nbar baz\nqux\n\n\nend		wwwwwda{
+foo\n\nbar baz\nqux\n\n\nend		diB
+foo\n\nbar baz\nqux\n\n\nend		f{diB
+foo\n\nbar baz\nqux\n\n\nend		2wdiB
+foo\n\nbar baz\nqux\n\n\nend		GdaB
+foo\n\nbar baz\nqux\n\n\nend		jjjdaB
+foo\n\nbar baz\nqux\n\n\nend		f`daB
+foo\n\nbar baz\nqux\n\n\nend		wwwwwci[X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		ci[X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f"ci[X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		fbda[
+foo\n\nbar baz\nqux\n\n\nend		f`da[
+foo\n\nbar baz\nqux\n\n\nend		f{da[
+foo\n\nbar baz\nqux\n\n\nend		$ci<X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f"ci<X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		jjjci<X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f(da<
+foo\n\nbar baz\nqux\n\n\nend		da<
+foo\n\nbar baz\nqux\n\n\nend		f`da<
+foo\n\nbar baz\nqux\n\n\nend		fhdi"
+foo\n\nbar baz\nqux\n\n\nend		jjdi"
+foo\n\nbar baz\nqux\n\n\nend		f"di"
+foo\n\nbar baz\nqux\n\n\nend		f`da"
+foo\n\nbar baz\nqux\n\n\nend		fhda"
+foo\n\nbar baz\nqux\n\n\nend		f"da"
+foo\n\nbar baz\nqux\n\n\nend		faci"X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f{ci"X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f(ci"X<Esc>
+foo\n\nbar baz\nqux\n\n\nend		f(di'
+foo\n\nbar baz\nqux\n\n\nend		f"di'
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdi'
+foo\n\nbar baz\nqux\n\n\nend		f"da'
+foo\n\nbar baz\nqux\n\n\nend		fhda'
+foo\n\nbar baz\nqux\n\n\nend		fada'
+foo\n\nbar baz\nqux\n\n\nend		wwdi`
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdi`
+foo\n\nbar baz\nqux\n\n\nend		fhdi`
+foo\n\nbar baz\nqux\n\n\nend		d2i(
+foo\n\nbar baz\nqux\n\n\nend		Gd2i(
+foo\n\nbar baz\nqux\n\n\nend		fad2i(
+foo\n\nbar baz\nqux\n\n\nend		fhd2a(
+foo\n\nbar baz\nqux\n\n\nend		jjd2a(
+foo\n\nbar baz\nqux\n\n\nend		wwwwwd2a(
+foo\n\nbar baz\nqux\n\n\nend		f`d2i"
+foo\n\nbar baz\nqux\n\n\nend		f"d2i"
+foo\n\nbar baz\nqux\n\n\nend		wwwwwd2i"
+foo\n\nbar baz\nqux\n\n\nend		wwwwwdit
+foo\n\nbar baz\nqux\n\n\nend		wwdit
+foo\n\nbar baz\nqux\n\n\nend		f{dit
+foo\n\nbar baz\nqux\n\n\nend		f`dat
+foo\n\nbar baz\nqux\n\n\nend		2wdat
+foo\n\nbar baz\nqux\n\n\nend		fbdat
+if (a && (b || c)) { x(1); }		wwwwwdiw
+if (a && (b || c)) { x(1); }		f(diw
+if (a && (b || c)) { x(1); }		jjdiw
+if (a && (b || c)) { x(1); }		wdaw
+if (a && (b || c)) { x(1); }		f`daw
+if (a && (b || c)) { x(1); }		Gdaw
+if (a && (b || c)) { x(1); }		f{diW
+if (a && (b || c)) { x(1); }		wwwwwdiW
+if (a && (b || c)) { x(1); }		fhdiW
+if (a && (b || c)) { x(1); }		wwdaW
+if (a && (b || c)) { x(1); }		fadaW
+if (a && (b || c)) { x(1); }		wdaW
+if (a && (b || c)) { x(1); }		ciwX<Esc>
+if (a && (b || c)) { x(1); }		2wciwX<Esc>
+if (a && (b || c)) { x(1); }		GciwX<Esc>
+if (a && (b || c)) { x(1); }		fhd2aw
+if (a && (b || c)) { x(1); }		wd2aw
+if (a && (b || c)) { x(1); }		f(d2aw
+if (a && (b || c)) { x(1); }		f`d3iw
+if (a && (b || c)) { x(1); }		d3iw
+if (a && (b || c)) { x(1); }		wd3iw
+if (a && (b || c)) { x(1); }		$yiwP
+if (a && (b || c)) { x(1); }		f`yiwP
+if (a && (b || c)) { x(1); }		jjyiwP
+if (a && (b || c)) { x(1); }		$d2iW
+if (a && (b || c)) { x(1); }		Gd2iW
+if (a && (b || c)) { x(1); }		wwd2iW
+if (a && (b || c)) { x(1); }		jjdas
+if (a && (b || c)) { x(1); }		Gdas
+if (a && (b || c)) { x(1); }		f{das
+if (a && (b || c)) { x(1); }		wwwwwdis
+if (a && (b || c)) { x(1); }		wwdis
+if (a && (b || c)) { x(1); }		jjdis
+if (a && (b || c)) { x(1); }		2wdip
+if (a && (b || c)) { x(1); }		f(dip
+if (a && (b || c)) { x(1); }		fadip
+if (a && (b || c)) { x(1); }		2wdap
+if (a && (b || c)) { x(1); }		wdap
+if (a && (b || c)) { x(1); }		jjdap
+if (a && (b || c)) { x(1); }		f(d2ap
+if (a && (b || c)) { x(1); }		d2ap
+if (a && (b || c)) { x(1); }		fbd2ap
+if (a && (b || c)) { x(1); }		$d2ip
+if (a && (b || c)) { x(1); }		jjjd2ip
+if (a && (b || c)) { x(1); }		f(d2ip
+if (a && (b || c)) { x(1); }		wwyap
+if (a && (b || c)) { x(1); }		wwwwwyap
+if (a && (b || c)) { x(1); }		yap
+if (a && (b || c)) { x(1); }		$ci(X<Esc>
+if (a && (b || c)) { x(1); }		Gci(X<Esc>
+if (a && (b || c)) { x(1); }		f(ci(X<Esc>
+if (a && (b || c)) { x(1); }		wwwwwda(
+if (a && (b || c)) { x(1); }		da(
+if (a && (b || c)) { x(1); }		f(da(
+if (a && (b || c)) { x(1); }		wwdib
+if (a && (b || c)) { x(1); }		2wdib
+if (a && (b || c)) { x(1); }		jjjdib
+if (a && (b || c)) { x(1); }		f`dab
+if (a && (b || c)) { x(1); }		f{dab
+if (a && (b || c)) { x(1); }		2wdab
+if (a && (b || c)) { x(1); }		Gci{X<Esc>
+if (a && (b || c)) { x(1); }		f"ci{X<Esc>
+if (a && (b || c)) { x(1); }		ci{X<Esc>
+if (a && (b || c)) { x(1); }		wwwwwda{
+if (a && (b || c)) { x(1); }		Gda{
+if (a && (b || c)) { x(1); }		f`da{
+if (a && (b || c)) { x(1); }		wwwwwdiB
+if (a && (b || c)) { x(1); }		jjdiB
+if (a && (b || c)) { x(1); }		jjjdiB
+if (a && (b || c)) { x(1); }		jjdaB
+if (a && (b || c)) { x(1); }		f"daB
+if (a && (b || c)) { x(1); }		fbdaB
+if (a && (b || c)) { x(1); }		f{ci[X<Esc>
+if (a && (b || c)) { x(1); }		wwwwwci[X<Esc>
+if (a && (b || c)) { x(1); }		wci[X<Esc>
+if (a && (b || c)) { x(1); }		f{da[
+if (a && (b || c)) { x(1); }		wwwwwda[
+if (a && (b || c)) { x(1); }		fhda[
+if (a && (b || c)) { x(1); }		jjci<X<Esc>
+if (a && (b || c)) { x(1); }		fbci<X<Esc>
+if (a && (b || c)) { x(1); }		wwci<X<Esc>
+if (a && (b || c)) { x(1); }		f{da<
+if (a && (b || c)) { x(1); }		fhda<
+if (a && (b || c)) { x(1); }		2wda<
+if (a && (b || c)) { x(1); }		f"di"
+if (a && (b || c)) { x(1); }		Gdi"
+if (a && (b || c)) { x(1); }		f(di"
+if (a && (b || c)) { x(1); }		2wda"
+if (a && (b || c)) { x(1); }		wwda"
+if (a && (b || c)) { x(1); }		Gda"
+if (a && (b || c)) { x(1); }		ci"X<Esc>
+if (a && (b || c)) { x(1); }		jjjci"X<Esc>
+if (a && (b || c)) { x(1); }		2wci"X<Esc>
+if (a && (b || c)) { x(1); }		wwdi'
+if (a && (b || c)) { x(1); }		jjdi'
+if (a && (b || c)) { x(1); }		jjjdi'
+if (a && (b || c)) { x(1); }		wda'
+if (a && (b || c)) { x(1); }		f`da'
+if (a && (b || c)) { x(1); }		fhda'
+if (a && (b || c)) { x(1); }		$di`
+if (a && (b || c)) { x(1); }		fbdi`
+if (a && (b || c)) { x(1); }		jjdi`
+if (a && (b || c)) { x(1); }		f"d2i(
+if (a && (b || c)) { x(1); }		$d2i(
+if (a && (b || c)) { x(1); }		f(d2i(
+if (a && (b || c)) { x(1); }		f"d2a(
+if (a && (b || c)) { x(1); }		f{d2a(
+if (a && (b || c)) { x(1); }		2wd2a(
+if (a && (b || c)) { x(1); }		$d2i"
+if (a && (b || c)) { x(1); }		fad2i"
+if (a && (b || c)) { x(1); }		fbd2i"
+if (a && (b || c)) { x(1); }		dit
+if (a && (b || c)) { x(1); }		fbdit
+if (a && (b || c)) { x(1); }		Gdit
+if (a && (b || c)) { x(1); }		fadat
+if (a && (b || c)) { x(1); }		dat
+if (a && (b || c)) { x(1); }		fhdat
+say "hi there" and 'yo' then `ls` ok		wwwwwdiw
+say "hi there" and 'yo' then `ls` ok		f(diw
+say "hi there" and 'yo' then `ls` ok		jjjdiw
+say "hi there" and 'yo' then `ls` ok		f{daw
+say "hi there" and 'yo' then `ls` ok		Gdaw
+say "hi there" and 'yo' then `ls` ok		wdaw
+say "hi there" and 'yo' then `ls` ok		wwdiW
+say "hi there" and 'yo' then `ls` ok		f"diW
+say "hi there" and 'yo' then `ls` ok		jjjdiW
+say "hi there" and 'yo' then `ls` ok		f`daW
+say "hi there" and 'yo' then `ls` ok		fhdaW
+say "hi there" and 'yo' then `ls` ok		$daW
+say "hi there" and 'yo' then `ls` ok		wwwwwciwX<Esc>
+say "hi there" and 'yo' then `ls` ok		GciwX<Esc>
+say "hi there" and 'yo' then `ls` ok		jjciwX<Esc>
+say "hi there" and 'yo' then `ls` ok		fad2aw
+say "hi there" and 'yo' then `ls` ok		2wd2aw
+say "hi there" and 'yo' then `ls` ok		fhd2aw
+say "hi there" and 'yo' then `ls` ok		f{d3iw
+say "hi there" and 'yo' then `ls` ok		wwwwwd3iw
+say "hi there" and 'yo' then `ls` ok		2wd3iw
+say "hi there" and 'yo' then `ls` ok		GyiwP
+say "hi there" and 'yo' then `ls` ok		fayiwP
+say "hi there" and 'yo' then `ls` ok		f(yiwP
+say "hi there" and 'yo' then `ls` ok		fad2iW
+say "hi there" and 'yo' then `ls` ok		wwd2iW
+say "hi there" and 'yo' then `ls` ok		Gd2iW
+say "hi there" and 'yo' then `ls` ok		Gdas
+say "hi there" and 'yo' then `ls` ok		jjjdas
+say "hi there" and 'yo' then `ls` ok		wwwwwdas
+say "hi there" and 'yo' then `ls` ok		fhdis
+say "hi there" and 'yo' then `ls` ok		f`dis
+say "hi there" and 'yo' then `ls` ok		2wdis
+say "hi there" and 'yo' then `ls` ok		wdip
+say "hi there" and 'yo' then `ls` ok		jjdip
+say "hi there" and 'yo' then `ls` ok		f"dip
+say "hi there" and 'yo' then `ls` ok		f(dap
+say "hi there" and 'yo' then `ls` ok		Gdap
+say "hi there" and 'yo' then `ls` ok		wwdap
+say "hi there" and 'yo' then `ls` ok		fad2ap
+say "hi there" and 'yo' then `ls` ok		wd2ap
+say "hi there" and 'yo' then `ls` ok		f"d2ap
+say "hi there" and 'yo' then `ls` ok		wd2ip
+say "hi there" and 'yo' then `ls` ok		d2ip
+say "hi there" and 'yo' then `ls` ok		wwd2ip
+say "hi there" and 'yo' then `ls` ok		f(yap
+say "hi there" and 'yo' then `ls` ok		$yap
+say "hi there" and 'yo' then `ls` ok		yap
+say "hi there" and 'yo' then `ls` ok		f`ci(X<Esc>
+say "hi there" and 'yo' then `ls` ok		f"ci(X<Esc>
+say "hi there" and 'yo' then `ls` ok		f{ci(X<Esc>
+say "hi there" and 'yo' then `ls` ok		Gda(
+say "hi there" and 'yo' then `ls` ok		da(
+say "hi there" and 'yo' then `ls` ok		f(da(
+say "hi there" and 'yo' then `ls` ok		f`dib
+say "hi there" and 'yo' then `ls` ok		wwwwwdib
+say "hi there" and 'yo' then `ls` ok		jjdib
+say "hi there" and 'yo' then `ls` ok		fhdab
+say "hi there" and 'yo' then `ls` ok		2wdab
+say "hi there" and 'yo' then `ls` ok		f{dab
+say "hi there" and 'yo' then `ls` ok		f"ci{X<Esc>
+say "hi there" and 'yo' then `ls` ok		wci{X<Esc>
+say "hi there" and 'yo' then `ls` ok		$ci{X<Esc>
+say "hi there" and 'yo' then `ls` ok		wwwwwda{
+say "hi there" and 'yo' then `ls` ok		jjjda{
+say "hi there" and 'yo' then `ls` ok		wwda{
+say "hi there" and 'yo' then `ls` ok		wwdiB
+say "hi there" and 'yo' then `ls` ok		2wdiB
+say "hi there" and 'yo' then `ls` ok		fhdiB
+say "hi there" and 'yo' then `ls` ok		fadaB
+say "hi there" and 'yo' then `ls` ok		fhdaB
+say "hi there" and 'yo' then `ls` ok		f{daB
+say "hi there" and 'yo' then `ls` ok		wwwwwci[X<Esc>
+say "hi there" and 'yo' then `ls` ok		fbci[X<Esc>
+say "hi there" and 'yo' then `ls` ok		f`ci[X<Esc>
+say "hi there" and 'yo' then `ls` ok		$da[
+say "hi there" and 'yo' then `ls` ok		wwwwwda[
+say "hi there" and 'yo' then `ls` ok		fhda[
+say "hi there" and 'yo' then `ls` ok		2wci<X<Esc>
+say "hi there" and 'yo' then `ls` ok		faci<X<Esc>
+say "hi there" and 'yo' then `ls` ok		wwwwwci<X<Esc>
+say "hi there" and 'yo' then `ls` ok		f{da<
+say "hi there" and 'yo' then `ls` ok		da<
+say "hi there" and 'yo' then `ls` ok		f`da<
+say "hi there" and 'yo' then `ls` ok		wdi"
+say "hi there" and 'yo' then `ls` ok		2wdi"
+say "hi there" and 'yo' then `ls` ok		fadi"
+say "hi there" and 'yo' then `ls` ok		Gda"
+say "hi there" and 'yo' then `ls` ok		2wda"
+say "hi there" and 'yo' then `ls` ok		da"
+say "hi there" and 'yo' then `ls` ok		ci"X<Esc>
+say "hi there" and 'yo' then `ls` ok		jjjci"X<Esc>
+say "hi there" and 'yo' then `ls` ok		f{ci"X<Esc>
+say "hi there" and 'yo' then `ls` ok		f`di'
+say "hi there" and 'yo' then `ls` ok		fhdi'
+say "hi there" and 'yo' then `ls` ok		wwdi'
+say "hi there" and 'yo' then `ls` ok		$da'
+say "hi there" and 'yo' then `ls` ok		fada'
+say "hi there" and 'yo' then `ls` ok		jjjda'
+say "hi there" and 'yo' then `ls` ok		jjjdi`
+say "hi there" and 'yo' then `ls` ok		wwwwwdi`
+say "hi there" and 'yo' then `ls` ok		f{di`
+say "hi there" and 'yo' then `ls` ok		f{d2i(
+say "hi there" and 'yo' then `ls` ok		Gd2i(
+say "hi there" and 'yo' then `ls` ok		wwd2i(
+say "hi there" and 'yo' then `ls` ok		wd2a(
+say "hi there" and 'yo' then `ls` ok		$d2a(
+say "hi there" and 'yo' then `ls` ok		Gd2a(
+say "hi there" and 'yo' then `ls` ok		d2i"
+say "hi there" and 'yo' then `ls` ok		jjd2i"
+say "hi there" and 'yo' then `ls` ok		$d2i"
+say "hi there" and 'yo' then `ls` ok		wwdit
+say "hi there" and 'yo' then `ls` ok		jjdit
+say "hi there" and 'yo' then `ls` ok		f(dit
+say "hi there" and 'yo' then `ls` ok		Gdat
+say "hi there" and 'yo' then `ls` ok		jjjdat
+say "hi there" and 'yo' then `ls` ok		wwwwwdat
+f(a, [1, 2], {k: v}) <b>x</b>		2wdiw
+f(a, [1, 2], {k: v}) <b>x</b>		f{diw
+f(a, [1, 2], {k: v}) <b>x</b>		f`diw
+f(a, [1, 2], {k: v}) <b>x</b>		jjdaw
+f(a, [1, 2], {k: v}) <b>x</b>		wdaw
+f(a, [1, 2], {k: v}) <b>x</b>		Gdaw
+f(a, [1, 2], {k: v}) <b>x</b>		f"diW
+f(a, [1, 2], {k: v}) <b>x</b>		wwdiW
+f(a, [1, 2], {k: v}) <b>x</b>		fadiW
+f(a, [1, 2], {k: v}) <b>x</b>		f{daW
+f(a, [1, 2], {k: v}) <b>x</b>		wwdaW
+f(a, [1, 2], {k: v}) <b>x</b>		jjjdaW
+f(a, [1, 2], {k: v}) <b>x</b>		f(ciwX<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		ciwX<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		jjjciwX<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		fhd2aw
+f(a, [1, 2], {k: v}) <b>x</b>		Gd2aw
+f(a, [1, 2], {k: v}) <b>x</b>		wwwwwd2aw
+f(a, [1, 2], {k: v}) <b>x</b>		d3iw
+f(a, [1, 2], {k: v}) <b>x</b>		f{d3iw
+f(a, [1, 2], {k: v}) <b>x</b>		f`d3iw
+f(a, [1, 2], {k: v}) <b>x</b>		f"yiwP
+f(a, [1, 2], {k: v}) <b>x</b>		fayiwP
+f(a, [1, 2], {k: v}) <b>x</b>		jjjyiwP
+f(a, [1, 2], {k: v}) <b>x</b>		fhd2iW
+f(a, [1, 2], {k: v}) <b>x</b>		wwd2iW
+f(a, [1, 2], {k: v}) <b>x</b>		d2iW
+f(a, [1, 2], {k: v}) <b>x</b>		wdas
+f(a, [1, 2], {k: v}) <b>x</b>		fbdas
+f(a, [1, 2], {k: v}) <b>x</b>		fhdas
+f(a, [1, 2], {k: v}) <b>x</b>		Gdis
+f(a, [1, 2], {k: v}) <b>x</b>		wdis
+f(a, [1, 2], {k: v}) <b>x</b>		f`dis
+f(a, [1, 2], {k: v}) <b>x</b>		wwdip
+f(a, [1, 2], {k: v}) <b>x</b>		$dip
+f(a, [1, 2], {k: v}) <b>x</b>		fadip
+f(a, [1, 2], {k: v}) <b>x</b>		f`dap
+f(a, [1, 2], {k: v}) <b>x</b>		wdap
+f(a, [1, 2], {k: v}) <b>x</b>		f{dap
+f(a, [1, 2], {k: v}) <b>x</b>		wd2ap
+f(a, [1, 2], {k: v}) <b>x</b>		jjjd2ap
+f(a, [1, 2], {k: v}) <b>x</b>		$d2ap
+f(a, [1, 2], {k: v}) <b>x</b>		wd2ip
+f(a, [1, 2], {k: v}) <b>x</b>		f{d2ip
+f(a, [1, 2], {k: v}) <b>x</b>		f(d2ip
+f(a, [1, 2], {k: v}) <b>x</b>		wyap
+f(a, [1, 2], {k: v}) <b>x</b>		yap
+f(a, [1, 2], {k: v}) <b>x</b>		wwwwwyap
+f(a, [1, 2], {k: v}) <b>x</b>		fhci(X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		f{ci(X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		wwwwwci(X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		wda(
+f(a, [1, 2], {k: v}) <b>x</b>		f"da(
+f(a, [1, 2], {k: v}) <b>x</b>		da(
+f(a, [1, 2], {k: v}) <b>x</b>		f(dib
+f(a, [1, 2], {k: v}) <b>x</b>		wwdib
+f(a, [1, 2], {k: v}) <b>x</b>		Gdib
+f(a, [1, 2], {k: v}) <b>x</b>		fadab
+f(a, [1, 2], {k: v}) <b>x</b>		$dab
+f(a, [1, 2], {k: v}) <b>x</b>		fbdab
+f(a, [1, 2], {k: v}) <b>x</b>		f{ci{X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		wci{X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		2wci{X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		$da{
+f(a, [1, 2], {k: v}) <b>x</b>		wda{
+f(a, [1, 2], {k: v}) <b>x</b>		fbda{
+f(a, [1, 2], {k: v}) <b>x</b>		2wdiB
+f(a, [1, 2], {k: v}) <b>x</b>		jjdiB
+f(a, [1, 2], {k: v}) <b>x</b>		wdiB
+f(a, [1, 2], {k: v}) <b>x</b>		f(daB
+f(a, [1, 2], {k: v}) <b>x</b>		jjdaB
+f(a, [1, 2], {k: v}) <b>x</b>		daB
+f(a, [1, 2], {k: v}) <b>x</b>		f"ci[X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		fbci[X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		2wci[X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		f`da[
+f(a, [1, 2], {k: v}) <b>x</b>		f(da[
+f(a, [1, 2], {k: v}) <b>x</b>		jjda[
+f(a, [1, 2], {k: v}) <b>x</b>		faci<X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		fbci<X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		jjjci<X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		wwwwwda<
+f(a, [1, 2], {k: v}) <b>x</b>		Gda<
+f(a, [1, 2], {k: v}) <b>x</b>		da<
+f(a, [1, 2], {k: v}) <b>x</b>		jjdi"
+f(a, [1, 2], {k: v}) <b>x</b>		Gdi"
+f(a, [1, 2], {k: v}) <b>x</b>		f{di"
+f(a, [1, 2], {k: v}) <b>x</b>		f{da"
+f(a, [1, 2], {k: v}) <b>x</b>		fbda"
+f(a, [1, 2], {k: v}) <b>x</b>		wda"
+f(a, [1, 2], {k: v}) <b>x</b>		wwwwwci"X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		f`ci"X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		f{ci"X<Esc>
+f(a, [1, 2], {k: v}) <b>x</b>		wwdi'
+f(a, [1, 2], {k: v}) <b>x</b>		fadi'
+f(a, [1, 2], {k: v}) <b>x</b>		f"di'
+f(a, [1, 2], {k: v}) <b>x</b>		fbda'
+f(a, [1, 2], {k: v}) <b>x</b>		fhda'
+f(a, [1, 2], {k: v}) <b>x</b>		f(da'
+f(a, [1, 2], {k: v}) <b>x</b>		jjjdi`
+f(a, [1, 2], {k: v}) <b>x</b>		wwdi`
+f(a, [1, 2], {k: v}) <b>x</b>		f"di`
+f(a, [1, 2], {k: v}) <b>x</b>		wwd2i(
+f(a, [1, 2], {k: v}) <b>x</b>		f{d2i(
+f(a, [1, 2], {k: v}) <b>x</b>		$d2i(
+f(a, [1, 2], {k: v}) <b>x</b>		wwd2a(
+f(a, [1, 2], {k: v}) <b>x</b>		fad2a(
+f(a, [1, 2], {k: v}) <b>x</b>		f(d2a(
+f(a, [1, 2], {k: v}) <b>x</b>		f{d2i"
+f(a, [1, 2], {k: v}) <b>x</b>		wwwwwd2i"
+f(a, [1, 2], {k: v}) <b>x</b>		d2i"
+f(a, [1, 2], {k: v}) <b>x</b>		f`dit
+f(a, [1, 2], {k: v}) <b>x</b>		Gdit
+f(a, [1, 2], {k: v}) <b>x</b>		$dit
+f(a, [1, 2], {k: v}) <b>x</b>		wdat
+f(a, [1, 2], {k: v}) <b>x</b>		Gdat
+f(a, [1, 2], {k: v}) <b>x</b>		$dat
+日本語 text, wide 😀 x		jjdiw
+日本語 text, wide 😀 x		f"diw
+日本語 text, wide 😀 x		2wdiw
+日本語 text, wide 😀 x		$daw
+日本語 text, wide 😀 x		wdaw
+日本語 text, wide 😀 x		f(daw
+日本語 text, wide 😀 x		jjjdiW
+日本語 text, wide 😀 x		f(diW
+日本語 text, wide 😀 x		fadiW
+日本語 text, wide 😀 x		daW
+日本語 text, wide 😀 x		f"daW
+日本語 text, wide 😀 x		wwwwwdaW
+日本語 text, wide 😀 x		wwwwwciwX<Esc>
+日本語 text, wide 😀 x		jjciwX<Esc>
+日本語 text, wide 😀 x		ciwX<Esc>
+日本語 text, wide 😀 x		f"d2aw
+日本語 text, wide 😀 x		wwd2aw
+日本語 text, wide 😀 x		fhd2aw
+日本語 text, wide 😀 x		d3iw
+日本語 text, wide 😀 x		Gd3iw
+日本語 text, wide 😀 x		f`d3iw
+日本語 text, wide 😀 x		fhyiwP
+日本語 text, wide 😀 x		wwwwwyiwP
+日本語 text, wide 😀 x		wyiwP
+日本語 text, wide 😀 x		fad2iW
+日本語 text, wide 😀 x		fbd2iW
+日本語 text, wide 😀 x		wwd2iW
+日本語 text, wide 😀 x		jjjdas
+日本語 text, wide 😀 x		wdas
+日本語 text, wide 😀 x		wwwwwdas
+日本語 text, wide 😀 x		2wdis
+日本語 text, wide 😀 x		wwdis
+日本語 text, wide 😀 x		wwwwwdis
+日本語 text, wide 😀 x		f`dip
+日本語 text, wide 😀 x		jjjdip
+日本語 text, wide 😀 x		2wdip
+日本語 text, wide 😀 x		jjdap
+日本語 text, wide 😀 x		dap
+日本語 text, wide 😀 x		wdap
+日本語 text, wide 😀 x		d2ap
+日本語 text, wide 😀 x		f`d2ap
+日本語 text, wide 😀 x		wd2ap
+日本語 text, wide 😀 x		wd2ip
+日本語 text, wide 😀 x		wwd2ip
+日本語 text, wide 😀 x		fhd2ip
+日本語 text, wide 😀 x		Gyap
+日本語 text, wide 😀 x		f(yap
+日本語 text, wide 😀 x		fhyap
+日本語 text, wide 😀 x		fbci(X<Esc>
+日本語 text, wide 😀 x		jjci(X<Esc>
+日本語 text, wide 😀 x		ci(X<Esc>
+日本語 text, wide 😀 x		f{da(
+日本語 text, wide 😀 x		fbda(
+日本語 text, wide 😀 x		f(da(
+日本語 text, wide 😀 x		wwwwwdib
+日本語 text, wide 😀 x		2wdib
+日本語 text, wide 😀 x		$dib
+日本語 text, wide 😀 x		jjjdab
+日本語 text, wide 😀 x		2wdab
+日本語 text, wide 😀 x		dab
+日本語 text, wide 😀 x		2wci{X<Esc>
+日本語 text, wide 😀 x		jjci{X<Esc>
+日本語 text, wide 😀 x		f"ci{X<Esc>
+日本語 text, wide 😀 x		2wda{
+日本語 text, wide 😀 x		Gda{
+日本語 text, wide 😀 x		wda{
+日本語 text, wide 😀 x		fbdiB
+日本語 text, wide 😀 x		f`diB
+日本語 text, wide 😀 x		jjdiB
+日本語 text, wide 😀 x		2wdaB
+日本語 text, wide 😀 x		jjjdaB
+日本語 text, wide 😀 x		GdaB
+日本語 text, wide 😀 x		wwwwwci[X<Esc>
+日本語 text, wide 😀 x		f{ci[X<Esc>
+日本語 text, wide 😀 x		faci[X<Esc>
+日本語 text, wide 😀 x		fhda[
+日本語 text, wide 😀 x		fada[
+日本語 text, wide 😀 x		f(da[
+日本語 text, wide 😀 x		$ci<X<Esc>
+日本語 text, wide 😀 x		2wci<X<Esc>
+日本語 text, wide 😀 x		f"ci<X<Esc>
+日本語 text, wide 😀 x		f"da<
+日本語 text, wide 😀 x		f`da<
+日本語 text, wide 😀 x		$da<
+日本語 text, wide 😀 x		f"di"
+日本語 text, wide 😀 x		jjdi"
+日本語 text, wide 😀 x		f(di"
+日本語 text, wide 😀 x		2wda"
+日本語 text, wide 😀 x		f{da"
+日本語 text, wide 😀 x		da"
+日本語 text, wide 😀 x		2wci"X<Esc>
+日本語 text, wide 😀 x		fbci"X<Esc>
+日本語 text, wide 😀 x		f{ci"X<Esc>
+日本語 text, wide 😀 x		f`di'
+日本語 text, wide 😀 x		jjdi'
+日本語 text, wide 😀 x		di'
+日本語 text, wide 😀 x		$da'
+日本語 text, wide 😀 x		wwda'
+日本語 text, wide 😀 x		fhda'
+日本語 text, wide 😀 x		fhdi`
+日本語 text, wide 😀 x		jjjdi`
+日本語 text, wide 😀 x		di`
+日本語 text, wide 😀 x		f(d2i(
+日本語 text, wide 😀 x		d2i(
+日本語 text, wide 😀 x		f"d2i(
+日本語 text, wide 😀 x		f{d2a(
+日本語 text, wide 😀 x		f`d2a(
+日本語 text, wide 😀 x		Gd2a(
+日本語 text, wide 😀 x		Gd2i"
+日本語 text, wide 😀 x		f(d2i"
+日本語 text, wide 😀 x		f{d2i"
+日本語 text, wide 😀 x		f(dit
+日本語 text, wide 😀 x		$dit
+日本語 text, wide 😀 x		wwwwwdit
+日本語 text, wide 😀 x		f(dat
+日本語 text, wide 😀 x		wwwwwdat
+日本語 text, wide 😀 x		fbdat
+if x {\n    y;\n    z;\n}\nafter		Gdiw
+if x {\n    y;\n    z;\n}\nafter		fadiw
+if x {\n    y;\n    z;\n}\nafter		f"diw
+if x {\n    y;\n    z;\n}\nafter		f{daw
+if x {\n    y;\n    z;\n}\nafter		2wdaw
+if x {\n    y;\n    z;\n}\nafter		f"daw
+if x {\n    y;\n    z;\n}\nafter		f{diW
+if x {\n    y;\n    z;\n}\nafter		fhdiW
+if x {\n    y;\n    z;\n}\nafter		jjjdiW
+if x {\n    y;\n    z;\n}\nafter		wdaW
+if x {\n    y;\n    z;\n}\nafter		jjdaW
+if x {\n    y;\n    z;\n}\nafter		f{daW
+if x {\n    y;\n    z;\n}\nafter		faciwX<Esc>
+if x {\n    y;\n    z;\n}\nafter		2wciwX<Esc>
+if x {\n    y;\n    z;\n}\nafter		wwciwX<Esc>
+if x {\n    y;\n    z;\n}\nafter		wwwwwd2aw
+if x {\n    y;\n    z;\n}\nafter		fhd2aw
+if x {\n    y;\n    z;\n}\nafter		$d2aw
+if x {\n    y;\n    z;\n}\nafter		f`d3iw
+if x {\n    y;\n    z;\n}\nafter		f(d3iw
+if x {\n    y;\n    z;\n}\nafter		d3iw
+if x {\n    y;\n    z;\n}\nafter		$yiwP
+if x {\n    y;\n    z;\n}\nafter		wwyiwP
+if x {\n    y;\n    z;\n}\nafter		f(yiwP
+if x {\n    y;\n    z;\n}\nafter		$d2iW
+if x {\n    y;\n    z;\n}\nafter		fad2iW
+if x {\n    y;\n    z;\n}\nafter		Gd2iW
+if x {\n    y;\n    z;\n}\nafter		jjdas
+if x {\n    y;\n    z;\n}\nafter		f"das
+if x {\n    y;\n    z;\n}\nafter		$das
+if x {\n    y;\n    z;\n}\nafter		jjjdis
+if x {\n    y;\n    z;\n}\nafter		f{dis
+if x {\n    y;\n    z;\n}\nafter		f`dis
+if x {\n    y;\n    z;\n}\nafter		f`dip
+if x {\n    y;\n    z;\n}\nafter		fhdip
+if x {\n    y;\n    z;\n}\nafter		fbdip
+if x {\n    y;\n    z;\n}\nafter		wwdap
+if x {\n    y;\n    z;\n}\nafter		fadap
+if x {\n    y;\n    z;\n}\nafter		$dap
+if x {\n    y;\n    z;\n}\nafter		fad2ap
+if x {\n    y;\n    z;\n}\nafter		Gd2ap
+if x {\n    y;\n    z;\n}\nafter		d2ap
+if x {\n    y;\n    z;\n}\nafter		$d2ip
+if x {\n    y;\n    z;\n}\nafter		fbd2ip
+if x {\n    y;\n    z;\n}\nafter		jjd2ip
+if x {\n    y;\n    z;\n}\nafter		2wyap
+if x {\n    y;\n    z;\n}\nafter		fhyap
+if x {\n    y;\n    z;\n}\nafter		f(yap
+if x {\n    y;\n    z;\n}\nafter		ci(X<Esc>
+if x {\n    y;\n    z;\n}\nafter		2wci(X<Esc>
+if x {\n    y;\n    z;\n}\nafter		jjjci(X<Esc>
+if x {\n    y;\n    z;\n}\nafter		da(
+if x {\n    y;\n    z;\n}\nafter		jjda(
+if x {\n    y;\n    z;\n}\nafter		wwwwwda(
+if x {\n    y;\n    z;\n}\nafter		fadib
+if x {\n    y;\n    z;\n}\nafter		fbdib
+if x {\n    y;\n    z;\n}\nafter		f{dib
+if x {\n    y;\n    z;\n}\nafter		fadab
+if x {\n    y;\n    z;\n}\nafter		f{dab
+if x {\n    y;\n    z;\n}\nafter		f`dab
+if x {\n    y;\n    z;\n}\nafter		wci{X<Esc>
+if x {\n    y;\n    z;\n}\nafter		fbci{X<Esc>
+if x {\n    y;\n    z;\n}\nafter		wwci{X<Esc>
+if x {\n    y;\n    z;\n}\nafter		fhda{
+if x {\n    y;\n    z;\n}\nafter		2wda{
+if x {\n    y;\n    z;\n}\nafter		jjda{
+if x {\n    y;\n    z;\n}\nafter		diB
+if x {\n    y;\n    z;\n}\nafter		jjjdiB
+if x {\n    y;\n    z;\n}\nafter		fadiB
+if x {\n    y;\n    z;\n}\nafter		f(daB
+if x {\n    y;\n    z;\n}\nafter		wwwwwdaB
+if x {\n    y;\n    z;\n}\nafter		f"daB
+if x {\n    y;\n    z;\n}\nafter		wwci[X<Esc>
+if x {\n    y;\n    z;\n}\nafter		ci[X<Esc>
+if x {\n    y;\n    z;\n}\nafter		wci[X<Esc>
+if x {\n    y;\n    z;\n}\nafter		Gda[
+if x {\n    y;\n    z;\n}\nafter		jjda[
+if x {\n    y;\n    z;\n}\nafter		f"da[
+if x {\n    y;\n    z;\n}\nafter		fhci<X<Esc>
+if x {\n    y;\n    z;\n}\nafter		wwwwwci<X<Esc>
+if x {\n    y;\n    z;\n}\nafter		ci<X<Esc>
+if x {\n    y;\n    z;\n}\nafter		fbda<
+if x {\n    y;\n    z;\n}\nafter		f"da<
+if x {\n    y;\n    z;\n}\nafter		Gda<
+if x {\n    y;\n    z;\n}\nafter		f{di"
+if x {\n    y;\n    z;\n}\nafter		wdi"
+if x {\n    y;\n    z;\n}\nafter		di"
+if x {\n    y;\n    z;\n}\nafter		wwda"
+if x {\n    y;\n    z;\n}\nafter		jjjda"
+if x {\n    y;\n    z;\n}\nafter		wwwwwda"
+if x {\n    y;\n    z;\n}\nafter		Gci"X<Esc>
+if x {\n    y;\n    z;\n}\nafter		f`ci"X<Esc>
+if x {\n    y;\n    z;\n}\nafter		faci"X<Esc>
+if x {\n    y;\n    z;\n}\nafter		f(di'
+if x {\n    y;\n    z;\n}\nafter		f{di'
+if x {\n    y;\n    z;\n}\nafter		fbdi'
+if x {\n    y;\n    z;\n}\nafter		wwda'
+if x {\n    y;\n    z;\n}\nafter		f"da'
+if x {\n    y;\n    z;\n}\nafter		wda'
+if x {\n    y;\n    z;\n}\nafter		f{di`
+if x {\n    y;\n    z;\n}\nafter		2wdi`
+if x {\n    y;\n    z;\n}\nafter		fadi`
+if x {\n    y;\n    z;\n}\nafter		fhd2i(
+if x {\n    y;\n    z;\n}\nafter		f(d2i(
+if x {\n    y;\n    z;\n}\nafter		d2i(
+if x {\n    y;\n    z;\n}\nafter		fad2a(
+if x {\n    y;\n    z;\n}\nafter		f(d2a(
+if x {\n    y;\n    z;\n}\nafter		wwd2a(
+if x {\n    y;\n    z;\n}\nafter		f(d2i"
+if x {\n    y;\n    z;\n}\nafter		f"d2i"
+if x {\n    y;\n    z;\n}\nafter		jjjd2i"
+if x {\n    y;\n    z;\n}\nafter		jjjdit
+if x {\n    y;\n    z;\n}\nafter		f(dit
+if x {\n    y;\n    z;\n}\nafter		2wdit
+if x {\n    y;\n    z;\n}\nafter		$dat
+if x {\n    y;\n    z;\n}\nafter		fhdat
+if x {\n    y;\n    z;\n}\nafter		Gdat
+"a\\"b" c		Gdiw
+"a\\"b" c		$diw
+"a\\"b" c		wdiw
+"a\\"b" c		f(daw
+"a\\"b" c		wwwwwdaw
+"a\\"b" c		f"daw
+"a\\"b" c		fbdiW
+"a\\"b" c		fadiW
+"a\\"b" c		jjdiW
+"a\\"b" c		wwdaW
+"a\\"b" c		f"daW
+"a\\"b" c		f`daW
+"a\\"b" c		wwciwX<Esc>
+"a\\"b" c		jjjciwX<Esc>
+"a\\"b" c		f(ciwX<Esc>
+"a\\"b" c		2wd2aw
+"a\\"b" c		$d2aw
+"a\\"b" c		jjjd2aw
+"a\\"b" c		wwd3iw
+"a\\"b" c		jjd3iw
+"a\\"b" c		f"d3iw
+"a\\"b" c		fhyiwP
+"a\\"b" c		f(yiwP
+"a\\"b" c		$yiwP
+"a\\"b" c		fhd2iW
+"a\\"b" c		f{d2iW
+"a\\"b" c		fbd2iW
+"a\\"b" c		f{das
+"a\\"b" c		wwwwwdas
+"a\\"b" c		f(das
+"a\\"b" c		fbdis
+"a\\"b" c		wdis
+"a\\"b" c		jjdis
+"a\\"b" c		jjjdip
+"a\\"b" c		wwdip
+"a\\"b" c		f(dip
+"a\\"b" c		dap
+"a\\"b" c		wwdap
+"a\\"b" c		wdap
+"a\\"b" c		jjd2ap
+"a\\"b" c		f`d2ap
+"a\\"b" c		fbd2ap
+"a\\"b" c		2wd2ip
+"a\\"b" c		f(d2ip
+"a\\"b" c		$d2ip
+"a\\"b" c		jjjyap
+"a\\"b" c		jjyap
+"a\\"b" c		wyap
+"a\\"b" c		jjjci(X<Esc>
+"a\\"b" c		Gci(X<Esc>
+"a\\"b" c		wci(X<Esc>
+"a\\"b" c		wda(
+"a\\"b" c		f{da(
+"a\\"b" c		wwda(
+"a\\"b" c		wwdib
+"a\\"b" c		2wdib
+"a\\"b" c		$dib
+"a\\"b" c		f"dab
+"a\\"b" c		jjjdab
+"a\\"b" c		f(dab
+"a\\"b" c		f{ci{X<Esc>
+"a\\"b" c		f"ci{X<Esc>
+"a\\"b" c		Gci{X<Esc>
+"a\\"b" c		f`da{
+"a\\"b" c		fhda{
+"a\\"b" c		wda{
+"a\\"b" c		diB
+"a\\"b" c		$diB
+"a\\"b" c		jjjdiB
+"a\\"b" c		2wdaB
+"a\\"b" c		wdaB
+"a\\"b" c		f"daB
+"a\\"b" c		jjjci[X<Esc>
+"a\\"b" c		wwci[X<Esc>
+"a\\"b" c		2wci[X<Esc>
+"a\\"b" c		$da[
+"a\\"b" c		jjda[
+"a\\"b" c		fada[
+"a\\"b" c		f"ci<X<Esc>
+"a\\"b" c		Gci<X<Esc>
+"a\\"b" c		2wci<X<Esc>
+"a\\"b" c		2wda<
+"a\\"b" c		Gda<
+"a\\"b" c		fbda<
+"a\\"b" c		$di"
+"a\\"b" c		2wdi"
+"a\\"b" c		wdi"
+"a\\"b" c		wwda"
+"a\\"b" c		$da"
+"a\\"b" c		f"da"
+"a\\"b" c		jjjci"X<Esc>
+"a\\"b" c		2wci"X<Esc>
+"a\\"b" c		wwci"X<Esc>
+"a\\"b" c		f"di'
+"a\\"b" c		f`di'
+"a\\"b" c		jjjdi'
+"a\\"b" c		wwda'
+"a\\"b" c		$da'
+"a\\"b" c		f(da'
+"a\\"b" c		f"di`
+"a\\"b" c		f(di`
+"a\\"b" c		di`
+"a\\"b" c		$d2i(
+"a\\"b" c		jjd2i(
+"a\\"b" c		2wd2i(
+"a\\"b" c		wwwwwd2a(
+"a\\"b" c		jjjd2a(
+"a\\"b" c		d2a(
+"a\\"b" c		f`d2i"
+"a\\"b" c		f(d2i"
+"a\\"b" c		2wd2i"
+"a\\"b" c		wwdit
+"a\\"b" c		f{dit
+"a\\"b" c		fadit
+"a\\"b" c		jjdat
+"a\\"b" c		dat
+"a\\"b" c		wdat
+   lead\n  second line\n\n\n  tail		f`diw
+   lead\n  second line\n\n\n  tail		2wdiw
+   lead\n  second line\n\n\n  tail		fadiw
+   lead\n  second line\n\n\n  tail		f(daw
+   lead\n  second line\n\n\n  tail		f"daw
+   lead\n  second line\n\n\n  tail		2wdaw
+   lead\n  second line\n\n\n  tail		fadiW
+   lead\n  second line\n\n\n  tail		wwdiW
+   lead\n  second line\n\n\n  tail		wwwwwdiW
+   lead\n  second line\n\n\n  tail		f`daW
+   lead\n  second line\n\n\n  tail		jjjdaW
+   lead\n  second line\n\n\n  tail		GdaW
+   lead\n  second line\n\n\n  tail		wwciwX<Esc>
+   lead\n  second line\n\n\n  tail		jjciwX<Esc>
+   lead\n  second line\n\n\n  tail		wciwX<Esc>
+   lead\n  second line\n\n\n  tail		jjd2aw
+   lead\n  second line\n\n\n  tail		f(d2aw
+   lead\n  second line\n\n\n  tail		2wd2aw
+   lead\n  second line\n\n\n  tail		wwd3iw
+   lead\n  second line\n\n\n  tail		fbd3iw
+   lead\n  second line\n\n\n  tail		f(d3iw
+   lead\n  second line\n\n\n  tail		wyiwP
+   lead\n  second line\n\n\n  tail		$yiwP
+   lead\n  second line\n\n\n  tail		f(yiwP
+   lead\n  second line\n\n\n  tail		f{d2iW
+   lead\n  second line\n\n\n  tail		wwwwwd2iW
+   lead\n  second line\n\n\n  tail		jjjd2iW
+   lead\n  second line\n\n\n  tail		wwdas
+   lead\n  second line\n\n\n  tail		f`das
+   lead\n  second line\n\n\n  tail		wwwwwdas
+   lead\n  second line\n\n\n  tail		$dis
+   lead\n  second line\n\n\n  tail		fbdis
+   lead\n  second line\n\n\n  tail		f{dis
+   lead\n  second line\n\n\n  tail		fhdip
+   lead\n  second line\n\n\n  tail		wwdip
+   lead\n  second line\n\n\n  tail		fbdip
+   lead\n  second line\n\n\n  tail		fadap
+   lead\n  second line\n\n\n  tail		fhdap
+   lead\n  second line\n\n\n  tail		$dap
+   lead\n  second line\n\n\n  tail		wwd2ap
+   lead\n  second line\n\n\n  tail		f{d2ap
+   lead\n  second line\n\n\n  tail		2wd2ap
+   lead\n  second line\n\n\n  tail		wwwwwd2ip
+   lead\n  second line\n\n\n  tail		fad2ip
+   lead\n  second line\n\n\n  tail		wd2ip
+   lead\n  second line\n\n\n  tail		yap
+   lead\n  second line\n\n\n  tail		fhyap
+   lead\n  second line\n\n\n  tail		fayap
+   lead\n  second line\n\n\n  tail		wwwwwci(X<Esc>
+   lead\n  second line\n\n\n  tail		2wci(X<Esc>
+   lead\n  second line\n\n\n  tail		faci(X<Esc>
+   lead\n  second line\n\n\n  tail		da(
+   lead\n  second line\n\n\n  tail		f`da(
+   lead\n  second line\n\n\n  tail		wwwwwda(
+   lead\n  second line\n\n\n  tail		f"dib
+   lead\n  second line\n\n\n  tail		f(dib
+   lead\n  second line\n\n\n  tail		fhdib
+   lead\n  second line\n\n\n  tail		wwdab
+   lead\n  second line\n\n\n  tail		dab
+   lead\n  second line\n\n\n  tail		$dab
+   lead\n  second line\n\n\n  tail		f(ci{X<Esc>
+   lead\n  second line\n\n\n  tail		faci{X<Esc>
+   lead\n  second line\n\n\n  tail		f{ci{X<Esc>
+   lead\n  second line\n\n\n  tail		da{
+   lead\n  second line\n\n\n  tail		f{da{
+   lead\n  second line\n\n\n  tail		fbda{
+   lead\n  second line\n\n\n  tail		wwdiB
+   lead\n  second line\n\n\n  tail		wwwwwdiB
+   lead\n  second line\n\n\n  tail		jjdiB
+   lead\n  second line\n\n\n  tail		f`daB
+   lead\n  second line\n\n\n  tail		fbdaB
+   lead\n  second line\n\n\n  tail		daB
+   lead\n  second line\n\n\n  tail		wci[X<Esc>
+   lead\n  second line\n\n\n  tail		wwci[X<Esc>
+   lead\n  second line\n\n\n  tail		f(ci[X<Esc>
+   lead\n  second line\n\n\n  tail		fhda[
+   lead\n  second line\n\n\n  tail		f`da[
+   lead\n  second line\n\n\n  tail		jjda[
+   lead\n  second line\n\n\n  tail		wci<X<Esc>
+   lead\n  second line\n\n\n  tail		$ci<X<Esc>
+   lead\n  second line\n\n\n  tail		ci<X<Esc>
+   lead\n  second line\n\n\n  tail		fhda<
+   lead\n  second line\n\n\n  tail		fada<
+   lead\n  second line\n\n\n  tail		Gda<
+   lead\n  second line\n\n\n  tail		fhdi"
+   lead\n  second line\n\n\n  tail		fadi"
+   lead\n  second line\n\n\n  tail		f`di"
+   lead\n  second line\n\n\n  tail		fhda"
+   lead\n  second line\n\n\n  tail		f"da"
+   lead\n  second line\n\n\n  tail		f(da"
+   lead\n  second line\n\n\n  tail		ci"X<Esc>
+   lead\n  second line\n\n\n  tail		fhci"X<Esc>
+   lead\n  second line\n\n\n  tail		faci"X<Esc>
+   lead\n  second line\n\n\n  tail		2wdi'
+   lead\n  second line\n\n\n  tail		f"di'
+   lead\n  second line\n\n\n  tail		f`di'
+   lead\n  second line\n\n\n  tail		wwwwwda'
+   lead\n  second line\n\n\n  tail		f`da'
+   lead\n  second line\n\n\n  tail		fada'
+   lead\n  second line\n\n\n  tail		f(di`
+   lead\n  second line\n\n\n  tail		f`di`
+   lead\n  second line\n\n\n  tail		fhdi`
+   lead\n  second line\n\n\n  tail		wwd2i(
+   lead\n  second line\n\n\n  tail		2wd2i(
+   lead\n  second line\n\n\n  tail		$d2i(
+   lead\n  second line\n\n\n  tail		fad2a(
+   lead\n  second line\n\n\n  tail		f(d2a(
+   lead\n  second line\n\n\n  tail		$d2a(
+   lead\n  second line\n\n\n  tail		fbd2i"
+   lead\n  second line\n\n\n  tail		wwd2i"
+   lead\n  second line\n\n\n  tail		f{d2i"
+   lead\n  second line\n\n\n  tail		Gdit
+   lead\n  second line\n\n\n  tail		wwwwwdit
+   lead\n  second line\n\n\n  tail		dit
+   lead\n  second line\n\n\n  tail		$dat
+   lead\n  second line\n\n\n  tail		fadat
+   lead\n  second line\n\n\n  tail		wwdat

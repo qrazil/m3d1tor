@@ -265,7 +265,9 @@ TEXT_LINES = [
     "", "a", "foo bar", "foo  bar baz", "  indented line", "\ttabbed", "one two three four",
     "x.y(z); w", "foo(bar, baz)", "if (a) { b }", "end.", "héllo wörld", "e\u0301a\u0301 x",
     "日本語 text", "a日b", "trailing   ", "   ", "word1 word2", "a-b_c d", "12 345",
-    "[x] {y} (z)", "snake_case here", "A B C", "UPPER lower", "x\ty", "!!", "😀 smile",
+    "[x] {y} (z)", "Hello. World! How are you? Fine.", "say \"hi there\" ok", "<b>x</b> <i>y</i>",
+    "<div><p>a</p></div>", "f(a, [1], {k})", "Mr. Smith (see.) Ok", "it's 'q' `c`", "a.  b.   c",
+    "snake_case here", "A B C", "UPPER lower", "x\ty", "!!", "😀 smile",
 ]
 
 MOTIONS = ["h", "l", "j", "k", "w", "W", "b", "B", "e", "E", "ge", "gE", "0", "^", "$", "_", "G", "gg",
@@ -273,7 +275,8 @@ MOTIONS = ["h", "l", "j", "k", "w", "W", "b", "B", "e", "E", "ge", "gE", "0", "^
            "3l", "2w", "2b", "3e", "2j", "2k", "0", "fe", "Fe", "5|", "2G"]
 PAIR_MOTIONS = ["%", "(", ")", "[(", "])", "[{", "]}"]
 OBJECTS = ["iw", "aw", "iW", "aW", "ip", "ap", "i(", "a(", "ib", "i{", "a{", "i[", "i\"", "a\"", "i'", "is", "as",
-           "i<", "a<", "it", "at", "iB", "aB", "a]", "a)"]
+           "i<", "a<", "it", "at", "iB", "aB", "a]", "a)", "ab", "i`", "a'", "a`", "i>", "a>", "i]", "2iw", "2aw",
+           "2as", "2is", "2i(", "2a\"", "2ap", "3iw", "iW", "2it", "2at", "i)", "a}", "i}"]
 OPERATORS = ["d", "c", "y", ">", "<", "g~", "gu", "gU", "g?"]
 SIMPLE = ["x", "X", "D", "p", "P", "u", "<C-r>", ".", "J", "gJ", "~", "rx", "r<CR>", "3x", "2p", "xp", "ddp",
           "yyp", "yyP", "dd", "yy", "cc", "Y", "gp", "gP", "2J", "3~", "2dd", "u.", "..", "ra", "xu", "dwu",

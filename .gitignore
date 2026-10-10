@@ -2,3 +2,4 @@
 /build/
 *.o
 /medit
+__pycache__/
