@@ -1,0 +1,33 @@
+// Small integer helpers the language does not ship.
+//
+// API
+// ---
+//   MED_num.smaller(a, b), MED_num.larger(a, b)
+//   MED_num.clamp(value, low, high)
+
+/// The smaller of two ints.
+pub int smaller(int a, int b) {
+    if (a < b) {
+        return a;
+    }
+    return b;
+}
+
+/// The larger of two ints.
+pub int larger(int a, int b) {
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
+
+/// `value` limited to `low .. high` (inclusive); `low` wins if the range is empty.
+pub int clamp(int value, int low, int high) {
+    if (value > high) {
+        return larger(high, low);
+    }
+    if (value < low) {
+        return low;
+    }
+    return value;
+}

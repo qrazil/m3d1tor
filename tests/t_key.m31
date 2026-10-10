@@ -1,0 +1,26 @@
+// Unit checks for MED_key: notation in both directions.
+
+import tests.MED_check;
+import MED_key;
+
+MED_check.Check check = MED_check.Check();
+check.eq_str("plain", MED_key.show(MED_key.parse("dd")), "dd");
+check.eq_str("esc", MED_key.show(MED_key.parse("ix<Esc>")), "ix<Esc>");
+check.eq_int("esc code", MED_key.parse("<Esc>")[0], 27);
+check.eq_int("cr", MED_key.parse("<CR>")[0], 13);
+check.eq_int("ctrl-v", MED_key.parse("<C-v>")[0], 22);
+check.eq_int("ctrl-V", MED_key.parse("<C-V>")[0], 22);
+check.eq_int("lt", MED_key.parse("<lt>")[0], 60);
+check.eq_int("leader", MED_key.parse("<leader>")[0], 32);
+check.eq_int("count", MED_key.parse("<leader>ff").size(), 3);
+check.eq_int("literal lt", MED_key.parse("a<b").size(), 3);
+check.eq_int("alt", MED_key.parse("<M-j>")[0], 106 | MED_key.MOD_ALT);
+check.eq_str("alt name", MED_key.name(106 | MED_key.MOD_ALT), "<M-j>");
+check.eq_str("up name", MED_key.name(MED_key.UP), "<Up>");
+check.eq_str("f5", MED_key.name(MED_key.FKEY_BASE + 5), "<F5>");
+check.eq_int("f5 parse", MED_key.parse("<F5>")[0], MED_key.FKEY_BASE + 5);
+check.eq_str("ctrl name", MED_key.name(1), "<C-a>");
+check.eq_str("unicode", MED_key.show(MED_key.parse("é日")), "é日");
+check.eq_int("encode roundtrip", MED_key.decode(MED_key.encode(MED_key.parse("a<Up>b"))).size(), 3);
+check.eq_int("ctrl fn", MED_key.ctrl("w"), 23);
+check.finish("t_key");

@@ -1,0 +1,237 @@
+// Registers, with Vim's rules for which one a yank or a delete writes.
+//
+// API
+// ---
+//   MED_register.Reg(lines, kind, width)       one register's content
+//   MED_register.Registers                     the register file
+//     regs.get(name)                           -> Option<Reg>   ("" and "\"" read the unnamed register)
+//     regs.yank(name, reg)                     a yank writes `name` (or "0")
+//     regs.delete(name, reg, large, reg_one)   a delete: named, "1 shift, or "-
+//     regs.set_special(name, text)             "., ":, "/, "%
+//
+// The unnamed register is not storage: it names whichever register was
+// written last (Vim's `y_previous`), so `""` always reads what the last yank
+// or delete wrote. Rules ported from Vim's op_yank/op_delete:
+//
+//   * a yank with no register writes "0;
+//   * a delete writes the named register if one was given; and, if it was
+//     linewise or spanned lines (or its motion is one of % ( ) ` / ? n N { }),
+//     shifts "1..."9 and writes "1; and, if no register was named and it was
+//     within one line, writes "-;
+//   * an upper-case name appends to the lower-case register (linewise wins,
+//     charwise appends join the last and first lines);
+//   * "_ writes nothing.
+
+/// How the text was selected.
+pub const int CHAR = 0;
+pub const int LINE = 1;
+pub const int BLOCK = 2;
+
+/// What a register holds: the lines (no terminators), how the text was
+/// selected, and for a block the width of the block in display columns.
+pub type Reg {
+    pub List<str> lines;
+    pub int kind;
+    pub int width = 0;
+}
+
+/// The text of the register as put into a buffer: lines joined by "\n", with
+/// a trailing "\n" for linewise content.
+pub str Reg.text() {
+    str body = lines.join("\n");
+    if (kind == LINE) {
+        return body + "\n";
+    }
+    return body;
+}
+
+pub type Registers {
+    Map<str, Reg> slots = {};
+    str previous = "";
+    pub str last_command = "";
+    pub str last_search = "";
+    pub str last_insert = "";
+    pub str file_name = "";
+}
+
+/// Content of register `name`.
+pub Option<Reg> Registers.get(str name) {
+    if (name == "" || name == "\"") {
+        if (previous == "") {
+            return Option<Reg>.None;
+        }
+        return slots.get(previous);
+    }
+    if (name == ".") {
+        return text_reg(last_insert);
+    }
+    if (name == ":") {
+        return text_reg(last_command);
+    }
+    if (name == "/") {
+        return text_reg(last_search);
+    }
+    if (name == "%") {
+        return text_reg(file_name);
+    }
+    if (name == "+" || name == "*") {
+        return slots.get("0");
+    }
+    return slots.get(slot_of(name));
+}
+
+/// Set one of the read-only-ish registers (".", ":", "/", "%").
+pub void Registers.set_special(str name, str text) {
+    if (name == ".") {
+        last_insert = text;
+    } else if (name == ":") {
+        last_command = text;
+    } else if (name == "/") {
+        last_search = text;
+    } else if (name == "%") {
+        file_name = text;
+    }
+}
+
+// Write `reg` into `slot`, appending when `append`.
+void Registers.store(str slot, Reg reg, bool append) {
+    if (!append) {
+        slots.set(slot, reg);
+        return;
+    }
+    match (slots.get(slot)) {
+        case None: {
+            slots.set(slot, reg);
+        }
+        case Some(Reg old): {
+            int result_kind = old.kind;
+            if (reg.kind == LINE) {
+                result_kind = LINE;
+            }
+            List<str> merged = [];
+            for (str existing in old.lines) {
+                merged.push(existing);
+            }
+            int from_index = 0;
+            if (result_kind == CHAR && reg.lines.size() > 0) {
+                merged[merged.size() - 1] = merged[merged.size() - 1] + reg.lines[0];
+                from_index = 1;
+            }
+            for (int i in from_index .. reg.lines.size()) {
+                merged.push(reg.lines[i]);
+            }
+            int width = old.width;
+            if (reg.width > width) {
+                width = reg.width;
+            }
+            slots.set(slot, Reg(merged, result_kind, width: width));
+        }
+    }
+}
+
+/// A yank into `name` ("" for none).
+pub void Registers.yank(str name, Reg reg) {
+    if (name == "_") {
+        return;
+    }
+    str slot = "0";
+    if (name != "") {
+        slot = slot_of(name);
+    }
+    store(slot, reg, is_append(name));
+    previous = slot;
+}
+
+/// A delete or change into `name`. `large` is true when the text was linewise
+/// or spans several lines; `reg_one` for the motions that always use "1.
+pub void Registers.delete(str name, Reg reg, bool large, bool reg_one) {
+    if (name == "_") {
+        return;
+    }
+    bool appended = false;
+    if (name != "") {
+        str slot = slot_of(name);
+        appended = is_append(name);
+        store(slot, reg, appended);
+        previous = slot;
+    }
+    if (large || reg_one) {
+        int n = 9;
+        while (n > 1) {
+            str from_slot = (n - 1).to_str();
+            match (slots.get(from_slot)) {
+                case Some(Reg moved): {
+                    slots.set(n.to_str(), moved);
+                }
+                case None: {
+                    slots.remove(n.to_str());
+                }
+            }
+            n = n - 1;
+        }
+        slots.remove("1");
+        store("1", reg, false);
+        if (!appended) {
+            previous = "1";
+        }
+    }
+    if (name == "" && !large) {
+        store("-", reg, false);
+        previous = "-";
+    }
+}
+
+// The slot a write to `name` lands in. Anything unknown, "\"" included,
+// writes "0, as Vim's get_yank_register does.
+str slot_of(str name) {
+    if (name.size() != 1) {
+        return "0";
+    }
+    int code = name.byte_at(0);
+    if (code >= 48 && code <= 57) {
+        return name;
+    }
+    if (code >= 97 && code <= 122) {
+        return name;
+    }
+    if (code >= 65 && code <= 90) {
+        return name.to_lower();
+    }
+    if (code == 45) {
+        return name;
+    }
+    return "0";
+}
+
+bool is_append(str name) {
+    if (name.size() != 1) {
+        return false;
+    }
+    int code = name.byte_at(0);
+    return code >= 65 && code <= 90;
+}
+
+/// Whether `name` is a register that can be named after `"`.
+pub bool is_valid(str name) {
+    if (name.size() != 1) {
+        return false;
+    }
+    int code = name.byte_at(0);
+    if (code >= 48 && code <= 57) {
+        return true;
+    }
+    if (code >= 97 && code <= 122) {
+        return true;
+    }
+    if (code >= 65 && code <= 90) {
+        return true;
+    }
+    return name == "-" || name == "_" || name == "\"" || name == "." || name == ":" || name == "/" || name == "%" || name == "+" || name == "*";
+}
+
+Option<Reg> text_reg(str text) {
+    if (text == "") {
+        return Option<Reg>.None;
+    }
+    return Option<Reg>.Some(Reg(text.split("\n"), CHAR));
+}

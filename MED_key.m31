@@ -1,0 +1,320 @@
+// Keys as integers, and Vim's key notation (`<Esc>`, `<C-v>`, `<leader>`).
+//
+// API
+// ---
+//   MED_key.parse(notation, leader)   -> List<int>   "dd<Esc>" -> [100, 100, 27]
+//   MED_key.name(key)                 -> str         27 -> "<Esc>"
+//   MED_key.show(keys)                -> str         a whole sequence, for help and logs
+//   MED_key.encode(keys)              -> str         keys as text (macro registers)
+//   MED_key.decode(text)              -> List<int>   and back
+//   MED_key.ctrl(letter)              -> int         ctrl("v") == 22
+//
+// A key is an `int`. A printable key is its code point; a control key is its
+// control code (<C-a> is 1, <Esc> is 27, <CR> is 13, <Tab> is 9, <C-h> is 8);
+// a key with no code of its own (arrows, <Del>, <F5>) is a code in the
+// private-use area starting at 0xF700, which is a valid scalar value, so a
+// macro register can hold it as ordinary text. Modifier bits for what the
+// control code cannot express (<M-x>, <C-Up>, <S-Tab>) live above bit 24.
+
+/// Modifier bits, above the code point.
+pub const int MOD_SHIFT = 16777216;
+pub const int MOD_ALT = 33554432;
+pub const int MOD_CTRL = 67108864;
+/// Mask for the code part of a key.
+pub const int CODE_MASK = 16777215;
+pub const int NUL = 0;
+pub const int TAB = 9;
+pub const int NEWLINE = 10;
+pub const int CR = 13;
+pub const int ESC = 27;
+pub const int SPACE = 32;
+pub const int BS = 127;
+pub const int CTRL_H = 8;
+pub const int UP = 63232;
+pub const int DOWN = 63233;
+pub const int LEFT = 63234;
+pub const int RIGHT = 63235;
+pub const int HOME = 63236;
+pub const int END = 63237;
+pub const int PAGE_UP = 63238;
+pub const int PAGE_DOWN = 63239;
+pub const int DEL = 63240;
+pub const int INSERT = 63241;
+/// F1 is FKEY_BASE + 1 and so on to F12.
+pub const int FKEY_BASE = 63248;
+/// A key that does nothing: <Nop>.
+pub const int NOP = 63300;
+const List<str> SPECIAL_NAMES = ["Up", "Down", "Left", "Right", "Home", "End", "PageUp", "PageDown", "Del", "Insert"];
+
+/// The control code for a letter (or one of `@ [ \ ] ^ _`).
+pub int ctrl(str letter) {
+    int code = letter.chars()[0];
+    if (code >= 97 && code <= 122) {
+        return code - 96;
+    }
+    return code & 31;
+}
+
+/// Whether the key is a printable character (not control, not special).
+pub bool is_printable(int key) {
+    return key >= 32 && key != 127 && (key < 63232 || key > 63400) && key <= 1114111;
+}
+
+// The key a bare name stands for, or -1.
+int lookup(str word) {
+    str lowered = word.to_lower();
+    if (lowered == "esc") {
+        return ESC;
+    }
+    if (lowered == "cr" || lowered == "enter" || lowered == "return") {
+        return CR;
+    }
+    if (lowered == "nl") {
+        return NEWLINE;
+    }
+    if (lowered == "tab") {
+        return TAB;
+    }
+    if (lowered == "bs" || lowered == "backspace") {
+        return BS;
+    }
+    if (lowered == "space") {
+        return SPACE;
+    }
+    if (lowered == "lt") {
+        return 60;
+    }
+    if (lowered == "bar") {
+        return 124;
+    }
+    if (lowered == "bslash") {
+        return 92;
+    }
+    if (lowered == "nop") {
+        return NOP;
+    }
+    if (lowered == "nul") {
+        return NUL;
+    }
+    if (lowered == "up") {
+        return UP;
+    }
+    if (lowered == "down") {
+        return DOWN;
+    }
+    if (lowered == "left") {
+        return LEFT;
+    }
+    if (lowered == "right") {
+        return RIGHT;
+    }
+    if (lowered == "home") {
+        return HOME;
+    }
+    if (lowered == "end") {
+        return END;
+    }
+    if (lowered == "pageup") {
+        return PAGE_UP;
+    }
+    if (lowered == "pagedown") {
+        return PAGE_DOWN;
+    }
+    if (lowered == "del" || lowered == "delete") {
+        return DEL;
+    }
+    if (lowered == "insert") {
+        return INSERT;
+    }
+    if (lowered.starts_with("f") && lowered.size() >= 2) {
+        match (lowered.substr(1, lowered.size()).parse_int()) {
+            case Some(int number): {
+                if (number >= 1 && number <= 12) {
+                    return FKEY_BASE + number;
+                }
+            }
+            case None: {
+            }
+        }
+    }
+    return -1;
+}
+
+// `<C-x>`, `<M-x>`, `<S-Tab>`, `<C-M-x>`: modifiers then a base name or char.
+int modified(str inner) {
+    bool is_ctrl = false;
+    bool is_alt = false;
+    bool is_shift = false;
+    str rest = inner;
+    bool going = true;
+    while (going) {
+        going = false;
+        if (rest.size() > 2 && rest.byte_at(1) == 45) {
+            int letter = rest.byte_at(0);
+            if (letter == 67 || letter == 99) {
+                is_ctrl = true;
+                rest = rest.substr(2, rest.size());
+                going = true;
+            } else if (letter == 77 || letter == 109 || letter == 65 || letter == 97) {
+                is_alt = true;
+                rest = rest.substr(2, rest.size());
+                going = true;
+            } else if (letter == 83 || letter == 115) {
+                is_shift = true;
+                rest = rest.substr(2, rest.size());
+                going = true;
+            }
+        }
+    }
+    int base = lookup(rest);
+    if (base < 0) {
+        List<int> chars = rest.chars();
+        if (chars.size() != 1) {
+            return -1;
+        }
+        base = chars[0];
+    }
+    if (is_ctrl && base < 128 && ((base >= 64 && base <= 127) || base == 63)) {
+        if (base == 63) {
+            base = 127;
+        } else if (base >= 97) {
+            base = base - 96;
+        } else {
+            base = base & 31;
+        }
+        is_ctrl = false;
+    }
+    if (is_shift && base >= 97 && base <= 122) {
+        base = base - 32;
+        is_shift = false;
+    }
+    int result = base;
+    if (is_ctrl) {
+        result = result | MOD_CTRL;
+    }
+    if (is_alt) {
+        result = result | MOD_ALT;
+    }
+    if (is_shift) {
+        result = result | MOD_SHIFT;
+    }
+    return result;
+}
+
+/// The keys `notation` spells. `<leader>` becomes `leader`'s keys; an
+/// unrecognised `<...>` is the literal characters.
+pub List<int> parse(str notation, str leader = " ") {
+    List<int> chars = notation.chars();
+    List<int> keys = [];
+    int index = 0;
+    while (index < chars.size()) {
+        int ch = chars[index];
+        if (ch == 60) {
+            int closer = -1;
+            int look = index + 1;
+            while (look < chars.size() && look < index + 16) {
+                if (chars[look] == 62) {
+                    closer = look;
+                    break;
+                }
+                look = look + 1;
+            }
+            if (closer > index + 1) {
+                str inner = str.from_chars(chars.slice(index + 1, closer));
+                int found = -1;
+                if (inner.to_lower() == "leader") {
+                    for (int lead in leader.chars()) {
+                        keys.push(lead);
+                    }
+                    index = closer + 1;
+                    continue;
+                }
+                found = lookup(inner);
+                if (found < 0) {
+                    found = modified(inner);
+                }
+                if (found >= 0) {
+                    keys.push(found);
+                    index = closer + 1;
+                    continue;
+                }
+            }
+        }
+        keys.push(ch);
+        index = index + 1;
+    }
+    return keys;
+}
+
+/// A single key in notation: 27 -> "<Esc>", 97 -> "a", 1 -> "<C-a>".
+pub str name(int key) {
+    int code = key & CODE_MASK;
+    int mods = key - code;
+    str base = "";
+    if (code == ESC) {
+        base = "Esc";
+    } else if (code == CR) {
+        base = "CR";
+    } else if (code == TAB) {
+        base = "Tab";
+    } else if (code == BS) {
+        base = "BS";
+    } else if (code == SPACE) {
+        base = "Space";
+    } else if (code == 60) {
+        base = "lt";
+    } else if (code == NEWLINE) {
+        base = "NL";
+    } else if (code == NUL) {
+        base = "C-@";
+    } else if (code < 32) {
+        base = "C-" + str.from_chars([code + 96]);
+    } else if (code >= UP && code <= INSERT) {
+        base = SPECIAL_NAMES[code - UP];
+    } else if (code > FKEY_BASE && code <= FKEY_BASE + 12) {
+        base = "F" + (code - FKEY_BASE).to_str();
+    } else if (code == NOP) {
+        base = "Nop";
+    } else {
+        if (mods == 0) {
+            return str.from_chars([code]);
+        }
+        base = str.from_chars([code]);
+    }
+    str prefix = "";
+    if ((mods & MOD_CTRL) != 0) {
+        prefix = prefix + "C-";
+    }
+    if ((mods & MOD_ALT) != 0) {
+        prefix = prefix + "M-";
+    }
+    if ((mods & MOD_SHIFT) != 0) {
+        prefix = prefix + "S-";
+    }
+    return "<" + prefix + base + ">";
+}
+
+/// A key sequence in notation, for help text and logs.
+pub str show(List<int> keys) {
+    List<str> parts = [];
+    for (int key in keys) {
+        parts.push(name(key));
+    }
+    return parts.join("");
+}
+
+/// Keys as plain text, for a macro register: each key is one scalar value,
+/// special keys as their private-use code. Modified keys lose their modifier
+/// bits to a private-use escape (rare in macros), see `decode`.
+pub str encode(List<int> keys) {
+    List<int> chars = [];
+    for (int key in keys) {
+        chars.push(key & CODE_MASK);
+    }
+    return str.from_chars(chars);
+}
+
+/// The keys a macro register holds.
+pub List<int> decode(str text) {
+    return text.chars();
+}

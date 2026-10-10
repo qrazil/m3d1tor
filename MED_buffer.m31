@@ -1,0 +1,176 @@
+// The text of one buffer: a list of lines, and the single mutation primitive.
+//
+// API
+// ---
+//   MED_buffer.Pos(row, col)          a position: 0-based row, byte column
+//   MED_buffer.Buffer                 the lines (never empty: one "" for an empty file)
+//     buffer.line_count()  buffer.line(row)  buffer.line_size(row)
+//     buffer.text(from, to)           the text between two positions, "\n" between lines
+//     buffer.splice(from, to, new_text) replace that range; returns the Edit that was applied
+//   MED_buffer.advance(from, text)    where the end of `text` lands if it starts at `from`
+//   MED_buffer.Edit                   one splice, enough to apply it again or undo it
+//   MED_buffer.load(text)             a Buffer from file text
+//   MED_buffer.Buffer.dump()          file text back (with the final newline the file had)
+//
+// Nothing outside this module indexes `lines`: a different store (a rope, a
+// gap buffer) can replace it behind these methods. `splice` is the only
+// mutator, so every change is an `Edit` the undo tree can reverse.
+
+/// A position in a buffer. `col` is a byte offset on a grapheme boundary and
+/// may equal the line's size (the position after the last character).
+pub type Pos {
+    pub int row;
+    pub int col;
+}
+
+/// Orders positions by row then column.
+pub int Pos.cmp(Pos other) {
+    if (row != other.row) {
+        if (row < other.row) {
+            return -1;
+        }
+        return 1;
+    }
+    if (col != other.col) {
+        if (col < other.col) {
+            return -1;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+pub bool Pos.eq(Pos other) {
+    return row == other.row && col == other.col;
+}
+
+pub str Pos.to_str() {
+    return row.to_str() + ":" + col.to_str();
+}
+
+/// One applied change: `removed` text was at `from`, `inserted` took its place.
+pub type Edit {
+    pub Pos from;
+    pub str removed;
+    pub str inserted;
+}
+
+pub type Buffer {
+    pub List<str> lines = [""];
+    /// Whether the loaded file ended with a newline (kept on save).
+    pub bool eol = true;
+    pub str path = "";
+    /// Bumped by every splice.
+    pub int tick = 0;
+    /// Set by any splice, cleared by a save.
+    pub bool modified = false;
+}
+
+pub int Buffer.line_count() {
+    return lines.size();
+}
+
+pub str Buffer.line(int row) {
+    return lines[row];
+}
+
+pub int Buffer.line_size(int row) {
+    return lines[row].size();
+}
+
+/// The text between two positions (`from` <= `to`), lines joined with "\n".
+pub str Buffer.text(Pos from, Pos to) {
+    if (from.row == to.row) {
+        return lines[from.row].substr(from.col, to.col);
+    }
+    List<str> parts = [];
+    parts.push(lines[from.row].substr(from.col, lines[from.row].size()));
+    for (int row in from.row + 1 .. to.row) {
+        parts.push(lines[row]);
+    }
+    parts.push(lines[to.row].substr(0, to.col));
+    return parts.join("\n");
+}
+
+/// Replace the text between `from` and `to` with `text` (which may hold
+/// "\n"). The one way to change a buffer.
+pub Edit Buffer.splice(Pos from, Pos to, str replacement) {
+    str removed = text(from, to);
+    tick = tick + 1;
+    modified = true;
+    str head = lines[from.row].substr(0, from.col);
+    str tail = lines[to.row].substr(to.col, lines[to.row].size());
+    if (from.row == to.row && replacement.index_of("\n").is_none()) {
+        lines[from.row] = head + replacement + tail;
+        return Edit(from, removed, replacement);
+    }
+    List<str> pieces = (head + replacement + tail).split("\n");
+    int count = to.row - from.row + 1;
+    if (count == pieces.size()) {
+        for (int i in 0 .. count) {
+            lines[from.row + i] = pieces[i];
+        }
+        return Edit(from, removed, replacement);
+    }
+    int shared = count;
+    if (pieces.size() < shared) {
+        shared = pieces.size();
+    }
+    for (int i in 0 .. shared) {
+        lines[from.row + i] = pieces[i];
+    }
+    if (pieces.size() > count) {
+        for (int i in count .. pieces.size()) {
+            lines.insert(from.row + i, pieces[i]);
+        }
+    } else {
+        for (int i in 0 .. count - pieces.size()) {
+            lines.remove_at(from.row + pieces.size());
+        }
+    }
+    return Edit(from, removed, replacement);
+}
+
+/// The file text for saving.
+pub str Buffer.dump() {
+    str body = lines.join("\n");
+    if (eol && !(lines.size() == 1 && lines[0] == "")) {
+        return body + "\n";
+    }
+    return body;
+}
+
+/// Where the end of `text` lands if it is inserted at `from`.
+pub Pos advance(Pos from, str text) {
+    int newlines = 0;
+    int last_break = -1;
+    int size = text.size();
+    for (int i in 0 .. size) {
+        if (text.byte_at(i) == 10) {
+            newlines = newlines + 1;
+            last_break = i;
+        }
+    }
+    if (newlines == 0) {
+        return Pos(from.row, from.col + size);
+    }
+    return Pos(from.row + newlines, size - last_break - 1);
+}
+
+/// A buffer holding file text. A trailing newline is the end of the last
+/// line, not an extra empty line; an empty file is one empty line.
+pub Buffer load(str text) {
+    Buffer buffer = Buffer();
+    if (text.size() == 0) {
+        return buffer;
+    }
+    List<str> pieces = text.split("\n");
+    if (pieces[pieces.size() - 1] == "") {
+        pieces.pop();
+        buffer.eol = true;
+    } else {
+        buffer.eol = false;
+    }
+    buffer.lines = pieces;
+    return buffer;
+}

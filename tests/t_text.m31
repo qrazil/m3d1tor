@@ -1,0 +1,37 @@
+// Unit checks for MED_text: cluster boundaries, widths and word classes.
+
+import MED_text;
+import tests.MED_check;
+
+MED_check.Check check = MED_check.Check();
+check.eq_int("ascii next", MED_text.next_col("abc", 1), 2);
+check.eq_int("ascii end", MED_text.next_col("abc", 2), 3);
+check.eq_int("ascii prev", MED_text.prev_col("abc", 2), 1);
+check.eq_int("prev at 0", MED_text.prev_col("abc", 0), 0);
+check.eq_int("last", MED_text.last_col("abc"), 2);
+check.eq_int("last empty", MED_text.last_col(""), 0);
+check.eq_int("accent next", MED_text.next_col("héllo", 1), 3);
+check.eq_int("combining next", MED_text.next_col("éx", 0), 3);
+check.eq_int("combining prev", MED_text.prev_col("éx", 3), 0);
+check.eq_int("cjk next", MED_text.next_col("日本", 0), 3);
+check.eq_int("snap inside", MED_text.snap("日本", 4), 3);
+check.eq_int("cp ascii", MED_text.cp_at("abc", 1), 98);
+check.eq_int("cp two byte", MED_text.cp_at("é", 0), 233);
+check.eq_int("cp three byte", MED_text.cp_at("日", 0), 26085);
+check.eq_int("cp four byte", MED_text.cp_at("😀", 0), 128512);
+check.eq_int("cp end", MED_text.cp_at("a", 1), -1);
+check.eq_int("class space", MED_text.class_of(32), 0);
+check.eq_int("class tab", MED_text.class_of(9), 0);
+check.eq_int("class word", MED_text.class_of(95), 2);
+check.eq_int("class punct", MED_text.class_of(46), 1);
+check.eq_int("class latin1 letter", MED_text.class_of(233), 2);
+check.eq_int("class emoji", MED_text.class_of(128512), 3);
+check.eq_int("class greek question", MED_text.class_of(894), 1);
+check.ok("class cjk is not word", MED_text.class_of(26085) != 2);
+check.eq_int("width ascii", MED_text.line_width("abc", 8), 3);
+check.eq_int("width tab", MED_text.line_width("\tx", 8), 9);
+check.eq_int("width cjk", MED_text.line_width("日本", 8), 4);
+check.eq_int("display col", MED_text.display_col("a日b", 4, 8), 3);
+check.eq_int("col at display", MED_text.col_at_display("a日b", 2, 8), 1);
+check.eq_int("first nonblank", MED_text.first_nonblank("  \tx"), 3);
+check.finish("t_text");

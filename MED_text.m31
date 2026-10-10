@@ -1,0 +1,287 @@
+// Text helpers for one line: where the grapheme clusters are, how wide a
+// cluster is, and which class a character belongs to for the word motions.
+//
+// API
+// ---
+//   MED_text.is_ascii(line)              -> bool
+//   MED_text.starts(line)                -> List<int>  start offset of every cluster, then line.size()
+//   MED_text.next_col(line, col)         -> int        start of the cluster after the one at `col`
+//   MED_text.prev_col(line, col)         -> int        start of the cluster before `col`
+//   MED_text.last_col(line)              -> int        start of the last cluster (0 for "")
+//   MED_text.snap(line, col)             -> int        the cluster start at or before `col`
+//   MED_text.end_col(line, col)          -> int        end offset of the cluster that starts at `col`
+//   MED_text.cp_at(line, col)            -> int        first code point there, or -1 at the end
+//   MED_text.class_of(cp)                -> int        0 blank, 1 punctuation, 2 word, 3 emoji, 4.. scripts
+//   MED_text.class_at(line, col)         -> int
+//   MED_text.display_col(line, col, tab) -> int        screen column where the cluster at `col` starts
+//   MED_text.cell_width(line, col, at, tab) -> int     width of the cluster at `col` when it starts at screen column `at`
+//   MED_text.col_at_display(line, want, tab) -> int    the cluster start covering screen column `want`
+//   MED_text.line_width(line, tab)       -> int
+//   MED_text.first_nonblank(line)        -> int        offset of the first non-blank, or the end
+//
+// Offsets are bytes, always on a cluster boundary. Lines are all-ASCII most of
+// the time, and then none of this touches the Unicode tables.
+
+import MED_charclass;
+import unicode;
+
+/// Whether every byte of `line` is below 0x80.
+pub bool is_ascii(str line) {
+    int size = line.size();
+    for (int i in 0 .. size) {
+        if (line.byte_at(i) >= 128) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/// The start offset of every grapheme cluster of `line`, then `line.size()`.
+pub List<int> starts(str line) {
+    List<int> result = [];
+    if (is_ascii(line)) {
+        for (int i in 0 .. line.size()) {
+            result.push(i);
+        }
+        result.push(line.size());
+        return result;
+    }
+    int offset = 0;
+    for (str cluster in unicode.graphemes(line)) {
+        result.push(offset);
+        offset = offset + cluster.size();
+    }
+    result.push(offset);
+    return result;
+}
+
+// The byte length of the UTF-8 sequence that starts with `lead`.
+int sequence_length(int lead) {
+    if (lead < 128) {
+        return 1;
+    }
+    if (lead >= 240) {
+        return 4;
+    }
+    if (lead >= 224) {
+        return 3;
+    }
+    return 2;
+}
+
+/// The start of the cluster after the one at `col`, or `line.size()`.
+pub int next_col(str line, int col) {
+    int size = line.size();
+    if (col >= size) {
+        return size;
+    }
+    if (line.byte_at(col) < 128 && (col + 1 >= size || line.byte_at(col + 1) < 128)) {
+        return col + 1;
+    }
+    for (int offset in starts(line)) {
+        if (offset > col) {
+            return offset;
+        }
+    }
+    return size;
+}
+
+/// The start of the cluster before `col`, or 0.
+pub int prev_col(str line, int col) {
+    if (col <= 0) {
+        return 0;
+    }
+    if (col <= line.size() && line.byte_at(col - 1) < 128 && (col == line.size() || line.byte_at(col) < 128)) {
+        return col - 1;
+    }
+    int found = 0;
+    for (int offset in starts(line)) {
+        if (offset >= col) {
+            break;
+        }
+        found = offset;
+    }
+    return found;
+}
+
+/// The start of the last cluster, 0 for the empty line.
+pub int last_col(str line) {
+    int size = line.size();
+    if (size == 0) {
+        return 0;
+    }
+    if (line.byte_at(size - 1) < 128 && (size == 1 || line.byte_at(size - 2) < 128)) {
+        return size - 1;
+    }
+    List<int> offsets = starts(line);
+    return offsets[offsets.size() - 2];
+}
+
+/// The cluster start at or before `col` (`col` itself when it is one).
+pub int snap(str line, int col) {
+    if (col <= 0) {
+        return 0;
+    }
+    if (col >= line.size()) {
+        return line.size();
+    }
+    int found = 0;
+    for (int offset in starts(line)) {
+        if (offset > col) {
+            break;
+        }
+        found = offset;
+    }
+    return found;
+}
+
+/// The end offset of the cluster that starts at `col`.
+pub int end_col(str line, int col) {
+    return next_col(line, col);
+}
+
+/// The code point that starts the cluster at `col`, or -1 at the end.
+pub int cp_at(str line, int col) {
+    int size = line.size();
+    if (col >= size) {
+        return -1;
+    }
+    int lead = line.byte_at(col);
+    if (lead < 128) {
+        return lead;
+    }
+    int length = sequence_length(lead);
+    if (length == 2) {
+        return ((lead & 31) << 6) | (line.byte_at(col + 1) & 63);
+    }
+    if (length == 3) {
+        return ((lead & 15) << 12) | ((line.byte_at(col + 1) & 63) << 6) | (line.byte_at(col + 2) & 63);
+    }
+    return ((lead & 7) << 18) | ((line.byte_at(col + 1) & 63) << 12) | ((line.byte_at(col + 2) & 63) << 6) | (line.byte_at(col + 3) & 63);
+}
+
+/// Word class for the word motions (nvim's `utf_class`): 0 blank,
+/// 1 punctuation, 2 word, 3 emoji, 4 and up per-script classes.
+pub int class_of(int cp) {
+    if (cp < 256) {
+        if (cp == 32 || cp == 9 || cp == 0 || cp == 160) {
+            return 0;
+        }
+        if ((cp >= 48 && cp <= 57) || (cp >= 65 && cp <= 90) || (cp >= 97 && cp <= 122) || cp == 95 || cp >= 192) {
+            return 2;
+        }
+        return 1;
+    }
+    List<int> table = MED_charclass.RANGES;
+    int low = 0;
+    int high = table.size() / 3 - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int base = mid * 3;
+        if (cp < table[base]) {
+            high = mid - 1;
+        } else if (cp > table[base + 1]) {
+            low = mid + 1;
+        } else {
+            return table[base + 2];
+        }
+    }
+    return 2;
+}
+
+/// The class of the cluster at `col` (blank at the end of the line).
+pub int class_at(str line, int col) {
+    int cp = cp_at(line, col);
+    if (cp < 0) {
+        return 0;
+    }
+    return class_of(cp);
+}
+
+/// The first non-blank (space or tab) offset, or `line.size()`.
+pub int first_nonblank(str line) {
+    int size = line.size();
+    for (int i in 0 .. size) {
+        int byte = line.byte_at(i);
+        if (byte != 32 && byte != 9) {
+            return i;
+        }
+    }
+    return size;
+}
+
+/// Width of the cluster at `col` if it starts at screen column `at`.
+pub int cell_width(str line, int col, int at, int tab) {
+    int cp = cp_at(line, col);
+    if (cp < 0) {
+        return 1;
+    }
+    if (cp == 9) {
+        return tab - (at % tab);
+    }
+    if (cp < 32 || cp == 127) {
+        return 2;
+    }
+    if (cp < 128) {
+        return 1;
+    }
+    int end = next_col(line, col);
+    int measured = unicode.width(line.substr(col, end));
+    if (measured < 1) {
+        return 1;
+    }
+    return measured;
+}
+
+/// The screen column where the cluster at `col` starts.
+pub int display_col(str line, int col, int tab) {
+    int at = 0;
+    int offset = 0;
+    if (is_ascii(line)) {
+        for (int i in 0 .. col) {
+            int byte = line.byte_at(i);
+            if (byte == 9) {
+                at = at + tab - (at % tab);
+            } else if (byte < 32 || byte == 127) {
+                at = at + 2;
+            } else {
+                at = at + 1;
+            }
+        }
+        return at;
+    }
+    List<int> offsets = starts(line);
+    for (int offset_value in offsets) {
+        if (offset_value >= col) {
+            break;
+        }
+        at = at + cell_width(line, offset_value, at, tab);
+        offset = offset_value;
+    }
+    return at;
+}
+
+/// Total display width of the line.
+pub int line_width(str line, int tab) {
+    return display_col(line, line.size(), tab);
+}
+
+/// The cluster start whose cells cover screen column `want`; the last
+/// cluster when `want` is past the end (callers decide whether that is
+/// allowed), 0 for the empty line.
+pub int col_at_display(str line, int want, int tab) {
+    int at = 0;
+    int last = 0;
+    for (int offset in starts(line)) {
+        if (offset >= line.size()) {
+            break;
+        }
+        int width = cell_width(line, offset, at, tab);
+        if (want < at + width) {
+            return offset;
+        }
+        at = at + width;
+        last = offset;
+    }
+    return last;
+}

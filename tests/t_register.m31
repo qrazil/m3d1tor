@@ -1,0 +1,27 @@
+// Unit checks for MED_register: which register a yank or delete writes.
+
+import MED_register;
+import tests.MED_check;
+
+MED_check.Check check = MED_check.Check();
+MED_register.Registers regs = MED_register.Registers();
+regs.yank("", MED_register.Reg(["abc"], MED_register.CHAR));
+check.eq_str("yank to 0", regs.get("0").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "abc");
+check.eq_str("unnamed", regs.get("").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "abc");
+regs.delete("", MED_register.Reg(["x"], MED_register.CHAR), false, false);
+check.eq_str("small delete", regs.get("-").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "x");
+check.eq_str("unnamed after small delete", regs.get("").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "x");
+check.eq_str("0 kept", regs.get("0").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "abc");
+regs.delete("", MED_register.Reg(["one"], MED_register.LINE), true, false);
+regs.delete("", MED_register.Reg(["two"], MED_register.LINE), true, false);
+check.eq_str("1", regs.get("1").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "two");
+check.eq_str("2", regs.get("2").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "one");
+regs.yank("a", MED_register.Reg(["foo"], MED_register.CHAR));
+regs.yank("A", MED_register.Reg(["bar"], MED_register.CHAR));
+check.eq_str("append char", regs.get("a").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "foobar");
+regs.yank("A", MED_register.Reg(["baz"], MED_register.LINE));
+check.eq_int("append line count", regs.get("a").or(MED_register.Reg([""], MED_register.CHAR)).lines.size(), 2);
+check.eq_int("append line kind", regs.get("a").or(MED_register.Reg([""], MED_register.CHAR)).kind, MED_register.LINE);
+regs.yank("_", MED_register.Reg(["gone"], MED_register.CHAR));
+check.eq_str("black hole leaves previous", regs.get("").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "foobar");
+check.finish("t_register");
