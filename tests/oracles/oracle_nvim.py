@@ -289,14 +289,14 @@ TYPED = ["foo", "x", "Hello", "a b", " ", "\t", "<CR>", "<BS>", "<C-w>", "<C-u>"
          "<Home>", "<End>", "<Up>", "<Down>", "(x)", "foo bar<C-w>"]
 VISUAL = ["v", "V", "<C-v>"]
 VISUAL_OPS = ["d", "c", "y", ">", "<", "~", "u", "U", "J", "gJ", "x", "X", "D", "r_", "p", "P", "o", "O", "gv",
-              "iw", "aw", "ip", "i(", "a(", "i\"", "<Esc>", "S", "s", "Y", "C", "g?", "gU", "gu", "g~"]
+              "iw", "aw", "ip", "i(", "a(", "i\"", "<Esc>", "S", "s", "Y", "C", "g?", "gU", "gu", "g~", "IX<Esc>", "AX<Esc>"]
 SEARCH = ["/a<CR>", "/foo<CR>", "?o<CR>", "n", "N", "*", "#", "/\\<w<CR>", "/b\\|c<CR>", "/[aeiou]<CR>",
           "/o\\+<CR>", "/^<CR>", "/$<CR>", "d/a<CR>", "d?o<CR>", "c/b<CR>x<Esc>", "/e\\zsl<CR>", "y/o<CR>",
           "dn", "dN", "d*", "/.<CR>", "/\\d<CR>", "/\\s<CR>", "/\\k\\+<CR>"]
 EX = [":s/a/b/<CR>", ":s/o/0/g<CR>", ":%s/ /_/g<CR>", ":2d<CR>", ":1,2d<CR>", ":d<CR>", ":%d<CR>", ":2,3j<CR>",
-      ":j<CR>", ":>CR>", ":g/a/d<CR>", ":v/a/d<CR>", ":g/o/s/o/0/<CR>", ":2<CR>", ":$<CR>", ":1<CR>",
+      ":j<CR>", ":><CR>", ":g/a/d<CR>", ":v/a/d<CR>", ":g/o/s/o/0/<CR>", ":2<CR>", ":$<CR>", ":1<CR>",
       ":.,+1d<CR>", ":%s/\\(o\\)\\(.\\)/\\2\\1/g<CR>", ":s/\\s\\+$//<CR>", ":%norm Ax<CR>", ":y<CR>", ":pu<CR>",
-      ":t.<CR>", ":m0<CR>", ":m$<CR>", ":2,3>CR>", ":normal dw<CR>", ":%s/o/&&/g<CR>", ":s/x*//g<CR>",
+      ":t.<CR>", ":m0<CR>", ":m$<CR>", ":2,3><CR>", ":normal dw<CR>", ":%s/o/&&/g<CR>", ":s/x*//g<CR>",
       ":g/^/m0<CR>", ":%j<CR>", ":2,$d<CR>", ":%s/\\<./\\u&/g<CR>", ":&&<CR>", ":%s/a\\|b/X/g<CR>"]
 MISC = ["m", "ma", "'a", "`a", "mb", "'b", "`b", "d'a", "d`a", "y'a", "''", "``", "`[", "`]", "'[", "']",
         "<C-a>", "<C-x>", "5<C-a>", "3<C-x>", "ZZ"]

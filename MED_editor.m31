@@ -150,6 +150,10 @@ pub type Editor {
     pub int blk_col = 0;
     pub int blk_tail = 0;
     pub int blk_start_col = 0;
+    pub int blk_pre_len = 0;
+    pub int blk_ind_col = 0;
+    pub int blk_ind_vcol = 0;
+    pub int blk_cur_col = 0;
 }
 
 pub bool Editor.in_visual() {

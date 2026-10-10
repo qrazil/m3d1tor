@@ -802,20 +802,138 @@ bool do_join(MED_editor.Editor ed, int row, int count, bool insert_space) {
     return true;
 }
 
+const int PUT_LINE = 1;
+const int PUT_LINE_SPLIT = 2;
+const int PUT_LINE_FORWARD = 4;
+
 // Vim's do_put. `dir` 1 for p / gp, -1 for P / gP; `cursor_end` for gp / gP.
 bool do_put(MED_editor.Editor ed, str regname, int dir, int count, bool cursor_end) {
     Option<MED_register.Reg> found = ed.regs.get(regname);
-    MED_register.Reg reg = MED_register.Reg([""], MED_register.CHAR);
     match (found) {
         case None: {
             return false;
         }
         case Some(MED_register.Reg r): {
-            reg = r;
+            return put_reg(ed, r, dir, count, cursor_end, 0, 0);
         }
     }
+}
+
+// Put a block-wise register: each line goes into the same columns of the
+// lines below the cursor.
+bool put_block(MED_editor.Editor ed, MED_register.Reg reg, int dir, int count, bool cursor_end) {
     int n = count1(count);
     MED_buffer.Buffer buf = ed.buf;
+    str cur = buf.line(ed.row);
+    int curcol = ed.col;
+    int col = 0;
+    if (dir > 0 && curcol < cur.size()) {
+        col = MED_text.display_col(cur, curcol, ed.tab) + MED_text.cell_width(cur, curcol, MED_text.display_col(cur, curcol, ed.tab), ed.tab);
+        curcol = MED_text.next_col(cur, curcol);
+    } else {
+        col = MED_text.display_col(cur, curcol, ed.tab);
+    }
+    int row0 = ed.row;
+    int cursor_col = curcol;
+    int last_textcol = 0;
+    int last_totlen = 0;
+    for (int i in 0 .. reg.lines.size()) {
+        int row = row0 + i;
+        if (row >= buf.line_count()) {
+            int lr = buf.line_count() - 1;
+            ed.change(MED_buffer.Pos(lr, buf.line_size(lr)), MED_buffer.Pos(lr, buf.line_size(lr)), "\n");
+        }
+        str old = buf.line(row);
+        int at = 0;
+        int vcol = 0;
+        int incr = 0;
+        while (vcol < col && at < old.size()) {
+            incr = MED_text.cell_width(old, at, vcol, ed.tab);
+            vcol = vcol + incr;
+            at = MED_text.next_col(old, at);
+        }
+        int textcol = at;
+        bool shortline = vcol < col || (vcol == col && at >= old.size());
+        int startspaces = 0;
+        int endspaces = 0;
+        int delcount = 0;
+        if (vcol < col) {
+            startspaces = col - vcol;
+        } else if (vcol > col) {
+            endspaces = vcol - col;
+            startspaces = incr - endspaces;
+            textcol = MED_text.prev_col(old, at);
+            delcount = at - textcol;
+            if (old.byte_at(textcol) != 9) {
+                delcount = 0;
+                endspaces = 0;
+                textcol = at;
+            }
+        }
+        str yank = reg.lines[i];
+        int spaces = reg.width - MED_text.line_width(yank, ed.tab);
+        if (spaces < 0) {
+            spaces = 0;
+        }
+        int totlen = n * (yank.size() + spaces) + startspaces + endspaces;
+        List<str> pieces = [old.substr(0, textcol), " ".repeat(startspaces)];
+        for (int j in 0 .. n) {
+            pieces.push(yank);
+            if ((j < n - 1 || !shortline) && spaces > 0) {
+                pieces.push(" ".repeat(spaces));
+            } else {
+                totlen = totlen - spaces;
+            }
+        }
+        pieces.push(" ".repeat(endspaces));
+        pieces.push(old.substr(textcol + delcount, old.size()));
+        ed.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, old.size()), pieces.join(""));
+        if (i == 0) {
+            cursor_col = cursor_col + startspaces;
+        }
+        last_textcol = textcol;
+        last_totlen = totlen;
+    }
+    if (cursor_end) {
+        ed.row = row0 + reg.lines.size() - 1;
+        ed.col = MED_num.smaller(last_textcol + last_totlen, buf.line_size(ed.row));
+    } else {
+        ed.row = row0;
+        ed.col = cursor_col;
+    }
+    ed.clamp();
+    return true;
+}
+
+// Vim's do_put with its flags (PUT_LINE and friends, used by Visual `p`).
+// `vi_row` is the row the Visual end was on, for PUT_LINE_FORWARD.
+bool put_reg(MED_editor.Editor ed, MED_register.Reg reg0, int dir0, int count, bool cursor_end, int flags, int vi_row) {
+    MED_register.Reg reg = reg0;
+    int dir = dir0;
+    int n = count1(count);
+    MED_buffer.Buffer buf = ed.buf;
+    if (reg.kind == MED_register.BLOCK && (flags & PUT_LINE) == 0) {
+        return put_block(ed, reg, dir, count, cursor_end);
+    }
+    bool was_line = reg.kind == MED_register.LINE;
+    if (was_line) {
+        if ((flags & PUT_LINE_SPLIT) != 0) {
+            str cur = buf.line(ed.row);
+            int at = ed.col;
+            if (dir > 0 && at < cur.size()) {
+                at = MED_text.next_col(cur, at);
+            }
+            ed.change(MED_buffer.Pos(ed.row, at), MED_buffer.Pos(ed.row, at), "\n");
+            dir = 1;
+        }
+        if ((flags & PUT_LINE_FORWARD) != 0) {
+            ed.row = MED_num.smaller(vi_row, buf.line_count() - 1);
+            dir = 1;
+        }
+    }
+    if ((flags & PUT_LINE) != 0) {
+        reg = MED_register.Reg(reg.lines, MED_register.LINE);
+    }
     if (reg.kind == MED_register.LINE) {
         str body = reg.lines.join("\n");
         List<str> parts = [];
@@ -837,10 +955,8 @@ bool do_put(MED_editor.Editor ed, str regname, int dir, int count, bool cursor_e
             if (after >= buf.line_count()) {
                 ed.row = buf.line_count() - 1;
                 ed.col = 0;
-                if (dir > 0 || true) {
-                    ed.row = MED_num.smaller(after, buf.line_count() - 1);
-                    ed.col = 0;
-                }
+                ed.row = MED_num.smaller(after, buf.line_count() - 1);
+                ed.col = 0;
             } else {
                 ed.row = after;
                 ed.col = 0;
@@ -1384,6 +1500,9 @@ void finish_insert(MED_editor.Editor ed) {
         ed.col = MED_text.prev_col(line, ed.col);
     }
     ed.mode = MED_editor.NORMAL;
+    if (ed.blk_op != 0) {
+        block_insert_end(ed);
+    }
     ed.regs.set_special(".", typed_text);
     if (!ed.in_dot) {
         List<int> tail = ed.ins_keys.slice(0, ed.ins_keys.size());
@@ -2112,12 +2231,24 @@ void execute(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
         return;
     }
     if (p.kind == MED_parse.K_OP) {
+        str s_reg = ed.dot_reg;
+        int s_count = ed.dot_count;
+        List<int> s_body = ed.dot_body;
+        List<int> s_tail = ed.dot_tail;
+        int s_vkind = ed.dot_vkind;
         if (p.op != "y" && p.op != "zf") {
             record_dot(ed, p);
         }
         bool ok = operate(ed, p.op, p.reg, p.count, p.keys, p.doubled, p.force);
         if (!ok) {
             ed.failed = true;
+            if (!ed.in_dot) {
+                ed.dot_reg = s_reg;
+                ed.dot_count = s_count;
+                ed.dot_body = s_body;
+                ed.dot_tail = s_tail;
+                ed.dot_vkind = s_vkind;
+            }
         }
         if (ed.mode == MED_editor.NORMAL) {
             ed.end_block();
@@ -2208,7 +2339,7 @@ void setup_visual_redo(MED_editor.Editor ed) {
     } else if (vcols >= MAXCOL) {
         ed.want = -1;
         ed.col = MED_motion.col_for_want(ed.buf.line(end_row), -1, ed.tab, true);
-    } else if (kind == 22) {
+    } else {
         ed.col = MED_num.smaller(ed.col, ed.buf.line_size(end_row));
     }
     ed.vis_redo = true;
@@ -2680,15 +2811,356 @@ void visual_operator(MED_editor.Editor ed, str op, str reg, int count, List<int>
         ed.want_from_cursor();
     } else if (oap.block) {
         ok = block_operator(ed, oap);
+    } else if (op == "I" || op == "A") {
+        ok = visual_insert(ed, oap);
     } else {
         ok = run_op(ed, oap);
     }
     if (!ok) {
         ed.failed = true;
     }
+    if (op == "y") {
+        ed.want_from_cursor();
+    }
     if (ed.mode == MED_editor.NORMAL) {
         ed.end_block();
     }
+}
+
+/// Vim's block_def: how one line meets a block, for I, A and c.
+type BlockPrep {
+    int startspaces = 0;
+    int endspaces = 0;
+    int textlen = 0;
+    int start_vcol = 0;
+    int end_vcol = 0;
+    bool is_short = false;
+    bool one_char = false;
+    int start_char_vcols = 0;
+    int end_char_vcols = 0;
+    int textcol = 0;
+}
+
+// Vim's block_prep, for the operator `op` ("I", "A", "c", "r", "<") on the
+// block `sv`..`ev`.
+BlockPrep block_prep(MED_editor.Editor ed, str op, int sv, int ev, int row, bool is_del) {
+    BlockPrep b = BlockPrep();
+    str line = ed.buf.line(row);
+    int pos = 0;
+    int vcol = 0;
+    int incr = 0;
+    int prev_pstart = 0;
+    while (vcol < sv && pos < line.size()) {
+        incr = MED_text.cell_width(line, pos, vcol, ed.tab);
+        vcol = vcol + incr;
+        prev_pstart = pos;
+        pos = MED_text.next_col(line, pos);
+    }
+    b.start_vcol = vcol;
+    int pstart = pos;
+    b.start_char_vcols = incr;
+    if (b.start_vcol < sv) {
+        b.end_vcol = b.start_vcol;
+        b.is_short = true;
+        if (!is_del || op == "A") {
+            b.endspaces = ev - sv + 1;
+        }
+    } else {
+        b.startspaces = b.start_vcol - sv;
+        if (is_del && b.startspaces != 0) {
+            b.startspaces = b.start_char_vcols - b.startspaces;
+        }
+        int pend = pstart;
+        b.end_vcol = b.start_vcol;
+        if (b.end_vcol > ev) {
+            b.one_char = true;
+            if (op == "I") {
+                b.endspaces = b.start_char_vcols - b.startspaces;
+            } else if (op == "A") {
+                b.startspaces = b.startspaces + ev - sv + 1;
+                b.endspaces = b.start_char_vcols - b.startspaces;
+            } else {
+                b.startspaces = ev - sv + 1;
+                if (is_del && op != "<") {
+                    b.startspaces = b.start_char_vcols - (b.start_vcol - sv);
+                    b.endspaces = b.end_vcol - ev - 1;
+                }
+            }
+        } else {
+            int prev_pend = pend;
+            int v = b.end_vcol;
+            int p = pend;
+            while (v <= ev && p < line.size()) {
+                prev_pend = p;
+                incr = MED_text.cell_width(line, p, v, ed.tab);
+                v = v + incr;
+                p = MED_text.next_col(line, p);
+            }
+            b.end_vcol = v;
+            pend = p;
+            if (b.end_vcol <= ev && (!is_del || op == "A" || op == "r")) {
+                b.is_short = true;
+                if (op == "A") {
+                    b.endspaces = ev - b.end_vcol + 1;
+                } else {
+                    b.endspaces = 0;
+                }
+            } else if (b.end_vcol > ev) {
+                b.endspaces = b.end_vcol - ev - 1;
+                if (!is_del && b.endspaces != 0) {
+                    b.endspaces = incr - b.endspaces;
+                    if (pend != pstart) {
+                        pend = prev_pend;
+                    }
+                }
+            }
+        }
+        b.end_char_vcols = incr;
+        if (is_del && b.startspaces != 0) {
+            pstart = prev_pstart;
+        }
+        b.textlen = pend - pstart;
+    }
+    b.textcol = pstart;
+    return b;
+}
+
+// Vim's block_insert: copy `text` into every line below `top` of the block.
+void block_insert(MED_editor.Editor ed, int top, int bottom, int sv, int ev, bool is_max, bool b_insert, str text) {
+    str op = "A";
+    if (b_insert) {
+        op = "I";
+    }
+    for (int row in top + 1 .. bottom + 1) {
+        BlockPrep bd = block_prep(ed, op, sv, ev, row, true);
+        if (bd.is_short && b_insert) {
+            continue;
+        }
+        str old = ed.buf.line(row);
+        int ts_val = 0;
+        int spaces = 0;
+        int offset = 0;
+        if (b_insert) {
+            ts_val = bd.start_char_vcols;
+            spaces = bd.startspaces;
+            offset = bd.textcol;
+        } else {
+            ts_val = bd.end_char_vcols;
+            if (!bd.is_short) {
+                if (bd.endspaces != 0) {
+                    spaces = ts_val - bd.endspaces;
+                }
+                offset = bd.textcol + bd.textlen;
+                if (spaces != 0) {
+                    offset = offset - 1;
+                }
+            } else {
+                if (!is_max) {
+                    spaces = ev - bd.end_vcol + 1;
+                }
+                offset = bd.textcol + bd.textlen;
+            }
+        }
+        if (spaces < 0) {
+            spaces = 0;
+        }
+        if (offset > old.size()) {
+            offset = old.size();
+        }
+        str rest = old.substr(offset, old.size());
+        str post = "";
+        if (spaces > 0 && !bd.is_short && rest.size() > 0 && rest.byte_at(0) == 9) {
+            post = " ".repeat(ts_val - spaces);
+            rest = rest.substr(1, rest.size());
+        }
+        ed.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, old.size()), old.substr(0, offset) + " ".repeat(spaces) + text + post + rest);
+    }
+}
+
+int white_bytes(str line) {
+    int i = 0;
+    while (i < line.size() && (line.byte_at(i) == 32 || line.byte_at(i) == 9)) {
+        i = i + 1;
+    }
+    return i;
+}
+
+// Start of a block-wise I, A or c: remember what the end of the insert needs.
+void block_insert_begin(MED_editor.Editor ed, Oap oap, int count) {
+    str op = oap.op;
+    BlockPrep bd = block_prep(ed, op, oap.sv, oap.ev, oap.start.row, true);
+    str line = ed.buf.line(oap.start.row);
+    int at = bd.textcol;
+    if (op == "A") {
+        at = at + bd.textlen;
+    }
+    ed.blk_pre_len = line.size() - MED_num.smaller(at, line.size());
+    ed.blk_ind_col = white_bytes(line);
+    ed.blk_ind_vcol = MED_text.line_width(line.substr(0, ed.blk_ind_col), ed.tab);
+    ed.blk_col = bd.textcol;
+    ed.blk_tail = bd.textlen;
+    ed.blk_op = 73;
+    if (op == "A") {
+        ed.blk_op = 65;
+        int col = oap.start.col;
+        while (col < line.size() && col < bd.textcol + bd.textlen) {
+            col = col + 1;
+        }
+        ed.col = col;
+        if (bd.is_short && !oap.eol) {
+            ed.change(MED_buffer.Pos(ed.row, col), MED_buffer.Pos(ed.row, col), " ".repeat(bd.endspaces));
+            ed.col = col + bd.endspaces;
+            ed.blk_tail = bd.textlen + bd.endspaces;
+        }
+    }
+    ed.blk_top = oap.start.row;
+    ed.blk_bottom = oap.end.row;
+    ed.blk_sv = oap.sv;
+    ed.blk_ev = oap.ev;
+    ed.blk_eol = oap.eol;
+    ed.blk_start_col = oap.start.col;
+    start_insert(ed, 105, count, false);
+    ed.clamp();
+    ed.ins_start = MED_buffer.Pos(ed.row, ed.col);
+}
+
+// Vim's op_change for a block: delete it, then insert on the first line.
+bool block_change(MED_editor.Editor ed, Oap oap) {
+    int l = oap.start.col;
+    block_delete(ed, oap);
+    ed.clamp();
+    str line = ed.buf.line(ed.row);
+    if (l > ed.col && line.size() > 0) {
+        ed.col = MED_text.next_col(line, ed.col);
+    }
+    ed.blk_pre_len = line.size();
+    ed.blk_ind_col = white_bytes(line);
+    ed.blk_ind_vcol = 0;
+    ed.blk_col = ed.col;
+    ed.blk_op = 99;
+    ed.blk_top = oap.start.row;
+    ed.blk_bottom = oap.end.row;
+    ed.blk_sv = oap.sv;
+    ed.blk_ev = oap.ev;
+    ed.blk_eol = oap.eol;
+    ed.blk_start_col = oap.start.col;
+    start_insert(ed, 99, 1, false);
+    ed.clamp();
+    ed.ins_start = MED_buffer.Pos(ed.row, ed.col);
+    return true;
+}
+
+// The insert that began with block_insert_begin / block_change has ended.
+void block_insert_end(MED_editor.Editor ed) {
+    int op = ed.blk_op;
+    ed.blk_op = 0;
+    int top = ed.blk_top;
+    int bottom = ed.blk_bottom;
+    if (ed.row != top || (op == 99 && top == bottom)) {
+        return;
+    }
+    str line = ed.buf.line(top);
+    if (op == 99) {
+        int textcol = ed.blk_col;
+        int pre_len = ed.blk_pre_len;
+        if (textcol > ed.blk_ind_col) {
+            int new_indent = white_bytes(line);
+            pre_len = pre_len + new_indent - ed.blk_ind_col;
+            textcol = textcol + new_indent - ed.blk_ind_col;
+        }
+        int ins_len = line.size() - pre_len;
+        if (ins_len > 0 && textcol + ins_len <= line.size()) {
+            str text = line.substr(textcol, textcol + ins_len);
+            for (int row in top + 1 .. bottom + 1) {
+                BlockPrep bd = block_prep(ed, "c", ed.blk_sv, ed.blk_ev, row, true);
+                if (!bd.is_short) {
+                    str old = ed.buf.line(row);
+                    ed.change(MED_buffer.Pos(row, bd.textcol), MED_buffer.Pos(row, bd.textcol), text);
+                }
+            }
+            ed.clamp();
+        }
+        return;
+    }
+    bool is_max = ed.blk_eol;
+    int sv = ed.blk_sv;
+    int ev = ed.blk_ev;
+    int start_col = ed.blk_start_col;
+    int pre_len = ed.blk_pre_len;
+    int textcol = ed.blk_col;
+    int textlen = ed.blk_tail;
+    str mode = "I";
+    if (op == 65) {
+        mode = "A";
+    }
+    int ind_post = white_bytes(line);
+    bool did_indent = false;
+    if (ed.ins_start.col > ed.blk_ind_col && ind_post > ed.blk_ind_col) {
+        textcol = textcol + ind_post - ed.blk_ind_col;
+        did_indent = true;
+    }
+    if (ed.ins_start.row == top && !is_max && !did_indent) {
+        int t = MED_text.display_col(line, MED_num.smaller(ed.ins_start.col, line.size()), ed.tab);
+        if (mode == "I" && start_col != ed.ins_start.col) {
+            start_col = ed.ins_start.col;
+            pre_len = pre_len - (t - sv);
+            sv = t;
+        } else if (mode == "A" && start_col >= ed.ins_start.col) {
+            start_col = ed.ins_start.col;
+            pre_len = pre_len + textlen - (t - sv);
+            sv = t;
+            mode = "I";
+        }
+    }
+    BlockPrep bd2 = block_prep(ed, mode, sv, ev, top, true);
+    if (!is_max || bd2.textlen < textlen) {
+        if (mode == "A") {
+            pre_len = pre_len + bd2.textlen - textlen;
+            if (bd2.endspaces != 0) {
+                bd2.textlen = bd2.textlen - 1;
+            }
+        }
+        textcol = bd2.textcol;
+        textlen = bd2.textlen;
+    }
+    int add = textcol;
+    if (mode == "A") {
+        add = add + textlen;
+    }
+    if (add > line.size()) {
+        add = line.size();
+    }
+    int ins_len = line.size() - add - pre_len;
+    if (pre_len >= 0 && ins_len > 0) {
+        str text = line.substr(add, add + ins_len);
+        block_insert(ed, top, bottom, sv, ev, is_max, mode == "I", text);
+        ed.col = start_col;
+        ed.clamp();
+    }
+}
+
+// I and A on a Visual area that is not a block: insert at the start of the
+// first line / after the end.
+bool visual_insert(MED_editor.Editor ed, Oap oap) {
+    if (oap.op == "I") {
+        ed.row = oap.start.row;
+        ed.col = oap.start.col;
+        if (oap.linewise) {
+            ed.col = 0;
+        }
+    } else {
+        ed.row = oap.end.row;
+        ed.col = oap.end.col;
+        ed.clamp();
+        str line = ed.buf.line(ed.row);
+        if (line.size() > 0) {
+            ed.col = MED_text.next_col(line, ed.col);
+        }
+    }
+    start_insert(ed, 105, oap.amount, false);
+    ed.clamp();
+    ed.ins_start = MED_buffer.Pos(ed.row, ed.col);
+    return true;
 }
 
 // Block-wise operators other than r.
@@ -2708,6 +3180,13 @@ bool block_operator(MED_editor.Editor ed, Oap oap) {
         ed.want_from_cursor();
         return true;
     }
+    if (op == "c") {
+        return block_change(ed, oap);
+    }
+    if (op == "I" || op == "A") {
+        block_insert_begin(ed, oap, oap.amount);
+        return true;
+    }
     if (op == "<" || op == ">") {
         block_shift(ed, oap);
         ed.clamp();
@@ -2722,6 +3201,8 @@ bool block_operator(MED_editor.Editor ed, Oap oap) {
     }
     return false;
 }
+
+const List<int> BLOCK_OBJECTS = [98, 40, 41, 66, 123, 125, 91, 93, 60, 62, 116];
 
 void visual_object(MED_editor.Editor ed, MED_parse.Parsed p) {
     List<int> keys = p.keys;
@@ -2742,7 +3223,7 @@ void visual_object(MED_editor.Editor ed, MED_parse.Parsed p) {
     ed.vcol = s.start.col;
     ed.row = s.end.row;
     ed.col = s.end.col;
-    if (s.vmode >= 0 && !(ed.vkind == 22 && s.vmode == 118)) {
+    if (s.vmode >= 0 && !(ed.vkind == 22 && s.vmode == 118 && !BLOCK_OBJECTS.contains(keys[1]))) {
         ed.vkind = s.vmode;
     }
     if (s.jump) {
@@ -2806,6 +3287,58 @@ void execute_visual(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
     visual_cmd(ed, p, typed);
 }
 
+// `p` / `P` / `gp` / `gP` in Visual mode: the register replaces the selection.
+void visual_put(MED_editor.Editor ed, MED_parse.Parsed p, bool keep, bool back, bool cursor_end) {
+    int kind = ed.vkind;
+    str regname = p.reg;
+    Option<MED_register.Reg> found = ed.regs.get(regname);
+    Oap area = visual_oap(ed, "d", regname);
+    MED_buffer.Pos op_start = area.start;
+    int dir0 = 1;
+    if (back) {
+        dir0 = -1;
+    }
+    str del_reg = regname;
+    if (keep) {
+        del_reg = "_";
+    } else {
+        del_reg = "";
+    }
+    visual_operator(ed, "d", del_reg, 0, [100], kind, kind);
+    bool empty = ed.buf.empty;
+    int dir = -1;
+    if ((kind != 86 && ed.col < op_start.col) || (kind == 86 && ed.row < op_start.row)) {
+        dir = 1;
+    }
+    int flags = 0;
+    if (kind == 86) {
+        flags = PUT_LINE;
+    } else if (kind == 118) {
+        flags = PUT_LINE_SPLIT;
+    } else if (dir0 > 0) {
+        flags = PUT_LINE_FORWARD;
+    }
+    match (found) {
+        case None: {
+            ed.failed = true;
+        }
+        case Some(MED_register.Reg r): {
+            put_reg(ed, r, dir, p.count, cursor_end, flags, ed.last_vend.row);
+        }
+    }
+    int last = ed.buf.line_count() - 1;
+    if (empty && last > 0 && ed.buf.line(last) == "") {
+        ed.change(MED_buffer.Pos(last - 1, ed.buf.line_size(last - 1)), MED_buffer.Pos(last, 0), "");
+        last = last - 1;
+        if (ed.row > last) {
+            ed.row = last;
+            ed.col = MED_text.last_col(ed.buf.line(last));
+        }
+    }
+    ed.clamp();
+    ed.want_from_cursor();
+}
+
 void visual_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
     int k = p.keys[0];
     int kind = ed.vkind;
@@ -2850,6 +3383,12 @@ void visual_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
             ed.want = -1;
         }
         visual_operator(ed, "c", reg, p.count, [k], nk, kind);
+    } else if (k == 73 || k == 65) {
+        int nk = 86;
+        if (kind == 22) {
+            nk = 22;
+        }
+        visual_operator(ed, str.from_chars([k]), reg, p.count, [k], nk, kind);
     } else if (k == 83 || k == 82) {
         visual_operator(ed, "c", reg, p.count, [k], 86, kind);
     } else if (k == 60 || k == 62) {
@@ -2884,11 +3423,15 @@ void visual_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
             if (!reselect(ed)) {
                 ed.failed = true;
             }
+        } else if (second == 112 || second == 80) {
+            visual_put(ed, p, false, second == 80, true);
         } else {
             ed.failed = true;
         }
     } else if (k == 64) {
         run_macro(ed, str.from_chars([p.keys[1]]), p.count);
+    } else if (k == 112 || k == 80) {
+        visual_put(ed, p, k == 80, k == 80, false);
     } else {
         ed.failed = true;
     }
