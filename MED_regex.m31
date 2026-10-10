@@ -1,0 +1,1876 @@
+// Vim regular expressions: a parser for Vim's pattern syntax and a backtracking
+// matcher that runs straight over the buffer's lines (so `\n` can cross lines).
+//
+// Why not the stdlib `regex` module: it has no backreferences, no lookaround,
+// no word boundaries, no `\zs`, no lazy repeats and no multi-line matching, all
+// of which `/`, `:s` and `:g` need (DESIGN.md G6). This module is the same
+// kind of thing written for the editor, in m31 only.
+//
+// API
+// ---
+//   MED_regex.compile(pattern, ignorecase, smartcase, tilde)  -> Regex
+//   re.ok / re.error                                          compile result
+//   re.search_line(buf, row, col)   -> Match   first match in `row` starting at byte col >= col
+//   re.match_at(buf, row, col)      -> Match   a match that starts exactly at (row, col)
+//   Match.ok  .srow .scol .erow .ecol  (byte columns; the end is exclusive; `\zs`/`\ze` applied)
+//   Match.groups                    -> List<str>  [whole, \1 .. \9]
+//
+// Supported: magic levels `\v \m \M \V`, `\c \C`, `. * \+ \= \? \{n,m} \{-n,m}`,
+// `\| \& \( \) \%(`, `^ $ \_^ \_$ \< \> \zs \ze \%^ \%$ \%23l \%23c \%23v`,
+// `\1 .. \9`, `\@= \@! \@<= \@<! \@>`, `\%[]`, `[]` collections with
+// `[:alpha:]` and `\d123 \x20 €`, the character classes `\s \S \d \D ...`
+// and their `\_x` forms, `\n`, `\t \e \r \b`, `\%d123 \%x2a \%u20AC`, `~`.
+// Not supported (reported as an error or never matching): `\%V`, `\%#`,
+// `\%'m`, `\%.l`, `\z(`, composing-character pattern syntax `\%C`, `\Z`.
+//
+// A pattern is matched code point by code point; a combining mark never starts
+// a match of `.` or a collection and a literal does not match a base character
+// that is followed by a mark the pattern does not name (as Vim does).
+
+import MED_buffer;
+import MED_case;
+import MED_text;
+
+const int OP_CHAR = 1;
+const int OP_ANY = 2;
+const int OP_CLASS = 3;
+const int OP_SET = 4;
+const int OP_NL = 5;
+const int OP_BOL = 6;
+const int OP_EOL = 7;
+const int OP_BOW = 8;
+const int OP_EOW = 9;
+const int OP_ZS = 10;
+const int OP_ZE = 11;
+const int OP_SAVE = 12;
+const int OP_BACKREF = 13;
+const int OP_SPLIT = 14;
+const int OP_JMP = 15;
+const int OP_LOOK = 16;
+const int OP_MATCH = 17;
+const int OP_GSET = 18;
+const int OP_GCHK = 19;
+const int OP_BOF = 20;
+const int OP_EOF = 21;
+const int OP_LNUM = 22;
+const int OP_CNUM = 23;
+const int OP_VNUM = 24;
+const int OP_FAIL = 25;
+const int OP_SUBEND = 26;
+const int N_CHAR = 1;
+const int N_ANY = 2;
+const int N_CLASS = 3;
+const int N_SET = 4;
+const int N_NL = 5;
+const int N_BOL = 6;
+const int N_EOL = 7;
+const int N_BOW = 8;
+const int N_EOW = 9;
+const int N_ZS = 10;
+const int N_ZE = 11;
+const int N_GROUP = 12;
+const int N_CAT = 13;
+const int N_ALT = 14;
+const int N_REPEAT = 15;
+const int N_BACKREF = 16;
+const int N_LOOK = 17;
+const int N_EMPTY = 18;
+const int N_BOF = 19;
+const int N_EOF = 20;
+const int N_LNUM = 21;
+const int N_CNUM = 22;
+const int N_VNUM = 23;
+const int N_NEVER = 24;
+const int LK_AHEAD = 0;
+const int LK_NOT_AHEAD = 1;
+const int LK_BEHIND = 2;
+const int LK_NOT_BEHIND = 3;
+const int LK_ATOMIC = 4;
+const int STEP_LIMIT = 30000000;
+const int SHIFT = 4294967296;
+
+pub type Match {
+    pub bool ok = false;
+    pub int srow = 0;
+    pub int scol = 0;
+    pub int erow = 0;
+    pub int ecol = 0;
+    /// The whole match, then \1 .. \9 (empty when a group did not take part).
+    pub List<str> groups = [];
+    /// The search gave up (too many steps).
+    pub bool aborted = false;
+}
+
+pub type Regex {
+    pub bool ok = true;
+    pub str error = "";
+    pub bool icase = false;
+    pub int ngroups = 0;
+    pub List<int> op = [];
+    pub List<int> pa = [];
+    pub List<int> pb = [];
+    pub List<List<int>> set_lo = [];
+    pub List<List<int>> set_hi = [];
+    pub List<bool> set_neg = [];
+    pub List<bool> set_nl = [];
+    pub int nguards = 0;
+    /// A first literal character every match must start with, or -1.
+    pub int first = -1;
+    // ---- parser state
+    List<int> c = [];
+    int i = 0;
+    int magic = 2;
+    bool at_start = true;
+    bool prev_at_start = false;
+    int prev_ch = -1;
+    bool prev_mg = false;
+    int tok = -1;
+    bool mg = false;
+    int len = 0;
+    int icase_flag = -1;
+    str tilde = "";
+    List<int> nk = [];
+    List<int> na = [];
+    List<int> nb = [];
+    List<int> nc = [];
+    List<List<int>> nkids = [];
+}
+
+int Regex.node(int kind, int a, int b, List<int> kids) {
+    nk.push(kind);
+    na.push(a);
+    nb.push(b);
+    nc.push(0);
+    nkids.push(kids);
+    return nk.size() - 1;
+}
+
+bool Regex.fail(str message) {
+    if (ok) {
+        ok = false;
+        error = message;
+    }
+    return false;
+}
+
+// Look at the next token without consuming it: `tok`, whether it is magic
+// (`mg`) and how many pattern characters it spans (`len`). Vim's peekchr().
+void Regex.peek() {
+    int n = c.size();
+    if (i >= n) {
+        tok = -1;
+        mg = false;
+        len = 0;
+        return;
+    }
+    int ch = c[i];
+    tok = ch;
+    mg = false;
+    len = 1;
+    if (ch == 94) {
+        if (magic >= 1 && (at_start || magic == 3 || (prev_mg && (prev_ch == 40 || prev_ch == 124 || prev_ch == 38 || prev_ch == 110)))) {
+            mg = true;
+        }
+    } else if (ch == 36) {
+        if (magic >= 1) {
+            int j = i + 1;
+            bool all = magic == 3;
+            while (j + 1 < n && c[j] == 92 && (c[j + 1] == 99 || c[j + 1] == 67 || c[j + 1] == 109 || c[j + 1] == 77 || c[j + 1] == 118 || c[j + 1] == 86 || c[j + 1] == 90)) {
+                if (c[j + 1] == 118) {
+                    all = true;
+                } else if (c[j + 1] == 109 || c[j + 1] == 77 || c[j + 1] == 86) {
+                    all = false;
+                }
+                j = j + 2;
+            }
+            if (j >= n) {
+                mg = true;
+            } else if (c[j] == 92 && j + 1 < n && (c[j + 1] == 124 || c[j + 1] == 38 || c[j + 1] == 41 || c[j + 1] == 110)) {
+                mg = true;
+            } else if (all && (c[j] == 124 || c[j] == 38 || c[j] == 41)) {
+                mg = true;
+            } else if (magic == 3) {
+                mg = true;
+            }
+        }
+    } else if (ch == 42) {
+        if (magic >= 2 && !at_start && !(prev_at_start && prev_mg && prev_ch == 94) && !(prev_mg && (prev_ch == 40 || prev_ch == 38 || prev_ch == 124))) {
+            mg = true;
+        }
+    } else if (ch == 46 || ch == 91 || ch == 126) {
+        if (magic >= 2) {
+            mg = true;
+        }
+    } else if (ch == 40 || ch == 41 || ch == 123 || ch == 37 || ch == 43 || ch == 61 || ch == 63 || ch == 64 || ch == 38 || ch == 124 || ch == 60 || ch == 62) {
+        if (magic == 3) {
+            mg = true;
+        }
+    } else if (ch == 92) {
+        if (i + 1 >= n) {
+            return;
+        }
+        int d = c[i + 1];
+        len = 2;
+        if (is_meta(d)) {
+            tok = d;
+            if (d == 42) {
+                mg = !(magic >= 2);
+            } else {
+                mg = !default_magic(magic, d);
+            }
+        } else if (d == 101) {
+            tok = 27;
+        } else if (d == 116) {
+            tok = 9;
+        } else if (d == 114) {
+            tok = 13;
+        } else if (d == 98) {
+            tok = 8;
+        } else if (magic == 0 && (d == 36 || d == 94)) {
+            tok = d;
+            mg = true;
+        } else {
+            tok = d;
+        }
+    }
+}
+
+void Regex.advance() {
+    prev_at_start = at_start;
+    at_start = false;
+    prev_ch = tok;
+    prev_mg = mg;
+    i = i + len;
+}
+
+// Consume a token that changes no parse state (\c \v ...).
+void Regex.keepstart() {
+    i = i + len;
+}
+
+int Regex.raw() {
+    if (i >= c.size()) {
+        return -1;
+    }
+    int ch = c[i];
+    i = i + 1;
+    return ch;
+}
+
+int Regex.number() {
+    int value = -1;
+    while (i < c.size() && is_digit(c[i])) {
+        if (value < 0) {
+            value = 0;
+        }
+        value = value * 10 + (c[i] - 48);
+        i = i + 1;
+    }
+    return value;
+}
+
+int Regex.parse_alt(int depth) {
+    List<int> branches = [parse_branch(depth)];
+    while (ok) {
+        peek();
+        if (mg && tok == 124) {
+            advance();
+            branches.push(parse_branch(depth));
+        } else {
+            break;
+        }
+    }
+    if (branches.size() == 1) {
+        return branches[0];
+    }
+    return node(N_ALT, 0, 0, branches);
+}
+
+int Regex.parse_branch(int depth) {
+    List<int> parts = [parse_concat(depth)];
+    while (ok) {
+        peek();
+        if (mg && tok == 38) {
+            advance();
+            parts.push(parse_concat(depth));
+        } else {
+            break;
+        }
+    }
+    if (parts.size() == 1) {
+        return parts[0];
+    }
+    List<int> kids = [];
+    for (int k in 0 .. parts.size() - 1) {
+        kids.push(node(N_LOOK, LK_AHEAD, 0, [parts[k]]));
+    }
+    kids.push(parts[parts.size() - 1]);
+    return node(N_CAT, 0, 0, kids);
+}
+
+int Regex.parse_concat(int depth) {
+    List<int> kids = [];
+    while (ok) {
+        peek();
+        if (tok == -1) {
+            break;
+        }
+        if (mg && (tok == 124 || tok == 38)) {
+            break;
+        }
+        if (mg && tok == 41) {
+            if (depth == 0) {
+                fail("E55: Unmatched \\)");
+            }
+            break;
+        }
+        if (mg && (tok == 99 || tok == 67 || tok == 118 || tok == 109 || tok == 77 || tok == 86 || tok == 90)) {
+            if (tok == 99) {
+                icase_flag = 1;
+            } else if (tok == 67) {
+                icase_flag = 0;
+            } else if (tok == 118) {
+                magic = 3;
+            } else if (tok == 109) {
+                magic = 2;
+            } else if (tok == 77) {
+                magic = 1;
+            } else if (tok == 86) {
+                magic = 0;
+            }
+            keepstart();
+            continue;
+        }
+        int piece = parse_piece(depth);
+        if (piece >= 0) {
+            kids.push(piece);
+        }
+    }
+    if (kids.size() == 0) {
+        return node(N_EMPTY, 0, 0, []);
+    }
+    if (kids.size() == 1) {
+        return kids[0];
+    }
+    return node(N_CAT, 0, 0, kids);
+}
+
+int Regex.parse_piece(int depth) {
+    int atom = parse_atom(depth);
+    if (!ok || atom < 0) {
+        return atom;
+    }
+    while (ok) {
+        peek();
+        if (!mg) {
+            break;
+        }
+        int t = tok;
+        if (t == 42) {
+            advance();
+            atom = node(N_REPEAT, 0, -1, [atom]);
+            nc[atom] = 1;
+        } else if (t == 43) {
+            advance();
+            atom = node(N_REPEAT, 1, -1, [atom]);
+            nc[atom] = 1;
+        } else if (t == 61 || t == 63) {
+            advance();
+            atom = node(N_REPEAT, 0, 1, [atom]);
+            nc[atom] = 1;
+        } else if (t == 123) {
+            advance();
+            bool lazy = false;
+            if (i < c.size() && c[i] == 45) {
+                lazy = true;
+                i = i + 1;
+            }
+            int lo = number();
+            int hi = lo;
+            if (i < c.size() && c[i] == 44) {
+                i = i + 1;
+                hi = number();
+            } else if (lo < 0) {
+                hi = -1;
+            }
+            if (lo < 0) {
+                lo = 0;
+            }
+            if (i < c.size() && c[i] == 92) {
+                i = i + 1;
+            }
+            if (i < c.size() && c[i] == 125) {
+                i = i + 1;
+            } else {
+                fail("E554: Syntax error in \\{...}");
+                return -1;
+            }
+            if (hi >= 0 && lo > hi) {
+                int tmp = lo;
+                lo = hi;
+                hi = tmp;
+            }
+            atom = node(N_REPEAT, lo, hi, [atom]);
+            if (lazy) {
+                nc[atom] = 0;
+            } else {
+                nc[atom] = 1;
+            }
+        } else if (t == 64) {
+            advance();
+            int limit = number();
+            int kind = -1;
+            if (i < c.size()) {
+                int d = c[i];
+                if (d == 61) {
+                    kind = LK_AHEAD;
+                    i = i + 1;
+                } else if (d == 33) {
+                    kind = LK_NOT_AHEAD;
+                    i = i + 1;
+                } else if (d == 62) {
+                    kind = LK_ATOMIC;
+                    i = i + 1;
+                } else if (d == 60 && i + 1 < c.size()) {
+                    if (c[i + 1] == 61) {
+                        kind = LK_BEHIND;
+                        i = i + 2;
+                    } else if (c[i + 1] == 33) {
+                        kind = LK_NOT_BEHIND;
+                        i = i + 2;
+                    }
+                }
+            }
+            if (kind < 0) {
+                fail("E59: Invalid character after \\@");
+                return -1;
+            }
+            atom = node(N_LOOK, kind, limit, [atom]);
+        } else {
+            break;
+        }
+    }
+    return atom;
+}
+
+// A literal string's nodes, for `~`.
+int Regex.literal_nodes(List<int> chars) {
+    if (chars.size() == 0) {
+        return node(N_EMPTY, 0, 0, []);
+    }
+    List<int> kids = [];
+    for (int ch in chars) {
+        kids.push(node(N_CHAR, ch, 0, []));
+    }
+    return node(N_CAT, 0, 0, kids);
+}
+
+int Regex.parse_atom(int depth) {
+    peek();
+    if (tok == -1) {
+        return node(N_EMPTY, 0, 0, []);
+    }
+    int t = tok;
+    if (!mg) {
+        advance();
+        return node(N_CHAR, t, 0, []);
+    }
+    if (t == 94) {
+        advance();
+        return node(N_BOL, 0, 0, []);
+    }
+    if (t == 36) {
+        advance();
+        return node(N_EOL, 0, 0, []);
+    }
+    if (t == 46) {
+        advance();
+        return node(N_ANY, 0, 0, []);
+    }
+    if (t == 60) {
+        advance();
+        return node(N_BOW, 0, 0, []);
+    }
+    if (t == 62) {
+        advance();
+        return node(N_EOW, 0, 0, []);
+    }
+    if (t == 126) {
+        advance();
+        return literal_nodes(tilde.chars());
+    }
+    if (t == 110) {
+        advance();
+        return node(N_NL, 0, 0, []);
+    }
+    if (t == 40) {
+        advance();
+        if (ngroups >= 9) {
+            fail("E51: Too many \\(");
+            return -1;
+        }
+        ngroups = ngroups + 1;
+        int idx = ngroups;
+        int inner = parse_alt(depth + 1);
+        peek();
+        if (!(mg && tok == 41)) {
+            fail("E54: Unmatched \\(");
+            return -1;
+        }
+        advance();
+        return node(N_GROUP, idx, 0, [inner]);
+    }
+    if (t == 37) {
+        advance();
+        return parse_percent(depth);
+    }
+    if (t == 91) {
+        int save = i;
+        advance();
+        int set = parse_collection(false);
+        if (set >= 0) {
+            return set;
+        }
+        i = save + len;
+        return node(N_CHAR, 91, 0, []);
+    }
+    if (t == 122) {
+        advance();
+        int d = raw();
+        if (d == 115) {
+            return node(N_ZS, 0, 0, []);
+        }
+        if (d == 101) {
+            return node(N_ZE, 0, 0, []);
+        }
+        fail("E68: Invalid character after \\z");
+        return -1;
+    }
+    if (t >= 49 && t <= 57) {
+        advance();
+        return node(N_BACKREF, t - 48, 0, []);
+    }
+    if (t == 95) {
+        advance();
+        int d = raw();
+        if (d == 94) {
+            return node(N_BOL, 0, 0, []);
+        }
+        if (d == 36) {
+            return node(N_EOL, 0, 0, []);
+        }
+        if (d == 46) {
+            return node(N_ANY, 1, 0, []);
+        }
+        if (d == 91) {
+            int set = parse_collection(true);
+            if (set < 0) {
+                fail("E769: Missing ] after \\_[");
+                return -1;
+            }
+            return set;
+        }
+        if (is_class_letter(d)) {
+            return node(N_CLASS, d, 1, []);
+        }
+        fail("E63: Invalid use of \\_");
+        return -1;
+    }
+    if (is_class_letter(t)) {
+        advance();
+        return node(N_CLASS, t, 0, []);
+    }
+    if (t == 42 || t == 43 || t == 61 || t == 63 || t == 123 || t == 64) {
+        fail("E64: Nothing to repeat");
+        return -1;
+    }
+    advance();
+    return node(N_CHAR, t, 0, []);
+}
+
+int Regex.hex_digits(int max) {
+    int value = -1;
+    int count = 0;
+    while (count < max && i < c.size() && is_hex(c[i])) {
+        int d = c[i];
+        int v = 0;
+        if (is_digit(d)) {
+            v = d - 48;
+        } else if (d >= 97) {
+            v = d - 87;
+        } else {
+            v = d - 55;
+        }
+        if (value < 0) {
+            value = 0;
+        }
+        value = value * 16 + v;
+        i = i + 1;
+        count = count + 1;
+    }
+    return value;
+}
+
+int Regex.parse_percent(int depth) {
+    int d = raw();
+    if (d == 40) {
+        int inner = parse_alt(depth + 1);
+        peek();
+        if (!(mg && tok == 41)) {
+            fail("E53: Unmatched \\%(");
+            return -1;
+        }
+        advance();
+        return inner;
+    }
+    if (d == 94) {
+        return node(N_BOF, 0, 0, []);
+    }
+    if (d == 36) {
+        return node(N_EOF, 0, 0, []);
+    }
+    if (d == 100) {
+        int v = number();
+        if (v < 0) {
+            fail("E678: Invalid character after \\%[dxouU]");
+            return -1;
+        }
+        return node(N_CHAR, v, 0, []);
+    }
+    if (d == 120 || d == 117 || d == 85) {
+        int maxd = 2;
+        if (d == 117) {
+            maxd = 4;
+        } else if (d == 85) {
+            maxd = 8;
+        }
+        int v = hex_digits(maxd);
+        if (v < 0) {
+            fail("E678: Invalid character after \\%[dxouU]");
+            return -1;
+        }
+        return node(N_CHAR, v, 0, []);
+    }
+    if (d == 111) {
+        int v = 0;
+        int count = 0;
+        while (count < 4 && i < c.size() && c[i] >= 48 && c[i] <= 55) {
+            v = v * 8 + (c[i] - 48);
+            i = i + 1;
+            count = count + 1;
+        }
+        if (count == 0) {
+            fail("E678: Invalid character after \\%[dxouU]");
+            return -1;
+        }
+        return node(N_CHAR, v, 0, []);
+    }
+    if (d == 91) {
+        // \%[abc]: a sequence of optional atoms
+        List<int> atoms = [];
+        while (ok && i < c.size() && c[i] != 93) {
+            int a = parse_atom(depth);
+            if (a < 0) {
+                return -1;
+            }
+            atoms.push(a);
+        }
+        if (i >= c.size()) {
+            fail("E69: Missing ] after \\%[");
+            return -1;
+        }
+        i = i + 1;
+        if (atoms.size() == 0) {
+            fail("E70: Empty \\%[]");
+            return -1;
+        }
+        int acc = -1;
+        int k = atoms.size() - 1;
+        while (k >= 0) {
+            List<int> pair = [atoms[k]];
+            if (acc >= 0) {
+                pair.push(acc);
+            }
+            int seq = node(N_CAT, 0, 0, pair);
+            int opt = node(N_REPEAT, 0, 1, [seq]);
+            nc[opt] = 1;
+            acc = opt;
+            k = k - 1;
+        }
+        return acc;
+    }
+    int cmp = 0;
+    if (d == 60) {
+        cmp = 1;
+        d = raw();
+    } else if (d == 62) {
+        cmp = 2;
+        d = raw();
+    }
+    if (d == 46 || d == 39) {
+        fail("E71: Invalid character after \\%: unsupported");
+        return -1;
+    }
+    if (d >= 48 && d <= 57) {
+        i = i - 1;
+        int v = number();
+        int what = raw();
+        if (what == 108) {
+            return node(N_LNUM, v, cmp, []);
+        }
+        if (what == 99) {
+            return node(N_CNUM, v, cmp, []);
+        }
+        if (what == 118) {
+            return node(N_VNUM, v, cmp, []);
+        }
+    }
+    fail("E71: Invalid character after \\%");
+    return -1;
+}
+
+void Regex.add_range(List<int> lo, List<int> hi, int a, int b) {
+    lo.push(a);
+    hi.push(b);
+}
+
+// Characters named in `[:name:]`; false when the name is unknown.
+bool Regex.named_class(List<int> lo, List<int> hi, str name) {
+    if (name == "alpha") {
+        add_range(lo, hi, 65, 90);
+        add_range(lo, hi, 97, 122);
+    } else if (name == "digit") {
+        add_range(lo, hi, 48, 57);
+    } else if (name == "alnum") {
+        add_range(lo, hi, 48, 57);
+        add_range(lo, hi, 65, 90);
+        add_range(lo, hi, 97, 122);
+    } else if (name == "lower") {
+        add_range(lo, hi, 97, 122);
+    } else if (name == "upper") {
+        add_range(lo, hi, 65, 90);
+    } else if (name == "space") {
+        add_range(lo, hi, 9, 13);
+        add_range(lo, hi, 32, 32);
+    } else if (name == "blank") {
+        add_range(lo, hi, 9, 9);
+        add_range(lo, hi, 32, 32);
+    } else if (name == "punct") {
+        add_range(lo, hi, 33, 47);
+        add_range(lo, hi, 58, 64);
+        add_range(lo, hi, 91, 96);
+        add_range(lo, hi, 123, 126);
+    } else if (name == "xdigit") {
+        add_range(lo, hi, 48, 57);
+        add_range(lo, hi, 65, 70);
+        add_range(lo, hi, 97, 102);
+    } else if (name == "cntrl") {
+        add_range(lo, hi, 0, 31);
+        add_range(lo, hi, 127, 127);
+    } else if (name == "print") {
+        add_range(lo, hi, 32, 126);
+    } else if (name == "graph") {
+        add_range(lo, hi, 33, 126);
+    } else if (name == "return") {
+        add_range(lo, hi, 13, 13);
+    } else if (name == "tab") {
+        add_range(lo, hi, 9, 9);
+    } else if (name == "escape") {
+        add_range(lo, hi, 27, 27);
+    } else if (name == "backspace") {
+        add_range(lo, hi, 8, 8);
+    } else {
+        return false;
+    }
+    return true;
+}
+
+// Parse a `[...]` collection; `i` is just after the `[`. Returns the node or
+// -1 (and leaves `i` where it was) when the collection is not closed.
+int Regex.parse_collection(bool nl) {
+    int start = i;
+    int n = c.size();
+    int j = i;
+    bool negate = false;
+    if (j < n && c[j] == 94) {
+        negate = true;
+        j = j + 1;
+    }
+    List<int> lo = [];
+    List<int> hi = [];
+    bool has_nl = nl;
+    bool leading = true;
+    bool closed = false;
+    while (j < n) {
+        int ch = c[j];
+        if (ch == 93 && !leading) {
+            closed = true;
+            j = j + 1;
+            break;
+        }
+        leading = false;
+        int a = ch;
+        j = j + 1;
+        if (ch == 91 && j < n && c[j] == 58) {
+            int k = j + 1;
+            List<int> name = [];
+            while (k < n && c[k] != 58 && k < j + 12) {
+                name.push(c[k]);
+                k = k + 1;
+            }
+            if (k + 1 < n && c[k] == 58 && c[k + 1] == 93) {
+                if (named_class(lo, hi, str.from_chars(name))) {
+                    j = k + 2;
+                    continue;
+                }
+            }
+        }
+        if (ch == 91 && j < n && (c[j] == 61 || c[j] == 46)) {
+            int k = j + 1;
+            if (k + 2 < n && c[k + 1] == c[j] && c[k + 2] == 93) {
+                a = c[k];
+                j = k + 3;
+            }
+        }
+        if (ch == 92 && j < n) {
+            int e = c[j];
+            if (e == 101) {
+                a = 27;
+                j = j + 1;
+            } else if (e == 116) {
+                a = 9;
+                j = j + 1;
+            } else if (e == 114) {
+                a = 13;
+                j = j + 1;
+            } else if (e == 98) {
+                a = 8;
+                j = j + 1;
+            } else if (e == 110) {
+                has_nl = true;
+                j = j + 1;
+                continue;
+            } else if (e == 92 || e == 93 || e == 94 || e == 45) {
+                a = e;
+                j = j + 1;
+            } else if (e == 100 || e == 111 || e == 120 || e == 117 || e == 85) {
+                int save_i = i;
+                i = j + 1;
+                int v = -1;
+                if (e == 100) {
+                    v = number();
+                } else if (e == 111) {
+                    v = 0;
+                    int count = 0;
+                    while (count < 4 && i < n && c[i] >= 48 && c[i] <= 55) {
+                        v = v * 8 + (c[i] - 48);
+                        i = i + 1;
+                        count = count + 1;
+                    }
+                    if (count == 0) {
+                        v = -1;
+                    }
+                } else if (e == 120) {
+                    v = hex_digits(2);
+                } else if (e == 117) {
+                    v = hex_digits(4);
+                } else {
+                    v = hex_digits(8);
+                }
+                if (v >= 0) {
+                    a = v;
+                    j = i;
+                }
+                i = save_i;
+            }
+        }
+        // a range a-b ?
+        if (j + 1 < n && c[j] == 45 && c[j + 1] != 93) {
+            int b = c[j + 1];
+            int nextj = j + 2;
+            if (b == 92 && j + 2 < n) {
+                int e = c[j + 2];
+                if (e == 101) {
+                    b = 27;
+                    nextj = j + 3;
+                } else if (e == 116) {
+                    b = 9;
+                    nextj = j + 3;
+                } else if (e == 114) {
+                    b = 13;
+                    nextj = j + 3;
+                } else if (e == 98) {
+                    b = 8;
+                    nextj = j + 3;
+                } else if (e == 92 || e == 93 || e == 94 || e == 45) {
+                    b = e;
+                    nextj = j + 3;
+                }
+            }
+            if (b < a) {
+                fail("E944: Reverse range in character class");
+                return -1;
+            }
+            add_range(lo, hi, a, b);
+            j = nextj;
+        } else {
+            add_range(lo, hi, a, a);
+        }
+    }
+    if (!closed) {
+        i = start;
+        return -1;
+    }
+    i = j;
+    // the token state: a collection is an atom
+    prev_at_start = at_start;
+    at_start = false;
+    prev_ch = 91;
+    prev_mg = true;
+    set_lo.push(lo);
+    set_hi.push(hi);
+    set_neg.push(negate);
+    set_nl.push(has_nl);
+    return node(N_SET, set_lo.size() - 1, 0, []);
+}
+
+bool Regex.can_be_empty(int n) {
+    int k = nk[n];
+    if (k == N_CHAR || k == N_ANY || k == N_CLASS || k == N_SET || k == N_NL) {
+        return false;
+    }
+    if (k == N_GROUP) {
+        return can_be_empty(nkids[n][0]);
+    }
+    if (k == N_CAT) {
+        for (int kid in nkids[n]) {
+            if (!can_be_empty(kid)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    if (k == N_ALT) {
+        for (int kid in nkids[n]) {
+            if (can_be_empty(kid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (k == N_REPEAT) {
+        return na[n] == 0 || can_be_empty(nkids[n][0]);
+    }
+    return true;
+}
+
+int Regex.emit(int opcode, int a, int b) {
+    op.push(opcode);
+    pa.push(a);
+    pb.push(b);
+    return op.size() - 1;
+}
+
+void Regex.gen(int n) {
+    int k = nk[n];
+    if (k == N_CHAR) {
+        int ch = na[n];
+        if (icase) {
+            ch = fold(ch);
+        }
+        emit(OP_CHAR, ch, 0);
+    } else if (k == N_ANY) {
+        emit(OP_ANY, na[n], 0);
+    } else if (k == N_CLASS) {
+        emit(OP_CLASS, na[n], nb[n]);
+    } else if (k == N_SET) {
+        emit(OP_SET, na[n], 0);
+    } else if (k == N_NL) {
+        emit(OP_NL, 0, 0);
+    } else if (k == N_BOL) {
+        emit(OP_BOL, 0, 0);
+    } else if (k == N_EOL) {
+        emit(OP_EOL, 0, 0);
+    } else if (k == N_BOW) {
+        emit(OP_BOW, 0, 0);
+    } else if (k == N_EOW) {
+        emit(OP_EOW, 0, 0);
+    } else if (k == N_ZS) {
+        emit(OP_ZS, 0, 0);
+    } else if (k == N_ZE) {
+        emit(OP_ZE, 0, 0);
+    } else if (k == N_BOF) {
+        emit(OP_BOF, 0, 0);
+    } else if (k == N_EOF) {
+        emit(OP_EOF, 0, 0);
+    } else if (k == N_LNUM) {
+        emit(OP_LNUM, na[n], nb[n]);
+    } else if (k == N_CNUM) {
+        emit(OP_CNUM, na[n], nb[n]);
+    } else if (k == N_VNUM) {
+        emit(OP_VNUM, na[n], nb[n]);
+    } else if (k == N_NEVER) {
+        emit(OP_FAIL, 0, 0);
+    } else if (k == N_EMPTY) {
+        // nothing
+    } else if (k == N_BACKREF) {
+        emit(OP_BACKREF, na[n], 0);
+    } else if (k == N_GROUP) {
+        emit(OP_SAVE, na[n] * 2, 0);
+        gen(nkids[n][0]);
+        emit(OP_SAVE, na[n] * 2 + 1, 0);
+    } else if (k == N_CAT) {
+        for (int kid in nkids[n]) {
+            gen(kid);
+        }
+    } else if (k == N_ALT) {
+        List<int> kids = nkids[n];
+        List<int> jumps = [];
+        for (int idx in 0 .. kids.size()) {
+            if (idx < kids.size() - 1) {
+                int split = emit(OP_SPLIT, 0, 0);
+                pa[split] = split + 1;
+                gen(kids[idx]);
+                jumps.push(emit(OP_JMP, 0, 0));
+                pb[split] = op.size();
+            } else {
+                gen(kids[idx]);
+            }
+        }
+        for (int j in jumps) {
+            pa[j] = op.size();
+        }
+    } else if (k == N_LOOK) {
+        int limit = nb[n];
+        if (limit < 0) {
+            limit = 0;
+        }
+        int look = emit(OP_LOOK, na[n] + 8 * limit, 0);
+        gen(nkids[n][0]);
+        emit(OP_SUBEND, 0, 0);
+        pb[look] = op.size();
+    } else if (k == N_REPEAT) {
+        gen_repeat(n);
+    }
+}
+
+void Regex.gen_repeat(int n) {
+    int lo = na[n];
+    int hi = nb[n];
+    bool greedy = nc[n] == 1;
+    int body = nkids[n][0];
+    bool empty = can_be_empty(body);
+    if (lo > 1000) {
+        lo = 1000;
+    }
+    if (hi > 1000) {
+        hi = 1000;
+    }
+    for (int rep in 0 .. lo) {
+        gen(body);
+    }
+    if (hi < 0) {
+        int guard = -1;
+        if (empty) {
+            guard = nguards;
+            nguards = nguards + 1;
+        }
+        int split = emit(OP_SPLIT, 0, 0);
+        if (guard >= 0) {
+            emit(OP_GSET, guard, 0);
+        }
+        gen(body);
+        if (guard >= 0) {
+            emit(OP_GCHK, guard, 0);
+        }
+        emit(OP_JMP, split, 0);
+        int after = op.size();
+        if (greedy) {
+            pa[split] = split + 1;
+            pb[split] = after;
+        } else {
+            pa[split] = after;
+            pb[split] = split + 1;
+        }
+    } else {
+        List<int> splits = [];
+        for (int rep in lo .. hi) {
+            int split = emit(OP_SPLIT, 0, 0);
+            splits.push(split);
+            gen(body);
+        }
+        int after = op.size();
+        for (int split in splits) {
+            if (greedy) {
+                pa[split] = split + 1;
+                pb[split] = after;
+            } else {
+                pa[split] = after;
+                pb[split] = split + 1;
+            }
+        }
+    }
+}
+
+Run Regex.runner(MED_buffer.Buffer buf) {
+    Run run = Run(buf);
+    run.nlines = buf.line_count();
+    run.gbase = (ngroups + 1) * 2;
+    return run;
+}
+
+int Regex.runner_slots() {
+    return (ngroups + 1) * 2 + nguards;
+}
+
+/// A match starting exactly at (row, col), or `ok == false`.
+pub Match Regex.match_at(MED_buffer.Buffer buf, int row, int col) {
+    Run run = runner(buf);
+    int ci = run.cp_index(row, col);
+    if (go_start(run, row, ci)) {
+        return run.result(this, row, ci);
+    }
+    Match none = Match();
+    none.aborted = run.aborted;
+    return none;
+}
+
+bool Regex.go_start(Run run, int row, int ci) {
+    run.saves = [];
+    for (int k in 0 .. runner_slots()) {
+        run.saves.push(-1);
+    }
+    run.st = [];
+    return run.go(this, 0, row, ci);
+}
+
+/// The first match in `row` that starts at byte column `col` or later.
+pub Match Regex.search_line(MED_buffer.Buffer buf, int row, int col) {
+    Run run = runner(buf);
+    run.load(row);
+    int n = run.cps.size();
+    int ci = run.cp_index(row, col);
+    while (ci <= n) {
+        bool try_here = true;
+        if (first >= 0) {
+            try_here = ci < n && run.cps[ci] == first;
+        }
+        if (try_here) {
+            if (go_start(run, row, ci)) {
+                return run.result(this, row, ci);
+            }
+            if (run.aborted) {
+                break;
+            }
+            run.load(row);
+        }
+        ci = ci + 1;
+        while (ci < n && is_combining(run.cps[ci])) {
+            ci = ci + 1;
+        }
+    }
+    Match none = Match();
+    none.aborted = run.aborted;
+    return none;
+}
+
+// ------------------------------------------------------------ tiny helpers
+
+bool is_combining(int cp) {
+    if (cp < 768) {
+        return false;
+    }
+    return (cp >= 768 && cp <= 879) || (cp >= 6832 && cp <= 6911) || (cp >= 7616 && cp <= 7679) || (cp >= 8400 && cp <= 8447) || (cp >= 65024 && cp <= 65039) || (cp >= 65056 && cp <= 65071) || cp == 8205;
+}
+
+int utf8_len(int cp) {
+    if (cp < 128) {
+        return 1;
+    }
+    if (cp < 2048) {
+        return 2;
+    }
+    if (cp < 65536) {
+        return 3;
+    }
+    return 4;
+}
+
+bool is_alpha(int c) {
+    return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
+}
+
+bool is_digit(int c) {
+    return c >= 48 && c <= 57;
+}
+
+bool is_hex(int c) {
+    return is_digit(c) || (c >= 97 && c <= 102) || (c >= 65 && c <= 70);
+}
+
+int fold(int c) {
+    return MED_case.lower_cp(c);
+}
+
+bool class_ok(int letter, int c) {
+    bool negate = letter >= 65 && letter <= 90;
+    int low = letter;
+    if (negate) {
+        low = letter + 32;
+    }
+    bool r = false;
+    if (letter == 73 || letter == 75 || letter == 70 || letter == 80) {
+        // I K F P: like i k f p without digits
+        int base = letter + 32;
+        return !is_digit(c) && class_ok(base, c);
+    }
+    if (low == 105) {
+        r = is_alpha(c) || is_digit(c) || c == 95 || (c >= 192 && c <= 255);
+    } else if (low == 107) {
+        r = MED_text.class_of(c) >= 2 && c > 0;
+    } else if (low == 102) {
+        r = is_alpha(c) || is_digit(c) || c == 47 || c == 46 || c == 45 || c == 95 || c == 43 || c == 44 || c == 35 || c == 36 || c == 37 || c == 126 || c == 61 || c >= 192;
+    } else if (low == 112) {
+        r = (c >= 32 && c != 127 && c < 128) || c >= 160;
+    } else if (low == 115) {
+        r = c == 32 || c == 9;
+    } else if (low == 100) {
+        r = is_digit(c);
+    } else if (low == 120) {
+        r = is_hex(c);
+    } else if (low == 111) {
+        r = c >= 48 && c <= 55;
+    } else if (low == 119) {
+        r = is_alpha(c) || is_digit(c) || c == 95;
+    } else if (low == 104) {
+        r = is_alpha(c) || c == 95;
+    } else if (low == 97) {
+        r = is_alpha(c);
+    } else if (low == 108) {
+        r = c >= 97 && c <= 122;
+    } else if (low == 117) {
+        r = c >= 65 && c <= 90;
+    }
+    if (negate) {
+        return !r;
+    }
+    return r;
+}
+
+// ------------------------------------------------------------------ parser
+
+bool default_magic(int magic, int ch) {
+    if (ch == 46 || ch == 91 || ch == 126 || ch == 42) {
+        return magic >= 2;
+    }
+    if (ch == 40 || ch == 41 || ch == 123 || ch == 37 || ch == 43 || ch == 61 || ch == 63 || ch == 64 || ch == 38 || ch == 124 || ch == 60 || ch == 62) {
+        return magic == 3;
+    }
+    return false;
+}
+
+const str CLASS_LETTERS = "iIkKfFpPsSdDxXoOwWhHaAlLuU";
+
+bool is_class_letter(int ch) {
+    if (ch < 65 || ch > 122) {
+        return false;
+    }
+    for (int m in CLASS_LETTERS.chars()) {
+        if (m == ch) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const str META = "%&()*+.123456789<=>?@ACDFIKLMOPSUVWXZ[_acdfhiklmnopsuvwxz{|~";
+
+bool is_meta(int ch) {
+    if (ch > 126) {
+        return false;
+    }
+    for (int m in META.chars()) {
+        if (m == ch) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// -------------------------------------------------------------- code gen
+
+bool has_upper(List<int> chars) {
+    int i = 0;
+    int n = chars.size();
+    while (i < n) {
+        int ch = chars[i];
+        if (ch == 92) {
+            if (i + 2 < n && (chars[i + 1] == 95 || chars[i + 1] == 37)) {
+                i = i + 3;
+            } else if (i + 1 < n) {
+                i = i + 2;
+            } else {
+                i = i + 1;
+            }
+        } else if (MED_case.lower_cp(ch) != ch) {
+            return true;
+        } else {
+            i = i + 1;
+        }
+    }
+    return false;
+}
+
+/// Compile `pattern`. `tilde` is the text `~` stands for (the last
+/// substitute string). Check `ok` before use.
+pub Regex compile(str pattern, bool ignorecase, bool smartcase, str tilde) {
+    Regex re = Regex();
+    re.c = pattern.chars();
+    re.tilde = tilde;
+    int root = re.parse_alt(0);
+    if (re.ok) {
+        re.peek();
+        if (re.tok != -1) {
+            re.fail("E55: Unmatched \\)");
+        }
+    }
+    if (!re.ok) {
+        return re;
+    }
+    bool ic = ignorecase;
+    if (ignorecase && smartcase && has_upper(re.c)) {
+        ic = false;
+    }
+    if (re.icase_flag == 1) {
+        ic = true;
+    } else if (re.icase_flag == 0) {
+        ic = false;
+    }
+    re.icase = ic;
+    re.gen(root);
+    re.emit(OP_MATCH, 0, 0);
+    // a leading literal lets the scan skip start positions
+    if (re.op.size() > 0 && re.op[0] == OP_CHAR && !ic) {
+        re.first = re.pa[0];
+    }
+    return re;
+}
+
+// ----------------------------------------------------------------- matcher
+
+type Run {
+    pub MED_buffer.Buffer buf;
+    pub int row = -1;
+    pub int ci = 0;
+    pub List<int> cps = [];
+    pub int nlines = 0;
+    pub List<int> saves = [];
+    pub List<int> st = [];
+    pub int steps = 0;
+    pub bool aborted = false;
+    pub int end_row = 0;
+    pub int end_ci = 0;
+    pub int target = -1;
+    pub int gbase = 0;
+}
+
+void Run.load(int r) {
+    if (r == row) {
+        return;
+    }
+    row = r;
+    if (r >= nlines || r < 0) {
+        cps = [];
+    } else {
+        cps = buf.line(r).chars();
+    }
+}
+
+int Run.cur() {
+    return pack(row, ci);
+}
+
+void Run.goto_pos(int p) {
+    load(p / SHIFT);
+    ci = p % SHIFT;
+}
+
+// Move over the line break at the end of the line. False when not at one.
+bool Run.step_nl() {
+    if (ci != cps.size() || row >= nlines) {
+        return false;
+    }
+    load(row + 1);
+    ci = 0;
+    return true;
+}
+
+// Step over one character and any combining marks after it.
+void Run.step_char() {
+    ci = ci + 1;
+    while (ci < cps.size() && is_combining(cps[ci])) {
+        ci = ci + 1;
+    }
+}
+
+void Run.set_slot(int slot, int value) {
+    st.push(1);
+    st.push(slot);
+    st.push(saves[slot]);
+    saves[slot] = value;
+}
+
+void Run.unwind(int base) {
+    while (st.size() > base) {
+        int y = st.pop();
+        int x = st.pop();
+        int kind = st.pop();
+        if (kind == 1) {
+            saves[x] = y;
+        }
+    }
+}
+
+// Drop the choice points above `base`, keep the undo records.
+void Run.discard(int base) {
+    List<int> keep = [];
+    int j = base;
+    while (j < st.size()) {
+        if (st[j] == 1) {
+            keep.push(st[j]);
+            keep.push(st[j + 1]);
+            keep.push(st[j + 2]);
+        }
+        j = j + 3;
+    }
+    while (st.size() > base) {
+        st.pop();
+    }
+    for (int v in keep) {
+        st.push(v);
+    }
+}
+
+List<int> Run.group_cps(int s, int e) {
+    List<int> out = [];
+    int r = s / SHIFT;
+    int x = s % SHIFT;
+    int er = e / SHIFT;
+    int ex = e % SHIFT;
+    while (r < er || (r == er && x < ex)) {
+        List<int> line = [];
+        if (r < nlines) {
+            line = buf.line(r).chars();
+        }
+        if (r == er) {
+            while (x < ex) {
+                out.push(line[x]);
+                x = x + 1;
+            }
+        } else {
+            while (x < line.size()) {
+                out.push(line[x]);
+                x = x + 1;
+            }
+            out.push(-2);
+            r = r + 1;
+            x = 0;
+        }
+    }
+    return out;
+}
+
+bool Run.set_ok(Regex re, int idx, int ch, bool icase) {
+    List<int> lo = re.set_lo[idx];
+    List<int> hi = re.set_hi[idx];
+    bool hit = false;
+    int alt1 = ch;
+    int alt2 = ch;
+    if (icase) {
+        alt1 = MED_case.lower_cp(ch);
+        alt2 = MED_case.upper_cp(ch);
+    }
+    for (int k in 0 .. lo.size()) {
+        if ((ch >= lo[k] && ch <= hi[k]) || (alt1 >= lo[k] && alt1 <= hi[k]) || (alt2 >= lo[k] && alt2 <= hi[k])) {
+            hit = true;
+            break;
+        }
+    }
+    return hit != re.set_neg[idx];
+}
+
+bool Run.byte_col_ok(int cmp, int want, int value) {
+    if (cmp == 1) {
+        return value < want;
+    }
+    if (cmp == 2) {
+        return value > want;
+    }
+    return value == want;
+}
+
+// Run the program from `pc0` at (r0, c0). True at OP_MATCH (or OP_SUBEND whose
+// position is `target`); the end is in `end_row`/`end_ci`.
+bool Run.go(Regex re, int pc0, int r0, int c0) {
+    int base = st.size();
+    int pc = pc0;
+    load(r0);
+    ci = c0;
+    while (true) {
+        steps = steps + 1;
+        if (steps > STEP_LIMIT) {
+            aborted = true;
+            unwind(base);
+            return false;
+        }
+        int opc = re.op[pc];
+        bool good = true;
+        if (opc == OP_CHAR) {
+            if (ci < cps.size()) {
+                int ch = cps[ci];
+                if (re.icase) {
+                    ch = fold(ch);
+                }
+                if (ch == re.pa[pc]) {
+                    ci = ci + 1;
+                    if (ci < cps.size() && is_combining(cps[ci])) {
+                        bool named = false;
+                        if (pc + 1 < re.op.size() && re.op[pc + 1] == OP_CHAR && is_combining(re.pa[pc + 1])) {
+                            named = true;
+                        }
+                        if (!named && !is_combining(re.pa[pc])) {
+                            good = false;
+                        }
+                    }
+                } else {
+                    good = false;
+                }
+            } else {
+                good = false;
+            }
+            pc = pc + 1;
+        } else if (opc == OP_ANY) {
+            if (ci < cps.size()) {
+                step_char();
+            } else if (re.pa[pc] == 1 && step_nl()) {
+                // crossed the line break
+            } else {
+                good = false;
+            }
+            pc = pc + 1;
+        } else if (opc == OP_CLASS) {
+            if (ci < cps.size()) {
+                if (class_ok(re.pa[pc], cps[ci])) {
+                    step_char();
+                } else {
+                    good = false;
+                }
+            } else if (re.pb[pc] == 1 && step_nl()) {
+                // crossed the line break
+            } else {
+                good = false;
+            }
+            pc = pc + 1;
+        } else if (opc == OP_SET) {
+            if (ci < cps.size()) {
+                if (set_ok(re, re.pa[pc], cps[ci], re.icase)) {
+                    step_char();
+                } else {
+                    good = false;
+                }
+            } else if (re.set_nl[re.pa[pc]] && step_nl()) {
+                // crossed the line break
+            } else {
+                good = false;
+            }
+            pc = pc + 1;
+        } else if (opc == OP_NL) {
+            good = step_nl();
+            pc = pc + 1;
+        } else if (opc == OP_BOL) {
+            good = ci == 0;
+            pc = pc + 1;
+        } else if (opc == OP_EOL) {
+            good = ci == cps.size();
+            pc = pc + 1;
+        } else if (opc == OP_BOW) {
+            if (ci >= cps.size()) {
+                good = false;
+            } else {
+                int cls = MED_text.class_of(cps[ci]);
+                if (cls <= 1) {
+                    good = false;
+                } else if (ci > 0 && MED_text.class_of(cps[ci - 1]) == cls) {
+                    good = false;
+                }
+            }
+            pc = pc + 1;
+        } else if (opc == OP_EOW) {
+            if (ci == 0) {
+                good = false;
+            } else {
+                int cls = 0;
+                if (ci < cps.size()) {
+                    cls = MED_text.class_of(cps[ci]);
+                }
+                int prev = MED_text.class_of(cps[ci - 1]);
+                if (cls == prev || prev <= 1) {
+                    good = false;
+                }
+            }
+            pc = pc + 1;
+        } else if (opc == OP_ZS) {
+            set_slot(0, cur());
+            pc = pc + 1;
+        } else if (opc == OP_ZE) {
+            set_slot(1, cur());
+            pc = pc + 1;
+        } else if (opc == OP_SAVE) {
+            set_slot(re.pa[pc], cur());
+            pc = pc + 1;
+        } else if (opc == OP_BACKREF) {
+            int s = saves[re.pa[pc] * 2];
+            int e = saves[re.pa[pc] * 2 + 1];
+            if (s >= 0 && e >= 0) {
+                List<int> text = group_cps(s, e);
+                for (int want in text) {
+                    if (want == -2) {
+                        if (!step_nl()) {
+                            good = false;
+                            break;
+                        }
+                    } else if (ci < cps.size() && (cps[ci] == want || (re.icase && fold(cps[ci]) == fold(want)))) {
+                        ci = ci + 1;
+                    } else {
+                        good = false;
+                        break;
+                    }
+                }
+            }
+            pc = pc + 1;
+        } else if (opc == OP_SPLIT) {
+            st.push(0);
+            st.push(re.pb[pc]);
+            st.push(cur());
+            pc = re.pa[pc];
+        } else if (opc == OP_JMP) {
+            pc = re.pa[pc];
+        } else if (opc == OP_GSET) {
+            set_slot(gbase + re.pa[pc], cur());
+            pc = pc + 1;
+        } else if (opc == OP_GCHK) {
+            good = saves[gbase + re.pa[pc]] != cur();
+            pc = pc + 1;
+        } else if (opc == OP_BOF) {
+            good = row == 0 && ci == 0;
+            pc = pc + 1;
+        } else if (opc == OP_EOF) {
+            good = row >= nlines - 1 && ci == cps.size();
+            pc = pc + 1;
+        } else if (opc == OP_LNUM) {
+            good = byte_col_ok(re.pb[pc], re.pa[pc], row + 1);
+            pc = pc + 1;
+        } else if (opc == OP_CNUM) {
+            int nbytes = 0;
+            for (int k in 0 .. ci) {
+                nbytes = nbytes + utf8_len(cps[k]);
+            }
+            good = byte_col_ok(re.pb[pc], re.pa[pc], nbytes + 1);
+            pc = pc + 1;
+        } else if (opc == OP_VNUM) {
+            int nbytes = 0;
+            for (int k in 0 .. ci) {
+                nbytes = nbytes + utf8_len(cps[k]);
+            }
+            good = byte_col_ok(re.pb[pc], re.pa[pc], MED_text.display_col(buf.line(row), nbytes, 8) + 1);
+            pc = pc + 1;
+        } else if (opc == OP_FAIL) {
+            good = false;
+        } else if (opc == OP_LOOK) {
+            int kind = re.pa[pc] % 8;
+            int after = re.pb[pc];
+            int here = cur();
+            int saved_target = target;
+            int sub_base = st.size();
+            bool found = false;
+            if (kind == LK_AHEAD || kind == LK_NOT_AHEAD || kind == LK_ATOMIC) {
+                target = -1;
+                found = go(re, pc + 1, row, ci);
+                target = saved_target;
+                if (found && kind == LK_ATOMIC) {
+                    // the match consumed: continue after its end
+                    int er = end_row;
+                    int ec = end_ci;
+                    discard(sub_base);
+                    load(er);
+                    ci = ec;
+                } else {
+                    goto_pos(here);
+                    if (found) {
+                        if (kind == LK_NOT_AHEAD) {
+                            unwind(sub_base);
+                        } else {
+                            discard(sub_base);
+                        }
+                    }
+                }
+            } else {
+                int hr = here / SHIFT;
+                int hc = here % SHIFT;
+                int limit = re.pa[pc] / 8;
+                target = here;
+                int s = hc;
+                while (s >= 0 && !found) {
+                    if (limit > 0 && hc - s > limit) {
+                        break;
+                    }
+                    found = go(re, pc + 1, hr, s);
+                    if (!found) {
+                        s = s - 1;
+                    }
+                }
+                if (!found && hr > 0 && !aborted) {
+                    load(hr - 1);
+                    int plen = cps.size();
+                    int s2 = plen;
+                    while (s2 >= 0 && !found) {
+                        found = go(re, pc + 1, hr - 1, s2);
+                        if (!found) {
+                            s2 = s2 - 1;
+                        }
+                    }
+                }
+                target = saved_target;
+                goto_pos(here);
+                if (found) {
+                    if (kind == LK_NOT_BEHIND) {
+                        unwind(sub_base);
+                    } else {
+                        discard(sub_base);
+                    }
+                }
+            }
+            if (aborted) {
+                unwind(base);
+                return false;
+            }
+            if (kind == LK_NOT_AHEAD || kind == LK_NOT_BEHIND) {
+                good = !found;
+            } else {
+                good = found;
+            }
+            pc = after;
+        } else if (opc == OP_SUBEND) {
+            if (target >= 0 && cur() != target) {
+                good = false;
+            } else {
+                end_row = row;
+                end_ci = ci;
+                discard(base);
+                return true;
+            }
+        } else if (opc == OP_MATCH) {
+            end_row = row;
+            end_ci = ci;
+            discard(base);
+            return true;
+        }
+        if (!good) {
+            bool resumed = false;
+            while (st.size() > base) {
+                int y = st.pop();
+                int x = st.pop();
+                int kind = st.pop();
+                if (kind == 1) {
+                    saves[x] = y;
+                } else {
+                    pc = x;
+                    goto_pos(y);
+                    resumed = true;
+                    break;
+                }
+            }
+            if (!resumed) {
+                return false;
+            }
+        }
+    }
+}
+
+int Run.bytes_to(int r, int x) {
+    if (r >= nlines) {
+        return 0;
+    }
+    List<int> line = buf.line(r).chars();
+    int total = 0;
+    int lim = x;
+    if (lim > line.size()) {
+        lim = line.size();
+    }
+    for (int k in 0 .. lim) {
+        total = total + utf8_len(line[k]);
+    }
+    return total;
+}
+
+int Run.cp_index(int r, int bytecol) {
+    if (r >= nlines) {
+        return 0;
+    }
+    List<int> line = buf.line(r).chars();
+    int total = 0;
+    int k = 0;
+    while (k < line.size() && total < bytecol) {
+        total = total + utf8_len(line[k]);
+        k = k + 1;
+    }
+    return k;
+}
+
+str Run.text_between(int s, int e) {
+    List<int> text = group_cps(s, e);
+    List<int> out = [];
+    for (int v in text) {
+        if (v == -2) {
+            out.push(10);
+        } else {
+            out.push(v);
+        }
+    }
+    return str.from_chars(out);
+}
+
+Match Run.result(Regex re, int srow, int sci) {
+    Match m = Match();
+    m.ok = true;
+    int start = pack(srow, sci);
+    int stop = pack(end_row, end_ci);
+    if (saves[0] >= 0) {
+        start = saves[0];
+    }
+    if (saves[1] >= 0) {
+        stop = saves[1];
+    }
+    if (stop < start) {
+        stop = start;
+    }
+    m.srow = start / SHIFT;
+    m.erow = stop / SHIFT;
+    m.scol = bytes_to(m.srow, start % SHIFT);
+    m.ecol = bytes_to(m.erow, stop % SHIFT);
+    m.groups.push(text_between(start, stop));
+    for (int g in 1 .. 10) {
+        if (g <= re.ngroups && saves[g * 2] >= 0 && saves[g * 2 + 1] >= 0) {
+            m.groups.push(text_between(saves[g * 2], saves[g * 2 + 1]));
+        } else {
+            m.groups.push("");
+        }
+    }
+    return m;
+}
+
+int pack(int row, int ci) {
+    return row * SHIFT + ci;
+}
+
+// ---------------------------------------------------------------- results

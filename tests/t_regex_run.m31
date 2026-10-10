@@ -1,0 +1,76 @@
+// The engine half of the regex oracle (tests/oracles/oracle_regex.py).
+//
+// Usage: t_regex_run CASES_FILE
+//
+// A case line is tab separated: index, hex(pattern), hex(text), flags where
+// flags holds `i` (ignorecase) and `s` (smartcase). The result line is
+// `index  start  end  hex(whole);hex(\1);...;hex(\9)` for the leftmost match
+// (byte offsets, `\zs`/`\ze` applied), `index none` for no match and
+// `index err` when the pattern does not compile. nvim_regex.lua prints the same.
+
+import MED_regex;
+import MED_buffer;
+import hexcodec;
+import io;
+import os;
+
+str hex_of(str text) {
+    return hexcodec.encode(text.to_bytes());
+}
+
+str unhex(str digits) {
+    match (hexcodec.decode(digits)) {
+        case Ok(bytes b): {
+            match (b.utf8()) {
+                case Some(str s): {
+                    return s;
+                }
+                case None: {
+                    return "";
+                }
+            }
+        }
+        case Err(hexcodec.Error e): {
+            return "";
+        }
+    }
+}
+
+str run_case(str line) {
+    List<str> f = line.split("\t");
+    str pat = unhex(f[1]);
+    str text = unhex(f[2]);
+    str flags = "";
+    if (f.size() > 3) {
+        flags = f[3];
+    }
+    MED_regex.Regex re = MED_regex.compile(pat, flags.index_of("i").is_some(), flags.index_of("s").is_some(), "");
+    if (!re.ok) {
+        return f[0] + "\terr";
+    }
+    MED_buffer.Buffer buf = MED_buffer.load(text);
+    MED_regex.Match m = re.search_line(buf, 0, 0);
+    if (!m.ok) {
+        return f[0] + "\tnone";
+    }
+    List<str> parts = [];
+    for (str g in m.groups) {
+        parts.push(hex_of(g));
+    }
+    return f[0] + "\t" + m.scol.to_str() + "\t" + m.ecol.to_str() + "\t" + parts.join(";");
+}
+
+List<str> arguments = os.args();
+match (io.read(arguments[1])) {
+    case Ok(str content): {
+        for (str line in content.split("\n")) {
+            if (line.size() > 0) {
+                print(run_case(line));
+            }
+        }
+    }
+    case Err(io.Error e): {
+        print("error reading cases: " + e.to_str());
+        os.exit(2);
+    }
+}
