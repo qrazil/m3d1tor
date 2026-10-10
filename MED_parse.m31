@@ -98,7 +98,7 @@ int motion_len(List<int> keys, int j, bool with_objects) {
             return 0;
         }
         int second = keys[j + 1];
-        if (second == 103 || second == 101 || second == 69 || second == 95 || second == 106 || second == 107 || second == 48 || second == 94 || second == 36 || second == 109 || second == 77 || second == 111) {
+        if (second == 103 || second == 101 || second == 69 || second == 95 || second == 106 || second == 107 || second == 48 || second == 94 || second == 36 || second == 109 || second == 77 || second == 111 || second == 42 || second == 35) {
             return 2;
         }
         if (second == 39 || second == 96) {

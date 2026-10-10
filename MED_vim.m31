@@ -20,6 +20,7 @@ import MED_textobj;
 import MED_key;
 import MED_case;
 import MED_view;
+import MED_search;
 
 void fail(MED_editor.Editor ed) {
     ed.failed = true;
@@ -307,6 +308,192 @@ MED_motion.Motion line_end(MED_editor.Editor ed, int count) {
     return m;
 }
 
+// A finished search as a motion.
+MED_motion.Motion search_result(MED_editor.Editor ed, MED_search.Outcome r) {
+    if (!r.ok) {
+        ed.message = r.error;
+        return MED_motion.failed();
+    }
+    MED_motion.Motion m = motion_at(ed);
+    m.row = r.row;
+    m.col = r.col;
+    m.jump = true;
+    m.inclusive = r.inclusive;
+    int size = ed.buf.line_size(m.row);
+    if (m.col > 0 && m.col >= size) {
+        // `/$` lands after the last character: check_cursor() pulls it back
+        m.col = MED_text.last_col(ed.buf.line(m.row));
+    }
+    m.linewise = r.kind == 2;
+    return m;
+}
+
+// The position of mark `name`, if it is set.
+Option<MED_buffer.Pos> mark_pos(MED_editor.Editor ed, int name) {
+    str key = str.from_chars([name]);
+    if (name == 96) {
+        key = "'";
+    }
+    Option<MED_buffer.Pos> found = ed.marks.get(key);
+    match (found) {
+        case Some(MED_buffer.Pos p): {
+            if (p.row >= ed.buf.line_count()) {
+                return Option<MED_buffer.Pos>.None;
+            }
+            return found;
+        }
+        case None: {
+            if (key == "'") {
+                return Option<MED_buffer.Pos>.Some(MED_buffer.Pos(0, 0));
+            }
+            return found;
+        }
+    }
+}
+
+// `'x` `` `x `` g'x g`x
+MED_motion.Motion mark_motion(MED_editor.Editor ed, int cmd, int name, bool linewise, bool jumps) {
+    Option<MED_buffer.Pos> found = mark_pos(ed, name);
+    match (found) {
+        case Some(MED_buffer.Pos p): {
+            MED_motion.Motion m = motion_at(ed);
+            m.row = p.row;
+            m.col = p.col;
+            m.jump = jumps;
+            if (linewise) {
+                m.linewise = true;
+                m.col = first_nonblank_fix(ed.buf.line(p.row));
+            } else if (m.col > ed.buf.line_size(p.row)) {
+                m.col = ed.buf.line_size(p.row);
+            }
+            return m;
+        }
+        case None: {
+            ed.message = "E20: Mark not set";
+            return MED_motion.failed();
+        }
+    }
+}
+
+// `%`: the matching bracket, or with a count that percent of the file.
+MED_motion.Motion percent_motion(MED_editor.Editor ed, int count) {
+    MED_motion.Motion m = motion_at(ed);
+    m.inclusive = true;
+    m.jump = true;
+    if (count > 0) {
+        if (count > 100) {
+            return MED_motion.failed();
+        }
+        m.linewise = true;
+        int n = ed.buf.line_count();
+        int lnum = (n * count + 99) / 100;
+        if (lnum < 1) {
+            lnum = 1;
+        }
+        if (lnum > n) {
+            lnum = n;
+        }
+        m.row = lnum - 1;
+        m.col = first_nonblank_fix(ed.buf.line(m.row));
+        m.inclusive = false;
+        return m;
+    }
+    MED_buffer.Pos p = MED_search.findmatch(ed.buf, ed.row, ed.col, 0, 0);
+    if (p.row < 0) {
+        return MED_motion.failed();
+    }
+    m.row = p.row;
+    m.col = p.col;
+    return m;
+}
+
+// `[(` `[{` `])` `]}`
+MED_motion.Motion bracket_motion(MED_editor.Editor ed, int first, int second, int count) {
+    MED_motion.Motion m = motion_at(ed);
+    int dir = 1;
+    if (first == 91) {
+        dir = -1;
+    }
+    int row = ed.row;
+    int col = ed.col;
+    bool any = false;
+    for (int i in 0 .. count1(count)) {
+        MED_buffer.Pos p = MED_search.findmatch(ed.buf, row, col, second, dir);
+        if (p.row < 0) {
+            break;
+        }
+        row = p.row;
+        col = p.col;
+        any = true;
+    }
+    if (!any) {
+        return MED_motion.failed();
+    }
+    m.row = row;
+    m.col = col;
+    m.jump = true;
+    return m;
+}
+
+// `[[` `]]` `[]` `][`: the previous / next line that starts with `{` or `}`.
+MED_motion.Motion section_motion(MED_editor.Editor ed, int first, int second, int count) {
+    int dir = 1;
+    if (first == 91) {
+        dir = -1;
+    }
+    int what = 123;
+    if (first != second) {
+        what = 125;
+    }
+    int curr = ed.row;
+    int left = count1(count);
+    while (left > 0) {
+        left = left - 1;
+        bool did_skip = false;
+        bool at_first = true;
+        while (true) {
+            str line = ed.buf.line(curr);
+            if (line.size() != 0) {
+                did_skip = true;
+            }
+            if (!at_first && did_skip && line.size() > 0 && (line.byte_at(0) == what || line.byte_at(0) == 12)) {
+                break;
+            }
+            curr = curr + dir;
+            if (curr < 0 || curr >= ed.buf.line_count()) {
+                if (left > 0) {
+                    return MED_motion.failed();
+                }
+                curr = curr - dir;
+                break;
+            }
+            at_first = false;
+        }
+    }
+    MED_motion.Motion m = motion_at(ed);
+    m.row = curr;
+    m.col = 0;
+    m.jump = true;
+    if (curr == ed.buf.line_count() - 1 && what != 125 && dir > 0) {
+        str line = ed.buf.line(curr);
+        if (line.size() != 0) {
+            m.col = MED_text.last_col(line);
+            m.inclusive = true;
+        }
+    }
+    return m;
+}
+
+// `n` and `N`.
+MED_motion.Motion next_match(MED_editor.Editor ed, bool reverse, int count) {
+    MED_search.Outcome r = MED_search.search_command(ed, 0, "", count1(count), reverse, false);
+    if (r.ok && !r.wrapped && r.row == ed.row && r.col == ed.col) {
+        // stuck on the cursor (an offset on the buffer's last character): once more
+        r = MED_search.search_command(ed, 0, "", count1(count) + 1, reverse, false);
+    }
+    return search_result(ed, r);
+}
+
 /// Execute the motion `keys` from the cursor. `op` is the pending operator
 /// name ("" for none). The result says where it lands and how an operator
 /// should treat the range.
@@ -415,10 +602,38 @@ pub MED_motion.Motion run_motion(MED_editor.Editor ed, List<int> keys, int count
     if (k == 44) {
         return char_find(ed, k, 0, count, true, true);
     }
+    if (k == 47 || k == 63) {
+        return search_result(ed, MED_search.search_command(ed, k, ed.search_typed, count1(count), false, true));
+    }
+    if (k == 110 || k == 78) {
+        return next_match(ed, k == 78, count);
+    }
+    if (k == 42 || k == 35) {
+        return search_result(ed, MED_search.star(ed, k, true, count1(count)));
+    }
+    if (k == 37) {
+        return percent_motion(ed, count);
+    }
+    if (k == 39 || k == 96) {
+        return mark_motion(ed, k, keys[1], k == 39, true);
+    }
+    if (k == 91 || k == 93) {
+        int second = keys[1];
+        if (second == 91 || second == 93) {
+            return section_motion(ed, k, second, count);
+        }
+        return bracket_motion(ed, k, second, count);
+    }
     if (k == 103) {
         int second = keys[1];
         if (second == 103) {
             return goto_line(ed, count, 0);
+        }
+        if (second == 42 || second == 35) {
+            return search_result(ed, MED_search.star(ed, second, false, count1(count)));
+        }
+        if (second == 39 || second == 96) {
+            return mark_motion(ed, second, keys[2], second == 39, false);
         }
         if (second == 101 || second == 69) {
             MED_motion.Cur c = MED_motion.Cur(ed.buf, ed.row, ed.col);
@@ -453,15 +668,58 @@ pub MED_motion.Motion run_motion(MED_editor.Editor ed, List<int> keys, int count
             e.want = -2;
             return e;
         }
-        if (second == 106) {
-            return move_vertical(ed, count1(count));
-        }
-        if (second == 107) {
-            return move_vertical(ed, 0 - count1(count));
+        if (second == 106 || second == 107) {
+            // a screen-line move: charwise (lines here never wrap)
+            int delta = count1(count);
+            if (second == 107) {
+                delta = 0 - delta;
+            }
+            MED_motion.Motion v = move_vertical(ed, delta);
+            v.linewise = false;
+            return v;
         }
         if (second == 48 || second == 94 || second == 36) {
             List<int> single = [second];
             return run_motion(ed, single, 0, op);
+        }
+        if (second == 109 || second == 77) {
+            // gm: half a screen (80 columns) in; gM: `count` percent of the line's width
+            str line = ed.buf.line(ed.row);
+            int target = 40;
+            if (second == 77) {
+                int total = MED_text.line_width(line, ed.tab);
+                if (count > 0 && count <= 100) {
+                    target = total * count / 100;
+                } else {
+                    target = total / 2;
+                }
+            }
+            m.col = MED_text.col_at_display(line, target, ed.tab);
+            m.want = -2;
+            return m;
+        }
+        if (second == 111) {
+            // go: byte `count` (1-based) of the buffer, newlines counting one
+            int left = count1(count) - 1;
+            int row = 0;
+            while (row < ed.buf.line_count() - 1 && left > ed.buf.line_size(row)) {
+                left = left - ed.buf.line_size(row) - 1;
+                row = row + 1;
+            }
+            int col = left;
+            int size = ed.buf.line_size(row);
+            if (col > size) {
+                col = size;
+            }
+            if (col > 0 && col >= size) {
+                col = MED_text.last_col(ed.buf.line(row));
+            } else if (col > 0) {
+                col = MED_text.snap(ed.buf.line(row), col);
+            }
+            m.row = row;
+            m.col = col;
+            m.jump = true;
+            return m;
         }
         return MED_motion.failed();
     }
@@ -551,6 +809,8 @@ void delete_lines(MED_editor.Editor ed, int first, int last) {
     } else {
         ed.change(MED_buffer.Pos(first, 0), MED_buffer.Pos(last + 1, 0), "");
     }
+    // deleting lines forgets the line "U" would restore
+    ed.uline_row = -1;
 }
 
 // Vim's op_yank: the register write for a yank.
@@ -570,6 +830,7 @@ bool op_delete(MED_editor.Editor ed, Oap oap) {
         return true;
     }
     bool is_delete = oap.op == "d";
+    bool converted = false;
     if (!oap.linewise && !oap.visual && oap.line_count > 1 && oap.force == 0 && is_delete) {
         str end_line = buf.line(oap.end.row);
         int at_end = oap.end.col;
@@ -582,6 +843,7 @@ bool op_delete(MED_editor.Editor ed, Oap oap) {
         }
         if (rest >= end_line.size() && in_indent(buf.line(oap.start.row), oap.start.col)) {
             oap.linewise = true;
+            converted = true;
         }
     }
     if (!oap.linewise && oap.line_count == 1 && is_delete && buf.line_size(oap.start.row) == 0) {
@@ -607,10 +869,20 @@ bool op_delete(MED_editor.Editor ed, Oap oap) {
             ed.change(MED_buffer.Pos(oap.start.row, keep), MED_buffer.Pos(oap.start.row, line.size()), "");
             ed.row = oap.start.row;
             ed.col = keep;
+            if (oap.end.row > oap.start.row) {
+                // after the lines went, Vim's "U" line is the emptied one
+                ed.uline_row = oap.start.row;
+                ed.uline_text = buf.line(oap.start.row);
+                ed.uline_col = keep;
+            }
         } else {
             delete_lines(ed, oap.start.row, oap.end.row);
             ed.row = MED_num.smaller(oap.start.row, buf.line_count() - 1);
-            ed.col = col_by_want(ed, ed.row, ed.want);
+            if (converted) {
+                ed.col = MED_num.smaller(oap.start.col, MED_text.last_col(buf.line(ed.row)));
+            } else {
+                ed.col = col_by_want(ed, ed.row, ed.want);
+            }
         }
     } else {
         MED_buffer.Pos to = exclusive_end(ed, oap);
@@ -998,6 +1270,8 @@ bool put_reg(MED_editor.Editor ed, MED_register.Reg reg0, int dir0, int count, b
     } else if (cursor_end) {
         ed.row = end.row;
         ed.col = end.col;
+    } else if (text.size() == 0) {
+        // Putting nothing leaves the cursor alone.
     } else {
         ed.row = end.row;
         ed.col = MED_text.prev_col(buf.line(end.row), end.col);
@@ -1026,7 +1300,7 @@ void apply_motion(MED_editor.Editor ed, MED_motion.Motion m) {
     }
 }
 
-const List<int> REG_ONE_MOTIONS = [37, 40, 41, 96, 47, 63, 110, 78, 123, 125];
+const List<int> REG_ONE_MOTIONS = [37, 40, 41, 96, 47, 63, 110, 78, 123, 125, 42, 35];
 
 // ---------------------------------------------------------------- operators
 
@@ -1116,8 +1390,10 @@ bool operate(MED_editor.Editor ed, str op, str reg, int count, List<int> keys, b
         inclusive = m.inclusive;
         no_adj = m.no_adj;
         if (m.want >= 0 || m.want == -1) {
-            // `|` and `$` set the wanted column outright; the rest leave it stale
+            // `|` and `$` set the wanted column outright; j/k leave it stale
             ed.want = m.want;
+            oap.object = true;
+        } else if (m.want == -2) {
             oap.object = true;
         }
         if (m.jump) {
@@ -1126,7 +1402,7 @@ bool operate(MED_editor.Editor ed, str op, str reg, int count, List<int> keys, b
         if (REG_ONE_MOTIONS.contains(keys[0])) {
             oap.reg_one = true;
         }
-        if (keys[0] == 103 && keys.size() > 1 && keys[1] == 39) {
+        if (keys[0] == 103 && keys.size() > 1 && (keys[1] == 39 || keys[1] == 42 || keys[1] == 35)) {
             oap.reg_one = true;
         }
     }
@@ -1282,6 +1558,9 @@ void ins_char(MED_editor.Editor ed, int cp) {
 
 // <CR> in insert mode: Vim's open_line for the cursor's line.
 void ins_cr(MED_editor.Editor ed) {
+    // a typed line break forgets the "U" line and nothing typed after it is saved
+    ed.uline_row = -1;
+    ed.uline_off = true;
     str line = ed.buf.line(ed.row);
     int cut = ed.col;
     int skip = ed.col;
@@ -1497,6 +1776,7 @@ void finish_insert(MED_editor.Editor ed) {
     if (ed.did_ai) {
         strip_autoindent(ed);
     }
+    ed.uline_off = false;
     str line = ed.buf.line(ed.row);
     ed.marks.set("^", MED_buffer.Pos(ed.row, ed.col));
     if (ed.col > 0) {
@@ -1573,6 +1853,11 @@ void ins_move(MED_editor.Editor ed, int key) {
     if (key == 63233 && ed.row + 1 >= ed.buf.line_count()) {
         return;
     }
+    if (ed.did_ai) {
+        strip_autoindent(ed);
+        line = ed.buf.line(ed.row);
+    }
+    ed.uline_off = false;
     ed.end_block();
     if (key == 63234) {
         ed.col = MED_text.prev_col(line, ed.col);
@@ -1823,6 +2108,18 @@ void record_dot(MED_editor.Editor ed, MED_parse.Parsed p) {
     ed.dot_reg = p.reg;
     ed.dot_count = p.count;
     ed.dot_body = p.body;
+    if (ed.search_ready && ed.dot_body.size() > 0) {
+        // `d/foo<CR>`: the pattern was typed on the command line, repeat it
+        int last = ed.dot_body[ed.dot_body.size() - 1];
+        if (last == 47 || last == 63) {
+            List<int> body = ed.dot_body.slice(0, ed.dot_body.size());
+            for (int cp in ed.search_typed.chars()) {
+                body.push(cp);
+            }
+            body.push(13);
+            ed.dot_body = body;
+        }
+    }
     ed.dot_tail = [];
     ed.dot_vkind = 0;
 }
@@ -2147,6 +2444,11 @@ void run_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
         ed.want_from_cursor();
     } else if (k == 117) {
         cmd_undo(ed, count, false);
+    } else if (k == 85) {
+        if (!ed.undo_line()) {
+            ed.failed = true;
+        }
+        ed.end_block();
     } else if (k == 18) {
         cmd_undo(ed, count, true);
     } else if (k == 46) {
@@ -3594,13 +3896,7 @@ void cmdline_key(MED_editor.Editor ed, int key) {
                 ed.end_block();
             }
         } else {
-            if (line != "") {
-                ed.search_pat = line;
-            }
-            ed.search_dir = 1;
-            if (kind == 63) {
-                ed.search_dir = -1;
-            }
+            ed.search_typed = line;
             ed.search_ready = true;
             ed.pending = saved;
             feed_pending(ed);

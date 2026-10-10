@@ -457,3 +457,4 @@ as Helix without its language intelligence", and the tag description must say so
 | G5 | No clipboard read, no process pipe to `wl-copy`/`xclip` | OSC 52 yank only |
 | G6 | `regex` has no backreferences/lookaround, `\d \w \s` ASCII-only | Vim `\1`, `\@=` etc. unsupported in `:s`/search |
 | G7 | `str` immutable, no function values, `match` only on enums | Design choices above (line array, enum dispatch); not blockers |
+| G8 | **Miscompile** (m31c 0.3.3 `--emit-c`, -O2): when both arms of an `if`/`else` start with the same assignment, that assignment is dropped. Repro: `int b(int x, bool open) { int i = x; int f = 0; if (open) { f = i; i = 1; } else { f = i; i = 2; } return f * 1000 + i; } print(b(40, true).to_str());` prints `1`, expected `40001` | Worked around by hoisting the shared assignment above the `if` (MED_search.findmatch). Needs a compiler fix |

@@ -111,6 +111,26 @@ pub type Editor {
     pub int search_dir = 1;
     pub str sub_pat = "";
     pub str sub_rep = "";
+    /// The pattern `n` and an empty `//` use is the substitute one (Vim's last_idx).
+    pub bool last_is_sub = false;
+    /// The search pattern was made by `*`: 'smartcase' does not apply to it.
+    pub bool search_no_scs = false;
+    /// The pattern about to be searched came from `*` (sets `search_no_scs`).
+    pub bool search_no_scs_next = false;
+    /// The last search offset: line offset, `e` offset and the number.
+    pub bool search_off_line = false;
+    pub bool search_off_end = false;
+    pub int search_off = 0;
+    /// What was typed after `/` or `?` (pattern, offset, `;` searches).
+    pub str search_typed = "";
+    /// The line `U` restores: its row, its text before the latest run of
+    /// single-line changes and the cursor column then (Vim's b_u_line_*).
+    pub int uline_row = -1;
+    pub str uline_text = "";
+    pub int uline_col = 0;
+    pub bool uline_off = false;
+    /// 'hlsearch' is suppressed until the next search (:noh).
+    pub bool no_hl = false;
     /// Last Visual selection, for gv.
     pub int last_vkind = 0;
     pub MED_buffer.Pos last_vstart = MED_buffer.Pos(0, 0);
@@ -185,9 +205,41 @@ pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos to, str re
         block = [];
         block_before = MED_buffer.Pos(row, col);
     }
+    if (!uline_off && from.row == to.row && uline_row != from.row && !replacement.index_of("\n").is_some()) {
+        // u_save() of a single line remembers it for `U`
+        uline_row = from.row;
+        uline_text = buf.line(from.row);
+        uline_col = 0;
+        if (row == from.row) {
+            uline_col = col;
+        }
+    }
     MED_buffer.Edit e = buf.splice(from, to, replacement);
     block.push(e);
     return e;
+}
+
+/// `U`: swap the saved line with the current text of that line.
+pub bool Editor.undo_line() {
+    if (uline_row < 0 || uline_row >= buf.line_count()) {
+        return false;
+    }
+    int at = uline_row;
+    str old = buf.line(at);
+    str saved_text = uline_text;
+    int saved_col = uline_col;
+    uline_off = true;
+    change(MED_buffer.Pos(at, 0), MED_buffer.Pos(at, old.size()), saved_text);
+    uline_off = false;
+    uline_text = old;
+    if (row == at) {
+        uline_col = col;
+    }
+    row = at;
+    col = saved_col;
+    clamp();
+    want_from_cursor();
+    return true;
 }
 
 /// Close the open undo block, if any, as one node of the tree.

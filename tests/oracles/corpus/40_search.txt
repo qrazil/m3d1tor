@@ -1,0 +1,283 @@
+# search motions
+foo bar foo baz foo	0,0	/foo<CR>
+foo bar foo baz foo	0,0	/foo<CR>n
+foo bar foo baz foo	0,0	/foo<CR>nN
+foo bar foo baz foo	0,0	2/foo<CR>
+foo bar foo baz foo	0,10	?foo<CR>
+foo bar foo baz foo	0,0	*
+foo bar foo baz foo	0,8	#
+foo bar foo baz foo	0,0	d/baz<CR>
+foo bar foo baz foo	0,0	/foo/e<CR>
+foo bar foo baz foo	0,0	/foo/e<CR>n
+foo bar foo baz foo	0,0	/bar/+1<CR>
+a\nfoo\nb\nfoo	0,0	/foo/+1<CR>
+a\nfoo\nb\nfoo	0,0	d/foo/+1<CR>
+a(b[c]d)e	0,1	%
+a(b[c]d)e	0,7	%
+a(b[c]d)e	0,3	[(
+a(b[c]d)e	0,3	])
+x\n{\n a\n}\ny	2,1	[{
+x\n{\n a\n}\ny	2,1	]}
+x\n{\n a\n}\ny	0,0	]]
+a b\nc d	0,0	ma<Esc>jmb'a
+a b\nc d	0,2	majl`a
+a b\nc d	0,2	majl'a
+a b\nc d	0,0	/b<CR>``
+a b\nc d	0,0	/$<CR>
+foo\nbar	0,0	/o\nb<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/e<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/e+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/s-1<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/b+2<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/-1<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	?foo?e<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	?foo?+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	//<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	?<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo/;/bar/<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	2/foo<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	3n
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo<CR>nn
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo<CR>N
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo<CR>2N
+foo bar foo baz\nbar foo\nlast foo line	0,0	g*
+foo bar foo baz\nbar foo\nlast foo line	0,0	g#
+foo bar foo baz\nbar foo\nlast foo line	0,0	*
+foo bar foo baz\nbar foo\nlast foo line	0,0	#
+foo bar foo baz\nbar foo\nlast foo line	0,0	d/foo/e<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	y/bar/+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	c/foo<CR>X<Esc>
+foo bar foo baz\nbar foo\nlast foo line	0,0	d/$<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/\n<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo\|bar<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	d#
+foo bar foo baz\nbar foo\nlast foo line	0,0	dg*
+foo bar foo baz\nbar foo\nlast foo line	0,0	/\cFOO<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/FOO<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	d/foo<CR>.
+foo bar foo baz\nbar foo\nlast foo line	0,0	d/foo<CR>u.
+foo bar foo baz\nbar foo\nlast foo line	0,0	/foo<CR>x.
+foo bar foo baz\nbar foo\nlast foo line	0,0	*x
+foo bar foo baz\nbar foo\nlast foo line	0,0	*n
+foo bar foo baz\nbar foo\nlast foo line	0,0	*N
+foo bar foo baz\nbar foo\nlast foo line	0,0	#n
+foo bar foo baz\nbar foo\nlast foo line	0,0	g*n
+foo bar foo baz\nbar foo\nlast foo line	0,0	d*
+foo bar foo baz\nbar foo\nlast foo line	0,0	c*X<Esc>
+foo bar foo baz\nbar foo\nlast foo line	0,0	y#P
+foo bar foo baz\nbar foo\nlast foo line	0,0	dn
+foo bar foo baz\nbar foo\nlast foo line	0,0	dN
+foo bar foo baz\nbar foo\nlast foo line	0,0	/bar<CR>dn
+foo bar foo baz\nbar foo\nlast foo line	0,0	/bar<CR>d/<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	gj
+foo bar foo baz\nbar foo\nlast foo line	0,0	gk
+foo bar foo baz\nbar foo\nlast foo line	0,0	dgj
+foo bar foo baz\nbar foo\nlast foo line	0,0	ygk
+foo bar foo baz\nbar foo\nlast foo line	0,0	3gj
+foo bar foo baz\nbar foo\nlast foo line	0,0	go
+foo bar foo baz\nbar foo\nlast foo line	0,0	5go
+foo bar foo baz\nbar foo\nlast foo line	0,0	30go
+foo bar foo baz\nbar foo\nlast foo line	0,0	100go
+foo bar foo baz\nbar foo\nlast foo line	0,0	dgo
+foo bar foo baz\nbar foo\nlast foo line	0,0	3dgo
+foo bar foo baz\nbar foo\nlast foo line	0,0	gm
+foo bar foo baz\nbar foo\nlast foo line	0,0	gM
+foo bar foo baz\nbar foo\nlast foo line	0,0	50gM
+foo bar foo baz\nbar foo\nlast foo line	0,0	dgM
+foo bar foo baz\nbar foo\nlast foo line	0,0	d/zzz<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	/zzz<CR>x
+foo bar foo baz\nbar foo\nlast foo line	0,0	/<CR>
+foo bar foo baz\nbar foo\nlast foo line	0,0	?<CR>x
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/e<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/e+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/s-1<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/b+2<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/-1<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	?foo?e<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	?foo?+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	//<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	?<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo/;/bar/<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	2/foo<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	3n
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo<CR>nn
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo<CR>N
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo<CR>2N
+foo bar foo baz\nbar foo\nlast foo line	1,1	g*
+foo bar foo baz\nbar foo\nlast foo line	1,1	g#
+foo bar foo baz\nbar foo\nlast foo line	1,1	*
+foo bar foo baz\nbar foo\nlast foo line	1,1	#
+foo bar foo baz\nbar foo\nlast foo line	1,1	d/foo/e<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	y/bar/+1<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	c/foo<CR>X<Esc>
+foo bar foo baz\nbar foo\nlast foo line	1,1	d/$<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/\n<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo\|bar<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	d#
+foo bar foo baz\nbar foo\nlast foo line	1,1	dg*
+foo bar foo baz\nbar foo\nlast foo line	1,1	/\cFOO<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/FOO<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	d/foo<CR>.
+foo bar foo baz\nbar foo\nlast foo line	1,1	d/foo<CR>u.
+foo bar foo baz\nbar foo\nlast foo line	1,1	/foo<CR>x.
+foo bar foo baz\nbar foo\nlast foo line	1,1	*x
+foo bar foo baz\nbar foo\nlast foo line	1,1	*n
+foo bar foo baz\nbar foo\nlast foo line	1,1	*N
+foo bar foo baz\nbar foo\nlast foo line	1,1	#n
+foo bar foo baz\nbar foo\nlast foo line	1,1	g*n
+foo bar foo baz\nbar foo\nlast foo line	1,1	d*
+foo bar foo baz\nbar foo\nlast foo line	1,1	c*X<Esc>
+foo bar foo baz\nbar foo\nlast foo line	1,1	y#P
+foo bar foo baz\nbar foo\nlast foo line	1,1	dn
+foo bar foo baz\nbar foo\nlast foo line	1,1	dN
+foo bar foo baz\nbar foo\nlast foo line	1,1	/bar<CR>dn
+foo bar foo baz\nbar foo\nlast foo line	1,1	/bar<CR>d/<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	gj
+foo bar foo baz\nbar foo\nlast foo line	1,1	gk
+foo bar foo baz\nbar foo\nlast foo line	1,1	dgj
+foo bar foo baz\nbar foo\nlast foo line	1,1	ygk
+foo bar foo baz\nbar foo\nlast foo line	1,1	3gj
+foo bar foo baz\nbar foo\nlast foo line	1,1	go
+foo bar foo baz\nbar foo\nlast foo line	1,1	5go
+foo bar foo baz\nbar foo\nlast foo line	1,1	30go
+foo bar foo baz\nbar foo\nlast foo line	1,1	100go
+foo bar foo baz\nbar foo\nlast foo line	1,1	dgo
+foo bar foo baz\nbar foo\nlast foo line	1,1	3dgo
+foo bar foo baz\nbar foo\nlast foo line	1,1	gm
+foo bar foo baz\nbar foo\nlast foo line	1,1	gM
+foo bar foo baz\nbar foo\nlast foo line	1,1	50gM
+foo bar foo baz\nbar foo\nlast foo line	1,1	dgM
+foo bar foo baz\nbar foo\nlast foo line	1,1	d/zzz<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	/zzz<CR>x
+foo bar foo baz\nbar foo\nlast foo line	1,1	/<CR>
+foo bar foo baz\nbar foo\nlast foo line	1,1	?<CR>x
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/e<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/e+1<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/s-1<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/b+2<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/+1<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/-1<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	?foo?e<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	?foo?+1<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	//<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	?<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo/;/bar/<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	2/foo<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	3n
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo<CR>nn
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo<CR>N
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo<CR>2N
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	g*
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	g#
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	*
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	#
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d/foo/e<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	y/bar/+1<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	c/foo<CR>X<Esc>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d/$<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/\n<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo\|bar<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d#
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	dg*
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/\cFOO<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/FOO<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d/foo<CR>.
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d/foo<CR>u.
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/foo<CR>x.
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	*x
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	*n
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	*N
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	#n
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	g*n
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d*
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	c*X<Esc>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	y#P
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	dn
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	dN
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/bar<CR>dn
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/bar<CR>d/<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	gj
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	gk
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	dgj
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	ygk
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	3gj
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	go
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	5go
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	30go
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	100go
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	dgo
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	3dgo
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	gm
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	gM
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	50gM
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	dgM
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	d/zzz<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/zzz<CR>x
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	/<CR>
+if (a) { b }\n  x.y(z); w\nfoo_bar foo	0,4	?<CR>x
+a.b a.b\n\ntab\there	1,0	/foo/e<CR>
+a.b a.b\n\ntab\there	1,0	/foo/e+1<CR>
+a.b a.b\n\ntab\there	1,0	/foo/s-1<CR>
+a.b a.b\n\ntab\there	1,0	/foo/b+2<CR>
+a.b a.b\n\ntab\there	1,0	/foo/+1<CR>
+a.b a.b\n\ntab\there	1,0	/foo/-1<CR>
+a.b a.b\n\ntab\there	1,0	?foo?e<CR>
+a.b a.b\n\ntab\there	1,0	?foo?+1<CR>
+a.b a.b\n\ntab\there	1,0	//<CR>
+a.b a.b\n\ntab\there	1,0	?<CR>
+a.b a.b\n\ntab\there	1,0	/foo/;/bar/<CR>
+a.b a.b\n\ntab\there	1,0	2/foo<CR>
+a.b a.b\n\ntab\there	1,0	3n
+a.b a.b\n\ntab\there	1,0	/foo<CR>nn
+a.b a.b\n\ntab\there	1,0	/foo<CR>N
+a.b a.b\n\ntab\there	1,0	/foo<CR>2N
+a.b a.b\n\ntab\there	1,0	g*
+a.b a.b\n\ntab\there	1,0	g#
+a.b a.b\n\ntab\there	1,0	*
+a.b a.b\n\ntab\there	1,0	#
+a.b a.b\n\ntab\there	1,0	d/foo/e<CR>
+a.b a.b\n\ntab\there	1,0	y/bar/+1<CR>
+a.b a.b\n\ntab\there	1,0	c/foo<CR>X<Esc>
+a.b a.b\n\ntab\there	1,0	d/$<CR>
+a.b a.b\n\ntab\there	1,0	/\n<CR>
+a.b a.b\n\ntab\there	1,0	/foo\|bar<CR>
+a.b a.b\n\ntab\there	1,0	d#
+a.b a.b\n\ntab\there	1,0	dg*
+a.b a.b\n\ntab\there	1,0	/\cFOO<CR>
+a.b a.b\n\ntab\there	1,0	/FOO<CR>
+a.b a.b\n\ntab\there	1,0	d/foo<CR>.
+a.b a.b\n\ntab\there	1,0	d/foo<CR>u.
+a.b a.b\n\ntab\there	1,0	/foo<CR>x.
+a.b a.b\n\ntab\there	1,0	*x
+a.b a.b\n\ntab\there	1,0	*n
+a.b a.b\n\ntab\there	1,0	*N
+a.b a.b\n\ntab\there	1,0	#n
+a.b a.b\n\ntab\there	1,0	g*n
+a.b a.b\n\ntab\there	1,0	d*
+a.b a.b\n\ntab\there	1,0	c*X<Esc>
+a.b a.b\n\ntab\there	1,0	y#P
+a.b a.b\n\ntab\there	1,0	dn
+a.b a.b\n\ntab\there	1,0	dN
+a.b a.b\n\ntab\there	1,0	/bar<CR>dn
+a.b a.b\n\ntab\there	1,0	/bar<CR>d/<CR>
+a.b a.b\n\ntab\there	1,0	gj
+a.b a.b\n\ntab\there	1,0	gk
+a.b a.b\n\ntab\there	1,0	dgj
+a.b a.b\n\ntab\there	1,0	ygk
+a.b a.b\n\ntab\there	1,0	3gj
+a.b a.b\n\ntab\there	1,0	go
+a.b a.b\n\ntab\there	1,0	5go
+a.b a.b\n\ntab\there	1,0	30go
+a.b a.b\n\ntab\there	1,0	100go
+a.b a.b\n\ntab\there	1,0	dgo
+a.b a.b\n\ntab\there	1,0	3dgo
+a.b a.b\n\ntab\there	1,0	gm
+a.b a.b\n\ntab\there	1,0	gM
+a.b a.b\n\ntab\there	1,0	50gM
+a.b a.b\n\ntab\there	1,0	dgM
+a.b a.b\n\ntab\there	1,0	d/zzz<CR>
+a.b a.b\n\ntab\there	1,0	/zzz<CR>x
+a.b a.b\n\ntab\there	1,0	/<CR>
+a.b a.b\n\ntab\there	1,0	?<CR>x

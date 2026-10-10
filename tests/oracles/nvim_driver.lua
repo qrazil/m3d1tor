@@ -42,9 +42,15 @@ end
 local text = unhex(text_hex)
 local lines = vim.split(text, '\n', { plain = true })
 -- a clean undo history: the initial text is not an undoable change
-vim.bo.undolevels = -1
-vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+-- (loaded from a file so that "U" has no saved line either: setting the lines
+-- through the API would leave the empty first line behind for it)
+local tmp = os.tmpname()
+vim.fn.writefile(lines, tmp)
+vim.cmd('silent noautocmd edit! ' .. vim.fn.fnameescape(tmp))
 vim.bo.undolevels = 1000
+os.remove(tmp)
+-- a fresh window's context mark is the start of the buffer
+vim.fn.setpos("''", { 0, 1, 1, 0 })
 vim.api.nvim_win_set_cursor(0, { tonumber(row) + 1, tonumber(col) })
 
 local keys = vim.api.nvim_replace_termcodes(key_string(keys_csv or ''), true, true, true)
