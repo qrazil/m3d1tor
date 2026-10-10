@@ -63,6 +63,8 @@ pub type Editor {
     /// UI keeps these current; H, M and L (and CTRL-D etc.) use them.
     pub int view_top = 0;
     pub int view_height = 22;
+    /// CTRL-D / CTRL-U distance; 0 means half the window.
+    pub int scroll_opt = 0;
     pub int shiftwidth = 8;
     pub bool expandtab = false;
     pub bool autoindent = true;
@@ -122,6 +124,12 @@ pub type Editor {
     pub int mode_before_cmd = 0;
     /// Insert mode waiting for the key after CTRL-R / CTRL-V.
     pub int ins_wait = 0;
+    /// State of a CTRL-V number being typed (Vim's get_literal).
+    pub bool lit_hex = false;
+    pub bool lit_octal = false;
+    pub int lit_uni = 0;
+    pub int lit_cc = 0;
+    pub int lit_i = 0;
     /// An arrow key was used and nothing typed since (Vim's arrow_used).
     pub bool ins_arrow = false;
     /// Replaying the dot register (its keys are not recorded again).

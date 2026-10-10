@@ -1,0 +1,280 @@
+// The window onto the buffer: which lines are shown, and the commands that
+// move it (CTRL-E CTRL-Y CTRL-D CTRL-U CTRL-F CTRL-B and the z family).
+//
+// This follows Vim's update_topline, scroll_cursor_halfway and pagescroll for
+// a window whose lines never wrap (each buffer line is one row) and with
+// 'scrolloff' 0. The editor keeps `view_top` and `view_height`; the UI sets
+// the height and calls `update` after each key so the cursor stays visible.
+
+import MED_editor;
+import MED_motion;
+import MED_num;
+import MED_text;
+import MED_buffer;
+
+// The rows the window shows: [view_top, bottom).
+pub int bottom(MED_editor.Editor ed) {
+    return MED_num.smaller(ed.view_top + ed.view_height, ed.buf.line_count());
+}
+
+// Put the cursor on `row`, its column from the wanted column.
+void to_row(MED_editor.Editor ed, int row) {
+    ed.row = row;
+    ed.col = MED_motion.col_for_want(ed.buf.line(row), ed.want, ed.tab, ed.mode == MED_editor.VISUAL);
+}
+
+/// Vim's scroll_cursor_halfway: put the cursor line in the middle. `at_end`
+/// (zz) counts the empty rows past the end of the buffer as used;
+/// `prefer_above` (scrolling down to the cursor) puts the extra row above it.
+pub void center(MED_editor.Editor ed, bool at_end, bool prefer_above) {
+    int last = ed.buf.line_count() - 1;
+    int row = ed.row;
+    int used = 1;
+    int above = 0;
+    int below = 0;
+    int real_below = 0;
+    int top = row;
+    while (top > 0) {
+        bool add_below = below <= above;
+        if (prefer_above) {
+            add_below = below < above;
+        }
+        if (add_below) {
+            if (row + real_below + 1 <= last) {
+                used = used + 1;
+                if (used > ed.view_height) {
+                    break;
+                }
+                real_below = real_below + 1;
+                below = below + 1;
+            } else {
+                below = below + 1;
+                if (at_end) {
+                    used = used + 1;
+                }
+            }
+        }
+        bool add_above = below > above;
+        if (prefer_above) {
+            add_above = below >= above;
+        }
+        if (add_above) {
+            used = used + 1;
+            if (used > ed.view_height) {
+                break;
+            }
+            above = above + 1;
+            top = row - above;
+        }
+    }
+    ed.view_top = top;
+}
+
+// Vim's scroll_cursor_bot for a cursor below the window: scroll just far
+// enough to put the cursor on the last row, or centre it when that would take
+// a screenful.
+void scroll_to_bottom(MED_editor.Editor ed) {
+    int last = ed.buf.line_count() - 1;
+    int height = ed.view_height;
+    int steps = ed.row - ed.view_top - height;
+    int used = 1;
+    int below = ed.row;
+    bool overflow = false;
+    for (int i in 0 .. steps) {
+        used = used + 1;
+        if (used > height) {
+            overflow = true;
+            break;
+        }
+        if (below < last) {
+            below = below + 1;
+            used = used + 1;
+            if (used > height) {
+                overflow = true;
+                break;
+            }
+        }
+    }
+    int scrolled = steps + 1;
+    int lines = scrolled;
+    if (overflow) {
+        lines = used;
+    }
+    if (lines >= height && lines > 1) {
+        center(ed, false, true);
+    } else {
+        ed.view_top = ed.view_top + scrolled;
+    }
+}
+
+/// Vim's update_topline: scroll just enough to show the cursor line, or
+/// centre it when it is far away.
+pub void update(MED_editor.Editor ed) {
+    int count = ed.buf.line_count();
+    int height = ed.view_height;
+    if (ed.view_top > count - 1) {
+        ed.view_top = count - 1;
+    }
+    if (ed.view_top < 0) {
+        ed.view_top = 0;
+    }
+    if (ed.row < ed.view_top) {
+        int half = height / 2 - 1;
+        if (half < 2) {
+            half = 2;
+        }
+        if (ed.view_top - ed.row >= half) {
+            center(ed, false, false);
+        } else {
+            ed.view_top = ed.row;
+        }
+    } else if (ed.row >= ed.view_top + height) {
+        int beyond = ed.row - (ed.view_top + height) + 1;
+        if (beyond <= height + 1) {
+            scroll_to_bottom(ed);
+        } else {
+            center(ed, false, true);
+        }
+    }
+}
+
+/// Scroll the window `count` lines (up: the text moves up, CTRL-E). Returns
+/// whether it moved. The cursor is not touched.
+pub bool scroll_window(MED_editor.Editor ed, bool up, int count) {
+    int before = ed.view_top;
+    if (up) {
+        ed.view_top = MED_num.smaller(ed.view_top + count, ed.buf.line_count() - 1);
+    } else {
+        ed.view_top = MED_num.larger(ed.view_top - count, 0);
+    }
+    return ed.view_top != before;
+}
+
+// Keep the cursor in the window after it scrolled (Vim's scrollup/scrolldown).
+void pull_cursor(MED_editor.Editor ed) {
+    int row = ed.row;
+    if (row < ed.view_top) {
+        row = ed.view_top;
+    }
+    int last = bottom(ed) - 1;
+    if (row > last) {
+        row = last;
+    }
+    if (row != ed.row) {
+        to_row(ed, row);
+    }
+}
+
+/// CTRL-E (up) and CTRL-Y.
+pub void scroll_line(MED_editor.Editor ed, bool up, int count) {
+    scroll_window(ed, up, count);
+    pull_cursor(ed);
+}
+
+// Rows CTRL-F / CTRL-B scroll for one count (Vim's get_scroll_overlap).
+int overlap(MED_editor.Editor ed, bool forward) {
+    int height = ed.view_height;
+    if (!forward && ed.view_top == 0) {
+        return height;
+    }
+    if (forward && ed.view_top + height >= ed.buf.line_count()) {
+        return height;
+    }
+    int min_height = height - 2;
+    if (min_height < 3) {
+        return height;
+    }
+    if (!forward) {
+        // CTRL-B wants the lines just under the window top to carry over
+        int last = ed.buf.line_count() - 1;
+        if (ed.view_top + 1 > last) {
+            return height;
+        }
+        if (ed.view_top + 2 > last) {
+            return min_height + 1;
+        }
+    }
+    return min_height;
+}
+
+/// CTRL-D, CTRL-U (`half`) and CTRL-F, CTRL-B (Vim's pagescroll). Returns
+/// false when nothing moved.
+pub bool page(MED_editor.Editor ed, bool forward, int count0, bool half) {
+    int height = ed.view_height;
+    int last = ed.buf.line_count() - 1;
+    int prev_row = ed.row;
+    int prev_col = ed.col;
+    bool moved = false;
+    if (half) {
+        if (count0 > 0) {
+            ed.scroll_opt = MED_num.smaller(height, count0);
+        }
+        int amount = height / 2;
+        if (amount == 0) {
+            amount = 1;
+        }
+        if (ed.scroll_opt > 0) {
+            amount = ed.scroll_opt;
+        }
+        int count = MED_num.smaller(height, amount);
+        int cursor_count = count;
+        if (forward && ed.view_top + 1 + height + count > last + 1) {
+            int rows = 1 + MED_num.smaller(last - ed.view_top, height + count);
+            if (rows < height + count) {
+                count = rows - height;
+            }
+        }
+        if (count > 0) {
+            moved = scroll_window(ed, forward, count);
+        }
+        int row = 0;
+        if (forward) {
+            row = MED_num.smaller(prev_row + cursor_count, last);
+        } else {
+            row = MED_num.larger(prev_row - cursor_count, 0);
+        }
+        to_row(ed, row);
+    } else {
+        int count = MED_num.larger(count0, 1) * overlap(ed, forward);
+        moved = scroll_window(ed, forward, count);
+        if (moved) {
+            if (forward) {
+                to_row(ed, ed.view_top);
+            } else {
+                to_row(ed, bottom(ed) - 1);
+            }
+        }
+    }
+    return moved || ed.row != prev_row || ed.col != prev_col;
+}
+
+// ----------------------------------------------------------------- z family
+
+/// zt z<CR> zz z. zb z-. `target` is the line to go to first (0: stay).
+/// Returns false for a key that is not one of these.
+pub bool z_command(MED_editor.Editor ed, int key, int target) {
+    bool known = key == 116 || key == 13 || key == 122 || key == 46 || key == 98 || key == 45;
+    if (!known) {
+        return false;
+    }
+    if (target > 0 && target - 1 != ed.row) {
+        ed.marks.set("'", MED_buffer.Pos(ed.row, ed.col));
+        to_row(ed, MED_num.smaller(target - 1, ed.buf.line_count() - 1));
+    }
+    if (key == 13 || key == 46 || key == 45) {
+        str line = ed.buf.line(ed.row);
+        ed.col = MED_text.first_nonblank(line);
+        if (ed.col >= line.size() && line.size() > 0) {
+            ed.col = MED_text.last_col(line);
+        }
+        ed.want_from_cursor();
+    }
+    if (key == 116 || key == 13) {
+        ed.view_top = ed.row;
+    } else if (key == 122 || key == 46) {
+        center(ed, true, false);
+    } else {
+        ed.view_top = MED_num.larger(ed.row - ed.view_height + 1, 0);
+    }
+    return true;
+}

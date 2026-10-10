@@ -9,7 +9,7 @@
 // For every case this builds an `Editor` on the text, puts the cursor at
 // (row, col), feeds the keys and prints one result line, tab separated:
 //
-//   index  hex(text)  row  col  mode  vrow  vcol  regs
+//   index  hex(text)  row  col  mode  vrow  vcol  regs  top
 //
 // where `regs` is `name:kind:hex(lines joined by \n)` entries joined by `;`
 // for the registers the oracle also reports. The nvim driver prints the same
@@ -17,6 +17,7 @@
 
 import MED_editor;
 import MED_vim;
+import MED_view;
 import MED_register;
 import MED_buffer;
 import hexcodec;
@@ -97,6 +98,7 @@ str run_case(str line) {
     ed.col = col;
     ed.clamp();
     ed.want_from_cursor();
+    MED_view.update(ed);
     MED_vim.feed_keys(ed, keys);
     if (ed.mode == MED_editor.INSERT || ed.mode == MED_editor.REPLACE) {
         MED_vim.feed(ed, 27);
@@ -114,6 +116,7 @@ str run_case(str line) {
         out.push("-");
     }
     out.push(regs_line(ed));
+    out.push(ed.view_top.to_str());
     return out.join("\t");
 }
 

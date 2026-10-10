@@ -81,7 +81,7 @@ end
 local f = assert(io.open(out_path, 'w'))
 f:write(table.concat({
   '0', hex(table.concat(result_lines, '\n')), tostring(cur[1] - 1), tostring(cur[2]),
-  final_mode, vrow, vcol, table.concat(regs, ';'),
+  final_mode, vrow, vcol, table.concat(regs, ';'), tostring(vim.fn.line('w0') - 1),
 }, '\t'), '\n')
 f:close()
 vim.cmd('qa!')

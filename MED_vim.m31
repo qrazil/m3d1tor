@@ -19,6 +19,7 @@ import MED_text;
 import MED_textobj;
 import MED_key;
 import MED_case;
+import MED_view;
 
 void fail(MED_editor.Editor ed) {
     ed.failed = true;
@@ -295,6 +296,8 @@ MED_motion.Motion line_end(MED_editor.Editor ed, int count) {
     int n = count1(count) - 1;
     if (n > 0) {
         if (ed.row >= ed.buf.line_count() - 1) {
+            // Vim sets the wanted column before it finds it cannot go down
+            ed.want = -1;
             m.ok = false;
             return m;
         }
@@ -1596,6 +1599,9 @@ void ins_move(MED_editor.Editor ed, int key) {
     if (key != 63232 && key != 63233) {
         ed.want_from_cursor();
     }
+    if (key == 63237) {
+        ed.want = -1;
+    }
     ed.did_ai = false;
     ed.ins_keys = [];
     ed.ins_text = "";
@@ -1642,6 +1648,101 @@ void stop_arrow(MED_editor.Editor ed) {
     ed.ins_dirty = true;
 }
 
+int hex_value(int c) {
+    if (c >= 48 && c <= 57) {
+        return c - 48;
+    }
+    if (c >= 97 && c <= 102) {
+        return c - 87;
+    }
+    if (c >= 65 && c <= 70) {
+        return c - 55;
+    }
+    return -1;
+}
+
+// One key after CTRL-V (Vim's get_literal): a decimal, octal (o), hex (x),
+// or Unicode (u, U) number, or the key itself.
+void ins_literal_key(MED_editor.Editor ed, int nc) {
+    if (nc >= 63232 && nc <= 63400 && ed.lit_i == 0 && !ed.lit_hex && !ed.lit_octal && ed.lit_uni == 0) {
+        // a key with no character of its own is inserted by name
+        ed.ins_wait = 0;
+        ed.ins_text = ed.ins_text + "\x16";
+        for (int cp in MED_key.name(nc).chars()) {
+            ins_char(ed, cp);
+        }
+        return;
+    }
+    bool done = false;
+    bool reuse = false;
+    if (nc == 120 || nc == 88) {
+        ed.lit_hex = true;
+    } else if (nc == 111 || nc == 79) {
+        ed.lit_octal = true;
+    } else if (nc == 117 || nc == 85) {
+        ed.lit_uni = nc;
+    } else if (ed.lit_hex || ed.lit_uni != 0) {
+        int digit = hex_value(nc);
+        if (digit < 0) {
+            done = true;
+        } else {
+            ed.lit_cc = ed.lit_cc * 16 + digit;
+            ed.lit_i = ed.lit_i + 1;
+        }
+    } else if (ed.lit_octal) {
+        if (nc < 48 || nc > 55) {
+            done = true;
+        } else {
+            ed.lit_cc = ed.lit_cc * 8 + nc - 48;
+            ed.lit_i = ed.lit_i + 1;
+        }
+    } else if (nc < 48 || nc > 57) {
+        done = true;
+    } else {
+        ed.lit_cc = ed.lit_cc * 10 + nc - 48;
+        ed.lit_i = ed.lit_i + 1;
+    }
+    if (!done) {
+        if (ed.lit_cc > 255 && ed.lit_uni == 0) {
+            ed.lit_cc = 255;
+        }
+        if (ed.lit_cc > 1114111) {
+            ed.lit_cc = 65533;
+        }
+        if (ed.lit_hex) {
+            done = ed.lit_i >= 2;
+        } else if (ed.lit_uni != 0) {
+            done = (ed.lit_uni == 117 && ed.lit_i >= 4) || (ed.lit_uni == 85 && ed.lit_i >= 8);
+        } else {
+            done = ed.lit_i >= 3;
+        }
+        if (!done) {
+            return;
+        }
+    } else if (ed.lit_i > 0) {
+        reuse = true;
+    }
+    int cc = ed.lit_cc;
+    if (ed.lit_i == 0) {
+        cc = nc;
+    }
+    if (cc == 0) {
+        cc = 10;
+    }
+    ed.ins_wait = 0;
+    ed.lit_hex = false;
+    ed.lit_octal = false;
+    ed.lit_uni = 0;
+    ed.lit_cc = 0;
+    ed.lit_i = 0;
+    ed.ins_text = ed.ins_text + "\x16";
+    ins_char(ed, cc);
+    if (reuse) {
+        ed.ins_keys.pop();
+        insert_key(ed, nc);
+    }
+}
+
 void insert_key(MED_editor.Editor ed, int key) {
     if (ed.ins_next_set) {
         if (!ed.ins_hold) {
@@ -1656,16 +1757,9 @@ void insert_key(MED_editor.Editor ed, int key) {
         return;
     }
     if (ed.ins_wait == 22) {
-        ed.ins_wait = 0;
         stop_arrow(ed);
         ed.ins_keys.push(key);
-        if (key == 13) {
-            ins_char(ed, 13);
-        } else if (key != 27) {
-            ins_char(ed, key);
-        } else {
-            ins_char(ed, 27);
-        }
+        ins_literal_key(ed, key);
         return;
     }
     if (key == 27 || key == 3) {
@@ -1678,6 +1772,7 @@ void insert_key(MED_editor.Editor ed, int key) {
     }
     if (key == 22 || key == 17) {
         ed.ins_wait = 22;
+        ed.ins_keys.push(22);
         return;
     }
     if (key >= 63232 && key <= 63237) {
@@ -1999,6 +2094,30 @@ void enter_cmdline(MED_editor.Editor ed, int kind, List<int> saved) {
 }
 
 // A normal-mode command that is not an operator or a motion.
+bool is_view_key(int k) {
+    return k == 122 || k == 5 || k == 25 || k == 4 || k == 21 || k == 6 || k == 2;
+}
+
+// The window commands: CTRL-E CTRL-Y CTRL-D CTRL-U CTRL-F CTRL-B and z.
+bool view_cmd(MED_editor.Editor ed, MED_parse.Parsed p) {
+    int k = p.keys[0];
+    int count = p.count;
+    if (k == 122) {
+        return MED_view.z_command(ed, p.keys[1], count);
+    }
+    if (k == 5 || k == 25) {
+        MED_view.scroll_line(ed, k == 5, count1(count));
+        return true;
+    }
+    if (k == 4 || k == 21) {
+        if ((k == 21 && ed.row == 0) || (k == 4 && ed.row == ed.buf.line_count() - 1)) {
+            return false;
+        }
+        return MED_view.page(ed, k == 4, count, true);
+    }
+    return MED_view.page(ed, k == 6, count, false);
+}
+
 void run_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
     int k = p.keys[0];
     int count = p.count;
@@ -2086,8 +2205,9 @@ void run_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
         }
     } else if (k == 27) {
         ed.pending = [];
-    } else if (k == 122 || k == 12 || k == 7 || k == 5 || k == 25 || k == 4 || k == 21 || k == 6 || k == 2) {
-        // view commands need the window; handled by the UI layer
+    } else if (is_view_key(k)) {
+        ok = view_cmd(ed, p);
+    } else if (k == 12 || k == 7) {
         ed.pending = [];
     } else {
         ok = false;
@@ -2148,6 +2268,11 @@ bool run_g(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
 
 /// Process one key in whatever mode `ed` is in.
 pub void feed(MED_editor.Editor ed, int key) {
+    feed_key(ed, key);
+    MED_view.update(ed);
+}
+
+void feed_key(MED_editor.Editor ed, int key) {
     if (ed.macro_reg != "" && !ed.replaying) {
         ed.macro_keys.push(key);
     }
@@ -3343,6 +3468,12 @@ void visual_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
     int k = p.keys[0];
     int kind = ed.vkind;
     str reg = p.reg;
+    if (is_view_key(k)) {
+        if (!view_cmd(ed, p)) {
+            ed.failed = true;
+        }
+        return;
+    }
     if (k == 27 || k == 3) {
         leave_visual(ed);
     } else if (k == 118 || k == 86 || k == 22) {

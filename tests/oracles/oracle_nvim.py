@@ -225,7 +225,8 @@ def describe(fields):
             name, kind, content = entry.split(":", 2)
             regs[name] = (kind, unhexs(content))
     return {"text": text, "cursor": (int(fields[2]), int(fields[3])), "mode": fields[4],
-            "anchor": (fields[5], fields[6]), "regs": regs}
+            "anchor": (fields[5], fields[6]), "regs": regs,
+            "top": fields[8] if len(fields) > 8 else "0"}
 
 
 def diff(want, got, case=None):
@@ -245,6 +246,8 @@ def diff(want, got, case=None):
         notes.append("cursor: nvim=%s engine=%s" % (a["cursor"], b["cursor"]))
     if a["mode"] != b["mode"]:
         notes.append("mode: nvim=%s engine=%s" % (a["mode"], b["mode"]))
+    if a["top"] != b["top"]:
+        notes.append("top line: nvim=%s engine=%s" % (a["top"], b["top"]))
     if a["mode"] != "n" and a["anchor"] != b["anchor"]:
         notes.append("anchor: nvim=%s engine=%s" % (a["anchor"], b["anchor"]))
     for name in sorted(set(a["regs"]) | set(b["regs"])):
@@ -415,6 +418,7 @@ def main():
     ap.add_argument("--cases", type=int, default=300)
     ap.add_argument("--vocab", default="", help="extra fuzz vocabulary: search,ex,misc")
     ap.add_argument("--only", default="", help="only corpus cases whose line contains this")
+    ap.add_argument("--file", default="", help="only corpus files whose name contains this")
     ap.add_argument("--no-shrink", action="store_true")
     ap.add_argument("--max-report", type=int, default=12, help="shrink and print at most this many fuzz failures")
     ap.add_argument("-v", "--verbose", action="store_true")
@@ -436,6 +440,8 @@ def main():
         if args.corpus:
             cases = []
             for path in sorted(glob.glob(os.path.join(HERE, "corpus", "*.txt"))):
+                if args.file and args.file not in os.path.basename(path):
+                    continue
                 cs, _ = load_cases_file(path)
                 cases += cs
             if args.only:

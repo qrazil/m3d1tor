@@ -425,7 +425,9 @@ pub Motion find_char(str line, int col, int target, int dir, bool until, int cou
         if (dir > 0) {
             at = MED_text.prev_col(line, at);
         } else {
-            at = MED_text.next_col(line, at);
+            // Vim steps one code point past the match (maybe into a cluster;
+            // the cursor snaps to the cluster start, an operator does not)
+            at = at + str.from_chars([MED_text.cp_at(line, at)]).size();
         }
     }
     Motion m = Motion();
