@@ -59,6 +59,10 @@ pub type Editor {
     pub bool block_open = false;
     pub MED_buffer.Pos block_before = MED_buffer.Pos(0, 0);
     pub int tab = 8;
+    /// The window: first buffer line shown and number of lines it shows. The
+    /// UI keeps these current; H, M and L (and CTRL-D etc.) use them.
+    pub int view_top = 0;
+    pub int view_height = 22;
     pub int shiftwidth = 8;
     pub bool expandtab = false;
     pub bool autoindent = true;
@@ -90,7 +94,15 @@ pub type Editor {
     pub List<int> ins_keys = [];
     pub str ins_text = "";
     pub bool did_ai = false;
+    /// Vim's Insstart_orig: where backspacing with CTRL-W / CTRL-U stops.
     pub MED_buffer.Pos ins_start = MED_buffer.Pos(0, 0);
+    /// The insert start an arrow key leaves pending (Vim's Insstart), taken
+    /// over by `ins_start` at the next key unless `ins_hold`.
+    pub MED_buffer.Pos ins_next = MED_buffer.Pos(0, 0);
+    pub bool ins_next_set = false;
+    pub bool ins_hold = false;
+    /// Whether anything was typed in this insert yet.
+    pub bool ins_dirty = false;
     pub List<str> replaced = [];
     /// Search.
     pub str search_pat = "";

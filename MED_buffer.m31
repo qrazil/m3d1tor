@@ -64,6 +64,8 @@ pub type Buffer {
     pub int tick = 0;
     /// Set by any splice, cleared by a save.
     pub bool modified = false;
+    /// Vim's ML_EMPTY: every line was deleted (linewise), nothing typed since.
+    pub bool empty = false;
 }
 
 pub int Buffer.line_count() {
@@ -98,6 +100,9 @@ pub Edit Buffer.splice(Pos from, Pos to, str replacement) {
     str removed = text(from, to);
     tick = tick + 1;
     modified = true;
+    if (removed != replacement) {
+        empty = false;
+    }
     str head = lines[from.row].substr(0, from.col);
     str tail = lines[to.row].substr(to.col, lines[to.row].size());
     if (from.row == to.row && replacement.index_of("\n").is_none()) {
