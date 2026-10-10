@@ -254,6 +254,10 @@ pub bool page(MED_editor.Editor ed, bool forward, int count0, bool half) {
 /// Returns false for a key that is not one of these.
 pub bool z_command(MED_editor.Editor ed, int key, int target) {
     bool known = key == 116 || key == 13 || key == 122 || key == 46 || key == 98 || key == 45;
+    if (key == 104 || key == 108 || key == 115 || key == 101 || key == 72 || key == 76) {
+        // horizontal scrolling does nothing while lines wrap
+        return true;
+    }
     if (!known) {
         return false;
     }

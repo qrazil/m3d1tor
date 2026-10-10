@@ -1,0 +1,2471 @@
+# macros, registers and the undo tree (generated)
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadwq2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadwq@a@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa0ix<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxj@aq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxj@aq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxj@aq@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qAxq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqAxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqAjq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqAjq2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qbxq@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa/zzz<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa/o<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa/o<CR>xq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa/o<CR>xq5@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa/o<CR>xq50@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxxq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadwq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjxq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxxq@auu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxxq@au<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddq3@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddq3@auu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a@@.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadwq.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadwq@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>q.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>q@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>jq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qayyjpq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qayyPq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:s/e/E/<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:s/e/E/<CR>jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:s/e/E/<CR>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:d<CR>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:d<CR>q3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:d<CR>q9@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:2<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:$<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:normal x<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qavjdq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaVjyq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaveyq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qavjUq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaVj>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qavlolq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaVjdq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qavjdq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa<C-v>jlxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa<C-v>jIx<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa<C-v>jAx<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa<C-v>jcX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa2wq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa2xq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa3dwq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa2ddq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa2ddq@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddpq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddpq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaJq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaJq5@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaJxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa~q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa~q10@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qagUiwq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaguiwwq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qagUiwwq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaciwX<Esc>wq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaciwX<Esc>wq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qacwX<Esc>wq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiX<Esc>jq2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaoX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaoX<Esc>q2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaOX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaAX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaIX<Esc>jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qacc<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaSX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaCX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qasX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa3sX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qarXq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa3rXq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaRab<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaRabq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa*xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa#xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa%xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa;xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa,xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa}dq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa{dq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaGxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaggxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa$xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa0xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa^xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa|xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa5|xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaHxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaMxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaLxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa"ayyq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaq"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"aP
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"ayy
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"Ayy
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:let<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa"byyq"bp
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa"byyq@a"bp
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"ap@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"ap"ayy
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq"ap"add
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayy@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayw@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayiw@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayy@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayy2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"add@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayyj@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j"ayy@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>"ayy@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ay$@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"adw@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayl@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ay2l@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayj@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayjj@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yy@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yy@0
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yw@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dd@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayy:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yy:@"<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ayy@a:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/e/E/<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j:s/e/E/<CR>j@:j@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j:s/e/E/<CR>j@:j@@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/e/E/<CR>:@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/e/E/<CR>:@@<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j:d<CR>3@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j:d<CR>@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	j:s/./X/<CR>j@:j@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2<CR>@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:normal x<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq0@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq1@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq1@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	"aP
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:%normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:2,3normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:g/e/normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:g/e/normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:%norm 2@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadwq:%norm @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>q:%norm @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>q:2,4norm @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>q:g/e/norm @a<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA!<Esc>q:g/e/norm @au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:g/e/normal @au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:normal 3@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:%@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddq:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddq:2,3@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaddq:2,3*a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:*a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq:*a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:@@<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq:@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaqqaxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqaq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqaxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqaxqu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qxq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qXq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	q0xq@0
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	q1xq@1
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	q-xq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	q"xq@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	q_xq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa@aq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa@a<Esc>q
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqb@aq@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqb@aq3@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqbxq@a@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqqbjq@a@b@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjqqb@aq@b@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>u@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@auu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@a:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@a:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@ag-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@ag-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaaX<Esc>q@a:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiab<C-w>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiab<C-u>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiab<BS>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaiab<CR>cd<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA<C-r>"<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaA<C-o>x<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qai<C-a><Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qai<C-v>065<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a:s/e/E/<CR>@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a:s/e/E/<CR>u@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@axu@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqu@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqu@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxqu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@au.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq..u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a@@u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a@@uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a@@uuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a@@uuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxq@a@@uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxjq@a@@@@@@@@@@@@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadjq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadjq@a@@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadkq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qadkjq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qahq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qalq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa10lq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa10lq@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa10hq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa100lq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa5jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa5kq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa5jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaGq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qagg:s/e/E/<CR>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaw.q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxw.q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxw.q3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qacwX<Esc>w.q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qacwX<Esc>w.q3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxw.q@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qaxw.q@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadwq2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadwq@a@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa0ix<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxj@aq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxj@aq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxj@aq@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qAxq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqAxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqAjq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqAjq2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qbxq@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa/zzz<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa/o<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa/o<CR>xq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa/o<CR>xq5@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa/o<CR>xq50@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxxq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadwq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjxq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxxq@auu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxxq@au<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddq3@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddq3@auu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a@@.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadwq.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadwq@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>q.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>q@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>jq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qayyjpq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qayyPq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:s/e/E/<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:s/e/E/<CR>jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:s/e/E/<CR>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:d<CR>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:d<CR>q3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:d<CR>q9@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:2<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:$<CR>xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa:normal x<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qavjdq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaVjyq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaveyq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qavjUq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaVj>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qavlolq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaVjdq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qavjdq@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa<C-v>jlxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa<C-v>jIx<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa<C-v>jAx<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa<C-v>jcX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa2wq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa2xq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa3dwq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa2ddq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa2ddq@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddpq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddpq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaJq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaJq5@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaJxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa~q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa~q10@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qagUiwq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaguiwwq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qagUiwwq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaciwX<Esc>wq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaciwX<Esc>wq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qacwX<Esc>wq@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiX<Esc>jq2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaoX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaoX<Esc>q2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaOX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaAX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaIX<Esc>jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qacc<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaSX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaCX<Esc>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qasX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa3sX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qarXq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa3rXq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaRab<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaRabq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa*xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa#xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa%xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa;xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa,xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa}dq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa{dq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaGxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaggxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa$xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa0xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa^xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa|xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa5|xq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaHxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaMxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaLxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa"ayyq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaq"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"aP
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"ayy
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"Ayy
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:let<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa"byyq"bp
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa"byyq@a"bp
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"ap@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"ap"ayy
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq"ap"add
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayy@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayw@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayiw@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayy@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayy2@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"add@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayyj@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j"ayy@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>"ayy@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ay$@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"adw@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayl@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ay2l@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayj@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayjj@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yy@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yy@0
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yw@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayy:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yy:@"<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ayy@a:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:s/e/E/<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j:s/e/E/<CR>j@:j@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j:s/e/E/<CR>j@:j@@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:s/e/E/<CR>:@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:s/e/E/<CR>:@@<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:d<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j:d<CR>3@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j:d<CR>@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	j:s/./X/<CR>j@:j@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:2<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:2<CR>@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:normal x<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq0@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq1@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq1@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	"aP
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	:normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:%normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:2,3normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:g/e/normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:g/e/normal @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:%norm 2@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadwq:%norm @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>q:%norm @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>q:2,4norm @a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>q:g/e/norm @a<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA!<Esc>q:g/e/norm @au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:g/e/normal @au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:normal 3@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:%@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddq:@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddq:2,3@a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaddq:2,3*a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:*a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq:*a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:@@<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq:@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaqqaxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqaq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqaxq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqaxqu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qxq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qXq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	q0xq@0
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	q1xq@1
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	q-xq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	q"xq@"
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	q_xq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa@aq
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa@a<Esc>q
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqb@aq@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqb@aq3@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqbxq@a@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqqbjq@a@b@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjqqb@aq@b@b
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@a@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>u@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@au
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@auu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@a:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@a:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@ag-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@ag-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaaX<Esc>q@a:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiab<C-w>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiab<C-u>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiab<BS>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaiab<CR>cd<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA<C-r>"<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaA<C-o>x<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qai<C-a><Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qai<C-v>065<Esc>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a:s/e/E/<CR>@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a:s/e/E/<CR>u@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@axu@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqu@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqu@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxqu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@au.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq..u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a@@u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a@@uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a@@uuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a@@uuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxq@a@@uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxjq@a@@@@@@@@@@@@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadjq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadjq@a@@@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadkq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qadkjq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qahq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qalq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa10lq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa10lq@a@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa10hq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa100lq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa5jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa5kq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qa5jq3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaGq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qagg:s/e/E/<CR>q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaw.q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxw.q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxw.q3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qacwX<Esc>w.q@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qacwX<Esc>w.q3@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxw.q@a.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	qaxw.q@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq@a@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadwq2@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadwq@a@@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>jq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa0ix<Esc>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxj@aq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxj@aq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxj@aq@a@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qAxq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqAxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqAjq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqAjq2@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qbxq@b
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@b
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa/zzz<CR>xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa/o<CR>xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa/o<CR>xq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa/o<CR>xq5@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa/o<CR>xq50@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxxq@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadwq@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjxq@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxxq@auu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxxq@au<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddq3@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddq3@auu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a@@.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadwq.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadwq@a.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>q.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>q@a.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>jq@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qayyjpq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qayyPq@a@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:s/e/E/<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:s/e/E/<CR>jq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:s/e/E/<CR>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:d<CR>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:d<CR>q3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:d<CR>q9@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:2<CR>xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:$<CR>xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:normal x<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qavjdq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaVjyq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaveyq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qavjUq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaVj>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qavlolq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaVjdq@a@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qavjdq@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa<C-v>jlxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa<C-v>jIx<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa<C-v>jAx<Esc>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa<C-v>jcX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa2wq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa2xq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa3dwq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa2ddq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa2ddq@a@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddpq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddpq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaJq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaJq5@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaJxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa~q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa~q10@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qagUiwq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaguiwwq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qagUiwwq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaciwX<Esc>wq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaciwX<Esc>wq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qacwX<Esc>wq@a@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiX<Esc>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiX<Esc>jq2@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaoX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaoX<Esc>q2@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaOX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaAX<Esc>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaIX<Esc>jq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qacc<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaSX<Esc>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaCX<Esc>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qasX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa3sX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qarXq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa3rXq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaRab<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaRabq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa*xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa#xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa%xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa;xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa,xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa}dq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa{dq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaGxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaggxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa$xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa0xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa^xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa|xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa5|xq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaHxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaMxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaLxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa"ayyq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaq"ap
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"ap
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq"ap
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"aP
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"ayy
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"Ayy
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:let<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa"byyq"bp
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa"byyq@a"bp
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"ap@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"ap"ayy
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq"ap"add
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayy@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayw@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayiw@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayy@a@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayy2@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"add@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayyj@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j"ayy@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>"ayy@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ay$@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"adw@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayl@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ay2l@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayj@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayjj@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yy@"
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yy@0
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yw@"
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dd@"
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayy:@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yy:@"<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ayy@a:@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/e/E/<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j:s/e/E/<CR>j@:j@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j:s/e/E/<CR>j@:j@@@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/e/E/<CR>:@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/e/E/<CR>:@@<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j:d<CR>3@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j:d<CR>@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	j:s/./X/<CR>j@:j@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2<CR>@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:normal x<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	@a@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq0@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq1@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq1@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"ap
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	"aP
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:%normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:2,3normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:g/e/normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:g/e/normal @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:%norm 2@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadwq:%norm @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>q:%norm @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>q:2,4norm @a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>q:g/e/norm @a<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA!<Esc>q:g/e/norm @au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:g/e/normal @au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:normal 3@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:%@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddq:@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddq:2,3@a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaddq:2,3*a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:*a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq:*a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:@@<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq:@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaqqaxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqaq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqaxq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqaxqu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qxq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qXq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	q0xq@0
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	q1xq@1
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	q-xq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	q"xq@"
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	q_xq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa@aq
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa@a<Esc>q
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqb@aq@b
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqb@aq3@b
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqbxq@a@b
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqqbjq@a@b@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjqqb@aq@b@b
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@a@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>u@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@auu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@a:undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@a:undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@ag-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@ag-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaaX<Esc>q@a:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiab<C-w>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiab<C-u>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiab<BS>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaiab<CR>cd<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA<C-r>"<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaA<C-o>x<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qai<C-a><Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qai<C-v>065<Esc>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a:s/e/E/<CR>@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a:s/e/E/<CR>u@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@axu@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqu@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqu@a.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxqu.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@au.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq..u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a@@u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a@@uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a@@uuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a@@uuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxq@a@@uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxjq@a@@@@@@@@@@@@@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadjq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadjq@a@@@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadkq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qadkjq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qahq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qalq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa10lq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa10lq@a@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa10hq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa100lq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa5jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa5kq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa5jq3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaGq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qagg:s/e/E/<CR>q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaw.q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxw.q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxw.q3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qacwX<Esc>w.q@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qacwX<Esc>w.q3@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxw.q@a.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qaxw.q@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq@a@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadwq2@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadwq@a@@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>jq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa0ix<Esc>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxj@aq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxj@aq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxj@aq@a@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qAxq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqAxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqAjq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqAjq2@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qbxq@b
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@b
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa/zzz<CR>xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa/o<CR>xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa/o<CR>xq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa/o<CR>xq5@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa/o<CR>xq50@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxxq@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadwq@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjxq@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxxq@auu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxxq@au<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddq3@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddq3@auu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a@@.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadwq.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadwq@a.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>q.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>q@a.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>jq@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qayyjpq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qayyPq@a@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:s/e/E/<CR>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:s/e/E/<CR>jq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:s/e/E/<CR>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:d<CR>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:d<CR>q3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:d<CR>q9@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:2<CR>xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:$<CR>xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa:normal x<CR>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qavjdq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaVjyq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaveyq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qavjUq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaVj>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qavlolq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaVjdq@a@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qavjdq@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa<C-v>jlxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa<C-v>jIx<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa<C-v>jAx<Esc>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa<C-v>jcX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa2wq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa2xq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa3dwq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa2ddq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa2ddq@a@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddpq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddpq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaJq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaJq5@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaJxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa~q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa~q10@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qagUiwq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaguiwwq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qagUiwwq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaciwX<Esc>wq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaciwX<Esc>wq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qacwX<Esc>wq@a@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiX<Esc>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiX<Esc>jq2@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaoX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaoX<Esc>q2@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaOX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaAX<Esc>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaIX<Esc>jq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qacc<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaSX<Esc>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaCX<Esc>jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qasX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa3sX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qarXq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa3rXq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaRab<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaRabq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa*xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa#xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa%xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa;xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa,xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa}dq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa{dq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaGxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaggxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa$xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa0xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa^xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa|xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa5|xq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaHxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaMxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaLxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa"ayyq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaq"ap
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"ap
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq"ap
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"aP
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"ayy
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"Ayy
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:let<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa"byyq"bp
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa"byyq@a"bp
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"ap@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"ap"ayy
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq"ap"add
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayy@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayw@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayiw@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayy@a@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayy2@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"add@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayyj@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j"ayy@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>"ayy@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ay$@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"adw@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayl@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ay2l@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayj@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayjj@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yy@"
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yy@0
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yw@"
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dd@"
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayy:@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yy:@"<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ayy@a:@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/e/E/<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j:s/e/E/<CR>j@:j@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j:s/e/E/<CR>j@:j@@@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/e/E/<CR>:@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/e/E/<CR>:@@<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j:d<CR>3@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j:d<CR>@:@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	j:s/./X/<CR>j@:j@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2<CR>@:@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:normal x<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	@a@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq0@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq1@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq1@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"ap
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	"aP
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:%normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:2,3normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:g/e/normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:g/e/normal @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:%norm 2@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadwq:%norm @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>q:%norm @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>q:2,4norm @a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>q:g/e/norm @a<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA!<Esc>q:g/e/norm @au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:g/e/normal @au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:normal 3@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:%@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddq:@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddq:2,3@a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaddq:2,3*a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:*a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq:*a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:@@<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq:@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaqqaxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqaq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqaxq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqaxqu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qxq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qXq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	q0xq@0
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	q1xq@1
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	q-xq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	q"xq@"
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	q_xq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa@aq
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa@a<Esc>q
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqb@aq@b
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqb@aq3@b
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqbxq@a@b
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqqbjq@a@b@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjqqb@aq@b@b
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@a@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>u@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@au
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@auu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@a:undo 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@a:undo 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@ag-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@ag-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaaX<Esc>q@a:earlier 1f<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiab<C-w>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiab<C-u>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiab<BS>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaiab<CR>cd<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA<C-r>"<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaA<C-o>x<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qai<C-a><Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qai<C-v>065<Esc>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a:s/e/E/<CR>@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a:s/e/E/<CR>u@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@axu@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqu@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqu@a.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxqu.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@au.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq..u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a@@u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a@@uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a@@uuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a@@uuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxq@a@@uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxjq@a@@@@@@@@@@@@@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadjq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadjq@a@@@@
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadkq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qadkjq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qahq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qalq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa10lq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa10lq@a@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa10hq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa100lq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa5jq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa5kq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qa5jq3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaGq@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qagg:s/e/E/<CR>q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaw.q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxw.q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxw.q3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qacwX<Esc>w.q@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qacwX<Esc>w.q3@a
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxw.q@a.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	qaxw.q@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq@a@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadwq2@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadwq@a@@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>jq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa0ix<Esc>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxj@aq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxj@aq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxj@aq@a@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qAxq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqAxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqAjq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqAjq2@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qbxq@b
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@b
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa/zzz<CR>xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa/o<CR>xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa/o<CR>xq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa/o<CR>xq5@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa/o<CR>xq50@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxxq@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadwq@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjxq@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxxq@auu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxxq@au<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddq3@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddq3@auu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a@@.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadwq.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadwq@a.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>q.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>q@a.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>jq@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qayyjpq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qayyPq@a@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:s/e/E/<CR>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:s/e/E/<CR>jq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:s/e/E/<CR>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:d<CR>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:d<CR>q3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:d<CR>q9@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:2<CR>xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:$<CR>xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa:normal x<CR>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qavjdq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaVjyq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaveyq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qavjUq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaVj>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qavlolq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaVjdq@a@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qavjdq@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa<C-v>jlxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa<C-v>jIx<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa<C-v>jAx<Esc>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa<C-v>jcX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa2wq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa2xq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa3dwq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa2ddq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa2ddq@a@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddpq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddpq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaJq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaJq5@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaJxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa~q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa~q10@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qagUiwq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaguiwwq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qagUiwwq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaciwX<Esc>wq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaciwX<Esc>wq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qacwX<Esc>wq@a@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiX<Esc>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiX<Esc>jq2@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaoX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaoX<Esc>q2@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaOX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaAX<Esc>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaIX<Esc>jq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qacc<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaSX<Esc>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaCX<Esc>jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qasX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa3sX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qarXq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa3rXq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaRab<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaRabq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa*xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa#xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa%xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa;xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa,xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa}dq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa{dq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaGxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaggxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa$xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa0xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa^xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa|xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa5|xq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaHxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaMxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaLxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa"ayyq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaq"ap
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"ap
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq"ap
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"aP
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"ayy
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"Ayy
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:let<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa"byyq"bp
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa"byyq@a"bp
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"ap@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"ap"ayy
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq"ap"add
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayy@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayw@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayiw@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayy@a@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayy2@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"add@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayyj@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j"ayy@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>"ayy@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ay$@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"adw@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayl@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ay2l@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayj@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayjj@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yy@"
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yy@0
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yw@"
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dd@"
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayy:@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yy:@"<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ayy@a:@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:s/e/E/<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j:s/e/E/<CR>j@:j@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j:s/e/E/<CR>j@:j@@@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:s/e/E/<CR>:@:<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:s/e/E/<CR>:@@<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:d<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j:d<CR>3@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j:d<CR>@:@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	j:s/./X/<CR>j@:j@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2<CR>@:@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:normal x<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	@a@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq0@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq1@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq1@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"ap
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	"aP
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:%normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:2,3normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:g/e/normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:g/e/normal @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:%norm 2@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadwq:%norm @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>q:%norm @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>q:2,4norm @a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>q:g/e/norm @a<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA!<Esc>q:g/e/norm @au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:g/e/normal @au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:normal 3@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:%@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddq:@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddq:2,3@a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaddq:2,3*a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:*a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq:*a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:@@<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq:@:<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaqqaxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqaq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqaxq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqaxqu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qxq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qXq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	q0xq@0
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	q1xq@1
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	q-xq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	q"xq@"
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	q_xq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa@aq
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa@a<Esc>q
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqb@aq@b
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqb@aq3@b
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqbxq@a@b
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqqbjq@a@b@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjqqb@aq@b@b
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@a@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>u@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@au
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@auu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@a:undo 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@a:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@ag-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@ag-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaaX<Esc>q@a:earlier 1f<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiab<C-w>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiab<C-u>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiab<BS>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaiab<CR>cd<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA<C-r>"<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaA<C-o>x<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qai<C-a><Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qai<C-v>065<Esc>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a:s/e/E/<CR>@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a:s/e/E/<CR>u@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@axu@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqu@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqu@a.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxqu.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@au.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq..u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a@@u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a@@uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a@@uuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a@@uuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxq@a@@uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxjq@a@@@@@@@@@@@@@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadjq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadjq@a@@@@
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadkq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qadkjq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qahq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qalq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa10lq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa10lq@a@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa10hq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa100lq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa5jq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa5kq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qa5jq3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaGq@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qagg:s/e/E/<CR>q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaw.q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxw.q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxw.q3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qacwX<Esc>w.q@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qacwX<Esc>w.q3@a
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxw.q@a.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	qaxw.q@au
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd<<uuxuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>uuxuu<C-r><C-r>ug-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXuuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddPdw3xuuxu:undo 1<CR>:redo<CR>:redo<CR>uux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pxUU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pdwxUuUuuug+uuxg-g-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>dwuuxuuuuxu2g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpgUiwPgUiwxUu2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>Puxuu<C-r><C-r>u<C-r>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>>>ixx<Esc>dw:earlier 5<CR>g-g-g+UU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXddxuixx<Esc>xU<C-r>UU<C-r>:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PgUiwixx<Esc>ixx<Esc>:undo 1<CR>xg-g-g-g+g+uuxuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<PxuxU:undo 0<CR>:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiwg-g-g+g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~g-g-g-2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	Dixx<Esc>JgUiwUUg+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.rXcwQ<Esc>:undo 9<CR>uu.uug+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yyp3xuu.uuuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	A!<Esc>oY<Esc>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>Pddpuxu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiw:undo 1<CR>:redo<CR>:redo<CR>:undo 1<CR>:redo<CR>:redo<CR>:earlier 1f<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	D:earlier 1f<CR>uuxu3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwJUU<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwuug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>u<C-r>uuxuu<C-r>2g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yyp<<A!<Esc>cwQ<Esc>:undo 2<CR>:undo 1<CR>xg-g-g-g+g+g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwDDoY<Esc>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>D.uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>cwQ<Esc>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<ixx<Esc>.uxuu<C-r>:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xppUuuu.3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3x~S<Esc>Du<C-r>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>~.>>:undo 2<CR>x:undo 1<CR>:undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xuu.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddp~uuuuuuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xu:undo 0<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	JrX<<ddp:undo 1<CR>:redo<CR>:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>JJyypuug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<yyp>>>>:undo 0<CR>uug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xxuuxg-g-g-g+uxuu<C-r><C-r>g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~xg-.xUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Pddp:earlier 5<CR>g-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwxuP:earlier 5<CR>u<C-r><C-r>ug-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>S<Esc>:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pUu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwpdd3xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>u<C-r>uuxuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>S<Esc>>>3g+UU:undo 2<CR>x:undo 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>3x.S<Esc>3g+:undo 2<CR>x:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dw2ddgUiwddp<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~xUug-g-uug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>yypu.uuxg-g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	Jxu3xJ:later 2<CR>uxu<C-r>:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	~cwQ<Esc>ddpixx<Esc>:undo 2<CR>3uUU<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiw.x2dduxuu<C-r>xUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwuuxg-g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>ddJg-g-g-:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yyppS<Esc>PUuuuxg-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	x<<ixx<Esc>uuxg-u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwgUiwx:earlier 5<CR>U
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddS<Esc><C-r>g-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	JxUuU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>gUiwg-g-g+g+U:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddxxu<C-r><C-r>u3g-uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiwdw:later 2<CR>u<C-r>u<C-r>:undo 1<CR>:redo<CR>:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.~3x3g+g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddyypxu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddixx<Esc>:undo 9<CR>u<C-r><C-r>uxU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.oY<Esc>:undo 1<CR>x:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>gUiwuuu2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	pddp3xxUuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	Jxddpuuxg-:undo 1<CR>xg-g-g-g+g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xS<Esc>uuxg-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yypuu<C-r><C-r>:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc><<3xuxuu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddpDyypoY<Esc>ug-uu<C-r><C-r>uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>S<Esc>3uuu.uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yyp:undo 2<CR>uuxg-g-g-g+:undo 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<uxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>xgUiwixx<Esc>u<C-r><C-r>uuxu<C-r><C-r><C-r>uuxg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Duuxuu<C-r>uuu2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3x<<u<C-r>u<C-r>:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuoY<Esc>dd>>3g+uuxuu<C-r>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<.oY<Esc>g+uuuuuuuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>xudw.uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiwgUiwgUiw3g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DxUU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>U:undo 0<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>Pug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>yyp>>uxu<C-r>UUg-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DDu<C-r>g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xugUiw2ddoY<Esc>ug-:earlier 5<CR>:undo 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwddpxUU<C-r>:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.xxUUu2<C-r>:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2ddPixx<Esc>cwQ<Esc>UUuux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddxUuug+2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>ddp~cwQ<Esc>u<C-r>:earlier 1f<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>dd:earlier 2<CR>:undo 2<CR>x:undo 1<CR>g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpyypJ:earlier 5<CR>UU<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc><<A!<Esc><C-r>xUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwJ<<J2g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	p3xgUiwddp:later 1<CR>g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3xixx<Esc>UU<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddp:undo 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xrX:earlier 2<CR>uxuu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>ddpddD:undo 2<CR>g-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>A!<Esc>:undo 0<CR>:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXoY<Esc>xyyp:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xixx<Esc>2ddS<Esc>:undo 2<CR>x:undo 1<CR>2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yypyypuuxg-g-g-g+:undo 1<CR>x:undo 3<CR>uuxg-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuu.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<xUug-g-g-u2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.dwdwixx<Esc>uxuu<C-r><C-r>3g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3x>>xuxu<C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>ddp<<3xuxuu<C-r><C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xrXxUuUuuxu3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xu<<rXixx<Esc>uu.:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DddUU<C-r>:earlier 5<CR>:undo 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xoY<Esc>u<C-r><C-r>uuuxuu2g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>~:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>dw>>uuug+u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xudd>>yypuuxg-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXdduuxuuuug+:undo 1<CR>:redo<CR>:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwixx<Esc>J3g-uuug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddoY<Esc>xu2ddUuu:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXdwp:undo 9<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rXixx<Esc>dd:undo 1<CR>xg-g-g-g+g+3g+:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~ddpcwQ<Esc>D:earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd2ddddgUiwuuxu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>>>:undo 2<CR>U
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>xU<C-r>UUxUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuuxg-g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	2ddA!<Esc>rXDu<C-r>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>uug+<C-r>Uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>>>ixx<Esc>S<Esc>:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXixx<Esc>uu<C-r>uuuuuuUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwixx<Esc>A!<Esc>>>2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	D.gUiwJg+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>xu3xpg-g-xUUxUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>A!<Esc>A!<Esc>:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3x3xxU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddpixx<Esc>u2<C-r>2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<dw:undo 1<CR>xg-g-uu<C-r>uuxg-g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3xgUiwcwQ<Esc>dduu.g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>>Puuxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiw>>uuuxg-g-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~ddcwQ<Esc>ug-uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd>><<uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xucwQ<Esc>J>>uuxuu<C-r>2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	pDixx<Esc>rX:undo 1<CR>:redo<CR>:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<pg-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXoY<Esc>xu:earlier 5<CR>uux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rXrXx3g+:undo 1<CR>:redo<CR>:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xrX:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2dd:undo 2<CR>:undo 1<CR>x:undo 3<CR>g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddug-:undo 1<CR>:redo<CR>:redo<CR>uuxg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>JyypxUg-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>dwuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>3g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddDuux:undo 0<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<3x:earlier 1f<CR>3g+:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd2ddg-g+:undo 0<CR>:redo<CR>:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3x~uu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd:undo 1<CR>x:undo 3<CR>xUuU:earlier 5<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rX2dd:undo 3<CR>:undo 2<CR>x:undo 1<CR>u<C-r><C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xxuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>:undo 1<CR>xg-g-<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JD2dddwg-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>ixx<Esc>gUiwS<Esc>uu<C-r><C-r>uu<C-r><C-r>g-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>ixx<Esc>dd:undo 9<CR>g+u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xu3x:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Jddp>>:undo 1<CR>x:undo 3<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	~PA!<Esc>>><C-r>xU<C-r>:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	J2ddUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	JA!<Esc>dwS<Esc>:undo 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>:undo 1<CR>:redo<CR>:redo<CR>:undo 3<CR>uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	PyypcwQ<Esc>uuxg-:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>dduxuu<C-r>u2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xdd3xxUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXS<Esc>cwQ<Esc>dduuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	oY<Esc>dwS<Esc>uxu<C-r><C-r><C-r>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	Pyyp~:undo 1<CR>xg-g-g-g+g+g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xuug+:undo 2<CR>x:undo 1<CR>uuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuA!<Esc>uuu2<C-r>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>><<Puxuu<C-r>u<C-r>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xdduxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	J3xJdduu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yyprXuxuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	>>JS<Esc>oY<Esc>xUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.px2dd:undo 1<CR>xg-g-uuxg-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xdwuu.uu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.A!<Esc>.U
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuS<Esc>A!<Esc>oY<Esc>g-.uuxg-u<C-r><C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>3x3g+g-g+Uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddp>>3x2dduxu<C-r><C-r><C-r>:undo 1<CR>xg-g-g-g+g+:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuu.xUuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>Pixx<Esc>Pug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwg-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.xuu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~pxu:undo 0<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~~uu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<xUuuuuuuuuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<xUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rXA!<Esc>xu2<C-r>xU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddp>>S<Esc>xUu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXuuxg-g-g-:undo 0<CR>:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.ixx<Esc>xUg-g-g+:later 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc>dd:undo 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	Duuug+u<C-r>u<C-r>:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PJoY<Esc>uu.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw<<uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<:undo 1<CR>uuxg-g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>rX<<x2g-g+xUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	pS<Esc>J2dduu.:undo 1<CR>x:undo 3<CR>g-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>Uuuxuu<C-r>uug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JgUiwgUiwu2<C-r>uu.g-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<.3xS<Esc>U
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yyp3xUuuxuu<C-r>:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddp~uuxg-g-g-g+g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2ddyypxUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>~dw<<UU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiwddx2ddu.u<C-r><C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xyypA!<Esc>>>:earlier 1f<CR>u2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xxu<<<<uu.uuug+g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpA!<Esc><<.:earlier 5<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	..<<J:later 1<CR>uuuuuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>uxuu<C-r>uuug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dduuxg-g-g-g+uu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	J.uxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	P2g-g+:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<uxuu<C-r>UU<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~xuJ2ddg-g-:undo 1<CR>uuxu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd2dddduuxuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<.xucwQ<Esc>uuu2<C-r>uuxg-g-g-g+u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>3x2ddgUiwg-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypcwQ<Esc>:earlier 2<CR>:undo 1<CR>xg-g-xUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	DcwQ<Esc>U
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXxuJuUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<oY<Esc>uuuuuuuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuuug+xUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>Uug+uxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xu2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>>>dwug-uu.uuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yyp~2ddg-g-g+uuxg-g-xUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.~S<Esc>ixx<Esc>:earlier 2<CR>:later 1<CR>g-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xyypDDuuxuuuuuuu:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xDJpug-g+Uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuoY<Esc>gUiwcwQ<Esc>:earlier 5<CR>uuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<<<xuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.rXg-g-g-UU<C-r>uuxg-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DS<Esc>pxU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXA!<Esc>pxUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	D2ddddpUu<C-r><C-r>u:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwddp~ddpxUug-g-g-uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	p2ddpP:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	x3g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>:undo 9<CR>ug-uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xu:undo 1<CR>x:undo 3<CR>g-g-g+g+uuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>puuu2<C-r>xUuuuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddp:later 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Duxuu<C-r>uu<C-r><C-r>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiwixx<Esc>xxuuug+:undo 1<CR>xg-g-g-g+g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>:undo 1<CR>xg-g-g-g+g+g-.uug+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xxxuxuuuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yyp3uUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwJ:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>u<C-r>u<C-r>:undo 1<CR>x:undo 3<CR>u2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2ddxUuUg-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddp:earlier 2<CR>:later 1<CR>:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwcwQ<Esc>g-g+:earlier 5<CR>uuuuuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>PddpoY<Esc>uuxuUuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypxUuU:later 1<CR>2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xu2dd>>3xxUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>rXJuu<C-r><C-r>xUug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	A!<Esc>pu<C-r>u<C-r>:undo 0<CR>uxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2dd~3xoY<Esc>uuxu:undo 1<CR>:redo<CR>:redo<CR>:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	Px2dduuxg-g-uxu<C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xuxuu<C-r>uuu2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	DS<Esc>P3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>JxUU:undo 2<CR>:undo 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xdd:undo 3<CR>uuxg-g-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>yypddp>>:undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dw2g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PP~A!<Esc>:later 1<CR>uuxg-g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>dd3g+uuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.gUiwD:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>uu.uuxg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	JgUiwJcwQ<Esc>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>uuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>.<<uuxuuuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	x~xuxUu:earlier 2<CR>:later 1<CR>uuxg-g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>A!<Esc>2dd:undo 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JgUiw3xyypuu:undo 1<CR>xg-g-3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3xixx<Esc>:undo 3<CR>g+:undo 2<CR>x:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	x<<ixx<Esc>gUiwUuuu.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<ug-Uuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	J:undo 2<CR>x:undo 1<CR>ug-:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXrX3xu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpJA!<Esc>uuxg-g-g-g+xU<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwyypS<Esc>ddg-.uuuuuuxU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~cwQ<Esc>rX<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc>rXJddxUUug-3u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>yypgUiwuxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>rX:earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	PJyypuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~>>uuxg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	A!<Esc>J~yyp3g-xUuU3g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.uxuu<C-r>:earlier 2<CR>uuxu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddpoY<Esc><<uuxg-g-uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypxuA!<Esc>3x:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.cwQ<Esc>u:undo 1<CR>uxuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw2<C-r>Uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>u<C-r>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>g+3u2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>>Juuxg-g-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	pxx3g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	>>:undo 1<CR>xg-g-uxuu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwgUiwDu<C-r><C-r>uUUg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2dduu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xuP:undo 1<CR>:redo<CR>:redo<CR>g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.rX>>>>uu<C-r>:undo 1<CR>:redo<CR>:redo<CR>uux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd3xddp:later 2<CR>Uu:earlier 1f<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddpug-:undo 1<CR>2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>uxuu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddp3g+u<C-r><C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yyprX:undo 1<CR>x:undo 3<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<UUuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	A!<Esc>uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3xddoY<Esc>dw:undo 0<CR>g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>>Uuuxg-:undo 1<CR>xg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwdwg-g-g-xUU:earlier 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	A!<Esc>3xixx<Esc>xU:undo 1<CR>x:undo 3<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	p.:undo 1<CR>x:undo 3<CR>xUu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	DoY<Esc>x3xu.3g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	P2ddxcwQ<Esc><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DA!<Esc>oY<Esc>xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	Juuxuu:undo 0<CR>:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwcwQ<Esc>dwS<Esc>uug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xucwQ<Esc>yyp3g+UUuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc><<.<<g-g-g-:earlier 2<CR>uuxg-g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	pPdwDuug+:earlier 5<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd:undo 1<CR>x:undo 3<CR>xU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>2ddS<Esc>:undo 0<CR>:redo<CR>Uuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiwoY<Esc>Jpug-:later 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	P3xixx<Esc>ddp2<C-r>Uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xxddA!<Esc>u<C-r>u<C-r>xUuuxu<C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>S<Esc>xurX:undo 1<CR>xg-g-:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwxxuuxuu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXu<C-r><C-r>u:earlier 1f<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~rX:earlier 1f<CR>:earlier 2<CR>:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.S<Esc>ixx<Esc>:undo 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>oY<Esc>S<Esc>g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>rX<<uxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>~uuug+uuxu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>uu<C-r><C-r>:earlier 2<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	..pxUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	Pu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	DpUuxu<C-r><C-r><C-r>uxu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rX>>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xuuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiw>>rXdduuUuug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>Jdduuxg-g-g-uuxuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiw>>3uuux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	PddgUiwdd<C-r>2<C-r>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PJu:undo 1<CR>x:undo 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	>>A!<Esc>Dixx<Esc>:undo 0<CR>:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXoY<Esc>uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	J:undo 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xoY<Esc>:undo 2<CR>g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddp2dd<<ixx<Esc>:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd~xU:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddA!<Esc>xuxuug+<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~g-g-g-:earlier 2<CR>:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JcwQ<Esc>g-.:earlier 1f<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>D2g-g+uu.:undo 2<CR>x:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>gUiwPuxu<C-r><C-r><C-r>2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypdwuxu<C-r>uuxg-g-U
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuug-xUuUuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.uu.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xudw:undo 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~ixx<Esc>.uuxg-g-u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.2dd:undo 1<CR>:earlier 1f<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>J:undo 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xxu..2<C-r>:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Jg-U
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.xu:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rX~uug+:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<<<Juu.u<C-r>u<C-r>uxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xuxuPcwQ<Esc>g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Puux2<C-r>g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~cwQ<Esc>ixx<Esc>:undo 1<CR>:redo<CR>:redo<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>:earlier 2<CR>:later 1<CR>UU<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>ddxu.:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	D~uuu2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<3xuuu2<C-r>2<C-r>uuxu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	cwQ<Esc>rXixx<Esc>xUuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xu.uuuuuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>:earlier 2<CR>:later 1<CR>g+:undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.yyp<C-r>Uuug-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Jxuxuyyp:undo 1<CR>xg-g-:earlier 1f<CR>2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xcwQ<Esc>Duu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc>~dwxUuU:undo 2<CR>x:undo 1<CR>g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiwgUiwPxUUg-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dd:undo 1<CR>xg-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.uuu2<C-r>uuxg-g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	D~pddp:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<>><<u2<C-r>2<C-r>uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xug-xUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<S<Esc>g-g-g+uuxg-g-g-g+xUuU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2ddJ<<xU<C-r>uu.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	pcwQ<Esc><C-r>uuxu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	P:earlier 1f<CR>uuxg-.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	DJoY<Esc>>>uuxg-ug-uu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiw<<uuxg-g-uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~~cwQ<Esc>xuxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>ixx<Esc>uuxuuxu<C-r>:earlier 5<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiwg-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>xgUiwP:undo 0<CR>3g+:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>gUiwrXuug+:earlier 1f<CR>uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>>xuoY<Esc>:earlier 5<CR>:undo 3<CR>uuuuuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddpS<Esc><<3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.ixx<Esc>yypxu:undo 3<CR>:earlier 5<CR>:undo 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PgUiwuuu2<C-r>g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~pg-u.u2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>xuuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>uu.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3xpP.uxu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXuuxuu<C-r>:earlier 2<CR>:later 1<CR>g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<uxu<C-r>uuxg-g-g-g+:undo 1<CR>x:undo 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~Puuxg-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dduux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xg-.:undo 1<CR>x:undo 3<CR>xUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXixx<Esc>3g+g-:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddpxuxg-g-<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Ddd>>uuxg-g-g-:undo 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	>>dwdd2<C-r>u2<C-r>:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xPgUiwdwuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>uug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuxu2ddu2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwxxuug+uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddddixx<Esc>J:undo 1<CR>:redo<CR>:redo<CR>:undo 1<CR>xg-g-g-g+g+g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3x>>S<Esc>ixx<Esc>Uuuuxuu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypP>>g-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiwddpP:undo 0<CR>:redo<CR>:undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpuuuuuuUuuuu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiw>>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	2ddA!<Esc>ixx<Esc>uuu2<C-r>:undo 1<CR>uxuu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.dduuxg-g-g-3g+:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc><C-r>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddpcwQ<Esc>S<Esc>2<C-r>:undo 0<CR>:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.Uuuuuuuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3x3xcwQ<Esc>g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xu:earlier 1f<CR>:undo 2<CR>x:undo 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JPixx<Esc>xUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Ppxuuuxuu<C-r>3g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PxUu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwcwQ<Esc>.uuxuuuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	A!<Esc>A!<Esc>3ug-g-g+U
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~:earlier 1f<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>oY<Esc>uuxg-g-g-3g+<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>>dduuxuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypx~uxu<C-r><C-r><C-r>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	~Uuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>xuddpJ:earlier 5<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<Uuuu<C-r>u<C-r>:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xxddpPxU<C-r>uuxu:earlier 5<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Jixx<Esc>x2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	cwQ<Esc>:later 1<CR>:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xu>>Uuuuu.uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<:undo 1<CR>x:undo 3<CR>UU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yypA!<Esc>x:undo 1<CR>xg-g-g-g+g+uuxg-g-g-:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	2ddixx<Esc>g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	p2g-g+uuug+uuu2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypJJu<C-r>:undo 0<CR>2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~<<cwQ<Esc>2ddg-.Uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuuuuuxuu:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3x:undo 9<CR>:earlier 2<CR>:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xcwQ<Esc>Uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>D~g-g+uuuuuuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>ixx<Esc>ddpuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddpxu:undo 2<CR>x:undo 1<CR>g-.uux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddgUiwJg+xUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yypg+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>cwQ<Esc>g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>rXddp<<:undo 1<CR>:redo<CR>:redo<CR>Uuuuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~<<uuuu<C-r>g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PrXuuxg-g-g-g+3uuux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dwuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xJ3xxuug-u<C-r><C-r>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Dixx<Esc>cwQ<Esc>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.JxUuuxuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>dd:undo 2<CR>U
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.dd<<xUUuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	2ddrXddp:earlier 5<CR>:undo 0<CR>:redo<CR>uug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXyyp<<xu<C-r><C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3x~xudwuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.pddpxu:earlier 2<CR>:later 1<CR>xU<C-r>:undo 1<CR>x:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	D:undo 1<CR>xg-g-g-g+g+uxu<C-r>UU<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3x<<2ddcwQ<Esc>uuxuu:undo 1<CR>:redo<CR>:redo<CR>uxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc><<pu.uuu2<C-r>uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>PDu.ug-uuxuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>~S<Esc>:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypxug-g-g+g+uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>rXdwrXu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>uxuu<C-r>uxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xuixx<Esc>A!<Esc>2dd:undo 2<CR>x:undo 1<CR>g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JS<Esc>yypxg-g-g-:undo 2<CR>uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	>>cwQ<Esc>UU<C-r>:undo 9<CR>u2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xPuuxug-g-g+g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpA!<Esc>3x:earlier 2<CR>:later 1<CR>uuxg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>~yyprX:undo 3<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>dd.oY<Esc>:later 2<CR>u2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2ddP3g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>xu~uuxuu<C-r>uuxg-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	2ddS<Esc>rXDu<C-r>uuxg-g-g-g+:undo 1<CR>xg-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXDJixx<Esc>:undo 1<CR>:redo<CR>:redo<CR>uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xu3g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuUuu:undo 0<CR>:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>uuxuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwuuxg-g-g-.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddxu~.uuuuuuuuxu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PyyprXddug-UuUuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	JUUuxuu<C-r>uuu2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2ddA!<Esc>xu:undo 1<CR>:redo<CR>:redo<CR>uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>2<C-r>:undo 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>~yyp2g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwxuDug-:undo 2<CR>UU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.pxuddxU<C-r>uuuxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PddpddA!<Esc>:earlier 2<CR>:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.~:undo 1<CR>x:undo 3<CR>:earlier 1f<CR>:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddJg-g-uux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>uuug+uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	D3xxUUg-.uxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.~uuxg-g-g-:undo 1<CR>xg-g-uuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddu.u2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypdd.yypg-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xPddpuug+xUuUuuu2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yypxu:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2ddyyp<<u.uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypJrXddp:earlier 1f<CR>g-uu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xuuxuu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	oY<Esc>:undo 0<CR>3u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~UUxUu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~:undo 1<CR>xg-g-g-g+g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	PoY<Esc>uuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~yypxuuuxg-g-g+g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiwD3x:undo 2<CR>g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>pgUiwg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiwdddddduuxg-g-g-:earlier 2<CR>g-g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>cwQ<Esc>xug-g+:undo 2<CR>g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	x<<Duug+uuu2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3xuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ppdw:undo 1<CR>xg-g-2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>:undo 2<CR>3g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	p~yyp3xuxu<C-r><C-r><C-r>u<C-r><C-r>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.3xg-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xrX2dduxuu<C-r>g-xUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>g-.uu.2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3xUU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~g-g-g+g+xUuUU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PJxddp:earlier 2<CR>uu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yypS<Esc>g-g-g+uug+:undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~3xUuuuuxuuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	DUuuuuxuuuuxuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	cwQ<Esc>uuxg-g-:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Dxuu<C-r>u<C-r>g+uuu2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiwg-g-g+:later 2<CR>:undo 0<CR>:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Pp<<g-uuxuuu2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~P<C-r>u<C-r>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2dd:undo 1<CR>:redo<CR>:redo<CR>UU<C-r>:undo 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xUU<C-r>:later 1<CR>xUuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	D>>x:undo 1<CR>xg-g-g-g+g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>oY<Esc>gUiwyypg-.uuxg-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiw>>ddoY<Esc>uuxg-g-U
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXxup3xg-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	J2ddA!<Esc>ddp:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	cwQ<Esc>>>xUuUu<C-r>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	J2dduuug-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwPu2<C-r>:undo 1<CR>uuxg-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypA!<Esc>xurXuxu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwA!<Esc>oY<Esc>xUuU:undo 9<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<u<C-r>u<C-r>:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xu:undo 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>yyp>>:undo 1<CR>x:undo 3<CR>uu<C-r>Uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xA!<Esc>3g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2ddUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pxrX:earlier 2<CR>uuxg-:undo 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.A!<Esc>ddpu<C-r>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yyp~S<Esc>g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xuoY<Esc>xUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.JA!<Esc>:undo 1<CR>xg-g-g-g+g+3g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiw2dddwuuu2<C-r>:undo 2<CR>:undo 1<CR>:redo<CR>:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DA!<Esc>dw~:undo 2<CR>x:undo 1<CR>u<C-r><C-r>u:earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddyypA!<Esc>:undo 1<CR>xg-g-g-g+g+:earlier 2<CR>uuxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>.2ddS<Esc>g-g-uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddxUuU:undo 1<CR>:undo 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>p:earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	J<<Jg-g-:earlier 1f<CR>:undo 1<CR>:redo<CR>:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2ddDddpcwQ<Esc>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuoY<Esc>yyp~uuxuu:earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	P<C-r>:later 2<CR>:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xuyypyyp<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	oY<Esc>:undo 9<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<.:undo 0<CR>:redo<CR>UUuuxuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	>>~3xuuxg-g-g-:undo 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddpu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiwA!<Esc>uuxu:undo 2<CR>x:undo 1<CR>uu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwD3xoY<Esc>UU<C-r>Uuuuxuu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~pxU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	3xu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXcwQ<Esc>ixx<Esc>UUuuxg-g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>PrX3xuuxu:undo 3<CR>uxu<C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc><<Dg+:later 2<CR>:undo 1<CR>x:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~ddp>>~:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~ixx<Esc>S<Esc>:earlier 2<CR>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>~xUU3u3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~rXxuxu<C-r><C-r><C-r>uuu2<C-r>:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	cwQ<Esc>oY<Esc>dwg-g-g+g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	x.gUiwdwuuxg-g-g-g+uug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Dixx<Esc>ddpddpg-g-g-uuxg-g-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>2dd~u2<C-r>3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>rX2dd:later 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xdwuxu<C-r><C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	x:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PpUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	D<<~x2g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dwdwPyyp:earlier 2<CR>:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>PddD:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.D>>yypu<C-r>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>.3x3x:undo 1<CR>:redo<CR>:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<<<2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xdduux:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xudd:earlier 2<CR>uuu2<C-r>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xDdw.uuug+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>S<Esc>uuxg-g-g-g+uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>uuxg-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.xUU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuxp~uuug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~dw.<<2g-g+:later 1<CR>g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	p:undo 1<CR>uuxg-g-g-uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>UUxUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yypD>>Uuu3g-u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddg-.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwrX>>P2g-g+uuxg-3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xug+:later 2<CR>uuxu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiwA!<Esc>.u2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xddp2ddg-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<<<UuUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rX3uUU<C-r>uu.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddpx3xuuxg-uxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd:later 1<CR>UU<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	p:undo 1<CR>x:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>dduxu<C-r><C-r><C-r>2<C-r>:earlier 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<g-.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.:later 2<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>xuJ.xU:undo 1<CR>:redo<CR>:redo<CR>2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xixx<Esc>.uuu2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<ixx<Esc>uuxuu:undo 1<CR>:redo<CR>:redo<CR>xUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>uuuuxuu<C-r>:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	pdwu<C-r>u<C-r>uxu<C-r>UU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwA!<Esc>:undo 1<CR>:redo<CR>:redo<CR>:earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwgUiwddpddpu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw~UuuUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xuA!<Esc>Jug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddu2<C-r>uuxg-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddixx<Esc>uuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	cwQ<Esc>pJ:undo 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>JS<Esc>g-2<C-r>g-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	x3x<<~:undo 0<CR>:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<Duuux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	cwQ<Esc>3xoY<Esc>x:earlier 2<CR>:later 1<CR>uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>uuxg-g-:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	DJ3xrXuuxug-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>:earlier 2<CR>:later 1<CR>:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pddixx<Esc>u.uuuuuug-.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwddrXS<Esc><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>ddpuuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>gUiwgUiwyyp:undo 2<CR>x:undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	~:undo 2<CR>uuxuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	DA!<Esc>JS<Esc>uxu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuddp<<u<C-r>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<cwQ<Esc>:undo 0<CR>:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>uuug+uu.3u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ixx<Esc>gUiw~dd:earlier 2<CR>:later 1<CR>g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddpP~:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xcwQ<Esc>uu.uuxuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>Dxug-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~oY<Esc>gUiwA!<Esc>Uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	JddprXxu3u:undo 3<CR>g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypuuu2<C-r>:undo 1<CR>x:undo 3<CR>:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypA!<Esc>3xpUU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypS<Esc>Uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3xrXuuxg-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXA!<Esc>Pxuuug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dwddrXdwxUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	JyyprXuxuu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xu<<.g-:undo 2<CR>x:undo 1<CR>2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>p~uuxuu<C-r>u2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	J.A!<Esc><<:earlier 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xuixx<Esc>.uuxu:undo 1<CR>xg-g-g-g+g+g-.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	gUiwUU<C-r>uuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xrXixx<Esc>:earlier 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xcwQ<Esc>:undo 2<CR>:undo 9<CR>u<C-r>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3x<<U
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>:earlier 1f<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<ixx<Esc>DPUuu:undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpJD.g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw<<oY<Esc>2g-g+2<C-r>3g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<A!<Esc>J:undo 1<CR>x:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~uxu<C-r><C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xixx<Esc>xuuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	Jg-g-g+g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xxuuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yypDuuxuu<C-r>uxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>rXDUuuuuxu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	JA!<Esc>ixx<Esc>uux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpddpuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>ug-3g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yyp:later 1<CR>:undo 0<CR>:redo<CR>xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc>ixx<Esc>uuxg-g-g-uuxuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~.:undo 1<CR>xg-g-uu.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xu:later 2<CR>g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	P~:undo 1<CR>x:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>rXS<Esc>Uuuuuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xxUUg-.:undo 1<CR>x:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	J~uuu2<C-r>g-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xUU<C-r>xUuU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>oY<Esc>ddxU<C-r>uuxg-g-xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>3xyyp2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	~g-g-u<C-r><C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xu.DxUuUuuxuu<C-r>uuxg-g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXDixx<Esc>A!<Esc>uxu<C-r>u.:undo 2<CR>x:undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.rX.cwQ<Esc>:undo 2<CR>x:undo 1<CR>xU<C-r>uux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc><<A!<Esc>yypg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xu>>ddoY<Esc>uuxuuUU<C-r>:later 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yypuuxg-g-g-uux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuyypS<Esc>uuxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	p>>g-g-g+<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rX.ddpcwQ<Esc>2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>:undo 0<CR>:redo<CR>:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>oY<Esc>:undo 1<CR>:redo<CR>:redo<CR>3g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	DdwUU<C-r>2<C-r>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.yyp>>ddpg-g-g+g+UU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddx3xPuuu2<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dduu.xU<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>cwQ<Esc>>>:undo 1<CR>:redo<CR>:redo<CR>:undo 9<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3x:earlier 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<ddg-g-g+uug+xUuU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2ddrXoY<Esc><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuddcwQ<Esc>xU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pUU<C-r>:undo 1<CR>xg-g-g-g+g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpcwQ<Esc>uuxuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddpu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>>>ixx<Esc>uux3g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>D2ddoY<Esc>:undo 1<CR>xg-g-g-g+g+xU<C-r>:undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Pdw>>uxuu<C-r>uuxuuuuuuuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xxu3x~:undo 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xu.dwuu<C-r>:undo 1<CR>xg-g-:later 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXixx<Esc>uxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dw3x>>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	J2dd<<.:earlier 5<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>ddpS<Esc>uuug+uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>u<C-r><C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	>>2ddg-g-g+uuug+3u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Puuxuuxu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>g-.uxu<C-r>:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypyyp:earlier 2<CR>:later 1<CR>u<C-r>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>A!<Esc>3xg-.uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>UU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pA!<Esc>uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>Jg-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>rXuuxuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ixx<Esc>:earlier 5<CR>ug-xU<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<~UU<C-r>:earlier 2<CR>2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	JrX:later 2<CR>xUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<~uuxg-ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwS<Esc>oY<Esc>:earlier 5<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	PDDA!<Esc>uxuu<C-r>3g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>Juuxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>2dddwcwQ<Esc>:later 1<CR>Uuu:undo 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiwPuuu<C-r><C-r>uuuuuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rX>>oY<Esc>Juug-:undo 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	PPxuUU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<JoY<Esc>dwu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	DgUiwD:undo 2<CR>uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ppddpuuuuuug-Uuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	>>>>PA!<Esc>:undo 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>uxu<C-r><C-r><C-r>uuUU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	DJ.3uuuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddyypxUuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddrXg-g-uuxg-g-g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yyp3g-uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	rXixx<Esc><<.g-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xg-g-g+g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwJ:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwrXddp:earlier 2<CR>u2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	Dxg-g-g+g+g-g-g+uuug+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<<<dduxuu<C-r><C-r>uu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiw3uUU<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpug-u<C-r>u<C-r>g-g-g+g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.<<u<C-r><C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>3g-:undo 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	DP>>xU<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>~uUuxU<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	>>ddpJuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>UUuuxg-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypuuxg-:earlier 5<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.xixx<Esc>Puuxg-g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw>>rXu2<C-r>uuxg-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwddDxUug-.uuxuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>~S<Esc>uxuu<C-r><C-r>:later 1<CR>UU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	2ddxu.g-g-uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd>>pg-g-g-:undo 1<CR>:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>ddgUiwu<C-r>uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	~:undo 1<CR>xg-g-g-g+g+uuxg-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	>>Jyypg-g-uuug+u<C-r><C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	JJ3xu.u2<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xxUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	p>>gUiw~:earlier 5<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xudd2dd:undo 1<CR>xg-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>Jg-g-xU<C-r>:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	DDU:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PddpJddp:undo 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypxUUuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpx2g-g+:undo 1<CR>x:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiw<<cwQ<Esc>:undo 2<CR>uuuuuu3g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>~3g-xUuxUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rX2g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~u<C-r><C-r>ug-g-<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dw~xuuUuux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>uuuxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.Ppuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	J3x2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PS<Esc>ddp:undo 0<CR>:redo<CR>:earlier 1f<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwA!<Esc>S<Esc>yyp:undo 2<CR>3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXuxu<C-r><C-r><C-r>:undo 0<CR>:redo<CR>g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	pyypcwQ<Esc>u2<C-r>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypyypg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>PPu<C-r>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pxdd3xg+<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	cwQ<Esc>3xuuuuuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXddpDdduux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dd>>3g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>ddpixx<Esc>uuxg-:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>2<C-r>uug+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXddpdwuxu<C-r>:later 1<CR>g-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Dg-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>ddddpuuxg-g-g-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>2dduu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>xugUiwixx<Esc>:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xu2dd3g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pxU:undo 2<CR>Uuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xuxuddpuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.rXixx<Esc>yypuuxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc><<:undo 9<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	A!<Esc>~dwxu:undo 2<CR>x:undo 1<CR>xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	yypyypixx<Esc>Dg-g-g-u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dd3xU:undo 0<CR>g-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.A!<Esc>JgUiwg-g-g+g+u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	p:later 2<CR><C-r>uug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dwuuxg-g-u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddcwQ<Esc>xUuU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	pPgUiwuxu<C-r><C-r><C-r>3g+xUuU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Dddp:undo 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	>>A!<Esc>u<C-r><C-r>ug-g-g-u<C-r><C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXxu>>Juxu<C-r><C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dw<<.:undo 3<CR>uxuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.S<Esc>:undo 9<CR>xUUxUU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>Uug-.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.oY<Esc>gUiwuuxg-g-:undo 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rX<<u2<C-r>:undo 2<CR>3u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddp:earlier 2<CR>uu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xddpddpuuxg-g-g-g+uuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>U
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.UU<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>rXyypddpuuug+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>ddxuUuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddrX3g-uug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dw:earlier 2<CR>:later 1<CR>uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	x2dd2dd:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwddpddpuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~xuu.xUUuuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xDUug-g-uu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc><<>>uxu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3x:earlier 2<CR>:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>x3xdw:earlier 1f<CR><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpP:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	A!<Esc>D.:undo 1<CR>xg-g-uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiw3x>>>>:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	JdwA!<Esc>gUiwxUuU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.xuuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	cwQ<Esc>x:earlier 2<CR>u<C-r><C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.cwQ<Esc>S<Esc>g-g-g+uuxg-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwcwQ<Esc>oY<Esc>pu.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddp>>>>UUxUuuxg-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwcwQ<Esc>xuUug+Uuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	JrXxu.:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xu~uxu<C-r><C-r><C-r>:undo 2<CR>x:undo 1<CR>:undo 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xJ.g-g-g+:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2ddUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	D:undo 1<CR>xg-g-g-g+g+3g+g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	.Ju<C-r><C-r>ug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xuS<Esc>xUUuxu<C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	>>dwyypA!<Esc>xUu3g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xugUiwxU<C-r>g-g-g-:undo 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pJdd<<uuxg-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Puxu<C-r>ug-U
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>xuu.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	.uxu<C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddp<<u<C-r>g-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>ixx<Esc>xg-g-uuxg-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>ixx<Esc>~UUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	3xoY<Esc>ixx<Esc>uuuuuuug-:undo 9<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2ddgUiw~3xUuxu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.oY<Esc>uu<C-r><C-r>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwcwQ<Esc>uxu<C-r>:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	x>>.cwQ<Esc>2g-g+g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xu2ddJS<Esc>:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>~~<<2<C-r>:undo 1<CR>uuxg-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc><<dwxU:undo 9<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddprXxUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ppg-g-g-g-g-g+xUU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwrXxu.3g-uuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	JS<Esc>yypddp:later 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypdwJ3g-g-g+:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiw<<uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>uuxg-g-g-3u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dd<<Pdw:later 2<CR>g-.xUuU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	PJ:undo 0<CR>:undo 3<CR>uuxg-g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	<<xUuU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pdwdduux3g+2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>uuxg-g-uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>x:undo 1<CR>xg-g-u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rXdwuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	dwgUiw.3uu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ddddp2dduxu<C-r><C-r><C-r>:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXixx<Esc>>>:earlier 2<CR>:later 1<CR>:later 2<CR>uxuu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	JrXrXuux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiwPuxu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xu:later 2<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	<<D<<3g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>rX2g-g+ug-:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	x2ddgUiwUuuxuu<C-r>uu.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yypuuxg-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>g-g+g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc>:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<S<Esc>rXdwuxuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	DgUiw2dd:later 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~ddpD<<:undo 9<CR>:undo 1<CR>:redo<CR>:redo<CR>uxuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwPdd:undo 2<CR>x:undo 1<CR>uuu2<C-r>3g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	2dd>>A!<Esc>cwQ<Esc>uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypA!<Esc>3xdw3u:earlier 5<CR>uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	xuoY<Esc>PgUiwuuxuuuuxg-g-g-g+uuxg-g-g-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	S<Esc>.x:undo 2<CR>g-g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	xuug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<ixx<Esc>3g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yyp:earlier 5<CR>:earlier 2<CR>:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpdduuxg-g-g-:earlier 2<CR>xUuU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dw:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	PA!<Esc>u<C-r>u<C-r>xUUuuug+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xoY<Esc>gUiwPxUuUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dwu<C-r>u<C-r>UU<C-r>uu.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpu<C-r><C-r>uxUUxUuU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rXS<Esc><C-r>:later 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	>>~yypg-g-g-uuuuxg-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	cwQ<Esc>A!<Esc>3g-:earlier 1f<CR>:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>uuxg-g-g-g+uuug+:undo 1<CR>xg-g-g-g+g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dd~2dd2dd:later 1<CR>3g+:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2ddxuPuxu<C-r>:undo 1<CR>:redo<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypS<Esc>ddppuu<C-r>uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.g-g-g+g+:undo 2<CR>U
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpoY<Esc>>>cwQ<Esc>g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	yypuxuu<C-r><C-r>g-.uuuuuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddpoY<Esc>uuxg-U
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xrX3x2dduu:earlier 2<CR>:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw:earlier 1f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xP:undo 1<CR>xg-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xxUg-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	Pdddw3uuuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pgUiw:undo 0<CR>:earlier 1f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	ixx<Esc>.Uuu:later 2<CR>3g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddS<Esc>cwQ<Esc>uuxg-g-g-g+uu<C-r>Uuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xuA!<Esc>rX:undo 2<CR>x:undo 1<CR>:undo 2<CR>x:undo 1<CR>:undo 1<CR>xg-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dw.>>g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~yypu<C-r>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpgUiwuu<C-r><C-r>g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwixx<Esc>:undo 2<CR>x:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	D:earlier 2<CR>u<C-r><C-r>uuuxg-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypdd:earlier 2<CR><C-r>UU<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	rX2dddd<<uuUuuu<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~3xddpxuuxg-g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	D.DcwQ<Esc>:undo 9<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	x2dd<<:earlier 2<CR>uuxuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	dwDdw2dduuxg-g-g-g+u<C-r>u<C-r>:later 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	dw:undo 1<CR>xg-g-g-g+g+xUuuu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xu>>A!<Esc>xu:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	PgUiw2ddxUU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	ddp<C-r>:earlier 1f<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	rXug-uuuuuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	.uuug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xg-g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	2dd3xuxuu<C-r><C-r>Uuug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	gUiwS<Esc>:undo 0<CR>uug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	poY<Esc>3uuxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dddwJxuuxuuUu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yypg+xUu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	P:undo 1<CR>x:undo 3<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	Ddwuug+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	xdduuxg-g-g-uuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypJddp:undo 1<CR>:redo<CR>:redo<CR>ug-:undo 2<CR>x:undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	>>pJ:undo 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	..g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xoY<Esc>ddpxU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiwdw:undo 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	J~u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>yyp3xgUiwuux:earlier 2<CR>:undo 2<CR>x:undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2dd3g+<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.cwQ<Esc>gUiwpg-g-g-:undo 0<CR>:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	rXoY<Esc>oY<Esc>g-g-g-.:later 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	oY<Esc>~<<D:undo 9<CR>uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>PgUiwrXu<C-r>u<C-r>uuu2<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	3xg-g+uxu<C-r>:later 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	DUU<C-r>:undo 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	2dduug+xUuU:earlier 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	oY<Esc>ddp:undo 1<CR>xg-g-xU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	>>>>yypJu<C-r><C-r>u3u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>u<C-r>u<C-r>:undo 3<CR>g-.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	gUiw3g+uuxg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	oY<Esc>2dd:earlier 5<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<rXcwQ<Esc>2ddu.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>dwP:undo 2<CR>x:undo 1<CR>:earlier 2<CR>:undo 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<J3x<<u<C-r><C-r>u:later 1<CR>Uuu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpDgUiwdduxu<C-r>2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ddcwQ<Esc>uuxg-g-.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>gUiwprXuuxuu<C-r>uu<C-r><C-r>uuxuu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	.ixx<Esc>uug+uxuu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ixx<Esc>yypp:later 1<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	ixx<Esc>Uuuu<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	cwQ<Esc>gUiw3xuuug+:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	gUiw.g+:undo 1<CR>:redo<CR>:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	~:undo 2<CR>UU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	<<dwUuu:undo 0<CR>:redo<CR>uu.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	xxgUiw:later 2<CR>:undo 3<CR>xUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	P.xUu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	pDP:undo 9<CR>uuxg-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	P:undo 0<CR>:redo<CR>xU<C-r>u<C-r>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	<<p>>~uu<C-r>:undo 1<CR>xg-g-g-g+g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	Dx.xUUg+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	oY<Esc>puuug+3g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpxdwoY<Esc>3g-ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	oY<Esc>dwcwQ<Esc>Puuxg-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>rXA!<Esc>:undo 1<CR>x:undo 3<CR>xUUU<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	3xuu.Uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	A!<Esc>ddpx<<xUuu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	yyp~cwQ<Esc>:undo 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	Pu<C-r>u<C-r>xUuU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	ddpuuu2<C-r>uuug+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	ddpyyp3xA!<Esc>uuxg-g-g-<C-r>2<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~uxuu<C-r><C-r><C-r>g-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	cwQ<Esc>DcwQ<Esc>xu3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	S<Esc>D~ddUU<C-r>uu<C-r><C-r>uuxg-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dwDyypuxuu<C-r><C-r>g-g-g+g+uuxg-g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	2ddyypg-.Uuu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	D:undo 1<CR>:redo<CR>:redo<CR>2g-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	D3g+3g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	.u.uuxg-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	dw~xU<C-r>:undo 2<CR>uuxg-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	pxUu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	DA!<Esc>ddpoY<Esc>u<C-r>3g-uuuuuu<C-r><C-r><C-r><C-r><C-r><C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	~:later 1<CR>3g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	S<Esc>uu<C-r><C-r>g-g-g-3u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	gUiw>>xuA!<Esc>u<C-r>:earlier 2<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	S<Esc>ddA!<Esc>:undo 1<CR>xg-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	3xyypU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	rXcwQ<Esc>xrXuuxuu<C-r><C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	Pdd2dd.u<C-r>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	yypS<Esc>g-g-g-u<C-r><C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	A!<Esc>ixx<Esc>3x:undo 1<CR>x:undo 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	S<Esc>uxu<C-r>uuug+uxuu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	xixx<Esc>uu.xU<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dduuug+uu<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	Dxu.~xUu2g-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	DJddcwQ<Esc>2g-g+Uuug-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	1,3	dwdwddp<<uxuu<C-r>ug-uux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	D:earlier 5<CR>uuxg-g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	<<rXixx<Esc>rXuxuu<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	yyprXA!<Esc>cwQ<Esc>uuxg-g-:earlier 2<CR>:later 1<CR>

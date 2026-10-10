@@ -1556,7 +1556,12 @@ bool run_op(MED_editor.Editor ed, Oap oap) {
     str op = oap.op;
     if (op == "d") {
         op_delete(ed, oap);
-        ed.want_from_cursor();
+        if (oap.linewise && ed.global_busy) {
+            ed.want_from_cursor();
+        } else {
+            // Vim sets w_set_curswant: the wanted column is recomputed lazily
+            ed.want_stale = true;
+        }
     } else if (op == "c") {
         // Vim skips the delete in an empty buffer (ML_EMPTY)
         if (!ed.buf.empty) {
@@ -1630,6 +1635,8 @@ void start_insert(MED_editor.Editor ed, int cmd, int count, bool replace) {
     ed.replaced = [];
     ed.ins_wait = 0;
     ed.ins_arrow = false;
+    ed.restart_edit = 0;
+    ed.ins_restart = false;
     ed.ins_next_set = false;
     ed.ins_hold = false;
     ed.ins_dirty = false;
@@ -1859,6 +1866,7 @@ void finish_insert(MED_editor.Editor ed) {
     if (ed.ins_arrow) {
         count = 1;
     }
+    bool untouched = ed.ins_arrow && ed.ins_restart;
     ed.ins_arrow = false;
     ed.ins_count = 1;
     str typed_text = ed.ins_text;
@@ -1882,16 +1890,24 @@ void finish_insert(MED_editor.Editor ed) {
     ed.uline_off = false;
     str line = ed.buf.line(ed.row);
     ed.marks.set("^", MED_buffer.Pos(ed.row, ed.col));
-    set_op_marks(ed, ed.ins_mark, MED_buffer.Pos(ed.row, ed.col));
-    if (ed.col > 0) {
+    if (!untouched) {
+        set_op_marks(ed, ed.ins_mark, MED_buffer.Pos(ed.row, ed.col));
+    }
+    if (ed.ins_ctrl_o) {
+        ed.ins_at_eol = ed.col >= line.size();
+        ed.o_lnum = ed.row;
+    }
+    if (ed.col > 0 && (!ed.ins_ctrl_o || ed.col >= line.size())) {
         ed.col = MED_text.prev_col(line, ed.col);
     }
     ed.mode = MED_editor.NORMAL;
     if (ed.blk_op != 0) {
         block_insert_end(ed);
     }
-    ed.regs.set_special(".", typed_text);
-    if (!ed.in_dot) {
+    if (!untouched) {
+        ed.regs.set_special(".", typed_text);
+    }
+    if (!ed.in_dot && !untouched) {
         List<int> tail = ed.ins_keys.slice(0, ed.ins_keys.size());
         tail.push(27);
         ed.dot_tail = tail;
@@ -2028,6 +2044,14 @@ void ins_register(MED_editor.Editor ed, str name) {
 // now does the insert start move to the cursor.
 void stop_arrow(MED_editor.Editor ed) {
     if (ed.ins_arrow) {
+        if (ed.ins_restart) {
+            ed.ins_restart = false;
+            if (!ed.in_dot) {
+                ed.dot_body = [105];
+                ed.dot_count = 0;
+                ed.dot_tail = [];
+            }
+        }
         ed.ins_next = MED_buffer.Pos(ed.row, ed.col);
         ed.ins_next_set = true;
         if (ed.col > ed.ins_start.col && ed.ins_dirty) {
@@ -2156,6 +2180,20 @@ void insert_key(MED_editor.Editor ed, int key) {
     }
     if (key == 27 || key == 3) {
         finish_insert(ed);
+        return;
+    }
+    if (key == 15) {
+        // CTRL-O: one Normal mode command, then back to inserting
+        int back = 105;
+        if (ed.mode == MED_editor.REPLACE) {
+            back = 82;
+        }
+        ed.ins_ctrl_o = true;
+        ed.ins_count = 1;
+        finish_insert(ed);
+        ed.ins_ctrl_o = false;
+        ed.restart_edit = back;
+        ed.restart_skip = true;
         return;
     }
     if (key == 18) {
@@ -2327,7 +2365,16 @@ void run_macro(MED_editor.Editor ed, str name, int count) {
         case Some(MED_register.Reg r): {
             ed.last_macro = reg_name;
             List<int> keys = MED_key.decode(r.text());
+            ed.block_hold = ed.block_hold + 1;
+            ed.macro_holds = ed.macro_holds + 1;
             run_keys(ed, keys, keys, count1(count) - 1);
+            if (ed.ex_queue.size() == 0 && ed.resume.size() == 0) {
+                ed.block_hold = ed.block_hold - 1;
+                ed.macro_holds = ed.macro_holds - 1;
+                if (ed.block_hold == 0 && ed.mode == MED_editor.NORMAL) {
+                    ed.end_block();
+                }
+            }
         }
     }
 }
@@ -2437,6 +2484,9 @@ bool cmd_tilde(MED_editor.Editor ed, int count) {
             shown = MED_text.prev_col(line, shown);
         }
         set_op_marks(ed, MED_buffer.Pos(ed.row, ed.col), MED_buffer.Pos(ed.row, shown));
+    } else {
+        // Vim saves the line for undo before it finds that nothing changes
+        ed.noop_node();
     }
     ed.col = end;
     ed.clamp();
@@ -2785,8 +2835,47 @@ bool run_g(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
 
 /// Process one key in whatever mode `ed` is in.
 pub void feed(MED_editor.Editor ed, int key) {
+    ed.restart_skip = false;
     feed_key(ed, key);
+    try_restart(ed);
     MED_view.update(ed);
+}
+
+// Back to Insert mode after the Normal command that CTRL-O allowed (Vim's
+// edit() with restart_edit).
+pub void try_restart(MED_editor.Editor ed) {
+    if (ed.restart_edit == 0 || ed.restart_skip || ed.mode != MED_editor.NORMAL || ed.pending.size() > 0) {
+        return;
+    }
+    if (ed.ex_queue.size() > 0 || ed.resume.size() > 0) {
+        return;
+    }
+    bool replace = ed.restart_edit == 82;
+    str line = ed.buf.line(ed.row);
+    bool beyond = false;
+    if (ed.col < line.size()) {
+        beyond = ed.want < 0 || ed.want > MED_text.display_col(line, ed.col, ed.tab);
+    }
+    start_insert(ed, 105, 1, replace);
+    ed.ins_arrow = true;
+    ed.ins_restart = true;
+    // Insstart is the cursor before it moves past the last character, unless the wanted column forces it
+    MED_buffer.Pos start = MED_buffer.Pos(ed.row, ed.col);
+    if (ed.col < line.size()) {
+        if ((ed.ins_at_eol && ed.row == ed.o_lnum) || beyond) {
+            int nx = MED_text.next_col(line, ed.col);
+            if (nx >= line.size()) {
+                ed.col = nx;
+            }
+        }
+    }
+    ed.ins_at_eol = false;
+    if (beyond) {
+        // wanted column past the line: Insstart follows the cursor (checked against nvim)
+        start = MED_buffer.Pos(ed.row, ed.col);
+    }
+    ed.ins_start = start;
+    ed.ins_mark = start;
 }
 
 void feed_key(MED_editor.Editor ed, int key) {
@@ -2805,7 +2894,7 @@ void feed_key(MED_editor.Editor ed, int key) {
         cmdline_key(ed, key);
         return;
     }
-    if (key == 113 && ed.macro_reg != "" && ed.pending.size() == 0 && ed.mode == MED_editor.NORMAL) {
+    if (key == 113 && ed.macro_reg != "" && ed.pending.size() == 0 && (ed.mode == MED_editor.NORMAL || ed.mode == MED_editor.VISUAL)) {
         stop_recording(ed);
         return;
     }
@@ -3443,6 +3532,8 @@ bool cmd_addsub(MED_editor.Editor ed, bool sub, int count) {
     str line = ed.buf.line(ed.row);
     MED_nrfmt.NrResult r = MED_nrfmt.addsub(line, ed.col, 0, sub, count1(count), false, 0, ed.hexupper);
     if (!r.changed) {
+        // Vim saves the line for undo before it looks for a number
+        ed.noop_node();
         return false;
     }
     ed.hexupper = r.hexupper;
@@ -3524,6 +3615,8 @@ bool visual_addsub(MED_editor.Editor ed, Oap oap, bool sub, bool progressive) {
     if (changes > 0) {
         ed.marks.set("[", first);
         ed.marks.set("]", last);
+    } else {
+        ed.noop_node();
     }
     ed.row = oap.start.row;
     ed.col = oap.start.col;
@@ -4215,7 +4308,19 @@ void visual_cmd(MED_editor.Editor ed, MED_parse.Parsed p, List<int> typed) {
             ed.failed = true;
         }
     } else if (k == 64) {
-        run_macro(ed, str.from_chars([p.keys[1]]), p.count);
+        // characterwise and blockwise Visual stay active while the register
+        // runs (checked against nvim)
+        if (ed.vkind == 86) {
+            // `{Visual}@r` over lines is `:'<,'>normal @r`
+            leave_visual(ed);
+            str n = "";
+            if (p.count > 1) {
+                n = p.count.to_str();
+            }
+            ed.ex_queue.push("'<,'>normal " + n + "@" + str.from_chars([p.keys[1]]));
+        } else {
+            run_macro(ed, str.from_chars([p.keys[1]]), p.count);
+        }
     } else if (k == 58) {
         leave_visual(ed);
         enter_cmdline(ed, 58, typed);

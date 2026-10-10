@@ -172,6 +172,15 @@ pub type Editor {
     pub int lit_i = 0;
     /// An arrow key was used and nothing typed since (Vim's arrow_used).
     pub bool ins_arrow = false;
+    /// Insert-mode CTRL-O: the mode to come back to (105 insert, 82 replace) once
+    /// the next Normal command is done, 0 when not waiting for that.
+    pub int restart_edit = 0;
+    pub bool restart_skip = false;
+    pub bool ins_at_eol = false;
+    pub int o_lnum = 0;
+    pub bool ins_ctrl_o = false;
+    /// The insert was restarted by CTRL-O and nothing was typed yet.
+    pub bool ins_restart = false;
     /// Replaying the dot register (its keys are not recorded again).
     pub bool in_dot = false;
     /// A `/` or `?` whose pattern was just typed: the motion may run.
@@ -222,6 +231,10 @@ pub type Editor {
     pub List<str> requests = [];
     /// While above 0 (inside an ex line) `end_block` keeps the block open.
     pub int block_hold = 0;
+    /// How many of the `block_hold`s belong to running macros (`@a` is one undo step).
+    pub int macro_holds = 0;
+    /// Undo-tree states (node seq) at which the buffer was written, oldest first.
+    pub List<int> saved_nodes = [];
     /// Set while a typed `:` line runs when Vim would not remember it in the `:` register.
     pub bool colon_skip = false;
     /// The raw text of the last `:s` replacement (before `~` is expanded).
@@ -377,6 +390,18 @@ pub bool Editor.undo_line() {
     return true;
 }
 
+/// Let go of the holds of finished macros; the undo block closes in Normal mode.
+pub void Editor.release_macro_holds() {
+    if (macro_holds == 0) {
+        return;
+    }
+    block_hold = block_hold - macro_holds;
+    macro_holds = 0;
+    if (block_hold == 0 && mode == NORMAL) {
+        end_block();
+    }
+}
+
 /// Close the open block even inside an ex line (undo and redo need that).
 pub void Editor.close_block() {
     int h = block_hold;
@@ -524,6 +549,10 @@ void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines)
     int lnum = cursor_row + 1;
     if (!set_row) {
         lnum = row + 1;
+        if (!undoing && landings.size() == 0) {
+            // redoing an empty step (a failed put) moves to where it was made
+            lnum = node.before.row + 1;
+        }
     }
     if (node.before.row + 1 + 1 == lnum && lnum > 1) {
         lnum = lnum - 1;

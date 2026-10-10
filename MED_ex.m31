@@ -87,6 +87,10 @@ pub void drain(MED_editor.Editor ed) {
             }
             continue;
         }
+        ed.release_macro_holds();
+        if (ed.ex_depth == 0) {
+            MED_vim.try_restart(ed);
+        }
         break;
     }
 }
@@ -96,6 +100,8 @@ pub void drain(MED_editor.Editor ed) {
 bool run_isolated(MED_editor.Editor ed, str line) {
     List<str> saved_queue = ed.ex_queue;
     List<MED_editor.Resume> saved_resume = ed.resume;
+    int saved_macro_holds = ed.macro_holds;
+    ed.macro_holds = 0;
     ed.ex_queue = [];
     ed.resume = [];
     ed.ex_depth = ed.ex_depth + 1;
@@ -105,6 +111,7 @@ bool run_isolated(MED_editor.Editor ed, str line) {
     ed.ex_depth = ed.ex_depth - 1;
     ed.ex_queue = saved_queue;
     ed.resume = saved_resume;
+    ed.macro_holds = saved_macro_holds;
     return ok;
 }
 
@@ -1444,17 +1451,52 @@ Step cmd_z(MED_editor.Editor ed, Cmd c) {
 Step cmd_earlier(MED_editor.Editor ed, Cmd c) {
     int n = 1;
     str a = c.arg;
+    bool by_file = false;
     if (a != "") {
         int e = skip_digits(a, 0);
-        if (e != a.size() || e == 0) {
+        if (e == a.size() - 1 && a.byte_at(e) == 102) {
+            by_file = true;
+        } else if (e != a.size() || e == 0) {
             return fail(ed, "E475: Invalid argument: " + a);
         }
-        n = digits_value(a, 0, e);
+        if (e > 0) {
+            n = digits_value(a, 0, e);
+        }
     }
     ed.close_block();
+    bool back = c.name == "earlier";
     int target = ed.cur + n;
-    if (c.name == "earlier") {
+    if (back) {
         target = ed.cur - n;
+    }
+    if (by_file) {
+        // the Nth write away; no more writes: the original text / the newest state
+        target = 0;
+        if (!back) {
+            target = ed.nodes.size() - 1;
+        }
+        int seen = 0;
+        int k = 0;
+        if (back) {
+            k = ed.saved_nodes.size() - 1;
+        } else {
+            k = 0;
+        }
+        while (k >= 0 && k < ed.saved_nodes.size()) {
+            int w = ed.saved_nodes[k];
+            if ((back && w < ed.cur) || (!back && w > ed.cur)) {
+                seen = seen + 1;
+                if (seen == n) {
+                    target = w;
+                    break;
+                }
+            }
+            if (back) {
+                k = k - 1;
+            } else {
+                k = k + 1;
+            }
+        }
     }
     target = MED_num.clamp(target, 0, ed.nodes.size() - 1);
     if (target != ed.cur && !ed.undo_to(target)) {
@@ -1469,12 +1511,17 @@ Step cmd_at(MED_editor.Editor ed, Cmd c) {
         name = c.reg;
     }
     if (name == "" || name == "@") {
-        name = ":";
+        // the register last executed with `@` or `:@`
+        name = ed.last_macro;
+        if (name == "") {
+            return fail(ed, "E748: No previously used register");
+        }
     }
     if (c.addr_count > 0) {
         ed.row = c.line2 - 1;
         ed.clamp();
     }
+    ed.last_macro = name.substr(0, 1);
     str text = "";
     if (name == ":") {
         text = ed.regs.last_command;
@@ -1506,6 +1553,12 @@ Step cmd_at(MED_editor.Editor ed, Cmd c) {
 // Type `keys` as a complete command; an unfinished one is aborted as by <Esc>.
 bool run_normal(MED_editor.Editor ed, List<int> keys) {
     bool saved_replaying = ed.replaying;
+    // an insert that CTRL-O left open is restarted after the whole `:normal`
+    int saved_restart = ed.restart_edit;
+    bool saved_skip = ed.restart_skip;
+    bool saved_eol = ed.ins_at_eol;
+    int saved_lnum = ed.o_lnum;
+    ed.restart_edit = 0;
     ed.replaying = true;
     ed.failed = false;
     ed.message = "";
@@ -1518,6 +1571,10 @@ bool run_normal(MED_editor.Editor ed, List<int> keys) {
     }
     ed.pending = [];
     ed.replaying = saved_replaying;
+    ed.restart_edit = saved_restart;
+    ed.restart_skip = saved_skip;
+    ed.ins_at_eol = saved_eol;
+    ed.o_lnum = saved_lnum;
     ed.failed = false;
     // an error message (not just a beep) makes the calling command fail
     return !(ed.message.size() > 3 && ed.message.byte_at(0) == 69 && is_digit(ed.message.byte_at(1)));
