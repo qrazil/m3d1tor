@@ -44,3 +44,25 @@ pub str lower(str ch) {
     }
     return str.from_chars([lookup(LOW, cp)]);
 }
+
+/// The lower-case form of code point `cp`.
+pub int lower_cp(int cp) {
+    if (cp >= 65 && cp <= 90) {
+        return cp + 32;
+    }
+    if (cp < 128) {
+        return cp;
+    }
+    return lookup(LOW, cp);
+}
+
+/// The upper-case form of code point `cp`.
+pub int upper_cp(int cp) {
+    if (cp >= 97 && cp <= 122) {
+        return cp - 32;
+    }
+    if (cp < 128) {
+        return cp;
+    }
+    return lookup(UP, cp);
+}
