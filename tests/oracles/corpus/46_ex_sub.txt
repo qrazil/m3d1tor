@@ -1,0 +1,1008 @@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/e//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/e//g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/foo/X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/foo/X/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/\<./\u&/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/<&>/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/gi<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/O/0/i<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/O/0/I<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set ic|%s/O/0/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set ic|%s/O/0/I<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/hello/X/gi<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/n<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/gn<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/zzz/0/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/zzz/0/e<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/zzz/0/g|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3s/\(\w\+\) \(\w\+\)/\2 \1/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\(a\)\(b\)\?/[\1\2]/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/a\|b/X/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/a*/-/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/x*/-/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/$/!/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/^/> /<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/^$/EMPTY/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\s\+$//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/ /_/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/ 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/ 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/ 9<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2s/o/0/ 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g|s/e/3/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/\u&/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/\U&/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/\U&\E!/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\(\w\+\) \(\w\+\)/\u\1 \U\2/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\(\w\+\) \(\w\+\)/\L\1\E \l\2/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/\l&/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/\L&/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\w\+/\u\L&/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/\ex/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\U/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\&/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/&&/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\\/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\//g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\t/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/a\rb/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/a\rb/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/ /\r/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\n/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\0\0/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\(o\)/\1\1\1/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\1/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/~/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|s/e/~~/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|s/e/~x/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|%s/e/\~/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|s/e/&~/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n/,/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3s/\n/ /<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e\nf/X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n\n/Y/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n$//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1s/\n\(\w\)/-\1/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\_s\+/ /g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e\_.*f/Z/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\_$//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/$\n/;/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|&&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g|&&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g|2&&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g|%&&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|~<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/e/E/|s/o/0/|~<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|2,3&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|%&g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g|%s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:&&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:~<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g|%s//X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o//g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/s//5/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/s//5/|s//6/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s//x/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|%s//x/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|normal u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|normal g&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|u|redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/g|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/g|u|redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/0/g|undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s#o#0#g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s,o,0,g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s+o+0+g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s;o;0;g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s!o!0!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s#\/#X#<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s|o|0|<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/\(/x/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/*/x/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e\{2}/X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\v(a|b)+/X/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\Va.b/X/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\Ma*/X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\%2l./X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\%>2c./X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\zsx/Y/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o\zs /_/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e\ze /_/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$-1,$s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1;+1s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/,/ten/s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/;/ten/s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:'<,'>s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:3,2s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:0s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:9s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,9s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2s/\n//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2ka|%s/e/E/g|'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g|''<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//|normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/|normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/\r/|normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2s/e/\r/|normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/o/s/o/0/g|s/e/3/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/s/$/;/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/s/^/#/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/$/\r/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s//X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/o/0/|s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/\n//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/&&<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/~<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/y A|$pu a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g!/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/-1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/\r/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/\n/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dw|s/o/0/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort i<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort n<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort! n<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort o<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort b<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort /e/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort /e/ r<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort r /\w\+/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%sort<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4sort<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4sort!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort u i<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort f<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort nu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set sw=3|><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:normal! ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:@@<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3normal @:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|2@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|@@<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|normal @:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|normal 3@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|3@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|u|@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|j|@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/|j!|@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/e//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/e//g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/foo/X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/foo/X/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/\<./\u&/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/<&>/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/gi<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/O/0/i<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/O/0/I<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set ic|%s/O/0/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set ic|%s/O/0/I<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/hello/X/gi<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/n<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/gn<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/zzz/0/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/zzz/0/e<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/zzz/0/g|d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3s/\(\w\+\) \(\w\+\)/\2 \1/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\(a\)\(b\)\?/[\1\2]/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/a\|b/X/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/a*/-/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/x*/-/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/$/!/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/^/> /<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/^$/EMPTY/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\s\+$//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/ /_/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/ 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/ 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/ 9<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2s/o/0/ 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g|s/e/3/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/\u&/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/\U&/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/\U&\E!/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\(\w\+\) \(\w\+\)/\u\1 \U\2/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\(\w\+\) \(\w\+\)/\L\1\E \l\2/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/\l&/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/\L&/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\w\+/\u\L&/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/\ex/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\U/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\&/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/&&/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\\/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\//g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\t/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/a\rb/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/a\rb/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/ /\r/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\n/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\0\0/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\(o\)/\1\1\1/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\1/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/~/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|s/e/~~/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|s/e/~x/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|%s/e/\~/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|s/e/&~/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n/,/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3s/\n/ /<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e\nf/X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n\n/Y/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n$//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1s/\n\(\w\)/-\1/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\_s\+/ /g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e\_.*f/Z/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\_$//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/$\n/;/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|&&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g|&&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g|2&&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g|%&&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|~<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/e/E/|s/o/0/|~<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|2,3&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|%&g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g|%s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:&&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:~<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g|%s//X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o//g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/s//5/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/s//5/|s//6/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s//x/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|%s//x/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|normal u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|normal g&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|u|redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/g|u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/g|u|redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/0/g|undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s#o#0#g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s,o,0,g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s+o+0+g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s;o;0;g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s!o!0!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s#\/#X#<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s|o|0|<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/\(/x/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/*/x/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e\{2}/X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\v(a|b)+/X/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\Va.b/X/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\Ma*/X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\%2l./X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\%>2c./X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\zsx/Y/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o\zs /_/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e\ze /_/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$-1,$s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1;+1s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/,/ten/s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/;/ten/s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:'<,'>s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:3,2s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:0s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:9s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,9s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2s/\n//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2ka|%s/e/E/g|'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g|''<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//|normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/|normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/\r/|normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2s/e/\r/|normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/o/s/o/0/g|s/e/3/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/s/$/;/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/s/^/#/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/$/\r/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s//X/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/o/0/|s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/\n//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/&&<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/~<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/y A|$pu a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/t.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g!/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/-1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/+1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/\r/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/\n/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dw|s/o/0/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort i<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort n<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort! n<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort o<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort b<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort /e/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort /e/ r<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort r /\w\+/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%sort<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4sort<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4sort!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort u i<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort f<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort nu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set sw=3|><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:normal! ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:@@<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3normal @:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|2@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|@@<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|normal @:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|normal 3@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|3@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|u|@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|j|@:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/|j!|@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/e//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/e//g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/foo/X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/foo/X/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/\<./\u&/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/<&>/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/gi<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/O/0/i<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/O/0/I<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set ic|%s/O/0/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set ic|%s/O/0/I<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/hello/X/gi<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/n<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/gn<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/zzz/0/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/zzz/0/e<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/zzz/0/g|d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3s/\(\w\+\) \(\w\+\)/\2 \1/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\(a\)\(b\)\?/[\1\2]/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/a\|b/X/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/a*/-/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/x*/-/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/$/!/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/^/> /<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/^$/EMPTY/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\s\+$//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/ /_/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/ 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/ 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/ 9<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2s/o/0/ 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g|s/e/3/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/\u&/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/\U&/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/\U&\E!/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\(\w\+\) \(\w\+\)/\u\1 \U\2/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\(\w\+\) \(\w\+\)/\L\1\E \l\2/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/\l&/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/\L&/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\w\+/\u\L&/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/\ex/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\U/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\&/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/&&/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\\/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\//g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\t/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/a\rb/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/a\rb/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/ /\r/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\n/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\0\0/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\(o\)/\1\1\1/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/\1/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/~/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|s/e/~~/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|s/e/~x/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|%s/e/\~/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|s/e/&~/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\n//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\n/,/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3s/\n/ /<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e\nf/X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\n\n/Y/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\n$//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1s/\n\(\w\)/-\1/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\_s\+/ /g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e\_.*f/Z/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\_$//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/$\n/;/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|&&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g|&&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g|2&&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g|%&&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|~<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/e/E/|s/o/0/|~<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|2,3&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|%&g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g|%s<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:&&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:~<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/g|%s//X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o//g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/s//5/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/s//5/|s//6/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s//x/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|%s//x/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|normal u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|normal g&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|u|redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/g|u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/g|u|redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o/0/g|undo 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s#o#0#g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s,o,0,g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s+o+0+g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s;o;0;g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s!o!0!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s#\/#X#<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s|o|0|<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/\(/x/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/*/x/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e\{2}/X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\v(a|b)+/X/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\Va.b/X/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\Ma*/X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\%2l./X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\%>2c./X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\zsx/Y/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/o\zs /_/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e\ze /_/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$-1,$s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1;+1s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/,/ten/s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/;/ten/s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:'<,'>s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:3,2s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:0s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:9s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,9s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2s/\n//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2ka|%s/e/E/g|'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g|''<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/\n//|normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/|normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/\r/|normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2s/e/\r/|normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/o/s/o/0/g|s/e/3/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/s/$/;/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/s/^/#/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/$/\r/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s//X/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/o/0/|s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/\n//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/&&<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/~<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/y A|$pu a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/t.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g!/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/-1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/+1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/\r/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/\n/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dw|s/o/0/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort i<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort n<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort! n<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort o<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort b<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort /e/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort /e/ r<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort r /\w\+/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%sort<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4sort<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4sort!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort u i<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort f<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort nu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set sw=3|><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:normal! ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:@@<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3normal @:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|2@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|@@<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|normal @:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|normal 3@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|3@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|u|@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|j|@:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:s/o/0/|j!|@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1,2s/e/E/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/e//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/e//g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/foo/X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/foo/X/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/\<./\u&/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/<&>/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/gi<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/O/0/i<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/O/0/I<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:set ic|%s/O/0/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:set ic|%s/O/0/I<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/hello/X/gi<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/n<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/gn<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/zzz/0/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/zzz/0/e<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/zzz/0/g|d<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1,3s/\(\w\+\) \(\w\+\)/\2 \1/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\(a\)\(b\)\?/[\1\2]/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/a\|b/X/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/a*/-/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/x*/-/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/$/!/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/^/> /<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/^$/EMPTY/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\s\+$//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/ /_/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/ 2<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g 3<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g 1<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/ 2<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/ 9<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2s/o/0/ 2<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s 2<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g|s/e/3/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/\u&/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/\U&/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/\U&\E!/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\(\w\+\) \(\w\+\)/\u\1 \U\2/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\(\w\+\) \(\w\+\)/\L\1\E \l\2/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/\l&/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/\L&/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\w\+/\u\L&/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e/\ex/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\U/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\&/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/&&/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\\/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\//g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\t/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/a\rb/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/a\rb/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/ /\r/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\n/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\0\0/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\(o\)/\1\1\1/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/\1/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/~/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|s/e/~~/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|s/e/~x/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|%s/e/\~/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|s/e/&~/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\n//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\n/,/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1,3s/\n/ /<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e\nf/X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\n\n/Y/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\n$//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1s/\n\(\w\)/-\1/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\_s\+/ /g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e\_.*f/Z/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\_$//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/$\n/;/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|&&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g|&&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g|2&&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g|%&&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|~<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/e/E/|s/o/0/|~<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|2,3&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|%&g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g|%s<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:&&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:~<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/g|%s//X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o//g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:/five/s//5/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:/five/s//5/|s//6/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s//x/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|%s//x/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|normal u<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|normal g&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|u<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|u|redo<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/g|u<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/g|u|redo<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o/0/g|undo 0<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s#o#0#g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s,o,0,g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s+o+0+g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s;o;0;g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s!o!0!<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s#\/#X#<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s|o|0|<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/x<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/\(/x/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/*/x/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e\{2}/X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\v(a|b)+/X/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\Va.b/X/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\Ma*/X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\%2l./X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\%>2c./X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\zsx/Y/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/o\zs /_/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e\ze /_/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2,3s/e/E/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:$s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:$-1,$s/e/E/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1;+1s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:/five/,/ten/s/e/E/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:/five/;/ten/s/e/E/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:'<,'>s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:3,2s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:0s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:9s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1,9s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1,2s/\n//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2ka|%s/e/E/g|'a<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e/E/g|''<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/\n//|normal ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e/E/|normal ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%s/e/\r/|normal ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2s/e/\r/|normal ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/e/E/g<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/o/s/o/0/g|s/e/3/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/^/s/$/;/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:v/e/s/^/#/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/$/\r/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s//X/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/o/0/|s/e/E/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/\n//<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/&&<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/~<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/normal ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/d<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/m0<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/t.<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/j<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/><CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/normal dd<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/y A|$pu a<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/^/m0<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/^/t.<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g!/e/d<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/-1j<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/+1d<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/e/\r/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/s/e/\n/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:g/e/normal dw|s/o/0/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort!<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort u<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort i<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort n<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort! n<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort x<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort o<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort b<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort /e/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort /e/ r<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort r /\w\+/<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:%sort<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2,4sort<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2,4sort!<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort u i<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort f<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:sort nu<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:set sw=3|><CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:normal! ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:2normal ix<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:@@<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:1,3normal @:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:d|@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:d|2@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|@@<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|normal @:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|normal 3@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|3@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|u|@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|j|@:<CR>
+Hello World\nhello world\nHELLO WORLD\n\tTabbed line\nend	0,4	:s/o/0/|j!|@:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>u<C-r>.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>g&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>j@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:s/o/0/g<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:s/o/0/g<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u<C-r>.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>g&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>j@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:%s/e/E/g<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>u<C-r>.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>g&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>j@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/\n//<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:%s/\n//<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u<C-r>.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>g&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>j@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:g/e/s/e/E/<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>u<C-r>.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>g&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>j@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/o/\r/g<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:%s/o/\r/g<CR>jq@a
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u<C-r>.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>:s<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>g&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>&
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>j@:@@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	qa:sort<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>u<C-r>.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>g&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>j@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:s/o/0/g<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:s/o/0/g<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u<C-r>.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>g&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>j@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:%s/e/E/g<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>u<C-r>.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>g&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>j@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/\n//<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:%s/\n//<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u<C-r>.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>g&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>j@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:g/e/s/e/E/<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>u<C-r>.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>g&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>j@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/o/\r/g<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:%s/o/\r/g<CR>jq@a
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u<C-r>.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>:s<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>g&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>&
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>j@:@@
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	qa:sort<CR>jq@a

@@ -1,0 +1,624 @@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$-1,$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/,/ten/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:?four?d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2;+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:.,+2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:.,$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,.d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:'<,'>d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:y<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3y a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%y<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:y 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:3,4d b<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:pu!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:0pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y a|3pu a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:pu a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|pu!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,2j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:j 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1j 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2>><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3< 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:> 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:3>3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2m3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:3m1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:m.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2m2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2m1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2m2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3m3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1t$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3t0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:t0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%t$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:k a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2ka<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:3mark b|'b<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2k x|1d|'xd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:ma<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3ka|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1ka|3d|'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:+2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:-1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/six/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:?one?<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/zzz/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:5<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:100<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/e/;/e/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:+<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:++<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:--<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:normal x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%normal x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3normal Ax<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3norm dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:normal dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:normal 2dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2normal! ihi<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%normal I- <CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:norm yyp<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4normal D<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|u|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|u|u|redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|d|earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|d|earlier 3|later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|d|earlier 1|later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set ic<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set noic<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set ic|/FIVE/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set ic?<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set tw=20<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set sw=2|><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set sw=2|2,3><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set et|><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:set sw=3 et|>><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:marks<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:reg<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:=<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2#<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2l<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d|normal p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3d|normal P<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2d|1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d|$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:wa<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:w<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2;/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/six/;+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1;3d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4;d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:\/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:\&d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3y|normal gg<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:d 2|d 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:dk<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:yy<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:5,2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,5d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,9d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:10d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3d a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$-1,$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:/five/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:/five/,/ten/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:?four?d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2;+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:.,+2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:.,$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,.d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:'<,'>d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:y<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2y<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3y a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%y<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:y 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:3,4d b<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:pu!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:0pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2y|$pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2y a|3pu a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:pu a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2y|pu!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,3j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,3j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,2j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:j 3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1j 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2>><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3< 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:> 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:3>3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2m3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:3m1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:m.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2m2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2m1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2m2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,3m3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3m1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1t$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3t0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2t3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:t0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%t$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2t1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:k a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2ka<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:3mark b|'b<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2k x|1d|'xd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:ma<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3ka|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1ka|3d|'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:3<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:+2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:-1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:/six/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:?one?<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:/zzz/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:5<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:100<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:/e/;/e/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:+<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:++<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:--<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:normal x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%normal x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,3normal Ax<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3norm dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:normal dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:normal 2dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2normal! ihi<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:%normal I- <CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:norm yyp<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,4normal D<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|u|u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|u|u|redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|undo 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|undo 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|d|earlier 2<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|d|earlier 3|later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|d|earlier 1|later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set ic<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set noic<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set ic|/FIVE/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set ic?<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set tw=20<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set sw=2|><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set sw=2|2,3><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set et|><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:set sw=3 et|>><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:marks<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:reg<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:=<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2#<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,2l<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d|normal p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,3d|normal P<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2d|1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,3d|$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:wa<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:w<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2;/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:/six/;+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1;3d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,4;d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:\/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:\&d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,3y|normal gg<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:d 2|d 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:dk<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:yy<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:5,2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:2,5d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:1,9d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	2,3	:10d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$-1,$d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/,/ten/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:?four?d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2;+1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:.,+2d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:.,$d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,.d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:'<,'>d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:y<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3y a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%y<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:y 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:3,4d b<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:pu!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:0pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y a|3pu a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:pu a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|pu!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:j!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3j!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,2j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:j 3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1j 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2>><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:<<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2<<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3< 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:> 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:3>3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$<<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1m$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2m3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:3m1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:m.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2m2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2m1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2m2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3m3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:t.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1t$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3t0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:t0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%t$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$t.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:k a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2ka<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:3mark b|'b<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2k x|1d|'xd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:ma<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3ka|d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1ka|3d|'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:3<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:+2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:-1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/six/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:?one?<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/zzz/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:5<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:100<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/e/;/e/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:+<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:++<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:--<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:normal x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%normal x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3normal Ax<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3norm dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:normal dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:normal 2dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2normal! ihi<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%normal I- <CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:norm yyp<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4normal D<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|u|u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|u|u|redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|undo 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|undo 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|d|earlier 2<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|d|earlier 3|later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|d|earlier 1|later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set ic<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set noic<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set ic|/FIVE/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set ic?<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set tw=20<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set sw=2|><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set sw=2|2,3><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set et|><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:set sw=3 et|>><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:marks<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:reg<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2p<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:=<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2#<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2l<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d|normal p<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3d|normal P<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2d|1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d|$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:wa<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:w<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2;/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/six/;+1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1;3d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4;d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:\/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:\&d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3y|normal gg<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:d 2|d 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:dk<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:yy<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:5,2d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,5d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,9d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:10d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$-1,$d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/,/ten/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:?four?d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2;+1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:.,+2d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:.,$d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,.d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:'<,'>d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:y<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3y a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%y<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:y 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:3,4d b<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:pu!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:0pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y a|3pu a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:pu a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|pu!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:j!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3j!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,2j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:j 3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1j 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2>><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:<<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2<<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3< 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:> 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:3>3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$<<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1m$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2m3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:3m1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:m.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2m2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2m1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2m2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3m3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:t.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1t$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3t0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:t0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%t$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$t.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:k a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2ka<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:3mark b|'b<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2k x|1d|'xd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:ma<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3ka|d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1ka|3d|'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:3<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:+2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:-1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/six/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:?one?<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/zzz/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:5<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:100<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/e/;/e/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:+<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:++<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:--<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:normal x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%normal x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3normal Ax<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3norm dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:normal dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:normal 2dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2normal! ihi<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%normal I- <CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:norm yyp<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4normal D<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|u|u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|u|u|redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|undo 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|undo 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|d|earlier 2<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|d|earlier 3|later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|d|earlier 1|later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set ic<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set noic<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set ic|/FIVE/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set ic?<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set tw=20<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set sw=2|><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set sw=2|2,3><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set et|><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:set sw=3 et|>><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:marks<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:reg<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2p<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:=<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2#<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2l<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d|normal p<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3d|normal P<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2d|1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d|$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:wa<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:w<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2;/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/six/;+1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1;3d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4;d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:\/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:\&d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3y|normal gg<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:d 2|d 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:dk<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:yy<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:5,2d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,5d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,9d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:10d<CR>

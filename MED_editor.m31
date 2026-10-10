@@ -41,12 +41,22 @@ pub type FindState {
     pub bool until = false;
 }
 
+/// The rest of a macro that was stopped because it ran an ex command: the keys
+/// still to run in the current round, the whole macro and the rounds after it.
+pub type Resume {
+    pub List<int> keys;
+    pub List<int> full;
+    pub int again = 0;
+}
+
 pub type Editor {
     pub MED_buffer.Buffer buf;
     pub int row = 0;
     pub int col = 0;
     /// Desired display column for vertical moves; -1 is "end of line".
     pub int want = 0;
+    /// Vim's `w_set_curswant`: `want` is stale and is recomputed from the cursor before the next key.
+    pub bool want_stale = false;
     pub int mode = NORMAL;
     /// Visual: 118 (v), 86 (V) or 22 (CTRL-V); 0 when not selecting.
     pub int vkind = 0;
@@ -143,6 +153,12 @@ pub type Editor {
     /// Command line (ex or search) being typed.
     pub str cmdline = "";
     pub int cmd_type = 58;
+    /// Command-line histories (typed `:` lines, typed search patterns), oldest
+    /// first, and the browsing state of the line being typed.
+    pub List<str> hist_ex = [];
+    pub List<str> hist_search = [];
+    pub int hist_at = -1;
+    pub str hist_prefix = "";
     pub List<int> cmd_saved = [];
     pub str ex_line = "";
     pub int mode_before_cmd = 0;
@@ -186,6 +202,33 @@ pub type Editor {
     pub int blk_ind_col = 0;
     pub int blk_ind_vcol = 0;
     pub int blk_cur_col = 0;
+    /// Ex command lines typed (or replayed) and not yet run: MED_ex runs them,
+    /// because only it can call into the ex executor.
+    pub List<str> ex_queue = [];
+    /// Macros stopped for an ex command, first to continue first.
+    pub List<Resume> resume = [];
+    pub List<int> park = [];
+    pub bool park_set = false;
+    /// Lines `:g` has marked and not run yet (rows, ascending).
+    pub List<int> gmarks = [];
+    pub bool gmarks_on = false;
+    pub bool global_busy = false;
+    pub bool need_beginline = false;
+    /// Nesting of ex lines (`:normal`, `:g`): 0 when typed.
+    pub int ex_depth = 0;
+    /// The flags of the last `:s`, for `:&&`.
+    pub str sub_flags = "";
+    /// What the UI layer has to do: "write", "write NAME", "edit NAME", ...
+    pub List<str> requests = [];
+    /// While above 0 (inside an ex line) `end_block` keeps the block open.
+    pub int block_hold = 0;
+    /// Set while a typed `:` line runs when Vim would not remember it in the `:` register.
+    pub bool colon_skip = false;
+    /// The raw text of the last `:s` replacement (before `~` is expanded).
+    pub str sub_old = "";
+    pub bool sub_has = false;
+    /// Set while a caller adjusts the marks itself (`:s` line breaks).
+    pub bool adjust_off = false;
 }
 
 pub bool Editor.in_visual() {
@@ -199,6 +242,16 @@ pub MED_buffer.Pos Editor.cursor() {
 pub void Editor.set_cursor(MED_buffer.Pos p) {
     row = p.row;
     col = p.col;
+}
+
+/// Start the undo block now, remembering the cursor as it is (what Vim's
+/// u_save() sees when an ex command positions the cursor "for undo").
+pub void Editor.open_block() {
+    if (!block_open) {
+        block_open = true;
+        block = [];
+        block_before = MED_buffer.Pos(row, col);
+    }
 }
 
 /// The single entry point for changing text. The first change of a block
@@ -220,7 +273,85 @@ pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos to, str re
     }
     MED_buffer.Edit e = buf.splice(from, to, replacement);
     block.push(e);
+    if (!adjust_off) {
+        adjust_lines(from, to, replacement);
+    }
     return e;
+}
+
+/// Lines `a ..< a + nd` were deleted and `ni` lines inserted at `a + nd`
+/// (Vim's mark_adjust()): move or drop the marks that sit below.
+pub void Editor.mark_adjust(int a, int nd, int ni) {
+    if (gmarks_on && gmarks.size() > 0) {
+        List<int> kept = [];
+        for (int m in gmarks) {
+            if (m >= a && m < a + nd) {
+                continue;
+            }
+            if (m >= a + nd) {
+                kept.push(m + ni - nd);
+            } else {
+                kept.push(m);
+            }
+        }
+        gmarks = kept;
+    }
+    List<str> names = [];
+    for (str name in marks.keys()) {
+        names.push(name);
+    }
+    for (str name in names) {
+        if (name == "[" || name == "]") {
+            continue;
+        }
+        MED_buffer.Pos p = marks.get(name).or(MED_buffer.Pos(-1, 0));
+        if (p.row < 0) {
+            continue;
+        }
+        int c = name.byte_at(0);
+        bool letter = (c >= 97 && c <= 122) || (c >= 65 && c <= 90);
+        if (p.row >= a && p.row < a + nd) {
+            if (letter) {
+                marks.remove(name);
+            } else if (name == "'" || name == "'prev") {
+                // a deleted previous-context mark is line 0 (checkpcmark() may
+                // bring the one before it back)
+                marks.set(name, MED_buffer.Pos(-1, 0));
+            } else {
+                int r = a;
+                if (r > 0) {
+                    r = r - 1;
+                }
+                marks.set(name, MED_buffer.Pos(r, p.col));
+            }
+        } else if (p.row >= a + nd) {
+            marks.set(name, MED_buffer.Pos(p.row + ni - nd, p.col));
+        }
+    }
+}
+
+// Work out which whole lines a character edit deleted or inserted the way Vim's
+// line operations would have, and adjust the marks for it.
+void Editor.adjust_lines(MED_buffer.Pos from, MED_buffer.Pos to, str replacement) {
+    int removed = to.row - from.row;
+    int added = 0;
+    for (int i in 0 .. replacement.size()) {
+        if (replacement.byte_at(i) == 10) {
+            added = added + 1;
+        }
+    }
+    if (removed == 0 && added == 0) {
+        return;
+    }
+    if (replacement == "" && from.col == 0 && to.col == 0 && removed > 0) {
+        mark_adjust(from.row, removed, 0);
+    } else if (removed == 0 && from.col == 0 && added > 0 && replacement.ends_with("\n")) {
+        mark_adjust(from.row, 0, added);
+    } else if (added > removed) {
+        mark_adjust(from.row + 1, 0, added - removed);
+    } else if (removed > added) {
+        mark_adjust(from.row + 1, removed - added, 0);
+    }
 }
 
 /// `U`: swap the saved line with the current text of that line.
@@ -246,8 +377,34 @@ pub bool Editor.undo_line() {
     return true;
 }
 
+/// Close the open block even inside an ex line (undo and redo need that).
+pub void Editor.close_block() {
+    int h = block_hold;
+    block_hold = 0;
+    end_block();
+    block_hold = h;
+}
+
+/// A node that changes nothing: Vim saves the line for undo before it finds out
+/// a put has nothing to put, so `u` then undoes that empty step.
+pub void Editor.noop_node() {
+    if (block_hold > 0) {
+        return;
+    }
+    close_block();
+    int seq = nodes.size();
+    List<MED_buffer.Edit> none = [];
+    Node node = Node(seq, cur, none, MED_buffer.Pos(row, col));
+    nodes.push(node);
+    nodes[cur].redo_child = seq;
+    cur = seq;
+}
+
 /// Close the open undo block, if any, as one node of the tree.
 pub void Editor.end_block() {
+    if (block_hold > 0) {
+        return;
+    }
     if (!block_open) {
         return;
     }
@@ -344,17 +501,21 @@ void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines)
     int index = 0;
     for (Landing l in landings) {
         index = index + 1;
-        if (l.top < newlnum) {
-            if (saved >= l.top && saved <= l.top + l.newsize + 1) {
+        int vfirst = l.first - (l.mtop - l.top);
+        if (vfirst < 0) {
+            vfirst = 0;
+        }
+        if (l.mtop < newlnum) {
+            if (saved >= l.mtop && saved <= l.mtop + l.mnew + 1) {
                 cursor_row = node.before.row;
                 set_row = true;
                 newlnum = cursor_row;
-            } else if (l.first == l.newsize && newlnum == 1000000000 && index == landings.size()) {
-                newlnum = l.top;
+            } else if (vfirst == l.mnew && newlnum == 1000000000 && index == landings.size()) {
+                newlnum = l.mtop;
                 cursor_row = newlnum;
                 set_row = true;
-            } else if (l.first < l.newsize) {
-                newlnum = l.top + l.first;
+            } else if (vfirst < l.mnew) {
+                newlnum = l.mtop + vfirst;
                 cursor_row = newlnum;
                 set_row = true;
             }
@@ -378,7 +539,6 @@ void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines)
         }
     } else {
         row = buf.line_count() - 1;
-        col = 0;
     }
     clamp();
     want_from_cursor();
@@ -386,7 +546,7 @@ void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines)
 
 /// Undo one block. False when already at the oldest change.
 pub bool Editor.undo() {
-    end_block();
+    close_block();
     if (cur == 0) {
         return false;
     }
@@ -406,7 +566,7 @@ pub bool Editor.undo() {
 
 /// Redo along the branch last undone. False when there is nothing to redo.
 pub bool Editor.redo() {
-    end_block();
+    close_block();
     int child = nodes[cur].redo_child;
     if (child < 0) {
         return false;
@@ -419,6 +579,45 @@ pub bool Editor.redo() {
     }
     land(node, landings, false, old_lines);
     cur = child;
+    return true;
+}
+
+/// Go to the text state after change `target` (0: the original text), through
+/// the undo and redo steps between here and there (`:undo N`, `g-`, `g+`).
+pub bool Editor.undo_to(int target) {
+    close_block();
+    if (target < 0 || target >= nodes.size()) {
+        return false;
+    }
+    List<int> chain = [];
+    int n = target;
+    while (n != 0) {
+        chain.push(n);
+        n = nodes[n].parent;
+    }
+    chain.push(0);
+    int at = -1;
+    while (at < 0) {
+        for (int i in 0 .. chain.size()) {
+            if (chain[i] == cur) {
+                at = i;
+                break;
+            }
+        }
+        if (at < 0) {
+            if (!undo()) {
+                return false;
+            }
+        }
+    }
+    int k = at - 1;
+    while (k >= 0) {
+        nodes[cur].redo_child = chain[k];
+        if (!redo()) {
+            return false;
+        }
+        k = k - 1;
+    }
     return true;
 }
 
@@ -480,6 +679,55 @@ pub void Editor.clamp() {
 pub void Editor.init_marks() {
     marks.set("[", MED_buffer.Pos(0, 0));
     marks.set("]", MED_buffer.Pos(buf.line_count() - 1, 0));
+    marks.set("'", MED_buffer.Pos(0, 0));
+    marks.set("'prev", MED_buffer.Pos(-1, 0));
+}
+
+/// Vim's setpcmark(): the previous-context mark becomes `p`; does nothing in
+/// `:global`.
+pub void Editor.set_pcmark(MED_buffer.Pos p) {
+    if (global_busy) {
+        return;
+    }
+    marks.set("'prev", marks.get("'").or(MED_buffer.Pos(-1, 0)));
+    marks.set("'", p);
+}
+
+/// Vim's mark_col_adjust() for a join: a mark on joined line `row + 1 + i` moves
+/// to `row`, its column shifted by `shift[i]` (the whitespace that was removed
+/// from the front of that line counts as column 0 of the text).
+pub void Editor.join_marks(int row_in, List<int> shift, List<int> removed) {
+    List<str> names = [];
+    for (str name in marks.keys()) {
+        names.push(name);
+    }
+    for (str name in names) {
+        if (name == "[" || name == "]") {
+            continue;
+        }
+        MED_buffer.Pos p = marks.get(name).or(MED_buffer.Pos(-1, 0));
+        int i = p.row - row_in - 1;
+        if (p.row < 0 || i < 0 || i >= shift.size()) {
+            continue;
+        }
+        int c = p.col;
+        if (c < removed[i]) {
+            c = removed[i];
+        }
+        marks.set(name, MED_buffer.Pos(row_in, c + shift[i]));
+    }
+}
+
+/// Vim's checkpcmark(), at the end of a normal command: the mark before the
+/// current one comes back when the cursor ended up on the current one or the
+/// current one was deleted.
+pub void Editor.check_pcmark() {
+    MED_buffer.Pos prev = marks.get("'prev").or(MED_buffer.Pos(-1, 0));
+    MED_buffer.Pos pc = marks.get("'").or(MED_buffer.Pos(-1, 0));
+    if (prev.row >= 0 && (pc.row < 0 || (pc.row == row && pc.col == col))) {
+        marks.set("'", prev);
+    }
+    marks.set("'prev", MED_buffer.Pos(-1, 0));
 }
 
 pub Editor new(str text) {

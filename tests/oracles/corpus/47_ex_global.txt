@@ -1,0 +1,600 @@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d _<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g!/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/<<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ddp<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal yyP<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/y A<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/y a|$pu a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/-1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/.,+1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/.,+1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/.,+1j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/+1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/-1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal J<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal 3J<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/co.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/copy 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/pu!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/-1pu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/.-1,.d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/k a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/ka|'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/$/!/|s/^/>/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e//|s/o//<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d|normal x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0|m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.|s/e/E/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g//d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/zzz/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/zzz/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d|d|d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g#e#d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g,e,d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g+e+d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/\(e\)/s//[\1]/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^[a-f]/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^$/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^\s*$/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/./d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/./d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/\n/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e\n/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e\_.*f/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal @:<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/exe<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/x/|normal u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dw<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal 2x<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ~<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal gUU<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal guu<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal >><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4v/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,4g/e/m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:$g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:/five/,$g/e/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3g/e/s/e/E/g<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3g/^/m0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3g/^/t.<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,3g/^/t0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3g/^/m$<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/1d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/$d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/0d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/1,2d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/y A<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j!<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/s/$/;/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/normal A;<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/normal I;<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/normal J<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/./normal J<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/,+1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/.,+2j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/+1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/-1j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/-1,.j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/g/o/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/v/o/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/|g/E/d<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ix<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ax<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ox<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ox<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Sx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ccx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal cwx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Cx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal sx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal rx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Rx<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ~<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal D<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd|normal p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal yy|normal p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal p<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal P<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ma<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal `a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal 'a<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal gg<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal G<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal k<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal 2j<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal /e<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal n<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal *<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal #<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal %<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal w<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal b<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal ^<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal $<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal 0<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal! dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/norm dd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/norm! x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d _<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g!/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/<<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ddp<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal yyP<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/y A<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/y a|$pu a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/+1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/-1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/.,+1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/.,+1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/.,+1j!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/+1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/-1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal J<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal 3J<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/co.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/copy 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/pu!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/-1pu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/.-1,.d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/k a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/ka|'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/$/!/|s/^/>/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e//|s/o//<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d|d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d|normal x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0|m$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.|s/e/E/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g//d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/zzz/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/zzz/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d|d|d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g#e#d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g,e,d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g+e+d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/\(e\)/s//[\1]/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^[a-f]/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^$/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^\s*$/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/./d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/./d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/\n/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e\n/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e\_.*f/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal @:<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/exe<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/x/|normal u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dw<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal 2x<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ~<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal gUU<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal guu<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal >><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4v/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,4g/e/m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:$g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:/five/,$g/e/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3g/e/s/e/E/g<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3g/^/m0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3g/^/t.<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,3g/^/t0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3g/^/m$<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/2d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/1d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/$d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/0d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/1,2d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/y A<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j!<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/s/$/;/<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/normal A;<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/normal I;<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/normal J<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/./normal J<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/,+1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/.,+2j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/+1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/-1j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/-1,.j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/g/o/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/v/o/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/|g/E/d<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ix<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ax<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ox<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ox<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Sx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ccx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal cwx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Cx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal sx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal rx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Rx<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ~<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal D<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd|normal p<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal yy|normal p<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal p<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal P<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ma<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal `a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal 'a<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal gg<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal G<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal k<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal 2j<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal /e<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal n<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal *<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal #<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal %<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal w<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal b<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal ^<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal $<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal 0<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal! dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/norm dd<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/norm! x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d _<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g!/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/<<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ddp<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal yyP<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/y A<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/y a|$pu a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/+1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/-1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/.,+1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/.,+1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/.,+1j!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/+1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/-1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal J<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal 3J<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/co.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/copy 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/pu!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/-1pu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/.-1,.d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/k a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/ka|'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/$/!/|s/^/>/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e//|s/o//<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d|d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d|normal x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0|m$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.|s/e/E/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g//d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/zzz/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/zzz/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d|d|d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g#e#d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g,e,d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g+e+d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/\(e\)/s//[\1]/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^[a-f]/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^$/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^\s*$/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/./d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/./d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/\n/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e\n/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e\_.*f/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal @:<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/exe<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/x/|normal u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dw<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal 2x<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ~<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal gUU<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal guu<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal >><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4v/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,4g/e/m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:$g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:/five/,$g/e/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3g/e/s/e/E/g<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3g/^/m0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3g/^/t.<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,3g/^/t0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3g/^/m$<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/2d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/1d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/$d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/0d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/1,2d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/y A<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j!<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/s/$/;/<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/normal A;<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/normal I;<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/normal J<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/./normal J<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/,+1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/.,+2j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/+1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/-1j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/-1,.j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/g/o/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/v/o/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/|g/E/d<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ix<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ax<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ox<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ox<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Sx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ccx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal cwx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Cx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal sx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal rx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Rx<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ~<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal D<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd|normal p<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal yy|normal p<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal p<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal P<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ma<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal `a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal 'a<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal gg<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal G<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal k<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal 2j<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal /e<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal n<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal *<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal #<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal %<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal w<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal b<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal ^<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal $<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal 0<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal! dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/norm dd<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/norm! x<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d _<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g!/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m$<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t$<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j!<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/<<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal x<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ddp<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal yyP<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/y A<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/y a|$pu a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/g<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/+1d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/-1d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/.,+1d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/.,+1j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/.,+1j!<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/+1j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/-1j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal J<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal 3J<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/co.<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/copy 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/pu<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/pu!<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/-1pu<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/.-1,.d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/k a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/ka|'a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/'a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/$/!/|s/^/>/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e//|s/o//<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d|d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d|normal x<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0|m$<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.|s/e/E/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g//d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/zzz/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/zzz/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d|d|d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g#e#d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g,e,d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g+e+d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/\(e\)/s//[\1]/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^[a-f]/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^$/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^\s*$/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/./d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/./d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/\n/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e\n/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e\_.*f/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal @:<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/exe<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/x/|normal u<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dw<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal 2x<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ~<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal gUU<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal guu<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal >><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,4g/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,4v/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,4g/e/m0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:$g/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1g/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%g/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:/five/,$g/e/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,3g/e/s/e/E/g<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,3g/^/m0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,3g/^/t.<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,3g/^/t0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3g/^/m$<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/2d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/1d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/$d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/0d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/1,2d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/y A<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j!<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/s/$/;/<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/normal A;<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/normal I;<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/normal J<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/./normal J<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/,+1j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/.,+2j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/+1j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/-1j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/-1,.j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/g/o/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/v/o/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/|g/E/d<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ix<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ax<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ox<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ox<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Sx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ccx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal cwx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Cx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal sx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal rx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Rx<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ~<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal D<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd|normal p<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal yy|normal p<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal p<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal P<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ma<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal `a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal 'a<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal gg<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal G<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal k<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal 2j<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal /e<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal n<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal *<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal #<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal %<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal w<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal b<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal ^<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal $<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal 0<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal! dd<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/norm dd<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/norm! x<CR>

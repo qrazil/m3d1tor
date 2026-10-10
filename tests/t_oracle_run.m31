@@ -17,6 +17,7 @@
 
 import MED_editor;
 import MED_vim;
+import MED_ex;
 import MED_view;
 import MED_register;
 import MED_buffer;
@@ -100,12 +101,12 @@ str run_case(str line) {
     ed.clamp();
     ed.want_from_cursor();
     MED_view.update(ed);
-    MED_vim.feed_keys(ed, keys);
+    MED_ex.feed_keys(ed, keys);
     if (ed.mode == MED_editor.INSERT || ed.mode == MED_editor.REPLACE) {
-        MED_vim.feed(ed, 27);
+        MED_ex.feed(ed, 27);
     }
     if (ed.mode == MED_editor.CMDLINE) {
-        MED_vim.feed(ed, 27);
+        MED_ex.feed(ed, 27);
     }
     ed.end_block();
     List<str> out = [fields[0], hex_of(ed.buf.lines.join("\n")), ed.row.to_str(), ed.col.to_str(), mode_char(ed)];

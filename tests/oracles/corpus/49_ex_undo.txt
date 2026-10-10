@@ -1,0 +1,2604 @@
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/d<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/m0<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/m0<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/s/e/E/<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:v/e/d<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal dd<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/t.<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal Ax<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/j<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/^/j<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3d<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3m0<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2t$<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3j<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:2,3><CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:1,2y|$pu<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%s/e/E/g<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:sort!<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:%norm Ax<CR>ua<C-r>:<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u<C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>uu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u.
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>uU
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>ux
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u:redo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u:undo<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u:earlier 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u:later 1<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>ug-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>ug-g+
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>g-g-
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u<C-r>u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>jx.u
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>j@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u@:
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>u:<Up><CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>uu<C-r><C-r>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>"1p
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>"1pu
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>`[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>`]iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>'[iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>'<iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>gvd
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>gi.<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>``iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>''iX<Esc>
+one two three\nfour five six\nseven eight nine\nten eleven twelve\nthirteen	0,0	:g/e/normal u<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/d<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/m0<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/m0<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/s/e/E/<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:v/e/d<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal dd<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/t.<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal Ax<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/j<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/^/j<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3d<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3m0<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2t$<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3j<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:2,3><CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:1,2y|$pu<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%s/e/E/g<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:sort!<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:%norm Ax<CR>ua<C-r>:<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u<C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>uu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u.
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>uU
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>ux
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u:redo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u:undo<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u:earlier 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u:later 1<CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>ug-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>ug-g+
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>g-g-
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u<C-r>u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>jx.u
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>j@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u@:
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>u:<Up><CR>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>uu<C-r><C-r>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>"1p
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>"1pu
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>`[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>`]iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>'[iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>'<iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>gvd
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>gi.<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>``iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>''iX<Esc>
+foo bar foo\n  baz foo\nfoo\n\nlast foo line	1,2	:g/e/normal u<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/d<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/m0<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/m0<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/s/e/E/<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:v/e/d<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal dd<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/t.<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal Ax<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/j<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/^/j<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3d<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3m0<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2t$<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3j<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:2,3><CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:1,2y|$pu<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%s/e/E/g<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:sort!<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:%norm Ax<CR>ua<C-r>:<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u<C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>uu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u.
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>uU
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>ux
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u:redo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u:undo<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u:earlier 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u:later 1<CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>ug-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>ug-g+
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>g-g-
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u<C-r>u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>jx.u
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>j@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u@:
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>u:<Up><CR>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>uu<C-r><C-r>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>"1p
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>"1pu
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>`[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>`]iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>'[iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>'<iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>gvd
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>gi.<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>``iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>''iX<Esc>
+a,b,c\n1,2,3\nx y z\naaa\nbbb\nabab	3,1	:g/e/normal u<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/d<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/m0<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/m0<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/s/e/E/<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:v/e/d<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal dd<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/t.<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal Ax<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/j<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/^/j<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3d<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3m0<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2t$<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3j<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:2,3><CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:1,2y|$pu<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%s/e/E/g<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:sort!<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:%norm Ax<CR>ua<C-r>:<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u<C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>uu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u.
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>uU
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>ux
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u:redo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u:undo<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u:earlier 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u:later 1<CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>ug-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>ug-g+
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>g-g-
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u<C-r>u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>jx.u
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>j@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u@:
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>u:<Up><CR>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>uu<C-r><C-r>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>"1p
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>"1pu
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>`[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>`]iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>'[iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>'<iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>gvd
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>gi.<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>``iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>''iX<Esc>
+alpha\nbeta\ngamma\ndelta\nepsilon\nzeta\neta\ntheta	4,2	:g/e/normal u<CR>ua<C-r>:<Esc>

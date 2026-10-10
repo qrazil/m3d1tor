@@ -308,7 +308,7 @@ MED_textobj.m31    iw aw iW aW is as ip ap i( a( i[ i{ i< i" i' i` it at ...
 MED_operator.m31   d c y > < = gu gU g~ g? gq J gJ ~ r ...
 MED_search.m31     / ? n N * # g* g#, Vim-regex translation
 MED_nrfmt.m31      <C-a> <C-x> g<C-a> g<C-x>: decimal/0x/0b numbers (64-bit signed; Vim's are unsigned 64-bit, so a decimal of 2^63 or more is left alone)
-MED_ex.m31         ex-command parser and executor
+MED_ex.m31         ex-command parser and executor: ranges (patterns, marks, offsets, `;`), `:s` (flags, `&&`, `~`, `\r`, `\u`/`\U`/`\e`, multi-line patterns), `:g`/`:v`, `:d :y :pu :m :t/:co :j :> :< :k :normal :undo :redo :earlier :later :sort :z :registers`, `:set` of the supported options, `|` chains, `@:` and cmdline history (Up/Down); an ex line is one undo block. Not supported: `:s///c`, `\=` replacement expressions, `:!`, `:r`, `:a`/`:i`/`:c`, time-based `:earlier 10s`, an operator followed by `:` (`d:cmd<CR>`), the `.`/`(`/`)` marks, jumplist/changelist. `:sort` and `:z` match nvim for the cursor, not the printed text
 MED_keymap.m31     trie, notation compiler, leader, timeouts
 MED_defaults.m31   default bindings as rows
 MED_command.m31    command registry and dispatch

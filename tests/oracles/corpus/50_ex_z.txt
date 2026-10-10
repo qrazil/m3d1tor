@@ -1,0 +1,407 @@
+# :z cursor placement (the lines it would print are not compared)
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z+3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z.3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z++<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z--<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z+++2<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z5<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z!<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z!3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z^^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z.1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z=1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z-1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z0<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:5z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:38z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:38z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:38z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:40z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:40z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:0z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:$z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:$z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:2,5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:3z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:3z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:3z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:3z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:.z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:.,+2z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:%z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:g/l1/z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:g/3/z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:g/5/z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:g/e/z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:g/1/z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z4|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:2z3<CR>:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z5<CR>:z<CR>ix<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:g/1/z3<CR>u
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z3<CR>x
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	0,0	:z3<CR>``iX<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z+3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z.3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z++<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z--<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z+++2<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z5<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z!<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z!3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z^^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z.1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z=1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z-1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z0<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:5z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:38z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:38z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:38z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:40z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:40z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:0z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:$z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:$z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:2,5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:3z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:3z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:3z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:3z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:.z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:.,+2z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:%z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:g/l1/z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:g/3/z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:g/5/z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:g/e/z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:g/1/z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z4|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:2z3<CR>:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z5<CR>:z<CR>ix<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:g/1/z3<CR>u
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z3<CR>x
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	9,2	:z3<CR>``iX<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z+3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z.3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z++<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z--<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z+++2<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z5<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z!<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z!3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z^^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z.1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z=1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z-1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z0<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:5z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:38z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:38z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:38z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:40z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:40z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:0z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:$z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:$z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:2,5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:3z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:3z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:3z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:3z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:.z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:.,+2z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:%z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:g/l1/z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:g/3/z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:g/5/z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:g/e/z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:g/1/z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z4|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:2z3<CR>:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z5<CR>:z<CR>ix<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:g/1/z3<CR>u
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z3<CR>x
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	39,0	:z3<CR>``iX<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z+3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z.3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z++<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z--<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z+++2<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z5<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z!<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z!3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z^^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z.1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z=1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z-1<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z0<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:5z^<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:38z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:38z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:38z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:40z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:40z+<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:0z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:$z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:$z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:2,5z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:3z-3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:3z^3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:3z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:3z=3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:.z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:.,+2z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:%z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:g/l1/z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:g/3/z3<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:g/5/z-<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:g/e/z=<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:g/1/z.<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z4|d<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:2z3<CR>:z<CR>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z5<CR>:z<CR>ix<Esc>
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:g/1/z3<CR>u
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z3<CR>x
+l1 x\nl2 x\nl3 x\nl4 x\nl5 x\nl6 x\n  l7\nl8 x\nl9 x\nl10 x\nl11 x\nl12 x\nl13 x\n  l14\nl15 x\nl16 x\nl17 x\nl18 x\nl19 x\nl20 x\n  l21\nl22 x\nl23 x\nl24 x\nl25 x\nl26 x\nl27 x\n  l28\nl29 x\nl30 x\nl31 x\nl32 x\nl33 x\nl34 x\n  l35\nl36 x\nl37 x\nl38 x\nl39 x\nl40 x	20,3	:z3<CR>``iX<Esc>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z-3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z+3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z.3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z=3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z^3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z++<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z--<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z+++2<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z5<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z!<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z!3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z^^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z.1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z=1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z-1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z0<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:5z^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:38z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:38z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:38z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:40z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:40z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:0z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:$z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:$z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:2,5z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:3z-3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:3z^3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:3z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:3z=3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:.z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:.,+2z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:%z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:g/l1/z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:g/3/z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:g/5/z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:g/e/z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:g/1/z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z|d<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z4|d<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:2z3<CR>:z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z5<CR>:z<CR>ix<Esc>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:g/1/z3<CR>u
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z3<CR>x
+s1\ns2\ns3\ns4\ns5\ns6\ns7	0,0	:z3<CR>``iX<Esc>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z-3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z+3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z.3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z=3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z^3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z++<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z--<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z+++2<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z5<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z!<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z!3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z^^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z.1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z=1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z-1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z0<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:5z^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:38z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:38z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:38z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:40z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:40z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:0z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:$z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:$z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:2,5z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:3z-3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:3z^3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:3z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:3z=3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:.z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:.,+2z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:%z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:g/l1/z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:g/3/z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:g/5/z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:g/e/z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:g/1/z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z|d<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z4|d<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:2z3<CR>:z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z5<CR>:z<CR>ix<Esc>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:g/1/z3<CR>u
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z3<CR>x
+s1\ns2\ns3\ns4\ns5\ns6\ns7	3,1	:z3<CR>``iX<Esc>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z-3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z+3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z.3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z=3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z^3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z++<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z--<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z+++2<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z5<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z!<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z!3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z^^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z.1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z=1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z-1<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z0<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:5z^<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:38z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:38z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:38z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:40z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:40z+<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:0z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:$z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:$z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:2,5z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:3z-3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:3z^3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:3z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:3z=3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:.z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:.,+2z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:%z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:g/l1/z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:g/3/z3<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:g/5/z-<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:g/e/z=<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:g/1/z.<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z|d<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z4|d<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:2z3<CR>:z<CR>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z5<CR>:z<CR>ix<Esc>
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:g/1/z3<CR>u
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z3<CR>x
+s1\ns2\ns3\ns4\ns5\ns6\ns7	6,0	:z3<CR>``iX<Esc>

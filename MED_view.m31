@@ -258,7 +258,7 @@ pub bool z_command(MED_editor.Editor ed, int key, int target) {
         return false;
     }
     if (target > 0 && target - 1 != ed.row) {
-        ed.marks.set("'", MED_buffer.Pos(ed.row, ed.col));
+        ed.set_pcmark(MED_buffer.Pos(ed.row, ed.col));
         to_row(ed, MED_num.smaller(target - 1, ed.buf.line_count() - 1));
     }
     if (key == 13 || key == 46 || key == 45) {

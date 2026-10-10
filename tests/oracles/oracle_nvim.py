@@ -222,7 +222,8 @@ def describe(fields):
     regs = {}
     if len(fields) > 7 and fields[7]:
         for entry in fields[7].split(";"):
-            name, kind, content = entry.split(":", 2)
+            # the name is one character and may be ":" itself
+            name, kind, content = entry[0], *entry[2:].split(":", 1)
             regs[name] = (kind, unhexs(content))
     return {"text": text, "cursor": (int(fields[2]), int(fields[3])), "mode": fields[4],
             "anchor": (fields[5], fields[6]), "regs": regs,
@@ -303,7 +304,9 @@ EX = [":s/a/b/<CR>", ":s/o/0/g<CR>", ":%s/ /_/g<CR>", ":2d<CR>", ":1,2d<CR>", ":
       ":j<CR>", ":><CR>", ":g/a/d<CR>", ":v/a/d<CR>", ":g/o/s/o/0/<CR>", ":2<CR>", ":$<CR>", ":1<CR>",
       ":.,+1d<CR>", ":%s/\\(o\\)\\(.\\)/\\2\\1/g<CR>", ":s/\\s\\+$//<CR>", ":%norm Ax<CR>", ":y<CR>", ":pu<CR>",
       ":t.<CR>", ":m0<CR>", ":m$<CR>", ":2,3><CR>", ":normal dw<CR>", ":%s/o/&&/g<CR>", ":s/x*//g<CR>",
-      ":g/^/m0<CR>", ":%j<CR>", ":2,$d<CR>", ":%s/\\<./\\u&/g<CR>", ":&&<CR>", ":%s/a\\|b/X/g<CR>"]
+      ":g/^/m0<CR>", ":%j<CR>", ":2,$d<CR>", ":%s/\\<./\\u&/g<CR>", ":&&<CR>", ":%s/a\\|b/X/g<CR>",
+      ":g/e/j<CR>", ":g/^/j<CR>", ":2,3m0<CR>", ":g/e/normal dd<CR>", ":undo<CR>", ":redo<CR>", "@:", ":earlier 1f<CR>",
+      ":later 1f<CR>", "g-", "g+", ":2ka<CR>", ":'a,.d<CR>", ":g/e/t.<CR>", ":.,+2>><CR>", ":2,3y x<CR>", ":$put x<CR>"]
 MISC = ["m", "ma", "'a", "`a", "mb", "'b", "`b", "d'a", "d`a", "y'a", "''", "``", "`[", "`]", "'[", "']",
         "<C-a>", "<C-x>", "5<C-a>", "3<C-x>", "<C-a>.", "<C-x>."]
 

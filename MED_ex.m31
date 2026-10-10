@@ -1,0 +1,2887 @@
+// Ex command lines: `:s`, `:g`, `:d`, `:normal` and the rest, with Vim's ranges.
+//
+// API
+// ---
+//   MED_ex.feed(ed, key)          one key, then whatever ex lines it queued
+//   MED_ex.feed_keys(ed, keys)    many keys
+//   MED_ex.drain(ed)              run queued ex lines and continue stopped macros
+//   MED_ex.run_line(ed, line)     one command line (what follows `:`); false on error
+//
+// MED_vim cannot call this module (m31 has no import cycles and no function
+// values), so a `:` line typed in a key sequence only lands in `ed.ex_queue`.
+// Callers that feed keys use `MED_ex.feed` instead of `MED_vim.feed`: it runs
+// the queue after every key and continues a macro that an ex line interrupted.
+//
+// Line numbers are 1-based inside this module (0 is a valid address for `:m0`,
+// `:t0`, `:0put`) and the editor's rows are 0-based.
+//
+// Not supported, by design (see DESIGN.md section 7): `\=` expressions in the
+// replacement, `:s///c` confirmation, `:!` filters and `:r`/`:w` on the file
+// system (those are requests for the UI layer).
+
+import MED_editor;
+import MED_vim;
+import MED_buffer;
+import MED_search;
+import MED_regex;
+import MED_text;
+import MED_num;
+import MED_register;
+import MED_key;
+import MED_case;
+import MED_view;
+
+// ------------------------------------------------------------------- driver
+
+/// Process one key, then run the ex lines it queued.
+pub void feed(MED_editor.Editor ed, int key) {
+    MED_vim.feed(ed, key);
+    drain(ed);
+    // Vim's update_topline() runs after the command, ex lines included
+    MED_view.update(ed);
+}
+
+pub void feed_keys(MED_editor.Editor ed, List<int> keys) {
+    for (int key in keys) {
+        feed(ed, key);
+    }
+}
+
+/// Run queued ex lines; continue macros that were stopped for one.
+pub void drain(MED_editor.Editor ed) {
+    while (true) {
+        if (ed.ex_queue.size() > 0) {
+            str line = ed.ex_queue[0];
+            ed.ex_queue.remove_at(0);
+            bool typed = line.size() > 0 && line.byte_at(0) == 1;
+            if (typed) {
+                line = line.substr(1, line.size());
+            }
+            ed.colon_skip = false;
+            bool ok = run_isolated(ed, line);
+            if (typed && !ed.colon_skip) {
+                // remembered only after it ran, so that `:@:` inside it sees the line before
+                ed.regs.set_special(":", line);
+            }
+            ed.colon_skip = false;
+            if (ed.ex_depth == 0 && ed.mode == MED_editor.NORMAL) {
+                ed.end_block();
+            }
+            if (typed && ed.ex_depth == 0 && ed.ex_queue.size() == 0) {
+                ed.check_pcmark();
+            }
+            if (!ok || ed.failed) {
+                ed.failed = true;
+                ed.ex_queue = [];
+                ed.resume = [];
+            }
+            continue;
+        }
+        if (ed.resume.size() > 0) {
+            MED_editor.Resume frame = ed.resume[0];
+            ed.resume.remove_at(0);
+            MED_vim.run_keys(ed, frame.keys, frame.full, frame.again);
+            if (ed.failed) {
+                ed.ex_queue = [];
+                ed.resume = [];
+            }
+            continue;
+        }
+        break;
+    }
+}
+
+// Run one line with its own queue and macro frames, so that a nested `:normal`
+// cannot run what belongs to the caller.
+bool run_isolated(MED_editor.Editor ed, str line) {
+    List<str> saved_queue = ed.ex_queue;
+    List<MED_editor.Resume> saved_resume = ed.resume;
+    ed.ex_queue = [];
+    ed.resume = [];
+    ed.ex_depth = ed.ex_depth + 1;
+    ed.block_hold = ed.block_hold + 1;
+    bool ok = run_line(ed, line);
+    ed.block_hold = ed.block_hold - 1;
+    ed.ex_depth = ed.ex_depth - 1;
+    ed.ex_queue = saved_queue;
+    ed.resume = saved_resume;
+    return ok;
+}
+
+// ------------------------------------------------------------------ helpers
+
+const int MAXLNUM = 2000000000;
+
+bool is_digit(int c) {
+    return c >= 48 && c <= 57;
+}
+
+bool is_alpha(int c) {
+    return (c >= 97 && c <= 122) || (c >= 65 && c <= 90);
+}
+
+bool is_white(int c) {
+    return c == 32 || c == 9;
+}
+
+int at(str s, int i) {
+    if (i < 0 || i >= s.size()) {
+        return 0;
+    }
+    return s.byte_at(i);
+}
+
+int skip_white(str s, int i) {
+    int p = i;
+    while (p < s.size() && is_white(s.byte_at(p))) {
+        p = p + 1;
+    }
+    return p;
+}
+
+int skip_digits(str s, int i) {
+    int p = i;
+    while (p < s.size() && is_digit(s.byte_at(p))) {
+        p = p + 1;
+    }
+    return p;
+}
+
+int digits_value(str s, int i, int j) {
+    int v = 0;
+    for (int p in i .. j) {
+        v = v * 10 + (s.byte_at(p) - 48);
+        if (v > MAXLNUM) {
+            v = MAXLNUM;
+        }
+    }
+    return v;
+}
+
+int last_line(MED_editor.Editor ed) {
+    return ed.buf.line_count();
+}
+
+/// What one step of a command line leaves: success, and the text of the next
+/// command after a `|`.
+type Step {
+    bool ok = true;
+    bool more = false;
+    str rest = "";
+}
+
+Step fail(MED_editor.Editor ed, str message) {
+    Step s = Step();
+    s.ok = false;
+    ed.message = message;
+    return s;
+}
+
+Step done() {
+    return Step();
+}
+
+/// A parsed command: its range, name and argument.
+type Cmd {
+    int line1 = 1;
+    int line2 = 1;
+    int addr_count = 0;
+    str name = "";
+    bool bang = false;
+    str arg = "";
+    str reg = "";
+    bool has_reg = false;
+    bool ok = true;
+    str error = "";
+    /// Index just after the command name in the line.
+    int after = 0;
+    bool more = false;
+    str rest = "";
+}
+
+type Addr {
+    bool ok = true;
+    bool found = false;
+    int line = 0;
+    int next = 0;
+    str error = "";
+}
+
+// Where the pattern of a `/pat/` address (and its offsets) ends: just past what
+// do_search() would take for it.
+int address_end(str text, int start, int delim) {
+    str rest = text.substr(start, text.size());
+    int end = MED_search.skip_regexp(rest, delim);
+    int p = end;
+    if (at(rest, p) == delim) {
+        p = p + 1;
+    }
+    int c0 = at(rest, p);
+    if (c0 == 43 || c0 == 45 || is_digit(c0)) {
+        // a line offset: the generic offset loop of the address takes it
+        return start + p;
+    }
+    return start + p;
+}
+
+Addr get_address(MED_editor.Editor ed, str text, int start) {
+    Addr a = Addr();
+    int i = skip_white(text, start);
+    int lnum = MAXLNUM;
+    bool again = true;
+    while (again) {
+        again = false;
+        int c = at(text, i);
+        if (c == 46) {
+            i = i + 1;
+            lnum = ed.row + 1;
+        } else if (c == 36) {
+            i = i + 1;
+            lnum = last_line(ed);
+        } else if (c == 39) {
+            i = i + 1;
+            if (i >= text.size()) {
+                a.ok = false;
+                a.error = "E20: Mark not set";
+                return a;
+            }
+            int name = at(text, i);
+            i = i + 1;
+            Option<MED_buffer.Pos> mp = MED_vim.mark_pos(ed, name);
+            match (mp) {
+                case Some(MED_buffer.Pos p): {
+                    lnum = p.row + 1;
+                }
+                case None: {
+                    a.ok = false;
+                    a.error = "E20: Mark not set";
+                    return a;
+                }
+            }
+        } else if (c == 47 || c == 63) {
+            i = i + 1;
+            int save_row = ed.row;
+            int save_col = ed.col;
+            if (lnum > 0 && lnum != MAXLNUM) {
+                ed.row = MED_num.smaller(lnum, last_line(ed)) - 1;
+            }
+            if (c == 47) {
+                ed.col = ed.buf.line_size(ed.row);
+            } else {
+                ed.col = 0;
+            }
+            int end = address_end(text, i, c);
+            str typed = text.substr(i, end);
+            MED_search.Outcome out = MED_search.search_command(ed, c, typed, 1, false, true);
+            ed.row = save_row;
+            ed.col = save_col;
+            if (!out.ok) {
+                a.ok = false;
+                a.error = out.error;
+                return a;
+            }
+            lnum = out.row + 1;
+            i = end;
+        } else if (c == 92) {
+            i = i + 1;
+            int d = at(text, i);
+            if (d != 38 && d != 63 && d != 47) {
+                a.ok = false;
+                a.error = "E10: \\ should be followed by /, ? or &";
+                return a;
+            }
+            str pat = ed.search_pat;
+            if (d == 38) {
+                pat = ed.sub_pat;
+            }
+            if (pat == "") {
+                a.ok = false;
+                a.error = "E35: No previous regular expression";
+                return a;
+            }
+            int row = ed.row;
+            if (lnum != MAXLNUM) {
+                row = MED_num.smaller(lnum, last_line(ed)) - 1;
+            }
+            MED_regex.Regex re = MED_search.compile_with(ed, pat, false);
+            if (!re.ok) {
+                a.ok = false;
+                a.error = re.error;
+                return a;
+            }
+            int pcol = 0;
+            int dir = 1;
+            if (d == 63) {
+                dir = -1;
+            } else {
+                pcol = ed.buf.line_size(row);
+            }
+            MED_search.Hit hit = MED_search.searchit(ed, re, row, pcol, dir, 1, false, false, false);
+            if (!hit.ok) {
+                a.ok = false;
+                a.error = "E486: Pattern not found: " + pat;
+                return a;
+            }
+            lnum = hit.row + 1;
+            i = i + 1;
+        } else if (is_digit(c)) {
+            int e = skip_digits(text, i);
+            lnum = digits_value(text, i, e);
+            i = e;
+        }
+        while (true) {
+            i = skip_white(text, i);
+            int o = at(text, i);
+            if (o != 45 && o != 43 && !is_digit(o)) {
+                break;
+            }
+            if (lnum == MAXLNUM) {
+                lnum = ed.row + 1;
+            }
+            int sign = 43;
+            if (!is_digit(o)) {
+                sign = o;
+                i = i + 1;
+            }
+            int n = 1;
+            if (is_digit(at(text, i))) {
+                int e = skip_digits(text, i);
+                n = digits_value(text, i, e);
+                i = e;
+            }
+            if (sign == 45) {
+                lnum = lnum - n;
+            } else {
+                lnum = lnum + n;
+            }
+        }
+        int nc = at(text, i);
+        if (nc == 47 || nc == 63) {
+            again = true;
+        }
+    }
+    a.next = i;
+    if (lnum != MAXLNUM) {
+        a.found = true;
+        a.line = lnum;
+    }
+    return a;
+}
+
+/// Parse the range at the start of `text` (after `:` and blanks).
+Cmd parse_range(MED_editor.Editor ed, str text, int start) {
+    Cmd c = Cmd();
+    int cur = ed.row + 1;
+    c.line1 = cur;
+    c.line2 = cur;
+    int i = start;
+    bool last_missing = true;
+    while (true) {
+        c.line1 = c.line2;
+        c.line2 = ed.row + 1;
+        i = skip_white(text, i);
+        Addr a = get_address(ed, text, i);
+        if (!a.ok) {
+            c.ok = false;
+            c.error = a.error;
+            return c;
+        }
+        i = a.next;
+        last_missing = !a.found;
+        if (!a.found) {
+            if (at(text, i) == 37) {
+                i = i + 1;
+                c.line1 = 1;
+                c.line2 = last_line(ed);
+                c.addr_count = c.addr_count + 1;
+                last_missing = false;
+            } else if (at(text, i) == 42) {
+                i = i + 1;
+                Option<MED_buffer.Pos> lo = MED_vim.mark_pos(ed, 60);
+                Option<MED_buffer.Pos> hi = MED_vim.mark_pos(ed, 62);
+                match (lo) {
+                    case Some(MED_buffer.Pos p1): {
+                        match (hi) {
+                            case Some(MED_buffer.Pos p2): {
+                                c.line1 = p1.row + 1;
+                                c.line2 = p2.row + 1;
+                            }
+                            case None: {
+                                c.ok = false;
+                                c.error = "E20: Mark not set";
+                                return c;
+                            }
+                        }
+                    }
+                    case None: {
+                        c.ok = false;
+                        c.error = "E20: Mark not set";
+                        return c;
+                    }
+                }
+                c.addr_count = c.addr_count + 1;
+                last_missing = false;
+            }
+        } else {
+            c.line2 = a.line;
+        }
+        c.addr_count = c.addr_count + 1;
+        int sep = at(text, skip_white(text, i));
+        if (sep == 59) {
+            i = skip_white(text, i);
+            if (c.line2 > 0) {
+                ed.row = MED_num.smaller(c.line2, last_line(ed)) - 1;
+                ed.clamp();
+            }
+        } else if (sep != 44) {
+            break;
+        }
+        i = skip_white(text, i) + 1;
+    }
+    if (c.addr_count == 1) {
+        c.line1 = c.line2;
+        if (last_missing) {
+            c.addr_count = 0;
+        }
+    }
+    c.after = i;
+    return c;
+}
+
+// ------------------------------------------------------------ command table
+
+// "full:shortest": a word names the first command whose full name it starts
+// and whose shortest form it reaches (Vim's order matters for ambiguity).
+List<str> command_table() {
+    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "buffer:1", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "write!:99"];
+}
+
+str resolve(str word) {
+    if (word == "") {
+        return "";
+    }
+    for (str entry in command_table()) {
+        int c = entry.index_of(":").or(0);
+        str full = entry.substr(0, c);
+        int least = digits_value(entry, c + 1, entry.size());
+        if (word.size() >= least && word.size() <= full.size() && full.starts_with(word)) {
+            return full;
+        }
+    }
+    return "";
+}
+
+// A modifier word at the start of a command line (the shortest form is given).
+bool modifier(str word, str full, int least) {
+    return word.size() >= least && word.size() <= full.size() && full.starts_with(word);
+}
+
+bool takes_bar(str name) {
+    return !(name == "global" || name == "vglobal" || name == "normal" || name == "substitute" || name == "&" || name == "~" || name == "&&");
+}
+
+bool zero_range(str name) {
+    return name == "put";
+}
+
+str canonical_special(int c) {
+    if (c == 38) {
+        return "&";
+    }
+    if (c == 126) {
+        return "~";
+    }
+    if (c == 60) {
+        return "<";
+    }
+    if (c == 62) {
+        return ">";
+    }
+    if (c == 61) {
+        return "=";
+    }
+    if (c == 35) {
+        return "number";
+    }
+    if (c == 64) {
+        return "@";
+    }
+    if (c == 42) {
+        return "@";
+    }
+    return "";
+}
+
+type Split {
+    str arg = "";
+    bool more = false;
+    str rest = "";
+}
+
+// Split `arg` at the first unescaped `|`; a `\|` loses its backslash. With
+// `comment` a `"` starts a comment that runs to the end.
+Split split_bar(str arg, bool comment) {
+    Split sp = Split();
+    List<int> out = [];
+    List<int> cs = arg.chars();
+    int i = 0;
+    while (i < cs.size()) {
+        int c = cs[i];
+        if (c == 92 && i + 1 < cs.size() && cs[i + 1] == 124) {
+            out.push(124);
+            i = i + 2;
+            continue;
+        }
+        if (c == 22 && i + 1 < cs.size()) {
+            out.push(cs[i + 1]);
+            i = i + 2;
+            continue;
+        }
+        if (c == 124) {
+            sp.more = true;
+            sp.rest = str.from_chars(cs.slice(i + 1, cs.size()));
+            break;
+        }
+        if (c == 34 && comment) {
+            break;
+        }
+        out.push(c);
+        i = i + 1;
+    }
+    sp.arg = str.from_chars(out);
+    return sp;
+}
+
+// ------------------------------------------------------------------ one line
+
+/// Run a command line: commands separated by `|`. False when one of them failed.
+pub bool run_line(MED_editor.Editor ed, str line) {
+    str text = line;
+    while (true) {
+        Step s = run_one(ed, text);
+        if (!s.ok) {
+            return false;
+        }
+        if (!s.more) {
+            return true;
+        }
+        text = s.rest;
+    }
+}
+
+str register_text(MED_editor.Editor ed, str name) {
+    Option<MED_register.Reg> r = ed.regs.get(name);
+    match (r) {
+        case Some(MED_register.Reg reg): {
+            return reg.text();
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+Step run_one(MED_editor.Editor ed, str text) {
+    int i = 0;
+    bool keepp = false;
+    while (true) {
+        while (i < text.size() && (is_white(text.byte_at(i)) || text.byte_at(i) == 58)) {
+            i = i + 1;
+        }
+        int e = i;
+        while (e < text.size() && is_alpha(text.byte_at(e))) {
+            e = e + 1;
+        }
+        str word = text.substr(i, e);
+        if (word == "") {
+            break;
+        }
+        bool m = false;
+        if (modifier(word, "silent", 3) || modifier(word, "keepjumps", 5) || modifier(word, "keepmarks", 5) || modifier(word, "keepalt", 5) || modifier(word, "lockmarks", 3) || modifier(word, "noautocmd", 3)) {
+            m = true;
+        } else if (modifier(word, "keeppatterns", 5)) {
+            m = true;
+            keepp = true;
+        }
+        if (!m) {
+            break;
+        }
+        i = e;
+        if (at(text, i) == 33) {
+            i = i + 1;
+        }
+    }
+    if (at(text, i) == 34) {
+        return done();
+    }
+    Cmd c = parse_range(ed, text, i);
+    if (!c.ok) {
+        return fail(ed, c.error);
+    }
+    i = c.after;
+    while (i < text.size() && (is_white(text.byte_at(i)) || text.byte_at(i) == 58)) {
+        i = i + 1;
+    }
+    int ch = at(text, i);
+    if (ch == 0 || ch == 124 || ch == 34) {
+        Step g = Step();
+        if (ch == 124) {
+            g.more = true;
+            g.rest = text.substr(i + 1, text.size());
+        }
+        if (c.addr_count > 0) {
+            int target = c.line2;
+            if (target < 0) {
+                return fail(ed, "E16: Invalid range");
+            }
+            if (target > last_line(ed)) {
+                target = last_line(ed);
+            }
+            if (target == 0) {
+                target = 1;
+            }
+            goto_line(ed, target - 1);
+        }
+        return g;
+    }
+    // the name
+    str name = "";
+    int argstart = i;
+    int c0 = ch;
+    if (c0 == 107 && !(at(text, i + 1) == 101 && at(text, i + 2) == 101)) {
+        name = "k";
+        argstart = i + 1;
+    } else if (is_alpha(c0)) {
+        int e = i;
+        while (e < text.size() && is_alpha(text.byte_at(e))) {
+            e = e + 1;
+        }
+        name = resolve(text.substr(i, e));
+        argstart = e;
+        if (name == "") {
+            return fail(ed, "E492: Not an editor command: " + text.substr(i, text.size()));
+        }
+    } else {
+        name = canonical_special(c0);
+        argstart = i + 1;
+        if (name == "") {
+            return fail(ed, "E492: Not an editor command: " + text.substr(i, text.size()));
+        }
+        if (c0 == 42) {
+            c.reg = "*";
+        }
+    }
+    bool bang = false;
+    if (at(text, argstart) == 33 && (name == "global" || name == "join" || name == "put" || name == "z" || name == "normal" || name == "write" || name == "quit" || name == "sort" || name == "delmarks" || name == "wq" || name == "xit" || name == "update" || name == "qall" || name == "wall")) {
+        bang = true;
+        argstart = argstart + 1;
+    }
+    c.name = name;
+    c.bang = bang;
+    str arg = text.substr(argstart, text.size());
+    if (name == "&" || name == "~" || name == "substitute" || name == "global" || name == "vglobal") {
+        // the pattern and flags are parsed by the command itself
+        c.arg = arg;
+    } else if (name == "normal") {
+        c.arg = skip_one_white(arg);
+    } else {
+        Split sp = split_bar(arg, true);
+        c.arg = skip_one_white(sp.arg);
+        c.more = sp.more;
+        c.rest = sp.rest;
+    }
+    // the range
+    int count = last_line(ed);
+    if (c.addr_count > 0) {
+        if (c.line1 > c.line2) {
+            if (!ed.global_busy) {
+                return fail(ed, "E493: Backwards range given");
+            }
+            int t = c.line1;
+            c.line1 = c.line2;
+            c.line2 = t;
+        }
+        if (c.line1 < 0 || c.line2 < 0 || c.line2 > count || c.line1 > count) {
+            return fail(ed, "E16: Invalid range");
+        }
+    }
+    if (!zero_range(name)) {
+        if (c.line1 == 0) {
+            c.line1 = 1;
+        }
+        if (c.line2 == 0) {
+            c.line2 = 1;
+        }
+    }
+    if (c.addr_count == 0 && (name == "global" || name == "vglobal" || name == "sort")) {
+        c.line1 = 1;
+        c.line2 = count;
+    }
+    Step result = Step();
+    if (keepp) {
+        str sp_pat = ed.search_pat;
+        str sb_pat = ed.sub_pat;
+        bool sb_last = ed.last_is_sub;
+        str slash = register_text(ed, "/");
+        result = exec_cmd(ed, c);
+        ed.search_pat = sp_pat;
+        ed.sub_pat = sb_pat;
+        ed.last_is_sub = sb_last;
+        ed.regs.set_special("/", slash);
+    } else {
+        result = exec_cmd(ed, c);
+    }
+    if (result.ok && c.more) {
+        result.more = true;
+        result.rest = c.rest;
+    }
+    if (!result.ok && c.more && ed.ex_depth == 1) {
+        // Vim does not remember a typed line in which a command failed with another one after it
+        ed.colon_skip = true;
+    }
+    return result;
+}
+
+str skip_one_white(str s) {
+    int p = 0;
+    while (p < s.size() && is_white(s.byte_at(p))) {
+        p = p + 1;
+    }
+    return s.substr(p, s.size());
+}
+
+// The cursor on `row` (0-based) as `:N` leaves it: beginline(BL_SOL | BL_FIX).
+void goto_line(MED_editor.Editor ed, int row) {
+    ed.row = row;
+    begin_sol(ed);
+}
+
+void begin_sol(MED_editor.Editor ed) {
+    if (ed.startofline) {
+        ed.col = MED_vim.first_nonblank_fix(ed.buf.line(ed.row));
+        ed.want_stale = true;
+    } else {
+        ed.col = MED_vim.col_by_want(ed, ed.row, ed.want);
+    }
+}
+
+void begin_white(MED_editor.Editor ed) {
+    ed.col = MED_vim.first_nonblank_fix(ed.buf.line(ed.row));
+    ed.want_stale = true;
+}
+
+void set_pcmark(MED_editor.Editor ed) {
+    ed.set_pcmark(MED_buffer.Pos(ed.row, ed.col));
+}
+
+// ------------------------------------------------------------------ commands
+
+// The register and count of `:d`, `:y` and friends, then the flags `p # l`.
+// Returns an error message, "" when fine.
+str reg_count(MED_editor.Editor ed, Cmd c, bool want_reg, bool want_count) {
+    str a = c.arg;
+    if (want_reg && a != "" && !(want_count && is_digit(at(a, 0)))) {
+        str r = a.substr(0, 1);
+        bool read_only = c.name != "put" && (r == "." || r == ":" || r == "/" || r == "%" || r == "#" || r == "=");
+        if (MED_register.is_valid(r) && !read_only) {
+            c.reg = r;
+            c.has_reg = true;
+            a = skip_one_white(a.substr(1, a.size()));
+        }
+    }
+    if (want_count && is_digit(at(a, 0))) {
+        int e = skip_digits(a, 0);
+        int n = digits_value(a, 0, e);
+        if (n <= 0) {
+            return "E939: Positive count required";
+        }
+        c.line1 = c.line2;
+        c.line2 = c.line2 + n - 1;
+        c.addr_count = c.addr_count + 1;
+        if (c.line2 > last_line(ed)) {
+            c.line2 = last_line(ed);
+        }
+        a = skip_one_white(a.substr(e, a.size()));
+    }
+    while (a != "" && (at(a, 0) == 112 || at(a, 0) == 35 || at(a, 0) == 108)) {
+        a = skip_one_white(a.substr(1, a.size()));
+    }
+    if (a != "") {
+        return "E488: Trailing characters: " + a;
+    }
+    return "";
+}
+
+Step exec_cmd(MED_editor.Editor ed, Cmd c) {
+    str name = c.name;
+    if (name == "delete" || name == "yank") {
+        str err = reg_count(ed, c, true, true);
+        if (err != "") {
+            return fail(ed, err);
+        }
+        if (name == "delete") {
+            set_pcmark(ed);
+            MED_vim.ex_delete(ed, c.line1 - 1, c.line2 - 1, c.reg);
+        } else {
+            MED_vim.ex_yank(ed, c.line1 - 1, c.line2 - 1, c.reg);
+        }
+        return done();
+    }
+    if (name == ">" || name == "<") {
+        int amount = 1;
+        int p = 0;
+        int ch = 60;
+        if (name == ">") {
+            ch = 62;
+        }
+        while (at(c.arg, p) == ch) {
+            amount = amount + 1;
+            p = p + 1;
+        }
+        c.arg = skip_one_white(c.arg.substr(p, c.arg.size()));
+        str err = reg_count(ed, c, false, true);
+        if (err != "") {
+            return fail(ed, err);
+        }
+        set_pcmark(ed);
+        ed.row = c.line1 - 1;
+        begin_sol(ed);
+        MED_vim.ex_shift(ed, c.line1 - 1, c.line2 - 1, name == "<", amount);
+        return done();
+    }
+    if (name == "join") {
+        str err = reg_count(ed, c, false, true);
+        if (err != "") {
+            return fail(ed, err);
+        }
+        ed.row = c.line1 - 1;
+        ed.clamp();
+        if (c.line1 == c.line2) {
+            if (c.addr_count >= 2) {
+                return done();
+            }
+            if (c.line2 == last_line(ed)) {
+                return fail(ed, "");
+            }
+            c.line2 = c.line2 + 1;
+        }
+        ed.row = c.line1 - 1;
+        if (!MED_vim.ex_join(ed, c.line1 - 1, c.line2 - c.line1 + 1, !c.bang)) {
+            return fail(ed, "");
+        }
+        return done();
+    }
+    if (name == "put") {
+        str err = reg_count(ed, c, true, false);
+        if (err != "") {
+            return fail(ed, err);
+        }
+        bool above = c.bang;
+        int row = c.line2 - 1;
+        if (c.line2 == 0) {
+            row = 0;
+            above = true;
+        }
+        if (!MED_vim.ex_put(ed, c.reg, row, above)) {
+            return fail(ed, "E353: Nothing in register");
+        }
+        return done();
+    }
+    if (name == "copy" || name == "t" || name == "move") {
+        return cmd_copymove(ed, c);
+    }
+    if (name == "k" || name == "mark") {
+        str a = c.arg;
+        if (a == "") {
+            return fail(ed, "E471: Argument required");
+        }
+        str m = a.substr(0, 1);
+        if (a.size() > 1 || !MED_vim.mark_name_ok(m)) {
+            return fail(ed, "E191: Argument must be a letter or forward/backward quote");
+        }
+        int row = c.line2 - 1;
+        if (m == "`") {
+            m = "'";
+        }
+        ed.marks.set(m, MED_buffer.Pos(row, MED_vim.first_nonblank_fix(ed.buf.line(row))));
+        return done();
+    }
+    if (name == "delmarks") {
+        return cmd_delmarks(ed, c);
+    }
+    if (name == "nohlsearch") {
+        ed.no_hl = true;
+        return done();
+    }
+    if (name == "set" || name == "setlocal" || name == "setglobal") {
+        return cmd_set(ed, c);
+    }
+    if (name == "undojoin" || name == "echo" || name == "echomsg" || name == "redraw" || name == "messages" || name == "highlight" || name == "syntax" || name == "filetype" || name == "version" || name == "history" || name == "pwd") {
+        return done();
+    }
+    if (name == "left" || name == "right" || name == "center") {
+        return cmd_align(ed, c);
+    }
+    if (name == "undo" || name == "redo") {
+        if (c.arg != "" && name == "undo") {
+            return cmd_undo_to(ed, c);
+        }
+        MED_vim.cmd_undo(ed, 1, name == "redo");
+        return done();
+    }
+    if (name == "earlier" || name == "later") {
+        return cmd_earlier(ed, c);
+    }
+    if (name == "print" || name == "number" || name == "list") {
+        str err = reg_count(ed, c, false, true);
+        if (err != "") {
+            return fail(ed, err);
+        }
+        goto_line(ed, c.line2 - 1);
+        return done();
+    }
+    if (name == "=") {
+        return done();
+    }
+    if (name == "z") {
+        return cmd_z(ed, c);
+    }
+    if (name == "substitute" || name == "&" || name == "~") {
+        return cmd_sub(ed, c);
+    }
+    if (name == "global" || name == "vglobal") {
+        return cmd_global(ed, c);
+    }
+    if (name == "normal") {
+        return cmd_normal(ed, c);
+    }
+    if (name == "execute") {
+        return cmd_execute(ed, c);
+    }
+    if (name == "sort") {
+        return cmd_sort(ed, c);
+    }
+    if (name == "@") {
+        return cmd_at(ed, c);
+    }
+    if (name == "quit" || name == "qall") {
+        if (c.bang) {
+            ed.force_quit = true;
+        }
+        ed.quit = true;
+        return done();
+    }
+    if (name == "write" || name == "update" || name == "wall") {
+        ed.requests.push("write " + c.arg);
+        return done();
+    }
+    if (name == "wq" || name == "xit" || name == "wqall" || name == "xall") {
+        ed.requests.push("write " + c.arg);
+        ed.quit = true;
+        return done();
+    }
+    if (name == "edit" || name == "enew" || name == "bnext" || name == "bprevious" || name == "buffer" || name == "close" || name == "only" || name == "split" || name == "vsplit" || name == "new" || name == "vnew") {
+        ed.requests.push(name + " " + c.arg);
+        return done();
+    }
+    if (name == "registers" || name == "display" || name == "marks" || name == "jumps" || name == "changes" || name == "stopinsert") {
+        return done();
+    }
+    if (name == "startinsert") {
+        if (ed.mode == MED_editor.NORMAL) {
+            if (c.bang) {
+                MED_vim.feed(ed, 65);
+            } else {
+                MED_vim.feed(ed, 105);
+            }
+        }
+        return done();
+    }
+    return fail(ed, "E492: Not an editor command: " + name);
+}
+
+// ------------------------------------------------------ copy, move, marks, set
+
+// Insert `lines` after 0-based row `after` (-1: above the first line).
+void insert_rows(MED_editor.Editor ed, int after, List<str> lines) {
+    str body = lines.join("\n");
+    if (after < 0) {
+        ed.change(MED_buffer.Pos(0, 0), MED_buffer.Pos(0, 0), body + "\n");
+    } else if (after >= ed.buf.line_count() - 1) {
+        int r = ed.buf.line_count() - 1;
+        int n = ed.buf.line_size(r);
+        ed.change(MED_buffer.Pos(r, n), MED_buffer.Pos(r, n), "\n" + body);
+    } else {
+        ed.change(MED_buffer.Pos(after + 1, 0), MED_buffer.Pos(after + 1, 0), body + "\n");
+    }
+}
+
+// Delete rows `a ..= b` (never all of them).
+void delete_rows(MED_editor.Editor ed, int a, int b) {
+    if (b >= ed.buf.line_count() - 1) {
+        ed.change(MED_buffer.Pos(a - 1, ed.buf.line_size(a - 1)), MED_buffer.Pos(b, ed.buf.line_size(b)), "");
+    } else {
+        ed.change(MED_buffer.Pos(a, 0), MED_buffer.Pos(b + 1, 0), "");
+    }
+}
+
+List<str> rows_text(MED_editor.Editor ed, int a, int b) {
+    List<str> out = [];
+    for (int r in a .. b + 1) {
+        out.push(ed.buf.line(r));
+    }
+    return out;
+}
+
+// Where row `r` ends up when rows a0 ..= b0 move to after row `d` - 1.
+int moved_row(int r, int a0, int b0, int d) {
+    int n = b0 - a0 + 1;
+    if (d > b0) {
+        if (r >= a0 && r <= b0) {
+            return r - a0 + d - n;
+        }
+        if (r > b0 && r < d) {
+            return r - n;
+        }
+        return r;
+    }
+    if (r >= a0 && r <= b0) {
+        return r - a0 + d;
+    }
+    if (r >= d && r < a0) {
+        return r + n;
+    }
+    return r;
+}
+
+Step cmd_copymove(MED_editor.Editor ed, Cmd c) {
+    Addr a = get_address(ed, c.arg, 0);
+    if (!a.ok) {
+        return fail(ed, a.error);
+    }
+    if (!a.found || a.line < 0 || a.line > last_line(ed)) {
+        return fail(ed, "E16: Invalid range");
+    }
+    str tail = skip_one_white(c.arg.substr(a.next, c.arg.size()));
+    while (tail != "" && (at(tail, 0) == 112 || at(tail, 0) == 35 || at(tail, 0) == 108)) {
+        tail = skip_one_white(tail.substr(1, tail.size()));
+    }
+    if (tail != "") {
+        return fail(ed, "E488: Trailing characters: " + tail);
+    }
+    int dest = a.line;
+    int l1 = c.line1;
+    int l2 = c.line2;
+    int n = l2 - l1 + 1;
+    if (c.name != "move") {
+        List<str> block = rows_text(ed, l1 - 1, l2 - 1);
+        insert_rows(ed, dest - 1, block);
+        ed.marks.set("[", MED_buffer.Pos(dest, 0));
+        ed.marks.set("]", MED_buffer.Pos(dest + n - 1, 0));
+        ed.row = dest + n - 1;
+        begin_sol(ed);
+        return done();
+    }
+    if (dest >= l1 && dest < l2) {
+        return fail(ed, "E134: Cannot move a range of lines into itself");
+    }
+    int cursor_line = dest;
+    if (dest < l1) {
+        cursor_line = dest + n;
+    }
+    if (dest == l1 - 1 || dest == l2) {
+        ed.row = cursor_line - 1;
+        begin_sol(ed);
+        return done();
+    }
+    int a0 = l1 - 1;
+    int b0 = l2 - 1;
+    Map<str, MED_buffer.Pos> saved = {};
+    for (str k in ed.marks.keys()) {
+        MED_buffer.Pos p = ed.marks.get(k).or(MED_buffer.Pos(0, 0));
+        saved.set(k, MED_buffer.Pos(moved_row(p.row, a0, b0, dest), p.col));
+    }
+    List<int> g = [];
+    for (int m in ed.gmarks) {
+        g.push(moved_row(m, a0, b0, dest));
+    }
+    List<str> block = rows_text(ed, a0, b0);
+    if (dest > b0) {
+        insert_rows(ed, dest - 1, block);
+        delete_rows(ed, a0, b0);
+    } else {
+        insert_rows(ed, dest - 1, block);
+        delete_rows(ed, a0 + n, b0 + n);
+    }
+    ed.marks = saved;
+    ed.gmarks = g;
+    int start1 = dest + 1;
+    if (dest >= l2) {
+        start1 = dest - n + 1;
+    }
+    ed.marks.set("[", MED_buffer.Pos(start1 - 1, 0));
+    ed.marks.set("]", MED_buffer.Pos(start1 + n - 2, 0));
+    ed.row = cursor_line - 1;
+    begin_sol(ed);
+    return done();
+}
+
+Step cmd_delmarks(MED_editor.Editor ed, Cmd c) {
+    if (c.bang) {
+        if (c.arg != "") {
+            return fail(ed, "E474: Invalid argument");
+        }
+        for (int k in 97 .. 123) {
+            ed.marks.remove(str.from_chars([k]));
+        }
+        return done();
+    }
+    if (c.arg == "") {
+        return fail(ed, "E471: Argument required");
+    }
+    List<int> cs = c.arg.chars();
+    int i = 0;
+    while (i < cs.size()) {
+        int ch = cs[i];
+        if (is_white(ch)) {
+            i = i + 1;
+            continue;
+        }
+        if (i + 2 < cs.size() && cs[i + 1] == 45) {
+            int hi = cs[i + 2];
+            bool lower = ch >= 97 && ch <= 122 && hi >= 97 && hi <= 122;
+            bool upper = ch >= 65 && ch <= 90 && hi >= 65 && hi <= 90;
+            if ((!lower && !upper) || hi < ch) {
+                return fail(ed, "E475: Invalid argument: " + c.arg);
+            }
+            for (int k in ch .. hi + 1) {
+                ed.marks.remove(str.from_chars([k]));
+            }
+            i = i + 3;
+            continue;
+        }
+        if (!(MED_vim.mark_name_ok(str.from_chars([ch])) || ch == 94 || ch == 46 || ch == 34)) {
+            return fail(ed, "E475: Invalid argument: " + c.arg);
+        }
+        if (ch == 96) {
+            ed.marks.remove("'");
+        } else {
+            ed.marks.remove(str.from_chars([ch]));
+        }
+        i = i + 1;
+    }
+    return done();
+}
+
+// ---------------------------------------------------------------------- :set
+
+str option_name(str w) {
+    List<str> table = ["ignorecase:ic", "smartcase:scs", "wrapscan:ws", "expandtab:et", "autoindent:ai", "joinspaces:js", "startofline:sol", "shiftwidth:sw", "tabstop:ts"];
+    for (str e in table) {
+        int k = e.index_of(":").or(0);
+        if (w == e.substr(0, k) || w == e.substr(k + 1, e.size())) {
+            return e.substr(0, k);
+        }
+    }
+    return "";
+}
+
+bool option_ignored(str w) {
+    List<str> names = ["number", "nu", "relativenumber", "rnu", "hlsearch", "hls", "incsearch", "is", "list", "wrap", "cursorline", "cul", "ruler", "ru", "showmode", "smd", "showcmd", "sc", "softtabstop", "sts", "textwidth", "tw", "scrolloff", "so", "hidden", "hid", "smartindent", "si", "cindent", "cin", "magic", "lazyredraw", "lz", "swapfile", "swf", "undofile", "udf", "backup", "bk", "writebackup", "wb", "mouse", "background", "bg", "termguicolors", "tgc", "laststatus", "ls", "signcolumn", "scl", "foldenable", "fen", "wildmenu", "wmnu", "cmdheight", "ch", "timeoutlen", "tm", "ttimeoutlen", "ttm", "updatetime", "ut", "splitright", "spr", "splitbelow", "sb", "linebreak", "lbr", "report", "shortmess", "shm", "whichwrap", "ww", "virtualedit", "ve", "selection", "sel", "nrformats", "nf", "matchpairs", "mps", "iskeyword", "isk", "tildeop", "top", "gdefault", "gd", "fileformat", "ff", "encoding", "enc", "clipboard", "cb", "backspace", "bs", "formatoptions", "fo", "comments", "com", "commentstring", "cms", "cpoptions", "cpo", "smarttab", "sta", "shiftround", "sr", "foldmethod", "fdm", "undolevels", "ul", "autoread", "ar", "modeline", "ml", "belloff", "bo", "display", "dy", "sidescroll", "ss", "sidescrolloff", "siso", "numberwidth", "nuw", "colorcolumn", "cc", "conceallevel", "cole"];
+    for (str n in names) {
+        if (n == w) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool bool_value(MED_editor.Editor ed, str key) {
+    if (key == "ignorecase") {
+        return ed.ignorecase;
+    }
+    if (key == "smartcase") {
+        return ed.smartcase;
+    }
+    if (key == "wrapscan") {
+        return ed.wrapscan;
+    }
+    if (key == "expandtab") {
+        return ed.expandtab;
+    }
+    if (key == "autoindent") {
+        return ed.autoindent;
+    }
+    if (key == "joinspaces") {
+        return ed.joinspaces;
+    }
+    return ed.startofline;
+}
+
+void bool_store(MED_editor.Editor ed, str key, bool v) {
+    if (key == "ignorecase") {
+        ed.ignorecase = v;
+    } else if (key == "smartcase") {
+        ed.smartcase = v;
+    } else if (key == "wrapscan") {
+        ed.wrapscan = v;
+    } else if (key == "expandtab") {
+        ed.expandtab = v;
+    } else if (key == "autoindent") {
+        ed.autoindent = v;
+    } else if (key == "joinspaces") {
+        ed.joinspaces = v;
+    } else {
+        ed.startofline = v;
+    }
+}
+
+bool is_bool_option(str key) {
+    return key != "shiftwidth" && key != "tabstop";
+}
+
+Step cmd_set(MED_editor.Editor ed, Cmd c) {
+    for (str tok in c.arg.split(" ")) {
+        if (tok == "" || tok == "all") {
+            continue;
+        }
+        str word = tok;
+        str op = "";
+        str val = "";
+        int eq = -1;
+        for (int i in 0 .. tok.size()) {
+            int ch = tok.byte_at(i);
+            if (ch == 61 || ch == 58) {
+                eq = i;
+                break;
+            }
+        }
+        if (eq >= 0) {
+            word = tok.substr(0, eq);
+            val = tok.substr(eq + 1, tok.size());
+            op = "=";
+            if (word.ends_with("+") || word.ends_with("-") || word.ends_with("^")) {
+                op = word.substr(word.size() - 1, word.size());
+                word = word.substr(0, word.size() - 1);
+            }
+        }
+        bool query = false;
+        bool invert = false;
+        bool negate = false;
+        if (word.ends_with("?")) {
+            query = true;
+            word = word.substr(0, word.size() - 1);
+        } else if (word.ends_with("!")) {
+            invert = true;
+            word = word.substr(0, word.size() - 1);
+        } else if (word.ends_with("&")) {
+            word = word.substr(0, word.size() - 1);
+        }
+        str key = option_name(word);
+        if (key == "" && word.starts_with("no")) {
+            key = option_name(word.substr(2, word.size()));
+            negate = key != "";
+            if (key == "" && option_ignored(word.substr(2, word.size()))) {
+                continue;
+            }
+        }
+        if (key == "" && word.starts_with("inv")) {
+            key = option_name(word.substr(3, word.size()));
+            invert = key != "";
+            if (key == "" && option_ignored(word.substr(3, word.size()))) {
+                continue;
+            }
+        }
+        if (key == "") {
+            if (option_ignored(word)) {
+                continue;
+            }
+            return fail(ed, "E518: Unknown option: " + word);
+        }
+        if (query) {
+            continue;
+        }
+        if (is_bool_option(key)) {
+            if (op != "") {
+                return fail(ed, "E474: Invalid argument: " + tok);
+            }
+            if (invert) {
+                bool_store(ed, key, !bool_value(ed, key));
+            } else {
+                bool_store(ed, key, !negate);
+            }
+            continue;
+        }
+        if (op == "") {
+            continue;
+        }
+        if (val == "" || skip_digits(val, 0) != val.size()) {
+            return fail(ed, "E521: Number required after =: " + tok);
+        }
+        int n = digits_value(val, 0, val.size());
+        int cur = ed.tab;
+        if (key == "shiftwidth") {
+            cur = ed.shiftwidth;
+        }
+        if (op == "+") {
+            n = cur + n;
+        } else if (op == "-") {
+            n = cur - n;
+        } else if (op == "^") {
+            n = cur * n;
+        }
+        if (key == "tabstop") {
+            if (n <= 0) {
+                return fail(ed, "E487: Argument must be positive: " + tok);
+            }
+            ed.tab = n;
+        } else {
+            if (n < 0) {
+                return fail(ed, "E487: Argument must be positive: " + tok);
+            }
+            if (n == 0) {
+                n = ed.tab;
+            }
+            ed.shiftwidth = n;
+        }
+    }
+    return done();
+}
+
+// ------------------------------------------------------------- undo and @
+
+Step cmd_undo_to(MED_editor.Editor ed, Cmd c) {
+    if (skip_digits(c.arg, 0) != c.arg.size()) {
+        return fail(ed, "E474: Invalid argument");
+    }
+    ed.close_block();
+    int n = digits_value(c.arg, 0, c.arg.size());
+    if (n >= ed.nodes.size() || !ed.undo_to(n)) {
+        return fail(ed, "E830: Undo number " + n.to_str() + " not found");
+    }
+    return done();
+}
+
+// `:[range]z[+-^.=][count]`: the cursor ends on the last line it would print.
+Step cmd_z(MED_editor.Editor ed, Cmd c) {
+    str a = c.arg;
+    int kind = 0;
+    int ni = 0;
+    if (a.size() > 0) {
+        int k = a.byte_at(0);
+        if (k == 45 || k == 43 || k == 61 || k == 94 || k == 46) {
+            kind = k;
+            ni = 1;
+        }
+    }
+    int bigness = (ed.view_height / 2) * 2;
+    if (c.bang) {
+        bigness = ed.view_height + 1;
+    }
+    int rep = 1;
+    if (kind == 45 || kind == 43) {
+        while (ni < a.size() && a.byte_at(ni) == kind) {
+            rep = rep + 1;
+            ni = ni + 1;
+        }
+    }
+    if (ni < a.size()) {
+        int v = 0;
+        for (int j in ni .. a.size()) {
+            int d = a.byte_at(j);
+            if (d < 48 || d > 57) {
+                return fail(ed, "E144: non-numeric argument to :z");
+            }
+            v = v * 10 + (d - 48);
+        }
+        bigness = v;
+        if (kind == 61) {
+            bigness = bigness + 2;
+        }
+    }
+    int lnum = c.line2;
+    int start = lnum;
+    int end = lnum;
+    int curs = lnum;
+    if (kind == 45) {
+        start = lnum - bigness * rep + 1;
+        end = start + bigness - 1;
+        curs = end;
+    } else if (kind == 61) {
+        curs = lnum;
+    } else if (kind == 94) {
+        start = lnum - bigness * 2 * rep;
+        end = start + bigness;
+        curs = end;
+    } else if (kind == 46) {
+        end = lnum + (bigness - 1) / 2;
+        curs = end;
+    } else {
+        if (kind == 43) {
+            start = lnum + bigness * (rep - 1) + 1;
+        } else if (c.addr_count == 0) {
+            start = lnum + 1;
+        }
+        end = start + bigness - 1;
+        curs = end;
+    }
+    int last = ed.buf.line_count();
+    if (curs > last) {
+        curs = last;
+    }
+    if (curs < 1) {
+        curs = 1;
+    }
+    // the column is only touched when the line changes: then it is column 0
+    if (curs - 1 != ed.row) {
+        ed.row = curs - 1;
+        ed.col = 0;
+        ed.want_from_cursor();
+    }
+    return done();
+}
+
+Step cmd_earlier(MED_editor.Editor ed, Cmd c) {
+    int n = 1;
+    str a = c.arg;
+    if (a != "") {
+        int e = skip_digits(a, 0);
+        if (e != a.size() || e == 0) {
+            return fail(ed, "E475: Invalid argument: " + a);
+        }
+        n = digits_value(a, 0, e);
+    }
+    ed.close_block();
+    int target = ed.cur + n;
+    if (c.name == "earlier") {
+        target = ed.cur - n;
+    }
+    target = MED_num.clamp(target, 0, ed.nodes.size() - 1);
+    if (target != ed.cur && !ed.undo_to(target)) {
+        return fail(ed, "");
+    }
+    return done();
+}
+
+Step cmd_at(MED_editor.Editor ed, Cmd c) {
+    str name = c.arg;
+    if (c.reg != "") {
+        name = c.reg;
+    }
+    if (name == "" || name == "@") {
+        name = ":";
+    }
+    if (c.addr_count > 0) {
+        ed.row = c.line2 - 1;
+        ed.clamp();
+    }
+    str text = "";
+    if (name == ":") {
+        text = ed.regs.last_command;
+        if (text == "") {
+            return fail(ed, "E30: No previous command line");
+        }
+        ed.colon_skip = true;
+    } else {
+        Option<MED_register.Reg> r = ed.regs.get(name.substr(0, 1));
+        match (r) {
+            case Some(MED_register.Reg reg): {
+                text = reg.lines.join("\n");
+            }
+            case None: {
+                return fail(ed, "E748: No previously used register");
+            }
+        }
+    }
+    for (str line in text.split("\n")) {
+        if (!run_line(ed, line)) {
+            return fail(ed, "");
+        }
+    }
+    return done();
+}
+
+// ------------------------------------------------------------------- :normal
+
+// Type `keys` as a complete command; an unfinished one is aborted as by <Esc>.
+bool run_normal(MED_editor.Editor ed, List<int> keys) {
+    bool saved_replaying = ed.replaying;
+    ed.replaying = true;
+    ed.failed = false;
+    ed.message = "";
+    MED_vim.run_keys(ed, keys, keys, 0);
+    drain(ed);
+    if (ed.mode == MED_editor.CMDLINE) {
+        MED_vim.feed(ed, 3);
+    } else if (ed.mode == MED_editor.INSERT || ed.mode == MED_editor.REPLACE || ed.pending.size() > 0) {
+        MED_vim.feed(ed, 27);
+    }
+    ed.pending = [];
+    ed.replaying = saved_replaying;
+    ed.failed = false;
+    // an error message (not just a beep) makes the calling command fail
+    return !(ed.message.size() > 3 && ed.message.byte_at(0) == 69 && is_digit(ed.message.byte_at(1)));
+}
+
+// Display width of a line up to its last non-blank, and whether the text has a tab.
+int line_len(MED_editor.Editor ed, str line) {
+    int last = line.size();
+    while (last > 0 && is_white(line.byte_at(last - 1))) {
+        last = last - 1;
+    }
+    return MED_text.display_col(line, last, ed.tab);
+}
+
+// :left, :right and :center (Vim's ex_align()).
+Step cmd_align(MED_editor.Editor ed, Cmd c) {
+    int width = 0;
+    str a = c.arg;
+    if (a != "") {
+        int e = skip_digits(a, 0);
+        if (e > 0) {
+            width = digits_value(a, 0, e);
+        }
+    }
+    int indent = 0;
+    if (c.name == "left") {
+        indent = width;
+    } else if (width <= 0) {
+        width = 80;
+    }
+    int old_row = ed.row;
+    int old_col = ed.col;
+    for (int row in c.line1 - 1 .. c.line2) {
+        str line = ed.buf.line(row);
+        int new_indent = indent;
+        if (c.name != "left") {
+            int len = line_len(ed, line) - MED_vim.indent_width(ed, line);
+            if (len <= 0) {
+                continue;
+            }
+            bool has_tab = MED_text.first_nonblank(line) < line.size() && line.substr(MED_text.first_nonblank(line), line.size()).index_of("\t").is_some();
+            if (c.name == "center") {
+                new_indent = (width - len) / 2;
+            } else {
+                new_indent = width - len;
+                if (has_tab) {
+                    while (new_indent > 0) {
+                        if (line_len(ed, MED_vim.with_indent(ed, line, new_indent)) <= width) {
+                            new_indent = new_indent + 1;
+                            while (line_len(ed, MED_vim.with_indent(ed, line, new_indent)) <= width) {
+                                new_indent = new_indent + 1;
+                            }
+                            new_indent = new_indent - 1;
+                            break;
+                        }
+                        new_indent = new_indent - 1;
+                    }
+                }
+            }
+        }
+        if (new_indent < 0) {
+            new_indent = 0;
+        }
+        str replaced = MED_vim.with_indent(ed, line, new_indent);
+        if (replaced != line) {
+            replace_row(ed, row, replaced);
+        }
+    }
+    ed.row = old_row;
+    ed.col = old_col;
+    ed.clamp();
+    begin_white(ed);
+    return done();
+}
+
+// `:execute "cmd" 'cmd2' ...`: string literals only; the pieces are joined by a space.
+Step cmd_execute(MED_editor.Editor ed, Cmd c) {
+    str a = c.arg;
+    List<str> parts = [];
+    int p = 0;
+    while (p < a.size()) {
+        int ch = a.byte_at(p);
+        if (ch == 32 || ch == 9) {
+            p = p + 1;
+        } else if (ch == 39) {
+            List<int> out = [];
+            p = p + 1;
+            bool closed = false;
+            while (p < a.size()) {
+                if (a.byte_at(p) == 39) {
+                    if (at(a, p + 1) == 39) {
+                        out.push(39);
+                        p = p + 2;
+                    } else {
+                        p = p + 1;
+                        closed = true;
+                        break;
+                    }
+                } else {
+                    out.push(a.byte_at(p));
+                    p = p + 1;
+                }
+            }
+            if (!closed) {
+                return fail(ed, "E115: Missing quote: " + a);
+            }
+            parts.push(str.from_chars(out));
+        } else if (ch == 34) {
+            List<int> out = [];
+            p = p + 1;
+            bool closed = false;
+            while (p < a.size()) {
+                int d = a.byte_at(p);
+                if (d == 34) {
+                    p = p + 1;
+                    closed = true;
+                    break;
+                }
+                if (d == 92 && p + 1 < a.size()) {
+                    int e = a.byte_at(p + 1);
+                    if (e == 110) {
+                        out.push(10);
+                    } else if (e == 116) {
+                        out.push(9);
+                    } else if (e == 114) {
+                        out.push(13);
+                    } else {
+                        out.push(e);
+                    }
+                    p = p + 2;
+                } else {
+                    out.push(d);
+                    p = p + 1;
+                }
+            }
+            if (!closed) {
+                return fail(ed, "E114: Missing quote: " + a);
+            }
+            parts.push(str.from_chars(out));
+        } else {
+            return fail(ed, "E15: Invalid expression: " + a);
+        }
+    }
+    if (parts.size() == 0) {
+        return done();
+    }
+    if (!run_line(ed, parts.join(" "))) {
+        return fail(ed, "");
+    }
+    return done();
+}
+
+Step cmd_normal(MED_editor.Editor ed, Cmd c) {
+    if (c.arg == "") {
+        return fail(ed, "E471: Argument required");
+    }
+    List<int> keys = c.arg.chars();
+    if (c.addr_count == 0) {
+        if (!run_normal(ed, keys)) {
+            return fail(ed, ed.message);
+        }
+        return done();
+    }
+    int lnum = c.line1;
+    bool bad = false;
+    str err = "";
+    while (lnum <= c.line2) {
+        ed.row = MED_num.smaller(lnum - 1, last_line(ed) - 1);
+        ed.col = 0;
+        ed.want_from_cursor();
+        if (!run_normal(ed, keys)) {
+            bad = true;
+            err = ed.message;
+        }
+        lnum = lnum + 1;
+    }
+    if (bad) {
+        return fail(ed, err);
+    }
+    return done();
+}
+
+// ------------------------------------------------------------------- :global
+
+bool is_alnum(int c) {
+    return is_alpha(c) || is_digit(c);
+}
+
+Step cmd_global(MED_editor.Editor ed, Cmd c) {
+    bool invert = c.bang || c.name == "vglobal";
+    if (ed.global_busy && (c.line1 != 1 || c.line2 != last_line(ed))) {
+        return fail(ed, "E147: Cannot do :global recursive with a range");
+    }
+    str a = c.arg;
+    if (a == "") {
+        return fail(ed, "E471: Argument required");
+    }
+    str pat = "";
+    str cmd = "";
+    int d = at(a, 0);
+    if (d == 92) {
+        int e = at(a, 1);
+        if (e == 47 || e == 63) {
+            pat = ed.search_pat;
+        } else if (e == 38) {
+            pat = ed.sub_pat;
+        } else {
+            return fail(ed, "E10: \\ should be followed by /, ? or &");
+        }
+        if (pat == "") {
+            return fail(ed, "E35: No previous regular expression");
+        }
+        cmd = a.substr(2, a.size());
+    } else {
+        if (is_alnum(d) || d == 34 || d == 124) {
+            return fail(ed, "E146: Regular expressions can't be delimited by letters");
+        }
+        str rest = a.substr(1, a.size());
+        int end = MED_search.skip_regexp(rest, d);
+        pat = rest.substr(0, end);
+        if (end < rest.size()) {
+            cmd = rest.substr(end + 1, rest.size());
+        }
+        if (pat == "") {
+            pat = MED_search.last_pattern(ed);
+            if (pat == "") {
+                return fail(ed, "E35: No previous regular expression");
+            }
+        }
+    }
+    if (!(c.name == "vglobal" && false)) {
+        MED_search.set_last_pattern(ed, pat, false);
+        MED_search.set_last_pattern(ed, pat, true);
+    }
+    MED_regex.Regex re = MED_search.compile_with(ed, pat, false);
+    if (!re.ok) {
+        return fail(ed, re.error);
+    }
+    if (ed.global_busy) {
+        MED_regex.Match m = re.search_line(ed.buf, ed.row, 0);
+        if (m.ok != invert) {
+            return run_global_cmd(ed, cmd);
+        }
+        return done();
+    }
+    List<int> marked = [];
+    for (int row in c.line1 - 1 .. c.line2) {
+        MED_regex.Match m = re.search_line(ed.buf, row, 0);
+        if (m.ok != invert) {
+            marked.push(row);
+        }
+    }
+    if (marked.size() == 0) {
+        if (invert) {
+            ed.message = "Pattern found in every line: " + pat;
+        } else {
+            ed.message = "Pattern not found: " + pat;
+        }
+        return done();
+    }
+    set_pcmark(ed);
+    ed.gmarks = marked;
+    ed.gmarks_on = true;
+    ed.global_busy = true;
+    ed.need_beginline = false;
+    bool ok = true;
+    while (ed.gmarks.size() > 0) {
+        int best = 0;
+        for (int i in 1 .. ed.gmarks.size()) {
+            if (ed.gmarks[i] < ed.gmarks[best]) {
+                best = i;
+            }
+        }
+        int row = ed.gmarks[best];
+        ed.gmarks.remove_at(best);
+        if (row >= last_line(ed)) {
+            continue;
+        }
+        ed.row = row;
+        ed.col = 0;
+        Step r = run_global_cmd(ed, cmd);
+        if (!r.ok) {
+            ok = false;
+            break;
+        }
+    }
+    ed.global_busy = false;
+    ed.gmarks_on = false;
+    ed.gmarks = [];
+    if (ed.need_beginline) {
+        begin_white(ed);
+    } else {
+        ed.clamp();
+    }
+    ed.need_beginline = false;
+    if (!ok) {
+        return fail(ed, "");
+    }
+    return done();
+}
+
+Step run_global_cmd(MED_editor.Editor ed, str cmd) {
+    str text = cmd;
+    if (skip_one_white(text) == "") {
+        text = "p";
+    }
+    if (!run_isolated(ed, text)) {
+        return fail(ed, "");
+    }
+    return done();
+}
+
+// ----------------------------------------------------------------------- :s
+
+// Vim's regtilde(): `~` in a replacement stands for the previous replacement.
+str regtilde(str sub, str prev) {
+    List<int> cs = sub.chars();
+    List<int> out = [];
+    int i = 0;
+    while (i < cs.size()) {
+        int ch = cs[i];
+        if (ch == 126) {
+            for (int p in prev.chars()) {
+                out.push(p);
+            }
+            i = i + 1;
+        } else if (ch == 92 && i + 1 < cs.size()) {
+            out.push(ch);
+            out.push(cs[i + 1]);
+            i = i + 2;
+        } else {
+            out.push(ch);
+            i = i + 1;
+        }
+    }
+    return str.from_chars(out);
+}
+
+int case_map(int c, int mode) {
+    if (mode == 1) {
+        return MED_case.upper_cp(c);
+    }
+    if (mode == 2) {
+        return MED_case.lower_cp(c);
+    }
+    return c;
+}
+
+/// The text a match is replaced with, before line breaks and backslashes are
+/// resolved (Vim's vim_regsub_multi() with REGSUB_BACKSLASH | REGSUB_MAGIC):
+/// a CR is a line break, a backslash protects the next character.
+str expand_sub(str sub, MED_regex.Match m) {
+    List<int> cs = sub.chars();
+    List<int> out = [];
+    int func_one = 0;
+    int func_all = 0;
+    int i = 0;
+    while (i < cs.size()) {
+        int c = cs[i];
+        i = i + 1;
+        int no = -1;
+        if (c == 38) {
+            no = 0;
+        } else if (c == 92 && i < cs.size()) {
+            int d = cs[i];
+            if (d >= 48 && d <= 57) {
+                no = d - 48;
+                i = i + 1;
+            } else if (d == 117 || d == 85 || d == 108 || d == 76 || d == 101 || d == 69) {
+                i = i + 1;
+                if (d == 117) {
+                    func_one = 1;
+                } else if (d == 85) {
+                    func_all = 1;
+                } else if (d == 108) {
+                    func_one = 2;
+                } else if (d == 76) {
+                    func_all = 2;
+                } else {
+                    func_one = 0;
+                    func_all = 0;
+                }
+                continue;
+            }
+        }
+        if (no < 0) {
+            int cc = c;
+            if (c == 92 && i < cs.size()) {
+                int d = cs[i];
+                if (d == 114) {
+                    cc = 13;
+                    i = i + 1;
+                } else if (d == 110) {
+                    cc = 0;
+                    i = i + 1;
+                } else if (d == 116) {
+                    cc = 9;
+                    i = i + 1;
+                } else if (d == 98) {
+                    cc = 8;
+                    i = i + 1;
+                } else {
+                    out.push(92);
+                    cc = d;
+                    i = i + 1;
+                }
+            }
+            if (func_one != 0) {
+                cc = case_map(cc, func_one);
+                func_one = 0;
+            } else if (func_all != 0) {
+                cc = case_map(cc, func_all);
+            }
+            out.push(cc);
+        } else {
+            str text = "";
+            if (no < m.groups.size()) {
+                text = m.groups[no];
+            }
+            for (int ch in text.chars()) {
+                if (ch == 10) {
+                    out.push(13);
+                } else if (ch == 13 || ch == 92) {
+                    out.push(92);
+                    out.push(ch);
+                } else if (func_one != 0) {
+                    out.push(case_map(ch, func_one));
+                    func_one = 0;
+                } else if (func_all != 0) {
+                    out.push(case_map(ch, func_all));
+                } else {
+                    out.push(ch);
+                }
+            }
+        }
+    }
+    return str.from_chars(out);
+}
+
+bool pattern_multiline(str pat) {
+    return pat.index_of("\\n").is_some() || pat.index_of("\\_").is_some();
+}
+
+bool has_flag(str flags, str f) {
+    return flags.index_of(f).is_some();
+}
+
+// Replace line `row` (0-based) of the buffer with `text`.
+void replace_row(MED_editor.Editor ed, int row, str text) {
+    ed.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, ed.buf.line_size(row)), text);
+}
+
+// Insert a line above row `row` (0-based); marks below it move, those on `row` stay (Vim's ml_append + mark_adjust).
+void append_above(MED_editor.Editor ed, int row, str text) {
+    ed.adjust_off = true;
+    ed.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, 0), text + "\n");
+    ed.adjust_off = false;
+    ed.mark_adjust(row + 1, 0, 1);
+}
+
+const int MAXCOL = 2147483647;
+
+// The loop of Vim's do_sub(): `line1` and `line2_in` are 1-based, the rest of the
+// state is 0-based rows. `sub` is the replacement after `~` was expanded.
+Step sub_lines(MED_editor.Editor ed, MED_regex.Regex re, str pat, str sub, int line1, int line2_in, bool do_all_in, bool do_count, bool do_error, bool endcolumn) {
+    int l1 = line1 - 1;
+    int line2 = line2_in - 1;
+    bool do_all = do_all_in;
+    bool multi = pattern_multiline(pat);
+    MED_buffer.Pos old_cursor = ed.cursor();
+    int nsubs = 0;
+    bool got_match = false;
+    // the first substituted line becomes the "U" line
+    bool uline_set = false;
+    ed.uline_off = true;
+    int lnum = l1;
+    while (lnum <= line2 && lnum < ed.buf.line_count()) {
+        MED_regex.Match m = re.search_line(ed.buf, lnum, 0);
+        if (m.ok) {
+            int base = lnum;
+            int nmatch = m.erow - base + 1;
+            int srel = m.srow - base;
+            int erel = m.erow - base;
+            int prev_matchcol = MAXCOL;
+            int copycol = 0;
+            int matchcol = 0;
+            bool new_has = false;
+            str new_start = "";
+            bool did_sub = false;
+            int nmatch_tl = 0;
+            bool skip_match = false;
+            int sub_row = lnum;
+            str sub_first = "";
+            bool have_first = false;
+            if (!got_match) {
+                set_pcmark(ed);
+                got_match = true;
+            }
+            while (true) {
+                if (srel > 0) {
+                    lnum = lnum + srel;
+                    sub_row = sub_row + srel;
+                    nmatch = nmatch - srel;
+                    have_first = false;
+                }
+                if (lnum >= ed.buf.line_count()) {
+                    break;
+                }
+                if (!have_first) {
+                    sub_first = ed.buf.line(sub_row);
+                    have_first = true;
+                }
+                ed.row = lnum;
+                bool do_again = false;
+                bool skip = false;
+                if (matchcol == prev_matchcol && erel == 0 && matchcol == m.ecol) {
+                    if (matchcol >= sub_first.size()) {
+                        skip_match = true;
+                    } else {
+                        matchcol = MED_text.next_col(sub_first, matchcol);
+                    }
+                    skip = true;
+                }
+                if (!skip) {
+                    matchcol = m.ecol;
+                    prev_matchcol = matchcol;
+                    if (do_count) {
+                        if (nmatch > 1) {
+                            matchcol = sub_first.size();
+                            nmatch = 1;
+                            skip_match = true;
+                        }
+                        nsubs = nsubs + 1;
+                        did_sub = true;
+                        skip = true;
+                    }
+                }
+                if (!skip) {
+                    str rep = expand_sub(sub, m);
+                    if (nmatch > ed.buf.line_count() - sub_row) {
+                        nmatch = ed.buf.line_count() - sub_row;
+                        skip_match = true;
+                    }
+                    if (nmatch > 1) {
+                        nmatch_tl = nmatch_tl + nmatch - 1;
+                    }
+                    str acc = "";
+                    if (new_has) {
+                        acc = new_start;
+                    }
+                    if (m.scol > copycol) {
+                        acc = acc + sub_first.substr(copycol, m.scol);
+                    }
+                    nsubs = nsubs + 1;
+                    did_sub = true;
+                    ed.col = 0;
+                    if (nmatch > 1) {
+                        sub_row = sub_row + nmatch - 1;
+                        sub_first = ed.buf.line(sub_row);
+                        if (sub_row <= line2) {
+                            do_again = true;
+                        } else {
+                            do_all = false;
+                        }
+                    }
+                    copycol = m.ecol;
+                    if (skip_match) {
+                        sub_first = "";
+                        copycol = 0;
+                    }
+                    List<int> cs = rep.chars();
+                    List<int> part = [];
+                    int i = 0;
+                    while (i < cs.size()) {
+                        int ch = cs[i];
+                        if (ch == 92 && i + 1 < cs.size()) {
+                            part.push(cs[i + 1]);
+                            i = i + 2;
+                        } else if (ch == 13) {
+                            append_above(ed, lnum, acc + str.from_chars(part));
+                            acc = "";
+                            part = [];
+                            sub_row = sub_row + 1;
+                            lnum = lnum + 1;
+                            line2 = line2 + 1;
+                            ed.row = lnum;
+                            i = i + 1;
+                        } else {
+                            part.push(ch);
+                            i = i + 1;
+                        }
+                    }
+                    new_start = acc + str.from_chars(part);
+                    new_has = true;
+                }
+                // skip:
+                bool lastone = skip_match || lnum > line2 || !(do_all || do_again) || (matchcol >= sub_first.size() && nmatch <= 1 && !multi);
+                nmatch = -1;
+                bool replace_now = lastone || nmatch_tl > 0;
+                if (!replace_now) {
+                    MED_regex.Match m2 = re.search_line(ed.buf, sub_row, matchcol);
+                    if (m2.ok) {
+                        m = m2;
+                        base = sub_row;
+                        nmatch = m.erow - base + 1;
+                        srel = m.srow - base;
+                        erel = m.erow - base;
+                    } else {
+                        nmatch = 0;
+                    }
+                    replace_now = nmatch == 0 || srel > 0;
+                }
+                if (replace_now) {
+                    if (new_has) {
+                        if (copycol < sub_first.size()) {
+                            new_start = new_start + sub_first.substr(copycol, sub_first.size());
+                        }
+                        matchcol = sub_first.size() - matchcol;
+                        prev_matchcol = sub_first.size() - prev_matchcol;
+                        if (!uline_set && nmatch_tl == 0) {
+                            uline_set = true;
+                            ed.uline_row = lnum;
+                            ed.uline_text = ed.buf.line(lnum);
+                            ed.uline_col = 0;
+                        }
+                        replace_row(ed, lnum, new_start);
+                        if (nmatch_tl > 0) {
+                            delete_rows(ed, lnum + 1, lnum + nmatch_tl);
+                            line2 = line2 - nmatch_tl;
+                            nmatch_tl = 0;
+                        }
+                        sub_row = lnum;
+                        sub_first = new_start;
+                        new_has = false;
+                        matchcol = sub_first.size() - matchcol;
+                        prev_matchcol = sub_first.size() - prev_matchcol;
+                        copycol = 0;
+                    }
+                    if (nmatch == -1 && !lastone) {
+                        MED_regex.Match m3 = re.search_line(ed.buf, sub_row, matchcol);
+                        if (m3.ok) {
+                            m = m3;
+                            base = sub_row;
+                            nmatch = m.erow - base + 1;
+                            srel = m.srow - base;
+                            erel = m.erow - base;
+                        } else {
+                            nmatch = 0;
+                        }
+                    }
+                    if (nmatch <= 0) {
+                        if (nmatch == -1) {
+                            lnum = lnum - srel;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        lnum = lnum + 1;
+    }
+    ed.uline_off = false;
+    if (do_count) {
+        ed.set_cursor(old_cursor);
+    }
+    if (nsubs > 0) {
+        ed.marks.set("[", MED_buffer.Pos(l1, 0));
+        ed.marks.set("]", MED_buffer.Pos(line2, 0));
+        ed.clamp();
+        if (!ed.global_busy) {
+            if (endcolumn) {
+                ed.col = ed.buf.line_size(ed.row);
+                ed.clamp();
+                ed.want = -1;
+            } else {
+                begin_white(ed);
+            }
+        } else {
+            ed.need_beginline = true;
+        }
+    } else if (!ed.global_busy) {
+        ed.clamp();
+        if (!got_match && do_error) {
+            return fail(ed, "E486: Pattern not found: " + pat);
+        }
+    }
+    return done();
+}
+
+// The end of the replacement text: the first unescaped `delim` (Vim's skip_substitute()).
+int skip_substitute(str text, int delim) {
+    int p = 0;
+    while (p < text.size()) {
+        int ch = text.byte_at(p);
+        if (ch == delim) {
+            return p;
+        }
+        if (ch == 92 && p + 1 < text.size()) {
+            p = p + 1;
+        }
+        p = MED_text.next_col(text, p);
+    }
+    return p;
+}
+
+// Which pattern slot an empty pattern means: 0 search, 1 substitute, 2 last used.
+str slot_pattern(MED_editor.Editor ed, int which) {
+    if (which == 0) {
+        return ed.search_pat;
+    }
+    if (which == 1) {
+        return ed.sub_pat;
+    }
+    return MED_search.last_pattern(ed);
+}
+
+Step cmd_sub(MED_editor.Editor ed, Cmd c) {
+    str a = skip_one_white(c.arg);
+    int which = 1;
+    if (c.name == "~") {
+        which = 2;
+    }
+    str pat = "";
+    str sub = "";
+    bool new_pat = false;
+    bool endcolumn = false;
+    str cmd = "";
+    if (c.name == "substitute" && a != "" && !is_white(a.byte_at(0)) && "0123456789cegriIp|\"".index_of(str.from_chars([a.byte_at(0)])).is_none()) {
+        int d = a.byte_at(0);
+        if (is_alpha(d)) {
+            return fail(ed, "E146: Regular expressions can't be delimited by letters");
+        }
+        new_pat = true;
+        str rest = "";
+        if (d == 92) {
+            int e = at(a, 1);
+            if (e != 47 && e != 63 && e != 38) {
+                return fail(ed, "E10: \\ should be followed by /, ? or &");
+            }
+            if (e != 38) {
+                which = 0;
+            }
+            d = e;
+            rest = a.substr(2, a.size());
+        } else {
+            which = 2;
+            rest = a.substr(1, a.size());
+            int end = MED_search.skip_regexp(rest, d);
+            pat = rest.substr(0, end);
+            if (end < rest.size()) {
+                rest = rest.substr(end + 1, rest.size());
+            } else {
+                rest = "";
+            }
+        }
+        int sub_end = skip_substitute(rest, d);
+        sub = rest.substr(0, sub_end);
+        if (sub_end < rest.size()) {
+            cmd = rest.substr(sub_end + 1, rest.size());
+        }
+        ed.sub_old = sub;
+        ed.sub_has = true;
+    } else {
+        if (!ed.sub_has) {
+            return fail(ed, "E35: No previous regular expression");
+        }
+        sub = ed.sub_old;
+        cmd = a;
+        endcolumn = ed.want == -1;
+    }
+    // ":%s/\n//" is a join
+    bool join = false;
+    if (pat == "\\n" && sub == "" && (cmd == "" || (cmd.size() == 1 && "glp#".index_of(cmd).is_some()))) {
+        join = true;
+    }
+    if (join) {
+        ed.row = c.line1 - 1;
+        int count = c.line2 - c.line1 + 1;
+        if (c.line2 < last_line(ed)) {
+            count = count + 1;
+        }
+        if (count > 1) {
+            MED_vim.do_join(ed, c.line1 - 1, count, false);
+        }
+        MED_search.set_last_pattern(ed, pat, true);
+        return done();
+    }
+    // flags
+    bool do_all = false;
+    bool do_error = true;
+    bool do_count = false;
+    int do_ic = 0;
+    int p = 0;
+    if (at(cmd, 0) == 38) {
+        p = 1;
+        str f = ed.sub_flags;
+        do_all = has_flag(f, "g");
+        do_error = !has_flag(f, "q");
+        do_count = has_flag(f, "n");
+        if (has_flag(f, "i")) {
+            do_ic = 1;
+        } else if (has_flag(f, "I")) {
+            do_ic = 2;
+        }
+    }
+    bool ask = false;
+    while (p < cmd.size()) {
+        int ch = cmd.byte_at(p);
+        if (ch == 103) {
+            do_all = !do_all;
+        } else if (ch == 99) {
+            ask = !ask;
+        } else if (ch == 110) {
+            do_count = true;
+        } else if (ch == 101) {
+            do_error = !do_error;
+        } else if (ch == 114) {
+            which = 2;
+        } else if (ch == 112 || ch == 35 || ch == 108) {
+            // printing is not shown
+        } else if (ch == 105) {
+            do_ic = 1;
+        } else if (ch == 73) {
+            do_ic = 2;
+        } else {
+            break;
+        }
+        p = p + 1;
+    }
+    if (do_count) {
+        ask = false;
+    }
+    str flags = "";
+    if (do_all) {
+        flags = flags + "g";
+    }
+    if (!do_error) {
+        flags = flags + "q";
+    }
+    if (do_count) {
+        flags = flags + "n";
+    }
+    if (do_ic == 1) {
+        flags = flags + "i";
+    } else if (do_ic == 2) {
+        flags = flags + "I";
+    }
+    ed.sub_flags = flags;
+    cmd = cmd.substr(p, cmd.size());
+    str t = skip_one_white(cmd);
+    if (t != "" && is_digit(t.byte_at(0))) {
+        int e = skip_digits(t, 0);
+        int n = digits_value(t, 0, e);
+        if (n <= 0 && do_error) {
+            return fail(ed, "E939: Positive count required");
+        }
+        c.line1 = c.line2;
+        c.line2 = c.line2 + n - 1;
+        if (c.line2 > last_line(ed)) {
+            c.line2 = last_line(ed);
+        }
+        t = skip_one_white(t.substr(e, t.size()));
+    }
+    if (t != "" && t.byte_at(0) != 34) {
+        if (t.byte_at(0) == 124) {
+            c.more = true;
+            c.rest = t.substr(1, t.size());
+        } else {
+            return fail(ed, "E488: Trailing characters: " + t);
+        }
+    }
+    if (ask) {
+        return fail(ed, "E999: :s///c is not supported");
+    }
+    // the pattern
+    if (pat == "") {
+        pat = slot_pattern(ed, which);
+        if (pat == "") {
+            return fail(ed, "E35: No previous regular expression");
+        }
+    }
+    MED_search.set_last_pattern(ed, pat, true);
+    MED_regex.Regex re = MED_regex.Regex();
+    if (do_ic == 1) {
+        re = MED_regex.compile(pat, true, false, ed.sub_rep);
+    } else if (do_ic == 2) {
+        re = MED_regex.compile(pat, false, false, ed.sub_rep);
+    } else {
+        re = MED_search.compile_with(ed, pat, false);
+    }
+    if (!re.ok) {
+        return fail(ed, re.error);
+    }
+    if (sub.starts_with("\\=")) {
+        return fail(ed, "E999: \\= in the replacement is not supported");
+    }
+    sub = regtilde(sub, ed.sub_rep);
+    ed.sub_rep = sub;
+    return sub_lines(ed, re, pat, sub, c.line1, c.line2, do_all, do_count, do_error, endcolumn);
+}
+
+// ----------------------------------------------------------------------- :sort
+
+str lower_str(str s) {
+    List<int> out = [];
+    for (int ch in s.chars()) {
+        out.push(MED_case.lower_cp(ch));
+    }
+    return str.from_chars(out);
+}
+
+type SortNum {
+    bool is_number = false;
+    int value = 0;
+}
+
+type SortCtx {
+    List<bool> is_num = [];
+    List<int> num = [];
+    List<str> key = [];
+    bool numeric = false;
+    /// `:sort f`: the key as a decimal number (sign, exponent of the first digit, digits).
+    bool flt = false;
+    List<int> fsign = [];
+    List<int> fexp = [];
+    List<str> fdig = [];
+}
+
+int cmp_str(str a, str b) {
+    int n = a.size();
+    if (b.size() < n) {
+        n = b.size();
+    }
+    for (int i in 0 .. n) {
+        int x = a.byte_at(i);
+        int y = b.byte_at(i);
+        if (x != y) {
+            if (x < y) {
+                return -1;
+            }
+            return 1;
+        }
+    }
+    if (a.size() == b.size()) {
+        return 0;
+    }
+    if (a.size() < b.size()) {
+        return -1;
+    }
+    return 1;
+}
+
+// Compare two decimal keys: sign first (an empty line, sign -2, sorts before everything), then magnitude.
+int flt_cmp(SortCtx cx, int i, int j) {
+    int a = cx.fsign[i];
+    int b = cx.fsign[j];
+    if (a != b) {
+        if (a < b) {
+            return -1;
+        }
+        return 1;
+    }
+    if (a == 0 || a == -2) {
+        return 0;
+    }
+    int m = 0;
+    if (cx.fexp[i] != cx.fexp[j]) {
+        if (cx.fexp[i] > cx.fexp[j]) {
+            m = 1;
+        } else {
+            m = -1;
+        }
+    } else {
+        m = cmp_str(cx.fdig[i], cx.fdig[j]);
+    }
+    return m * a;
+}
+
+// strtod() as a decimal key: the sign (0 for zero), the exponent of the first
+// significant digit and the significant digits without trailing zeros.
+SortCtx flt_push(SortCtx cx, str key) {
+    int p = 0;
+    while (p < key.size() && (key.byte_at(p) == 32 || key.byte_at(p) == 9)) {
+        p = p + 1;
+    }
+    if (p < key.size() && key.byte_at(p) == 43) {
+        p = p + 1;
+        while (p < key.size() && (key.byte_at(p) == 32 || key.byte_at(p) == 9)) {
+            p = p + 1;
+        }
+    }
+    if (p >= key.size()) {
+        cx.fsign.push(-2);
+        cx.fexp.push(0);
+        cx.fdig.push("");
+        return cx;
+    }
+    int sign = 1;
+    if (key.byte_at(p) == 45) {
+        sign = -1;
+        p = p + 1;
+    } else if (key.byte_at(p) == 43) {
+        p = p + 1;
+    }
+    List<int> digits = [];
+    int point = 0;
+    bool seen_point = false;
+    bool any = false;
+    while (p < key.size()) {
+        int ch = key.byte_at(p);
+        if (is_digit(ch)) {
+            any = true;
+            digits.push(ch);
+            if (!seen_point) {
+                point = point + 1;
+            }
+        } else if (ch == 46 && !seen_point) {
+            seen_point = true;
+        } else {
+            break;
+        }
+        p = p + 1;
+    }
+    int ex = 0;
+    if (any && p < key.size() && (key.byte_at(p) == 101 || key.byte_at(p) == 69)) {
+        int q = p + 1;
+        int esign = 1;
+        if (q < key.size() && (key.byte_at(q) == 43 || key.byte_at(q) == 45)) {
+            if (key.byte_at(q) == 45) {
+                esign = -1;
+            }
+            q = q + 1;
+        }
+        if (q < key.size() && is_digit(key.byte_at(q))) {
+            int v = 0;
+            while (q < key.size() && is_digit(key.byte_at(q))) {
+                if (v < 100000000) {
+                    v = v * 10 + key.byte_at(q) - 48;
+                }
+                q = q + 1;
+            }
+            ex = v * esign;
+        }
+    }
+    int lead = 0;
+    while (lead < digits.size() && digits[lead] == 48) {
+        lead = lead + 1;
+    }
+    int last = digits.size();
+    while (last > lead && digits[last - 1] == 48) {
+        last = last - 1;
+    }
+    if (!any || lead == digits.size()) {
+        cx.fsign.push(0);
+        cx.fexp.push(0);
+        cx.fdig.push("");
+        return cx;
+    }
+    cx.fsign.push(sign);
+    cx.fexp.push(point - lead + ex);
+    cx.fdig.push(str.from_chars(digits.slice(lead, last)));
+    return cx;
+}
+
+// Compare lines `i` and `j` the way sort_compare() does; equal keys keep the original order.
+int sort_cmp(SortCtx cx, int i, int j) {
+    int r = 0;
+    if (cx.flt) {
+        r = flt_cmp(cx, i, j);
+    } else if (cx.numeric) {
+        if (cx.is_num[i] != cx.is_num[j]) {
+            if (cx.is_num[i]) {
+                r = 1;
+            } else {
+                r = -1;
+            }
+        } else if (cx.num[i] != cx.num[j]) {
+            if (cx.num[i] > cx.num[j]) {
+                r = 1;
+            } else {
+                r = -1;
+            }
+        }
+    } else {
+        r = cmp_str(cx.key[i], cx.key[j]);
+    }
+    if (r == 0) {
+        if (i < j) {
+            return -1;
+        }
+        if (i > j) {
+            return 1;
+        }
+    }
+    return r;
+}
+
+List<int> merge_sort(SortCtx cx, List<int> items) {
+    if (items.size() <= 1) {
+        return items;
+    }
+    int mid = items.size() / 2;
+    List<int> left = merge_sort(cx, items.slice(0, mid));
+    List<int> right = merge_sort(cx, items.slice(mid, items.size()));
+    List<int> out = [];
+    int i = 0;
+    int j = 0;
+    while (i < left.size() && j < right.size()) {
+        if (sort_cmp(cx, left[i], right[j]) <= 0) {
+            out.push(left[i]);
+            i = i + 1;
+        } else {
+            out.push(right[j]);
+            j = j + 1;
+        }
+    }
+    while (i < left.size()) {
+        out.push(left[i]);
+        i = i + 1;
+    }
+    while (j < right.size()) {
+        out.push(right[j]);
+        j = j + 1;
+    }
+    return out;
+}
+
+bool is_hex_digit(int c) {
+    return is_digit(c) || (c >= 97 && c <= 102) || (c >= 65 && c <= 70);
+}
+
+int hex_val(int c) {
+    if (c >= 97) {
+        return c - 87;
+    }
+    if (c >= 65) {
+        return c - 55;
+    }
+    return c - 48;
+}
+
+// The number of a ":sort n/x/o/b" key: the first number in `s` (a '-' just before it counts).
+SortNum sort_number(str s, int what) {
+    SortNum r = SortNum();
+    int p = 0;
+    while (p < s.size()) {
+        int ch = s.byte_at(p);
+        bool hit = is_digit(ch);
+        if (what == 1) {
+            hit = is_hex_digit(ch);
+        } else if (what == 3) {
+            hit = ch == 48 || ch == 49;
+        }
+        if (hit) {
+            break;
+        }
+        p = p + 1;
+    }
+    if (p >= s.size()) {
+        return r;
+    }
+    bool neg = p > 0 && s.byte_at(p - 1) == 45;
+    r.is_number = true;
+    int base = 10;
+    if (what == 1) {
+        base = 16;
+        if (at(s, p) == 48 && (at(s, p + 1) == 120 || at(s, p + 1) == 88) && is_hex_digit(at(s, p + 2))) {
+            p = p + 2;
+        }
+    } else if (what == 2) {
+        base = 8;
+    } else if (what == 3) {
+        base = 2;
+        if (at(s, p) == 48 && (at(s, p + 1) == 98 || at(s, p + 1) == 66) && (at(s, p + 2) == 48 || at(s, p + 2) == 49)) {
+            p = p + 2;
+        }
+    }
+    int v = 0;
+    while (p < s.size()) {
+        int ch = s.byte_at(p);
+        int d = 99;
+        if (is_hex_digit(ch)) {
+            d = hex_val(ch);
+        }
+        if (d >= base) {
+            break;
+        }
+        v = v * base + d;
+        p = p + 1;
+    }
+    if (neg) {
+        v = 0 - v;
+    }
+    r.value = v;
+    return r;
+}
+
+Step cmd_sort(MED_editor.Editor ed, Cmd c) {
+    bool ic = false;
+    bool rx = false;
+    bool unique = false;
+    bool numeric = false;
+    bool flt = false;
+    int what = 0;
+    int formats = 0;
+    MED_regex.Regex re = MED_regex.Regex();
+    bool have_re = false;
+    str arg = c.arg;
+    int p = 0;
+    while (p < arg.size()) {
+        int ch = arg.byte_at(p);
+        if (is_white(ch)) {
+            p = p + 1;
+        } else if (ch == 105) {
+            ic = true;
+            p = p + 1;
+        } else if (ch == 108) {
+            p = p + 1;
+        } else if (ch == 114) {
+            rx = true;
+            p = p + 1;
+        } else if (ch == 110) {
+            numeric = true;
+            formats = formats + 1;
+            p = p + 1;
+        } else if (ch == 102) {
+            flt = true;
+            formats = formats + 1;
+            p = p + 1;
+        } else if (ch == 98) {
+            numeric = true;
+            what = 3;
+            formats = formats + 1;
+            p = p + 1;
+        } else if (ch == 111) {
+            numeric = true;
+            what = 2;
+            formats = formats + 1;
+            p = p + 1;
+        } else if (ch == 120) {
+            numeric = true;
+            what = 1;
+            formats = formats + 1;
+            p = p + 1;
+        } else if (ch == 117) {
+            unique = true;
+            p = p + 1;
+        } else if (ch == 34) {
+            break;
+        } else if (ch == 124) {
+            c.more = true;
+            c.rest = arg.substr(p + 1, arg.size());
+            break;
+        } else if (!is_alpha(ch) && !have_re) {
+            str rest = arg.substr(p + 1, arg.size());
+            int end = MED_search.skip_regexp(rest, ch);
+            str pat = rest.substr(0, end);
+            if (pat == "") {
+                pat = ed.search_pat;
+                if (pat == "") {
+                    return fail(ed, "E35: No previous regular expression");
+                }
+            }
+            re = MED_regex.compile(pat, ed.ignorecase, false, ed.sub_rep);
+            if (!re.ok) {
+                return fail(ed, re.error);
+            }
+            have_re = true;
+            p = p + 1 + end;
+            if (end < rest.size()) {
+                p = p + 1;
+            }
+        } else {
+            return fail(ed, "E474: Invalid argument: " + arg.substr(p, arg.size()));
+        }
+    }
+    if (formats > 1) {
+        return fail(ed, "E474: Invalid argument");
+    }
+    int count = c.line2 - c.line1 + 1;
+    if (count <= 1) {
+        return done();
+    }
+    SortCtx cx = SortCtx();
+    cx.numeric = numeric;
+    cx.flt = flt;
+    List<int> order = [];
+    for (int k in 0 .. count) {
+        int row = c.line1 - 1 + k;
+        str s = ed.buf.line(row);
+        int sc = 0;
+        int ec = s.size();
+        if (have_re) {
+            MED_regex.Match m = re.search_line(ed.buf, row, 0);
+            if (m.ok && m.srow == row) {
+                if (rx) {
+                    sc = m.scol;
+                    if (m.erow == row) {
+                        ec = m.ecol;
+                    }
+                } else if (m.erow == row) {
+                    sc = m.ecol;
+                } else {
+                    sc = s.size();
+                }
+            } else {
+                ec = 0;
+            }
+        }
+        str key = "";
+        if (ec > sc) {
+            key = s.substr(sc, ec);
+        }
+        if (flt) {
+            cx = flt_push(cx, key);
+            cx.is_num.push(false);
+            cx.num.push(0);
+            cx.key.push(key);
+        } else if (numeric) {
+            SortNum n = sort_number(key, what);
+            cx.is_num.push(n.is_number);
+            cx.num.push(n.value);
+            cx.key.push(key);
+        } else {
+            if (ic) {
+                key = lower_str(key);
+            }
+            cx.is_num.push(false);
+            cx.num.push(0);
+            cx.key.push(key);
+        }
+        order.push(k);
+    }
+    order = merge_sort(cx, order);
+    List<str> out = [];
+    str prev = "";
+    for (int i in 0 .. count) {
+        int k = order[i];
+        if (c.bang) {
+            k = order[count - 1 - i];
+        }
+        str s = ed.buf.line(c.line1 - 1 + k);
+        if (unique && i > 0) {
+            bool same = s == prev;
+            if (ic) {
+                same = lower_str(s) == lower_str(prev);
+            }
+            if (same) {
+                continue;
+            }
+        }
+        prev = s;
+        out.push(s);
+    }
+    int deleted = count - out.size();
+    int a = c.line1 - 1;
+    int b = c.line2 - 1;
+    ed.adjust_off = true;
+    ed.change(MED_buffer.Pos(a, 0), MED_buffer.Pos(b, ed.buf.line_size(b)), out.join("\n"));
+    ed.adjust_off = false;
+    if (deleted > 0) {
+        ed.mark_adjust(c.line2 - deleted - 1, deleted + 1, 1);
+    }
+    ed.row = a;
+    begin_white(ed);
+    return done();
+}
