@@ -1,0 +1,29 @@
+Hello. World! How are you? Fine.\nx.y(z); w	0,8	2V
+Hello. World! How are you? Fine.\nx.y(z); w	1,8	{2V
+f(a, [1], {k})	0,3	g~a]4v
+12 345\n  indented line	0,3	G>atcc<End>
+12 345\n  indented line	0,3	Gcc<Left>x<Esc>
+12 345\n  indented line	0,3	Gcc<Up>x<Esc>
+12 345\n  indented line	0,3	Gcc<Home><Esc>
+12 345\n  indented line	0,3	Gcc<Down><Esc>
+a b c d e\n  indented line	0,3	3v
+a b c d e\n  indented line	0,3	3<C-v>d
+a b c d e\n  indented line	0,3	3Vd
+x.y	0,2	$/<CR>>>
+x.y	0,2	$/zz<CR>>>
+one two three four\nA B C	0,8	j2(>)
+one two three four\nA B C	0,8	jg?2(>)
+abc def\n\tA B C	0,6	$wjx
+abc def\n\tA B C	0,0	bjx
+abc def\n\tA B C	0,0	gejx
+abc def\n\tA B C	1,0	$}jkx
+abc def\n\tA B C	0,6	$ljx
+\n\n	0,0	<C-v>jd
+a\n\n\nb	1,0	<C-v>jd
+abc\n\nb	1,0	<C-v>d
+abc\n\nb	1,0	"a<C-v>d
+abc\n\nb	1,0	<C-v>D
+abc\n\nb	1,0	<C-v>x
+abc\n\nb	1,0	<C-v>c
+	0,0	<C-v>d
+one two three four\nA B C	0,8	jg?i(>)

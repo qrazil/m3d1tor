@@ -267,7 +267,7 @@ def compare_cases(runner, cases, tmp):
 TEXT_LINES = [
     "", "a", "foo bar", "foo  bar baz", "  indented line", "\ttabbed", "one two three four",
     "x.y(z); w", "foo(bar, baz)", "if (a) { b }", "end.", "héllo wörld", "e\u0301a\u0301 x",
-    "日本語 text", "a日b", "trailing   ", "   ", "word1 word2", "a-b_c d", "12 345",
+    "日本語 text", "a日b", "trailing   ", "   ", "word1 word2", "a-b_c d", "12 345", "x 0x1f -7 0b101 007 9", "-5 0xFE 99",
     "[x] {y} (z)", "Hello. World! How are you? Fine.", "say \"hi there\" ok", "<b>x</b> <i>y</i>",
     "<div><p>a</p></div>", "f(a, [1], {k})", "Mr. Smith (see.) Ok", "it's 'q' `c`", "a.  b.   c",
     "snake_case here", "A B C", "UPPER lower", "x\ty", "!!", "😀 smile",
@@ -292,7 +292,7 @@ TYPED = ["foo", "x", "Hello", "a b", " ", "\t", "<CR>", "<BS>", "<C-w>", "<C-u>"
          "<Home>", "<End>", "<Up>", "<Down>", "(x)", "foo bar<C-w>"]
 VISUAL = ["v", "V", "<C-v>"]
 VISUAL_OPS = ["d", "c", "y", ">", "<", "~", "u", "U", "J", "gJ", "x", "X", "D", "r_", "p", "P", "o", "O", "gv",
-              "iw", "aw", "ip", "i(", "a(", "i\"", "<Esc>", "S", "s", "Y", "C", "g?", "gU", "gu", "g~", "IX<Esc>", "AX<Esc>"]
+              "iw", "aw", "ip", "i(", "a(", "i\"", "<Esc>", "S", "s", "Y", "C", "g?", "gU", "gu", "g~", "IX<Esc>", "AX<Esc>", "<C-a>", "<C-x>", "g<C-a>", "g<C-x>", "2<C-a>"]
 SEARCH = ["/a<CR>", "/foo<CR>", "?o<CR>", "n", "N", "*", "#", "/\\<w<CR>", "/b\\|c<CR>", "/[aeiou]<CR>",
           "/o\\+<CR>", "/^<CR>", "/$<CR>", "d/a<CR>", "d?o<CR>", "c/b<CR>x<Esc>", "/e\\zsl<CR>", "y/o<CR>",
           "dn", "dN", "d*", "/.<CR>", "/\\d<CR>", "/\\s<CR>", "/\\k\\+<CR>", "/o/e<CR>", "/o/e+1<CR>",
@@ -305,7 +305,7 @@ EX = [":s/a/b/<CR>", ":s/o/0/g<CR>", ":%s/ /_/g<CR>", ":2d<CR>", ":1,2d<CR>", ":
       ":t.<CR>", ":m0<CR>", ":m$<CR>", ":2,3><CR>", ":normal dw<CR>", ":%s/o/&&/g<CR>", ":s/x*//g<CR>",
       ":g/^/m0<CR>", ":%j<CR>", ":2,$d<CR>", ":%s/\\<./\\u&/g<CR>", ":&&<CR>", ":%s/a\\|b/X/g<CR>"]
 MISC = ["m", "ma", "'a", "`a", "mb", "'b", "`b", "d'a", "d`a", "y'a", "''", "``", "`[", "`]", "'[", "']",
-        "<C-a>", "<C-x>", "5<C-a>", "3<C-x>", "ZZ"]
+        "<C-a>", "<C-x>", "5<C-a>", "3<C-x>", "<C-a>.", "<C-x>."]
 
 
 def chunks(vocab):

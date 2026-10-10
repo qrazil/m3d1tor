@@ -98,6 +98,8 @@ pub type Editor {
     pub bool did_ai = false;
     /// Vim's Insstart_orig: where backspacing with CTRL-W / CTRL-U stops.
     pub MED_buffer.Pos ins_start = MED_buffer.Pos(0, 0);
+    /// Vim's Insstart, which becomes the '[ mark when the insert ends.
+    pub MED_buffer.Pos ins_mark = MED_buffer.Pos(0, 0);
     /// The insert start an arrow key leaves pending (Vim's Insstart), taken
     /// over by `ins_start` at the next key unless `ins_hold`.
     pub MED_buffer.Pos ins_next = MED_buffer.Pos(0, 0);
@@ -115,6 +117,8 @@ pub type Editor {
     pub bool last_is_sub = false;
     /// The search pattern was made by `*`: 'smartcase' does not apply to it.
     pub bool search_no_scs = false;
+    /// <C-a> remembers whether the last hex number it changed used capitals.
+    pub bool hexupper = false;
     /// The pattern about to be searched came from `*` (sets `search_no_scs`).
     pub bool search_no_scs_next = false;
     /// The last search offset: line offset, `e` offset and the number.
@@ -285,11 +289,54 @@ Landing Editor.apply_edit(MED_buffer.Edit e, bool forward) {
     l.top = e.from.row;
     l.first = differ;
     l.newsize = newsize;
+    // Vim's undo entries hold whole lines: a pure line insertion or deletion
+    // spans one line fewer than the character edit does.
+    l.mtop = l.top;
+    l.mnew = newsize;
+    if (from_text == "" || to_text == "") {
+        str moved = from_text + to_text;
+        if (moved.starts_with("\n")) {
+            l.mtop = l.top + 1;
+            l.mnew = newsize - 1;
+        } else if (moved.ends_with("\n") && e.from.col == 0) {
+            l.mnew = newsize - 1;
+        }
+    }
     return l;
 }
 
+// '[ and '] after undo / redo: the first and last line the block touched.
+void Editor.set_undo_marks(List<Landing> landings, int old_lines) {
+    int start = old_lines;
+    int end = 0;
+    for (Landing l in landings) {
+        if (l.mtop + 1 < start) {
+            start = l.mtop + 1;
+        }
+        if (l.mnew == 0) {
+            if (l.mtop + 1 > end) {
+                end = l.mtop + 1;
+            }
+        } else if (l.mtop + l.mnew > end) {
+            end = l.mtop + l.mnew;
+        }
+    }
+    if (start > buf.line_count()) {
+        start = buf.line_count();
+    }
+    if (end > buf.line_count()) {
+        end = buf.line_count();
+    }
+    if (end < 1) {
+        end = 1;
+    }
+    marks.set("[", MED_buffer.Pos(start - 1, 0));
+    marks.set("]", MED_buffer.Pos(end - 1, 0));
+}
+
 // Vim's cursor placement after undo / redo of one block.
-void Editor.land(Node node, List<Landing> landings, bool undoing) {
+void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines) {
+    set_undo_marks(landings, old_lines);
     int newlnum = 1000000000;
     int cursor_row = row;
     bool set_row = false;
@@ -344,13 +391,14 @@ pub bool Editor.undo() {
         return false;
     }
     Node node = nodes[cur];
+    int old_lines = buf.line_count();
     List<Landing> landings = [];
     int i = node.edits.size() - 1;
     while (i >= 0) {
         landings.push(apply_edit(node.edits[i], false));
         i = i - 1;
     }
-    land(node, landings, true);
+    land(node, landings, true, old_lines);
     cur = node.parent;
     nodes[cur].redo_child = node.seq;
     return true;
@@ -364,11 +412,12 @@ pub bool Editor.redo() {
         return false;
     }
     Node node = nodes[child];
+    int old_lines = buf.line_count();
     List<Landing> landings = [];
     for (MED_buffer.Edit e in node.edits) {
         landings.push(apply_edit(e, true));
     }
-    land(node, landings, false);
+    land(node, landings, false, old_lines);
     cur = child;
     return true;
 }
@@ -427,9 +476,16 @@ pub void Editor.clamp() {
     col = MED_text.snap(line, col);
 }
 
+/// Loading a buffer sets '[ and '] to its first and last line.
+pub void Editor.init_marks() {
+    marks.set("[", MED_buffer.Pos(0, 0));
+    marks.set("]", MED_buffer.Pos(buf.line_count() - 1, 0));
+}
+
 pub Editor new(str text) {
     Editor ed = Editor(MED_buffer.load(text));
     ed.nodes.push(Node(0, -1, [], MED_buffer.Pos(0, 0)));
+    ed.init_marks();
     return ed;
 }
 
@@ -451,5 +507,8 @@ pub type Landing {
     pub int top = 0;
     pub int first = 0;
     pub int newsize = 0;
+    /// `top` and `newsize` as Vim's whole-line undo entries count them.
+    pub int mtop = 0;
+    pub int mnew = 0;
     pub bool first_changed_found = false;
 }

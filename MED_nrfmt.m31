@@ -1,0 +1,320 @@
+// Adding to and subtracting from the number under the cursor: `<C-a>`, `<C-x>`,
+// and `g<C-a>` / `g<C-x>` / `<C-a>` over a Visual selection.
+//
+// A port of Vim's do_addsub() with 'nrformats' "bin,hex" (nvim's default):
+// decimal, 0x hex and 0b binary numbers, a '-' directly before a decimal number
+// makes it negative, leading zeros keep the width.
+//
+// Numbers are 64-bit signed here, Vim's are unsigned 64-bit: a decimal number of
+// 2^63 or more is treated as too large and left alone (DESIGN.md section 7).
+
+import MED_text;
+
+pub type NrResult {
+    /// The line changed.
+    pub bool changed = false;
+    /// The bytes [from, to) of the line are replaced by `text`.
+    pub int from = 0;
+    pub int to = 0;
+    pub str text = "";
+    /// Byte column of the last character of the new number.
+    pub int endcol = 0;
+    /// Byte column of the first changed character (`'[`).
+    pub int startcol = 0;
+    /// Vim remembers whether the last hex number it changed used capitals.
+    pub bool hexupper = false;
+}
+
+bool is_digit(int c) {
+    return c >= 48 && c <= 57;
+}
+
+bool is_xdigit(int c) {
+    return (c >= 48 && c <= 57) || (c >= 97 && c <= 102) || (c >= 65 && c <= 70);
+}
+
+bool is_bdigit(int c) {
+    return c == 48 || c == 49;
+}
+
+bool is_alpha(int c) {
+    return (c >= 97 && c <= 122) || (c >= 65 && c <= 90);
+}
+
+int xval(int c) {
+    if (c >= 97) {
+        return c - 87;
+    }
+    if (c >= 65) {
+        return c - 55;
+    }
+    return c - 48;
+}
+
+int at(str s, int i) {
+    if (i < 0 || i >= s.size()) {
+        return 0;
+    }
+    return s.byte_at(i);
+}
+
+// The start byte of the character that ends just before byte `i`.
+int back_one(str s, int i) {
+    int p = i - 1;
+    while (p > 0 && (s.byte_at(p) & 192) == 128) {
+        p = p - 1;
+    }
+    return p;
+}
+
+str hex_digits(int n_in, bool upper) {
+    int n = n_in;
+    List<str> out = [];
+    for (int i in 0 .. 16) {
+        int d = n & 15;
+        n = (n >> 4) & 1152921504606846975;
+        if (d < 10) {
+            out.push(str.from_chars([48 + d]));
+        } else if (upper) {
+            out.push(str.from_chars([55 + d]));
+        } else {
+            out.push(str.from_chars([87 + d]));
+        }
+        if (n == 0) {
+            break;
+        }
+    }
+    out.reverse();
+    return out.join("");
+}
+
+str bin_digits(int n_in) {
+    int n = n_in;
+    List<str> out = [];
+    for (int i in 0 .. 64) {
+        out.push(str.from_chars([48 + (n & 1)]));
+        n = (n >> 1) & 9223372036854775807;
+        if (n == 0) {
+            break;
+        }
+    }
+    out.reverse();
+    return out.join("");
+}
+
+/// Add (or subtract) `amount` to the number at or after byte `col` of `line`.
+/// `length` is the number of bytes of the Visual selection on this line (0 when
+/// not Visual). In Visual mode the number must start inside the selection and
+/// `vmax_mode` says how far it may reach: 0 to the end of the line (linewise
+/// selections), 1 to the end of the selection, 2 to the end of the line
+/// (`$` blocks).
+pub NrResult addsub(str line, int col_in, int length_in, bool sub, int amount, bool visual, int vmax_mode, bool hexupper_in) {
+    NrResult r = NrResult();
+    r.hexupper = hexupper_in;
+    int col = col_in;
+    int length = length_in;
+    str ptr = line;
+    bool negative = false;
+    bool was_positive = true;
+    if (ptr.size() == 0 || col >= ptr.size()) {
+        return r;
+    }
+    if (!visual) {
+        // first check for a hex or binary number, on or after its "0x"
+        while (col > 0 && is_bdigit(at(ptr, col))) {
+            col = back_one(ptr, col);
+        }
+        while (col > 0 && is_xdigit(at(ptr, col))) {
+            col = back_one(ptr, col);
+        }
+        bool hex_head = col > 0 && (at(ptr, col) == 88 || at(ptr, col) == 120) && at(ptr, col - 1) == 48 && is_xdigit(at(ptr, col + 1));
+        if (!hex_head) {
+            // binary and hexadecimal patterns can overlap: scan decimal digits instead
+            col = col_in;
+            while (col > 0 && is_digit(at(ptr, col))) {
+                col = back_one(ptr, col);
+            }
+        }
+        bool hex_found = col > 0 && (at(ptr, col) == 88 || at(ptr, col) == 120) && at(ptr, col - 1) == 48 && is_xdigit(at(ptr, col + 1));
+        bool bin_found = col > 0 && (at(ptr, col) == 66 || at(ptr, col) == 98) && at(ptr, col - 1) == 48 && is_bdigit(at(ptr, col + 1));
+        if (hex_found || bin_found) {
+            col = col - 1;
+        } else {
+            col = col_in;
+            while (col < ptr.size() && !is_digit(at(ptr, col))) {
+                col = MED_text.next_col(ptr, col);
+            }
+            while (col > 0 && is_digit(at(ptr, col - 1))) {
+                col = col - 1;
+            }
+        }
+    }
+    if (visual) {
+        while (col < ptr.size() && length > 0 && !is_digit(at(ptr, col))) {
+            int nx = MED_text.next_col(ptr, col);
+            length = length - (nx - col);
+            col = nx;
+        }
+        if (length == 0) {
+            return r;
+        }
+        if (col > col_in && at(ptr, col - 1) == 45) {
+            negative = true;
+            was_positive = false;
+        }
+    }
+    int firstdigit = at(ptr, col);
+    if (!is_digit(firstdigit)) {
+        return r;
+    }
+    if (col > 0 && at(ptr, col - 1) == 45 && !visual) {
+        col = col - 1;
+        negative = true;
+    }
+    // vim_str2nr(): the prefix and the value
+    int p0 = col;
+    if (at(ptr, p0) == 45) {
+        p0 = p0 + 1;
+    }
+    int limit = ptr.size();
+    if (visual && vmax_mode == 1) {
+        limit = smaller(ptr.size(), col + length);
+    }
+    int pre = 0;
+    int i = p0;
+    if (at(ptr, i) == 48 && i + 1 < limit) {
+        int x = at(ptr, i + 1);
+        if ((x == 120 || x == 88) && i + 2 < limit && is_xdigit(at(ptr, i + 2))) {
+            pre = x;
+        } else if ((x == 98 || x == 66) && i + 2 < limit && is_bdigit(at(ptr, i + 2))) {
+            pre = x;
+        }
+    }
+    int n = 0;
+    bool overflow = false;
+    if (pre == 120 || pre == 88) {
+        i = i + 2;
+        while (i < limit && is_xdigit(at(ptr, i))) {
+            n = (n << 4) | xval(at(ptr, i));
+            i = i + 1;
+        }
+    } else if (pre == 98 || pre == 66) {
+        i = i + 2;
+        while (i < limit && is_bdigit(at(ptr, i))) {
+            n = (n << 1) | (at(ptr, i) - 48);
+            i = i + 1;
+        }
+    } else {
+        while (i < limit && is_digit(at(ptr, i))) {
+            int d = at(ptr, i) - 48;
+            if (n > (9223372036854775807 - d) / 10) {
+                overflow = true;
+            } else {
+                n = n * 10 + d;
+            }
+            i = i + 1;
+        }
+    }
+    int numlen = i - p0;
+    int cur_len = numlen;
+    if (negative && at(ptr, col) == 45) {
+        cur_len = numlen + 1;
+    }
+    if (pre != 0 && negative) {
+        // a '-' in front of a hex or binary number is not a sign
+        col = col + 1;
+        cur_len = cur_len - 1;
+        negative = false;
+    }
+    bool subtract = sub;
+    if (negative) {
+        subtract = !subtract;
+    }
+    if (overflow) {
+        return r;
+    }
+    if (pre == 0) {
+        // `subtract` already accounts for the sign: work on the magnitude
+        int mag = n + amount;
+        if (subtract) {
+            mag = n - amount;
+        }
+        if (mag < 0) {
+            mag = 0 - mag;
+            negative = !negative;
+        }
+        n = mag;
+        if (n == 0) {
+            negative = false;
+        }
+    } else if (subtract) {
+        n = n - amount;
+    } else {
+        n = n + amount;
+    }
+    if (visual && !was_positive && !negative && col > 0) {
+        // the '-' goes
+        col = col - 1;
+        cur_len = cur_len + 1;
+    }
+    // what is deleted
+    int todel = cur_len;
+    int del_end = col + todel;
+    // letters in the old number decide the case of new hex digits
+    bool upper = hexupper_in;
+    for (int k in col .. del_end) {
+        int c = at(ptr, k);
+        if (is_alpha(c)) {
+            upper = c < 97;
+        }
+    }
+    r.hexupper = upper;
+    int length2 = cur_len;
+    if (at(ptr, col) == 45) {
+        length2 = length2 - 1;
+    }
+    List<str> parts = [];
+    if (negative && (!visual || was_positive)) {
+        parts.push("-");
+    }
+    if (pre != 0) {
+        parts.push("0");
+        length2 = length2 - 1;
+        parts.push(str.from_chars([pre]));
+        length2 = length2 - 1;
+    }
+    str digits = "";
+    if (pre == 98 || pre == 66) {
+        digits = bin_digits(n);
+    } else if (pre == 0) {
+        digits = n.to_str();
+    } else {
+        digits = hex_digits(n, upper);
+    }
+    length2 = length2 - digits.size();
+    if (firstdigit == 48) {
+        while (length2 > 0) {
+            parts.push("0");
+            length2 = length2 - 1;
+        }
+    }
+    parts.push(digits);
+    str text = parts.join("");
+    r.changed = true;
+    r.from = col;
+    r.to = del_end;
+    r.text = text;
+    r.startcol = col;
+    r.endcol = col + text.size() - 1;
+    if (r.endcol < 0) {
+        r.endcol = 0;
+    }
+    return r;
+}
+
+int smaller(int a, int b) {
+    if (a < b) {
+        return a;
+    }
+    return b;
+}

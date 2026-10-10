@@ -94,6 +94,7 @@ str run_case(str line) {
     }
     MED_editor.Editor ed = MED_editor.new("");
     ed.buf.lines = text.split("\n");
+    ed.init_marks();
     ed.row = row;
     ed.col = col;
     ed.clamp();

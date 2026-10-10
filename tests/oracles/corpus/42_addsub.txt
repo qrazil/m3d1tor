@@ -1,0 +1,293 @@
+# <C-a> <C-x> g<C-a> g<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	5<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	5<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	100<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>.
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>..
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	3<C-a>.
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	w<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	ww<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	www<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	wwww<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	$<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	$<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	e<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	f-<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	f-<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	fx<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	fx<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	l<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	ll<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	lll<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	w<C-x>u
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>u<C-r>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>j
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	j<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	j<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	jj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	jjj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	jjjj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	G<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>x
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>U
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	Vj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VG<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VG<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VG2<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VGg<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VGg<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VG3g<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vee<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vee<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vw<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	v$<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	v$<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vjj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vjjg<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vj$<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-v>j<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-v>jj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-v>jjl<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-v>jjg<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-v>j$<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-v>jj$g<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	wvl<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	wvll<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	wv<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	wvj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vj<C-a>gv
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	Vj<C-a>.
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vee<C-a>.
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	w<C-v>jl<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	w<C-v>jlg<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	vjg<C-x>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	Vjj<C-a>
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	Vjjj<C-a>u
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VG<C-a>`[
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	VG<C-a>`]
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>`[
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	<C-a>`]
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	wv<C-a>`<
+x 7 y -3 z 0x0f 0b101 007 99 foo9bar 0xFF	0,0	$vb<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	5<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	5<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	100<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>.
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>..
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	3<C-a>.
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	w<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	ww<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	www<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	wwww<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	$<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	$<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	e<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	f-<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	f-<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	fx<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	fx<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	l<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	ll<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	lll<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	w<C-x>u
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>u<C-r>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>j
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	j<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	j<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	jj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	jjj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	jjjj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	G<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>x
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>U
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	Vj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VG<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VG<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VG2<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VGg<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VGg<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VG3g<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vee<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vee<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vw<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	v$<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	v$<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vjj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vjjg<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vj$<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-v>j<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-v>jj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-v>jjl<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-v>jjg<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-v>j$<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-v>jj$g<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	wvl<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	wvll<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	wv<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	wvj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vj<C-a>gv
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	Vj<C-a>.
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vee<C-a>.
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	w<C-v>jl<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	w<C-v>jlg<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	vjg<C-x>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	Vjj<C-a>
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	Vjjj<C-a>u
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VG<C-a>`[
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	VG<C-a>`]
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>`[
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	<C-a>`]
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	wv<C-a>`<
+word 12\n-5 0xfe\n  9\nnone\n0b11 0X1F 0007	0,0	$vb<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	5<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	5<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	100<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>.
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>..
+a-1 b -1 c--2 d 0x-5 1-2	0,0	3<C-a>.
+a-1 b -1 c--2 d 0x-5 1-2	0,0	w<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	ww<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	www<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	wwww<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	$<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	$<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	e<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	f-<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	f-<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	fx<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	fx<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	l<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	ll<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	lll<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	w<C-x>u
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>u<C-r>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>j
+a-1 b -1 c--2 d 0x-5 1-2	0,0	j<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	j<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	jj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	jjj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	jjjj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	G<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>x
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>U
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	Vj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VG<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VG<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VG2<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VGg<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VGg<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VG3g<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vee<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vee<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vw<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	v$<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	v$<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vjj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vjjg<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vj$<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-v>j<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-v>jj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-v>jjl<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-v>jjg<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-v>j$<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-v>jj$g<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	wvl<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	wvll<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	wv<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	wvj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vj<C-a>gv
+a-1 b -1 c--2 d 0x-5 1-2	0,0	Vj<C-a>.
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vee<C-a>.
+a-1 b -1 c--2 d 0x-5 1-2	0,0	w<C-v>jl<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	w<C-v>jlg<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	vjg<C-x>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	Vjj<C-a>
+a-1 b -1 c--2 d 0x-5 1-2	0,0	Vjjj<C-a>u
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VG<C-a>`[
+a-1 b -1 c--2 d 0x-5 1-2	0,0	VG<C-a>`]
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>`[
+a-1 b -1 c--2 d 0x-5 1-2	0,0	<C-a>`]
+a-1 b -1 c--2 d 0x-5 1-2	0,0	wv<C-a>`<
+a-1 b -1 c--2 d 0x-5 1-2	0,0	$vb<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	5<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	5<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	100<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>.
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>..
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	3<C-a>.
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	w<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	ww<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	www<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	wwww<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	$<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	$<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	e<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	f-<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	f-<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	fx<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	fx<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	l<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	ll<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	lll<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	w<C-x>u
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>u<C-r>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>j
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	j<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	j<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	jj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	jjj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	jjjj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	G<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>x
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>U
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	Vj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VG<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VG<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VG2<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VGg<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VGg<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VG3g<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vee<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vee<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vw<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	v$<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	v$<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vjj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vjjg<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vj$<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-v>j<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-v>jj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-v>jjl<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-v>jjg<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-v>j$<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-v>jj$g<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	wvl<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	wvll<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	wv<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	wvj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vj<C-a>gv
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	Vj<C-a>.
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vee<C-a>.
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	w<C-v>jl<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	w<C-v>jlg<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	vjg<C-x>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	Vjj<C-a>
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	Vjjj<C-a>u
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VG<C-a>`[
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	VG<C-a>`]
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>`[
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	<C-a>`]
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	wv<C-a>`<
+18446744 9223372036854775 100 -100 99 -99 0 -0 00 0x0 0xff 0xFF 0Xff	0,0	$vb<C-a>

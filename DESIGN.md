@@ -307,6 +307,7 @@ MED_motion.m31     w b e ge W B E gE 0 ^ $ g_ | f F t T ; , % ( ) { } H M L gg G
 MED_textobj.m31    iw aw iW aW is as ip ap i( a( i[ i{ i< i" i' i` it at ...
 MED_operator.m31   d c y > < = gu gU g~ g? gq J gJ ~ r ...
 MED_search.m31     / ? n N * # g* g#, Vim-regex translation
+MED_nrfmt.m31      <C-a> <C-x> g<C-a> g<C-x>: decimal/0x/0b numbers (64-bit signed; Vim's are unsigned 64-bit, so a decimal of 2^63 or more is left alone)
 MED_ex.m31         ex-command parser and executor
 MED_keymap.m31     trie, notation compiler, leader, timeouts
 MED_defaults.m31   default bindings as rows
