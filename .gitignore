@@ -1,0 +1,4 @@
+.m31-deps/
+/build/
+*.o
+/medit

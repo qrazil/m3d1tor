@@ -1,0 +1,44 @@
+name: Test
+
+# Builds and tests this repo against a pinned release of github.com/qrazil/m31.
+# The qrazil/tui dependency is pinned by commit in the `deps` file.
+# The oracle tests need neovim 0.11, installed from its release tarball.
+env:
+  M31_REF: v0.3.2
+  NVIM_REF: v0.11.5
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch: {}
+
+jobs:
+  test-linux-x86_64:
+    name: Test — Linux x86-64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download and extract the m31 release (${{ env.M31_REF }})
+        run: |
+          set -euo pipefail
+          curl -fsSL -o "$RUNNER_TEMP/m31.tar.gz" \
+            "https://github.com/qrazil/m31/releases/download/${{ env.M31_REF }}/m31-linux-x86_64.tar.gz"
+          mkdir -p "$RUNNER_TEMP/m31"
+          tar -C "$RUNNER_TEMP/m31" -xzf "$RUNNER_TEMP/m31.tar.gz"
+          chmod +x "$RUNNER_TEMP/m31/m31c"
+          echo "LANGC=$RUNNER_TEMP/m31/m31c" >> "$GITHUB_ENV"
+          echo "M31_ROOT=$RUNNER_TEMP/m31" >> "$GITHUB_ENV"
+
+      - name: Install neovim (${{ env.NVIM_REF }})
+        run: |
+          set -euo pipefail
+          curl -fsSL -o "$RUNNER_TEMP/nvim.tar.gz" \
+            "https://github.com/neovim/neovim/releases/download/${{ env.NVIM_REF }}/nvim-linux-x86_64.tar.gz"
+          tar -C "$RUNNER_TEMP" -xzf "$RUNNER_TEMP/nvim.tar.gz"
+          echo "$RUNNER_TEMP/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
+
+      - name: Test
+        run: bash tests/test.sh

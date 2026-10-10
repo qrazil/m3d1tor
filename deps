@@ -1,0 +1,4 @@
+# medit project file (m31 v0.2.0+): this directory is the project root.
+name medit
+version 0.1.0
+tui https://github.com/qrazil/tui 193837e1ba6a3be9809c592160486aa0c7541266
