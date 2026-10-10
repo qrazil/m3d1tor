@@ -1,0 +1,133 @@
+// The engine half of the differential oracle (tests/oracles/oracle_nvim.py).
+//
+// Usage: t_oracle_run CASES_FILE
+//
+// Each line of CASES_FILE is one case, tab separated:
+//
+//   index  hex(text)  row  col  key,key,key...
+//
+// For every case this builds an `Editor` on the text, puts the cursor at
+// (row, col), feeds the keys and prints one result line, tab separated:
+//
+//   index  hex(text)  row  col  mode  vrow  vcol  regs
+//
+// where `regs` is `name:kind:hex(lines joined by \n)` entries joined by `;`
+// for the registers the oracle also reports. The nvim driver prints the same
+// line, so the comparison is a text diff.
+
+import MED_editor;
+import MED_vim;
+import MED_register;
+import MED_buffer;
+import hexcodec;
+import io;
+import os;
+
+const List<str> REG_NAMES = ["\"", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "a", "b", "c", "d", ".", "/", ":"];
+
+str hex_of(str text) {
+    return hexcodec.encode(text.to_bytes());
+}
+
+str unhex(str digits) {
+    match (hexcodec.decode(digits)) {
+        case Ok(bytes b): {
+            match (b.utf8()) {
+                case Some(str s): {
+                    return s;
+                }
+                case None: {
+                    return "";
+                }
+            }
+        }
+        case Err(hexcodec.Error e): {
+            return "";
+        }
+    }
+}
+
+str mode_char(MED_editor.Editor ed) {
+    if (ed.mode == MED_editor.VISUAL) {
+        if (ed.vkind == 118) {
+            return "v";
+        }
+        if (ed.vkind == 86) {
+            return "V";
+        }
+        return "b";
+    }
+    return "n";
+}
+
+str regs_line(MED_editor.Editor ed) {
+    List<str> parts = [];
+    for (str name in REG_NAMES) {
+        match (ed.regs.get(name)) {
+            case Some(MED_register.Reg r): {
+                str kind = "v";
+                if (r.kind == MED_register.LINE) {
+                    kind = "V";
+                } else if (r.kind == MED_register.BLOCK) {
+                    kind = "b";
+                }
+                parts.push(name + ":" + kind + ":" + hex_of(r.lines.join("\n")));
+            }
+            case None: {
+            }
+        }
+    }
+    return parts.join(";");
+}
+
+str run_case(str line) {
+    List<str> fields = line.split("\t");
+    str text = unhex(fields[1]);
+    int row = fields[2].parse_int().or(0);
+    int col = fields[3].parse_int().or(0);
+    List<int> keys = [];
+    if (fields.size() > 4 && fields[4] != "") {
+        for (str piece in fields[4].split(",")) {
+            keys.push(piece.parse_int().or(0));
+        }
+    }
+    MED_editor.Editor ed = MED_editor.new("");
+    ed.buf.lines = text.split("\n");
+    ed.row = row;
+    ed.col = col;
+    ed.clamp();
+    ed.want_from_cursor();
+    MED_vim.feed_keys(ed, keys);
+    if (ed.mode == MED_editor.INSERT || ed.mode == MED_editor.REPLACE) {
+        MED_vim.feed(ed, 27);
+    }
+    if (ed.mode == MED_editor.CMDLINE) {
+        MED_vim.feed(ed, 27);
+    }
+    ed.end_block();
+    List<str> out = [fields[0], hex_of(ed.buf.lines.join("\n")), ed.row.to_str(), ed.col.to_str(), mode_char(ed)];
+    if (ed.mode == MED_editor.VISUAL) {
+        out.push(ed.vrow.to_str());
+        out.push(ed.vcol.to_str());
+    } else {
+        out.push("-");
+        out.push("-");
+    }
+    out.push(regs_line(ed));
+    return out.join("\t");
+}
+
+List<str> arguments = os.args();
+match (io.read(arguments[1])) {
+    case Ok(str content): {
+        for (str line in content.split("\n")) {
+            if (line.size() > 0) {
+                print(run_case(line));
+            }
+        }
+    }
+    case Err(io.Error e): {
+        print("error reading cases: " + e.to_str());
+        os.exit(2);
+    }
+}

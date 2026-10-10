@@ -1,0 +1,366 @@
+// The editor state a Vim-style session needs, and the primitives that edit
+// it: transactions, the undo tree, cursor clamping. No key handling here.
+//
+// API
+// ---
+//   MED_editor.Editor                the whole state (buffer, cursor, mode, registers, undo tree ...)
+//   MED_editor.new(text)             an Editor holding file text
+//   editor.change(from, to, text)    the one edit entry point (records into the open undo block)
+//   editor.end_block()               close the undo block (one per command / insert session)
+//   editor.undo() / editor.redo()    walk the undo tree; the cursor lands where Vim puts it
+//   editor.clamp()                   keep the cursor on a valid cell for the current mode
+//   editor.want_from_cursor()        remember the cursor's display column for j / k
+//
+// Undo is a tree: each node holds the edits of one block and the cursor Vim
+// would restore. `redo_child` of a node is the branch redo follows.
+
+import MED_buffer;
+import MED_register;
+import MED_text;
+import MED_num;
+import MED_motion;
+
+pub const int NORMAL = 0;
+pub const int INSERT = 1;
+pub const int REPLACE = 2;
+pub const int VISUAL = 3;
+pub const int CMDLINE = 4;
+
+pub type Node {
+    pub int seq;
+    pub int parent;
+    pub List<MED_buffer.Edit> edits;
+    pub MED_buffer.Pos before;
+    pub int redo_child = -1;
+}
+
+/// The last f/F/t/T so `;` and `,` can repeat it.
+pub type FindState {
+    pub int target = -1;
+    pub int dir = 1;
+    pub bool until = false;
+}
+
+pub type Editor {
+    pub MED_buffer.Buffer buf;
+    pub int row = 0;
+    pub int col = 0;
+    /// Desired display column for vertical moves; -1 is "end of line".
+    pub int want = 0;
+    pub int mode = NORMAL;
+    /// Visual: 118 (v), 86 (V) or 22 (CTRL-V); 0 when not selecting.
+    pub int vkind = 0;
+    pub int vrow = 0;
+    pub int vcol = 0;
+    pub MED_register.Registers regs = MED_register.Registers();
+    pub List<Node> nodes = [];
+    pub int cur = 0;
+    pub List<MED_buffer.Edit> block = [];
+    pub bool block_open = false;
+    pub MED_buffer.Pos block_before = MED_buffer.Pos(0, 0);
+    pub int tab = 8;
+    pub int shiftwidth = 8;
+    pub bool expandtab = false;
+    pub bool autoindent = true;
+    pub bool ignorecase = false;
+    pub bool smartcase = false;
+    pub bool wrapscan = true;
+    pub bool joinspaces = false;
+    pub bool startofline = false;
+    pub List<int> pending = [];
+    pub FindState find = FindState();
+    pub Map<str, MED_buffer.Pos> marks = {};
+    /// Set by a command that failed (Vim would beep and flush macro input).
+    pub bool failed = false;
+    pub str message = "";
+    pub bool quit = false;
+    pub bool force_quit = false;
+    /// Keys of the command being typed, and the last repeatable change.
+    pub List<int> cmd_keys = [];
+    pub List<int> dot = [];
+    pub bool changed_cmd = false;
+    /// Executing dot or a macro: a failing command aborts the rest.
+    pub bool replaying = false;
+    pub str macro_reg = "";
+    pub List<int> macro_keys = [];
+    pub str last_macro = "";
+    /// Insert session.
+    pub int ins_cmd = 0;
+    pub int ins_count = 1;
+    pub List<int> ins_keys = [];
+    pub str ins_text = "";
+    pub bool did_ai = false;
+    pub MED_buffer.Pos ins_start = MED_buffer.Pos(0, 0);
+    pub List<str> replaced = [];
+    /// Search.
+    pub str search_pat = "";
+    pub int search_dir = 1;
+    pub str sub_pat = "";
+    pub str sub_rep = "";
+    /// Last Visual selection, for gv.
+    pub int last_vkind = 0;
+    pub MED_buffer.Pos last_vstart = MED_buffer.Pos(0, 0);
+    pub MED_buffer.Pos last_vend = MED_buffer.Pos(0, 0);
+    pub int last_vwant = 0;
+    /// Command line (ex or search) being typed.
+    pub str cmdline = "";
+    pub int cmd_type = 58;
+    pub List<int> cmd_saved = [];
+    pub str ex_line = "";
+    pub int mode_before_cmd = 0;
+    /// Insert mode waiting for the key after CTRL-R / CTRL-V.
+    pub int ins_wait = 0;
+    /// An arrow key was used and nothing typed since (Vim's arrow_used).
+    pub bool ins_arrow = false;
+    /// Replaying the dot register (its keys are not recorded again).
+    pub bool in_dot = false;
+    /// A `/` or `?` whose pattern was just typed: the motion may run.
+    pub bool search_ready = false;
+    pub str dot_reg = "";
+    pub int dot_count = 0;
+    pub List<int> dot_body = [];
+    pub List<int> dot_tail = [];
+    /// Visual redo for `.` after a Visual operator: kind, line count, column count.
+    pub int dot_vkind = 0;
+    pub int dot_vlines = 0;
+    pub int dot_vcols = 0;
+    pub int dot_vwant = 0;
+}
+
+pub bool Editor.in_visual() {
+    return mode == VISUAL;
+}
+
+pub MED_buffer.Pos Editor.cursor() {
+    return MED_buffer.Pos(row, col);
+}
+
+pub void Editor.set_cursor(MED_buffer.Pos p) {
+    row = p.row;
+    col = p.col;
+}
+
+/// The single entry point for changing text. The first change of a block
+/// remembers the cursor, which is what undo restores.
+pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos to, str replacement) {
+    if (!block_open) {
+        block_open = true;
+        block = [];
+        block_before = MED_buffer.Pos(row, col);
+    }
+    MED_buffer.Edit e = buf.splice(from, to, replacement);
+    block.push(e);
+    return e;
+}
+
+/// Close the open undo block, if any, as one node of the tree.
+pub void Editor.end_block() {
+    if (!block_open) {
+        return;
+    }
+    block_open = false;
+    if (block.size() == 0) {
+        return;
+    }
+    int seq = nodes.size();
+    Node node = Node(seq, cur, block, block_before);
+    nodes.push(node);
+    nodes[cur].redo_child = seq;
+    cur = seq;
+    block = [];
+}
+
+Landing Editor.apply_edit(MED_buffer.Edit e, bool forward) {
+    str from_text = e.inserted;
+    str to_text = e.removed;
+    if (forward) {
+        from_text = e.removed;
+        to_text = e.inserted;
+    }
+    int oldsize = line_span(from_text);
+    int newsize = line_span(to_text);
+    List<str> old_lines = [];
+    for (int i in 0 .. oldsize) {
+        old_lines.push(buf.line(e.from.row + i));
+    }
+    MED_buffer.Pos end = MED_buffer.advance(e.from, from_text);
+    buf.tick = buf.tick + 1;
+    buf.modified = true;
+    buf.splice(e.from, end, to_text);
+    int differ = 0;
+    int limit = MED_num.smaller(oldsize, newsize);
+    while (differ < limit && old_lines[differ] == buf.line(e.from.row + differ)) {
+        differ = differ + 1;
+    }
+    Landing l = Landing();
+    l.top = e.from.row;
+    l.first = differ;
+    l.newsize = newsize;
+    return l;
+}
+
+// Vim's cursor placement after undo / redo of one block.
+void Editor.land(Node node, List<Landing> landings, bool undoing) {
+    int newlnum = 1000000000;
+    int cursor_row = row;
+    bool set_row = false;
+    int saved = node.before.row + 1;
+    int index = 0;
+    for (Landing l in landings) {
+        index = index + 1;
+        if (l.top < newlnum) {
+            if (saved >= l.top && saved <= l.top + l.newsize + 1) {
+                cursor_row = node.before.row;
+                set_row = true;
+                newlnum = cursor_row;
+            } else if (l.first == l.newsize && newlnum == 1000000000 && index == landings.size()) {
+                newlnum = l.top;
+                cursor_row = newlnum;
+                set_row = true;
+            } else if (l.first < l.newsize) {
+                newlnum = l.top + l.first;
+                cursor_row = newlnum;
+                set_row = true;
+            }
+        }
+    }
+    int lnum = cursor_row + 1;
+    if (!set_row) {
+        lnum = row + 1;
+    }
+    if (node.before.row + 1 + 1 == lnum && lnum > 1) {
+        lnum = lnum - 1;
+    }
+    if (lnum <= buf.line_count()) {
+        row = lnum - 1;
+        if (node.before.row + 1 == lnum) {
+            col = node.before.col;
+        } else if (startofline) {
+            col = MED_text.first_nonblank(buf.line(row));
+        } else {
+            col = MED_motion.col_for_want(buf.line(row), want, tab, false);
+        }
+    } else {
+        row = buf.line_count() - 1;
+        col = 0;
+    }
+    clamp();
+    want_from_cursor();
+}
+
+/// Undo one block. False when already at the oldest change.
+pub bool Editor.undo() {
+    end_block();
+    if (cur == 0) {
+        return false;
+    }
+    Node node = nodes[cur];
+    List<Landing> landings = [];
+    int i = node.edits.size() - 1;
+    while (i >= 0) {
+        landings.push(apply_edit(node.edits[i], false));
+        i = i - 1;
+    }
+    land(node, landings, true);
+    cur = node.parent;
+    nodes[cur].redo_child = node.seq;
+    return true;
+}
+
+/// Redo along the branch last undone. False when there is nothing to redo.
+pub bool Editor.redo() {
+    end_block();
+    int child = nodes[cur].redo_child;
+    if (child < 0) {
+        return false;
+    }
+    Node node = nodes[child];
+    List<Landing> landings = [];
+    for (MED_buffer.Edit e in node.edits) {
+        landings.push(apply_edit(e, true));
+    }
+    land(node, landings, false);
+    cur = child;
+    return true;
+}
+
+/// The display column the cursor is drawn at (the end cell of a Tab in
+/// normal mode, as Vim does).
+pub int Editor.cursor_vcol() {
+    str line = buf.line(row);
+    int start = MED_text.display_col(line, col, tab);
+    if (col < line.size() && line.byte_at(col) == 9 && mode != INSERT && mode != REPLACE) {
+        bool at_end = true;
+        if (mode == VISUAL) {
+            at_end = row > vrow || (row == vrow && col > vcol);
+        }
+        if (at_end) {
+            return start + MED_text.cell_width(line, col, start, tab) - 1;
+        }
+    }
+    return start;
+}
+
+pub void Editor.want_from_cursor() {
+    want = cursor_vcol();
+}
+
+/// Keep the cursor on a valid cell: inside the buffer, on a grapheme start,
+/// and (outside insert and visual) on a character rather than the NUL.
+pub void Editor.clamp() {
+    if (row >= buf.line_count()) {
+        row = buf.line_count() - 1;
+    }
+    if (row < 0) {
+        row = 0;
+    }
+    str line = buf.line(row);
+    if (col < 0) {
+        col = 0;
+    }
+    if (mode == INSERT || mode == REPLACE || mode == CMDLINE) {
+        if (col > line.size()) {
+            col = line.size();
+        }
+        col = MED_text.snap(line, col);
+        return;
+    }
+    if (mode == VISUAL) {
+        if (col > line.size()) {
+            col = line.size();
+        }
+        col = MED_text.snap(line, col);
+        return;
+    }
+    if (col >= line.size()) {
+        col = MED_text.last_col(line);
+    }
+    col = MED_text.snap(line, col);
+}
+
+pub Editor new(str text) {
+    Editor ed = Editor(MED_buffer.load(text));
+    ed.nodes.push(Node(0, -1, [], MED_buffer.Pos(0, 0)));
+    return ed;
+}
+
+// How many lines the text spans.
+int line_span(str text) {
+    int n = 1;
+    for (int i in 0 .. text.size()) {
+        if (text.byte_at(i) == 10) {
+            n = n + 1;
+        }
+    }
+    return n;
+}
+
+// Apply one edit in the given direction and report whether it changed the
+// first-changed-line bookkeeping Vim's cursor placement uses. `top` is the
+// 1-based line above the change.
+pub type Landing {
+    pub int top = 0;
+    pub int first = 0;
+    pub int newsize = 0;
+    pub bool first_changed_found = false;
+}

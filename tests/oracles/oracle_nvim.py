@@ -1,0 +1,506 @@
+#!/usr/bin/env python3
+"""Differential oracle: the m31 editing engine against `nvim --headless`.
+
+    python3 tests/oracles/oracle_nvim.py --runner BIN [--corpus] [--fuzz]
+                                         [--seed N] [--cases N] [--only TEXT] [-v]
+
+A case is a starting text, a cursor and a key sequence. The same case is run
+in nvim (one process per case, in a pool, driven by nvim_driver.lua) and in
+the engine (one process for the whole batch, BIN is tests/t_oracle_run.m31
+built). What is compared: the buffer text, the cursor, the mode, the Visual
+anchor, and the registers. Everything runs on temporary files.
+
+Corpus files (tests/oracles/corpus/*.txt) hold one case per line:
+
+    TEXT<TAB>CURSOR<TAB>KEYS
+
+TEXT uses \\n \\t \\\\ escapes; CURSOR is "row,col" (0-based) or empty; KEYS is
+Vim key notation (<Esc>, <C-v>, <CR> ...). Lines starting with # are comments.
+
+known_divergences.txt holds cases the engine knowingly does not match, each
+preceded by a `# reason` comment. A known case that starts to match is
+reported, so the list cannot rot.
+
+The fuzzer (--fuzz) builds random cases from a vocabulary of key chunks over
+small texts that include combining marks, wide characters and tabs, from a
+seed (--seed), so a failure reproduces. A failing fuzz case is shrunk and
+printed as a corpus line.
+"""
+import argparse
+import binascii
+import concurrent.futures
+import glob
+import os
+import random
+import subprocess
+import sys
+import tempfile
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+NVIM = os.environ.get("NVIM", "nvim")
+DRIVER = os.path.join(HERE, "nvim_driver.lua")
+
+NAMED = {
+    "esc": 27, "cr": 13, "enter": 13, "return": 13, "nl": 10, "tab": 9,
+    "bs": 127, "backspace": 127, "space": 32, "lt": 60, "bar": 124,
+    "bslash": 92, "nul": 0, "up": 63232, "down": 63233, "left": 63234,
+    "right": 63235, "home": 63236, "end": 63237, "pageup": 63238,
+    "pagedown": 63239, "del": 63240, "delete": 63240, "insert": 63241,
+}
+
+
+def parse_keys(notation):
+    """Vim key notation to the engine's integer keys (MED_key.parse)."""
+    out = []
+    i = 0
+    while i < len(notation):
+        ch = notation[i]
+        if ch == "<":
+            j = notation.find(">", i + 1)
+            if 0 < j - i <= 16:
+                inner = notation[i + 1:j]
+                low = inner.lower()
+                if low in NAMED:
+                    out.append(NAMED[low])
+                    i = j + 1
+                    continue
+                if len(inner) == 3 and inner[:2].lower() == "c-" and (inner[2].isalpha() or inner[2] in "@[\\]^_"):
+                    c = inner[2]
+                    out.append(ord(c.lower()) - 96 if c.isalpha() else ord(c) & 31)
+                    i = j + 1
+                    continue
+        out.append(ord(ch))
+        i += 1
+    return out
+
+
+def unescape_text(text):
+    out = []
+    i = 0
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and i + 1 < len(text):
+            n = text[i + 1]
+            if n == "n":
+                out.append("\n")
+            elif n == "t":
+                out.append("\t")
+            elif n == "\\":
+                out.append("\\")
+            else:
+                out.append(c + n)
+            i += 2
+        else:
+            out.append(c)
+            i += 1
+    return "".join(out)
+
+
+def escape_text(text):
+    return text.replace("\\", "\\\\").replace("\n", "\\n").replace("\t", "\\t")
+
+
+class Case:
+    def __init__(self, text, row, col, notation, source=""):
+        self.text = text
+        self.row = row
+        self.col = col
+        self.notation = notation
+        self.keys = parse_keys(notation)
+        self.source = source
+
+    def line(self):
+        cur = "" if (self.row, self.col) == (0, 0) else "%d,%d" % (self.row, self.col)
+        return "%s\t%s\t%s" % (escape_text(self.text), cur, self.notation)
+
+    def ident(self):
+        return self.line()
+
+
+def parse_case_line(line, source=""):
+    parts = line.rstrip("\n").split("\t")
+    if len(parts) < 3:
+        return None
+    text = unescape_text(parts[0])
+    row, col = 0, 0
+    if parts[1].strip():
+        r, c = parts[1].split(",")
+        row, col = int(r), int(c)
+    return Case(text, row, col, "\t".join(parts[2:]), source)
+
+
+def load_cases_file(path):
+    cases = []
+    reasons = []
+    with open(path, encoding="utf-8") as f:
+        pending = ""
+        for n, line in enumerate(f, 1):
+            if line.startswith("#"):
+                pending = line[1:].strip()
+                continue
+            if not line.strip():
+                continue
+            case = parse_case_line(line, "%s:%d" % (os.path.basename(path), n))
+            if case:
+                cases.append(case)
+                reasons.append(pending)
+    return cases, reasons
+
+
+def hexs(text):
+    return binascii.hexlify(text.encode("utf-8")).decode("ascii")
+
+
+def unhexs(digits):
+    return binascii.unhexlify(digits).decode("utf-8", "replace")
+
+
+def case_hex_line(index, case):
+    return "\t".join([str(index), hexs(case.text), str(case.row), str(case.col),
+                      ",".join(str(k) for k in case.keys)])
+
+
+def run_nvim_case(case, tmp):
+    out = os.path.join(tmp, "n%d_%d.txt" % (os.getpid(), random.getrandbits(32)))
+    cmd = [NVIM, "--headless", "-u", "NONE", "-i", "NONE", "-n", "-l", DRIVER, out,
+           hexs(case.text), str(case.row), str(case.col), ",".join(str(k) for k in case.keys)]
+    try:
+        subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20,
+                       stdin=subprocess.DEVNULL)
+        with open(out, encoding="utf-8") as f:
+            line = f.read().rstrip("\n")
+        os.unlink(out)
+    except Exception as e:  # noqa
+        return None
+    return line.split("\t")
+
+
+def run_nvim(cases, tmp):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max(2, os.cpu_count() or 2)) as pool:
+        return list(pool.map(lambda c: run_nvim_case(c, tmp), cases))
+
+
+def run_engine_batch(runner, cases, tmp, timeout=60):
+    path = os.path.join(tmp, "cases_%d.txt" % random.getrandbits(32))
+    with open(path, "w", encoding="utf-8") as f:
+        for i, c in enumerate(cases):
+            f.write(case_hex_line(i, c) + "\n")
+    try:
+        done = subprocess.run([runner, path], capture_output=True, timeout=timeout, text=True,
+                              stdin=subprocess.DEVNULL)
+    except subprocess.TimeoutExpired:
+        return None
+    if done.returncode != 0:
+        return None
+    results = {}
+    for line in done.stdout.split("\n"):
+        if not line:
+            continue
+        fields = line.split("\t")
+        results[int(fields[0])] = fields
+    if len(results) != len(cases):
+        return None
+    return [results[i] for i in range(len(cases))]
+
+
+def run_engine(runner, cases, tmp):
+    got = run_engine_batch(runner, cases, tmp)
+    if got is not None:
+        return got
+    # a crash or a hang somewhere in the batch: find it case by case
+    out = []
+    for c in cases:
+        r = run_engine_batch(runner, [c], tmp, timeout=5)
+        out.append(r[0] if r else None)
+    return out
+
+
+def describe(fields):
+    if fields is None:
+        return "<no result>"
+    text = unhexs(fields[1])
+    regs = {}
+    if len(fields) > 7 and fields[7]:
+        for entry in fields[7].split(";"):
+            name, kind, content = entry.split(":", 2)
+            regs[name] = (kind, unhexs(content))
+    return {"text": text, "cursor": (int(fields[2]), int(fields[3])), "mode": fields[4],
+            "anchor": (fields[5], fields[6]), "regs": regs}
+
+
+def diff(want, got, case=None):
+    """Why two result lines differ ("" when they match)."""
+    if want is None or got is None:
+        return "no result (nvim=%s engine=%s)" % (want is not None, got is not None)
+    a, b = describe(want), describe(got)
+    if case is not None and any(k >= 63232 or k in (8, 127) for k in parse_keys(case.notation)):
+        # nvim stores special keys in the "." register as internal byte
+        # sequences; known divergence class, not compared.
+        a["regs"].pop(".", None)
+        b["regs"].pop(".", None)
+    notes = []
+    if a["text"] != b["text"]:
+        notes.append("text: nvim=%r engine=%r" % (a["text"], b["text"]))
+    if a["cursor"] != b["cursor"]:
+        notes.append("cursor: nvim=%s engine=%s" % (a["cursor"], b["cursor"]))
+    if a["mode"] != b["mode"]:
+        notes.append("mode: nvim=%s engine=%s" % (a["mode"], b["mode"]))
+    if a["mode"] != "n" and a["anchor"] != b["anchor"]:
+        notes.append("anchor: nvim=%s engine=%s" % (a["anchor"], b["anchor"]))
+    for name in sorted(set(a["regs"]) | set(b["regs"])):
+        if a["regs"].get(name) != b["regs"].get(name):
+            notes.append("reg %s: nvim=%r engine=%r" % (name, a["regs"].get(name), b["regs"].get(name)))
+    return "; ".join(notes)
+
+
+def compare_cases(runner, cases, tmp):
+    want = run_nvim(cases, tmp)
+    got = run_engine(runner, cases, tmp)
+    return [diff(w, g, c) for w, g, c in zip(want, got, cases)]
+
+
+# ------------------------------------------------------------------- fuzzing
+
+TEXT_LINES = [
+    "", "a", "foo bar", "foo  bar baz", "  indented line", "\ttabbed", "one two three four",
+    "x.y(z); w", "foo(bar, baz)", "if (a) { b }", "end.", "héllo wörld", "e\u0301a\u0301 x",
+    "日本語 text", "a日b", "trailing   ", "   ", "word1 word2", "a-b_c d", "12 345",
+    "[x] {y} (z)", "snake_case here", "A B C", "UPPER lower", "x\ty", "!!", "😀 smile",
+]
+
+MOTIONS = ["h", "l", "j", "k", "w", "W", "b", "B", "e", "E", "ge", "gE", "0", "^", "$", "_", "G", "gg",
+           "{", "}", "fa", "Fa", "ta", "Ta", ";", ",", "fo", "to", "f ", "|", "+", "-", "g_", "gj", "gk",
+           "3l", "2w", "2b", "3e", "2j", "2k", "0", "fe", "Fe", "5|", "2G"]
+PAIR_MOTIONS = ["%", "(", ")", "[(", "])", "[{", "]}"]
+OBJECTS = ["iw", "aw", "iW", "aW", "ip", "ap", "i(", "a(", "ib", "i{", "a{", "i[", "i\"", "a\"", "i'", "is", "as",
+           "i<", "a<", "it", "at", "iB", "aB", "a]", "a)"]
+OPERATORS = ["d", "c", "y", ">", "<", "g~", "gu", "gU", "g?"]
+SIMPLE = ["x", "X", "D", "p", "P", "u", "<C-r>", ".", "J", "gJ", "~", "rx", "r<CR>", "3x", "2p", "xp", "ddp",
+          "yyp", "yyP", "dd", "yy", "cc", "Y", "gp", "gP", "2J", "3~", "2dd", "u.", "..", "ra", "xu", "dwu",
+          "qaxq", "@a", "@@", "\"ayy", "\"ap", "\"Ayy", "\"add", "\"1p", "\"-p", "\"_dd", "\"_x", "yl", "yh",
+          "yw", "ylp", "\"0p", "2yy", "3\"ayy", "\"bdw", "\"cx", "S", "s", "C"]
+INSERTS = ["i", "a", "I", "A", "o", "O", "gI", "gi", "R", "3i", "2a", "2o", "cw", "ciw", "cc", "S", "s", "C", "cb",
+           "ce", "c$", "c0", "cl", "2cw", "c2w", "cj", "ck", "caw", "ci(", "ca\"", "3s"]
+TYPED = ["foo", "x", "Hello", "a b", " ", "\t", "<CR>", "<BS>", "<C-w>", "<C-u>", "<Left>", "<Right>",
+         "<Del>", "é", "日", "<BS><BS>", "ab<BS>c", "<CR><CR>", "  ", "{<CR>}", "<C-r>\"", "<C-r>a", "<C-r>0",
+         "<Home>", "<End>", "<Up>", "<Down>", "(x)", "foo bar<C-w>"]
+VISUAL = ["v", "V", "<C-v>"]
+VISUAL_OPS = ["d", "c", "y", ">", "<", "~", "u", "U", "J", "gJ", "x", "X", "D", "r_", "p", "P", "o", "O", "gv",
+              "iw", "aw", "ip", "i(", "a(", "i\"", "<Esc>", "S", "s", "Y", "C", "g?", "gU", "gu", "g~"]
+SEARCH = ["/a<CR>", "/foo<CR>", "?o<CR>", "n", "N", "*", "#", "/\\<w<CR>", "/b\\|c<CR>", "/[aeiou]<CR>",
+          "/o\\+<CR>", "/^<CR>", "/$<CR>", "d/a<CR>", "d?o<CR>", "c/b<CR>x<Esc>", "/e\\zsl<CR>", "y/o<CR>",
+          "dn", "dN", "d*", "/.<CR>", "/\\d<CR>", "/\\s<CR>", "/\\k\\+<CR>"]
+EX = [":s/a/b/<CR>", ":s/o/0/g<CR>", ":%s/ /_/g<CR>", ":2d<CR>", ":1,2d<CR>", ":d<CR>", ":%d<CR>", ":2,3j<CR>",
+      ":j<CR>", ":>CR>", ":g/a/d<CR>", ":v/a/d<CR>", ":g/o/s/o/0/<CR>", ":2<CR>", ":$<CR>", ":1<CR>",
+      ":.,+1d<CR>", ":%s/\\(o\\)\\(.\\)/\\2\\1/g<CR>", ":s/\\s\\+$//<CR>", ":%norm Ax<CR>", ":y<CR>", ":pu<CR>",
+      ":t.<CR>", ":m0<CR>", ":m$<CR>", ":2,3>CR>", ":normal dw<CR>", ":%s/o/&&/g<CR>", ":s/x*//g<CR>",
+      ":g/^/m0<CR>", ":%j<CR>", ":2,$d<CR>", ":%s/\\<./\\u&/g<CR>", ":&&<CR>", ":%s/a\\|b/X/g<CR>"]
+MISC = ["m", "ma", "'a", "`a", "mb", "'b", "`b", "d'a", "d`a", "y'a", "''", "``", "`[", "`]", "'[", "']",
+        "<C-a>", "<C-x>", "5<C-a>", "3<C-x>", "ZZ"]
+
+
+def chunks(vocab):
+    """The key chunks the fuzzer may use; `vocab` switches optional groups on:
+    objects, visual, search, ex, misc, pairs, registers."""
+    motions = list(MOTIONS)
+    if "pairs" in vocab:
+        motions += PAIR_MOTIONS
+    c = []
+    c += motions * 3
+    c += [o + m for o in OPERATORS for m in motions[:30]]
+    simple = [s for s in SIMPLE if "registers" in vocab or '"' not in s]
+    c += simple * 2
+    if "objects" in vocab:
+        c += [o + m for o in OPERATORS for m in OBJECTS]
+    for ins in INSERTS:
+        if ("objects" not in vocab) and ins[-1:] in "()\"" and len(ins) > 2:
+            continue
+        c.append(ins + random.choice(TYPED) + random.choice(TYPED) + "<Esc>")
+    if "visual" in vocab:
+        for v in VISUAL:
+            c.append(v + random.choice(motions) + random.choice(VISUAL_OPS))
+    if "search" in vocab:
+        c += SEARCH
+    if "ex" in vocab:
+        c += EX
+    if "misc" in vocab:
+        c += MISC
+    return c
+
+
+def random_text(rng):
+    n = rng.choice([1, 1, 2, 2, 3, 4, 5])
+    return "\n".join(rng.choice(TEXT_LINES) for _ in range(n))
+
+
+def random_case(rng, vocab):
+    text = random_text(rng)
+    lines = text.split("\n")
+    row = rng.randrange(len(lines))
+    col = 0
+    if lines[row]:
+        # a grapheme start: pick a character index and convert, combining marks ignored
+        chars = [i for i, ch in enumerate(lines[row]) if not (0x300 <= ord(ch) <= 0x36F)]
+        idx = rng.choice(chars)
+        col = len(lines[row][:idx].encode("utf-8"))
+    pool = chunks(vocab)
+    n = rng.choice([1, 1, 2, 2, 3, 4, 5, 6])
+    parts = []
+    for _ in range(n):
+        part = rng.choice(pool)
+        if rng.random() < 0.12 and part[:1].isalpha():
+            part = rng.choice(["2", "3", "4"]) + part
+        parts.append(part)
+    return Case(text, row, col, "".join(parts))
+
+
+def split_parts(notation):
+    """Split key notation into chunks the shrinker can drop: one key at a time."""
+    parts = []
+    i = 0
+    while i < len(notation):
+        if notation[i] == "<":
+            j = notation.find(">", i)
+            if 0 < j - i <= 8:
+                parts.append(notation[i:j + 1])
+                i = j + 1
+                continue
+        parts.append(notation[i])
+        i += 1
+    return parts
+
+
+def shrink(runner, case, tmp, fails):
+    """Drop keys and lines while the case keeps failing."""
+    best = case
+    changed = True
+    while changed:
+        changed = False
+        parts = split_parts(best.notation)
+        for i in range(len(parts)):
+            cand = Case(best.text, best.row, best.col, "".join(parts[:i] + parts[i + 1:]))
+            if cand.notation and fails(cand):
+                best = cand
+                changed = True
+                break
+        if changed:
+            continue
+        lines = best.text.split("\n")
+        if len(lines) > 1:
+            for i in range(len(lines)):
+                rest = lines[:i] + lines[i + 1:]
+                row = best.row - 1 if i < best.row else best.row
+                if i == best.row:
+                    continue
+                cand = Case("\n".join(rest), row, best.col, best.notation)
+                if fails(cand):
+                    best = cand
+                    changed = True
+                    break
+    return best
+
+
+# ---------------------------------------------------------------------- main
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--runner", required=True)
+    ap.add_argument("--corpus", action="store_true", help="run tests/oracles/corpus/*.txt")
+    ap.add_argument("--fuzz", action="store_true")
+    ap.add_argument("--case", action="append", default=[], help="an ad hoc case line TEXT<TAB>CURSOR<TAB>KEYS (repeatable)")
+    ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--cases", type=int, default=300)
+    ap.add_argument("--vocab", default="", help="extra fuzz vocabulary: search,ex,misc")
+    ap.add_argument("--only", default="", help="only corpus cases whose line contains this")
+    ap.add_argument("--no-shrink", action="store_true")
+    ap.add_argument("--max-report", type=int, default=12, help="shrink and print at most this many fuzz failures")
+    ap.add_argument("-v", "--verbose", action="store_true")
+    args = ap.parse_args()
+    if not (args.corpus or args.fuzz or args.case):
+        args.corpus = True
+
+    with tempfile.TemporaryDirectory(prefix="medit_oracle_") as tmp:
+        known = {}
+        kpath = os.path.join(HERE, "known_divergences.txt")
+        if os.path.exists(kpath):
+            kc, kr = load_cases_file(kpath)
+            for c, r in zip(kc, kr):
+                known[c.ident()] = r
+
+        total = matched = divergent = failed = 0
+        stale = []
+
+        if args.corpus:
+            cases = []
+            for path in sorted(glob.glob(os.path.join(HERE, "corpus", "*.txt"))):
+                cs, _ = load_cases_file(path)
+                cases += cs
+            if args.only:
+                cases = [c for c in cases if args.only in c.line()]
+            diffs = compare_cases(args.runner, cases, tmp)
+            for c, d in zip(cases, diffs):
+                total += 1
+                if not d:
+                    matched += 1
+                    if c.ident() in known:
+                        stale.append(c)
+                elif c.ident() in known:
+                    divergent += 1
+                    if args.verbose:
+                        print("known divergence (%s): %s" % (known[c.ident()], c.line()))
+                else:
+                    failed += 1
+                    print("FAIL %s\n  %s\n  %s" % (c.source, c.line().replace("\t", "  |  "), d))
+
+        if args.case:
+            cases = [parse_case_line(line, "--case") for line in args.case]
+            diffs = compare_cases(args.runner, cases, tmp)
+            for c, d in zip(cases, diffs):
+                total += 1
+                if not d:
+                    matched += 1
+                else:
+                    failed += 1
+                    print("DIFF %s\n  %s" % (c.line().replace("\t", "  |  "), d))
+
+        if args.fuzz:
+            rng = random.Random(args.seed)
+            vocab = set(v for v in args.vocab.split(",") if v)
+            cases = [random_case(rng, vocab) for _ in range(args.cases)]
+            diffs = compare_cases(args.runner, cases, tmp)
+            fuzz_failed = []
+            for c, d in zip(cases, diffs):
+                total += 1
+                if not d:
+                    matched += 1
+                elif c.ident() in known:
+                    divergent += 1
+                else:
+                    fuzz_failed.append((c, d))
+            seen = set()
+            unreported = max(0, len(fuzz_failed) - args.max_report)
+            fuzz_failed.sort(key=lambda cd: len(cd[0].notation))
+            for c, d in fuzz_failed[:args.max_report]:
+                if not args.no_shrink:
+                    def fails(cand):
+                        return bool(compare_cases(args.runner, [cand], tmp)[0])
+                    c = shrink(args.runner, c, tmp, fails)
+                    d = compare_cases(args.runner, [c], tmp)[0]
+                if c.ident() in seen or c.ident() in known:
+                    continue
+                seen.add(c.ident())
+                failed += 1
+                print("FUZZ (seed %d)\n  %s\n  %s" % (args.seed, c.line().replace("\t", "  |  "), d))
+                print("  corpus line: %s" % c.line())
+            failed += unreported
+            if unreported:
+                print("(%d more failing fuzz cases not shown)" % unreported)
+
+        for c in stale:
+            print("STALE known divergence now matches: %s" % c.line())
+        print("%d cases, %d matched, %d known divergences, %d failed" % (total, matched, divergent, failed))
+        return 1 if failed or stale else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

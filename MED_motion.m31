@@ -1,0 +1,385 @@
+// Cursor motions as pure functions of the buffer, ported from Vim's
+// semantics (textobject.c, search.c, normal.c) and checked against nvim.
+//
+// API
+// ---
+//   MED_motion.Motion              where a motion lands and how an operator should treat it
+//   MED_motion.Cur                 a movable position with Vim's inc/dec stepping
+//   MED_motion.fwd_word / bck_word / end_word / bckend_word      w b e ge (and W B E gE)
+//   MED_motion.paragraph(buf, row, dir, count)                  { and }
+//   MED_motion.find_char(...)                                    f F t T ; ,
+//   MED_motion.match_pair(buf, row, col)                         %
+//   MED_motion.col_for_want(line, want, tab, one_more)           j/k column choice
+//
+// A `Cur` can stand on the position one past the last character (`col ==
+// line.size()`), which Vim calls the NUL; `inc` and `dec` report whether a
+// step stayed in the line (0), reached the NUL (2) or crossed a line (1), or
+// failed at the buffer's edge (-1). Word motions are built on those.
+
+import MED_buffer;
+import MED_text;
+
+/// The result of a motion. `want` is the desired display column for later
+/// vertical moves: -2 means "the column the cursor landed on", -3 "unchanged",
+/// -1 "end of line".
+pub type Motion {
+    pub bool ok = true;
+    pub int row = 0;
+    pub int col = 0;
+    pub bool linewise = false;
+    pub bool inclusive = false;
+    pub int want = -2;
+    pub bool jump = false;
+    /// Vim's CA_NO_ADJ_OP_END: do not apply the end-at-column-0 adjustment.
+    pub bool no_adj = false;
+    /// The motion moved as far as it could and then failed (Vim beeps but
+    /// keeps the cursor where it got to).
+    pub bool beep = false;
+}
+
+pub Motion failed() {
+    Motion m = Motion();
+    m.ok = false;
+    return m;
+}
+
+pub type Cur {
+    pub MED_buffer.Buffer buf;
+    pub int row;
+    pub int col;
+}
+
+/// Step one character forward. 0 inside the line, 2 onto the NUL, 1 onto the
+/// next line, -1 at the end of the buffer.
+pub int Cur.inc() {
+    str line = buf.line(row);
+    if (col < line.size()) {
+        col = MED_text.next_col(line, col);
+        if (col < line.size()) {
+            return 0;
+        }
+        return 2;
+    }
+    if (row + 1 < buf.line_count()) {
+        row = row + 1;
+        col = 0;
+        return 1;
+    }
+    return -1;
+}
+
+/// Step one character back. 0 inside the line, 1 onto the NUL of the previous
+/// line, -1 at the start of the buffer.
+pub int Cur.dec() {
+    if (col > 0) {
+        col = MED_text.prev_col(buf.line(row), col);
+        return 0;
+    }
+    if (row > 0) {
+        row = row - 1;
+        col = buf.line_size(row);
+        return 1;
+    }
+    return -1;
+}
+
+/// Character class at the cursor: 0 blank (or NUL), else the word class; a
+/// WORD motion folds every non-blank to 1.
+pub int Cur.cls(bool big) {
+    str line = buf.line(row);
+    if (col >= line.size()) {
+        return 0;
+    }
+    int cp = MED_text.cp_at(line, col);
+    if (cp == 32 || cp == 9) {
+        return 0;
+    }
+    int cl = MED_text.class_of(cp);
+    if (cl != 0 && big) {
+        return 1;
+    }
+    return cl;
+}
+
+pub bool Cur.empty_line() {
+    return col == 0 && buf.line_size(row) == 0;
+}
+
+bool skip_chars(Cur c, int cclass, int dir, bool big) {
+    while (c.cls(big) == cclass) {
+        int moved = 0;
+        if (dir > 0) {
+            moved = c.inc();
+        } else {
+            moved = c.dec();
+        }
+        if (moved == -1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// `w` / `W`. `eol` is true under an operator: the move stops at the end of
+/// the line it would leave.
+pub bool fwd_word(Cur c, int count, bool big, bool eol) {
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        int sclass = c.cls(big);
+        bool last_line = c.row == c.buf.line_count() - 1;
+        int i = c.inc();
+        if (i == -1 || (i >= 1 && last_line)) {
+            return false;
+        }
+        if (i >= 1 && eol && left == 0) {
+            return true;
+        }
+        if (sclass != 0) {
+            while (c.cls(big) == sclass) {
+                i = c.inc();
+                if (i == -1 || (i >= 1 && eol && left == 0)) {
+                    return true;
+                }
+            }
+        }
+        while (c.cls(big) == 0) {
+            if (c.empty_line()) {
+                break;
+            }
+            i = c.inc();
+            if (i == -1 || (i >= 1 && eol && left == 0)) {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+/// `b` / `B`.
+pub bool bck_word(Cur c, int count, bool big, bool stop_flag) {
+    bool stop = stop_flag;
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        int sclass = c.cls(big);
+        if (c.dec() == -1) {
+            return false;
+        }
+        bool finished = false;
+        if (!stop || sclass == c.cls(big) || sclass == 0) {
+            while (c.cls(big) == 0) {
+                if (c.empty_line()) {
+                    finished = true;
+                    break;
+                }
+                if (c.dec() == -1) {
+                    return true;
+                }
+            }
+            if (!finished) {
+                if (skip_chars(c, c.cls(big), -1, big)) {
+                    return true;
+                }
+            }
+        }
+        if (!finished) {
+            c.inc();
+        }
+        stop = false;
+    }
+    return true;
+}
+
+/// `e` / `E` (and the `cw` form with `stop`).
+pub bool end_word(Cur c, int count, bool big, bool stop_flag, bool empty) {
+    bool stop = stop_flag;
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        int sclass = c.cls(big);
+        if (c.inc() == -1) {
+            return false;
+        }
+        bool finished = false;
+        if (c.cls(big) == sclass && sclass != 0) {
+            if (skip_chars(c, sclass, 1, big)) {
+                return false;
+            }
+        } else if (!stop || sclass == 0) {
+            while (c.cls(big) == 0) {
+                if (empty && c.empty_line()) {
+                    finished = true;
+                    break;
+                }
+                if (c.inc() == -1) {
+                    return false;
+                }
+            }
+            if (!finished) {
+                if (skip_chars(c, c.cls(big), 1, big)) {
+                    return false;
+                }
+            }
+        }
+        if (!finished) {
+            c.dec();
+        }
+        stop = false;
+    }
+    return true;
+}
+
+/// `ge` / `gE`.
+pub bool bckend_word(Cur c, int count, bool big, bool eol) {
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        int sclass = c.cls(big);
+        int i = c.dec();
+        if (i == -1) {
+            return false;
+        }
+        if (eol && i == 1) {
+            return true;
+        }
+        if (sclass != 0) {
+            while (c.cls(big) == sclass) {
+                i = c.dec();
+                if (i == -1 || (eol && i == 1)) {
+                    return true;
+                }
+            }
+        }
+        while (c.cls(big) == 0) {
+            if (c.empty_line()) {
+                break;
+            }
+            i = c.dec();
+            if (i == -1 || (eol && i == 1)) {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+bool starts_paragraph(MED_buffer.Buffer buf, int row, bool both) {
+    str line = buf.line(row);
+    if (line.size() == 0) {
+        return true;
+    }
+    int first = line.byte_at(0);
+    return first == 12 || (both && first == 125);
+}
+
+/// `{` (dir -1) and `}` (dir 1). Returns the row, or -1 when it cannot move.
+/// `last_line_end` is set when the motion ended on the last line's last
+/// character (then it is inclusive).
+pub Motion paragraph(MED_buffer.Buffer buf, int row, int dir, int count) {
+    int curr = row;
+    int left = count;
+    while (left > 0) {
+        left = left - 1;
+        bool did_skip = false;
+        bool first = true;
+        while (true) {
+            if (buf.line_size(curr) != 0) {
+                did_skip = true;
+            }
+            if (!first && did_skip && starts_paragraph(buf, curr, false)) {
+                break;
+            }
+            curr = curr + dir;
+            if (curr < 0 || curr >= buf.line_count()) {
+                if (left > 0) {
+                    return failed();
+                }
+                curr = curr - dir;
+                break;
+            }
+            first = false;
+        }
+    }
+    Motion m = Motion();
+    m.row = curr;
+    m.jump = true;
+    m.col = 0;
+    if (curr == buf.line_count() - 1 && dir > 0) {
+        str line = buf.line(curr);
+        if (line.size() != 0) {
+            m.col = MED_text.last_col(line);
+            m.inclusive = true;
+        }
+    }
+    return m;
+}
+
+/// The column covering display column `want` (Vim's coladvance). `want` -1
+/// means the end of the line. `one_more` lets the cursor stand on the NUL.
+pub int col_for_want(str line, int want, int tab, bool one_more) {
+    int size = line.size();
+    if (size == 0) {
+        return 0;
+    }
+    if (want < 0) {
+        if (one_more) {
+            return size;
+        }
+        return MED_text.last_col(line);
+    }
+    int at = 0;
+    int col = 0;
+    while (col < size) {
+        int width = MED_text.cell_width(line, col, at, tab);
+        if (want < at + width) {
+            return col;
+        }
+        at = at + width;
+        col = MED_text.next_col(line, col);
+    }
+    if (one_more) {
+        return size;
+    }
+    return MED_text.last_col(line);
+}
+
+/// `f F t T` search on one line. `dir` 1 or -1; `until` for t/T; `stop` false
+/// lets a repeated `;` skip a match right next to the cursor.
+pub Motion find_char(str line, int col, int target, int dir, bool until, int count, bool stop_flag) {
+    bool stop = stop_flag;
+    int left = count;
+    int at = col;
+    int len = line.size();
+    while (left > 0) {
+        left = left - 1;
+        while (true) {
+            if (dir > 0) {
+                at = MED_text.next_col(line, at);
+                if (at >= len) {
+                    return failed();
+                }
+            } else {
+                if (at == 0) {
+                    return failed();
+                }
+                at = MED_text.prev_col(line, at);
+            }
+            if (MED_text.cp_at(line, at) == target && stop) {
+                break;
+            }
+            stop = true;
+        }
+    }
+    if (until) {
+        if (dir > 0) {
+            at = MED_text.prev_col(line, at);
+        } else {
+            at = MED_text.next_col(line, at);
+        }
+    }
+    Motion m = Motion();
+    m.col = at;
+    m.inclusive = dir > 0;
+    return m;
+}

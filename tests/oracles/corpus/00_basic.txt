@@ -1,0 +1,14 @@
+# basic motions and deletes
+hello world		wd
+foo bar baz		wdw
+foo bar baz		wx
+foo bar baz		$x
+foo bar baz		dd
+a\nb\nc		jdd
+a\nb\nc		jddp
+a\nb\nc		ddu
+a\nb\nc		jyyP
+foo bar		ihello <Esc>
+foo bar		Ahello<Esc>
+foo bar		ofoo<Esc>
+foo bar		Obar<Esc>

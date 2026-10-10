@@ -129,6 +129,15 @@ void Registers.store(str slot, Reg reg, bool append) {
     }
 }
 
+/// Write `name` without changing which register the unnamed one names
+/// (recording a macro does this).
+pub void Registers.set_named(str name, Reg reg) {
+    if (name == "_") {
+        return;
+    }
+    store(slot_of(name), reg, is_append(name));
+}
+
 /// A yank into `name` ("" for none).
 pub void Registers.yank(str name, Reg reg) {
     if (name == "_") {
@@ -142,9 +151,11 @@ pub void Registers.yank(str name, Reg reg) {
     previous = slot;
 }
 
-/// A delete or change into `name`. `large` is true when the text was linewise
-/// or spans several lines; `reg_one` for the motions that always use "1.
-pub void Registers.delete(str name, Reg reg, bool large, bool reg_one) {
+/// A delete or change into `name`. `shift` is true when the text was linewise
+/// or spans several lines or the motion is one of % ( ) ` / ? n N { } (so it
+/// goes to "1 after shifting "1.."9); `small` is true for a charwise delete
+/// within one line (so it goes to "- when no register was named).
+pub void Registers.delete(str name, Reg reg, bool shift, bool small) {
     if (name == "_") {
         return;
     }
@@ -155,7 +166,7 @@ pub void Registers.delete(str name, Reg reg, bool large, bool reg_one) {
         store(slot, reg, appended);
         previous = slot;
     }
-    if (large || reg_one) {
+    if (shift) {
         int n = 9;
         while (n > 1) {
             str from_slot = (n - 1).to_str();
@@ -175,7 +186,7 @@ pub void Registers.delete(str name, Reg reg, bool large, bool reg_one) {
             previous = "1";
         }
     }
-    if (name == "" && !large) {
+    if (name == "" && small) {
         store("-", reg, false);
         previous = "-";
     }

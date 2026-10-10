@@ -1,0 +1,393 @@
+// Parsing a pending normal-mode key list into a command, statelessly.
+//
+// API
+// ---
+//   MED_parse.parse(keys, visual)  -> Parsed
+//
+// `keys` is everything typed since the last completed command. The result's
+// `status` is COMPLETE (run it), NEED_MORE (wait for another key) or INVALID
+// (drop the keys). Nothing here touches the buffer: the grammar is
+//
+//   ["x] [count] ( operator [count] ( motion | text-object | same-key ) | motion | command )
+//
+// so `d3w`, `3dw`, `"a2d2w` and `dd` / `g~~` all parse here, with the two
+// counts multiplied as Vim does.
+
+import MED_key;
+
+pub const int INVALID = 0;
+pub const int NEED_MORE = 1;
+pub const int COMPLETE = 2;
+/// What the keys are.
+pub const int K_MOTION = 1;
+pub const int K_OP = 2;
+pub const int K_CMD = 3;
+pub const int K_OBJECT = 4;
+
+pub type Parsed {
+    pub int status = NEED_MORE;
+    pub int kind = 0;
+    /// The register named with `"`, or "".
+    pub str reg = "";
+    /// The (multiplied) count, 0 when none was typed.
+    pub int count = 0;
+    /// The operator name ("d", "g~" ...) for K_OP.
+    pub str op = "";
+    /// The motion / object / command keys (without count and register).
+    pub List<int> keys = [];
+    /// The operator was doubled (`dd`, `g~~`): a line-wise operation.
+    pub bool doubled = false;
+    /// Forced motion type: 118 (v), 86 (V), 22 (CTRL-V), or 0.
+    pub int force = 0;
+    pub int consumed = 0;
+    /// The command without its count and register, for dot-repeat.
+    pub List<int> body = [];
+}
+
+Parsed outcome(int status) {
+    Parsed p = Parsed();
+    p.status = status;
+    return p;
+}
+
+const List<int> ONE_KEY_MOTIONS = [104, 108, 106, 107, 48, 94, 36, 119, 87, 98, 66, 101, 69, 123, 125, 40, 41, 37, 71, 72, 77, 76, 124, 95, 45, 43, 110, 78, 59, 44, 42, 35, 8, 127, 32, 13, 10, 14, 16, 63232, 63233, 63234, 63235, 63236, 63237, 47, 63];
+const str OBJECT_CHARS = "wWsp()b{}B[]<>\"'`t";
+
+bool in_list(List<int> list, int key) {
+    for (int item in list) {
+        if (item == key) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool is_digit(int key) {
+    return key >= 48 && key <= 57;
+}
+
+pub bool valid_register(int key) {
+    if (key >= 48 && key <= 57) {
+        return true;
+    }
+    if (key >= 97 && key <= 122) {
+        return true;
+    }
+    if (key >= 65 && key <= 90) {
+        return true;
+    }
+    return key == 45 || key == 95 || key == 34 || key == 46 || key == 58 || key == 47 || key == 37 || key == 43 || key == 42;
+}
+
+// Length of the motion at keys[j], 0 when more keys are needed, -1 if the
+// keys are not a motion.
+int motion_len(List<int> keys, int j, bool with_objects) {
+    int n = keys.size();
+    if (j >= n) {
+        return 0;
+    }
+    int k = keys[j];
+    if (k == 102 || k == 70 || k == 116 || k == 84 || k == 39 || k == 96) {
+        if (j + 1 >= n) {
+            return 0;
+        }
+        return 2;
+    }
+    if (k == 103) {
+        if (j + 1 >= n) {
+            return 0;
+        }
+        int second = keys[j + 1];
+        if (second == 103 || second == 101 || second == 69 || second == 95 || second == 106 || second == 107 || second == 48 || second == 94 || second == 36 || second == 109 || second == 77 || second == 111) {
+            return 2;
+        }
+        if (second == 39 || second == 96) {
+            if (j + 2 >= n) {
+                return 0;
+            }
+            return 3;
+        }
+        return -1;
+    }
+    if (k == 91 || k == 93) {
+        if (j + 1 >= n) {
+            return 0;
+        }
+        int second = keys[j + 1];
+        if (second == 40 || second == 123 || second == 41 || second == 125 || second == 91 || second == 93) {
+            return 2;
+        }
+        return -1;
+    }
+    if (with_objects && (k == 105 || k == 97)) {
+        if (j + 1 >= n) {
+            return 0;
+        }
+        int second = keys[j + 1];
+        if (second < 128 && OBJECT_CHARS.index_of(str.from_chars([second])).is_some()) {
+            return 2;
+        }
+        return -1;
+    }
+    if (in_list(ONE_KEY_MOTIONS, k)) {
+        return 1;
+    }
+    return -1;
+}
+
+// Operator at keys[j]: returns its name and key length, or length 0 for more
+// needed, -1 for none.
+pub type OpAt {
+    pub str name = "";
+    pub int len = -1;
+}
+
+OpAt op_at(List<int> keys, int j) {
+    OpAt r = OpAt();
+    int n = keys.size();
+    if (j >= n) {
+        r.len = 0;
+        return r;
+    }
+    int k = keys[j];
+    if (k == 100 || k == 99 || k == 121 || k == 60 || k == 62 || k == 61 || k == 33) {
+        r.name = str.from_chars([k]);
+        r.len = 1;
+        return r;
+    }
+    if (k == 103) {
+        if (j + 1 >= n) {
+            r.len = 0;
+            return r;
+        }
+        int second = keys[j + 1];
+        if (second == 126 || second == 117 || second == 85 || second == 63 || second == 113 || second == 119 || second == 64) {
+            r.name = "g" + str.from_chars([second]);
+            r.len = 2;
+            return r;
+        }
+        return r;
+    }
+    if (k == 122) {
+        if (j + 1 >= n) {
+            r.len = 0;
+            return r;
+        }
+        if (keys[j + 1] == 102) {
+            r.name = "zf";
+            r.len = 2;
+            return r;
+        }
+    }
+    return r;
+}
+
+// Length of the simple command at keys[j] including its argument key, 0 for
+// more needed, -1 for unknown.
+int cmd_len(List<int> keys, int j) {
+    int n = keys.size();
+    int k = keys[j];
+    if (k == 114 || k == 109 || k == 113 || k == 64) {
+        if (j + 1 >= n) {
+            return 0;
+        }
+        if (k == 114 && keys[j + 1] == 22) {
+            if (j + 2 >= n) {
+                return 0;
+            }
+            return 3;
+        }
+        return 2;
+    }
+    if (k == 103 || k == 122 || k == 90 || k == 23) {
+        if (j + 1 >= n) {
+            return 0;
+        }
+        return 2;
+    }
+    return 1;
+}
+
+/// Parse `keys`. `visual` is true while a Visual selection is active (then
+/// operators apply at once and `i` / `a` start text objects).
+pub Parsed parse(List<int> keys, bool visual) {
+    int n = keys.size();
+    int i = 0;
+    int count = 0;
+    bool has_count = false;
+    Parsed result = Parsed();
+    while (true) {
+        if (i >= n) {
+            return outcome(NEED_MORE);
+        }
+        int k = keys[i];
+        if (k == 34) {
+            if (i + 1 >= n) {
+                return outcome(NEED_MORE);
+            }
+            if (!valid_register(keys[i + 1])) {
+                return outcome(INVALID);
+            }
+            result.reg = str.from_chars([keys[i + 1]]);
+            i = i + 2;
+            continue;
+        }
+        if ((k >= 49 && k <= 57) || (k == 48 && has_count)) {
+            count = count * 10 + (k - 48);
+            has_count = true;
+            if (count > 99999999) {
+                count = 99999999;
+            }
+            i = i + 1;
+            continue;
+        }
+        break;
+    }
+    int k = keys[i];
+    if (visual) {
+        int len = motion_len(keys, i, true);
+        if (len == 0) {
+            return outcome(NEED_MORE);
+        }
+        if (len > 0) {
+            result.status = COMPLETE;
+            result.count = count;
+            result.keys = keys.slice(i, i + len);
+            result.consumed = i + len;
+            result.body = result.keys;
+            if (k == 105 || k == 97) {
+                result.kind = K_OBJECT;
+            } else {
+                result.kind = K_MOTION;
+            }
+            return result;
+        }
+        int clen = cmd_len(keys, i);
+        if (clen == 0) {
+            return outcome(NEED_MORE);
+        }
+        result.status = COMPLETE;
+        result.kind = K_CMD;
+        result.count = count;
+        result.keys = keys.slice(i, i + clen);
+        result.body = result.keys;
+        result.consumed = i + clen;
+        return result;
+    }
+    OpAt op = op_at(keys, i);
+    if (op.len == 0) {
+        return outcome(NEED_MORE);
+    }
+    if (op.len > 0) {
+        int j = i + op.len;
+        int count2 = 0;
+        bool has_count2 = false;
+        while (true) {
+            if (j >= n) {
+                return outcome(NEED_MORE);
+            }
+            int m = keys[j];
+            if (m == 118 || m == 86 || m == 22) {
+                result.force = m;
+                j = j + 1;
+                continue;
+            }
+            if ((m >= 49 && m <= 57) || (m == 48 && has_count2)) {
+                count2 = count2 * 10 + (m - 48);
+                has_count2 = true;
+                if (count2 > 99999999) {
+                    count2 = 99999999;
+                }
+                j = j + 1;
+                continue;
+            }
+            break;
+        }
+        int mstart = j;
+        int total = count;
+        if (has_count2) {
+            if (has_count) {
+                total = count * count2;
+            } else {
+                total = count2;
+            }
+        }
+        result.count = total;
+        result.kind = K_OP;
+        result.op = op.name;
+        int m = keys[j];
+        bool doubled = false;
+        if (op.len == 1 && m == keys[i]) {
+            doubled = true;
+            j = j + 1;
+        } else if (op.len == 2) {
+            if (m == keys[i + 1]) {
+                doubled = true;
+                j = j + 1;
+            } else if (m == 103) {
+                if (j + 1 >= n) {
+                    return outcome(NEED_MORE);
+                }
+                if (keys[j + 1] == keys[i + 1]) {
+                    doubled = true;
+                    j = j + 2;
+                }
+            }
+        }
+        if (doubled) {
+            result.doubled = true;
+            result.status = COMPLETE;
+            result.consumed = j;
+            result.body = keys.slice(i, i + op.len);
+            if (result.force != 0) {
+                result.body.push(result.force);
+            }
+            for (int bk in keys.slice(mstart, j)) {
+                result.body.push(bk);
+            }
+            return result;
+        }
+        int len = motion_len(keys, j, true);
+        if (len == 0) {
+            return outcome(NEED_MORE);
+        }
+        if (len < 0) {
+            return outcome(INVALID);
+        }
+        result.keys = keys.slice(j, j + len);
+        result.status = COMPLETE;
+        result.consumed = j + len;
+        result.body = keys.slice(i, i + op.len);
+        if (result.force != 0) {
+            result.body.push(result.force);
+        }
+        for (int bk in keys.slice(j, j + len)) {
+            result.body.push(bk);
+        }
+        return result;
+    }
+    int len = motion_len(keys, i, false);
+    if (len == 0) {
+        return outcome(NEED_MORE);
+    }
+    if (len > 0) {
+        result.status = COMPLETE;
+        result.kind = K_MOTION;
+        result.count = count;
+        result.keys = keys.slice(i, i + len);
+        result.body = result.keys;
+        result.consumed = i + len;
+        return result;
+    }
+    int clen = cmd_len(keys, i);
+    if (clen == 0) {
+        return outcome(NEED_MORE);
+    }
+    result.status = COMPLETE;
+    result.kind = K_CMD;
+    result.count = count;
+    result.keys = keys.slice(i, i + clen);
+    result.body = result.keys;
+    result.consumed = i + clen;
+    return result;
+}

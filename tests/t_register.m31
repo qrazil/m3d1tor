@@ -8,7 +8,7 @@ MED_register.Registers regs = MED_register.Registers();
 regs.yank("", MED_register.Reg(["abc"], MED_register.CHAR));
 check.eq_str("yank to 0", regs.get("0").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "abc");
 check.eq_str("unnamed", regs.get("").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "abc");
-regs.delete("", MED_register.Reg(["x"], MED_register.CHAR), false, false);
+regs.delete("", MED_register.Reg(["x"], MED_register.CHAR), false, true);
 check.eq_str("small delete", regs.get("-").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "x");
 check.eq_str("unnamed after small delete", regs.get("").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "x");
 check.eq_str("0 kept", regs.get("0").or(MED_register.Reg([""], MED_register.CHAR)).lines[0], "abc");
