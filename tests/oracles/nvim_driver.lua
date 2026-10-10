@@ -30,6 +30,8 @@ local function key_string(csv)
       parts[#parts + 1] = '<lt>'
     elseif k == 0 then
       parts[#parts + 1] = '<Nul>'
+    elseif k == 22 then
+      parts[#parts + 1] = '<C-v>'
     else
       parts[#parts + 1] = vim.fn.nr2char(k)
     end

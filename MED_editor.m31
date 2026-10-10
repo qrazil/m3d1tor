@@ -137,6 +137,19 @@ pub type Editor {
     pub int dot_vlines = 0;
     pub int dot_vcols = 0;
     pub int dot_vwant = 0;
+    /// Redoing a Visual operation: block width comes from `dot_vcols`.
+    pub bool vis_redo = false;
+    /// A block-wise I, A or c in progress: what was typed on the first line is
+    /// copied to the others when the insert ends. `blk_op` is 73, 65, 99 or 0.
+    pub int blk_op = 0;
+    pub int blk_top = 0;
+    pub int blk_bottom = 0;
+    pub int blk_sv = 0;
+    pub int blk_ev = 0;
+    pub bool blk_eol = false;
+    pub int blk_col = 0;
+    pub int blk_tail = 0;
+    pub int blk_start_col = 0;
 }
 
 pub bool Editor.in_visual() {
