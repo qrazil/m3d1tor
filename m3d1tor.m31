@@ -1,0 +1,46 @@
+// m3d1tor: a terminal modal editor in m31.
+//
+//   m3d1tor FILE      open FILE (a new buffer when it does not exist yet)
+//   m3d1tor           an empty buffer with no name
+//
+// Vim keys (the engine is checked against nvim, see DESIGN.md), `:w` writes,
+// `:q` quits (`:q!` discards, `:wq` / `ZZ` write and quit).
+
+import io;
+import os;
+import term;
+import tui.TUI_app;
+import tui.TUI_buffer;
+import tui.TUI_geometry;
+import MED_app;
+
+List<str> arguments = os.arguments();
+if (arguments.size() > 2) {
+    io.eprint("usage: m3d1tor [FILE]\n");
+    os.exit(2);
+}
+if (!term.is_terminal(0) || !term.is_terminal(1)) {
+    io.eprint("m3d1tor: needs a terminal on standard input and output\n");
+    os.exit(1);
+}
+str file_name = "";
+if (arguments.size() == 2) {
+    file_name = arguments[1];
+}
+match (MED_app.open(file_name)) {
+    case Ok(MED_app.App app): {
+        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true);
+        match (loop.run((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event))) {
+            case Ok(int frames): {
+            }
+            case Err(term.Error error): {
+                io.eprint("m3d1tor: " + error.to_str() + "\n");
+                os.exit(1);
+            }
+        }
+    }
+    case Err(str message): {
+        io.eprint("m3d1tor: " + message + "\n");
+        os.exit(1);
+    }
+}

@@ -1,0 +1,590 @@
+// The terminal front end: one `App` joins the editing engine (MED_ex.feed) to
+// tui's application loop. It is a Widget (draws the text window, a status line
+// and the command line) and a Handler (turns a terminal event into engine keys,
+// then carries out what the engine asked of the UI: `:w`, `:q`).
+//
+//   row 0 .. height-3   the text, with a line-number gutter, no wrapping
+//   row height-2        the status line: mode, file name, modified flag, position
+//   row height-1        the command line while typing `:` or `/`, else the message
+//
+// tui hides the terminal cursor, so the cursor is drawn as a reverse-video cell.
+// The engine owns every editing decision; nothing here knows what a motion is.
+
+import fs;
+import io;
+import term;
+import tui.TUI_app;
+import tui.TUI_buffer;
+import tui.TUI_geometry;
+import tui.TUI_style;
+import MED_buffer;
+import MED_editor;
+import MED_ex;
+import MED_key;
+import MED_text;
+import MED_view;
+
+/// Rows below the text: the status line and the command line.
+const int FOOTER_ROWS = 2;
+/// The fewest digits the line-number gutter shows.
+const int MIN_DIGITS = 3;
+/// Visual selection background (a palette grey).
+const int SELECTION_COLOUR = 240;
+const int VKIND_CHAR = 118;
+const int VKIND_LINE = 86;
+
+pub type App {
+    pub MED_editor.Editor editor;
+    /// The file `:w` writes; empty for a buffer with no name yet.
+    pub str path;
+    /// The undo node (`editor.current`) that was last written to disk.
+    pub int saved_current = 0;
+    /// A message of the UI layer (written, E37 ...), cleared by the next key.
+    pub str notice = "";
+    /// First display column shown (horizontal scrolling).
+    pub int left_column = 0;
+}
+
+/// Whether the text differs from what was last written (undo back to the
+/// written state counts as unmodified).
+pub bool App.is_modified() {
+    return editor.current != saved_current;
+}
+
+/// The engine keys typed by a terminal event.
+List<int> App.keys_of(term.Event event) {
+    List<int> keys = [];
+    match (event) {
+        case Key(term.Key key): {
+            return keys_of_key(key);
+        }
+        case Paste(str text): {
+            // a paste is typed text in Insert mode; elsewhere it would run as commands
+            if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE || editor.mode == MED_editor.CMDLINE) {
+                for (int code_point in text.chars()) {
+                    if (code_point == 10) {
+                        keys.push(MED_key.CARRIAGE_RETURN);
+                    } else if (code_point != 13) {
+                        keys.push(code_point);
+                    }
+                }
+            }
+        }
+        case Mouse(term.Mouse mouse): {
+        }
+        case Unknown(bytes data): {
+        }
+    }
+    return keys;
+}
+
+/// Write the buffer to `target` (the buffer's own file when empty).
+void App.write_file(str target) {
+    str name = target.trim();
+    if (name.size() == 0) {
+        name = path;
+    }
+    if (name.size() == 0) {
+        notice = "E32: No file name";
+        return;
+    }
+    str text = editor.buffer.dump();
+    match (io.write(name, text)) {
+        case Ok(int count): {
+            if (path.size() == 0) {
+                path = name;
+                editor.buffer.path = name;
+            }
+            if (name == path) {
+                saved_current = editor.current;
+                editor.saved_nodes.push(editor.current);
+                editor.buffer.is_modified = false;
+            }
+            notice = "\"" + name + "\" " + editor.buffer.line_count().to_str() + "L, " + count.to_str() + "B written";
+        }
+        case Err(io.Error error): {
+            notice = "E212: Can't open file for writing: " + error.to_str();
+        }
+    }
+}
+
+/// Carry out what the engine asked of the UI layer.
+void App.run_request(str request) {
+    if (request.starts_with("write")) {
+        write_file(request.substr(5, request.size()));
+        return;
+    }
+    notice = "Not supported yet: :" + request.trim();
+}
+
+/// Run the pending requests, then say whether the editor should quit now. A
+/// quit with unsaved changes is refused the way Vim refuses it (E37) unless it
+/// was forced.
+bool App.did_finish() {
+    for (str request in editor.requests) {
+        run_request(request);
+    }
+    editor.requests = [];
+    if (!editor.is_quit) {
+        return false;
+    }
+    editor.is_quit = false;
+    bool is_forced = editor.is_force_quit;
+    editor.is_force_quit = false;
+    if (is_forced || !is_modified()) {
+        return true;
+    }
+    notice = "E37: No write since last change (add ! to override)";
+    return false;
+}
+
+/// One event: feed its keys to the engine, then the UI requests.
+pub TUI_app.Action App.handle(term.Event event) {
+    List<int> keys = keys_of(event);
+    if (keys.size() == 0) {
+        return TUI_app.Action.Continue;
+    }
+    notice = "";
+    editor.view_height = text_rows(TUI_app.screen_size().rows);
+    for (int key in keys) {
+        MED_ex.feed(editor, key);
+        if (did_finish()) {
+            return TUI_app.Action.Quit;
+        }
+    }
+    return TUI_app.Action.Redraw;
+}
+
+str App.mode_name() {
+    if (editor.mode == MED_editor.INSERT) {
+        return "INSERT";
+    }
+    if (editor.mode == MED_editor.REPLACE) {
+        return "REPLACE";
+    }
+    if (editor.mode == MED_editor.CMDLINE) {
+        return "COMMAND";
+    }
+    if (editor.mode == MED_editor.VISUAL) {
+        if (editor.vkind == VKIND_CHAR) {
+            return "VISUAL";
+        }
+        if (editor.vkind == VKIND_LINE) {
+            return "V-LINE";
+        }
+        return "V-BLOCK";
+    }
+    return "NORMAL";
+}
+
+/// The columns of the line-number gutter, with its trailing space.
+int App.gutter_width() {
+    int digits = editor.buffer.line_count().to_str().size();
+    if (digits < MIN_DIGITS) {
+        digits = MIN_DIGITS;
+    }
+    return digits + 1;
+}
+
+/// Whether the character at (`row`, `col`), shown from display column `spot`,
+/// is inside the Visual selection.
+bool App.is_selected(int row, int col, int spot) {
+    if (editor.mode != MED_editor.VISUAL) {
+        return false;
+    }
+    MED_buffer.Pos anchor = MED_buffer.Pos(editor.vrow, editor.vcol);
+    MED_buffer.Pos cursor = editor.cursor();
+    MED_buffer.Pos first = anchor;
+    MED_buffer.Pos last = cursor;
+    if (anchor.cmp(cursor) > 0) {
+        first = cursor;
+        last = anchor;
+    }
+    if (row < first.row || row > last.row) {
+        return false;
+    }
+    if (editor.vkind == VKIND_LINE) {
+        return true;
+    }
+    if (editor.vkind == VKIND_CHAR) {
+        MED_buffer.Pos here = MED_buffer.Pos(row, col);
+        return here.cmp(first) >= 0 && here.cmp(last) <= 0;
+    }
+    int anchor_spot = MED_text.display_col(editor.buffer.line(editor.vrow), editor.vcol, editor.tab);
+    int cursor_spot = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
+    int low = anchor_spot;
+    int high = cursor_spot;
+    if (anchor_spot > cursor_spot) {
+        low = cursor_spot;
+        high = anchor_spot;
+    }
+    return spot >= low && spot <= high;
+}
+
+/// Draw one line of text at screen row `y`.
+void App.draw_line(TUI_buffer.Buffer buffer, int row, int x_start, int y, int text_width) {
+    str line = editor.buffer.line(row);
+    TUI_style.Style plain = TUI_style.Style.plain;
+    TUI_style.Style selected = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTION_COLOUR));
+    int spot = 0;
+    for (int offset in MED_text.starts(line)) {
+        if (offset >= line.size()) {
+            break;
+        }
+        int width = MED_text.cell_width(line, offset, spot, editor.tab);
+        int next = MED_text.next_col(line, offset);
+        if (spot >= left_column && spot + width <= left_column + text_width) {
+            TUI_style.Style style = plain;
+            if (is_selected(row, offset, spot)) {
+                style = selected;
+            }
+            buffer.set_str(x_start + spot - left_column, y, shown(line, offset, next, width), style);
+        }
+        spot = spot + width;
+        if (spot >= left_column + text_width) {
+            break;
+        }
+    }
+}
+
+/// The pending keys of an unfinished command (`2d`), as typed.
+str App.pending_text() {
+    str out = "";
+    for (int key in editor.pending) {
+        if (key >= 32 && key < 127) {
+            out = out + str.from_chars([key]);
+        } else if (key > 0 && key < 32) {
+            out = out + "^" + str.from_chars([key + 64]);
+        }
+    }
+    return out;
+}
+
+/// The status line: mode, name, modified flag on the left; position on the right.
+void App.draw_status(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int y) {
+    TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.REVERSE);
+    TUI_style.Style strong = TUI_style.Style(attrs: TUI_style.REVERSE | TUI_style.BOLD);
+    buffer.fill(TUI_geometry.Rect(area.x, y, area.width, 1), " ", bar);
+    str name = path;
+    if (name.size() == 0) {
+        name = "[No Name]";
+    }
+    if (is_modified()) {
+        name = name + " [+]";
+    }
+    int used = buffer.set_str(area.x, y, " " + mode_name() + " ", strong);
+    buffer.set_str(area.x + used, y, " " + name, bar);
+    int vcol = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
+    int count = editor.buffer.line_count();
+    int percent = (editor.row + 1) * 100 / count;
+    str where = (editor.row + 1).to_str() + ":" + (vcol + 1).to_str() + "  " + percent.to_str() + "% ";
+    int where_x = area.x + area.width - where.size();
+    if (where_x > area.x + used + name.size() + 2) {
+        buffer.set_str(where_x, y, where, bar);
+    }
+}
+
+/// The command line (while typing `:` or `/`) or the message.
+void App.draw_message(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int y) {
+    TUI_style.Style plain = TUI_style.Style.plain;
+    TUI_style.Style alert = TUI_style.Style(foreground: TUI_style.Colour.Indexed(1), attrs: TUI_style.BOLD);
+    if (editor.mode == MED_editor.CMDLINE) {
+        buffer.set_str(area.x, y, str.from_chars([editor.cmd_type]) + editor.cmdline, plain, max: area.width);
+        return;
+    }
+    str text = notice;
+    if (text.size() == 0) {
+        text = editor.message;
+    }
+    text = first_line(text);
+    TUI_style.Style style = plain;
+    if (is_error_text(text)) {
+        style = alert;
+    }
+    buffer.set_str(area.x, y, text, style, max: area.width);
+    str right = pending_text();
+    if (editor.macro_reg.size() > 0) {
+        right = "recording @" + editor.macro_reg + " " + right;
+    }
+    if (right.size() > 0 && text.size() + right.size() + 2 < area.width) {
+        buffer.set_str(area.x + area.width - right.size() - 1, y, right, plain);
+    }
+}
+
+/// Draw the whole screen.
+pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
+    int rows = text_rows(area.height);
+    editor.view_height = rows;
+    MED_view.update(editor);
+    int gutter = gutter_width();
+    int text_width = area.width - gutter;
+    if (text_width < 1) {
+        text_width = 1;
+    }
+    int cursor_spot = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
+    if (cursor_spot < left_column) {
+        left_column = cursor_spot;
+    }
+    if (cursor_spot >= left_column + text_width) {
+        left_column = cursor_spot - text_width + 1;
+    }
+    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
+    TUI_style.Style filler = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
+    TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
+    for (int screen_row in 0 .. rows) {
+        int row = editor.view_top + screen_row;
+        int y = area.y + screen_row;
+        if (row >= editor.buffer.line_count()) {
+            buffer.set_str(area.x, y, "~", filler);
+        } else {
+            str number = (row + 1).to_str();
+            TUI_style.Style number_style = dim;
+            if (row == editor.row) {
+                number_style = current;
+            }
+            buffer.set_str(area.x + gutter - 1 - number.size(), y, number, number_style);
+            draw_line(buffer, row, area.x + gutter, y, text_width);
+        }
+    }
+    draw_status(buffer, area, area.y + rows);
+    draw_message(buffer, area, area.y + rows + 1);
+    TUI_style.Style cursor_style = TUI_style.Style(attrs: TUI_style.REVERSE);
+    if (editor.mode == MED_editor.CMDLINE) {
+        int cursor_x = area.x + 1 + MED_text.line_width(editor.cmdline, editor.tab);
+        if (cursor_x < area.x + area.width) {
+            buffer.set_style(cursor_x, area.y + rows + 1, cursor_style);
+        }
+    } else {
+        buffer.set_style(area.x + gutter + cursor_spot - left_column, area.y + editor.row - editor.view_top, cursor_style);
+    }
+}
+
+/// Open `path` (a new empty buffer when the file does not exist; an empty path
+/// is a buffer with no name).
+pub Result<App, str> open(str path) {
+    str text = "";
+    str notice = "";
+    if (path.size() > 0) {
+        if (fs.is_directory(path)) {
+            return Result<App, str>.Err("\"" + path + "\" is a directory");
+        }
+        if (fs.is_present(path)) {
+            match (io.read(path)) {
+                case Ok(str content): {
+                    text = content;
+                }
+                case Err(io.Error error): {
+                    return Result<App, str>.Err("\"" + path + "\": " + error.to_str());
+                }
+            }
+        }
+    }
+    MED_editor.Editor editor = MED_editor.new(text);
+    editor.buffer.path = path;
+    App app = App(editor, path);
+    if (path.size() == 0) {
+        app.notice = "";
+    } else if (fs.is_present(path)) {
+        app.notice = "\"" + path + "\" " + editor.buffer.line_count().to_str() + "L, " + text.size().to_str() + "B";
+    } else {
+        app.notice = "\"" + path + "\" [New]";
+    }
+    return Result<App, str>.Ok(app);
+}
+
+/// The rows of text for a window of `rows` rows.
+pub int text_rows(int rows) {
+    if (rows - FOOTER_ROWS < 1) {
+        return 1;
+    }
+    return rows - FOOTER_ROWS;
+}
+
+/// The engine key for a terminal key code, or -1 when it has none.
+int key_code(term.Code code) {
+    match (code) {
+        case Char(int code_point): {
+            return code_point;
+        }
+        case Enter: {
+            return MED_key.CARRIAGE_RETURN;
+        }
+        case Tab: {
+            return MED_key.TAB;
+        }
+        case BackTab: {
+            return -1;
+        }
+        case Backspace: {
+            return MED_key.BACKSPACE;
+        }
+        case Escape: {
+            return MED_key.ESC;
+        }
+        case Up: {
+            return MED_key.UP_KEY;
+        }
+        case Down: {
+            return MED_key.DOWN;
+        }
+        case Right: {
+            return MED_key.RIGHT;
+        }
+        case Left: {
+            return MED_key.LEFT;
+        }
+        case Home: {
+            return MED_key.HOME;
+        }
+        case End: {
+            return MED_key.END;
+        }
+        case PageUp: {
+            return MED_key.PAGE_UP;
+        }
+        case PageDown: {
+            return MED_key.PAGE_DOWN;
+        }
+        case Insert: {
+            return MED_key.INSERT;
+        }
+        case Delete: {
+            return MED_key.DEL;
+        }
+        case F(int number): {
+            if (number >= 1 && number <= 12) {
+                return MED_key.FKEY_BASE + number;
+            }
+            return -1;
+        }
+    }
+}
+
+/// The code point of a character key, or -1 for any other key.
+int char_of(term.Code code) {
+    match (code) {
+        case Char(int code_point): {
+            return code_point;
+        }
+        case Enter: {
+            return -1;
+        }
+        case Tab: {
+            return -1;
+        }
+        case BackTab: {
+            return -1;
+        }
+        case Backspace: {
+            return -1;
+        }
+        case Escape: {
+            return -1;
+        }
+        case Up: {
+            return -1;
+        }
+        case Down: {
+            return -1;
+        }
+        case Right: {
+            return -1;
+        }
+        case Left: {
+            return -1;
+        }
+        case Home: {
+            return -1;
+        }
+        case End: {
+            return -1;
+        }
+        case PageUp: {
+            return -1;
+        }
+        case PageDown: {
+            return -1;
+        }
+        case Insert: {
+            return -1;
+        }
+        case Delete: {
+            return -1;
+        }
+        case F(int number): {
+            return -1;
+        }
+    }
+}
+
+/// The control character of a letter or one of `@ [ \ ] ^ _`, or -1.
+int control_of(int code_point) {
+    if (code_point >= 97 && code_point <= 122) {
+        return code_point - 96;
+    }
+    if (code_point >= 64 && code_point <= 95) {
+        return code_point & 31;
+    }
+    return -1;
+}
+
+/// The engine keys for one terminal key press: Alt is an Escape first, Ctrl on
+/// a character is its control code, Shift/Ctrl on a special key are modifier
+/// bits.
+pub List<int> keys_of_key(term.Key key) {
+    List<int> keys = [];
+    int code = key_code(key.code);
+    if (code < 0) {
+        return keys;
+    }
+    bool is_special = code >= MED_key.UP_KEY;
+    int code_point = char_of(key.code);
+    if (key.has_modifiers(term.CTRL) && code_point >= 0) {
+        code = control_of(code_point);
+        if (code < 0) {
+            return keys;
+        }
+    }
+    if (is_special) {
+        if (key.has_modifiers(term.CTRL)) {
+            code = code | MED_key.MOD_CTRL;
+        }
+        if (key.has_modifiers(term.SHIFT)) {
+            code = code | MED_key.MOD_SHIFT;
+        }
+    }
+    if (key.has_modifiers(term.ALT)) {
+        keys.push(MED_key.ESC);
+    }
+    keys.push(code);
+    return keys;
+}
+
+/// What a character shows as: a tab is blanks, a control character is `^X`.
+str shown(str line, int col, int next, int width) {
+    int code_point = MED_text.cp_at(line, col);
+    if (code_point == 9) {
+        return " ".repeat(width);
+    }
+    if (code_point >= 0 && code_point < 32) {
+        return "^" + str.from_chars([code_point + 64]);
+    }
+    if (code_point == 127) {
+        return "^?";
+    }
+    return line.substr(col, next);
+}
+
+/// The first line of a message.
+str first_line(str text) {
+    List<str> parts = text.split("\n");
+    return parts[0];
+}
+
+bool is_error_text(str text) {
+    if (text.size() < 2 || text.byte_at(0) != 69) {
+        return false;
+    }
+    int second = text.byte_at(1);
+    return second >= 48 && second <= 57;
+}

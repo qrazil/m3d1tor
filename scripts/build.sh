@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Build medit (`medit.m31`) into a real executable.
+# Build m3d1tor (`m3d1tor.m31`) into a real executable.
 #
-#   M31_ROOT=/path/to/m31 bash scripts/build.sh            -> ./medit
+#   M31_ROOT=/path/to/m31 bash scripts/build.sh            -> ./m3d1tor
 #   M31_ROOT=/path/to/m31 bash scripts/build.sh -o name    -> ./name
 #
-# `medit.m31` imports github.com/qrazil/tui as `import tui.TUI_app;`. The
+# `m3d1tor.m31` and `MED_app.m31` import github.com/qrazil/tui as `import tui.TUI_app;`. The
 # `deps` file names the exact commit; the first compile fetches it into
 # `.m31-deps/` and records it in `deps.lock`.
 #
-# Needs LANGC (the m31c compiler binary, v0.3.2 or later) and M31_ROOT (a
+# Needs LANGC (the m31c compiler binary, v0.4.0 or later) and M31_ROOT (a
 # checkout of github.com/qrazil/m31, or an extracted release's runtime SDK
 # containing config.sh and runtime/). There is no pre-built runtime library.
 set -euo pipefail
@@ -27,7 +27,7 @@ fi
 . "$M31_ROOT/config.sh"
 . "$M31_ROOT/runtime/arch.sh"
 
-out=medit
+out=m3d1tor
 [ "${1:-}" = "-o" ] && out=${2:?-o needs a name}
 
 LANGC=${LANGC:-./m31c}
@@ -40,8 +40,8 @@ if [ ! -x "$LANGC" ]; then
     exit 1
 fi
 
-"$LANGC" --emit-c medit.m31 -o "$tmp/medit.c"
-"$CC" -O2 -pthread -I "$M31_ROOT/runtime" -o "$out" "$tmp/medit.c" \
+"$LANGC" --emit-c m3d1tor.m31 -o "$tmp/m3d1tor.c"
+"$CC" -O2 -pthread -I "$M31_ROOT/runtime" -o "$out" "$tmp/m3d1tor.c" \
     "$M31_ROOT/runtime/rt.c" "$M31_ROOT/runtime/scheduler.c" \
     "$M31_ROOT/$RT_REACTOR_C" "$M31_ROOT/$RT_CTX_ASM"
 echo "$out"

@@ -318,7 +318,8 @@ MED_grep.m31       file walk + search
 MED_picker.m31     picker state machine
 MED_view.m31       drawing
 MED_help.m31       ? and which-key content from keymap data
-medit.m31          entry: args, session, loop
+m3d1tor.m31        entry: args, terminal check, tui loop
+MED_app.m31        minimal front end (v0.4.0 tui): key translation, render, :w/:q, ZZ; tests/t_app.m31
 ```
 
 ## 7. Oracle test plan
@@ -441,7 +442,7 @@ as Helix without its language intelligence", and the tag description must say so
 
 * M0 (this commit): design and scaffolding.
 * M1: engine + oracle harness + fuzzer, with a stated divergence list.
-* M2: tui integration: render, scroll, numbers, statusline, command line, insert
+* M2 (started: `m3d1tor <file>` opens, renders with gutter and status line, edits, `:w`, `:q`, `ZZ`; build with `scripts/build.sh`): tui integration: render, scroll, numbers, statusline, command line, insert
   entry, open/save, grapheme width.
 * M3: pickers (files, buffers, grep, palette), which-key, `?`.
 * M4 (before the tag): splits, explorer, git gutter, surround/comment/autopairs,
