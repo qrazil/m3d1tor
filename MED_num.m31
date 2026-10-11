@@ -6,19 +6,19 @@
 //   MED_num.clamp(value, low, high)
 
 /// The smaller of two ints.
-pub int smaller(int a, int b) {
-    if (a < b) {
-        return a;
+pub int smaller(int left, int right) {
+    if (left < right) {
+        return left;
     }
-    return b;
+    return right;
 }
 
 /// The larger of two ints.
-pub int larger(int a, int b) {
-    if (a > b) {
-        return a;
+pub int larger(int left, int right) {
+    if (left > right) {
+        return left;
     }
-    return b;
+    return right;
 }
 
 /// `value` limited to `low .. high` (inclusive); `low` wins if the range is empty.

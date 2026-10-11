@@ -10,7 +10,7 @@
 
 import MED_regex;
 import MED_buffer;
-import hexcodec;
+import encoding.hexcodec;
 import io;
 import os;
 
@@ -20,48 +20,48 @@ str hex_of(str text) {
 
 str unhex(str digits) {
     match (hexcodec.decode(digits)) {
-        case Ok(bytes b): {
-            match (b.utf8()) {
-                case Some(str s): {
-                    return s;
+        case Ok(bytes data): {
+            match (data.utf8()) {
+                case Some(str text): {
+                    return text;
                 }
                 case None: {
                     return "";
                 }
             }
         }
-        case Err(hexcodec.Error e): {
+        case Err(hexcodec.Error error): {
             return "";
         }
     }
 }
 
 str run_case(str line) {
-    List<str> f = line.split("\t");
-    str pat = unhex(f[1]);
-    str text = unhex(f[2]);
+    List<str> flags_value = line.split("\t");
+    str pattern = unhex(flags_value[1]);
+    str text = unhex(flags_value[2]);
     str flags = "";
-    if (f.size() > 3) {
-        flags = f[3];
+    if (flags_value.size() > 3) {
+        flags = flags_value[3];
     }
-    MED_regex.Regex re = MED_regex.compile(pat, flags.index_of("i").is_some(), flags.index_of("s").is_some(), "");
-    if (!re.ok) {
-        return f[0] + "\terr";
+    MED_regex.Regex regex = MED_regex.compile(pattern, flags.index_of("i").is_some(), flags.index_of("s").is_some(), "");
+    if (!regex.is_ok) {
+        return flags_value[0] + "\terr";
     }
-    MED_buffer.Buffer buf = MED_buffer.load("");
-    buf.lines = text.split("\n");
-    MED_regex.Match m = re.search_line(buf, 0, 0);
-    if (!m.ok) {
-        return f[0] + "\tnone";
+    MED_buffer.Buffer buffer = MED_buffer.load("");
+    buffer.lines = text.split("\n");
+    MED_regex.Match match_value = regex.search_line(buffer, 0, 0);
+    if (!match_value.is_ok) {
+        return flags_value[0] + "\tnone";
     }
     List<str> parts = [];
-    for (str g in m.groups) {
-        parts.push(hex_of(g));
+    for (str group_text in match_value.groups) {
+        parts.push(hex_of(group_text));
     }
-    return f[0] + "\t" + m.srow.to_str() + "\t" + m.scol.to_str() + "\t" + m.erow.to_str() + "\t" + m.ecol.to_str() + "\t" + parts.join(";");
+    return flags_value[0] + "\t" + match_value.srow.to_str() + "\t" + match_value.scol.to_str() + "\t" + match_value.erow.to_str() + "\t" + match_value.ecol.to_str() + "\t" + parts.join(";");
 }
 
-List<str> arguments = os.args();
+List<str> arguments = os.arguments();
 match (io.read(arguments[1])) {
     case Ok(str content): {
         for (str line in content.split("\n")) {
@@ -70,8 +70,8 @@ match (io.read(arguments[1])) {
             }
         }
     }
-    case Err(io.Error e): {
-        print("error reading cases: " + e.to_str());
+    case Err(io.Error error): {
+        print("error reading cases: " + error.to_str());
         os.exit(2);
     }
 }

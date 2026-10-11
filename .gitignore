@@ -1,5 +1,5 @@
 .m31-deps/
 /build/
 *.o
-/medit
+/m3d1tor
 __pycache__/

@@ -90,7 +90,7 @@ const int STEP_LIMIT = 30000000;
 const int SHIFT = 4294967296;
 
 pub type Match {
-    pub bool ok = false;
+    pub bool is_ok = false;
     pub int srow = 0;
     pub int scol = 0;
     pub int erow = 0;
@@ -98,21 +98,21 @@ pub type Match {
     /// The whole match, then \1 .. \9 (empty when a group did not take part).
     pub List<str> groups = [];
     /// The search gave up (too many steps).
-    pub bool aborted = false;
+    pub bool is_aborted = false;
 }
 
 pub type Regex {
-    pub bool ok = true;
+    pub bool is_ok = true;
     pub str error = "";
-    pub bool icase = false;
+    pub bool is_icase = false;
     pub int ngroups = 0;
     /// Bit n is set once group n has been closed (a back reference needs it).
     pub int ended = 0;
     /// Back references to a group not closed yet (an error unless look-behind applies to them).
     pub List<int> bad_refs = [];
-    pub List<int> op = [];
-    pub List<int> pa = [];
-    pub List<int> pb = [];
+    pub List<int> opcodes = [];
+    pub List<int> program_a = [];
+    pub List<int> program_b = [];
     pub List<List<int>> set_lo = [];
     pub List<List<int>> set_hi = [];
     pub List<bool> set_neg = [];
@@ -121,37 +121,37 @@ pub type Regex {
     /// A first literal character every match must start with, or -1.
     pub int first = -1;
     // ---- parser state
-    List<int> c = [];
-    int i = 0;
+    List<int> codes = [];
+    int index = 0;
     int magic = 2;
-    bool at_start = true;
-    bool prev_at_start = false;
-    int prev_ch = -1;
-    bool prev_mg = false;
-    int tok = -1;
-    bool mg = false;
-    int len = 0;
+    bool is_at_start = true;
+    bool is_previous_at_start = false;
+    int previous_ch = -1;
+    bool is_previous_mg = false;
+    int token = -1;
+    bool is_magic = false;
+    int length = 0;
     int icase_flag = -1;
     str tilde = "";
-    List<int> nk = [];
-    List<int> na = [];
-    List<int> nb = [];
-    List<int> nc = [];
+    List<int> next_key = [];
+    List<int> node_first = [];
+    List<int> node_second = [];
+    List<int> next_col = [];
     List<List<int>> nkids = [];
 }
 
-int Regex.node(int kind, int a, int b, List<int> kids) {
-    nk.push(kind);
-    na.push(a);
-    nb.push(b);
-    nc.push(0);
+int Regex.node(int kind, int left, int right, List<int> kids) {
+    next_key.push(kind);
+    node_first.push(left);
+    node_second.push(right);
+    next_col.push(0);
     nkids.push(kids);
-    return nk.size() - 1;
+    return next_key.size() - 1;
 }
 
-bool Regex.fail(str message) {
-    if (ok) {
-        ok = false;
+bool Regex.did_fail(str message) {
+    if (is_ok) {
+        is_ok = false;
         error = message;
     }
     return false;
@@ -160,124 +160,124 @@ bool Regex.fail(str message) {
 // Look at the next token without consuming it: `tok`, whether it is magic
 // (`mg`) and how many pattern characters it spans (`len`). Vim's peekchr().
 void Regex.peek() {
-    int n = c.size();
-    if (i >= n) {
-        tok = -1;
-        mg = false;
-        len = 0;
+    int count = codes.size();
+    if (index >= count) {
+        token = -1;
+        is_magic = false;
+        length = 0;
         return;
     }
-    int ch = c[i];
-    tok = ch;
-    mg = false;
-    len = 1;
-    if (ch == 94) {
-        if (magic >= 1 && (at_start || magic == 3 || (prev_mg && (prev_ch == 40 || prev_ch == 124 || prev_ch == 38 || prev_ch == 110)))) {
-            mg = true;
+    int char_code = codes[index];
+    token = char_code;
+    is_magic = false;
+    length = 1;
+    if (char_code == 94) {
+        if (magic >= 1 && (is_at_start || magic == 3 || (is_previous_mg && (previous_ch == 40 || previous_ch == 124 || previous_ch == 38 || previous_ch == 110)))) {
+            is_magic = true;
         }
-    } else if (ch == 36) {
+    } else if (char_code == 36) {
         if (magic >= 1) {
-            int j = i + 1;
-            bool all = magic == 3;
-            while (j + 1 < n && c[j] == 92 && (c[j + 1] == 99 || c[j + 1] == 67 || c[j + 1] == 109 || c[j + 1] == 77 || c[j + 1] == 118 || c[j + 1] == 86 || c[j + 1] == 90)) {
-                if (c[j + 1] == 118) {
-                    all = true;
-                } else if (c[j + 1] == 109 || c[j + 1] == 77 || c[j + 1] == 86) {
-                    all = false;
+            int other_index = index + 1;
+            bool is_all = magic == 3;
+            while (other_index + 1 < count && codes[other_index] == 92 && (codes[other_index + 1] == 99 || codes[other_index + 1] == 67 || codes[other_index + 1] == 109 || codes[other_index + 1] == 77 || codes[other_index + 1] == 118 || codes[other_index + 1] == 86 || codes[other_index + 1] == 90)) {
+                if (codes[other_index + 1] == 118) {
+                    is_all = true;
+                } else if (codes[other_index + 1] == 109 || codes[other_index + 1] == 77 || codes[other_index + 1] == 86) {
+                    is_all = false;
                 }
-                j = j + 2;
+                other_index = other_index + 2;
             }
-            if (j >= n) {
-                mg = true;
-            } else if (c[j] == 92 && j + 1 < n && (c[j + 1] == 124 || c[j + 1] == 38 || c[j + 1] == 41 || c[j + 1] == 110)) {
-                mg = true;
-            } else if (all && (c[j] == 124 || c[j] == 38 || c[j] == 41)) {
-                mg = true;
+            if (other_index >= count) {
+                is_magic = true;
+            } else if (codes[other_index] == 92 && other_index + 1 < count && (codes[other_index + 1] == 124 || codes[other_index + 1] == 38 || codes[other_index + 1] == 41 || codes[other_index + 1] == 110)) {
+                is_magic = true;
+            } else if (is_all && (codes[other_index] == 124 || codes[other_index] == 38 || codes[other_index] == 41)) {
+                is_magic = true;
             } else if (magic == 3) {
-                mg = true;
+                is_magic = true;
             }
         }
-    } else if (ch == 42) {
-        if (magic >= 2 && !at_start && !(prev_at_start && prev_mg && prev_ch == 94) && !(prev_mg && (prev_ch == 40 || prev_ch == 38 || prev_ch == 124))) {
-            mg = true;
+    } else if (char_code == 42) {
+        if (magic >= 2 && !is_at_start && !(is_previous_at_start && is_previous_mg && previous_ch == 94) && !(is_previous_mg && (previous_ch == 40 || previous_ch == 38 || previous_ch == 124))) {
+            is_magic = true;
         }
-    } else if (ch == 46 || ch == 91 || ch == 126) {
+    } else if (char_code == 46 || char_code == 91 || char_code == 126) {
         if (magic >= 2) {
-            mg = true;
+            is_magic = true;
         }
-    } else if (ch == 40 || ch == 41 || ch == 123 || ch == 37 || ch == 43 || ch == 61 || ch == 63 || ch == 64 || ch == 38 || ch == 124 || ch == 60 || ch == 62) {
+    } else if (char_code == 40 || char_code == 41 || char_code == 123 || char_code == 37 || char_code == 43 || char_code == 61 || char_code == 63 || char_code == 64 || char_code == 38 || char_code == 124 || char_code == 60 || char_code == 62) {
         if (magic == 3) {
-            mg = true;
+            is_magic = true;
         }
-    } else if (ch == 92) {
-        if (i + 1 >= n) {
+    } else if (char_code == 92) {
+        if (index + 1 >= count) {
             return;
         }
-        int d = c[i + 1];
-        len = 2;
-        if (is_meta(d)) {
-            tok = d;
-            if (d == 42) {
-                mg = !(magic >= 2);
+        int delta = codes[index + 1];
+        length = 2;
+        if (is_meta(delta)) {
+            token = delta;
+            if (delta == 42) {
+                is_magic = !(magic >= 2);
             } else {
-                mg = !default_magic(magic, d);
+                is_magic = !is_default_magic(magic, delta);
             }
-        } else if (d == 101) {
-            tok = 27;
-        } else if (d == 116) {
-            tok = 9;
-        } else if (d == 114) {
-            tok = 13;
-        } else if (d == 98) {
-            tok = 8;
-        } else if (magic == 0 && (d == 36 || d == 94)) {
-            tok = d;
-            mg = true;
+        } else if (delta == 101) {
+            token = 27;
+        } else if (delta == 116) {
+            token = 9;
+        } else if (delta == 114) {
+            token = 13;
+        } else if (delta == 98) {
+            token = 8;
+        } else if (magic == 0 && (delta == 36 || delta == 94)) {
+            token = delta;
+            is_magic = true;
         } else {
-            tok = d;
+            token = delta;
         }
     }
 }
 
 void Regex.advance() {
-    prev_at_start = at_start;
-    at_start = false;
-    prev_ch = tok;
-    prev_mg = mg;
-    i = i + len;
+    is_previous_at_start = is_at_start;
+    is_at_start = false;
+    previous_ch = token;
+    is_previous_mg = is_magic;
+    index = index + length;
 }
 
 // Consume a token that changes no parse state (\c \v ...).
 void Regex.keepstart() {
-    i = i + len;
+    index = index + length;
 }
 
 int Regex.raw() {
-    if (i >= c.size()) {
+    if (index >= codes.size()) {
         return -1;
     }
-    int ch = c[i];
-    i = i + 1;
-    return ch;
+    int char_code = codes[index];
+    index = index + 1;
+    return char_code;
 }
 
 int Regex.number() {
     int value = -1;
-    while (i < c.size() && is_digit(c[i])) {
+    while (index < codes.size() && is_digit(codes[index])) {
         if (value < 0) {
             value = 0;
         }
-        value = value * 10 + (c[i] - 48);
-        i = i + 1;
+        value = value * 10 + (codes[index] - 48);
+        index = index + 1;
     }
     return value;
 }
 
 int Regex.parse_alt(int depth) {
     List<int> branches = [parse_branch(depth)];
-    while (ok) {
+    while (is_ok) {
         peek();
-        if (mg && tok == 124) {
+        if (is_magic && token == 124) {
             advance();
             branches.push(parse_branch(depth));
         } else {
@@ -292,9 +292,9 @@ int Regex.parse_alt(int depth) {
 
 int Regex.parse_branch(int depth) {
     List<int> parts = [parse_concat(depth)];
-    while (ok) {
+    while (is_ok) {
         peek();
-        if (mg && tok == 38) {
+        if (is_magic && token == 38) {
             advance();
             parts.push(parse_concat(depth));
         } else {
@@ -305,8 +305,8 @@ int Regex.parse_branch(int depth) {
         return parts[0];
     }
     List<int> kids = [];
-    for (int k in 0 .. parts.size() - 1) {
-        kids.push(node(N_LOOK, LK_AHEAD, 0, [parts[k]]));
+    for (int key in 0 .. parts.size() - 1) {
+        kids.push(node(N_LOOK, LK_AHEAD, 0, [parts[key]]));
     }
     kids.push(parts[parts.size() - 1]);
     return node(N_CAT, 0, 0, kids);
@@ -314,32 +314,32 @@ int Regex.parse_branch(int depth) {
 
 int Regex.parse_concat(int depth) {
     List<int> kids = [];
-    while (ok) {
+    while (is_ok) {
         peek();
-        if (tok == -1) {
+        if (token == -1) {
             break;
         }
-        if (mg && (tok == 124 || tok == 38)) {
+        if (is_magic && (token == 124 || token == 38)) {
             break;
         }
-        if (mg && tok == 41) {
+        if (is_magic && token == 41) {
             if (depth == 0) {
-                fail("E55: Unmatched \\)");
+                did_fail("E55: Unmatched \\)");
             }
             break;
         }
-        if (mg && (tok == 99 || tok == 67 || tok == 118 || tok == 109 || tok == 77 || tok == 86 || tok == 90)) {
-            if (tok == 99) {
+        if (is_magic && (token == 99 || token == 67 || token == 118 || token == 109 || token == 77 || token == 86 || token == 90)) {
+            if (token == 99) {
                 icase_flag = 1;
-            } else if (tok == 67) {
+            } else if (token == 67) {
                 icase_flag = 0;
-            } else if (tok == 118) {
+            } else if (token == 118) {
                 magic = 3;
-            } else if (tok == 109) {
+            } else if (token == 109) {
                 magic = 2;
-            } else if (tok == 77) {
+            } else if (token == 77) {
                 magic = 1;
-            } else if (tok == 86) {
+            } else if (token == 86) {
                 magic = 0;
             }
             keepstart();
@@ -361,96 +361,96 @@ int Regex.parse_concat(int depth) {
 
 int Regex.parse_piece(int depth) {
     int atom = parse_atom(depth);
-    if (!ok || atom < 0) {
+    if (!is_ok || atom < 0) {
         return atom;
     }
     for (int once in 0 .. 1) {
         peek();
-        if (!mg) {
+        if (!is_magic) {
             break;
         }
-        int t = tok;
-        if ((nk[atom] == N_ZS || nk[atom] == N_ZE) && (t == 42 || t == 43 || t == 123)) {
-            fail("E64: Nothing to repeat");
+        int target = token;
+        if ((next_key[atom] == N_ZS || next_key[atom] == N_ZE) && (target == 42 || target == 43 || target == 123)) {
+            did_fail("E64: Nothing to repeat");
             return -1;
         }
-        if (t == 42) {
+        if (target == 42) {
             advance();
             atom = node(N_REPEAT, 0, -1, [atom]);
-            nc[atom] = 1;
-        } else if (t == 43) {
+            next_col[atom] = 1;
+        } else if (target == 43) {
             advance();
             atom = node(N_REPEAT, 1, -1, [atom]);
-            nc[atom] = 1;
-        } else if (t == 61 || t == 63) {
+            next_col[atom] = 1;
+        } else if (target == 61 || target == 63) {
             advance();
             atom = node(N_REPEAT, 0, 1, [atom]);
-            nc[atom] = 1;
-        } else if (t == 123) {
+            next_col[atom] = 1;
+        } else if (target == 123) {
             advance();
-            bool lazy = false;
-            if (i < c.size() && c[i] == 45) {
-                lazy = true;
-                i = i + 1;
+            bool is_lazy = false;
+            if (index < codes.size() && codes[index] == 45) {
+                is_lazy = true;
+                index = index + 1;
             }
-            int lo = number();
-            int hi = lo;
-            if (i < c.size() && c[i] == 44) {
-                i = i + 1;
-                hi = number();
-            } else if (lo < 0) {
-                hi = -1;
+            int low = number();
+            int high = low;
+            if (index < codes.size() && codes[index] == 44) {
+                index = index + 1;
+                high = number();
+            } else if (low < 0) {
+                high = -1;
             }
-            if (lo < 0) {
-                lo = 0;
+            if (low < 0) {
+                low = 0;
             }
-            if (i < c.size() && c[i] == 92) {
-                i = i + 1;
+            if (index < codes.size() && codes[index] == 92) {
+                index = index + 1;
             }
-            if (i < c.size() && c[i] == 125) {
-                i = i + 1;
+            if (index < codes.size() && codes[index] == 125) {
+                index = index + 1;
             } else {
-                fail("E554: Syntax error in \\{...}");
+                did_fail("E554: Syntax error in \\{...}");
                 return -1;
             }
-            if (hi >= 0 && lo > hi) {
-                int tmp = lo;
-                lo = hi;
-                hi = tmp;
+            if (high >= 0 && low > high) {
+                int temp = low;
+                low = high;
+                high = temp;
             }
-            atom = node(N_REPEAT, lo, hi, [atom]);
-            if (lazy) {
-                nc[atom] = 0;
+            atom = node(N_REPEAT, low, high, [atom]);
+            if (is_lazy) {
+                next_col[atom] = 0;
             } else {
-                nc[atom] = 1;
+                next_col[atom] = 1;
             }
-        } else if (t == 64) {
+        } else if (target == 64) {
             advance();
             int limit = number();
             int kind = -1;
-            if (i < c.size()) {
-                int d = c[i];
-                if (d == 61) {
+            if (index < codes.size()) {
+                int delta = codes[index];
+                if (delta == 61) {
                     kind = LK_AHEAD;
-                    i = i + 1;
-                } else if (d == 33) {
+                    index = index + 1;
+                } else if (delta == 33) {
                     kind = LK_NOT_AHEAD;
-                    i = i + 1;
-                } else if (d == 62) {
+                    index = index + 1;
+                } else if (delta == 62) {
                     kind = LK_ATOMIC;
-                    i = i + 1;
-                } else if (d == 60 && i + 1 < c.size()) {
-                    if (c[i + 1] == 61) {
+                    index = index + 1;
+                } else if (delta == 60 && index + 1 < codes.size()) {
+                    if (codes[index + 1] == 61) {
                         kind = LK_BEHIND;
-                        i = i + 2;
-                    } else if (c[i + 1] == 33) {
+                        index = index + 2;
+                    } else if (codes[index + 1] == 33) {
                         kind = LK_NOT_BEHIND;
-                        i = i + 2;
+                        index = index + 2;
                     }
                 }
             }
             if (kind < 0) {
-                fail("E59: Invalid character after \\@");
+                did_fail("E59: Invalid character after \\@");
                 return -1;
             }
             if (kind == LK_BEHIND || kind == LK_NOT_BEHIND) {
@@ -462,8 +462,8 @@ int Regex.parse_piece(int depth) {
         }
         // A multi cannot follow a multi (Vim's E61 / E62).
         peek();
-        if (ok && mg && (tok == 42 || tok == 43 || tok == 61 || tok == 63 || tok == 123 || tok == 64)) {
-            fail("E62: Nested multi");
+        if (is_ok && is_magic && (token == 42 || token == 43 || token == 61 || token == 63 || token == 123 || token == 64)) {
+            did_fail("E62: Nested multi");
             return -1;
         }
     }
@@ -476,332 +476,332 @@ int Regex.literal_nodes(List<int> chars) {
         return node(N_EMPTY, 0, 0, []);
     }
     List<int> kids = [];
-    for (int ch in chars) {
-        kids.push(node(N_CHAR, ch, 0, []));
+    for (int char_code in chars) {
+        kids.push(node(N_CHAR, char_code, 0, []));
     }
     return node(N_CAT, 0, 0, kids);
 }
 
 int Regex.parse_atom(int depth) {
     peek();
-    if (tok == -1) {
+    if (token == -1) {
         return node(N_EMPTY, 0, 0, []);
     }
-    int t = tok;
-    if (!mg) {
+    int target = token;
+    if (!is_magic) {
         advance();
-        return node(N_CHAR, t, 0, []);
+        return node(N_CHAR, target, 0, []);
     }
-    if (t == 94) {
+    if (target == 94) {
         advance();
         return node(N_BOL, 0, 0, []);
     }
-    if (t == 36) {
+    if (target == 36) {
         advance();
         return node(N_EOL, 0, 0, []);
     }
-    if (t == 46) {
+    if (target == 46) {
         advance();
         return node(N_ANY, 0, 0, []);
     }
-    if (t == 60) {
+    if (target == 60) {
         advance();
         return node(N_BOW, 0, 0, []);
     }
-    if (t == 62) {
+    if (target == 62) {
         advance();
         return node(N_EOW, 0, 0, []);
     }
-    if (t == 126) {
+    if (target == 126) {
         advance();
         return literal_nodes(tilde.chars());
     }
-    if (t == 110) {
+    if (target == 110) {
         advance();
         return node(N_NL, 0, 0, []);
     }
-    if (t == 40) {
+    if (target == 40) {
         advance();
         if (ngroups >= 9) {
-            fail("E51: Too many \\(");
+            did_fail("E51: Too many \\(");
             return -1;
         }
         ngroups = ngroups + 1;
-        int idx = ngroups;
+        int group_number = ngroups;
         int inner = parse_alt(depth + 1);
         peek();
-        if (!(mg && tok == 41)) {
-            fail("E54: Unmatched \\(");
+        if (!(is_magic && token == 41)) {
+            did_fail("E54: Unmatched \\(");
             return -1;
         }
         advance();
-        ended = ended | (1 << idx);
-        return node(N_GROUP, idx, 0, [inner]);
+        ended = ended | (1 << group_number);
+        return node(N_GROUP, group_number, 0, [inner]);
     }
-    if (t == 37) {
+    if (target == 37) {
         advance();
         return parse_percent(depth);
     }
-    if (t == 91) {
-        int save = i;
+    if (target == 91) {
+        int save = index;
         advance();
         int set = parse_collection(false);
         if (set >= 0) {
             return set;
         }
-        i = save + len;
+        index = save + length;
         return node(N_CHAR, 91, 0, []);
     }
-    if (t == 122) {
+    if (target == 122) {
         advance();
-        int d = raw();
-        if (d == 115) {
+        int delta = raw();
+        if (delta == 115) {
             return node(N_ZS, 0, 0, []);
         }
-        if (d == 101) {
+        if (delta == 101) {
             return node(N_ZE, 0, 0, []);
         }
-        fail("E68: Invalid character after \\z");
+        did_fail("E68: Invalid character after \\z");
         return -1;
     }
-    if (t >= 49 && t <= 57) {
+    if (target >= 49 && target <= 57) {
         advance();
-        int ref = node(N_BACKREF, t - 48, 0, []);
-        if ((ended & (1 << (t - 48))) == 0) {
+        int ref = node(N_BACKREF, target - 48, 0, []);
+        if ((ended & (1 << (target - 48))) == 0) {
             bad_refs.push(ref);
         }
         return ref;
     }
-    if (t == 95) {
+    if (target == 95) {
         advance();
-        int d = raw();
-        if (d == 94) {
+        int delta = raw();
+        if (delta == 94) {
             return node(N_BOL, 0, 0, []);
         }
-        if (d == 36) {
+        if (delta == 36) {
             return node(N_EOL, 0, 0, []);
         }
-        if (d == 46) {
+        if (delta == 46) {
             return node(N_ANY, 1, 0, []);
         }
-        if (d == 91) {
+        if (delta == 91) {
             int set = parse_collection(true);
             if (set < 0) {
-                fail("E769: Missing ] after \\_[");
+                did_fail("E769: Missing ] after \\_[");
                 return -1;
             }
             return set;
         }
-        if (is_class_letter(d)) {
-            return node(N_CLASS, d, 1, []);
+        if (is_class_letter(delta)) {
+            return node(N_CLASS, delta, 1, []);
         }
-        fail("E63: Invalid use of \\_");
+        did_fail("E63: Invalid use of \\_");
         return -1;
     }
-    if (is_class_letter(t)) {
+    if (is_class_letter(target)) {
         advance();
-        return node(N_CLASS, t, 0, []);
+        return node(N_CLASS, target, 0, []);
     }
-    if (t == 42 || t == 43 || t == 61 || t == 63 || t == 123 || t == 64) {
-        fail("E64: Nothing to repeat");
+    if (target == 42 || target == 43 || target == 61 || target == 63 || target == 123 || target == 64) {
+        did_fail("E64: Nothing to repeat");
         return -1;
     }
     advance();
-    return node(N_CHAR, t, 0, []);
+    return node(N_CHAR, target, 0, []);
 }
 
 int Regex.hex_digits(int max) {
     int value = -1;
     int count = 0;
-    while (count < max && i < c.size() && is_hex(c[i])) {
-        int d = c[i];
-        int v = 0;
-        if (is_digit(d)) {
-            v = d - 48;
-        } else if (d >= 97) {
-            v = d - 87;
+    while (count < max && index < codes.size() && is_hex(codes[index])) {
+        int delta = codes[index];
+        int amount = 0;
+        if (is_digit(delta)) {
+            amount = delta - 48;
+        } else if (delta >= 97) {
+            amount = delta - 87;
         } else {
-            v = d - 55;
+            amount = delta - 55;
         }
         if (value < 0) {
             value = 0;
         }
-        value = value * 16 + v;
-        i = i + 1;
+        value = value * 16 + amount;
+        index = index + 1;
         count = count + 1;
     }
     return value;
 }
 
 int Regex.parse_percent(int depth) {
-    int d = raw();
-    if (d == 40) {
+    int delta = raw();
+    if (delta == 40) {
         int inner = parse_alt(depth + 1);
         peek();
-        if (!(mg && tok == 41)) {
-            fail("E53: Unmatched \\%(");
+        if (!(is_magic && token == 41)) {
+            did_fail("E53: Unmatched \\%(");
             return -1;
         }
         advance();
         return inner;
     }
-    if (d == 94) {
+    if (delta == 94) {
         return node(N_BOF, 0, 0, []);
     }
-    if (d == 36) {
+    if (delta == 36) {
         return node(N_EOF, 0, 0, []);
     }
-    if (d == 100) {
-        int v = number();
-        if (v < 0) {
-            fail("E678: Invalid character after \\%[dxouU]");
+    if (delta == 100) {
+        int value = number();
+        if (value < 0) {
+            did_fail("E678: Invalid character after \\%[dxouU]");
             return -1;
         }
-        return node(N_CHAR, v, 0, []);
+        return node(N_CHAR, value, 0, []);
     }
-    if (d == 120 || d == 117 || d == 85) {
+    if (delta == 120 || delta == 117 || delta == 85) {
         int maxd = 2;
-        if (d == 117) {
+        if (delta == 117) {
             maxd = 4;
-        } else if (d == 85) {
+        } else if (delta == 85) {
             maxd = 8;
         }
-        int v = hex_digits(maxd);
-        if (v < 0) {
-            fail("E678: Invalid character after \\%[dxouU]");
+        int value = hex_digits(maxd);
+        if (value < 0) {
+            did_fail("E678: Invalid character after \\%[dxouU]");
             return -1;
         }
-        return node(N_CHAR, v, 0, []);
+        return node(N_CHAR, value, 0, []);
     }
-    if (d == 111) {
-        int v = 0;
+    if (delta == 111) {
+        int value = 0;
         int count = 0;
-        while (count < 4 && i < c.size() && c[i] >= 48 && c[i] <= 55) {
-            v = v * 8 + (c[i] - 48);
-            i = i + 1;
+        while (count < 4 && index < codes.size() && codes[index] >= 48 && codes[index] <= 55) {
+            value = value * 8 + (codes[index] - 48);
+            index = index + 1;
             count = count + 1;
         }
         if (count == 0) {
-            fail("E678: Invalid character after \\%[dxouU]");
+            did_fail("E678: Invalid character after \\%[dxouU]");
             return -1;
         }
-        return node(N_CHAR, v, 0, []);
+        return node(N_CHAR, value, 0, []);
     }
-    if (d == 91) {
+    if (delta == 91) {
         // \%[abc]: a sequence of optional atoms
         List<int> atoms = [];
-        while (ok && i < c.size() && c[i] != 93) {
-            int a = parse_atom(depth);
-            if (a < 0) {
+        while (is_ok && index < codes.size() && codes[index] != 93) {
+            int left = parse_atom(depth);
+            if (left < 0) {
                 return -1;
             }
-            atoms.push(a);
+            atoms.push(left);
         }
-        if (i >= c.size()) {
-            fail("E69: Missing ] after \\%[");
+        if (index >= codes.size()) {
+            did_fail("E69: Missing ] after \\%[");
             return -1;
         }
-        i = i + 1;
+        index = index + 1;
         if (atoms.size() == 0) {
-            fail("E70: Empty \\%[]");
+            did_fail("E70: Empty \\%[]");
             return -1;
         }
         int acc = -1;
-        int k = atoms.size() - 1;
-        while (k >= 0) {
-            List<int> pair = [atoms[k]];
+        int key = atoms.size() - 1;
+        while (key >= 0) {
+            List<int> pair = [atoms[key]];
             if (acc >= 0) {
                 pair.push(acc);
             }
             int seq = node(N_CAT, 0, 0, pair);
             int opt = node(N_REPEAT, 0, 1, [seq]);
-            nc[opt] = 1;
+            next_col[opt] = 1;
             acc = opt;
-            k = k - 1;
+            key = key - 1;
         }
         return acc;
     }
     int cmp = 0;
-    if (d == 60) {
+    if (delta == 60) {
         cmp = 1;
-        d = raw();
-    } else if (d == 62) {
+        delta = raw();
+    } else if (delta == 62) {
         cmp = 2;
-        d = raw();
+        delta = raw();
     }
-    if (d == 46 || d == 39) {
-        fail("E71: Invalid character after \\%: unsupported");
+    if (delta == 46 || delta == 39) {
+        did_fail("E71: Invalid character after \\%: unsupported");
         return -1;
     }
-    if (d >= 48 && d <= 57) {
-        i = i - 1;
-        int v = number();
+    if (delta >= 48 && delta <= 57) {
+        index = index - 1;
+        int value = number();
         int what = raw();
         if (what == 108) {
-            return node(N_LNUM, v, cmp, []);
+            return node(N_LNUM, value, cmp, []);
         }
         if (what == 99) {
-            return node(N_CNUM, v, cmp, []);
+            return node(N_CNUM, value, cmp, []);
         }
         if (what == 118) {
-            return node(N_VNUM, v, cmp, []);
+            return node(N_VNUM, value, cmp, []);
         }
     }
-    fail("E71: Invalid character after \\%");
+    did_fail("E71: Invalid character after \\%");
     return -1;
 }
 
-void Regex.add_range(List<int> lo, List<int> hi, int a, int b) {
-    lo.push(a);
-    hi.push(b);
+void Regex.add_range(List<int> lows, List<int> highs, int left, int right) {
+    lows.push(left);
+    highs.push(right);
 }
 
 // Characters named in `[:name:]`; false when the name is unknown.
-bool Regex.named_class(List<int> lo, List<int> hi, str name) {
+bool Regex.is_named_class(List<int> lows, List<int> highs, str name) {
     if (name == "alpha") {
-        add_range(lo, hi, 65, 90);
-        add_range(lo, hi, 97, 122);
+        add_range(lows, highs, 65, 90);
+        add_range(lows, highs, 97, 122);
     } else if (name == "digit") {
-        add_range(lo, hi, 48, 57);
+        add_range(lows, highs, 48, 57);
     } else if (name == "alnum") {
-        add_range(lo, hi, 48, 57);
-        add_range(lo, hi, 65, 90);
-        add_range(lo, hi, 97, 122);
+        add_range(lows, highs, 48, 57);
+        add_range(lows, highs, 65, 90);
+        add_range(lows, highs, 97, 122);
     } else if (name == "lower") {
         // exact (never case-folded), like nvim: ranges are offset by EXACT
-        add_range(lo, hi, EXACT + 97, EXACT + 122);
+        add_range(lows, highs, EXACT + 97, EXACT + 122);
     } else if (name == "upper") {
-        add_range(lo, hi, EXACT + 65, EXACT + 90);
+        add_range(lows, highs, EXACT + 65, EXACT + 90);
     } else if (name == "space") {
-        add_range(lo, hi, 9, 13);
-        add_range(lo, hi, 32, 32);
+        add_range(lows, highs, 9, 13);
+        add_range(lows, highs, 32, 32);
     } else if (name == "blank") {
-        add_range(lo, hi, 9, 9);
-        add_range(lo, hi, 32, 32);
+        add_range(lows, highs, 9, 9);
+        add_range(lows, highs, 32, 32);
     } else if (name == "punct") {
-        add_range(lo, hi, 33, 47);
-        add_range(lo, hi, 58, 64);
-        add_range(lo, hi, 91, 96);
-        add_range(lo, hi, 123, 126);
+        add_range(lows, highs, 33, 47);
+        add_range(lows, highs, 58, 64);
+        add_range(lows, highs, 91, 96);
+        add_range(lows, highs, 123, 126);
     } else if (name == "xdigit") {
-        add_range(lo, hi, 48, 57);
-        add_range(lo, hi, 65, 70);
-        add_range(lo, hi, 97, 102);
+        add_range(lows, highs, 48, 57);
+        add_range(lows, highs, 65, 70);
+        add_range(lows, highs, 97, 102);
     } else if (name == "cntrl") {
-        add_range(lo, hi, 0, 31);
-        add_range(lo, hi, 127, 127);
+        add_range(lows, highs, 0, 31);
+        add_range(lows, highs, 127, 127);
     } else if (name == "print") {
-        add_range(lo, hi, 32, 126);
+        add_range(lows, highs, 32, 126);
     } else if (name == "graph") {
-        add_range(lo, hi, 33, 126);
+        add_range(lows, highs, 33, 126);
     } else if (name == "return") {
-        add_range(lo, hi, 13, 13);
+        add_range(lows, highs, 13, 13);
     } else if (name == "tab") {
-        add_range(lo, hi, 9, 9);
+        add_range(lows, highs, 9, 9);
     } else if (name == "escape") {
-        add_range(lo, hi, 27, 27);
+        add_range(lows, highs, 27, 27);
     } else if (name == "backspace") {
-        add_range(lo, hi, 8, 8);
+        add_range(lows, highs, 8, 8);
     } else {
         return false;
     }
@@ -810,291 +810,291 @@ bool Regex.named_class(List<int> lo, List<int> hi, str name) {
 
 // Parse a `[...]` collection; `i` is just after the `[`. Returns the node or
 // -1 (and leaves `i` where it was) when the collection is not closed.
-int Regex.parse_collection(bool nl) {
-    int start = i;
-    int n = c.size();
-    int j = i;
-    bool negate = false;
-    if (j < n && c[j] == 94) {
-        negate = true;
-        j = j + 1;
+int Regex.parse_collection(bool is_newline) {
+    int start = index;
+    int total = codes.size();
+    int other_index = index;
+    bool is_negate = false;
+    if (other_index < total && codes[other_index] == 94) {
+        is_negate = true;
+        other_index = other_index + 1;
     }
-    List<int> lo = [];
-    List<int> hi = [];
-    bool has_nl = nl;
-    bool leading = true;
-    bool closed = false;
-    while (j < n) {
-        int ch = c[j];
-        if (ch == 93 && !leading) {
-            closed = true;
-            j = j + 1;
+    List<int> lows = [];
+    List<int> highs = [];
+    bool has_nl = is_newline;
+    bool is_leading = true;
+    bool is_closed = false;
+    while (other_index < total) {
+        int char_code = codes[other_index];
+        if (char_code == 93 && !is_leading) {
+            is_closed = true;
+            other_index = other_index + 1;
             break;
         }
-        leading = false;
-        int a = ch;
-        j = j + 1;
-        if (ch == 91 && j < n && c[j] == 58) {
-            int k = j + 1;
+        is_leading = false;
+        int left = char_code;
+        other_index = other_index + 1;
+        if (char_code == 91 && other_index < total && codes[other_index] == 58) {
+            int key = other_index + 1;
             List<int> name = [];
-            while (k < n && c[k] != 58 && k < j + 12) {
-                name.push(c[k]);
-                k = k + 1;
+            while (key < total && codes[key] != 58 && key < other_index + 12) {
+                name.push(codes[key]);
+                key = key + 1;
             }
-            if (k + 1 < n && c[k] == 58 && c[k + 1] == 93) {
-                if (named_class(lo, hi, str.from_chars(name))) {
-                    j = k + 2;
+            if (key + 1 < total && codes[key] == 58 && codes[key + 1] == 93) {
+                if (is_named_class(lows, highs, str.from_chars(name))) {
+                    other_index = key + 2;
                     continue;
                 }
             }
         }
-        if (ch == 91 && j < n && (c[j] == 61 || c[j] == 46)) {
-            int k = j + 1;
-            if (k + 2 < n && c[k + 1] == c[j] && c[k + 2] == 93) {
-                a = c[k];
-                j = k + 3;
+        if (char_code == 91 && other_index < total && (codes[other_index] == 61 || codes[other_index] == 46)) {
+            int key = other_index + 1;
+            if (key + 2 < total && codes[key + 1] == codes[other_index] && codes[key + 2] == 93) {
+                left = codes[key];
+                other_index = key + 3;
             }
         }
-        if (ch == 92 && j < n) {
-            int e = c[j];
-            if (e == 101) {
-                a = 27;
-                j = j + 1;
-            } else if (e == 116) {
-                a = 9;
-                j = j + 1;
-            } else if (e == 114) {
-                a = 13;
-                j = j + 1;
-            } else if (e == 98) {
-                a = 8;
-                j = j + 1;
-            } else if (e == 110) {
+        if (char_code == 92 && other_index < total) {
+            int stop = codes[other_index];
+            if (stop == 101) {
+                left = 27;
+                other_index = other_index + 1;
+            } else if (stop == 116) {
+                left = 9;
+                other_index = other_index + 1;
+            } else if (stop == 114) {
+                left = 13;
+                other_index = other_index + 1;
+            } else if (stop == 98) {
+                left = 8;
+                other_index = other_index + 1;
+            } else if (stop == 110) {
                 has_nl = true;
-                j = j + 1;
+                other_index = other_index + 1;
                 continue;
-            } else if (e == 92 || e == 93 || e == 94 || e == 45) {
-                a = e;
-                j = j + 1;
-            } else if (e == 100 || e == 111 || e == 120 || e == 117 || e == 85) {
-                int save_i = i;
-                i = j + 1;
-                int v = -1;
-                if (e == 100) {
-                    v = number();
-                } else if (e == 111) {
-                    v = 0;
+            } else if (stop == 92 || stop == 93 || stop == 94 || stop == 45) {
+                left = stop;
+                other_index = other_index + 1;
+            } else if (stop == 100 || stop == 111 || stop == 120 || stop == 117 || stop == 85) {
+                int save_i = index;
+                index = other_index + 1;
+                int value = -1;
+                if (stop == 100) {
+                    value = number();
+                } else if (stop == 111) {
+                    value = 0;
                     int count = 0;
-                    while (count < 4 && i < n && c[i] >= 48 && c[i] <= 55) {
-                        v = v * 8 + (c[i] - 48);
-                        i = i + 1;
+                    while (count < 4 && index < total && codes[index] >= 48 && codes[index] <= 55) {
+                        value = value * 8 + (codes[index] - 48);
+                        index = index + 1;
                         count = count + 1;
                     }
                     if (count == 0) {
-                        v = -1;
+                        value = -1;
                     }
-                } else if (e == 120) {
-                    v = hex_digits(2);
-                } else if (e == 117) {
-                    v = hex_digits(4);
+                } else if (stop == 120) {
+                    value = hex_digits(2);
+                } else if (stop == 117) {
+                    value = hex_digits(4);
                 } else {
-                    v = hex_digits(8);
+                    value = hex_digits(8);
                 }
-                if (v >= 0) {
-                    a = v;
-                    j = i;
+                if (value >= 0) {
+                    left = value;
+                    other_index = index;
                 }
-                i = save_i;
+                index = save_i;
             }
         }
         // a range a-b ?
-        if (j + 1 < n && c[j] == 45 && c[j + 1] != 93) {
-            int b = c[j + 1];
-            int nextj = j + 2;
-            if (b == 92 && j + 2 < n) {
-                int e = c[j + 2];
-                if (e == 101) {
-                    b = 27;
-                    nextj = j + 3;
-                } else if (e == 116) {
-                    b = 9;
-                    nextj = j + 3;
-                } else if (e == 114) {
-                    b = 13;
-                    nextj = j + 3;
-                } else if (e == 98) {
-                    b = 8;
-                    nextj = j + 3;
-                } else if (e == 92 || e == 93 || e == 94 || e == 45) {
-                    b = e;
-                    nextj = j + 3;
+        if (other_index + 1 < total && codes[other_index] == 45 && codes[other_index + 1] != 93) {
+            int right = codes[other_index + 1];
+            int nextj = other_index + 2;
+            if (right == 92 && other_index + 2 < total) {
+                int stop = codes[other_index + 2];
+                if (stop == 101) {
+                    right = 27;
+                    nextj = other_index + 3;
+                } else if (stop == 116) {
+                    right = 9;
+                    nextj = other_index + 3;
+                } else if (stop == 114) {
+                    right = 13;
+                    nextj = other_index + 3;
+                } else if (stop == 98) {
+                    right = 8;
+                    nextj = other_index + 3;
+                } else if (stop == 92 || stop == 93 || stop == 94 || stop == 45) {
+                    right = stop;
+                    nextj = other_index + 3;
                 }
             }
-            if (b < a) {
-                fail("E944: Reverse range in character class");
+            if (right < left) {
+                did_fail("E944: Reverse range in character class");
                 return -1;
             }
-            add_range(lo, hi, a, b);
-            j = nextj;
+            add_range(lows, highs, left, right);
+            other_index = nextj;
         } else {
-            add_range(lo, hi, a, a);
+            add_range(lows, highs, left, left);
         }
     }
-    if (!closed) {
-        i = start;
+    if (!is_closed) {
+        index = start;
         return -1;
     }
-    i = j;
+    index = other_index;
     // the token state: a collection is an atom
-    prev_at_start = at_start;
-    at_start = false;
-    prev_ch = 91;
-    prev_mg = true;
-    set_lo.push(lo);
-    set_hi.push(hi);
-    set_neg.push(negate);
+    is_previous_at_start = is_at_start;
+    is_at_start = false;
+    previous_ch = 91;
+    is_previous_mg = true;
+    set_lo.push(lows);
+    set_hi.push(highs);
+    set_neg.push(is_negate);
     set_nl.push(has_nl);
     return node(N_SET, set_lo.size() - 1, 0, []);
 }
 
-bool Regex.can_be_empty(int n) {
-    int k = nk[n];
-    if (k == N_CHAR || k == N_ANY || k == N_CLASS || k == N_SET || k == N_NL) {
+bool Regex.can_be_empty(int count) {
+    int key = next_key[count];
+    if (key == N_CHAR || key == N_ANY || key == N_CLASS || key == N_SET || key == N_NL) {
         return false;
     }
-    if (k == N_GROUP) {
-        return can_be_empty(nkids[n][0]);
+    if (key == N_GROUP) {
+        return can_be_empty(nkids[count][0]);
     }
-    if (k == N_CAT) {
-        for (int kid in nkids[n]) {
+    if (key == N_CAT) {
+        for (int kid in nkids[count]) {
             if (!can_be_empty(kid)) {
                 return false;
             }
         }
         return true;
     }
-    if (k == N_ALT) {
-        for (int kid in nkids[n]) {
+    if (key == N_ALT) {
+        for (int kid in nkids[count]) {
             if (can_be_empty(kid)) {
                 return true;
             }
         }
         return false;
     }
-    if (k == N_REPEAT) {
-        return na[n] == 0 || can_be_empty(nkids[n][0]);
+    if (key == N_REPEAT) {
+        return node_first[count] == 0 || can_be_empty(nkids[count][0]);
     }
     return true;
 }
 
-int Regex.emit(int opcode, int a, int b) {
-    op.push(opcode);
-    pa.push(a);
-    pb.push(b);
-    return op.size() - 1;
+int Regex.emit(int opcode, int left, int right) {
+    opcodes.push(opcode);
+    program_a.push(left);
+    program_b.push(right);
+    return opcodes.size() - 1;
 }
 
-void Regex.gen(int n) {
-    int k = nk[n];
-    if (k == N_CHAR) {
-        int ch = na[n];
-        if (icase) {
-            ch = fold(ch);
+void Regex.gen(int count) {
+    int key = next_key[count];
+    if (key == N_CHAR) {
+        int char_code = node_first[count];
+        if (is_icase) {
+            char_code = fold(char_code);
         }
-        emit(OP_CHAR, ch, 0);
-    } else if (k == N_ANY) {
-        emit(OP_ANY, na[n], 0);
-    } else if (k == N_CLASS) {
-        emit(OP_CLASS, na[n], nb[n]);
-    } else if (k == N_SET) {
-        emit(OP_SET, na[n], 0);
-    } else if (k == N_NL) {
+        emit(OP_CHAR, char_code, 0);
+    } else if (key == N_ANY) {
+        emit(OP_ANY, node_first[count], 0);
+    } else if (key == N_CLASS) {
+        emit(OP_CLASS, node_first[count], node_second[count]);
+    } else if (key == N_SET) {
+        emit(OP_SET, node_first[count], 0);
+    } else if (key == N_NL) {
         emit(OP_NL, 0, 0);
-    } else if (k == N_BOL) {
+    } else if (key == N_BOL) {
         emit(OP_BOL, 0, 0);
-    } else if (k == N_EOL) {
+    } else if (key == N_EOL) {
         emit(OP_EOL, 0, 0);
-    } else if (k == N_BOW) {
+    } else if (key == N_BOW) {
         emit(OP_BOW, 0, 0);
-    } else if (k == N_EOW) {
+    } else if (key == N_EOW) {
         emit(OP_EOW, 0, 0);
-    } else if (k == N_ZS) {
+    } else if (key == N_ZS) {
         emit(OP_ZS, 0, 0);
-    } else if (k == N_ZE) {
+    } else if (key == N_ZE) {
         emit(OP_ZE, 0, 0);
-    } else if (k == N_BOF) {
+    } else if (key == N_BOF) {
         emit(OP_BOF, 0, 0);
-    } else if (k == N_EOF) {
+    } else if (key == N_EOF) {
         emit(OP_EOF, 0, 0);
-    } else if (k == N_LNUM) {
-        emit(OP_LNUM, na[n], nb[n]);
-    } else if (k == N_CNUM) {
-        emit(OP_CNUM, na[n], nb[n]);
-    } else if (k == N_VNUM) {
-        emit(OP_VNUM, na[n], nb[n]);
-    } else if (k == N_NEVER) {
+    } else if (key == N_LNUM) {
+        emit(OP_LNUM, node_first[count], node_second[count]);
+    } else if (key == N_CNUM) {
+        emit(OP_CNUM, node_first[count], node_second[count]);
+    } else if (key == N_VNUM) {
+        emit(OP_VNUM, node_first[count], node_second[count]);
+    } else if (key == N_NEVER) {
         emit(OP_FAIL, 0, 0);
-    } else if (k == N_EMPTY) {
+    } else if (key == N_EMPTY) {
         // nothing
-    } else if (k == N_BACKREF) {
-        emit(OP_BACKREF, na[n], 0);
-    } else if (k == N_GROUP) {
-        emit(OP_SAVE, na[n] * 2, 0);
-        gen(nkids[n][0]);
-        emit(OP_SAVE, na[n] * 2 + 1, 0);
-    } else if (k == N_CAT) {
-        for (int kid in nkids[n]) {
+    } else if (key == N_BACKREF) {
+        emit(OP_BACKREF, node_first[count], 0);
+    } else if (key == N_GROUP) {
+        emit(OP_SAVE, node_first[count] * 2, 0);
+        gen(nkids[count][0]);
+        emit(OP_SAVE, node_first[count] * 2 + 1, 0);
+    } else if (key == N_CAT) {
+        for (int kid in nkids[count]) {
             gen(kid);
         }
-    } else if (k == N_ALT) {
-        List<int> kids = nkids[n];
+    } else if (key == N_ALT) {
+        List<int> kids = nkids[count];
         List<int> jumps = [];
-        for (int idx in 0 .. kids.size()) {
-            if (idx < kids.size() - 1) {
+        for (int kid_index in 0 .. kids.size()) {
+            if (kid_index < kids.size() - 1) {
                 int split = emit(OP_SPLIT, 0, 0);
-                pa[split] = split + 1;
-                gen(kids[idx]);
+                program_a[split] = split + 1;
+                gen(kids[kid_index]);
                 jumps.push(emit(OP_JMP, 0, 0));
-                pb[split] = op.size();
+                program_b[split] = opcodes.size();
             } else {
-                gen(kids[idx]);
+                gen(kids[kid_index]);
             }
         }
-        for (int j in jumps) {
-            pa[j] = op.size();
+        for (int other_index in jumps) {
+            program_a[other_index] = opcodes.size();
         }
-    } else if (k == N_LOOK) {
-        int limit = nb[n];
+    } else if (key == N_LOOK) {
+        int limit = node_second[count];
         if (limit < 0) {
             limit = 0;
         }
-        int look = emit(OP_LOOK, na[n] + 8 * limit, 0);
-        gen(nkids[n][0]);
+        int look = emit(OP_LOOK, node_first[count] + 8 * limit, 0);
+        gen(nkids[count][0]);
         emit(OP_SUBEND, 0, 0);
-        pb[look] = op.size();
-    } else if (k == N_REPEAT) {
-        gen_repeat(n);
+        program_b[look] = opcodes.size();
+    } else if (key == N_REPEAT) {
+        gen_repeat(count);
     }
 }
 
-void Regex.gen_repeat(int n) {
-    int lo = na[n];
-    int hi = nb[n];
-    bool greedy = nc[n] == 1;
-    int body = nkids[n][0];
-    bool empty = can_be_empty(body);
-    if (lo > 1000) {
-        lo = 1000;
+void Regex.gen_repeat(int count) {
+    int low = node_first[count];
+    int high = node_second[count];
+    bool is_greedy = next_col[count] == 1;
+    int body = nkids[count][0];
+    bool is_empty = can_be_empty(body);
+    if (low > 1000) {
+        low = 1000;
     }
-    if (hi > 1000) {
-        hi = 1000;
+    if (high > 1000) {
+        high = 1000;
     }
-    for (int rep in 0 .. lo) {
+    for (int replacement in 0 .. low) {
         gen(body);
     }
-    if (hi < 0) {
+    if (high < 0) {
         int guard = -1;
-        if (empty) {
+        if (is_empty) {
             guard = nguards;
             nguards = nguards + 1;
         }
@@ -1107,37 +1107,37 @@ void Regex.gen_repeat(int n) {
             emit(OP_GCHK, guard, 0);
         }
         emit(OP_JMP, split, 0);
-        int after = op.size();
-        if (greedy) {
-            pa[split] = split + 1;
-            pb[split] = after;
+        int after = opcodes.size();
+        if (is_greedy) {
+            program_a[split] = split + 1;
+            program_b[split] = after;
         } else {
-            pa[split] = after;
-            pb[split] = split + 1;
+            program_a[split] = after;
+            program_b[split] = split + 1;
         }
     } else {
         List<int> splits = [];
-        for (int rep in lo .. hi) {
+        for (int replacement in low .. high) {
             int split = emit(OP_SPLIT, 0, 0);
             splits.push(split);
             gen(body);
         }
-        int after = op.size();
+        int after = opcodes.size();
         for (int split in splits) {
-            if (greedy) {
-                pa[split] = split + 1;
-                pb[split] = after;
+            if (is_greedy) {
+                program_a[split] = split + 1;
+                program_b[split] = after;
             } else {
-                pa[split] = after;
-                pb[split] = split + 1;
+                program_a[split] = after;
+                program_b[split] = split + 1;
             }
         }
     }
 }
 
-Run Regex.runner(MED_buffer.Buffer buf) {
-    Run run = Run(buf);
-    run.nlines = buf.line_count();
+Run Regex.runner(MED_buffer.Buffer buffer) {
+    Run run = Run(buffer);
+    run.nlines = buffer.line_count();
     run.gbase = (ngroups + 1) * 2;
     return run;
 }
@@ -1147,53 +1147,53 @@ int Regex.runner_slots() {
 }
 
 /// A match starting exactly at (row, col), or `ok == false`.
-pub Match Regex.match_at(MED_buffer.Buffer buf, int row, int col) {
-    Run run = runner(buf);
-    int ci = run.cp_index(row, col);
-    if (go_start(run, row, ci)) {
-        return run.result(this, row, ci);
+pub Match Regex.match_at(MED_buffer.Buffer buffer, int row, int col) {
+    Run run = runner(buffer);
+    int code_index = run.cp_index(row, col);
+    if (did_go_start(run, row, code_index)) {
+        return run.result(this, row, code_index);
     }
     Match none = Match();
-    none.aborted = run.aborted;
+    none.is_aborted = run.is_aborted;
     return none;
 }
 
-bool Regex.go_start(Run run, int row, int ci) {
+bool Regex.did_go_start(Run run, int row, int code_index) {
     run.saves = [];
-    for (int k in 0 .. runner_slots()) {
+    for (int key in 0 .. runner_slots()) {
         run.saves.push(-1);
     }
-    run.st = [];
-    return run.go(this, 0, row, ci);
+    run.stack = [];
+    return run.did_run_from(this, 0, row, code_index);
 }
 
 /// The first match in `row` that starts at byte column `col` or later.
-pub Match Regex.search_line(MED_buffer.Buffer buf, int row, int col) {
-    Run run = runner(buf);
+pub Match Regex.search_line(MED_buffer.Buffer buffer, int row, int col) {
+    Run run = runner(buffer);
     run.load(row);
-    int n = run.cps.size();
-    int ci = run.cp_index(row, col);
-    while (ci <= n) {
-        bool try_here = true;
+    int count = run.cps.size();
+    int code_index = run.cp_index(row, col);
+    while (code_index <= count) {
+        bool is_try_here = true;
         if (first >= 0) {
-            try_here = ci < n && run.cps[ci] == first;
+            is_try_here = code_index < count && run.cps[code_index] == first;
         }
-        if (try_here) {
-            if (go_start(run, row, ci)) {
-                return run.result(this, row, ci);
+        if (is_try_here) {
+            if (did_go_start(run, row, code_index)) {
+                return run.result(this, row, code_index);
             }
-            if (run.aborted) {
+            if (run.is_aborted) {
                 break;
             }
             run.load(row);
         }
-        ci = ci + 1;
-        while (ci < n && is_combining(run.cps[ci])) {
-            ci = ci + 1;
+        code_index = code_index + 1;
+        while (code_index < count && is_combining(run.cps[code_index])) {
+            code_index = code_index + 1;
         }
     }
     Match none = Match();
-    none.aborted = run.aborted;
+    none.is_aborted = run.is_aborted;
     return none;
 }
 
@@ -1201,94 +1201,94 @@ const int EXACT = 16777216;
 
 // ------------------------------------------------------------ tiny helpers
 
-bool is_combining(int cp) {
-    if (cp < 768) {
+bool is_combining(int code_point) {
+    if (code_point < 768) {
         return false;
     }
-    return (cp >= 768 && cp <= 879) || (cp >= 6832 && cp <= 6911) || (cp >= 7616 && cp <= 7679) || (cp >= 8400 && cp <= 8447) || (cp >= 65024 && cp <= 65039) || (cp >= 65056 && cp <= 65071) || cp == 8205;
+    return (code_point >= 768 && code_point <= 879) || (code_point >= 6832 && code_point <= 6911) || (code_point >= 7616 && code_point <= 7679) || (code_point >= 8400 && code_point <= 8447) || (code_point >= 65024 && code_point <= 65039) || (code_point >= 65056 && code_point <= 65071) || code_point == 8205;
 }
 
-int utf8_len(int cp) {
-    if (cp < 128) {
+int utf8_length(int code_point) {
+    if (code_point < 128) {
         return 1;
     }
-    if (cp < 2048) {
+    if (code_point < 2048) {
         return 2;
     }
-    if (cp < 65536) {
+    if (code_point < 65536) {
         return 3;
     }
     return 4;
 }
 
-bool is_alpha(int c) {
-    return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
+bool is_alpha(int char_code) {
+    return (char_code >= 65 && char_code <= 90) || (char_code >= 97 && char_code <= 122);
 }
 
-bool is_digit(int c) {
-    return c >= 48 && c <= 57;
+bool is_digit(int char_code) {
+    return char_code >= 48 && char_code <= 57;
 }
 
-bool is_hex(int c) {
-    return is_digit(c) || (c >= 97 && c <= 102) || (c >= 65 && c <= 70);
+bool is_hex(int char_code) {
+    return is_digit(char_code) || (char_code >= 97 && char_code <= 102) || (char_code >= 65 && char_code <= 70);
 }
 
-int fold(int c) {
-    return MED_case.lower_cp(c);
+int fold(int char_code) {
+    return MED_case.lower_cp(char_code);
 }
 
-bool class_ok(int letter, int c) {
-    bool negate = letter >= 65 && letter <= 90;
+bool is_class_ok(int letter, int char_code) {
+    bool is_negate = letter >= 65 && letter <= 90;
     int low = letter;
-    if (negate) {
+    if (is_negate) {
         low = letter + 32;
     }
-    bool r = false;
+    bool is_result = false;
     if (letter == 73 || letter == 75 || letter == 70 || letter == 80) {
         // I K F P: like i k f p without digits
         int base = letter + 32;
-        return !is_digit(c) && class_ok(base, c);
+        return !is_digit(char_code) && is_class_ok(base, char_code);
     }
     if (low == 105) {
-        r = is_alpha(c) || is_digit(c) || c == 95 || (c >= 192 && c <= 255);
+        is_result = is_alpha(char_code) || is_digit(char_code) || char_code == 95 || (char_code >= 192 && char_code <= 255);
     } else if (low == 107) {
-        r = MED_text.class_of(c) >= 2 && c > 0;
+        is_result = MED_text.class_of(char_code) >= 2 && char_code > 0;
     } else if (low == 102) {
-        r = is_alpha(c) || is_digit(c) || c == 47 || c == 46 || c == 45 || c == 95 || c == 43 || c == 44 || c == 35 || c == 36 || c == 37 || c == 126 || c == 61 || c >= 192;
+        is_result = is_alpha(char_code) || is_digit(char_code) || char_code == 47 || char_code == 46 || char_code == 45 || char_code == 95 || char_code == 43 || char_code == 44 || char_code == 35 || char_code == 36 || char_code == 37 || char_code == 126 || char_code == 61 || char_code >= 192;
     } else if (low == 112) {
-        r = (c >= 32 && c != 127 && c < 128) || c >= 160;
+        is_result = (char_code >= 32 && char_code != 127 && char_code < 128) || char_code >= 160;
     } else if (low == 115) {
-        r = c == 32 || c == 9;
+        is_result = char_code == 32 || char_code == 9;
     } else if (low == 100) {
-        r = is_digit(c);
+        is_result = is_digit(char_code);
     } else if (low == 120) {
-        r = is_hex(c);
+        is_result = is_hex(char_code);
     } else if (low == 111) {
-        r = c >= 48 && c <= 55;
+        is_result = char_code >= 48 && char_code <= 55;
     } else if (low == 119) {
-        r = is_alpha(c) || is_digit(c) || c == 95;
+        is_result = is_alpha(char_code) || is_digit(char_code) || char_code == 95;
     } else if (low == 104) {
-        r = is_alpha(c) || c == 95;
+        is_result = is_alpha(char_code) || char_code == 95;
     } else if (low == 97) {
-        r = is_alpha(c);
+        is_result = is_alpha(char_code);
     } else if (low == 108) {
-        r = c >= 97 && c <= 122;
+        is_result = char_code >= 97 && char_code <= 122;
     } else if (low == 117) {
-        r = c >= 65 && c <= 90;
+        is_result = char_code >= 65 && char_code <= 90;
     }
-    if (negate) {
-        return !r;
+    if (is_negate) {
+        return !is_result;
     }
-    return r;
+    return is_result;
 }
 
 // ------------------------------------------------------------------ parser
 
-bool default_magic(int magic, int ch) {
-    if (ch == 46 || ch == 91 || ch == 126 || ch == 42) {
+bool is_default_magic(int magic, int char_code) {
+    if (char_code == 46 || char_code == 91 || char_code == 126 || char_code == 42) {
         return magic >= 2;
     }
-    if (ch == 40 || ch == 41 || ch == 123 || ch == 37 || ch == 43 || ch == 61 || ch == 63 || ch == 64 || ch == 38 || ch == 124 || ch == 60 || ch == 62) {
+    if (char_code == 40 || char_code == 41 || char_code == 123 || char_code == 37 || char_code == 43 || char_code == 61 || char_code == 63 || char_code == 64 || char_code == 38 || char_code == 124 || char_code == 60 || char_code == 62) {
         return magic == 3;
     }
     return false;
@@ -1296,12 +1296,12 @@ bool default_magic(int magic, int ch) {
 
 const str CLASS_LETTERS = "iIkKfFpPsSdDxXoOwWhHaAlLuU";
 
-bool is_class_letter(int ch) {
-    if (ch < 65 || ch > 122) {
+bool is_class_letter(int char_code) {
+    if (char_code < 65 || char_code > 122) {
         return false;
     }
-    for (int m in CLASS_LETTERS.chars()) {
-        if (m == ch) {
+    for (int marker in CLASS_LETTERS.chars()) {
+        if (marker == char_code) {
             return true;
         }
     }
@@ -1310,12 +1310,12 @@ bool is_class_letter(int ch) {
 
 const str META = "%&()*+.123456789<=>?@ACDFIKLMOPSUVWXZ[_acdfhiklmnopsuvwxz{|~";
 
-bool is_meta(int ch) {
-    if (ch > 126) {
+bool is_meta(int char_code) {
+    if (char_code > 126) {
         return false;
     }
-    for (int m in META.chars()) {
-        if (m == ch) {
+    for (int marker in META.chars()) {
+        if (marker == char_code) {
             return true;
         }
     }
@@ -1325,22 +1325,22 @@ bool is_meta(int ch) {
 // -------------------------------------------------------------- code gen
 
 bool has_upper(List<int> chars) {
-    int i = 0;
-    int n = chars.size();
-    while (i < n) {
-        int ch = chars[i];
-        if (ch == 92) {
-            if (i + 2 < n && (chars[i + 1] == 95 || chars[i + 1] == 37)) {
-                i = i + 3;
-            } else if (i + 1 < n) {
-                i = i + 2;
+    int index = 0;
+    int count = chars.size();
+    while (index < count) {
+        int char_code = chars[index];
+        if (char_code == 92) {
+            if (index + 2 < count && (chars[index + 1] == 95 || chars[index + 1] == 37)) {
+                index = index + 3;
+            } else if (index + 1 < count) {
+                index = index + 2;
             } else {
-                i = i + 1;
+                index = index + 1;
             }
-        } else if (MED_case.lower_cp(ch) != ch) {
+        } else if (MED_case.lower_cp(char_code) != char_code) {
             return true;
         } else {
-            i = i + 1;
+            index = index + 1;
         }
     }
     return false;
@@ -1348,113 +1348,113 @@ bool has_upper(List<int> chars) {
 
 /// Compile `pattern`. `tilde` is the text `~` stands for (the last
 /// substitute string). Check `ok` before use.
-pub Regex compile(str pattern, bool ignorecase, bool smartcase, str tilde) {
-    Regex re = Regex();
-    re.c = pattern.chars();
-    re.tilde = tilde;
-    int root = re.parse_alt(0);
-    if (re.ok) {
-        re.peek();
-        if (re.tok != -1) {
-            re.fail("E55: Unmatched \\)");
+pub Regex compile(str pattern, bool is_ignorecase, bool is_smartcase, str tilde) {
+    Regex regex = Regex();
+    regex.codes = pattern.chars();
+    regex.tilde = tilde;
+    int root = regex.parse_alt(0);
+    if (regex.is_ok) {
+        regex.peek();
+        if (regex.token != -1) {
+            regex.did_fail("E55: Unmatched \\)");
         }
     }
     // nvim reports a reference to a group that is not closed yet, except when
     // a look-behind follows it (nvim's NFA engine accepts that).
-    if (re.ok && re.bad_refs.size() > 0) {
-        re.fail("E65: Illegal back reference");
+    if (regex.is_ok && regex.bad_refs.size() > 0) {
+        regex.did_fail("E65: Illegal back reference");
     }
-    if (!re.ok) {
-        return re;
+    if (!regex.is_ok) {
+        return regex;
     }
-    bool ic = ignorecase;
-    if (ignorecase && smartcase && has_upper(re.c)) {
-        ic = false;
+    bool is_ignore_case = is_ignorecase;
+    if (is_ignorecase && is_smartcase && has_upper(regex.codes)) {
+        is_ignore_case = false;
     }
-    if (re.icase_flag == 1) {
-        ic = true;
-    } else if (re.icase_flag == 0) {
-        ic = false;
+    if (regex.icase_flag == 1) {
+        is_ignore_case = true;
+    } else if (regex.icase_flag == 0) {
+        is_ignore_case = false;
     }
-    re.icase = ic;
-    re.gen(root);
-    re.emit(OP_MATCH, 0, 0);
+    regex.is_icase = is_ignore_case;
+    regex.gen(root);
+    regex.emit(OP_MATCH, 0, 0);
     // a leading literal lets the scan skip start positions
-    if (re.op.size() > 0 && re.op[0] == OP_CHAR && !ic) {
-        re.first = re.pa[0];
+    if (regex.opcodes.size() > 0 && regex.opcodes[0] == OP_CHAR && !is_ignore_case) {
+        regex.first = regex.program_a[0];
     }
-    return re;
+    return regex;
 }
 
 // ----------------------------------------------------------------- matcher
 
 type Run {
-    pub MED_buffer.Buffer buf;
+    pub MED_buffer.Buffer buffer;
     pub int row = -1;
-    pub int ci = 0;
+    pub int code_index = 0;
     pub List<int> cps = [];
     pub int nlines = 0;
     pub List<int> saves = [];
-    pub List<int> st = [];
+    pub List<int> stack = [];
     pub int steps = 0;
-    pub bool aborted = false;
+    pub bool is_aborted = false;
     pub int end_row = 0;
     pub int end_ci = 0;
     pub int target = -1;
     pub int gbase = 0;
 }
 
-void Run.load(int r) {
-    if (r == row) {
+void Run.load(int result) {
+    if (result == row) {
         return;
     }
-    row = r;
-    if (r >= nlines || r < 0) {
+    row = result;
+    if (result >= nlines || result < 0) {
         cps = [];
     } else {
-        cps = buf.line(r).chars();
+        cps = buffer.line(result).chars();
     }
 }
 
-int Run.cur() {
-    return pack(row, ci);
+int Run.current() {
+    return pack(row, code_index);
 }
 
-void Run.goto_pos(int p) {
-    load(p / SHIFT);
-    ci = p % SHIFT;
+void Run.goto_position(int offset) {
+    load(offset / SHIFT);
+    code_index = offset % SHIFT;
 }
 
 // Move over the line break at the end of the line. False when not at one.
-bool Run.step_nl() {
-    if (ci != cps.size() || row >= nlines) {
+bool Run.is_step_nl() {
+    if (code_index != cps.size() || row >= nlines) {
         return false;
     }
     load(row + 1);
-    ci = 0;
+    code_index = 0;
     return true;
 }
 
 // Step over one character and any combining marks after it.
 void Run.step_char() {
-    ci = ci + 1;
-    while (ci < cps.size() && is_combining(cps[ci])) {
-        ci = ci + 1;
+    code_index = code_index + 1;
+    while (code_index < cps.size() && is_combining(cps[code_index])) {
+        code_index = code_index + 1;
     }
 }
 
 void Run.set_slot(int slot, int value) {
-    st.push(1);
-    st.push(slot);
-    st.push(saves[slot]);
+    stack.push(1);
+    stack.push(slot);
+    stack.push(saves[slot]);
     saves[slot] = value;
 }
 
 void Run.unwind(int base) {
-    while (st.size() > base) {
-        int y = st.pop();
-        int x = st.pop();
-        int kind = st.pop();
+    while (stack.size() > base) {
+        int y = stack.pop();
+        int x = stack.pop();
+        int kind = stack.pop();
         if (kind == 1) {
             saves[x] = y;
         }
@@ -1464,36 +1464,36 @@ void Run.unwind(int base) {
 // Drop the choice points above `base`, keep the undo records.
 void Run.discard(int base) {
     List<int> keep = [];
-    int j = base;
-    while (j < st.size()) {
-        if (st[j] == 1) {
-            keep.push(st[j]);
-            keep.push(st[j + 1]);
-            keep.push(st[j + 2]);
+    int other_index = base;
+    while (other_index < stack.size()) {
+        if (stack[other_index] == 1) {
+            keep.push(stack[other_index]);
+            keep.push(stack[other_index + 1]);
+            keep.push(stack[other_index + 2]);
         }
-        j = j + 3;
+        other_index = other_index + 3;
     }
-    while (st.size() > base) {
-        st.pop();
+    while (stack.size() > base) {
+        stack.pop();
     }
-    for (int v in keep) {
-        st.push(v);
+    for (int value in keep) {
+        stack.push(value);
     }
 }
 
-List<int> Run.group_cps(int s, int e) {
+List<int> Run.group_cps(int text, int stop) {
     List<int> out = [];
-    int r = s / SHIFT;
-    int x = s % SHIFT;
-    int er = e / SHIFT;
-    int ex = e % SHIFT;
-    while (r < er || (r == er && x < ex)) {
+    int result = text / SHIFT;
+    int x = text % SHIFT;
+    int stop_row = stop / SHIFT;
+    int extra = stop % SHIFT;
+    while (result < stop_row || (result == stop_row && x < extra)) {
         List<int> line = [];
-        if (r < nlines) {
-            line = buf.line(r).chars();
+        if (result < nlines) {
+            line = buffer.line(result).chars();
         }
-        if (r == er) {
-            while (x < ex) {
+        if (result == stop_row) {
+            while (x < extra) {
                 out.push(line[x]);
                 x = x + 1;
             }
@@ -1503,38 +1503,38 @@ List<int> Run.group_cps(int s, int e) {
                 x = x + 1;
             }
             out.push(-2);
-            r = r + 1;
+            result = result + 1;
             x = 0;
         }
     }
     return out;
 }
 
-bool Run.set_ok(Regex re, int idx, int ch, bool icase) {
-    List<int> lo = re.set_lo[idx];
-    List<int> hi = re.set_hi[idx];
-    bool hit = false;
-    int alt1 = ch;
-    int alt2 = ch;
-    if (icase) {
-        alt1 = MED_case.lower_cp(ch);
-        alt2 = MED_case.upper_cp(ch);
+bool Run.did_set_ok(Regex regex, int index, int char_code, bool is_icase) {
+    List<int> lows = regex.set_lo[index];
+    List<int> highs = regex.set_hi[index];
+    bool is_hit = false;
+    int alt1 = char_code;
+    int alt2 = char_code;
+    if (is_icase) {
+        alt1 = MED_case.lower_cp(char_code);
+        alt2 = MED_case.upper_cp(char_code);
     }
-    for (int k in 0 .. lo.size()) {
-        if (lo[k] >= EXACT) {
-            if (ch >= lo[k] - EXACT && ch <= hi[k] - EXACT) {
-                hit = true;
+    for (int key in 0 .. lows.size()) {
+        if (lows[key] >= EXACT) {
+            if (char_code >= lows[key] - EXACT && char_code <= highs[key] - EXACT) {
+                is_hit = true;
                 break;
             }
-        } else if ((ch >= lo[k] && ch <= hi[k]) || (alt1 >= lo[k] && alt1 <= hi[k]) || (alt2 >= lo[k] && alt2 <= hi[k])) {
-            hit = true;
+        } else if ((char_code >= lows[key] && char_code <= highs[key]) || (alt1 >= lows[key] && alt1 <= highs[key]) || (alt2 >= lows[key] && alt2 <= highs[key])) {
+            is_hit = true;
             break;
         }
     }
-    return hit != re.set_neg[idx];
+    return is_hit != regex.set_neg[index];
 }
 
-bool Run.byte_col_ok(int cmp, int want, int value) {
+bool Run.is_byte_col_ok(int cmp, int want, int value) {
     if (cmp == 1) {
         return value < want;
     }
@@ -1546,206 +1546,206 @@ bool Run.byte_col_ok(int cmp, int want, int value) {
 
 // Run the program from `pc0` at (r0, c0). True at OP_MATCH (or OP_SUBEND whose
 // position is `target`); the end is in `end_row`/`end_ci`.
-bool Run.go(Regex re, int pc0, int r0, int c0) {
-    int base = st.size();
-    int pc = pc0;
-    load(r0);
-    ci = c0;
+bool Run.did_run_from(Regex regex, int pc0, int start_row, int first_char) {
+    int base = stack.size();
+    int from_col = pc0;
+    load(start_row);
+    code_index = first_char;
     while (true) {
         steps = steps + 1;
         if (steps > STEP_LIMIT) {
-            aborted = true;
+            is_aborted = true;
             unwind(base);
             return false;
         }
-        int opc = re.op[pc];
-        bool good = true;
+        int opc = regex.opcodes[from_col];
+        bool is_good = true;
         if (opc == OP_CHAR) {
-            if (ci < cps.size()) {
-                int ch = cps[ci];
-                if (re.icase) {
-                    ch = fold(ch);
+            if (code_index < cps.size()) {
+                int char_code = cps[code_index];
+                if (regex.is_icase) {
+                    char_code = fold(char_code);
                 }
-                if (ch == re.pa[pc]) {
-                    ci = ci + 1;
-                    if (ci < cps.size() && is_combining(cps[ci])) {
-                        bool named = false;
-                        if (pc + 1 < re.op.size() && re.op[pc + 1] == OP_CHAR && is_combining(re.pa[pc + 1])) {
-                            named = true;
+                if (char_code == regex.program_a[from_col]) {
+                    code_index = code_index + 1;
+                    if (code_index < cps.size() && is_combining(cps[code_index])) {
+                        bool is_named = false;
+                        if (from_col + 1 < regex.opcodes.size() && regex.opcodes[from_col + 1] == OP_CHAR && is_combining(regex.program_a[from_col + 1])) {
+                            is_named = true;
                         }
-                        if (!named && !is_combining(re.pa[pc])) {
-                            good = false;
+                        if (!is_named && !is_combining(regex.program_a[from_col])) {
+                            is_good = false;
                         }
                     }
                 } else {
-                    good = false;
+                    is_good = false;
                 }
             } else {
-                good = false;
+                is_good = false;
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_ANY) {
-            if (ci < cps.size()) {
+            if (code_index < cps.size()) {
                 step_char();
-            } else if (re.pa[pc] == 1 && step_nl()) {
+            } else if (regex.program_a[from_col] == 1 && is_step_nl()) {
                 // crossed the line break
             } else {
-                good = false;
+                is_good = false;
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_CLASS) {
-            if (ci < cps.size()) {
-                if (class_ok(re.pa[pc], cps[ci])) {
+            if (code_index < cps.size()) {
+                if (is_class_ok(regex.program_a[from_col], cps[code_index])) {
                     step_char();
                 } else {
-                    good = false;
+                    is_good = false;
                 }
-            } else if (re.pb[pc] == 1 && step_nl()) {
+            } else if (regex.program_b[from_col] == 1 && is_step_nl()) {
                 // crossed the line break
             } else {
-                good = false;
+                is_good = false;
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_SET) {
-            if (ci < cps.size()) {
-                if (set_ok(re, re.pa[pc], cps[ci], re.icase)) {
+            if (code_index < cps.size()) {
+                if (did_set_ok(regex, regex.program_a[from_col], cps[code_index], regex.is_icase)) {
                     step_char();
                 } else {
-                    good = false;
+                    is_good = false;
                 }
-            } else if (re.set_nl[re.pa[pc]] && step_nl()) {
+            } else if (regex.set_nl[regex.program_a[from_col]] && is_step_nl()) {
                 // crossed the line break
             } else {
-                good = false;
+                is_good = false;
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_NL) {
-            good = step_nl();
-            pc = pc + 1;
+            is_good = is_step_nl();
+            from_col = from_col + 1;
         } else if (opc == OP_BOL) {
-            good = ci == 0;
-            pc = pc + 1;
+            is_good = code_index == 0;
+            from_col = from_col + 1;
         } else if (opc == OP_EOL) {
-            good = ci == cps.size();
-            pc = pc + 1;
+            is_good = code_index == cps.size();
+            from_col = from_col + 1;
         } else if (opc == OP_BOW) {
-            if (ci >= cps.size()) {
-                good = false;
+            if (code_index >= cps.size()) {
+                is_good = false;
             } else {
-                int cls = MED_text.class_of(cps[ci]);
+                int cls = MED_text.class_of(cps[code_index]);
                 if (cls <= 1) {
-                    good = false;
-                } else if (ci > 0 && MED_text.class_of(cps[ci - 1]) == cls) {
-                    good = false;
+                    is_good = false;
+                } else if (code_index > 0 && MED_text.class_of(cps[code_index - 1]) == cls) {
+                    is_good = false;
                 }
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_EOW) {
-            if (ci == 0) {
-                good = false;
+            if (code_index == 0) {
+                is_good = false;
             } else {
                 int cls = 0;
-                if (ci < cps.size()) {
-                    cls = MED_text.class_of(cps[ci]);
+                if (code_index < cps.size()) {
+                    cls = MED_text.class_of(cps[code_index]);
                 }
-                int prev = MED_text.class_of(cps[ci - 1]);
-                if (cls == prev || prev <= 1) {
-                    good = false;
+                int previous = MED_text.class_of(cps[code_index - 1]);
+                if (cls == previous || previous <= 1) {
+                    is_good = false;
                 }
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_ZS) {
-            set_slot(0, cur());
-            pc = pc + 1;
+            set_slot(0, current());
+            from_col = from_col + 1;
         } else if (opc == OP_ZE) {
-            set_slot(1, cur());
-            pc = pc + 1;
+            set_slot(1, current());
+            from_col = from_col + 1;
         } else if (opc == OP_SAVE) {
-            set_slot(re.pa[pc], cur());
-            pc = pc + 1;
+            set_slot(regex.program_a[from_col], current());
+            from_col = from_col + 1;
         } else if (opc == OP_BACKREF) {
-            int s = -1;
-            int e = -1;
-            if (re.pa[pc] <= re.ngroups) {
-                s = saves[re.pa[pc] * 2];
-                e = saves[re.pa[pc] * 2 + 1];
+            int line_text = -1;
+            int stop = -1;
+            if (regex.program_a[from_col] <= regex.ngroups) {
+                line_text = saves[regex.program_a[from_col] * 2];
+                stop = saves[regex.program_a[from_col] * 2 + 1];
             }
-            if (s >= 0 && e >= 0) {
-                List<int> text = group_cps(s, e);
+            if (line_text >= 0 && stop >= 0) {
+                List<int> text = group_cps(line_text, stop);
                 for (int want in text) {
                     if (want == -2) {
-                        if (!step_nl()) {
-                            good = false;
+                        if (!is_step_nl()) {
+                            is_good = false;
                             break;
                         }
-                    } else if (ci < cps.size() && (cps[ci] == want || (re.icase && fold(cps[ci]) == fold(want)))) {
-                        ci = ci + 1;
+                    } else if (code_index < cps.size() && (cps[code_index] == want || (regex.is_icase && fold(cps[code_index]) == fold(want)))) {
+                        code_index = code_index + 1;
                     } else {
-                        good = false;
+                        is_good = false;
                         break;
                     }
                 }
             }
-            pc = pc + 1;
+            from_col = from_col + 1;
         } else if (opc == OP_SPLIT) {
-            st.push(0);
-            st.push(re.pb[pc]);
-            st.push(cur());
-            pc = re.pa[pc];
+            stack.push(0);
+            stack.push(regex.program_b[from_col]);
+            stack.push(current());
+            from_col = regex.program_a[from_col];
         } else if (opc == OP_JMP) {
-            pc = re.pa[pc];
+            from_col = regex.program_a[from_col];
         } else if (opc == OP_GSET) {
-            set_slot(gbase + re.pa[pc], cur());
-            pc = pc + 1;
+            set_slot(gbase + regex.program_a[from_col], current());
+            from_col = from_col + 1;
         } else if (opc == OP_GCHK) {
-            good = saves[gbase + re.pa[pc]] != cur();
-            pc = pc + 1;
+            is_good = saves[gbase + regex.program_a[from_col]] != current();
+            from_col = from_col + 1;
         } else if (opc == OP_BOF) {
-            good = row == 0 && ci == 0;
-            pc = pc + 1;
+            is_good = row == 0 && code_index == 0;
+            from_col = from_col + 1;
         } else if (opc == OP_EOF) {
-            good = row == nlines - 1 && ci == cps.size();
-            pc = pc + 1;
+            is_good = row == nlines - 1 && code_index == cps.size();
+            from_col = from_col + 1;
         } else if (opc == OP_LNUM) {
-            good = byte_col_ok(re.pb[pc], re.pa[pc], row + 1);
-            pc = pc + 1;
+            is_good = is_byte_col_ok(regex.program_b[from_col], regex.program_a[from_col], row + 1);
+            from_col = from_col + 1;
         } else if (opc == OP_CNUM) {
             int nbytes = 0;
-            for (int k in 0 .. ci) {
-                nbytes = nbytes + utf8_len(cps[k]);
+            for (int key in 0 .. code_index) {
+                nbytes = nbytes + utf8_length(cps[key]);
             }
-            good = byte_col_ok(re.pb[pc], re.pa[pc], nbytes + 1);
-            pc = pc + 1;
+            is_good = is_byte_col_ok(regex.program_b[from_col], regex.program_a[from_col], nbytes + 1);
+            from_col = from_col + 1;
         } else if (opc == OP_VNUM) {
             int nbytes = 0;
-            for (int k in 0 .. ci) {
-                nbytes = nbytes + utf8_len(cps[k]);
+            for (int key in 0 .. code_index) {
+                nbytes = nbytes + utf8_length(cps[key]);
             }
-            good = byte_col_ok(re.pb[pc], re.pa[pc], MED_text.display_col(buf.line(row), nbytes, 8) + 1);
-            pc = pc + 1;
+            is_good = is_byte_col_ok(regex.program_b[from_col], regex.program_a[from_col], MED_text.display_col(buffer.line(row), nbytes, 8) + 1);
+            from_col = from_col + 1;
         } else if (opc == OP_FAIL) {
-            good = false;
+            is_good = false;
         } else if (opc == OP_LOOK) {
-            int kind = re.pa[pc] % 8;
-            int after = re.pb[pc];
-            int here = cur();
+            int kind = regex.program_a[from_col] % 8;
+            int after = regex.program_b[from_col];
+            int here = current();
             int saved_target = target;
-            int sub_base = st.size();
-            bool found = false;
+            int sub_base = stack.size();
+            bool is_found = false;
             if (kind == LK_AHEAD || kind == LK_NOT_AHEAD || kind == LK_ATOMIC) {
                 target = -1;
-                found = go(re, pc + 1, row, ci);
+                is_found = did_run_from(regex, from_col + 1, row, code_index);
                 target = saved_target;
-                if (found && kind == LK_ATOMIC) {
+                if (is_found && kind == LK_ATOMIC) {
                     // the match consumed: continue after its end
-                    int er = end_row;
-                    int ec = end_ci;
+                    int end_row_value = end_row;
+                    int end_col = end_ci;
                     discard(sub_base);
-                    load(er);
-                    ci = ec;
+                    load(end_row_value);
+                    code_index = end_col;
                 } else {
-                    goto_pos(here);
-                    if (found) {
+                    goto_position(here);
+                    if (is_found) {
                         if (kind == LK_NOT_AHEAD) {
                             unwind(sub_base);
                         } else {
@@ -1754,34 +1754,34 @@ bool Run.go(Regex re, int pc0, int r0, int c0) {
                     }
                 }
             } else {
-                int hr = here / SHIFT;
-                int hc = here % SHIFT;
-                int limit = re.pa[pc] / 8;
+                int here_row = here / SHIFT;
+                int here_col = here % SHIFT;
+                int limit = regex.program_a[from_col] / 8;
                 target = here;
-                int s = hc;
-                while (s >= 0 && !found) {
-                    if (limit > 0 && hc - s > limit) {
+                int line_text = here_col;
+                while (line_text >= 0 && !is_found) {
+                    if (limit > 0 && here_col - line_text > limit) {
                         break;
                     }
-                    found = go(re, pc + 1, hr, s);
-                    if (!found) {
-                        s = s - 1;
+                    is_found = did_run_from(regex, from_col + 1, here_row, line_text);
+                    if (!is_found) {
+                        line_text = line_text - 1;
                     }
                 }
-                if (!found && hr > 0 && !aborted) {
-                    load(hr - 1);
+                if (!is_found && here_row > 0 && !is_aborted) {
+                    load(here_row - 1);
                     int plen = cps.size();
-                    int s2 = plen;
-                    while (s2 >= 0 && !found) {
-                        found = go(re, pc + 1, hr - 1, s2);
-                        if (!found) {
-                            s2 = s2 - 1;
+                    int other_start = plen;
+                    while (other_start >= 0 && !is_found) {
+                        is_found = did_run_from(regex, from_col + 1, here_row - 1, other_start);
+                        if (!is_found) {
+                            other_start = other_start - 1;
                         }
                     }
                 }
                 target = saved_target;
-                goto_pos(here);
-                if (found) {
+                goto_position(here);
+                if (is_found) {
                     if (kind == LK_NOT_BEHIND) {
                         unwind(sub_base);
                     } else {
@@ -1789,99 +1789,99 @@ bool Run.go(Regex re, int pc0, int r0, int c0) {
                     }
                 }
             }
-            if (aborted) {
+            if (is_aborted) {
                 unwind(base);
                 return false;
             }
             if (kind == LK_NOT_AHEAD || kind == LK_NOT_BEHIND) {
-                good = !found;
+                is_good = !is_found;
             } else {
-                good = found;
+                is_good = is_found;
             }
-            pc = after;
+            from_col = after;
         } else if (opc == OP_SUBEND) {
-            if (target >= 0 && cur() != target) {
-                good = false;
+            if (target >= 0 && current() != target) {
+                is_good = false;
             } else {
                 end_row = row;
-                end_ci = ci;
+                end_ci = code_index;
                 discard(base);
                 return true;
             }
         } else if (opc == OP_MATCH) {
             end_row = row;
-            end_ci = ci;
+            end_ci = code_index;
             discard(base);
             return true;
         }
-        if (!good) {
-            bool resumed = false;
-            while (st.size() > base) {
-                int y = st.pop();
-                int x = st.pop();
-                int kind = st.pop();
+        if (!is_good) {
+            bool is_resumed = false;
+            while (stack.size() > base) {
+                int y = stack.pop();
+                int x = stack.pop();
+                int kind = stack.pop();
                 if (kind == 1) {
                     saves[x] = y;
                 } else {
-                    pc = x;
-                    goto_pos(y);
-                    resumed = true;
+                    from_col = x;
+                    goto_position(y);
+                    is_resumed = true;
                     break;
                 }
             }
-            if (!resumed) {
+            if (!is_resumed) {
                 return false;
             }
         }
     }
 }
 
-int Run.bytes_to(int r, int x) {
-    if (r >= nlines) {
+int Run.bytes_to(int result, int x) {
+    if (result >= nlines) {
         return 0;
     }
-    List<int> line = buf.line(r).chars();
+    List<int> line = buffer.line(result).chars();
     int total = 0;
     int lim = x;
     if (lim > line.size()) {
         lim = line.size();
     }
-    for (int k in 0 .. lim) {
-        total = total + utf8_len(line[k]);
+    for (int key in 0 .. lim) {
+        total = total + utf8_length(line[key]);
     }
     return total;
 }
 
-int Run.cp_index(int r, int bytecol) {
-    if (r >= nlines) {
+int Run.cp_index(int result, int bytecol) {
+    if (result >= nlines) {
         return 0;
     }
-    List<int> line = buf.line(r).chars();
+    List<int> line = buffer.line(result).chars();
     int total = 0;
-    int k = 0;
-    while (k < line.size() && total < bytecol) {
-        total = total + utf8_len(line[k]);
-        k = k + 1;
+    int key = 0;
+    while (key < line.size() && total < bytecol) {
+        total = total + utf8_length(line[key]);
+        key = key + 1;
     }
-    return k;
+    return key;
 }
 
-str Run.text_between(int s, int e) {
-    List<int> text = group_cps(s, e);
+str Run.text_between(int line_text, int stop) {
+    List<int> text = group_cps(line_text, stop);
     List<int> out = [];
-    for (int v in text) {
-        if (v == -2) {
+    for (int value in text) {
+        if (value == -2) {
             out.push(10);
         } else {
-            out.push(v);
+            out.push(value);
         }
     }
     return str.from_chars(out);
 }
 
-Match Run.result(Regex re, int srow, int sci) {
-    Match m = Match();
-    m.ok = true;
+Match Run.result(Regex regex, int srow, int sci) {
+    Match match_value = Match();
+    match_value.is_ok = true;
     int start = pack(srow, sci);
     int stop = pack(end_row, end_ci);
     if (saves[0] >= 0) {
@@ -1893,23 +1893,23 @@ Match Run.result(Regex re, int srow, int sci) {
     if (stop < start) {
         stop = start;
     }
-    m.srow = start / SHIFT;
-    m.erow = stop / SHIFT;
-    m.scol = bytes_to(m.srow, start % SHIFT);
-    m.ecol = bytes_to(m.erow, stop % SHIFT);
-    m.groups.push(text_between(start, stop));
-    for (int g in 1 .. 10) {
-        if (g <= re.ngroups && saves[g * 2] >= 0 && saves[g * 2 + 1] >= 0) {
-            m.groups.push(text_between(saves[g * 2], saves[g * 2 + 1]));
+    match_value.srow = start / SHIFT;
+    match_value.erow = stop / SHIFT;
+    match_value.scol = bytes_to(match_value.srow, start % SHIFT);
+    match_value.ecol = bytes_to(match_value.erow, stop % SHIFT);
+    match_value.groups.push(text_between(start, stop));
+    for (int group in 1 .. 10) {
+        if (group <= regex.ngroups && saves[group * 2] >= 0 && saves[group * 2 + 1] >= 0) {
+            match_value.groups.push(text_between(saves[group * 2], saves[group * 2 + 1]));
         } else {
-            m.groups.push("");
+            match_value.groups.push("");
         }
     }
-    return m;
+    return match_value;
 }
 
-int pack(int row, int ci) {
-    return row * SHIFT + ci;
+int pack(int row, int code_index) {
+    return row * SHIFT + code_index;
 }
 
 // ---------------------------------------------------------------- results

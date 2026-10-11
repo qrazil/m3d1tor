@@ -25,12 +25,12 @@ pub const int CODE_MASK = 16777215;
 pub const int NUL = 0;
 pub const int TAB = 9;
 pub const int NEWLINE = 10;
-pub const int CR = 13;
+pub const int CARRIAGE_RETURN = 13;
 pub const int ESC = 27;
 pub const int SPACE = 32;
-pub const int BS = 127;
+pub const int BACKSPACE = 127;
 pub const int CTRL_H = 8;
-pub const int UP = 63232;
+pub const int UP_KEY = 63232;
 pub const int DOWN = 63233;
 pub const int LEFT = 63234;
 pub const int RIGHT = 63235;
@@ -67,7 +67,7 @@ int lookup(str word) {
         return ESC;
     }
     if (lowered == "cr" || lowered == "enter" || lowered == "return") {
-        return CR;
+        return CARRIAGE_RETURN;
     }
     if (lowered == "nl") {
         return NEWLINE;
@@ -76,7 +76,7 @@ int lookup(str word) {
         return TAB;
     }
     if (lowered == "bs" || lowered == "backspace") {
-        return BS;
+        return BACKSPACE;
     }
     if (lowered == "space") {
         return SPACE;
@@ -97,7 +97,7 @@ int lookup(str word) {
         return NUL;
     }
     if (lowered == "up") {
-        return UP;
+        return UP_KEY;
     }
     if (lowered == "down") {
         return DOWN;
@@ -146,23 +146,23 @@ int modified(str inner) {
     bool is_alt = false;
     bool is_shift = false;
     str rest = inner;
-    bool going = true;
-    while (going) {
-        going = false;
+    bool is_going = true;
+    while (is_going) {
+        is_going = false;
         if (rest.size() > 2 && rest.byte_at(1) == 45) {
             int letter = rest.byte_at(0);
             if (letter == 67 || letter == 99) {
                 is_ctrl = true;
                 rest = rest.substr(2, rest.size());
-                going = true;
+                is_going = true;
             } else if (letter == 77 || letter == 109 || letter == 65 || letter == 97) {
                 is_alt = true;
                 rest = rest.substr(2, rest.size());
-                going = true;
+                is_going = true;
             } else if (letter == 83 || letter == 115) {
                 is_shift = true;
                 rest = rest.substr(2, rest.size());
-                going = true;
+                is_going = true;
             }
         }
     }
@@ -208,8 +208,8 @@ pub List<int> parse(str notation, str leader = " ") {
     List<int> keys = [];
     int index = 0;
     while (index < chars.size()) {
-        int ch = chars[index];
-        if (ch == 60) {
+        int char_code = chars[index];
+        if (char_code == 60) {
             int closer = -1;
             int look = index + 1;
             while (look < chars.size() && look < index + 16) {
@@ -240,7 +240,7 @@ pub List<int> parse(str notation, str leader = " ") {
                 }
             }
         }
-        keys.push(ch);
+        keys.push(char_code);
         index = index + 1;
     }
     return keys;
@@ -253,11 +253,11 @@ pub str name(int key) {
     str base = "";
     if (code == ESC) {
         base = "Esc";
-    } else if (code == CR) {
+    } else if (code == CARRIAGE_RETURN) {
         base = "CR";
     } else if (code == TAB) {
         base = "Tab";
-    } else if (code == BS) {
+    } else if (code == BACKSPACE) {
         base = "BS";
     } else if (code == SPACE) {
         base = "Space";
@@ -269,8 +269,8 @@ pub str name(int key) {
         base = "C-@";
     } else if (code < 32) {
         base = "C-" + str.from_chars([code + 96]);
-    } else if (code >= UP && code <= INSERT) {
-        base = SPECIAL_NAMES[code - UP];
+    } else if (code >= UP_KEY && code <= INSERT) {
+        base = SPECIAL_NAMES[code - UP_KEY];
     } else if (code > FKEY_BASE && code <= FKEY_BASE + 12) {
         base = "F" + (code - FKEY_BASE).to_str();
     } else if (code == NOP) {

@@ -9,9 +9,9 @@ pub type Check {
     pub int failed = 0;
 }
 
-pub void Check.ok(str label, bool condition) {
+pub void Check.ok(str label, bool is_condition) {
     total = total + 1;
-    if (!condition) {
+    if (!is_condition) {
         failed = failed + 1;
         print("FAIL " + label);
     }

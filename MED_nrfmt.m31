@@ -12,75 +12,75 @@ import MED_text;
 
 pub type NrResult {
     /// The line changed.
-    pub bool changed = false;
+    pub bool is_changed = false;
     /// The bytes [from, to) of the line are replaced by `text`.
     pub int from = 0;
-    pub int to = 0;
+    pub int target_position = 0;
     pub str text = "";
     /// Byte column of the last character of the new number.
     pub int endcol = 0;
     /// Byte column of the first changed character (`'[`).
     pub int startcol = 0;
     /// Vim remembers whether the last hex number it changed used capitals.
-    pub bool hexupper = false;
+    pub bool is_hexupper = false;
 }
 
-bool is_digit(int c) {
-    return c >= 48 && c <= 57;
+bool is_digit(int char_code) {
+    return char_code >= 48 && char_code <= 57;
 }
 
-bool is_xdigit(int c) {
-    return (c >= 48 && c <= 57) || (c >= 97 && c <= 102) || (c >= 65 && c <= 70);
+bool is_xdigit(int char_code) {
+    return (char_code >= 48 && char_code <= 57) || (char_code >= 97 && char_code <= 102) || (char_code >= 65 && char_code <= 70);
 }
 
-bool is_bdigit(int c) {
-    return c == 48 || c == 49;
+bool is_bdigit(int char_code) {
+    return char_code == 48 || char_code == 49;
 }
 
-bool is_alpha(int c) {
-    return (c >= 97 && c <= 122) || (c >= 65 && c <= 90);
+bool is_alpha(int char_code) {
+    return (char_code >= 97 && char_code <= 122) || (char_code >= 65 && char_code <= 90);
 }
 
-int xval(int c) {
-    if (c >= 97) {
-        return c - 87;
+int xval(int char_code) {
+    if (char_code >= 97) {
+        return char_code - 87;
     }
-    if (c >= 65) {
-        return c - 55;
+    if (char_code >= 65) {
+        return char_code - 55;
     }
-    return c - 48;
+    return char_code - 48;
 }
 
-int at(str s, int i) {
-    if (i < 0 || i >= s.size()) {
+int at(str text, int index) {
+    if (index < 0 || index >= text.size()) {
         return 0;
     }
-    return s.byte_at(i);
+    return text.byte_at(index);
 }
 
-// The start byte of the character that ends just before byte `i`.
-int back_one(str s, int i) {
-    int p = i - 1;
-    while (p > 0 && (s.byte_at(p) & 192) == 128) {
-        p = p - 1;
+// The start byte of the character that ends just before byte `index`.
+int back_one(str text, int index) {
+    int offset = index - 1;
+    while (offset > 0 && (text.byte_at(offset) & 192) == 128) {
+        offset = offset - 1;
     }
-    return p;
+    return offset;
 }
 
-str hex_digits(int n_in, bool upper) {
-    int n = n_in;
+str hex_digits(int n_in, bool is_upper) {
+    int count = n_in;
     List<str> out = [];
     for (int i in 0 .. 16) {
-        int d = n & 15;
-        n = (n >> 4) & 1152921504606846975;
-        if (d < 10) {
-            out.push(str.from_chars([48 + d]));
-        } else if (upper) {
-            out.push(str.from_chars([55 + d]));
+        int delta = count & 15;
+        count = (count >> 4) & 1152921504606846975;
+        if (delta < 10) {
+            out.push(str.from_chars([48 + delta]));
+        } else if (is_upper) {
+            out.push(str.from_chars([55 + delta]));
         } else {
-            out.push(str.from_chars([87 + d]));
+            out.push(str.from_chars([87 + delta]));
         }
-        if (n == 0) {
+        if (count == 0) {
             break;
         }
     }
@@ -89,12 +89,12 @@ str hex_digits(int n_in, bool upper) {
 }
 
 str bin_digits(int n_in) {
-    int n = n_in;
+    int count = n_in;
     List<str> out = [];
     for (int i in 0 .. 64) {
-        out.push(str.from_chars([48 + (n & 1)]));
-        n = (n >> 1) & 9223372036854775807;
-        if (n == 0) {
+        out.push(str.from_chars([48 + (count & 1)]));
+        count = (count >> 1) & 9223372036854775807;
+        if (count == 0) {
             break;
         }
     }
@@ -108,173 +108,173 @@ str bin_digits(int n_in) {
 /// `vmax_mode` says how far it may reach: 0 to the end of the line (linewise
 /// selections), 1 to the end of the selection, 2 to the end of the line
 /// (`$` blocks).
-pub NrResult addsub(str line, int col_in, int length_in, bool sub, int amount, bool visual, int vmax_mode, bool hexupper_in) {
-    NrResult r = NrResult();
-    r.hexupper = hexupper_in;
+pub NrResult addsub(str line, int col_in, int length_in, bool is_sub, int amount, bool is_visual, int vmax_mode, bool is_hexupper_in) {
+    NrResult nr_result = NrResult();
+    nr_result.is_hexupper = is_hexupper_in;
     int col = col_in;
     int length = length_in;
-    str ptr = line;
-    bool negative = false;
+    str pointer = line;
+    bool is_negative = false;
     bool was_positive = true;
-    if (ptr.size() == 0 || col >= ptr.size()) {
-        return r;
+    if (pointer.size() == 0 || col >= pointer.size()) {
+        return nr_result;
     }
-    if (!visual) {
+    if (!is_visual) {
         // first check for a hex or binary number, on or after its "0x"
-        while (col > 0 && is_bdigit(at(ptr, col))) {
-            col = back_one(ptr, col);
+        while (col > 0 && is_bdigit(at(pointer, col))) {
+            col = back_one(pointer, col);
         }
-        while (col > 0 && is_xdigit(at(ptr, col))) {
-            col = back_one(ptr, col);
+        while (col > 0 && is_xdigit(at(pointer, col))) {
+            col = back_one(pointer, col);
         }
-        bool hex_head = col > 0 && (at(ptr, col) == 88 || at(ptr, col) == 120) && at(ptr, col - 1) == 48 && is_xdigit(at(ptr, col + 1));
-        if (!hex_head) {
+        bool is_hex_head = col > 0 && (at(pointer, col) == 88 || at(pointer, col) == 120) && at(pointer, col - 1) == 48 && is_xdigit(at(pointer, col + 1));
+        if (!is_hex_head) {
             // binary and hexadecimal patterns can overlap: scan decimal digits instead
             col = col_in;
-            while (col > 0 && is_digit(at(ptr, col))) {
-                col = back_one(ptr, col);
+            while (col > 0 && is_digit(at(pointer, col))) {
+                col = back_one(pointer, col);
             }
         }
-        bool hex_found = col > 0 && (at(ptr, col) == 88 || at(ptr, col) == 120) && at(ptr, col - 1) == 48 && is_xdigit(at(ptr, col + 1));
-        bool bin_found = col > 0 && (at(ptr, col) == 66 || at(ptr, col) == 98) && at(ptr, col - 1) == 48 && is_bdigit(at(ptr, col + 1));
-        if (hex_found || bin_found) {
+        bool is_hex_found = col > 0 && (at(pointer, col) == 88 || at(pointer, col) == 120) && at(pointer, col - 1) == 48 && is_xdigit(at(pointer, col + 1));
+        bool is_bin_found = col > 0 && (at(pointer, col) == 66 || at(pointer, col) == 98) && at(pointer, col - 1) == 48 && is_bdigit(at(pointer, col + 1));
+        if (is_hex_found || is_bin_found) {
             col = col - 1;
         } else {
             col = col_in;
-            while (col < ptr.size() && !is_digit(at(ptr, col))) {
-                col = MED_text.next_col(ptr, col);
+            while (col < pointer.size() && !is_digit(at(pointer, col))) {
+                col = MED_text.next_col(pointer, col);
             }
-            while (col > 0 && is_digit(at(ptr, col - 1))) {
+            while (col > 0 && is_digit(at(pointer, col - 1))) {
                 col = col - 1;
             }
         }
     }
-    if (visual) {
-        while (col < ptr.size() && length > 0 && !is_digit(at(ptr, col))) {
-            int nx = MED_text.next_col(ptr, col);
-            length = length - (nx - col);
-            col = nx;
+    if (is_visual) {
+        while (col < pointer.size() && length > 0 && !is_digit(at(pointer, col))) {
+            int next_offset = MED_text.next_col(pointer, col);
+            length = length - (next_offset - col);
+            col = next_offset;
         }
         if (length == 0) {
-            return r;
+            return nr_result;
         }
-        if (col > col_in && at(ptr, col - 1) == 45) {
-            negative = true;
+        if (col > col_in && at(pointer, col - 1) == 45) {
+            is_negative = true;
             was_positive = false;
         }
     }
-    int firstdigit = at(ptr, col);
+    int firstdigit = at(pointer, col);
     if (!is_digit(firstdigit)) {
-        return r;
+        return nr_result;
     }
-    if (col > 0 && at(ptr, col - 1) == 45 && !visual) {
+    if (col > 0 && at(pointer, col - 1) == 45 && !is_visual) {
         col = col - 1;
-        negative = true;
+        is_negative = true;
     }
     // vim_str2nr(): the prefix and the value
-    int p0 = col;
-    if (at(ptr, p0) == 45) {
-        p0 = p0 + 1;
+    int digit_start = col;
+    if (at(pointer, digit_start) == 45) {
+        digit_start = digit_start + 1;
     }
-    int limit = ptr.size();
-    if (visual && vmax_mode == 1) {
-        limit = smaller(ptr.size(), col + length);
+    int limit = pointer.size();
+    if (is_visual && vmax_mode == 1) {
+        limit = smaller(pointer.size(), col + length);
     }
     int pre = 0;
-    int i = p0;
-    if (at(ptr, i) == 48 && i + 1 < limit) {
-        int x = at(ptr, i + 1);
-        if ((x == 120 || x == 88) && i + 2 < limit && is_xdigit(at(ptr, i + 2))) {
+    int index = digit_start;
+    if (at(pointer, index) == 48 && index + 1 < limit) {
+        int x = at(pointer, index + 1);
+        if ((x == 120 || x == 88) && index + 2 < limit && is_xdigit(at(pointer, index + 2))) {
             pre = x;
-        } else if ((x == 98 || x == 66) && i + 2 < limit && is_bdigit(at(ptr, i + 2))) {
+        } else if ((x == 98 || x == 66) && index + 2 < limit && is_bdigit(at(pointer, index + 2))) {
             pre = x;
         }
     }
-    int n = 0;
-    bool overflow = false;
+    int count = 0;
+    bool is_overflow = false;
     if (pre == 120 || pre == 88) {
-        i = i + 2;
-        while (i < limit && is_xdigit(at(ptr, i))) {
-            n = (n << 4) | xval(at(ptr, i));
-            i = i + 1;
+        index = index + 2;
+        while (index < limit && is_xdigit(at(pointer, index))) {
+            count = (count << 4) | xval(at(pointer, index));
+            index = index + 1;
         }
     } else if (pre == 98 || pre == 66) {
-        i = i + 2;
-        while (i < limit && is_bdigit(at(ptr, i))) {
-            n = (n << 1) | (at(ptr, i) - 48);
-            i = i + 1;
+        index = index + 2;
+        while (index < limit && is_bdigit(at(pointer, index))) {
+            count = (count << 1) | (at(pointer, index) - 48);
+            index = index + 1;
         }
     } else {
-        while (i < limit && is_digit(at(ptr, i))) {
-            int d = at(ptr, i) - 48;
-            if (n > (9223372036854775807 - d) / 10) {
-                overflow = true;
+        while (index < limit && is_digit(at(pointer, index))) {
+            int delta = at(pointer, index) - 48;
+            if (count > (9223372036854775807 - delta) / 10) {
+                is_overflow = true;
             } else {
-                n = n * 10 + d;
+                count = count * 10 + delta;
             }
-            i = i + 1;
+            index = index + 1;
         }
     }
-    int numlen = i - p0;
-    int cur_len = numlen;
-    if (negative && at(ptr, col) == 45) {
-        cur_len = numlen + 1;
+    int numlen = index - digit_start;
+    int current_length = numlen;
+    if (is_negative && at(pointer, col) == 45) {
+        current_length = numlen + 1;
     }
-    if (pre != 0 && negative) {
+    if (pre != 0 && is_negative) {
         // a '-' in front of a hex or binary number is not a sign
         col = col + 1;
-        cur_len = cur_len - 1;
-        negative = false;
+        current_length = current_length - 1;
+        is_negative = false;
     }
-    bool subtract = sub;
-    if (negative) {
-        subtract = !subtract;
+    bool is_subtract = is_sub;
+    if (is_negative) {
+        is_subtract = !is_subtract;
     }
-    if (overflow) {
-        return r;
+    if (is_overflow) {
+        return nr_result;
     }
     if (pre == 0) {
-        // `subtract` already accounts for the sign: work on the magnitude
-        int mag = n + amount;
-        if (subtract) {
-            mag = n - amount;
+        // `is_subtract` already accounts for the sign: work on the magnitude
+        int mag = count + amount;
+        if (is_subtract) {
+            mag = count - amount;
         }
         if (mag < 0) {
             mag = 0 - mag;
-            negative = !negative;
+            is_negative = !is_negative;
         }
-        n = mag;
-        if (n == 0) {
-            negative = false;
+        count = mag;
+        if (count == 0) {
+            is_negative = false;
         }
-    } else if (subtract) {
-        n = n - amount;
+    } else if (is_subtract) {
+        count = count - amount;
     } else {
-        n = n + amount;
+        count = count + amount;
     }
-    if (visual && !was_positive && !negative && col > 0) {
+    if (is_visual && !was_positive && !is_negative && col > 0) {
         // the '-' goes
         col = col - 1;
-        cur_len = cur_len + 1;
+        current_length = current_length + 1;
     }
     // what is deleted
-    int todel = cur_len;
+    int todel = current_length;
     int del_end = col + todel;
     // letters in the old number decide the case of new hex digits
-    bool upper = hexupper_in;
-    for (int k in col .. del_end) {
-        int c = at(ptr, k);
-        if (is_alpha(c)) {
-            upper = c < 97;
+    bool is_upper = is_hexupper_in;
+    for (int key in col .. del_end) {
+        int char_code = at(pointer, key);
+        if (is_alpha(char_code)) {
+            is_upper = char_code < 97;
         }
     }
-    r.hexupper = upper;
-    int length2 = cur_len;
-    if (at(ptr, col) == 45) {
+    nr_result.is_hexupper = is_upper;
+    int length2 = current_length;
+    if (at(pointer, col) == 45) {
         length2 = length2 - 1;
     }
     List<str> parts = [];
-    if (negative && (!visual || was_positive)) {
+    if (is_negative && (!is_visual || was_positive)) {
         parts.push("-");
     }
     if (pre != 0) {
@@ -285,11 +285,11 @@ pub NrResult addsub(str line, int col_in, int length_in, bool sub, int amount, b
     }
     str digits = "";
     if (pre == 98 || pre == 66) {
-        digits = bin_digits(n);
+        digits = bin_digits(count);
     } else if (pre == 0) {
-        digits = n.to_str();
+        digits = count.to_str();
     } else {
-        digits = hex_digits(n, upper);
+        digits = hex_digits(count, is_upper);
     }
     length2 = length2 - digits.size();
     if (firstdigit == 48) {
@@ -300,21 +300,21 @@ pub NrResult addsub(str line, int col_in, int length_in, bool sub, int amount, b
     }
     parts.push(digits);
     str text = parts.join("");
-    r.changed = true;
-    r.from = col;
-    r.to = del_end;
-    r.text = text;
-    r.startcol = col;
-    r.endcol = col + text.size() - 1;
-    if (r.endcol < 0) {
-        r.endcol = 0;
+    nr_result.is_changed = true;
+    nr_result.from = col;
+    nr_result.target_position = del_end;
+    nr_result.text = text;
+    nr_result.startcol = col;
+    nr_result.endcol = col + text.size() - 1;
+    if (nr_result.endcol < 0) {
+        nr_result.endcol = 0;
     }
-    return r;
+    return nr_result;
 }
 
-int smaller(int a, int b) {
-    if (a < b) {
-        return a;
+int smaller(int left, int right) {
+    if (left < right) {
+        return left;
     }
-    return b;
+    return right;
 }

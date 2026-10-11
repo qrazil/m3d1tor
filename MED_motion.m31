@@ -23,30 +23,30 @@ import MED_text;
 /// vertical moves: -2 means "the column the cursor landed on", -3 "unchanged",
 /// -1 "end of line".
 pub type Motion {
-    pub bool ok = true;
+    pub bool is_ok = true;
     pub int row = 0;
     pub int col = 0;
-    pub bool linewise = false;
-    pub bool inclusive = false;
+    pub bool is_linewise = false;
+    pub bool is_inclusive = false;
     pub int want = -2;
-    pub bool jump = false;
+    pub bool is_jump = false;
     /// Vim's CA_NO_ADJ_OP_END: do not apply the end-at-column-0 adjustment.
-    pub bool no_adj = false;
+    pub bool is_no_adj = false;
     /// The motion moved as far as it could and then failed (Vim beeps but
     /// keeps the cursor where it got to).
-    pub bool beep = false;
+    pub bool is_beep = false;
     /// A failed motion that still moved the cursor to `row`, `col`.
-    pub bool moved = false;
+    pub bool is_moved = false;
 }
 
 pub Motion failed() {
-    Motion m = Motion();
-    m.ok = false;
-    return m;
+    Motion motion = Motion();
+    motion.is_ok = false;
+    return motion;
 }
 
 pub type Cur {
-    pub MED_buffer.Buffer buf;
+    pub MED_buffer.Buffer buffer;
     pub int row;
     pub int col;
 }
@@ -54,7 +54,7 @@ pub type Cur {
 /// Step one character forward. 0 inside the line, 2 onto the NUL, 1 onto the
 /// next line, -1 at the end of the buffer.
 pub int Cur.inc() {
-    str line = buf.line(row);
+    str line = buffer.line(row);
     if (col < line.size()) {
         col = MED_text.next_col(line, col);
         if (col < line.size()) {
@@ -62,7 +62,7 @@ pub int Cur.inc() {
         }
         return 2;
     }
-    if (row + 1 < buf.line_count()) {
+    if (row + 1 < buffer.line_count()) {
         row = row + 1;
         col = 0;
         return 1;
@@ -74,12 +74,12 @@ pub int Cur.inc() {
 /// line, -1 at the start of the buffer.
 pub int Cur.dec() {
     if (col > 0) {
-        col = MED_text.prev_col(buf.line(row), col);
+        col = MED_text.previous_col(buffer.line(row), col);
         return 0;
     }
     if (row > 0) {
         row = row - 1;
-        col = buf.line_size(row);
+        col = buffer.line_size(row);
         return 1;
     }
     return -1;
@@ -87,81 +87,81 @@ pub int Cur.dec() {
 
 /// Character class at the cursor: 0 blank (or NUL), else the word class; a
 /// WORD motion folds every non-blank to 1.
-pub int Cur.cls(bool big) {
-    str line = buf.line(row);
+pub int Cur.cls(bool is_big) {
+    str line = buffer.line(row);
     if (col >= line.size()) {
         return 0;
     }
-    int cp = MED_text.cp_at(line, col);
-    if (cp == 32 || cp == 9) {
+    int code_point = MED_text.cp_at(line, col);
+    if (code_point == 32 || code_point == 9) {
         return 0;
     }
-    int cl = MED_text.class_of(cp);
-    if (cl != 0 && big) {
+    int char_class = MED_text.class_of(code_point);
+    if (char_class != 0 && is_big) {
         return 1;
     }
-    return cl;
+    return char_class;
 }
 
-pub bool Cur.empty_line() {
-    return col == 0 && buf.line_size(row) == 0;
+pub bool Cur.is_empty_line() {
+    return col == 0 && buffer.line_size(row) == 0;
 }
 
 /// Vim's `incl`: like `inc` but never rests on the NUL of a non-empty line.
 pub int Cur.incl() {
-    int r = inc();
-    if (r >= 1 && col > 0) {
-        r = inc();
+    int result = inc();
+    if (result >= 1 && col > 0) {
+        result = inc();
     }
-    return r;
+    return result;
 }
 
 /// Vim's `decl`: like `dec` but skips the NUL when crossing a line.
 pub int Cur.decl() {
-    int r = dec();
-    if (r == 1 && col > 0) {
-        r = dec();
+    int result = dec();
+    if (result == 1 && col > 0) {
+        result = dec();
     }
-    return r;
+    return result;
 }
 
 /// Vim's `oneleft`: false at column 0.
-pub bool Cur.oneleft() {
+pub bool Cur.did_oneleft() {
     if (col == 0) {
         return false;
     }
-    col = MED_text.prev_col(buf.line(row), col);
+    col = MED_text.previous_col(buffer.line(row), col);
     return true;
 }
 
 /// The code point under the cursor, 0 on the NUL.
-pub int Cur.ch() {
-    int cp = MED_text.cp_at(buf.line(row), col);
-    if (cp < 0) {
+pub int Cur.char_code() {
+    int code_point = MED_text.cp_at(buffer.line(row), col);
+    if (code_point < 0) {
         return 0;
     }
-    return cp;
+    return code_point;
 }
 
 /// Vim's `back_in_line`: back to the start of the run of one class.
-pub void Cur.back_in_line(bool big) {
-    int sclass = cls(big);
+pub void Cur.back_in_line(bool is_big) {
+    int sclass = cls(is_big);
     while (col > 0) {
         dec();
-        if (cls(big) != sclass) {
+        if (cls(is_big) != sclass) {
             inc();
             break;
         }
     }
 }
 
-bool skip_chars(Cur c, int cclass, int dir, bool big) {
-    while (c.cls(big) == cclass) {
+bool did_skip_chars(Cur cursor, int cclass, int directory, bool is_big) {
+    while (cursor.cls(is_big) == cclass) {
         int moved = 0;
-        if (dir > 0) {
-            moved = c.inc();
+        if (directory > 0) {
+            moved = cursor.inc();
         } else {
-            moved = c.dec();
+            moved = cursor.dec();
         }
         if (moved == -1) {
             return true;
@@ -170,35 +170,35 @@ bool skip_chars(Cur c, int cclass, int dir, bool big) {
     return false;
 }
 
-/// `w` / `W`. `eol` is true under an operator: the move stops at the end of
+/// `w` / `W`. `is_eol` is true under an operator: the move stops at the end of
 /// the line it would leave.
-pub bool fwd_word(Cur c, int count, bool big, bool eol) {
+pub bool did_fwd_word(Cur cursor, int count, bool is_big, bool is_eol) {
     int left = count;
     while (left > 0) {
         left = left - 1;
-        int sclass = c.cls(big);
-        bool last_line = c.row == c.buf.line_count() - 1;
-        int i = c.inc();
-        if (i == -1 || (i >= 1 && last_line)) {
+        int sclass = cursor.cls(is_big);
+        bool is_last_line = cursor.row == cursor.buffer.line_count() - 1;
+        int index = cursor.inc();
+        if (index == -1 || (index >= 1 && is_last_line)) {
             return false;
         }
-        if (i >= 1 && eol && left == 0) {
+        if (index >= 1 && is_eol && left == 0) {
             return true;
         }
         if (sclass != 0) {
-            while (c.cls(big) == sclass) {
-                i = c.inc();
-                if (i == -1 || (i >= 1 && eol && left == 0)) {
+            while (cursor.cls(is_big) == sclass) {
+                index = cursor.inc();
+                if (index == -1 || (index >= 1 && is_eol && left == 0)) {
                     return true;
                 }
             }
         }
-        while (c.cls(big) == 0) {
-            if (c.empty_line()) {
+        while (cursor.cls(is_big) == 0) {
+            if (cursor.is_empty_line()) {
                 break;
             }
-            i = c.inc();
-            if (i == -1 || (i >= 1 && eol && left == 0)) {
+            index = cursor.inc();
+            if (index == -1 || (index >= 1 && is_eol && left == 0)) {
                 return true;
             }
         }
@@ -207,106 +207,106 @@ pub bool fwd_word(Cur c, int count, bool big, bool eol) {
 }
 
 /// `b` / `B`.
-pub bool bck_word(Cur c, int count, bool big, bool stop_flag) {
-    bool stop = stop_flag;
+pub bool did_bck_word(Cur cursor, int count, bool is_big, bool is_stop_flag) {
+    bool is_stop = is_stop_flag;
     int left = count;
     while (left > 0) {
         left = left - 1;
-        int sclass = c.cls(big);
-        if (c.dec() == -1) {
+        int sclass = cursor.cls(is_big);
+        if (cursor.dec() == -1) {
             return false;
         }
-        bool finished = false;
-        if (!stop || sclass == c.cls(big) || sclass == 0) {
-            while (c.cls(big) == 0) {
-                if (c.empty_line()) {
-                    finished = true;
+        bool is_finished = false;
+        if (!is_stop || sclass == cursor.cls(is_big) || sclass == 0) {
+            while (cursor.cls(is_big) == 0) {
+                if (cursor.is_empty_line()) {
+                    is_finished = true;
                     break;
                 }
-                if (c.dec() == -1) {
+                if (cursor.dec() == -1) {
                     return true;
                 }
             }
-            if (!finished) {
-                if (skip_chars(c, c.cls(big), -1, big)) {
+            if (!is_finished) {
+                if (did_skip_chars(cursor, cursor.cls(is_big), -1, is_big)) {
                     return true;
                 }
             }
         }
-        if (!finished) {
-            c.inc();
+        if (!is_finished) {
+            cursor.inc();
         }
-        stop = false;
+        is_stop = false;
     }
     return true;
 }
 
-/// `e` / `E` (and the `cw` form with `stop`).
-pub bool end_word(Cur c, int count, bool big, bool stop_flag, bool empty) {
-    bool stop = stop_flag;
+/// `e` / `E` (and the `cw` form with `is_stop`).
+pub bool did_end_word(Cur cursor, int count, bool is_big, bool is_stop_flag, bool is_empty) {
+    bool is_stop = is_stop_flag;
     int left = count;
     while (left > 0) {
         left = left - 1;
-        int sclass = c.cls(big);
-        if (c.inc() == -1) {
+        int sclass = cursor.cls(is_big);
+        if (cursor.inc() == -1) {
             return false;
         }
-        bool finished = false;
-        if (c.cls(big) == sclass && sclass != 0) {
-            if (skip_chars(c, sclass, 1, big)) {
+        bool is_finished = false;
+        if (cursor.cls(is_big) == sclass && sclass != 0) {
+            if (did_skip_chars(cursor, sclass, 1, is_big)) {
                 return false;
             }
-        } else if (!stop || sclass == 0) {
-            while (c.cls(big) == 0) {
-                if (empty && c.empty_line()) {
-                    finished = true;
+        } else if (!is_stop || sclass == 0) {
+            while (cursor.cls(is_big) == 0) {
+                if (is_empty && cursor.is_empty_line()) {
+                    is_finished = true;
                     break;
                 }
-                if (c.inc() == -1) {
+                if (cursor.inc() == -1) {
                     return false;
                 }
             }
-            if (!finished) {
-                if (skip_chars(c, c.cls(big), 1, big)) {
+            if (!is_finished) {
+                if (did_skip_chars(cursor, cursor.cls(is_big), 1, is_big)) {
                     return false;
                 }
             }
         }
-        if (!finished) {
-            c.dec();
+        if (!is_finished) {
+            cursor.dec();
         }
-        stop = false;
+        is_stop = false;
     }
     return true;
 }
 
 /// `ge` / `gE`.
-pub bool bckend_word(Cur c, int count, bool big, bool eol) {
+pub bool did_bckend_word(Cur cursor, int count, bool is_big, bool is_eol) {
     int left = count;
     while (left > 0) {
         left = left - 1;
-        int sclass = c.cls(big);
-        int i = c.dec();
-        if (i == -1) {
+        int sclass = cursor.cls(is_big);
+        int index = cursor.dec();
+        if (index == -1) {
             return false;
         }
-        if (eol && i == 1) {
+        if (is_eol && index == 1) {
             return true;
         }
         if (sclass != 0) {
-            while (c.cls(big) == sclass) {
-                i = c.dec();
-                if (i == -1 || (eol && i == 1)) {
+            while (cursor.cls(is_big) == sclass) {
+                index = cursor.dec();
+                if (index == -1 || (is_eol && index == 1)) {
                     return true;
                 }
             }
         }
-        while (c.cls(big) == 0) {
-            if (c.empty_line()) {
+        while (cursor.cls(is_big) == 0) {
+            if (cursor.is_empty_line()) {
                 break;
             }
-            i = c.dec();
-            if (i == -1 || (eol && i == 1)) {
+            index = cursor.dec();
+            if (index == -1 || (is_eol && index == 1)) {
                 return true;
             }
         }
@@ -314,257 +314,257 @@ pub bool bckend_word(Cur c, int count, bool big, bool eol) {
     return true;
 }
 
-bool starts_paragraph(MED_buffer.Buffer buf, int row, bool both) {
-    str line = buf.line(row);
+bool is_starts_paragraph(MED_buffer.Buffer buffer, int row, bool is_both) {
+    str line = buffer.line(row);
     if (line.size() == 0) {
         return true;
     }
     int first = line.byte_at(0);
-    return first == 12 || (both && first == 125);
+    return first == 12 || (is_both && first == 125);
 }
 
 /// `{` (dir -1) and `}` (dir 1). Returns the row, or -1 when it cannot move.
 /// `last_line_end` is set when the motion ended on the last line's last
 /// character (then it is inclusive).
-pub Motion paragraph(MED_buffer.Buffer buf, int row, int dir, int count) {
+pub Motion paragraph(MED_buffer.Buffer buffer, int row, int directory, int count) {
     int curr = row;
     int left = count;
     while (left > 0) {
         left = left - 1;
         bool did_skip = false;
-        bool first = true;
+        bool is_first = true;
         while (true) {
-            if (buf.line_size(curr) != 0) {
+            if (buffer.line_size(curr) != 0) {
                 did_skip = true;
             }
-            if (!first && did_skip && starts_paragraph(buf, curr, false)) {
+            if (!is_first && did_skip && is_starts_paragraph(buffer, curr, false)) {
                 break;
             }
-            curr = curr + dir;
-            if (curr < 0 || curr >= buf.line_count()) {
+            curr = curr + directory;
+            if (curr < 0 || curr >= buffer.line_count()) {
                 if (left > 0) {
                     return failed();
                 }
-                curr = curr - dir;
+                curr = curr - directory;
                 break;
             }
-            first = false;
+            is_first = false;
         }
     }
-    Motion m = Motion();
-    m.row = curr;
-    m.jump = true;
-    m.col = 0;
-    if (curr == buf.line_count() - 1 && dir > 0) {
-        str line = buf.line(curr);
+    Motion motion = Motion();
+    motion.row = curr;
+    motion.is_jump = true;
+    motion.col = 0;
+    if (curr == buffer.line_count() - 1 && directory > 0) {
+        str line = buffer.line(curr);
         if (line.size() != 0) {
-            m.col = MED_text.last_col(line);
-            m.inclusive = true;
+            motion.col = MED_text.last_col(line);
+            motion.is_inclusive = true;
         }
     }
-    return m;
+    return motion;
 }
 
 /// The column covering display column `want` (Vim's coladvance). `want` -1
-/// means the end of the line. `one_more` lets the cursor stand on the NUL.
-pub int col_for_want(str line, int want, int tab, bool one_more) {
+/// means the end of the line. `is_one_more` lets the cursor stand on the NUL.
+pub int col_for_want(str line, int want, int tab, bool is_one_more) {
     int size = line.size();
     if (size == 0) {
         return 0;
     }
     if (want < 0) {
-        if (one_more) {
+        if (is_one_more) {
             return size;
         }
         return MED_text.last_col(line);
     }
-    int at = 0;
+    int spot = 0;
     int col = 0;
     while (col < size) {
-        int width = MED_text.cell_width(line, col, at, tab);
-        if (want < at + width) {
+        int width = MED_text.cell_width(line, col, spot, tab);
+        if (want < spot + width) {
             return col;
         }
-        at = at + width;
+        spot = spot + width;
         col = MED_text.next_col(line, col);
     }
-    if (one_more) {
+    if (is_one_more) {
         return size;
     }
     return MED_text.last_col(line);
 }
 
-/// `f F t T` search on one line. `dir` 1 or -1; `until` for t/T; `stop` false
+/// `f F t T` search on one line. `directory` 1 or -1; `is_until` for t/T; `is_stop` false
 /// lets a repeated `;` skip a match right next to the cursor.
-pub Motion find_char(str line, int col, int target, int dir, bool until, int count, bool stop_flag) {
-    bool stop = stop_flag;
+pub Motion find_char(str line, int col, int target, int directory, bool is_until, int count, bool is_stop_flag) {
+    bool is_stop = is_stop_flag;
     int left = count;
-    int at = col;
-    int len = line.size();
+    int spot = col;
+    int length = line.size();
     while (left > 0) {
         left = left - 1;
         while (true) {
-            if (dir > 0) {
-                at = MED_text.next_col(line, at);
-                if (at >= len) {
+            if (directory > 0) {
+                spot = MED_text.next_col(line, spot);
+                if (spot >= length) {
                     return failed();
                 }
             } else {
-                if (at == 0) {
+                if (spot == 0) {
                     return failed();
                 }
-                at = MED_text.prev_col(line, at);
+                spot = MED_text.previous_col(line, spot);
             }
-            if (MED_text.cp_at(line, at) == target && stop) {
+            if (MED_text.cp_at(line, spot) == target && is_stop) {
                 break;
             }
-            stop = true;
+            is_stop = true;
         }
     }
-    if (until) {
-        if (dir > 0) {
-            at = MED_text.prev_col(line, at);
+    if (is_until) {
+        if (directory > 0) {
+            spot = MED_text.previous_col(line, spot);
         } else {
             // Vim steps one code point past the match (maybe into a cluster;
             // the cursor snaps to the cluster start, an operator does not)
-            at = at + str.from_chars([MED_text.cp_at(line, at)]).size();
+            spot = spot + str.from_chars([MED_text.cp_at(line, spot)]).size();
         }
     }
-    Motion m = Motion();
-    m.col = at;
-    m.inclusive = dir > 0;
-    return m;
+    Motion motion = Motion();
+    motion.col = spot;
+    motion.is_inclusive = directory > 0;
+    return motion;
 }
 
 // ---------------------------------------------------------------- sentences
 
-bool is_white_ch(int c) {
-    return c == 32 || c == 9;
+bool is_white_ch(int char_code) {
+    return char_code == 32 || char_code == 9;
 }
 
-bool in_set(str set, int c) {
-    if (c == 0) {
+bool is_in_set(str set, int char_code) {
+    if (char_code == 0) {
         return false;
     }
-    return set.index_of(str.from_chars([c])).is_some();
+    return set.index_of(str.from_chars([char_code])).is_some();
 }
 
-bool para_start(MED_buffer.Buffer buf, int row) {
-    str line = buf.line(row);
+bool is_para_start(MED_buffer.Buffer buffer, int row) {
+    str line = buffer.line(row);
     return line.size() == 0 || line.byte_at(0) == 12;
 }
 
-/// Vim's `findsent`: `(` (dir -1) and `)` (dir 1). Moves `cur` on success.
-pub bool findsent(Cur cur, int dir, int count) {
-    Cur pos = Cur(cur.buf, cur.row, cur.col);
-    bool noskip = false;
+/// Vim's `findsent`: `(` (dir -1) and `)` (dir 1). Moves `current` on success.
+pub bool did_findsent(Cur current, int directory, int count) {
+    Cur position = Cur(current.buffer, current.row, current.col);
+    bool is_noskip = false;
     int left = count;
     while (left > 0) {
         left = left - 1;
-        bool found = false;
-        if (pos.ch() == 0) {
+        bool is_found = false;
+        if (position.char_code() == 0) {
             while (true) {
-                int r = 0;
-                if (dir > 0) {
-                    r = pos.incl();
+                int result = 0;
+                if (directory > 0) {
+                    result = position.incl();
                 } else {
-                    r = pos.decl();
+                    result = position.decl();
                 }
-                if (r == -1) {
+                if (result == -1) {
                     break;
                 }
-                if (pos.ch() != 0) {
+                if (position.char_code() != 0) {
                     break;
                 }
             }
-            if (dir > 0) {
-                found = true;
+            if (directory > 0) {
+                is_found = true;
             }
-        } else if (dir > 0 && pos.col == 0 && para_start(pos.buf, pos.row)) {
-            if (pos.row == pos.buf.line_count() - 1) {
+        } else if (directory > 0 && position.col == 0 && is_para_start(position.buffer, position.row)) {
+            if (position.row == position.buffer.line_count() - 1) {
                 return false;
             }
-            pos.row = pos.row + 1;
-            found = true;
-        } else if (dir < 0) {
-            pos.decl();
+            position.row = position.row + 1;
+            is_found = true;
+        } else if (directory < 0) {
+            position.decl();
         }
-        if (!found) {
-            bool found_dot = false;
+        if (!is_found) {
+            bool is_found_dot = false;
             while (true) {
-                int c = pos.ch();
-                if (!(is_white_ch(c) || in_set(".!?)]\"'", c))) {
+                int char_code = position.char_code();
+                if (!(is_white_ch(char_code) || is_in_set(".!?)]\"'", char_code))) {
                     break;
                 }
-                Cur tpos = Cur(pos.buf, pos.row, pos.col);
-                if (tpos.decl() == -1 || (tpos.buf.line_size(tpos.row) == 0 && dir > 0)) {
+                Cur tpos = Cur(position.buffer, position.row, position.col);
+                if (tpos.decl() == -1 || (tpos.buffer.line_size(tpos.row) == 0 && directory > 0)) {
                     break;
                 }
-                if (found_dot) {
+                if (is_found_dot) {
                     break;
                 }
-                if (in_set(".!?", c)) {
-                    found_dot = true;
+                if (is_in_set(".!?", char_code)) {
+                    is_found_dot = true;
                 }
-                if (in_set(")]\"'", c) && !in_set(".!?)]\"'", tpos.ch())) {
+                if (is_in_set(")]\"'", char_code) && !is_in_set(".!?)]\"'", tpos.char_code())) {
                     break;
                 }
-                pos.decl();
+                position.decl();
             }
-            int startrow = pos.row;
+            int startrow = position.row;
             while (true) {
-                int c = pos.ch();
-                if (c == 0 || (pos.col == 0 && para_start(pos.buf, pos.row))) {
-                    if (dir < 0 && pos.row != startrow) {
-                        pos.row = pos.row + 1;
-                        pos.col = 0;
+                int char_code = position.char_code();
+                if (char_code == 0 || (position.col == 0 && is_para_start(position.buffer, position.row))) {
+                    if (directory < 0 && position.row != startrow) {
+                        position.row = position.row + 1;
+                        position.col = 0;
                     }
                     break;
                 }
-                if (c == 46 || c == 33 || c == 63) {
-                    Cur tpos = Cur(pos.buf, pos.row, pos.col);
-                    int cc = 0;
+                if (char_code == 46 || char_code == 33 || char_code == 63) {
+                    Cur tpos = Cur(position.buffer, position.row, position.col);
+                    int current_col = 0;
                     while (true) {
-                        cc = tpos.inc();
-                        if (cc == -1) {
+                        current_col = tpos.inc();
+                        if (current_col == -1) {
                             break;
                         }
-                        if (!in_set(")]\"'", tpos.ch())) {
+                        if (!is_in_set(")]\"'", tpos.char_code())) {
                             break;
                         }
                     }
-                    int ch = tpos.ch();
-                    if (cc == -1 || ch == 32 || ch == 9 || ch == 0) {
-                        pos.row = tpos.row;
-                        pos.col = tpos.col;
-                        if (pos.ch() == 0) {
-                            pos.inc();
+                    int char_value = tpos.char_code();
+                    if (current_col == -1 || char_value == 32 || char_value == 9 || char_value == 0) {
+                        position.row = tpos.row;
+                        position.col = tpos.col;
+                        if (position.char_code() == 0) {
+                            position.inc();
                         }
                         break;
                     }
                 }
                 int stepped = 0;
-                if (dir > 0) {
-                    stepped = pos.incl();
+                if (directory > 0) {
+                    stepped = position.incl();
                 } else {
-                    stepped = pos.decl();
+                    stepped = position.decl();
                 }
                 if (stepped == -1) {
                     if (left > 0) {
                         return false;
                     }
-                    noskip = true;
+                    is_noskip = true;
                     break;
                 }
             }
         }
-        while (!noskip && is_white_ch(pos.ch())) {
-            if (pos.incl() == -1) {
+        while (!is_noskip && is_white_ch(position.char_code())) {
+            if (position.incl() == -1) {
                 break;
             }
         }
     }
-    cur.row = pos.row;
-    cur.col = pos.col;
+    current.row = position.row;
+    current.col = position.col;
     return true;
 }

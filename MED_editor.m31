@@ -37,8 +37,8 @@ pub type Node {
 /// The last f/F/t/T so `;` and `,` can repeat it.
 pub type FindState {
     pub int target = -1;
-    pub int dir = 1;
-    pub bool until = false;
+    pub int directory = 1;
+    pub bool is_until = false;
 }
 
 /// The rest of a macro that was stopped because it ran an ex command: the keys
@@ -50,13 +50,13 @@ pub type Resume {
 }
 
 pub type Editor {
-    pub MED_buffer.Buffer buf;
+    pub MED_buffer.Buffer buffer;
     pub int row = 0;
     pub int col = 0;
     /// Desired display column for vertical moves; -1 is "end of line".
     pub int want = 0;
     /// Vim's `w_set_curswant`: `want` is stale and is recomputed from the cursor before the next key.
-    pub bool want_stale = false;
+    pub bool needs_stale = false;
     pub int mode = NORMAL;
     /// Visual: 118 (v), 86 (V) or 22 (CTRL-V); 0 when not selecting.
     pub int vkind = 0;
@@ -64,9 +64,9 @@ pub type Editor {
     pub int vcol = 0;
     pub MED_register.Registers regs = MED_register.Registers();
     pub List<Node> nodes = [];
-    pub int cur = 0;
+    pub int current = 0;
     pub List<MED_buffer.Edit> block = [];
-    pub bool block_open = false;
+    pub bool is_block_open = false;
     pub MED_buffer.Pos block_before = MED_buffer.Pos(0, 0);
     pub int tab = 8;
     /// The window: first buffer line shown and number of lines it shows. The
@@ -76,27 +76,27 @@ pub type Editor {
     /// CTRL-D / CTRL-U distance; 0 means half the window.
     pub int scroll_opt = 0;
     pub int shiftwidth = 8;
-    pub bool expandtab = false;
-    pub bool autoindent = true;
-    pub bool ignorecase = false;
-    pub bool smartcase = false;
-    pub bool wrapscan = true;
-    pub bool joinspaces = false;
-    pub bool startofline = false;
+    pub bool is_expandtab = false;
+    pub bool is_autoindent = true;
+    pub bool is_ignorecase = false;
+    pub bool is_smartcase = false;
+    pub bool is_wrapscan = true;
+    pub bool is_joinspaces = false;
+    pub bool is_startofline = false;
     pub List<int> pending = [];
     pub FindState find = FindState();
     pub Map<str, MED_buffer.Pos> marks = {};
     /// Set by a command that failed (Vim would beep and flush macro input).
-    pub bool failed = false;
+    pub bool is_failed = false;
     pub str message = "";
-    pub bool quit = false;
-    pub bool force_quit = false;
+    pub bool is_quit = false;
+    pub bool is_force_quit = false;
     /// Keys of the command being typed, and the last repeatable change.
     pub List<int> cmd_keys = [];
     pub List<int> dot = [];
-    pub bool changed_cmd = false;
+    pub bool is_changed_cmd = false;
     /// Executing dot or a macro: a failing command aborts the rest.
-    pub bool replaying = false;
+    pub bool is_replaying = false;
     pub str macro_reg = "";
     pub List<int> macro_keys = [];
     pub str last_macro = "";
@@ -113,27 +113,27 @@ pub type Editor {
     /// The insert start an arrow key leaves pending (Vim's Insstart), taken
     /// over by `ins_start` at the next key unless `ins_hold`.
     pub MED_buffer.Pos ins_next = MED_buffer.Pos(0, 0);
-    pub bool ins_next_set = false;
-    pub bool ins_hold = false;
+    pub bool is_ins_next_set = false;
+    pub bool is_ins_hold = false;
     /// Whether anything was typed in this insert yet.
-    pub bool ins_dirty = false;
+    pub bool is_ins_dirty = false;
     pub List<str> replaced = [];
     /// Search.
-    pub str search_pat = "";
-    pub int search_dir = 1;
-    pub str sub_pat = "";
-    pub str sub_rep = "";
+    pub str search_pattern = "";
+    pub int search_directory = 1;
+    pub str sub_pattern = "";
+    pub str sub_replacement = "";
     /// The pattern `n` and an empty `//` use is the substitute one (Vim's last_idx).
-    pub bool last_is_sub = false;
+    pub bool is_last_is_sub = false;
     /// The search pattern was made by `*`: 'smartcase' does not apply to it.
-    pub bool search_no_scs = false;
+    pub bool is_search_no_scs = false;
     /// <C-a> remembers whether the last hex number it changed used capitals.
-    pub bool hexupper = false;
+    pub bool is_hexupper = false;
     /// The pattern about to be searched came from `*` (sets `search_no_scs`).
-    pub bool search_no_scs_next = false;
+    pub bool is_search_no_scs_next = false;
     /// The last search offset: line offset, `e` offset and the number.
-    pub bool search_off_line = false;
-    pub bool search_off_end = false;
+    pub bool is_search_off_line = false;
+    pub bool is_search_off_end = false;
     pub int search_off = 0;
     /// What was typed after `/` or `?` (pattern, offset, `;` searches).
     pub str search_typed = "";
@@ -142,9 +142,9 @@ pub type Editor {
     pub int uline_row = -1;
     pub str uline_text = "";
     pub int uline_col = 0;
-    pub bool uline_off = false;
+    pub bool is_uline_off = false;
     /// 'hlsearch' is suppressed until the next search (:noh).
-    pub bool no_hl = false;
+    pub bool is_no_hl = false;
     /// Last Visual selection, for gv.
     pub int last_vkind = 0;
     pub MED_buffer.Pos last_vstart = MED_buffer.Pos(0, 0);
@@ -165,26 +165,26 @@ pub type Editor {
     /// Insert mode waiting for the key after CTRL-R / CTRL-V.
     pub int ins_wait = 0;
     /// State of a CTRL-V number being typed (Vim's get_literal).
-    pub bool lit_hex = false;
-    pub bool lit_octal = false;
+    pub bool is_lit_hex = false;
+    pub bool is_lit_octal = false;
     pub int lit_uni = 0;
     pub int lit_cc = 0;
     pub int lit_i = 0;
     /// An arrow key was used and nothing typed since (Vim's arrow_used).
-    pub bool ins_arrow = false;
+    pub bool is_ins_arrow = false;
     /// Insert-mode CTRL-O: the mode to come back to (105 insert, 82 replace) once
     /// the next Normal command is done, 0 when not waiting for that.
     pub int restart_edit = 0;
-    pub bool restart_skip = false;
-    pub bool ins_at_eol = false;
+    pub bool is_restart_skip = false;
+    pub bool is_ins_at_eol = false;
     pub int o_lnum = 0;
-    pub bool ins_ctrl_o = false;
+    pub bool is_ins_ctrl_o = false;
     /// The insert was restarted by CTRL-O and nothing was typed yet.
-    pub bool ins_restart = false;
+    pub bool is_ins_restart = false;
     /// Replaying the dot register (its keys are not recorded again).
-    pub bool in_dot = false;
+    pub bool is_in_dot = false;
     /// A `/` or `?` whose pattern was just typed: the motion may run.
-    pub bool search_ready = false;
+    pub bool is_search_ready = false;
     pub str dot_reg = "";
     pub int dot_count = 0;
     pub List<int> dot_body = [];
@@ -195,7 +195,7 @@ pub type Editor {
     pub int dot_vcols = 0;
     pub int dot_vwant = 0;
     /// Redoing a Visual operation: block width comes from `dot_vcols`.
-    pub bool vis_redo = false;
+    pub bool is_visible_redo = false;
     /// A block-wise I, A or c in progress: what was typed on the first line is
     /// copied to the others when the insert ends. `blk_op` is 73, 65, 99 or 0.
     pub int blk_op = 0;
@@ -203,26 +203,26 @@ pub type Editor {
     pub int blk_bottom = 0;
     pub int blk_sv = 0;
     pub int blk_ev = 0;
-    pub bool blk_eol = false;
+    pub bool is_blk_eol = false;
     pub int blk_col = 0;
     pub int blk_tail = 0;
     pub int blk_start_col = 0;
-    pub int blk_pre_len = 0;
+    pub int blk_pre_length = 0;
     pub int blk_ind_col = 0;
     pub int blk_ind_vcol = 0;
-    pub int blk_cur_col = 0;
+    pub int blk_current_col = 0;
     /// Ex command lines typed (or replayed) and not yet run: MED_ex runs them,
     /// because only it can call into the ex executor.
     pub List<str> ex_queue = [];
     /// Macros stopped for an ex command, first to continue first.
     pub List<Resume> resume = [];
     pub List<int> park = [];
-    pub bool park_set = false;
+    pub bool is_park_set = false;
     /// Lines `:g` has marked and not run yet (rows, ascending).
     pub List<int> gmarks = [];
-    pub bool gmarks_on = false;
-    pub bool global_busy = false;
-    pub bool need_beginline = false;
+    pub bool is_gmarks_on = false;
+    pub bool is_global_busy = false;
+    pub bool is_need_beginline = false;
     /// Nesting of ex lines (`:normal`, `:g`): 0 when typed.
     pub int ex_depth = 0;
     /// The flags of the last `:s`, for `:&&`.
@@ -236,15 +236,15 @@ pub type Editor {
     /// Undo-tree states (node seq) at which the buffer was written, oldest first.
     pub List<int> saved_nodes = [];
     /// Set while a typed `:` line runs when Vim would not remember it in the `:` register.
-    pub bool colon_skip = false;
+    pub bool is_colon_skip = false;
     /// The raw text of the last `:s` replacement (before `~` is expanded).
     pub str sub_old = "";
-    pub bool sub_has = false;
+    pub bool is_sub_has = false;
     /// Set while a caller adjusts the marks itself (`:s` line breaks).
-    pub bool adjust_off = false;
+    pub bool is_adjust_off = false;
 }
 
-pub bool Editor.in_visual() {
+pub bool Editor.did_in_visual() {
     return mode == VISUAL;
 }
 
@@ -252,16 +252,16 @@ pub MED_buffer.Pos Editor.cursor() {
     return MED_buffer.Pos(row, col);
 }
 
-pub void Editor.set_cursor(MED_buffer.Pos p) {
-    row = p.row;
-    col = p.col;
+pub void Editor.set_cursor(MED_buffer.Pos position) {
+    row = position.row;
+    col = position.col;
 }
 
 /// Start the undo block now, remembering the cursor as it is (what Vim's
 /// u_save() sees when an ex command positions the cursor "for undo").
 pub void Editor.open_block() {
-    if (!block_open) {
-        block_open = true;
+    if (!is_block_open) {
+        is_block_open = true;
         block = [];
         block_before = MED_buffer.Pos(row, col);
     }
@@ -269,42 +269,42 @@ pub void Editor.open_block() {
 
 /// The single entry point for changing text. The first change of a block
 /// remembers the cursor, which is what undo restores.
-pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos to, str replacement) {
-    if (!block_open) {
-        block_open = true;
+pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos position, str replacement) {
+    if (!is_block_open) {
+        is_block_open = true;
         block = [];
         block_before = MED_buffer.Pos(row, col);
     }
-    if (!uline_off && from.row == to.row && uline_row != from.row && !replacement.index_of("\n").is_some()) {
+    if (!is_uline_off && from.row == position.row && uline_row != from.row && !replacement.index_of("\n").is_some()) {
         // u_save() of a single line remembers it for `U`
         uline_row = from.row;
-        uline_text = buf.line(from.row);
+        uline_text = buffer.line(from.row);
         uline_col = 0;
         if (row == from.row) {
             uline_col = col;
         }
     }
-    MED_buffer.Edit e = buf.splice(from, to, replacement);
-    block.push(e);
-    if (!adjust_off) {
-        adjust_lines(from, to, replacement);
+    MED_buffer.Edit edit = buffer.splice(from, position, replacement);
+    block.push(edit);
+    if (!is_adjust_off) {
+        adjust_lines(from, position, replacement);
     }
-    return e;
+    return edit;
 }
 
-/// Lines `a ..< a + nd` were deleted and `ni` lines inserted at `a + nd`
+/// Lines `a ..< a + nd` were deleted and `new_insert` lines inserted at `a + nd`
 /// (Vim's mark_adjust()): move or drop the marks that sit below.
-pub void Editor.mark_adjust(int a, int nd, int ni) {
-    if (gmarks_on && gmarks.size() > 0) {
+pub void Editor.mark_adjust(int left, int new_delete, int new_insert) {
+    if (is_gmarks_on && gmarks.size() > 0) {
         List<int> kept = [];
-        for (int m in gmarks) {
-            if (m >= a && m < a + nd) {
+        for (int marker in gmarks) {
+            if (marker >= left && marker < left + new_delete) {
                 continue;
             }
-            if (m >= a + nd) {
-                kept.push(m + ni - nd);
+            if (marker >= left + new_delete) {
+                kept.push(marker + new_insert - new_delete);
             } else {
-                kept.push(m);
+                kept.push(marker);
             }
         }
         gmarks = kept;
@@ -317,36 +317,36 @@ pub void Editor.mark_adjust(int a, int nd, int ni) {
         if (name == "[" || name == "]") {
             continue;
         }
-        MED_buffer.Pos p = marks.get(name).or(MED_buffer.Pos(-1, 0));
-        if (p.row < 0) {
+        MED_buffer.Pos position = marks.get(name).or(MED_buffer.Pos(-1, 0));
+        if (position.row < 0) {
             continue;
         }
-        int c = name.byte_at(0);
-        bool letter = (c >= 97 && c <= 122) || (c >= 65 && c <= 90);
-        if (p.row >= a && p.row < a + nd) {
-            if (letter) {
+        int char_code = name.byte_at(0);
+        bool is_letter = (char_code >= 97 && char_code <= 122) || (char_code >= 65 && char_code <= 90);
+        if (position.row >= left && position.row < left + new_delete) {
+            if (is_letter) {
                 marks.remove(name);
             } else if (name == "'" || name == "'prev") {
                 // a deleted previous-context mark is line 0 (checkpcmark() may
                 // bring the one before it back)
                 marks.set(name, MED_buffer.Pos(-1, 0));
             } else {
-                int r = a;
-                if (r > 0) {
-                    r = r - 1;
+                int result = left;
+                if (result > 0) {
+                    result = result - 1;
                 }
-                marks.set(name, MED_buffer.Pos(r, p.col));
+                marks.set(name, MED_buffer.Pos(result, position.col));
             }
-        } else if (p.row >= a + nd) {
-            marks.set(name, MED_buffer.Pos(p.row + ni - nd, p.col));
+        } else if (position.row >= left + new_delete) {
+            marks.set(name, MED_buffer.Pos(position.row + new_insert - new_delete, position.col));
         }
     }
 }
 
 // Work out which whole lines a character edit deleted or inserted the way Vim's
 // line operations would have, and adjust the marks for it.
-void Editor.adjust_lines(MED_buffer.Pos from, MED_buffer.Pos to, str replacement) {
-    int removed = to.row - from.row;
+void Editor.adjust_lines(MED_buffer.Pos from, MED_buffer.Pos position, str replacement) {
+    int removed = position.row - from.row;
     int added = 0;
     for (int i in 0 .. replacement.size()) {
         if (replacement.byte_at(i) == 10) {
@@ -356,7 +356,7 @@ void Editor.adjust_lines(MED_buffer.Pos from, MED_buffer.Pos to, str replacement
     if (removed == 0 && added == 0) {
         return;
     }
-    if (replacement == "" && from.col == 0 && to.col == 0 && removed > 0) {
+    if (replacement == "" && from.col == 0 && position.col == 0 && removed > 0) {
         mark_adjust(from.row, removed, 0);
     } else if (removed == 0 && from.col == 0 && added > 0 && replacement.ends_with("\n")) {
         mark_adjust(from.row, 0, added);
@@ -368,22 +368,22 @@ void Editor.adjust_lines(MED_buffer.Pos from, MED_buffer.Pos to, str replacement
 }
 
 /// `U`: swap the saved line with the current text of that line.
-pub bool Editor.undo_line() {
-    if (uline_row < 0 || uline_row >= buf.line_count()) {
+pub bool Editor.did_undo_line() {
+    if (uline_row < 0 || uline_row >= buffer.line_count()) {
         return false;
     }
-    int at = uline_row;
-    str old = buf.line(at);
+    int spot = uline_row;
+    str old = buffer.line(spot);
     str saved_text = uline_text;
     int saved_col = uline_col;
-    uline_off = true;
-    change(MED_buffer.Pos(at, 0), MED_buffer.Pos(at, old.size()), saved_text);
-    uline_off = false;
+    is_uline_off = true;
+    change(MED_buffer.Pos(spot, 0), MED_buffer.Pos(spot, old.size()), saved_text);
+    is_uline_off = false;
     uline_text = old;
-    if (row == at) {
+    if (row == spot) {
         uline_col = col;
     }
-    row = at;
+    row = spot;
     col = saved_col;
     clamp();
     want_from_cursor();
@@ -404,10 +404,10 @@ pub void Editor.release_macro_holds() {
 
 /// Close the open block even inside an ex line (undo and redo need that).
 pub void Editor.close_block() {
-    int h = block_hold;
+    int hold = block_hold;
     block_hold = 0;
     end_block();
-    block_hold = h;
+    block_hold = hold;
 }
 
 /// A node that changes nothing: Vim saves the line for undo before it finds out
@@ -419,10 +419,10 @@ pub void Editor.noop_node() {
     close_block();
     int seq = nodes.size();
     List<MED_buffer.Edit> none = [];
-    Node node = Node(seq, cur, none, MED_buffer.Pos(row, col));
+    Node node = Node(seq, current, none, MED_buffer.Pos(row, col));
     nodes.push(node);
-    nodes[cur].redo_child = seq;
-    cur = seq;
+    nodes[current].redo_child = seq;
+    current = seq;
 }
 
 /// Close the open undo block, if any, as one node of the tree.
@@ -430,84 +430,84 @@ pub void Editor.end_block() {
     if (block_hold > 0) {
         return;
     }
-    if (!block_open) {
+    if (!is_block_open) {
         return;
     }
-    block_open = false;
+    is_block_open = false;
     if (block.size() == 0) {
         return;
     }
     int seq = nodes.size();
-    Node node = Node(seq, cur, block, block_before);
+    Node node = Node(seq, current, block, block_before);
     nodes.push(node);
-    nodes[cur].redo_child = seq;
-    cur = seq;
+    nodes[current].redo_child = seq;
+    current = seq;
     block = [];
 }
 
-Landing Editor.apply_edit(MED_buffer.Edit e, bool forward) {
-    str from_text = e.inserted;
-    str to_text = e.removed;
-    if (forward) {
-        from_text = e.removed;
-        to_text = e.inserted;
+Landing Editor.apply_edit(MED_buffer.Edit edit, bool is_forward) {
+    str from_text = edit.inserted;
+    str to_text = edit.removed;
+    if (is_forward) {
+        from_text = edit.removed;
+        to_text = edit.inserted;
     }
     int oldsize = line_span(from_text);
     int newsize = line_span(to_text);
     List<str> old_lines = [];
     for (int i in 0 .. oldsize) {
-        old_lines.push(buf.line(e.from.row + i));
+        old_lines.push(buffer.line(edit.from.row + i));
     }
-    MED_buffer.Pos end = MED_buffer.advance(e.from, from_text);
-    buf.tick = buf.tick + 1;
-    buf.modified = true;
-    buf.splice(e.from, end, to_text);
+    MED_buffer.Pos end = MED_buffer.advance(edit.from, from_text);
+    buffer.tick = buffer.tick + 1;
+    buffer.is_modified = true;
+    buffer.splice(edit.from, end, to_text);
     int differ = 0;
     int limit = MED_num.smaller(oldsize, newsize);
-    while (differ < limit && old_lines[differ] == buf.line(e.from.row + differ)) {
+    while (differ < limit && old_lines[differ] == buffer.line(edit.from.row + differ)) {
         differ = differ + 1;
     }
-    Landing l = Landing();
-    l.top = e.from.row;
-    l.first = differ;
-    l.newsize = newsize;
+    Landing landing = Landing();
+    landing.top = edit.from.row;
+    landing.first = differ;
+    landing.newsize = newsize;
     // Vim's undo entries hold whole lines: a pure line insertion or deletion
     // spans one line fewer than the character edit does.
-    l.mtop = l.top;
-    l.mnew = newsize;
+    landing.mtop = landing.top;
+    landing.mnew = newsize;
     if (from_text == "" || to_text == "") {
         str moved = from_text + to_text;
         if (moved.starts_with("\n")) {
-            l.mtop = l.top + 1;
-            l.mnew = newsize - 1;
-        } else if (moved.ends_with("\n") && e.from.col == 0) {
-            l.mnew = newsize - 1;
+            landing.mtop = landing.top + 1;
+            landing.mnew = newsize - 1;
+        } else if (moved.ends_with("\n") && edit.from.col == 0) {
+            landing.mnew = newsize - 1;
         }
     }
-    return l;
+    return landing;
 }
 
 // '[ and '] after undo / redo: the first and last line the block touched.
 void Editor.set_undo_marks(List<Landing> landings, int old_lines) {
     int start = old_lines;
     int end = 0;
-    for (Landing l in landings) {
-        if (l.mtop + 1 < start) {
-            start = l.mtop + 1;
+    for (Landing landing in landings) {
+        if (landing.mtop + 1 < start) {
+            start = landing.mtop + 1;
         }
-        if (l.mnew == 0) {
-            if (l.mtop + 1 > end) {
-                end = l.mtop + 1;
+        if (landing.mnew == 0) {
+            if (landing.mtop + 1 > end) {
+                end = landing.mtop + 1;
             }
-        } else if (l.mtop + l.mnew > end) {
-            end = l.mtop + l.mnew;
+        } else if (landing.mtop + landing.mnew > end) {
+            end = landing.mtop + landing.mnew;
         }
     }
-    if (start > buf.line_count()) {
-        start = buf.line_count();
+    if (start > buffer.line_count()) {
+        start = buffer.line_count();
     }
-    if (end > buf.line_count()) {
-        end = buf.line_count();
+    if (end > buffer.line_count()) {
+        end = buffer.line_count();
     }
     if (end < 1) {
         end = 1;
@@ -517,39 +517,39 @@ void Editor.set_undo_marks(List<Landing> landings, int old_lines) {
 }
 
 // Vim's cursor placement after undo / redo of one block.
-void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines) {
+void Editor.land(Node node, List<Landing> landings, bool is_undoing, int old_lines) {
     set_undo_marks(landings, old_lines);
     int newlnum = 1000000000;
     int cursor_row = row;
-    bool set_row = false;
+    bool is_set_row = false;
     int saved = node.before.row + 1;
     int index = 0;
-    for (Landing l in landings) {
+    for (Landing landing in landings) {
         index = index + 1;
-        int vfirst = l.first - (l.mtop - l.top);
+        int vfirst = landing.first - (landing.mtop - landing.top);
         if (vfirst < 0) {
             vfirst = 0;
         }
-        if (l.mtop < newlnum) {
-            if (saved >= l.mtop && saved <= l.mtop + l.mnew + 1) {
+        if (landing.mtop < newlnum) {
+            if (saved >= landing.mtop && saved <= landing.mtop + landing.mnew + 1) {
                 cursor_row = node.before.row;
-                set_row = true;
+                is_set_row = true;
                 newlnum = cursor_row;
-            } else if (vfirst == l.mnew && newlnum == 1000000000 && index == landings.size()) {
-                newlnum = l.mtop;
+            } else if (vfirst == landing.mnew && newlnum == 1000000000 && index == landings.size()) {
+                newlnum = landing.mtop;
                 cursor_row = newlnum;
-                set_row = true;
-            } else if (vfirst < l.mnew) {
-                newlnum = l.mtop + vfirst;
+                is_set_row = true;
+            } else if (vfirst < landing.mnew) {
+                newlnum = landing.mtop + vfirst;
                 cursor_row = newlnum;
-                set_row = true;
+                is_set_row = true;
             }
         }
     }
     int lnum = cursor_row + 1;
-    if (!set_row) {
+    if (!is_set_row) {
         lnum = row + 1;
-        if (!undoing && landings.size() == 0) {
+        if (!is_undoing && landings.size() == 0) {
             // redoing an empty step (a failed put) moves to where it was made
             lnum = node.before.row + 1;
         }
@@ -557,95 +557,95 @@ void Editor.land(Node node, List<Landing> landings, bool undoing, int old_lines)
     if (node.before.row + 1 + 1 == lnum && lnum > 1) {
         lnum = lnum - 1;
     }
-    if (lnum <= buf.line_count()) {
+    if (lnum <= buffer.line_count()) {
         row = lnum - 1;
         if (node.before.row + 1 == lnum) {
             col = node.before.col;
-        } else if (startofline) {
-            col = MED_text.first_nonblank(buf.line(row));
+        } else if (is_startofline) {
+            col = MED_text.first_nonblank(buffer.line(row));
         } else {
-            col = MED_motion.col_for_want(buf.line(row), want, tab, false);
+            col = MED_motion.col_for_want(buffer.line(row), want, tab, false);
         }
     } else {
-        row = buf.line_count() - 1;
+        row = buffer.line_count() - 1;
     }
     clamp();
     want_from_cursor();
 }
 
 /// Undo one block. False when already at the oldest change.
-pub bool Editor.undo() {
+pub bool Editor.did_undo() {
     close_block();
-    if (cur == 0) {
+    if (current == 0) {
         return false;
     }
-    Node node = nodes[cur];
-    int old_lines = buf.line_count();
+    Node node = nodes[current];
+    int old_lines = buffer.line_count();
     List<Landing> landings = [];
-    int i = node.edits.size() - 1;
-    while (i >= 0) {
-        landings.push(apply_edit(node.edits[i], false));
-        i = i - 1;
+    int index = node.edits.size() - 1;
+    while (index >= 0) {
+        landings.push(apply_edit(node.edits[index], false));
+        index = index - 1;
     }
     land(node, landings, true, old_lines);
-    cur = node.parent;
-    nodes[cur].redo_child = node.seq;
+    current = node.parent;
+    nodes[current].redo_child = node.seq;
     return true;
 }
 
 /// Redo along the branch last undone. False when there is nothing to redo.
-pub bool Editor.redo() {
+pub bool Editor.did_redo() {
     close_block();
-    int child = nodes[cur].redo_child;
+    int child = nodes[current].redo_child;
     if (child < 0) {
         return false;
     }
     Node node = nodes[child];
-    int old_lines = buf.line_count();
+    int old_lines = buffer.line_count();
     List<Landing> landings = [];
-    for (MED_buffer.Edit e in node.edits) {
-        landings.push(apply_edit(e, true));
+    for (MED_buffer.Edit edit in node.edits) {
+        landings.push(apply_edit(edit, true));
     }
     land(node, landings, false, old_lines);
-    cur = child;
+    current = child;
     return true;
 }
 
 /// Go to the text state after change `target` (0: the original text), through
 /// the undo and redo steps between here and there (`:undo N`, `g-`, `g+`).
-pub bool Editor.undo_to(int target) {
+pub bool Editor.did_undo_to(int target) {
     close_block();
     if (target < 0 || target >= nodes.size()) {
         return false;
     }
     List<int> chain = [];
-    int n = target;
-    while (n != 0) {
-        chain.push(n);
-        n = nodes[n].parent;
+    int count = target;
+    while (count != 0) {
+        chain.push(count);
+        count = nodes[count].parent;
     }
     chain.push(0);
-    int at = -1;
-    while (at < 0) {
+    int spot = -1;
+    while (spot < 0) {
         for (int i in 0 .. chain.size()) {
-            if (chain[i] == cur) {
-                at = i;
+            if (chain[i] == current) {
+                spot = i;
                 break;
             }
         }
-        if (at < 0) {
-            if (!undo()) {
+        if (spot < 0) {
+            if (!did_undo()) {
                 return false;
             }
         }
     }
-    int k = at - 1;
-    while (k >= 0) {
-        nodes[cur].redo_child = chain[k];
-        if (!redo()) {
+    int key = spot - 1;
+    while (key >= 0) {
+        nodes[current].redo_child = chain[key];
+        if (!did_redo()) {
             return false;
         }
-        k = k - 1;
+        key = key - 1;
     }
     return true;
 }
@@ -653,14 +653,14 @@ pub bool Editor.undo_to(int target) {
 /// The display column the cursor is drawn at (the end cell of a Tab in
 /// normal mode, as Vim does).
 pub int Editor.cursor_vcol() {
-    str line = buf.line(row);
+    str line = buffer.line(row);
     int start = MED_text.display_col(line, col, tab);
     if (col < line.size() && line.byte_at(col) == 9 && mode != INSERT && mode != REPLACE) {
-        bool at_end = true;
+        bool is_at_end = true;
         if (mode == VISUAL) {
-            at_end = row > vrow || (row == vrow && col > vcol);
+            is_at_end = row > vrow || (row == vrow && col > vcol);
         }
-        if (at_end) {
+        if (is_at_end) {
             return start + MED_text.cell_width(line, col, start, tab) - 1;
         }
     }
@@ -674,13 +674,13 @@ pub void Editor.want_from_cursor() {
 /// Keep the cursor on a valid cell: inside the buffer, on a grapheme start,
 /// and (outside insert and visual) on a character rather than the NUL.
 pub void Editor.clamp() {
-    if (row >= buf.line_count()) {
-        row = buf.line_count() - 1;
+    if (row >= buffer.line_count()) {
+        row = buffer.line_count() - 1;
     }
     if (row < 0) {
         row = 0;
     }
-    str line = buf.line(row);
+    str line = buffer.line(row);
     if (col < 0) {
         col = 0;
     }
@@ -707,19 +707,19 @@ pub void Editor.clamp() {
 /// Loading a buffer sets '[ and '] to its first and last line.
 pub void Editor.init_marks() {
     marks.set("[", MED_buffer.Pos(0, 0));
-    marks.set("]", MED_buffer.Pos(buf.line_count() - 1, 0));
+    marks.set("]", MED_buffer.Pos(buffer.line_count() - 1, 0));
     marks.set("'", MED_buffer.Pos(0, 0));
     marks.set("'prev", MED_buffer.Pos(-1, 0));
 }
 
-/// Vim's setpcmark(): the previous-context mark becomes `p`; does nothing in
+/// Vim's setpcmark(): the previous-context mark becomes `position`; does nothing in
 /// `:global`.
-pub void Editor.set_pcmark(MED_buffer.Pos p) {
-    if (global_busy) {
+pub void Editor.set_pcmark(MED_buffer.Pos position) {
+    if (is_global_busy) {
         return;
     }
     marks.set("'prev", marks.get("'").or(MED_buffer.Pos(-1, 0)));
-    marks.set("'", p);
+    marks.set("'", position);
 }
 
 /// Vim's mark_col_adjust() for a join: a mark on joined line `row + 1 + i` moves
@@ -734,16 +734,16 @@ pub void Editor.join_marks(int row_in, List<int> shift, List<int> removed) {
         if (name == "[" || name == "]") {
             continue;
         }
-        MED_buffer.Pos p = marks.get(name).or(MED_buffer.Pos(-1, 0));
-        int i = p.row - row_in - 1;
-        if (p.row < 0 || i < 0 || i >= shift.size()) {
+        MED_buffer.Pos position = marks.get(name).or(MED_buffer.Pos(-1, 0));
+        int index = position.row - row_in - 1;
+        if (position.row < 0 || index < 0 || index >= shift.size()) {
             continue;
         }
-        int c = p.col;
-        if (c < removed[i]) {
-            c = removed[i];
+        int char_code = position.col;
+        if (char_code < removed[index]) {
+            char_code = removed[index];
         }
-        marks.set(name, MED_buffer.Pos(row_in, c + shift[i]));
+        marks.set(name, MED_buffer.Pos(row_in, char_code + shift[index]));
     }
 }
 
@@ -751,30 +751,30 @@ pub void Editor.join_marks(int row_in, List<int> shift, List<int> removed) {
 /// current one comes back when the cursor ended up on the current one or the
 /// current one was deleted.
 pub void Editor.check_pcmark() {
-    MED_buffer.Pos prev = marks.get("'prev").or(MED_buffer.Pos(-1, 0));
-    MED_buffer.Pos pc = marks.get("'").or(MED_buffer.Pos(-1, 0));
-    if (prev.row >= 0 && (pc.row < 0 || (pc.row == row && pc.col == col))) {
-        marks.set("'", prev);
+    MED_buffer.Pos previous = marks.get("'prev").or(MED_buffer.Pos(-1, 0));
+    MED_buffer.Pos position = marks.get("'").or(MED_buffer.Pos(-1, 0));
+    if (previous.row >= 0 && (position.row < 0 || (position.row == row && position.col == col))) {
+        marks.set("'", previous);
     }
     marks.set("'prev", MED_buffer.Pos(-1, 0));
 }
 
 pub Editor new(str text) {
-    Editor ed = Editor(MED_buffer.load(text));
-    ed.nodes.push(Node(0, -1, [], MED_buffer.Pos(0, 0)));
-    ed.init_marks();
-    return ed;
+    Editor editor = Editor(MED_buffer.load(text));
+    editor.nodes.push(Node(0, -1, [], MED_buffer.Pos(0, 0)));
+    editor.init_marks();
+    return editor;
 }
 
 // How many lines the text spans.
 int line_span(str text) {
-    int n = 1;
+    int count = 1;
     for (int i in 0 .. text.size()) {
         if (text.byte_at(i) == 10) {
-            n = n + 1;
+            count = count + 1;
         }
     }
-    return n;
+    return count;
 }
 
 // Apply one edit in the given direction and report whether it changed the
@@ -787,5 +787,5 @@ pub type Landing {
     /// `top` and `newsize` as Vim's whole-line undo entries count them.
     pub int mtop = 0;
     pub int mnew = 0;
-    pub bool first_changed_found = false;
+    pub bool is_first_changed_found = false;
 }

@@ -16,7 +16,7 @@ check.eq_int("count", MED_key.parse("<leader>ff").size(), 3);
 check.eq_int("literal lt", MED_key.parse("a<b").size(), 3);
 check.eq_int("alt", MED_key.parse("<M-j>")[0], 106 | MED_key.MOD_ALT);
 check.eq_str("alt name", MED_key.name(106 | MED_key.MOD_ALT), "<M-j>");
-check.eq_str("up name", MED_key.name(MED_key.UP), "<Up>");
+check.eq_str("up name", MED_key.name(MED_key.UP_KEY), "<Up>");
 check.eq_str("f5", MED_key.name(MED_key.FKEY_BASE + 5), "<F5>");
 check.eq_int("f5 parse", MED_key.parse("<F5>")[0], MED_key.FKEY_BASE + 5);
 check.eq_str("ctrl name", MED_key.name(1), "<C-a>");

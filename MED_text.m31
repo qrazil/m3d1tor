@@ -23,7 +23,7 @@
 // the time, and then none of this touches the Unicode tables.
 
 import MED_charclass;
-import unicode;
+import text.unicode;
 
 /// Whether every byte of `line` is below 0x80.
 pub bool is_ascii(str line) {
@@ -87,7 +87,7 @@ pub int next_col(str line, int col) {
 }
 
 /// The start of the cluster before `col`, or 0.
-pub int prev_col(str line, int col) {
+pub int previous_col(str line, int col) {
     if (col <= 0) {
         return 0;
     }
@@ -162,12 +162,12 @@ pub int cp_at(str line, int col) {
 
 /// Word class for the word motions (nvim's `utf_class`): 0 blank,
 /// 1 punctuation, 2 word, 3 emoji, 4 and up per-script classes.
-pub int class_of(int cp) {
-    if (cp < 256) {
-        if (cp == 32 || cp == 9 || cp == 0 || cp == 160) {
+pub int class_of(int code_point) {
+    if (code_point < 256) {
+        if (code_point == 32 || code_point == 9 || code_point == 0 || code_point == 160) {
             return 0;
         }
-        if ((cp >= 48 && cp <= 57) || (cp >= 65 && cp <= 90) || (cp >= 97 && cp <= 122) || cp == 95 || cp >= 192) {
+        if ((code_point >= 48 && code_point <= 57) || (code_point >= 65 && code_point <= 90) || (code_point >= 97 && code_point <= 122) || code_point == 95 || code_point >= 192) {
             return 2;
         }
         return 1;
@@ -178,9 +178,9 @@ pub int class_of(int cp) {
     while (low <= high) {
         int mid = (low + high) / 2;
         int base = mid * 3;
-        if (cp < table[base]) {
+        if (code_point < table[base]) {
             high = mid - 1;
-        } else if (cp > table[base + 1]) {
+        } else if (code_point > table[base + 1]) {
             low = mid + 1;
         } else {
             return table[base + 2];
@@ -191,11 +191,11 @@ pub int class_of(int cp) {
 
 /// The class of the cluster at `col` (blank at the end of the line).
 pub int class_at(str line, int col) {
-    int cp = cp_at(line, col);
-    if (cp < 0) {
+    int code_point = cp_at(line, col);
+    if (code_point < 0) {
         return 0;
     }
-    return class_of(cp);
+    return class_of(code_point);
 }
 
 /// The first non-blank (space or tab) offset, or `line.size()`.
@@ -210,19 +210,19 @@ pub int first_nonblank(str line) {
     return size;
 }
 
-/// Width of the cluster at `col` if it starts at screen column `at`.
-pub int cell_width(str line, int col, int at, int tab) {
-    int cp = cp_at(line, col);
-    if (cp < 0) {
+/// Width of the cluster at `col` if it starts at screen column `spot`.
+pub int cell_width(str line, int col, int spot, int tab) {
+    int code_point = cp_at(line, col);
+    if (code_point < 0) {
         return 1;
     }
-    if (cp == 9) {
-        return tab - (at % tab);
+    if (code_point == 9) {
+        return tab - (spot % tab);
     }
-    if (cp < 32 || cp == 127) {
+    if (code_point < 32 || code_point == 127) {
         return 2;
     }
-    if (cp < 128) {
+    if (code_point < 128) {
         return 1;
     }
     int end = next_col(line, col);
@@ -235,30 +235,30 @@ pub int cell_width(str line, int col, int at, int tab) {
 
 /// The screen column where the cluster at `col` starts.
 pub int display_col(str line, int col, int tab) {
-    int at = 0;
+    int spot = 0;
     int offset = 0;
     if (is_ascii(line)) {
         for (int i in 0 .. col) {
             int byte = line.byte_at(i);
             if (byte == 9) {
-                at = at + tab - (at % tab);
+                spot = spot + tab - (spot % tab);
             } else if (byte < 32 || byte == 127) {
-                at = at + 2;
+                spot = spot + 2;
             } else {
-                at = at + 1;
+                spot = spot + 1;
             }
         }
-        return at;
+        return spot;
     }
     List<int> offsets = starts(line);
     for (int offset_value in offsets) {
         if (offset_value >= col) {
             break;
         }
-        at = at + cell_width(line, offset_value, at, tab);
+        spot = spot + cell_width(line, offset_value, spot, tab);
         offset = offset_value;
     }
-    return at;
+    return spot;
 }
 
 /// Total display width of the line.
@@ -270,17 +270,17 @@ pub int line_width(str line, int tab) {
 /// cluster when `want` is past the end (callers decide whether that is
 /// allowed), 0 for the empty line.
 pub int col_at_display(str line, int want, int tab) {
-    int at = 0;
+    int spot = 0;
     int last = 0;
     for (int offset in starts(line)) {
         if (offset >= line.size()) {
             break;
         }
-        int width = cell_width(line, offset, at, tab);
-        if (want < at + width) {
+        int width = cell_width(line, offset, spot, tab);
+        if (want < spot + width) {
             return offset;
         }
-        at = at + width;
+        spot = spot + width;
         last = offset;
     }
     return last;

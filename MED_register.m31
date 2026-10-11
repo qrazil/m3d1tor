@@ -93,9 +93,9 @@ pub void Registers.set_special(str name, str text) {
     }
 }
 
-// Write `reg` into `slot`, appending when `append`.
-void Registers.store(str slot, Reg reg, bool append) {
-    if (!append) {
+// Write `reg` into `slot`, appending when `is_append_value`.
+void Registers.store(str slot, Reg reg, bool is_append_value) {
+    if (!is_append_value) {
         slots.set(slot, reg);
         return;
     }
@@ -151,42 +151,42 @@ pub void Registers.yank(str name, Reg reg) {
     previous = slot;
 }
 
-/// A delete or change into `name`. `shift` is true when the text was linewise
+/// A delete or change into `name`. `is_shift` is true when the text was linewise
 /// or spans several lines or the motion is one of % ( ) ` / ? n N { } (so it
-/// goes to "1 after shifting "1.."9); `small` is true for a charwise delete
+/// goes to "1 after shifting "1.."9); `is_small` is true for a charwise delete
 /// within one line (so it goes to "- when no register was named).
-pub void Registers.delete(str name, Reg reg, bool shift, bool small) {
+pub void Registers.delete(str name, Reg reg, bool is_shift, bool is_small) {
     if (name == "_") {
         return;
     }
-    bool appended = false;
+    bool is_appended = false;
     if (name != "") {
         str slot = slot_of(name);
-        appended = is_append(name);
-        store(slot, reg, appended);
+        is_appended = is_append(name);
+        store(slot, reg, is_appended);
         previous = slot;
     }
-    if (shift) {
-        int n = 9;
-        while (n > 1) {
-            str from_slot = (n - 1).to_str();
+    if (is_shift) {
+        int count = 9;
+        while (count > 1) {
+            str from_slot = (count - 1).to_str();
             match (slots.get(from_slot)) {
                 case Some(Reg moved): {
-                    slots.set(n.to_str(), moved);
+                    slots.set(count.to_str(), moved);
                 }
                 case None: {
-                    slots.remove(n.to_str());
+                    slots.remove(count.to_str());
                 }
             }
-            n = n - 1;
+            count = count - 1;
         }
         slots.remove("1");
         store("1", reg, false);
-        if (!appended) {
+        if (!is_appended) {
             previous = "1";
         }
     }
-    if (name == "" && small) {
+    if (name == "" && is_small) {
         store("-", reg, false);
         previous = "-";
     }

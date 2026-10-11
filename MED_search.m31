@@ -19,52 +19,52 @@ import MED_buffer;
 import MED_text;
 
 pub type Hit {
-    pub bool ok = false;
+    pub bool is_ok = false;
     pub int row = 0;
     pub int col = 0;
     pub int erow = 0;
     pub int ecol = 0;
     /// The search ran past the end (or start) of the buffer to find this.
-    pub bool wrapped = false;
+    pub bool is_wrapped = false;
     pub str error = "";
 }
 
 pub type Outcome {
-    pub bool ok = false;
+    pub bool is_ok = false;
     pub int row = 0;
     pub int col = 0;
     /// 2 when a line offset was added (the motion becomes linewise).
     pub int kind = 1;
-    pub bool inclusive = false;
-    pub bool wrapped = false;
+    pub bool is_inclusive = false;
+    pub bool is_wrapped = false;
     pub str error = "";
 }
 
 /// The pattern `n` and an empty pattern use.
-pub str last_pattern(MED_editor.Editor ed) {
-    if (ed.last_is_sub) {
-        return ed.sub_pat;
+pub str last_pattern(MED_editor.Editor editor) {
+    if (editor.is_last_is_sub) {
+        return editor.sub_pattern;
     }
-    return ed.search_pat;
+    return editor.search_pattern;
 }
 
-pub void set_last_pattern(MED_editor.Editor ed, str pat, bool is_sub) {
+pub void set_last_pattern(MED_editor.Editor editor, str pattern, bool is_sub) {
     if (is_sub) {
-        ed.sub_pat = pat;
+        editor.sub_pattern = pattern;
     } else {
-        ed.search_pat = pat;
+        editor.search_pattern = pattern;
     }
-    ed.last_is_sub = is_sub;
-    ed.no_hl = false;
-    ed.regs.set_special("/", pat);
+    editor.is_last_is_sub = is_sub;
+    editor.is_no_hl = false;
+    editor.regs.set_special("/", pattern);
 }
 
-pub MED_regex.Regex compile_with(MED_editor.Editor ed, str pat, bool no_scs) {
-    bool scs = ed.smartcase;
-    if (no_scs) {
-        scs = false;
+pub MED_regex.Regex compile_with(MED_editor.Editor editor, str pattern, bool is_no_scs) {
+    bool is_scs = editor.is_smartcase;
+    if (is_no_scs) {
+        is_scs = false;
     }
-    return MED_regex.compile(pat, ed.ignorecase, scs, ed.sub_rep);
+    return MED_regex.compile(pattern, editor.is_ignorecase, is_scs, editor.sub_replacement);
 }
 
 // ----------------------------------------------------------- pattern ends
@@ -76,52 +76,52 @@ int at(str line, int col) {
     return line.byte_at(col);
 }
 
-// After the `[` at `i`: the index just past the closing `]` of a collection,
+// After the `[` at `index`: the index just past the closing `]` of a collection,
 // or -1 when this `[` does not start one (Vim's skip_anyof()).
-int skip_anyof(str s, int i) {
-    int p = i + 1;
-    if (at(s, p) == 94) {
-        p = p + 1;
+int skip_anyof(str text, int index) {
+    int offset = index + 1;
+    if (at(text, offset) == 94) {
+        offset = offset + 1;
     }
-    if (at(s, p) == 93 || at(s, p) == 45) {
-        p = p + 1;
+    if (at(text, offset) == 93 || at(text, offset) == 45) {
+        offset = offset + 1;
     }
-    while (p < s.size() && at(s, p) != 93) {
-        int c = at(s, p);
-        if (c == 45) {
-            p = p + 1;
-            if (at(s, p) == 93 || p >= s.size()) {
+    while (offset < text.size() && at(text, offset) != 93) {
+        int char_code = at(text, offset);
+        if (char_code == 45) {
+            offset = offset + 1;
+            if (at(text, offset) == 93 || offset >= text.size()) {
                 break;
             }
-            p = p + 1;
-        } else if (c == 92) {
-            int n = at(s, p + 1);
-            if (n != 0 && "]^-n\\nrtebdoxuU".index_of(str.from_chars([n])).is_some()) {
-                p = p + 2;
+            offset = offset + 1;
+        } else if (char_code == 92) {
+            int count = at(text, offset + 1);
+            if (count != 0 && "]^-n\\nrtebdoxuU".index_of(str.from_chars([count])).is_some()) {
+                offset = offset + 2;
             } else {
-                p = p + 1;
+                offset = offset + 1;
             }
-        } else if (c == 91) {
-            int n = at(s, p + 1);
-            if (n == 58 || n == 61 || n == 46) {
-                int q = p + 2;
-                while (q < s.size() && !(at(s, q) == n && at(s, q + 1) == 93)) {
-                    q = q + 1;
+        } else if (char_code == 91) {
+            int count = at(text, offset + 1);
+            if (count == 58 || count == 61 || count == 46) {
+                int ahead = offset + 2;
+                while (ahead < text.size() && !(at(text, ahead) == count && at(text, ahead + 1) == 93)) {
+                    ahead = ahead + 1;
                 }
-                if (q < s.size()) {
-                    p = q + 2;
+                if (ahead < text.size()) {
+                    offset = ahead + 2;
                 } else {
-                    p = p + 1;
+                    offset = offset + 1;
                 }
             } else {
-                p = p + 1;
+                offset = offset + 1;
             }
         } else {
-            p = MED_text.next_col(s, p);
+            offset = MED_text.next_col(text, offset);
         }
     }
-    if (at(s, p) == 93) {
-        return p + 1;
+    if (at(text, offset) == 93) {
+        return offset + 1;
     }
     return -1;
 }
@@ -129,341 +129,341 @@ int skip_anyof(str s, int i) {
 /// The byte index in `text` where the pattern ends: at the first unescaped
 /// `delim` outside a `[]` collection (Vim's skip_regexp()).
 pub int skip_regexp(str text, int delim) {
-    int p = 0;
-    bool magic = true;
-    while (p < text.size()) {
-        int c = text.byte_at(p);
-        if (c == delim) {
+    int offset = 0;
+    bool is_magic = true;
+    while (offset < text.size()) {
+        int char_code = text.byte_at(offset);
+        if (char_code == delim) {
             break;
         }
-        if ((c == 91 && magic) || (c == 92 && at(text, p + 1) == 91 && !magic)) {
-            int from = p;
-            if (c == 92) {
-                from = p + 1;
+        if ((char_code == 91 && is_magic) || (char_code == 92 && at(text, offset + 1) == 91 && !is_magic)) {
+            int from = offset;
+            if (char_code == 92) {
+                from = offset + 1;
             }
             int end = skip_anyof(text, from);
             if (end > 0) {
-                p = end;
+                offset = end;
             } else {
-                p = from + 1;
+                offset = from + 1;
             }
-        } else if (c == 92 && p + 1 < text.size()) {
-            int n = text.byte_at(p + 1);
-            if (n == 118) {
-                magic = true;
-            } else if (n == 86) {
-                magic = false;
+        } else if (char_code == 92 && offset + 1 < text.size()) {
+            int count = text.byte_at(offset + 1);
+            if (count == 118) {
+                is_magic = true;
+            } else if (count == 86) {
+                is_magic = false;
             }
-            p = p + 2;
+            offset = offset + 2;
         } else {
-            p = MED_text.next_col(text, p);
+            offset = MED_text.next_col(text, offset);
         }
     }
-    return p;
+    return offset;
 }
 
 // --------------------------------------------------------------- searchit
 
-int line_len(MED_buffer.Buffer buf, int row) {
-    return buf.line_size(row);
+int line_length(MED_buffer.Buffer buffer, int row) {
+    return buffer.line_size(row);
 }
 
-/// One search of `re` from (prow, pcol), `count` times, in direction `dir`
-/// (1 or -1). `at_start` accepts a match at the start (SEARCH_START),
-/// `at_end` puts the position on the last character of the match
-/// (SEARCH_END), unless `no_offset`.
-pub Hit searchit(MED_editor.Editor ed, MED_regex.Regex re, int prow, int pcol, int dir, int count, bool at_start, bool at_end, bool no_offset) {
-    MED_buffer.Buffer buf = ed.buf;
-    int nlines = buf.line_count();
+/// One search of `regex` from (prow, pcol), `count` times, in direction `directory`
+/// (1 or -1). `is_at_start` accepts a match at the start (SEARCH_START),
+/// `is_at_end` puts the position on the last character of the match
+/// (SEARCH_END), unless `is_no_offset`.
+pub Hit searchit(MED_editor.Editor editor, MED_regex.Regex regex, int prow, int pcol, int directory, int count, bool is_at_start, bool is_at_end, bool is_no_offset) {
+    MED_buffer.Buffer buffer = editor.buffer;
+    int nlines = buffer.line_count();
     Hit hit = Hit();
-    int cr = prow;
-    int cc = pcol;
-    bool first_match = true;
+    int current_row = prow;
+    int current_col = pcol;
+    bool is_first_match = true;
     int remaining = count;
     if (remaining < 1) {
         remaining = 1;
     }
     while (true) {
-        int start_row = cr;
-        int start_col = cc;
+        int start_row = current_row;
+        int start_col = current_col;
         int sclen = 1;
-        if (start_row < nlines && start_col < line_len(buf, start_row)) {
-            sclen = MED_text.next_col(buf.line(start_row), start_col) - start_col;
+        if (start_row < nlines && start_col < line_length(buffer, start_row)) {
+            sclen = MED_text.next_col(buffer.line(start_row), start_col) - start_col;
         }
         int extra = 0;
-        if (dir > 0) {
-            if (!at_start) {
+        if (directory > 0) {
+            if (!is_at_start) {
                 extra = sclen;
             }
-        } else if (at_start) {
+        } else if (is_at_start) {
             extra = sclen;
         }
-        bool found = false;
-        bool first_line = true;
-        int lnum = cr;
-        if (dir < 0 && cc == 0 && !at_start) {
-            lnum = cr - 1;
-            first_line = false;
+        bool is_found = false;
+        bool is_first_line = true;
+        int lnum = current_row;
+        if (directory < 0 && current_col == 0 && !is_at_start) {
+            lnum = current_row - 1;
+            is_first_line = false;
         }
-        int fr = 0;
-        int fc = 0;
+        int first_row = 0;
+        int first_col = 0;
         int fer = 0;
         int fec = 0;
         for (int pass in 0 .. 2) {
             while (lnum >= 0 && lnum < nlines) {
-                bool stop_check = true;
-                MED_regex.Match m = re.search_line(buf, lnum, 0);
-                if (m.aborted) {
+                bool is_stop_check = true;
+                MED_regex.Match match_value = regex.search_line(buffer, lnum, 0);
+                if (match_value.is_aborted) {
                     hit.error = "E363: Pattern uses more memory than 'maxmempattern'";
                     return hit;
                 }
-                if (m.ok) {
-                    int mr = m.srow;
-                    int mc = m.scol;
-                    int er = m.erow;
-                    int ec = m.ecol;
-                    bool match_ok = true;
-                    if (dir > 0 && first_line) {
-                        while (mr == lnum) {
-                            int len = line_len(buf, lnum);
-                            bool before = false;
-                            if (at_end && first_match) {
-                                before = er == lnum && ec - 1 < start_col + extra;
+                if (match_value.is_ok) {
+                    int match_row = match_value.srow;
+                    int match_col = match_value.scol;
+                    int end_row = match_value.erow;
+                    int end_col = match_value.ecol;
+                    bool is_match_ok = true;
+                    if (directory > 0 && is_first_line) {
+                        while (match_row == lnum) {
+                            int length = line_length(buffer, lnum);
+                            bool is_before = false;
+                            if (is_at_end && is_first_match) {
+                                is_before = end_row == lnum && end_col - 1 < start_col + extra;
                             } else {
                                 int adj = 0;
-                                if (mc >= len) {
+                                if (match_col >= length) {
                                     adj = 1;
                                 }
-                                before = mc - adj < start_col + extra;
+                                is_before = match_col - adj < start_col + extra;
                             }
-                            if (!before) {
+                            if (!is_before) {
                                 break;
                             }
                             int matchcol = 0;
-                            if (er > lnum) {
-                                match_ok = false;
+                            if (end_row > lnum) {
+                                is_match_ok = false;
                                 break;
                             }
-                            matchcol = ec;
-                            if (matchcol == mc && matchcol < len) {
-                                matchcol = MED_text.next_col(buf.line(lnum), matchcol);
+                            matchcol = end_col;
+                            if (matchcol == match_col && matchcol < length) {
+                                matchcol = MED_text.next_col(buffer.line(lnum), matchcol);
                             }
-                            if (matchcol == 0 && at_start) {
+                            if (matchcol == 0 && is_at_start) {
                                 break;
                             }
-                            if (matchcol >= len) {
-                                match_ok = false;
+                            if (matchcol >= length) {
+                                is_match_ok = false;
                                 break;
                             }
-                            MED_regex.Match m2 = re.search_line(buf, lnum, matchcol);
-                            if (!m2.ok) {
-                                match_ok = false;
+                            MED_regex.Match match_item = regex.search_line(buffer, lnum, matchcol);
+                            if (!match_item.is_ok) {
+                                is_match_ok = false;
                                 break;
                             }
-                            mr = m2.srow;
-                            mc = m2.scol;
-                            er = m2.erow;
-                            ec = m2.ecol;
+                            match_row = match_item.srow;
+                            match_col = match_item.scol;
+                            end_row = match_item.erow;
+                            end_col = match_item.ecol;
                         }
-                        if (!match_ok) {
-                            stop_check = false;
+                        if (!is_match_ok) {
+                            is_stop_check = false;
                         }
-                    } else if (dir < 0) {
-                        match_ok = false;
-                        int ar = 0;
-                        int ac = 0;
+                    } else if (directory < 0) {
+                        is_match_ok = false;
+                        int after_row = 0;
+                        int after_col = 0;
                         int aer = 0;
                         int aec = 0;
-                        int cur_r = mr;
-                        int cur_c = mc;
-                        int cur_er = er;
-                        int cur_ec = ec;
+                        int current_r = match_row;
+                        int current_c = match_col;
+                        int current_er = end_row;
+                        int current_ec = end_col;
                         while (true) {
-                            bool accept = false;
+                            bool is_accept = false;
                             if (pass == 1) {
-                                accept = true;
-                            } else if (at_end) {
-                                accept = cur_er < start_row || (cur_er == start_row && cur_ec - 1 < start_col + extra);
+                                is_accept = true;
+                            } else if (is_at_end) {
+                                is_accept = current_er < start_row || (current_er == start_row && current_ec - 1 < start_col + extra);
                             } else {
-                                accept = cur_r < start_row || (cur_r == start_row && cur_c < start_col + extra);
+                                is_accept = current_r < start_row || (current_r == start_row && current_c < start_col + extra);
                             }
-                            if (!accept) {
+                            if (!is_accept) {
                                 break;
                             }
-                            match_ok = true;
-                            ar = cur_r;
-                            ac = cur_c;
-                            aer = cur_er;
-                            aec = cur_ec;
+                            is_match_ok = true;
+                            after_row = current_r;
+                            after_col = current_c;
+                            aer = current_er;
+                            aec = current_ec;
                             int matchcol = 0;
-                            if (cur_er > lnum) {
+                            if (current_er > lnum) {
                                 break;
                             }
-                            matchcol = cur_ec;
-                            int rlen = line_len(buf, cur_r);
-                            if (matchcol == cur_c && matchcol < rlen) {
-                                matchcol = MED_text.next_col(buf.line(cur_r), matchcol);
+                            matchcol = current_ec;
+                            int rlen = line_length(buffer, current_r);
+                            if (matchcol == current_c && matchcol < rlen) {
+                                matchcol = MED_text.next_col(buffer.line(current_r), matchcol);
                             }
                             if (matchcol >= rlen) {
                                 break;
                             }
-                            MED_regex.Match m2 = re.search_line(buf, cur_r, matchcol);
-                            if (!m2.ok) {
+                            MED_regex.Match match_item = regex.search_line(buffer, current_r, matchcol);
+                            if (!match_item.is_ok) {
                                 break;
                             }
-                            cur_r = m2.srow;
-                            cur_c = m2.scol;
-                            cur_er = m2.erow;
-                            cur_ec = m2.ecol;
+                            current_r = match_item.srow;
+                            current_c = match_item.scol;
+                            current_er = match_item.erow;
+                            current_ec = match_item.ecol;
                         }
-                        if (match_ok) {
-                            mr = ar;
-                            mc = ac;
-                            er = aer;
-                            ec = aec;
+                        if (is_match_ok) {
+                            match_row = after_row;
+                            match_col = after_col;
+                            end_row = aer;
+                            end_col = aec;
                         } else {
-                            stop_check = false;
+                            is_stop_check = false;
                         }
                     }
-                    if (match_ok) {
-                        if (at_end && !no_offset && !(mr == er && mc == ec)) {
-                            fr = er;
-                            fc = ec;
-                            if (ec == 0) {
-                                if (fr > 0) {
-                                    fr = fr - 1;
-                                    fc = line_len(buf, fr);
+                    if (is_match_ok) {
+                        if (is_at_end && !is_no_offset && !(match_row == end_row && match_col == end_col)) {
+                            first_row = end_row;
+                            first_col = end_col;
+                            if (end_col == 0) {
+                                if (first_row > 0) {
+                                    first_row = first_row - 1;
+                                    first_col = line_length(buffer, first_row);
                                 }
                             } else {
-                                fc = MED_text.prev_col(buf.line(fr), ec);
+                                first_col = MED_text.previous_col(buffer.line(first_row), end_col);
                             }
                         } else {
-                            fr = mr;
-                            fc = mc;
+                            first_row = match_row;
+                            first_col = match_col;
                         }
-                        hit.erow = er;
-                        hit.ecol = ec;
+                        hit.erow = end_row;
+                        hit.ecol = end_col;
                         if (pass == 1) {
-                            hit.wrapped = true;
+                            hit.is_wrapped = true;
                         }
-                        found = true;
-                        first_match = false;
+                        is_found = true;
+                        is_first_match = false;
                         break;
                     }
                 }
-                if (stop_check && pass == 1 && lnum == start_row) {
+                if (is_stop_check && pass == 1 && lnum == start_row) {
                     break;
                 }
-                lnum = lnum + dir;
-                first_line = false;
+                lnum = lnum + directory;
+                is_first_line = false;
             }
-            first_line = false;
-            if (!ed.wrapscan || found || pass == 1) {
+            is_first_line = false;
+            if (!editor.is_wrapscan || is_found || pass == 1) {
                 break;
             }
-            if (dir < 0) {
+            if (directory < 0) {
                 lnum = nlines - 1;
             } else {
                 lnum = 0;
             }
         }
-        if (!found) {
-            hit.ok = false;
+        if (!is_found) {
+            hit.is_ok = false;
             return hit;
         }
-        cr = fr;
-        cc = fc;
+        current_row = first_row;
+        current_col = first_col;
         remaining = remaining - 1;
         if (remaining <= 0) {
             break;
         }
     }
-    hit.ok = true;
-    hit.row = cr;
-    hit.col = cc;
+    hit.is_ok = true;
+    hit.row = current_row;
+    hit.col = current_col;
     return hit;
 }
 
 // ------------------------------------------------------------- do_search
 
-bool is_digit(int c) {
-    return c >= 48 && c <= 57;
+bool is_digit(int char_code) {
+    return char_code >= 48 && char_code <= 57;
 }
 
-int parse_int_at(str s, int i) {
-    int v = 0;
-    int p = i;
-    while (p < s.size() && is_digit(s.byte_at(p))) {
-        v = v * 10 + (s.byte_at(p) - 48);
-        p = p + 1;
+int parse_int_at(str text, int index) {
+    int value = 0;
+    int offset = index;
+    while (offset < text.size() && is_digit(text.byte_at(offset))) {
+        value = value * 10 + (text.byte_at(offset) - 48);
+        offset = offset + 1;
     }
-    return v;
+    return value;
 }
 
 // Vim's inc(): one position forward, stopping on the NUL ending a line; 0 for
 // a move inside the line, 2 when it reached the NUL, 1 for the next line and
 // -1 at the end of the buffer.
-int inc_pos(MED_buffer.Buffer buf, List<int> pos) {
-    str line = buf.line(pos[0]);
-    if (pos[1] < line.size()) {
-        pos[1] = MED_text.next_col(line, pos[1]);
-        if (pos[1] < line.size()) {
+int inc_position(MED_buffer.Buffer buffer, List<int> position) {
+    str line = buffer.line(position[0]);
+    if (position[1] < line.size()) {
+        position[1] = MED_text.next_col(line, position[1]);
+        if (position[1] < line.size()) {
             return 0;
         }
         return 2;
     }
-    if (pos[0] + 1 < buf.line_count()) {
-        pos[0] = pos[0] + 1;
-        pos[1] = 0;
+    if (position[0] + 1 < buffer.line_count()) {
+        position[0] = position[0] + 1;
+        position[1] = 0;
         return 1;
     }
     return -1;
 }
 
 // Vim's dec(): 0 inside a line, 1 onto the NUL of the previous line, -1 at the start.
-int dec_pos(MED_buffer.Buffer buf, List<int> pos) {
-    if (pos[1] > 0) {
-        pos[1] = MED_text.prev_col(buf.line(pos[0]), pos[1]);
+int dec_position(MED_buffer.Buffer buffer, List<int> position) {
+    if (position[1] > 0) {
+        position[1] = MED_text.previous_col(buffer.line(position[0]), position[1]);
         return 0;
     }
-    if (pos[0] > 0) {
-        pos[0] = pos[0] - 1;
-        pos[1] = buf.line_size(pos[0]);
+    if (position[0] > 0) {
+        position[0] = position[0] - 1;
+        position[1] = buffer.line_size(position[0]);
         return 1;
     }
     return -1;
 }
 
-int incl_pos(MED_buffer.Buffer buf, List<int> pos) {
-    int r = inc_pos(buf, pos);
-    if (r >= 1 && pos[1] > 0) {
-        r = inc_pos(buf, pos);
+int incl_position(MED_buffer.Buffer buffer, List<int> position) {
+    int result = inc_position(buffer, position);
+    if (result >= 1 && position[1] > 0) {
+        result = inc_position(buffer, position);
     }
-    return r;
+    return result;
 }
 
-int decl_pos(MED_buffer.Buffer buf, List<int> pos) {
-    int r = dec_pos(buf, pos);
-    if (r == 1 && pos[1] > 0) {
-        r = dec_pos(buf, pos);
+int decl_position(MED_buffer.Buffer buffer, List<int> position) {
+    int result = dec_position(buffer, position);
+    if (result == 1 && position[1] > 0) {
+        result = dec_position(buffer, position);
     }
-    return r;
+    return result;
 }
 
-// Step the position `n` characters forward (`n` > 0, incl()) or back (n < 0,
+// Step the position `count` characters forward (`count` > 0, incl()) or back (n < 0,
 // decl()). False when the buffer's edge was hit first.
-bool step_chars(MED_buffer.Buffer buf, List<int> pos, int n) {
-    int left = n;
+bool did_step_chars(MED_buffer.Buffer buffer, List<int> position, int count) {
+    int left = count;
     while (left != 0) {
-        int r = 0;
+        int result = 0;
         if (left > 0) {
-            r = incl_pos(buf, pos);
+            result = incl_position(buffer, position);
             left = left - 1;
         } else {
-            r = decl_pos(buf, pos);
+            result = decl_position(buffer, position);
             left = left + 1;
         }
-        if (r == -1) {
+        if (result == -1) {
             return false;
         }
     }
@@ -471,149 +471,149 @@ bool step_chars(MED_buffer.Buffer buf, List<int> pos, int n) {
 }
 
 str unescape_question(str pattern) {
-    List<int> cs = pattern.chars();
+    List<int> codes = pattern.chars();
     List<int> out = [];
-    int i = 0;
-    while (i < cs.size()) {
-        if (cs[i] == 92 && i + 1 < cs.size()) {
-            if (cs[i + 1] == 63) {
+    int index = 0;
+    while (index < codes.size()) {
+        if (codes[index] == 92 && index + 1 < codes.size()) {
+            if (codes[index + 1] == 63) {
                 out.push(63);
             } else {
                 out.push(92);
-                out.push(cs[i + 1]);
+                out.push(codes[index + 1]);
             }
-            i = i + 2;
+            index = index + 2;
         } else {
-            out.push(cs[i]);
-            i = i + 1;
+            out.push(codes[index]);
+            index = index + 1;
         }
     }
     return str.from_chars(out);
 }
 
-/// Run a `/` or `?` command (or `n` / `N`: `use_typed` false). `typed` is the
+/// Run a `/` or `?` command (or `n` / `N`: `is_use_typed` false). `typed` is the
 /// text after the `/` as typed on the command line; `dirc` is 47 or 63 (0 for
-/// n and N, which use the last direction); `reverse` flips it (N).
-pub Outcome search_command(MED_editor.Editor ed, int dirc_in, str typed, int count, bool reverse, bool use_typed) {
+/// n and N, which use the last direction); `is_reverse` flips it (N).
+pub Outcome search_command(MED_editor.Editor editor, int dirc_in, str typed, int count, bool is_reverse, bool is_use_typed) {
     Outcome out = Outcome();
     int dirc = dirc_in;
     if (dirc == 0) {
         dirc = 47;
-        if (ed.search_dir < 0) {
+        if (editor.search_directory < 0) {
             dirc = 63;
         }
     } else {
-        ed.search_dir = 1;
+        editor.search_directory = 1;
         if (dirc == 63) {
-            ed.search_dir = -1;
+            editor.search_directory = -1;
         }
     }
-    if (reverse) {
+    if (is_reverse) {
         if (dirc == 47) {
             dirc = 63;
         } else {
             dirc = 47;
         }
     }
-    if (!use_typed && last_pattern(ed) == "" && ed.sub_pat == "") {
+    if (!is_use_typed && last_pattern(editor) == "" && editor.sub_pattern == "") {
         out.error = "E35: No previous regular expression";
         return out;
     }
-    int pr = ed.row;
-    int pc = ed.col;
+    int from_row = editor.row;
+    int from_col = editor.col;
     str rest = typed;
-    bool have_text = use_typed && typed != "";
-    int cnt = count;
+    bool is_have_text = is_use_typed && typed != "";
+    int count_value = count;
     while (true) {
         int delim = dirc;
         str pattern = "";
-        bool use_last = true;
-        bool follow = false;
+        bool is_use_last = true;
+        bool is_follow = false;
         str after = "";
-        if (have_text) {
+        if (is_have_text) {
             int end = skip_regexp(rest, delim);
             pattern = rest.substr(0, end);
-            int p = end;
-            if (p < rest.size() && rest.byte_at(p) == delim) {
-                p = p + 1;
+            int offset = end;
+            if (offset < rest.size() && rest.byte_at(offset) == delim) {
+                offset = offset + 1;
             }
             if (delim == 63) {
                 pattern = unescape_question(pattern);
             }
-            ed.search_off_line = false;
-            ed.search_off_end = false;
-            ed.search_off = 0;
-            int c0 = at(rest, p);
-            if (c0 == 43 || c0 == 45 || is_digit(c0)) {
-                ed.search_off_line = true;
-            } else if (c0 == 101 || c0 == 115 || c0 == 98) {
-                if (c0 == 101) {
-                    ed.search_off_end = true;
+            editor.is_search_off_line = false;
+            editor.is_search_off_end = false;
+            editor.search_off = 0;
+            int first_char = at(rest, offset);
+            if (first_char == 43 || first_char == 45 || is_digit(first_char)) {
+                editor.is_search_off_line = true;
+            } else if (first_char == 101 || first_char == 115 || first_char == 98) {
+                if (first_char == 101) {
+                    editor.is_search_off_end = true;
                 }
-                p = p + 1;
+                offset = offset + 1;
             }
-            int c1 = at(rest, p);
-            if (is_digit(c1) || c1 == 43 || c1 == 45) {
-                if (is_digit(c1) || is_digit(at(rest, p + 1))) {
+            int second_char = at(rest, offset);
+            if (is_digit(second_char) || second_char == 43 || second_char == 45) {
+                if (is_digit(second_char) || is_digit(at(rest, offset + 1))) {
                     int sign = 1;
-                    int q = p;
-                    if (c1 == 45) {
+                    int ahead = offset;
+                    if (second_char == 45) {
                         sign = -1;
-                        q = p + 1;
-                    } else if (c1 == 43) {
-                        q = p + 1;
+                        ahead = offset + 1;
+                    } else if (second_char == 43) {
+                        ahead = offset + 1;
                     }
-                    ed.search_off = sign * parse_int_at(rest, q);
-                } else if (c1 == 45) {
-                    ed.search_off = -1;
+                    editor.search_off = sign * parse_int_at(rest, ahead);
+                } else if (second_char == 45) {
+                    editor.search_off = -1;
                 } else {
-                    ed.search_off = 1;
+                    editor.search_off = 1;
                 }
-                p = p + 1;
-                while (p < rest.size() && is_digit(rest.byte_at(p))) {
-                    p = p + 1;
+                offset = offset + 1;
+                while (offset < rest.size() && is_digit(rest.byte_at(offset))) {
+                    offset = offset + 1;
                 }
             }
-            after = rest.substr(p, rest.size());
+            after = rest.substr(offset, rest.size());
             if (after.size() > 0 && after.byte_at(0) == 59) {
-                follow = true;
+                is_follow = true;
             }
-            use_last = pattern == "";
+            is_use_last = pattern == "";
         }
         // the pattern to search for
-        str pat_text = "";
-        bool no_scs = false;
-        if (use_last) {
-            pat_text = last_pattern(ed);
-            if (ed.search_pat == "" && ed.sub_pat != "") {
-                pat_text = ed.sub_pat;
+        str pattern_text = "";
+        bool is_no_scs = false;
+        if (is_use_last) {
+            pattern_text = last_pattern(editor);
+            if (editor.search_pattern == "" && editor.sub_pattern != "") {
+                pattern_text = editor.sub_pattern;
             }
-            no_scs = ed.search_no_scs;
-            if (ed.last_is_sub) {
-                no_scs = false;
+            is_no_scs = editor.is_search_no_scs;
+            if (editor.is_last_is_sub) {
+                is_no_scs = false;
             }
-            if (pat_text == "") {
+            if (pattern_text == "") {
                 out.error = "E35: No previous regular expression";
                 return out;
             }
         } else {
-            pat_text = pattern;
-            no_scs = ed.search_no_scs_next;
-            set_last_pattern(ed, pat_text, false);
-            ed.search_no_scs = no_scs;
+            pattern_text = pattern;
+            is_no_scs = editor.is_search_no_scs_next;
+            set_last_pattern(editor, pattern_text, false);
+            editor.is_search_no_scs = is_no_scs;
         }
-        MED_regex.Regex re = compile_with(ed, pat_text, no_scs);
-        if (!re.ok) {
-            out.error = re.error;
+        MED_regex.Regex regex = compile_with(editor, pattern_text, is_no_scs);
+        if (!regex.is_ok) {
+            out.error = regex.error;
             return out;
         }
         // with a character offset, start from where that offset would have come from
-        List<int> pos = [pr, pc];
-        bool beyond = false;
-        if (!ed.search_off_line && ed.search_off != 0) {
-            int back = 0 - ed.search_off;
-            if (!step_chars(ed.buf, pos, back)) {
-                beyond = true;
+        List<int> position = [from_row, from_col];
+        bool is_beyond = false;
+        if (!editor.is_search_off_line && editor.search_off != 0) {
+            int back = 0 - editor.search_off;
+            if (!did_step_chars(editor.buffer, position, back)) {
+                is_beyond = true;
             }
         }
         Hit hit = Hit();
@@ -621,72 +621,72 @@ pub Outcome search_command(MED_editor.Editor ed, int dirc_in, str typed, int cou
         if (dirc == 63) {
             sdir = -1;
         }
-        if (beyond) {
+        if (is_beyond) {
             // Vim puts the start before the first line (or after the last): the
             // search then begins at that edge
-            if (ed.search_off > 0) {
-                hit = searchit(ed, re, 0, 0, sdir, cnt, true, ed.search_off_end, false);
+            if (editor.search_off > 0) {
+                hit = searchit(editor, regex, 0, 0, sdir, count_value, true, editor.is_search_off_end, false);
             } else {
-                hit = searchit(ed, re, ed.buf.line_count() - 1, ed.buf.line_size(ed.buf.line_count() - 1), sdir, cnt, false, ed.search_off_end, false);
+                hit = searchit(editor, regex, editor.buffer.line_count() - 1, editor.buffer.line_size(editor.buffer.line_count() - 1), sdir, count_value, false, editor.is_search_off_end, false);
             }
         } else {
-            hit = searchit(ed, re, pos[0], pos[1], sdir, cnt, false, ed.search_off_end, false);
+            hit = searchit(editor, regex, position[0], position[1], sdir, count_value, false, editor.is_search_off_end, false);
         }
-        if (!hit.ok) {
+        if (!hit.is_ok) {
             if (hit.error != "") {
                 out.error = hit.error;
-            } else if (!ed.wrapscan) {
+            } else if (!editor.is_wrapscan) {
                 if (dirc == 47) {
-                    out.error = "E385: Search hit BOTTOM without match for: " + pat_text;
+                    out.error = "E385: Search hit BOTTOM without match for: " + pattern_text;
                 } else {
-                    out.error = "E384: Search hit TOP without match for: " + pat_text;
+                    out.error = "E384: Search hit TOP without match for: " + pattern_text;
                 }
             } else {
-                out.error = "E486: Pattern not found: " + pat_text;
+                out.error = "E486: Pattern not found: " + pattern_text;
             }
             return out;
         }
-        pr = hit.row;
-        pc = hit.col;
-        if (hit.wrapped) {
-            out.wrapped = true;
+        from_row = hit.row;
+        from_col = hit.col;
+        if (hit.is_wrapped) {
+            out.is_wrapped = true;
         }
         out.kind = 1;
-        if (ed.search_off_line) {
-            int target = pr + ed.search_off;
+        if (editor.is_search_off_line) {
+            int target = from_row + editor.search_off;
             if (target < 0) {
                 target = 0;
             }
-            if (target > ed.buf.line_count() - 1) {
-                target = ed.buf.line_count() - 1;
+            if (target > editor.buffer.line_count() - 1) {
+                target = editor.buffer.line_count() - 1;
             }
-            pr = target;
-            pc = 0;
+            from_row = target;
+            from_col = 0;
             out.kind = 2;
-        } else if (ed.search_off != 0) {
-            List<int> q = [pr, pc];
-            step_chars(ed.buf, q, ed.search_off);
-            pr = q[0];
-            pc = q[1];
+        } else if (editor.search_off != 0) {
+            List<int> ahead = [from_row, from_col];
+            did_step_chars(editor.buffer, ahead, editor.search_off);
+            from_row = ahead[0];
+            from_col = ahead[1];
         }
-        if (!follow) {
+        if (!is_follow) {
             break;
         }
         // "/foo/;/bar/": another search from here
-        int nd = at(after, 1);
-        if (nd != 47 && nd != 63) {
+        int new_delete = at(after, 1);
+        if (new_delete != 47 && new_delete != 63) {
             out.error = "E386: Expected '?' or '/'  after ';'";
             return out;
         }
-        dirc = nd;
+        dirc = new_delete;
         rest = after.substr(2, after.size());
-        have_text = true;
-        cnt = 1;
+        is_have_text = true;
+        count_value = 1;
     }
-    out.ok = true;
-    out.row = pr;
-    out.col = pc;
-    out.inclusive = ed.search_off_end;
+    out.is_ok = true;
+    out.row = from_row;
+    out.col = from_col;
+    out.is_inclusive = editor.is_search_off_end;
     return out;
 }
 
@@ -697,61 +697,61 @@ pub Outcome search_command(MED_editor.Editor ed, int dirc_in, str typed, int cou
 pub List<int> ident_at(str line, int col) {
     List<int> none = [-1, -1];
     for (int i in 0 .. 2) {
-        int c = col;
-        while (c < line.size()) {
-            int cls = MED_text.class_at(line, c);
+        int char_code = col;
+        while (char_code < line.size()) {
+            int cls = MED_text.class_at(line, char_code);
             if (cls != 0 && (i == 1 || cls != 1)) {
                 break;
             }
-            c = MED_text.next_col(line, c);
+            char_code = MED_text.next_col(line, char_code);
         }
-        int this_class = MED_text.class_at(line, c);
-        while (c > 0 && this_class != 0) {
-            int prevcol = MED_text.prev_col(line, c);
-            int prev_class = MED_text.class_at(line, prevcol);
-            if (this_class != prev_class) {
+        int this_class = MED_text.class_at(line, char_code);
+        while (char_code > 0 && this_class != 0) {
+            int prevcol = MED_text.previous_col(line, char_code);
+            int previous_class = MED_text.class_at(line, prevcol);
+            if (this_class != previous_class) {
                 break;
             }
-            c = prevcol;
+            char_code = prevcol;
         }
         if (this_class > 2) {
             this_class = 2;
         }
         if (this_class == 2 || i == 1) {
-            if (c >= line.size() || (i == 0 && this_class != 2)) {
+            if (char_code >= line.size() || (i == 0 && this_class != 2)) {
                 if (i == 1) {
                     return none;
                 }
                 continue;
             }
             // the end
-            int start_class = MED_text.class_at(line, c);
-            int e = c;
-            while (e < line.size()) {
-                int cls = MED_text.class_at(line, e);
-                bool same = false;
+            int start_class = MED_text.class_at(line, char_code);
+            int stop = char_code;
+            while (stop < line.size()) {
+                int cls = MED_text.class_at(line, stop);
+                bool is_same = false;
                 if (i == 0) {
-                    same = cls == start_class;
+                    is_same = cls == start_class;
                 } else {
-                    same = cls != 0;
+                    is_same = cls != 0;
                 }
-                if (!same) {
+                if (!is_same) {
                     break;
                 }
-                e = MED_text.next_col(line, e);
+                stop = MED_text.next_col(line, stop);
             }
-            return [c, e];
+            return [char_code, stop];
         }
     }
     return none;
 }
 
-/// `*` `#` (`whole_word`) and `g*` `g#`: search for the word under the cursor.
+/// `*` `#` (`is_whole_word`) and `g*` `g#`: search for the word under the cursor.
 /// Moves nothing itself; the result is the new position like search_command().
-pub Outcome star(MED_editor.Editor ed, int key, bool whole_word, int count) {
+pub Outcome star(MED_editor.Editor editor, int key, bool is_whole_word, int count) {
     Outcome out = Outcome();
-    str line = ed.buf.line(ed.row);
-    List<int> span = ident_at(line, ed.col);
+    str line = editor.buffer.line(editor.row);
+    List<int> span = ident_at(line, editor.col);
     if (span[0] < 0) {
         out.error = "E348: No string under cursor";
         return out;
@@ -762,219 +762,219 @@ pub Outcome star(MED_editor.Editor ed, int key, bool whole_word, int count) {
         special = "/?.*~[^$\\";
     }
     List<int> pieces = [];
-    bool word_start = MED_text.class_at(line, span[0]) >= 2;
-    if (whole_word && word_start) {
+    bool is_word_start = MED_text.class_at(line, span[0]) >= 2;
+    if (is_whole_word && is_word_start) {
         pieces.push(92);
         pieces.push(60);
     }
-    for (int cp in word.chars()) {
-        if (cp < 128 && special.index_of(str.from_chars([cp])).is_some()) {
+    for (int code_point in word.chars()) {
+        if (code_point < 128 && special.index_of(str.from_chars([code_point])).is_some()) {
             pieces.push(92);
         }
-        pieces.push(cp);
+        pieces.push(code_point);
     }
     int last_start = span[0];
-    int p = span[0];
-    while (p < span[1]) {
-        last_start = p;
-        p = MED_text.next_col(line, p);
+    int offset = span[0];
+    while (offset < span[1]) {
+        last_start = offset;
+        offset = MED_text.next_col(line, offset);
     }
-    if (whole_word && MED_text.class_at(line, last_start) >= 2) {
+    if (is_whole_word && MED_text.class_at(line, last_start) >= 2) {
         pieces.push(92);
         pieces.push(62);
     }
-    str pat = str.from_chars(pieces);
-    int saved_row = ed.row;
-    int saved_col = ed.col;
-    ed.col = span[0];
-    ed.search_no_scs_next = true;
+    str pattern = str.from_chars(pieces);
+    int saved_row = editor.row;
+    int saved_col = editor.col;
+    editor.col = span[0];
+    editor.is_search_no_scs_next = true;
     int dirc = 47;
     if (key == 35) {
         dirc = 63;
     }
-    Outcome r = search_command(ed, dirc, pat, count, false, true);
-    ed.search_no_scs_next = false;
-    ed.row = saved_row;
-    ed.col = saved_col;
-    return r;
+    Outcome outcome = search_command(editor, dirc, pattern, count, false, true);
+    editor.is_search_no_scs_next = false;
+    editor.row = saved_row;
+    editor.col = saved_col;
+    return outcome;
 }
 
 // ------------------------------------------------------------ findmatch
 
-// Is there a `ch` in `line` just before `col` (Vim's check_prevcol())?
-bool prev_is(str line, int col, int ch) {
-    int c = col - 1;
-    if (c > 0) {
-        c = MED_text.snap(line, c);
+// Is there a `char_code` in `line` just before `col` (Vim's check_prevcol())?
+bool is_previous_is(str line, int col, int char_code) {
+    int code = col - 1;
+    if (code > 0) {
+        code = MED_text.snap(line, code);
     }
-    return c >= 0 && at(line, c) == ch;
+    return code >= 0 && at(line, code) == char_code;
 }
 
-int prev_of(str line, int col) {
-    int c = col - 1;
-    if (c > 0) {
-        c = MED_text.snap(line, c);
+int previous_of(str line, int col) {
+    int char_code = col - 1;
+    if (char_code > 0) {
+        char_code = MED_text.snap(line, char_code);
     }
-    return c;
+    return char_code;
 }
 
 // The matchpairs: [open, close, ...]
 const List<int> PAIRS = [40, 41, 123, 125, 91, 93];
 
 /// Where the bracket under or after the cursor (initc 0), or the bracket
-/// `initc` searched in direction `dir` (1 forward, -1 backward, 0 as the
+/// `initc` searched in direction `directory` (1 forward, -1 backward, 0 as the
 /// bracket says; for `[(` and friends), has its partner. Row -1: none.
 /// Vim's findmatchlimit() with 'cpoptions' as nvim's default.
-pub MED_buffer.Pos findmatch(MED_buffer.Buffer buf, int row, int col, int initc_in, int dir) {
+pub MED_buffer.Pos findmatch(MED_buffer.Buffer buffer, int row, int col, int initc_in, int directory) {
     MED_buffer.Pos none = MED_buffer.Pos(-1, 0);
-    int pr = row;
-    int pc = col;
-    str linep = buf.line(pr);
+    int from_row = row;
+    int from_col = col;
+    str linep = buffer.line(from_row);
     int initc = initc_in;
     int findc = 0;
-    bool backwards = false;
+    bool is_backwards = false;
     int match_escaped = 0;
     if (initc != 0) {
         // find_mps_values(&initc, &findc, &backwards, true)
-        bool seen = false;
-        for (int k in 0 .. PAIRS.size()) {
-            if (PAIRS[k] == initc) {
+        bool is_seen = false;
+        for (int key in 0 .. PAIRS.size()) {
+            if (PAIRS[key] == initc) {
                 // (the assignment is shared by both arms: hoisted for m31 gap G8)
                 findc = initc;
-                if (k % 2 == 0) {
-                    initc = PAIRS[k + 1];
-                    backwards = true;
+                if (key % 2 == 0) {
+                    initc = PAIRS[key + 1];
+                    is_backwards = true;
                 } else {
-                    initc = PAIRS[k - 1];
-                    backwards = false;
+                    initc = PAIRS[key - 1];
+                    is_backwards = false;
                 }
-                seen = true;
+                is_seen = true;
                 break;
             }
         }
-        if (!seen) {
+        if (!is_seen) {
             return none;
         }
-        if (dir != 0) {
-            backwards = dir < 0;
+        if (directory != 0) {
+            is_backwards = directory < 0;
         }
     } else {
-        if (at(linep, pc) == 0 && pc > 0) {
-            pc = prev_of(linep, pc);
+        if (at(linep, from_col) == 0 && from_col > 0) {
+            from_col = previous_of(linep, from_col);
         }
         while (true) {
-            int c = at(linep, pc);
-            if (c == 0 || pc >= linep.size()) {
+            int char_code = at(linep, from_col);
+            if (char_code == 0 || from_col >= linep.size()) {
                 break;
             }
-            bool hit = false;
-            for (int k in 0 .. PAIRS.size()) {
-                if (PAIRS[k] == c) {
-                    initc = c;
-                    if (k % 2 == 0) {
-                        findc = PAIRS[k + 1];
-                        backwards = false;
+            bool is_hit = false;
+            for (int key in 0 .. PAIRS.size()) {
+                if (PAIRS[key] == char_code) {
+                    initc = char_code;
+                    if (key % 2 == 0) {
+                        findc = PAIRS[key + 1];
+                        is_backwards = false;
                     } else {
-                        findc = PAIRS[k - 1];
-                        backwards = true;
+                        findc = PAIRS[key - 1];
+                        is_backwards = true;
                     }
-                    hit = true;
+                    is_hit = true;
                     break;
                 }
             }
-            if (hit) {
+            if (is_hit) {
                 break;
             }
-            pc = MED_text.next_col(linep, pc);
+            from_col = MED_text.next_col(linep, from_col);
         }
         if (findc == 0) {
             return none;
         }
         int bslcnt = 0;
-        int cc = pc;
-        while (prev_is(linep, cc, 92)) {
+        int current_col = from_col;
+        while (is_previous_is(linep, current_col, 92)) {
             bslcnt = bslcnt + 1;
-            cc = prev_of(linep, cc);
+            current_col = previous_of(linep, current_col);
         }
         match_escaped = bslcnt % 2;
     }
     int do_quotes = -1;
     int start_in_quotes = 0;
-    bool inquote = false;
+    bool is_inquote = false;
     int count = 0;
     int at_start = 0;
-    int nlines = buf.line_count();
+    int nlines = buffer.line_count();
     int guard = 0;
     while (true) {
         guard = guard + 1;
-        if (backwards) {
-            if (pc == 0) {
-                if (pr == 0) {
+        if (is_backwards) {
+            if (from_col == 0) {
+                if (from_row == 0) {
                     break;
                 }
-                pr = pr - 1;
-                linep = buf.line(pr);
-                pc = linep.size();
+                from_row = from_row - 1;
+                linep = buffer.line(from_row);
+                from_col = linep.size();
                 do_quotes = -1;
             } else {
-                pc = pc - 1;
-                pc = MED_text.snap(linep, pc);
+                from_col = from_col - 1;
+                from_col = MED_text.snap(linep, from_col);
             }
-        } else if (pc >= linep.size()) {
-            if (pr == nlines - 1) {
+        } else if (from_col >= linep.size()) {
+            if (from_row == nlines - 1) {
                 break;
             }
-            pr = pr + 1;
-            linep = buf.line(pr);
-            pc = 0;
+            from_row = from_row + 1;
+            linep = buffer.line(from_row);
+            from_col = 0;
             do_quotes = -1;
         } else {
-            pc = MED_text.next_col(linep, pc);
+            from_col = MED_text.next_col(linep, from_col);
         }
         if (do_quotes == -1) {
             at_start = do_quotes;
-            int bw = 0;
-            if (backwards) {
-                bw = 1;
+            int back_count = 0;
+            if (is_backwards) {
+                back_count = 1;
             }
             do_quotes = 0 - 1;
-            int ptr = 0;
-            while (ptr < linep.size()) {
-                if (ptr == pc + bw) {
+            int pointer = 0;
+            while (pointer < linep.size()) {
+                if (pointer == from_col + back_count) {
                     at_start = do_quotes & 1;
                 }
-                int ch = linep.byte_at(ptr);
-                if (ch == 34 && (ptr == 0 || at(linep, ptr - 1) != 39 || at(linep, ptr + 1) != 39)) {
+                int char_value = linep.byte_at(pointer);
+                if (char_value == 34 && (pointer == 0 || at(linep, pointer - 1) != 39 || at(linep, pointer + 1) != 39)) {
                     do_quotes = do_quotes + 1;
                 }
-                if (ch == 92 && at(linep, ptr + 1) != 0) {
-                    ptr = ptr + 1;
+                if (char_value == 92 && at(linep, pointer + 1) != 0) {
+                    pointer = pointer + 1;
                 }
-                ptr = ptr + 1;
+                pointer = pointer + 1;
             }
             do_quotes = do_quotes & 1;
             if (do_quotes == 0) {
-                inquote = false;
+                is_inquote = false;
                 if (linep.size() > 0 && at(linep, linep.size() - 1) == 92) {
                     do_quotes = 1;
                     if (start_in_quotes == 0) {
-                        inquote = true;
+                        is_inquote = true;
                         start_in_quotes = 1;
-                    } else if (backwards) {
-                        inquote = true;
+                    } else if (is_backwards) {
+                        is_inquote = true;
                     }
                 }
-                if (pr > 0) {
-                    str prev = buf.line(pr - 1);
-                    if (prev.size() > 0 && at(prev, prev.size() - 1) == 92) {
+                if (from_row > 0) {
+                    str previous = buffer.line(from_row - 1);
+                    if (previous.size() > 0 && at(previous, previous.size() - 1) == 92) {
                         do_quotes = 1;
                         if (start_in_quotes == 0) {
-                            inquote = at_start != 0;
-                            if (inquote) {
+                            is_inquote = at_start != 0;
+                            if (is_inquote) {
                                 start_in_quotes = 1;
                             }
-                        } else if (!backwards) {
-                            inquote = true;
+                        } else if (!is_backwards) {
+                            is_inquote = true;
                         }
                     }
                 }
@@ -983,61 +983,61 @@ pub MED_buffer.Pos findmatch(MED_buffer.Buffer buf, int row, int col, int initc_
         if (start_in_quotes == 0) {
             start_in_quotes = 2;
         }
-        int c = at(linep, pc);
-        bool handled = false;
-        if (pc >= linep.size()) {
-            if (pc == 0 || at(linep, pc - 1) != 92) {
-                inquote = false;
+        int char_code = at(linep, from_col);
+        bool is_handled = false;
+        if (from_col >= linep.size()) {
+            if (from_col == 0 || at(linep, from_col - 1) != 92) {
+                is_inquote = false;
                 start_in_quotes = 2;
             }
-            handled = true;
-        } else if (c == 34) {
+            is_handled = true;
+        } else if (char_code == 34) {
             if (do_quotes != 0) {
-                int cl = pc - 1;
-                while (cl >= 0 && at(linep, cl) == 92) {
-                    cl = cl - 1;
+                int char_class = from_col - 1;
+                while (char_class >= 0 && at(linep, char_class) == 92) {
+                    char_class = char_class - 1;
                 }
-                if (((pc - 1 - cl) & 1) == 0) {
-                    inquote = !inquote;
+                if (((from_col - 1 - char_class) & 1) == 0) {
+                    is_inquote = !is_inquote;
                     start_in_quotes = 2;
                 }
             }
-            handled = true;
-        } else if (c == 39 && initc != 39 && findc != 39) {
-            if (backwards) {
-                if (pc > 1) {
-                    if (at(linep, pc - 2) == 39) {
-                        pc = pc - 2;
-                        handled = true;
-                    } else if (at(linep, pc - 2) == 92 && pc > 2 && at(linep, pc - 3) == 39) {
-                        pc = pc - 3;
-                        handled = true;
+            is_handled = true;
+        } else if (char_code == 39 && initc != 39 && findc != 39) {
+            if (is_backwards) {
+                if (from_col > 1) {
+                    if (at(linep, from_col - 2) == 39) {
+                        from_col = from_col - 2;
+                        is_handled = true;
+                    } else if (at(linep, from_col - 2) == 92 && from_col > 2 && at(linep, from_col - 3) == 39) {
+                        from_col = from_col - 3;
+                        is_handled = true;
                     }
                 }
-            } else if (at(linep, pc + 1) != 0) {
-                if (at(linep, pc + 1) == 92 && at(linep, pc + 2) != 0 && at(linep, pc + 3) == 39) {
-                    pc = pc + 3;
-                    handled = true;
-                } else if (at(linep, pc + 2) == 39) {
-                    pc = pc + 2;
-                    handled = true;
+            } else if (at(linep, from_col + 1) != 0) {
+                if (at(linep, from_col + 1) == 92 && at(linep, from_col + 2) != 0 && at(linep, from_col + 3) == 39) {
+                    from_col = from_col + 3;
+                    is_handled = true;
+                } else if (at(linep, from_col + 2) == 39) {
+                    from_col = from_col + 2;
+                    is_handled = true;
                 }
             }
         }
-        if (!handled) {
-            if ((!inquote || start_in_quotes == 1) && (c == initc || c == findc)) {
+        if (!is_handled) {
+            if ((!is_inquote || start_in_quotes == 1) && (char_code == initc || char_code == findc)) {
                 int bslcnt = 0;
-                int cc = pc;
-                while (prev_is(linep, cc, 92)) {
+                int current_col = from_col;
+                while (is_previous_is(linep, current_col, 92)) {
                     bslcnt = bslcnt + 1;
-                    cc = prev_of(linep, cc);
+                    current_col = previous_of(linep, current_col);
                 }
                 if (bslcnt % 2 == match_escaped) {
-                    if (c == initc) {
+                    if (char_code == initc) {
                         count = count + 1;
                     } else {
                         if (count == 0) {
-                            return MED_buffer.Pos(pr, pc);
+                            return MED_buffer.Pos(from_row, from_col);
                         }
                         count = count - 1;
                     }

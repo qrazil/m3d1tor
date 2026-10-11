@@ -71,6 +71,12 @@ else
     bad "source is not formatted (run: m31c fmt -r .)" "$out"
 fi
 
+if out=$("$LANGC" lint . 2>&1); then
+    note "naming lint is clean"
+else
+    bad "m31c lint reports findings" "$(printf '%s\n' "$out" | tail -15)"
+fi
+
 for part in tests/test_*.sh; do
     [ -f "$part" ] && . "$part"
 done
