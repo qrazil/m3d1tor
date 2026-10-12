@@ -7,7 +7,10 @@ import term;
 import tests.MED_check;
 import tui.TUI_app;
 import tui.TUI_buffer;
+import tui.TUI_geometry;
+import tui.TUI_mouse;
 import MED_app;
+import MED_editor;
 import MED_key;
 
 term.Event press(int code_point) {
@@ -138,4 +141,99 @@ match (MED_app.open(path)) {
     }
 }
 remove_file(path);
+// the mouse
+match (MED_app.open("")) {
+    case Err(str message): {
+        check.ok("open empty: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, "iabc\ndef\nghi\n");
+        for (int count in 0 .. 40) {
+            type_text(app, "oline\n");
+        }
+        app.handle(named(term.Code.Escape));
+        type_text(app, "gg");
+        TUI_mouse.Gesture pressed = TUI_mouse.Gesture(TUI_mouse.Kind.Press, 5, 1);
+        app.handle_mouse(TUI_mouse.Routed(pressed, "", TUI_geometry.Rect(0, 0, 0, 0)));
+        check.eq_int("press row", app.editor.row, 1);
+        check.eq_int("press col", app.editor.col, 1);
+        TUI_mouse.Gesture drag = TUI_mouse.Gesture(TUI_mouse.Kind.Drag, 6, 2);
+        app.handle_mouse(TUI_mouse.Routed(drag, "", TUI_geometry.Rect(0, 0, 0, 0)));
+        check.eq_int("drag starts a selection", app.editor.mode, MED_editor.VISUAL);
+        check.eq_int("drag row", app.editor.row, 2);
+        check.eq_int("anchor row", app.editor.vrow, 1);
+        TUI_mouse.Gesture wheel = TUI_mouse.Gesture(TUI_mouse.Kind.ScrollDown, 5, 5);
+        app.handle_mouse(TUI_mouse.Routed(wheel, "", TUI_geometry.Rect(0, 0, 0, 0)));
+        check.ok("the wheel scrolls", app.editor.view_top > 0);
+    }
+}
+// several buffers
+str first_path = "/tmp/m3d1tor_t_app_a.txt";
+str second_path = "/tmp/m3d1tor_t_app_b.txt";
+write_file(first_path, "alpha\n");
+write_file(second_path, "beta\ngamma\n");
+match (MED_app.open_all([first_path, second_path])) {
+    case Err(str message): {
+        check.ok("open two files: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        check.eq_int("two buffers", app.slots.size(), 2);
+        check.eq_str("first shown", app.path, first_path);
+        type_text(app, "x");
+        check.ok(":bn moves on with a modified buffer (hidden)", !is_quit(type_text(app, ":bn\n")));
+        check.eq_str("second shown", app.path, second_path);
+        check.eq_int("second text", app.editor.buffer.line_count(), 2);
+        check.eq_int("alternate", app.alternate_id, 1);
+        check.ok("second is unmodified", !app.is_modified());
+        type_text(app, "yy");
+        type_text(app, ":b1\n");
+        check.eq_str("back on the first", app.path, first_path);
+        check.ok("first keeps its change", app.is_modified());
+        type_text(app, "p");
+        check.eq_str("registers are shared", app.editor.buffer.line(1), "beta");
+        type_text(app, "u");
+        type_text(app, "\x1e");
+        check.eq_str("ctrl-^ goes to the alternate", app.path, second_path);
+        type_text(app, ":ls\n");
+        check.eq_int("ls lists both", app.overlay.size(), 2);
+        check.ok("ls marks the active one", app.overlay[1].contains("%a"));
+        check.ok("ls marks the modified one", app.overlay[0].contains("+"));
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(50, 10);
+        app.render(screen, screen.area());
+        check.ok("the listing is drawn", screen.row_text(7).contains("Press ENTER"));
+        type_text(app, "\n");
+        check.eq_int("any key clears the listing", app.overlay.size(), 0);
+        check.ok(":q is refused for the other buffer", !is_quit(type_text(app, ":q\n")));
+        check.ok("E162 shown", app.notice.starts_with("E162"));
+        type_text(app, ":bd\n");
+        check.eq_int("bd drops the buffer", app.slots.size(), 1);
+        check.eq_str("the other one is shown", app.path, first_path);
+        type_text(app, ":bd\n");
+        check.ok("bd of a modified buffer is refused", app.notice.starts_with("E89"));
+        type_text(app, ":e " + second_path + "\n");
+        check.eq_int("e opens a new buffer", app.slots.size(), 2);
+        check.eq_str("e shows it", app.path, second_path);
+        type_text(app, ":e " + first_path + "\n");
+        check.eq_int("e of an open file reuses the buffer", app.slots.size(), 2);
+        check.ok("wall writes the changed ones", !is_quit(type_text(app, ":wa\n")));
+        match (io.read(first_path)) {
+            case Ok(str content): {
+                check.eq_str("wall wrote the first", content, "lpha\n");
+            }
+            case Err(io.Error error): {
+                check.ok("read back", false);
+            }
+        }
+        type_text(app, "x");
+        type_text(app, ":e!\n");
+        check.ok(":e! discards", !app.is_modified());
+        check.eq_str("and reloads", app.editor.buffer.line(0), "lpha");
+        type_text(app, ":enew\n");
+        check.eq_str("enew has no name", app.path, "");
+        check.eq_int("three buffers", app.slots.size(), 3);
+        check.ok("nothing is modified, :q quits", is_quit(type_text(app, ":q\n")));
+    }
+}
+remove_file(first_path);
+remove_file(second_path);
 check.finish("t_app");

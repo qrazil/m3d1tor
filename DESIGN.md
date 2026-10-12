@@ -319,7 +319,7 @@ MED_picker.m31     picker state machine
 MED_view.m31       drawing
 MED_help.m31       ? and which-key content from keymap data
 m3d1tor.m31        entry: args, terminal check, tui loop
-MED_app.m31        minimal front end (v0.4.0 tui): key translation, render, :w/:q, ZZ; tests/t_app.m31
+MED_app.m31        front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
 ```
 
 ## 7. Oracle test plan

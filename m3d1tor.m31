@@ -1,6 +1,6 @@
 // m3d1tor: a terminal modal editor in m31.
 //
-//   m3d1tor FILE      open FILE (a new buffer when it does not exist yet)
+//   m3d1tor FILE...   open the files as buffers (a new buffer when one does not exist yet)
 //   m3d1tor           an empty buffer with no name
 //
 // Vim keys (the engine is checked against nvim, see DESIGN.md), `:w` writes,
@@ -12,25 +12,25 @@ import term;
 import tui.TUI_app;
 import tui.TUI_buffer;
 import tui.TUI_geometry;
+import tui.TUI_mouse;
 import MED_app;
 
 List<str> arguments = os.arguments();
-if (arguments.size() > 2) {
-    io.eprint("usage: m3d1tor [FILE]\n");
-    os.exit(2);
-}
 if (!term.is_terminal(0) || !term.is_terminal(1)) {
     io.eprint("m3d1tor: needs a terminal on standard input and output\n");
     os.exit(1);
 }
-str file_name = "";
-if (arguments.size() == 2) {
-    file_name = arguments[1];
+List<str> files = [];
+for (int arg_index in 1 .. arguments.size()) {
+    files.push(arguments[arg_index]);
 }
-match (MED_app.open(file_name)) {
+if (files.size() == 0) {
+    files.push("");
+}
+match (MED_app.open_all(files)) {
     case Ok(MED_app.App app): {
-        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true);
-        match (loop.run((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event))) {
+        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: true);
+        match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), TUI_app.NoTicker(), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {
             }
             case Err(term.Error error): {

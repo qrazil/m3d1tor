@@ -16,6 +16,7 @@ import term;
 import tui.TUI_app;
 import tui.TUI_buffer;
 import tui.TUI_geometry;
+import tui.TUI_mouse;
 import tui.TUI_style;
 import MED_buffer;
 import MED_editor;
@@ -30,8 +31,21 @@ const int FOOTER_ROWS = 2;
 const int MIN_DIGITS = 3;
 /// Visual selection background (a palette grey).
 const int SELECTION_COLOUR = 240;
+/// Lines the mouse wheel scrolls per notch.
+const int WHEEL_LINES = 3;
 const int VKIND_CHAR = 118;
 const int VKIND_LINE = 86;
+
+/// One buffer of the session: its engine state (a reference, so the active
+/// buffer's editor is the very object the App drives) and its file.
+pub type Slot {
+    /// Buffer number, as `:ls` shows it; never reused.
+    pub int id;
+    pub MED_editor.Editor editor;
+    pub str path;
+    pub int saved_current = 0;
+    pub int left_column = 0;
+}
 
 pub type App {
     pub MED_editor.Editor editor;
@@ -43,6 +57,15 @@ pub type App {
     pub str notice = "";
     /// First display column shown (horizontal scrolling).
     pub int left_column = 0;
+    /// Every buffer; `editor`, `path`, `saved_current` and `left_column` belong
+    /// to the active one (`current_id`) and are stored back by `save_active`.
+    pub List<Slot> slots = [];
+    pub int current_id = 1;
+    /// The buffer `:b#` and CTRL-^ go to; 0 when there is none.
+    pub int alternate_id = 0;
+    pub int next_id = 2;
+    /// Lines shown over the text until the next key (`:ls` and long messages).
+    pub List<str> overlay = [];
 }
 
 /// Whether the text differs from what was last written (undo back to the
@@ -78,64 +101,384 @@ List<int> App.keys_of(term.Event event) {
     return keys;
 }
 
-/// Write the buffer to `target` (the buffer's own file when empty).
-void App.write_file(str target) {
-    str name = target.trim();
-    if (name.size() == 0) {
-        name = path;
-    }
-    if (name.size() == 0) {
-        notice = "E32: No file name";
+/// The slot of the active buffer, brought up to date.
+Slot App.active_slot() {
+    save_active();
+    return slots[index_of(current_id)];
+}
+
+/// Store the active buffer's own values back into its slot.
+void App.save_active() {
+    int position = index_of(current_id);
+    if (position < 0) {
         return;
     }
-    str text = editor.buffer.dump();
-    match (io.write(name, text)) {
-        case Ok(int count): {
-            if (path.size() == 0) {
-                path = name;
-                editor.buffer.path = name;
-            }
-            if (name == path) {
-                saved_current = editor.current;
-                editor.saved_nodes.push(editor.current);
-                editor.buffer.is_modified = false;
-            }
-            notice = "\"" + name + "\" " + editor.buffer.line_count().to_str() + "L, " + count.to_str() + "B written";
-        }
-        case Err(io.Error error): {
-            notice = "E212: Can't open file for writing: " + error.to_str();
+    Slot slot = slots[position];
+    slot.editor = editor;
+    slot.path = path;
+    slot.saved_current = saved_current;
+    slot.left_column = left_column;
+}
+
+/// Where buffer `id` is in `slots`, or -1.
+int App.index_of(int id) {
+    for (int position in 0 .. slots.size()) {
+        if (slots[position].id == id) {
+            return position;
         }
     }
+    return -1;
+}
+
+/// Write the active buffer to `target` (the buffer's own file when empty).
+void App.write_file(str target) {
+    Slot slot = active_slot();
+    notice = write_slot(slot, target);
+    path = slot.path;
+    saved_current = slot.saved_current;
+}
+
+/// `:w` for every buffer that has changed (`:wall`).
+void App.write_all() {
+    save_active();
+    int written = 0;
+    for (Slot slot in slots) {
+        if (!is_slot_modified(slot)) {
+            continue;
+        }
+        if (slot.path.size() == 0) {
+            notice = "E141: No file name for buffer " + slot.id.to_str();
+            return;
+        }
+        str result = write_slot(slot, "");
+        if (result.starts_with("E")) {
+            notice = result;
+            return;
+        }
+        written = written + 1;
+    }
+    Slot active = slots[index_of(current_id)];
+    path = active.path;
+    saved_current = active.saved_current;
+    if (written > 0) {
+        notice = written.to_str() + " buffer(s) written";
+    }
+}
+
+/// Make buffer `id` the active one; the buffer left becomes the alternate.
+void App.activate(int id) {
+    save_active();
+    int position = index_of(id);
+    if (position < 0 || id == current_id) {
+        return;
+    }
+    Slot target = slots[position];
+    share_state(editor, target.editor);
+    alternate_id = current_id;
+    current_id = id;
+    editor = target.editor;
+    path = target.path;
+    saved_current = target.saved_current;
+    left_column = target.left_column;
+    editor.view_height = text_rows(TUI_app.screen_size().rows);
+}
+
+/// Add `slot` to the session and make it active.
+void App.adopt(Slot slot) {
+    slots.push(slot);
+    next_id = slot.id + 1;
+    activate(slot.id);
+}
+
+/// `:e [file]`, `:e!`, `:e #`, `:enew`.
+void App.edit(str target, bool is_forced) {
+    str name = target.trim();
+    if (name == "#") {
+        switch_alternate();
+        return;
+    }
+    if (name.size() == 0) {
+        // re-read the file of this buffer
+        if (!is_forced && is_modified()) {
+            notice = "E37: No write since last change (add ! to override)";
+            return;
+        }
+        match (read_slot(current_id, path)) {
+            case Ok(Slot fresh): {
+                MED_editor.Editor old = editor;
+                share_state(old, fresh.editor);
+                editor = fresh.editor;
+                saved_current = fresh.saved_current;
+                left_column = 0;
+                save_active();
+                notice = file_note(path, editor);
+            }
+            case Err(str message): {
+                notice = message;
+            }
+        }
+        return;
+    }
+    for (Slot known in slots) {
+        if (known.path == name) {
+            activate(known.id);
+            notice = file_note(path, editor);
+            return;
+        }
+    }
+    match (read_slot(next_id, name)) {
+        case Ok(Slot fresh): {
+            adopt(fresh);
+            notice = file_note(name, editor);
+        }
+        case Err(str message): {
+            notice = message;
+        }
+    }
+}
+
+/// `:enew`: a buffer with no name.
+void App.new_buffer() {
+    match (read_slot(next_id, "")) {
+        case Ok(Slot fresh): {
+            adopt(fresh);
+        }
+        case Err(str message): {
+            notice = message;
+        }
+    }
+}
+
+void App.switch_alternate() {
+    if (alternate_id == 0 || index_of(alternate_id) < 0) {
+        notice = "E23: No alternate file";
+        return;
+    }
+    activate(alternate_id);
+    notice = file_note(path, editor);
+}
+
+/// The buffer `:b ARG` names: a number, `#`, `%`, or part of a file name that
+/// only one buffer has. 0 when there is none, -1 when the name is ambiguous.
+int App.find_buffer(str arg) {
+    str word = arg.trim();
+    if (word == "#") {
+        return alternate_id;
+    }
+    if (word == "%") {
+        return current_id;
+    }
+    match (word.parse_int()) {
+        case Some(int number): {
+            if (index_of(number) >= 0) {
+                return number;
+            }
+            return 0;
+        }
+        case None: {
+        }
+    }
+    int found = 0;
+    int matches = 0;
+    for (Slot slot in slots) {
+        if (slot.path.contains(word)) {
+            found = slot.id;
+            matches = matches + 1;
+        }
+    }
+    if (matches > 1) {
+        return -1;
+    }
+    return found;
+}
+
+/// `:b ARG`.
+void App.go_buffer(str arg) {
+    if (arg.trim().size() == 0) {
+        return;
+    }
+    save_active();
+    int id = find_buffer(arg);
+    if (id < 0) {
+        notice = "E93: More than one match for " + arg.trim();
+        return;
+    }
+    if (id == 0) {
+        if (arg.trim() == "#") {
+            notice = "E23: No alternate file";
+        } else {
+            notice = "E86: Buffer " + arg.trim() + " does not exist";
+        }
+        return;
+    }
+    activate(id);
+    notice = file_note(path, editor);
+}
+
+/// `:bn`, `:bp`, `:bf`, `:bl` by position in the list; `step` wraps around.
+void App.go_relative(int step, bool is_absolute) {
+    save_active();
+    int count = slots.size();
+    int position = index_of(current_id);
+    int target = 0;
+    if (is_absolute) {
+        if (step < 0) {
+            target = count - 1;
+        }
+    } else {
+        target = (position + step + count) % count;
+    }
+    activate(slots[target].id);
+    notice = file_note(path, editor);
+}
+
+/// `:bd [N]`: drop a buffer; the last one is replaced by an empty buffer.
+void App.delete_buffer(str arg, bool is_forced) {
+    save_active();
+    int id = current_id;
+    if (arg.trim().size() > 0) {
+        id = find_buffer(arg);
+    }
+    if (id <= 0) {
+        notice = "E516: No buffers were deleted: bd " + arg.trim();
+        return;
+    }
+    int position = index_of(id);
+    Slot victim = slots[position];
+    if (is_slot_modified(victim) && !is_forced) {
+        notice = "E89: No write since last change for buffer " + id.to_str() + " (add ! to override)";
+        return;
+    }
+    if (slots.size() == 1) {
+        match (read_slot(next_id, "")) {
+            case Ok(Slot fresh): {
+                slots.push(fresh);
+                next_id = fresh.id + 1;
+            }
+            case Err(str message): {
+                notice = message;
+                return;
+            }
+        }
+    }
+    if (id == current_id) {
+        int target = alternate_id;
+        if (target == 0 || target == id || index_of(target) < 0) {
+            target = 0;
+            for (Slot slot in slots) {
+                if (slot.id != id && target == 0) {
+                    target = slot.id;
+                }
+            }
+        }
+        activate(target);
+    }
+    slots.remove_at(index_of(id));
+    if (alternate_id == id) {
+        alternate_id = 0;
+    }
+}
+
+/// The `:ls` listing, one line per buffer.
+List<str> App.buffer_list() {
+    save_active();
+    List<str> lines = [];
+    for (Slot slot in slots) {
+        str flags = " ";
+        if (slot.id == current_id) {
+            flags = "%a";
+        } else if (slot.id == alternate_id) {
+            flags = "# ";
+        } else {
+            flags = "  ";
+        }
+        str modified = " ";
+        if (is_slot_modified(slot)) {
+            modified = "+";
+        }
+        str line = slot.id.to_str();
+        while (line.size() < 3) {
+            line = " " + line;
+        }
+        int row = slot.editor.row + 1;
+        lines.push(line + " " + flags + " " + modified + " \"" + slot_name(slot) + "\" line " + row.to_str());
+    }
+    return lines;
 }
 
 /// Carry out what the engine asked of the UI layer.
 void App.run_request(str request) {
-    if (request.starts_with("write")) {
-        write_file(request.substr(5, request.size()));
-        return;
+    List<str> parts = split_request(request);
+    str name = parts[0];
+    str arg = parts[1];
+    bool is_forced = name.ends_with("!");
+    if (is_forced) {
+        name = name.substr(0, name.size() - 1);
     }
-    notice = "Not supported yet: :" + request.trim();
+    if (name == "write") {
+        write_file(arg);
+    } else if (name == "update") {
+        if (is_modified() || arg.trim().size() > 0) {
+            write_file(arg);
+        }
+    } else if (name == "wall") {
+        write_all();
+    } else if (name == "edit") {
+        edit(arg, is_forced);
+    } else if (name == "enew") {
+        new_buffer();
+    } else if (name == "buffer") {
+        go_buffer(arg);
+    } else if (name == "bnext") {
+        go_relative(1, false);
+    } else if (name == "bprevious" || name == "bNext") {
+        go_relative(-1, false);
+    } else if (name == "bfirst" || name == "brewind") {
+        go_relative(1, true);
+    } else if (name == "blast") {
+        go_relative(-1, true);
+    } else if (name == "bdelete" || name == "bwipeout" || name == "bunload") {
+        delete_buffer(arg, is_forced);
+    } else if (name == "ls" || name == "buffers" || name == "files") {
+        overlay = buffer_list();
+    } else {
+        notice = "Not supported yet: :" + request.trim();
+    }
 }
 
 /// Run the pending requests, then say whether the editor should quit now. A
-/// quit with unsaved changes is refused the way Vim refuses it (E37) unless it
-/// was forced.
+/// quit with unsaved changes is refused the way Vim refuses it (E37, or E162
+/// for another buffer) unless it was forced.
 bool App.did_finish() {
-    for (str request in editor.requests) {
+    List<str> requests = editor.requests;
+    editor.requests = [];
+    for (str request in requests) {
         run_request(request);
     }
-    editor.requests = [];
+    if (editor.message.contains("\n") && editor.mode != MED_editor.CMDLINE) {
+        overlay = editor.message.split("\n");
+    }
     if (!editor.is_quit) {
         return false;
     }
     editor.is_quit = false;
     bool is_forced = editor.is_force_quit;
     editor.is_force_quit = false;
-    if (is_forced || !is_modified()) {
+    if (is_forced) {
         return true;
     }
-    notice = "E37: No write since last change (add ! to override)";
-    return false;
+    save_active();
+    if (is_modified()) {
+        notice = "E37: No write since last change (add ! to override)";
+        return false;
+    }
+    for (Slot slot in slots) {
+        if (is_slot_modified(slot)) {
+            notice = "E162: No write since last change for buffer \"" + slot_name(slot) + "\" (add ! to override)";
+            return false;
+        }
+    }
+    return true;
 }
 
 /// One event: feed its keys to the engine, then the UI requests.
@@ -145,6 +488,13 @@ pub TUI_app.Action App.handle(term.Event event) {
         return TUI_app.Action.Continue;
     }
     notice = "";
+    if (overlay.size() > 0) {
+        // the listing goes away with the next key; Enter, Space and Esc only dismiss it
+        overlay = [];
+        if (keys.size() == 1 && (keys[0] == MED_key.CARRIAGE_RETURN || keys[0] == 32 || keys[0] == MED_key.ESC)) {
+            return TUI_app.Action.Redraw;
+        }
+    }
     editor.view_height = text_rows(TUI_app.screen_size().rows);
     for (int key in keys) {
         MED_ex.feed(editor, key);
@@ -153,6 +503,101 @@ pub TUI_app.Action App.handle(term.Event event) {
         }
     }
     return TUI_app.Action.Redraw;
+}
+
+/// The byte offset in line `row` of the character shown at display column `spot`.
+int App.offset_at(int row, int spot) {
+    str line = editor.buffer.line(row);
+    int shown_to = 0;
+    for (int offset in MED_text.starts(line)) {
+        if (offset >= line.size()) {
+            break;
+        }
+        shown_to = shown_to + MED_text.cell_width(line, offset, shown_to, editor.tab);
+        if (spot < shown_to) {
+            return offset;
+        }
+    }
+    return line.size();
+}
+
+/// Put the cursor on the text cell under the pointer; false outside the text.
+bool App.did_place_cursor(int x_cell, int y_cell) {
+    int rows = text_rows(TUI_app.screen_size().rows);
+    if (y_cell < 0 || y_cell >= rows) {
+        return false;
+    }
+    int row = editor.view_top + y_cell;
+    if (row >= editor.buffer.line_count()) {
+        row = editor.buffer.line_count() - 1;
+    }
+    int spot = left_column;
+    if (x_cell > gutter_width()) {
+        spot = spot + x_cell - gutter_width();
+    }
+    editor.row = row;
+    editor.col = offset_at(row, spot);
+    editor.clamp();
+    editor.want_from_cursor();
+    return true;
+}
+
+/// A mouse gesture: a press puts the cursor there, a drag selects, the wheel scrolls.
+pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
+    TUI_mouse.Gesture gesture = routed.gesture;
+    if (editor.mode == MED_editor.CMDLINE || editor.mode == MED_editor.REPLACE) {
+        return TUI_app.Action.Continue;
+    }
+    notice = "";
+    overlay = [];
+    editor.view_height = text_rows(TUI_app.screen_size().rows);
+    match (gesture.kind) {
+        case Press: {
+            if (gesture.button == 0) {
+                if (editor.mode == MED_editor.VISUAL) {
+                    MED_ex.feed(editor, MED_key.ESC);
+                }
+                if (did_place_cursor(gesture.x, gesture.y)) {
+                    return TUI_app.Action.Redraw;
+                }
+            }
+        }
+        case Drag: {
+            if (gesture.button == 0) {
+                if (editor.mode == MED_editor.NORMAL) {
+                    MED_ex.feed(editor, VKIND_CHAR);
+                }
+                if (did_place_cursor(gesture.x, gesture.y)) {
+                    return TUI_app.Action.Redraw;
+                }
+            }
+        }
+        case ScrollUp: {
+            for (int step in 0 .. WHEEL_LINES) {
+                MED_ex.feed(editor, 25);
+            }
+            return TUI_app.Action.Redraw;
+        }
+        case ScrollDown: {
+            for (int step in 0 .. WHEEL_LINES) {
+                MED_ex.feed(editor, 5);
+            }
+            return TUI_app.Action.Redraw;
+        }
+        case Release: {
+        }
+        case Click: {
+        }
+        case Hover: {
+        }
+        case Leave: {
+        }
+        case ScrollLeft: {
+        }
+        case ScrollRight: {
+        }
+    }
+    return TUI_app.Action.Continue;
 }
 
 str App.mode_name() {
@@ -311,6 +756,26 @@ void App.draw_message(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int y) {
     }
 }
 
+/// The listing over the bottom of the text window, with Vim's prompt.
+void App.draw_overlay(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int rows) {
+    TUI_style.Style plain = TUI_style.Style.plain;
+    TUI_style.Style prompt = TUI_style.Style(foreground: TUI_style.Colour.Indexed(2));
+    List<str> lines = overlay.slice(0, overlay.size());
+    int shown_lines = lines.size() + 1;
+    if (shown_lines > rows) {
+        shown_lines = rows;
+    }
+    int top = area.y + rows - shown_lines;
+    for (int position in 0 .. shown_lines) {
+        buffer.fill(TUI_geometry.Rect(area.x, top + position, area.width, 1), " ", plain);
+        if (position < shown_lines - 1) {
+            buffer.set_str(area.x, top + position, lines[position], plain, max: area.width);
+        } else {
+            buffer.set_str(area.x, top + position, "Press ENTER or type command to continue", prompt, max: area.width);
+        }
+    }
+}
+
 /// Draw the whole screen.
 pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     int rows = text_rows(area.height);
@@ -346,9 +811,15 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
             draw_line(buffer, row, area.x + gutter, y, text_width);
         }
     }
+    if (overlay.size() > 0) {
+        draw_overlay(buffer, area, rows);
+    }
     draw_status(buffer, area, area.y + rows);
     draw_message(buffer, area, area.y + rows + 1);
     TUI_style.Style cursor_style = TUI_style.Style(attrs: TUI_style.REVERSE);
+    if (overlay.size() > 0) {
+        return;
+    }
     if (editor.mode == MED_editor.CMDLINE) {
         int cursor_x = area.x + 1 + MED_text.line_width(editor.cmdline, editor.tab);
         if (cursor_x < area.x + area.width) {
@@ -359,35 +830,176 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     }
 }
 
-/// Open `path` (a new empty buffer when the file does not exist; an empty path
-/// is a buffer with no name).
-pub Result<App, str> open(str path) {
-    str text = "";
-    str notice = "";
-    if (path.size() > 0) {
-        if (fs.is_directory(path)) {
-            return Result<App, str>.Err("\"" + path + "\" is a directory");
+/// Write `slot`'s text to `target` (its own file when `target` is empty) and
+/// say what happened, in Vim's words.
+str write_slot(Slot slot, str target) {
+    str name = target.trim();
+    if (name.size() == 0) {
+        name = slot.path;
+    }
+    if (name.size() == 0) {
+        return "E32: No file name";
+    }
+    str text = slot.editor.buffer.dump();
+    match (io.write(name, text)) {
+        case Ok(int count): {
+            if (slot.path.size() == 0) {
+                slot.path = name;
+                slot.editor.buffer.path = name;
+            }
+            if (name == slot.path) {
+                slot.saved_current = slot.editor.current;
+                slot.editor.saved_nodes.push(slot.editor.current);
+                slot.editor.buffer.is_modified = false;
+            }
+            return "\"" + name + "\" " + slot.editor.buffer.line_count().to_str() + "L, " + count.to_str() + "B written";
         }
-        if (fs.is_present(path)) {
-            match (io.read(path)) {
+        case Err(io.Error error): {
+            return "E212: Can't open file for writing: " + error.to_str();
+        }
+    }
+}
+
+/// Whether the buffer of `slot` differs from its file.
+bool is_slot_modified(Slot slot) {
+    return slot.editor.current != slot.saved_current;
+}
+
+/// How `:ls` and the errors name a buffer.
+str slot_name(Slot slot) {
+    if (slot.path.size() == 0) {
+        return "[No Name]";
+    }
+    return slot.path;
+}
+
+/// What the engine keeps across buffers: registers, search and substitute
+/// state, the dot command, histories and the options.
+void share_state(MED_editor.Editor from, MED_editor.Editor into) {
+    into.regs = from.regs;
+    into.search_pattern = from.search_pattern;
+    into.search_directory = from.search_directory;
+    into.sub_pattern = from.sub_pattern;
+    into.sub_replacement = from.sub_replacement;
+    into.sub_flags = from.sub_flags;
+    into.sub_old = from.sub_old;
+    into.is_sub_has = from.is_sub_has;
+    into.is_last_is_sub = from.is_last_is_sub;
+    into.is_search_no_scs = from.is_search_no_scs;
+    into.is_search_off_line = from.is_search_off_line;
+    into.is_search_off_end = from.is_search_off_end;
+    into.search_off = from.search_off;
+    into.search_typed = from.search_typed;
+    into.is_no_hl = from.is_no_hl;
+    into.hist_ex = from.hist_ex;
+    into.hist_search = from.hist_search;
+    into.last_macro = from.last_macro;
+    into.dot = from.dot;
+    into.dot_reg = from.dot_reg;
+    into.dot_count = from.dot_count;
+    into.dot_body = from.dot_body;
+    into.dot_tail = from.dot_tail;
+    into.dot_vkind = from.dot_vkind;
+    into.dot_vlines = from.dot_vlines;
+    into.dot_vcols = from.dot_vcols;
+    into.dot_vwant = from.dot_vwant;
+    into.find = from.find;
+    into.is_hexupper = from.is_hexupper;
+    into.tab = from.tab;
+    into.shiftwidth = from.shiftwidth;
+    into.is_expandtab = from.is_expandtab;
+    into.is_autoindent = from.is_autoindent;
+    into.is_ignorecase = from.is_ignorecase;
+    into.is_smartcase = from.is_smartcase;
+    into.is_wrapscan = from.is_wrapscan;
+    into.is_joinspaces = from.is_joinspaces;
+    into.is_startofline = from.is_startofline;
+    into.scroll_opt = from.scroll_opt;
+    into.view_height = from.view_height;
+}
+
+/// Vim's "file info" message for a buffer just read.
+str file_note(str name, MED_editor.Editor loaded) {
+    if (name.size() == 0) {
+        return "";
+    }
+    if (fs.is_present(name)) {
+        return "\"" + name + "\" " + loaded.buffer.line_count().to_str() + "L, " + loaded.buffer.dump().size().to_str() + "B";
+    }
+    return "\"" + name + "\" [New]";
+}
+
+/// A new slot holding `name` (an empty buffer when the file does not exist yet
+/// or `name` is empty); an error for a directory or an unreadable file.
+Result<Slot, str> read_slot(int id, str name) {
+    str text = "";
+    if (name.size() > 0) {
+        if (fs.is_directory(name)) {
+            return Result<Slot, str>.Err("\"" + name + "\" is a directory");
+        }
+        if (fs.is_present(name)) {
+            match (io.read(name)) {
                 case Ok(str content): {
                     text = content;
                 }
                 case Err(io.Error error): {
-                    return Result<App, str>.Err("\"" + path + "\": " + error.to_str());
+                    return Result<Slot, str>.Err("\"" + name + "\": " + error.to_str());
                 }
             }
         }
     }
-    MED_editor.Editor editor = MED_editor.new(text);
-    editor.buffer.path = path;
-    App app = App(editor, path);
-    if (path.size() == 0) {
-        app.notice = "";
-    } else if (fs.is_present(path)) {
-        app.notice = "\"" + path + "\" " + editor.buffer.line_count().to_str() + "L, " + text.size().to_str() + "B";
-    } else {
-        app.notice = "\"" + path + "\" [New]";
+    MED_editor.Editor loaded = MED_editor.new(text);
+    loaded.buffer.path = name;
+    return Result<Slot, str>.Ok(Slot(id, loaded, name));
+}
+
+/// Split "name arg" into its two parts.
+List<str> split_request(str request) {
+    match (request.index_of(" ")) {
+        case Some(int position): {
+            return [request.substr(0, position), request.substr(position + 1, request.size())];
+        }
+        case None: {
+            return [request, ""];
+        }
+    }
+}
+
+/// Open `path` (a new empty buffer when the file does not exist; an empty path
+/// is a buffer with no name).
+pub Result<App, str> open(str path) {
+    return open_all([path]);
+}
+
+/// Open several files as buffers; the first is shown.
+pub Result<App, str> open_all(List<str> paths) {
+    App app = App(MED_editor.new(""), "");
+    app.next_id = 1;
+    bool is_first = true;
+    for (str path in paths) {
+        match (read_slot(app.next_id, path)) {
+            case Ok(Slot slot): {
+                if (is_first) {
+                    app.slots.push(slot);
+                    app.current_id = slot.id;
+                    app.editor = slot.editor;
+                    app.path = path;
+                    app.next_id = slot.id + 1;
+                    app.notice = file_note(path, slot.editor);
+                    is_first = false;
+                } else {
+                    slot.editor.view_height = app.editor.view_height;
+                    app.slots.push(slot);
+                    app.next_id = slot.id + 1;
+                }
+            }
+            case Err(str message): {
+                return Result<App, str>.Err(message);
+            }
+        }
+    }
+    if (is_first) {
+        return Result<App, str>.Err("no buffer");
     }
     return Result<App, str>.Ok(app);
 }
