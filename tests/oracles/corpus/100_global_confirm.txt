@@ -1,0 +1,295 @@
+aaa\nbab\nabab\nbbb	3,0	:g/x/s/x/Z/gc|s/y/W/<CR>aqy<Esc>lnlnu<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/^/s/a/@/gc<CR>yannyqlj.
+x1 x2 x3\ny1 x2\nx3	0,0	:g/^/s/a/@/gc<CR><Esc>qquu
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc|s/b/Q/g<CR>ny<Esc>lj.
+one two\none three\ntwo one one\nthree	0,0	:%s/a/X/gc<CR>nqyq<Esc><Esc>gg
+x1 x2 x3\ny1 x2\nx3	0,0	:g/x/s/x/Z/gc|s/y/W/<CR>yaya<Esc>ayau
+x1 x2 x3\ny1 x2\nx3	2,0	:g/one/s/one/1/c<CR>ynq<Esc>j.
+aaa\nbab\nabab\nbbb	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR>qlu<C-r>
+aaa\nbab\nabab\nbbb	0,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>
+a a\nb a\na b\nc	1,0	:2,3g/a/s/a/X/gc<CR>l<Esc>qy<Esc><C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/x/s/x/Z/gc|s/y/W/<CR>qnynaaqy
+aaa\nbab\nabab\nbbb	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR>qyna<Esc>j.
+one two\none three\ntwo one one\nthree	2,0	:g/one/s/one/1/c<CR>qnqyx
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/foo/s/foo/F/gc<CR><Esc>nyygg
+x1 x2 x3\ny1 x2\nx3	0,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>j.
+one two\none three\ntwo one one\nthree	2,0	:g/a/s/a/X/gc|s/b/Q/g<CR>lllj.
+a a\nb a\na b\nc	0,0	:g/one/s/one/1/c<CR>a<Esc>aqgg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g!/foo/s/a/A/gc<CR>nu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/^/s/a/@/gc<CR>a
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>l<Esc><Esc>lnu
+aaa\nbab\nabab\nbbb	3,0	:g!/foo/s/a/A/gc<CR>a<Esc>a<Esc>auu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/a/s/a/X/gc|s/b/Q/g<CR>ynylj.
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>u<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/a/s/a/X/gc<CR>lyyqq<Esc>au
+a a\nb a\na b\nc	3,0	:g/a/s/a/X/gc<CR>l<Esc>y<Esc>
+one two\none three\ntwo one one\nthree	3,0	:g!/foo/s/a/A/gc<CR>n<C-r>
+a a\nb a\na b\nc	2,0	:v/a/s/b/B/gc<CR>uu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>yn<Esc>n<Esc>nn<Esc>uu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/a/s/a/X/gc<CR>l<Esc><Esc>x
+a a\nb a\na b\nc	0,0	:2,3g/a/s/a/X/gc<CR>yalnl<Esc>qn
+a a\nb a\na b\nc	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR>agg
+a a\nb a\na b\nc	2,0	:g/foo/s/foo/F/gc<CR><Esc>lyyu<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g/one/s/one/1/c<CR><Esc>lqn<Esc><Esc>j.
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:v/a/s/b/B/gc<CR>nqnnqnu
+x1 x2 x3\ny1 x2\nx3	0,0	:g/a/s/a/X/gc|s/b/Q/g<CR>aynj.
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:v/a/s/b/B/gc<CR>ayqnal<Esc><Esc>j.
+aaa\nbab\nabab\nbbb	2,0	:v/a/s/b/B/gc<CR><C-r>
+a a\nb a\na b\nc	3,0	:g/one/s/one/1/c<CR>j.
+a a\nb a\na b\nc	0,0	:%s/a/X/gc<CR>j.
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/a/s/a/X/gc<CR>nqqy<Esc>ngg
+one two\none three\ntwo one one\nthree	1,0	:g/^/s/a/@/gc<CR><Esc>lagg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g!/foo/s/a/A/gc<CR>anqlyyl
+x1 x2 x3\ny1 x2\nx3	0,0	:v/a/s/b/B/gc<CR><Esc>alanaquu
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/normal Ax<CR>:s/x/y/c<CR>q
+x1 x2 x3\ny1 x2\nx3	0,0	:g/foo/s/foo/F/gc<CR>y<Esc>qaaqnyx
+aaa\nbab\nabab\nbbb	0,0	:g!/foo/s/a/A/gc<CR><Esc>qn<Esc>ya
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:v/a/s/b/B/gc<CR>lnx
+aaa\nbab\nabab\nbbb	1,0	:2,3g/a/s/a/X/gc<CR>ll<Esc>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/a/s/a/X/gc<CR>nqylnqqau
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/one/s/one/1/c<CR>qqynaylu<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>anlj.
+x1 x2 x3\ny1 x2\nx3	2,0	:g/^/s/a/@/gc<CR>laau<C-r>
+x1 x2 x3\ny1 x2\nx3	0,0	:g/one/s/one/1/c<CR><Esc>ygg
+aaa\nbab\nabab\nbbb	3,0	:%s/a/X/gc<CR>an<C-r>
+aaa\nbab\nabab\nbbb	3,0	:g/x/s/x/Z/gc|s/y/W/<CR>yygg
+a a\nb a\na b\nc	3,0	:v/a/s/b/B/gc<CR>lnx
+a a\nb a\na b\nc	2,0	:g/a/normal Ax<CR>:s/x/y/c<CR>ly<Esc>nnx
+a a\nb a\na b\nc	2,0	:g/one/s/one/1/c<CR>gg
+aaa\nbab\nabab\nbbb	1,0	:g/x/s/x/Z/gc|s/y/W/<CR>q<Esc>nnanyq<C-r>
+one two\none three\ntwo one one\nthree	2,0	:g/a/s/a/X/gc|s/b/Q/g<CR>yq<Esc>qa
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc<CR>aj.
+one two\none three\ntwo one one\nthree	3,0	:g/foo/s/foo/F/gc<CR>
+x1 x2 x3\ny1 x2\nx3	0,0	:v/a/s/b/B/gc<CR>annx
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g!/foo/s/a/A/gc<CR>aaly<Esc>na<Esc>
+aaa\nbab\nabab\nbbb	3,0	:%s/a/X/gc<CR>laalau
+aaa\nbab\nabab\nbbb	2,0	:g!/foo/s/a/A/gc<CR>qyyu<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/x/s/x/Z/gc|s/y/W/<CR>ny<Esc>ayu<C-r>
+one two\none three\ntwo one one\nthree	0,0	:g/one/s/one/1/c<CR>y<Esc>nn<Esc>
+one two\none three\ntwo one one\nthree	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>yqayqqgg
+x1 x2 x3\ny1 x2\nx3	2,0	:g/foo/s/foo/F/gc<CR>au<C-r>
+x1 x2 x3\ny1 x2\nx3	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR>quu
+a a\nb a\na b\nc	1,0	:g/x/s/x/Z/gc|s/y/W/<CR>nyylnllu<C-r>
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR>nu<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g/foo/s/foo/F/gc<CR><Esc><Esc>lu<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g/^/s/a/@/gc<CR>gg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:%s/a/X/gc<CR><Esc>ylnnnqygg
+x1 x2 x3\ny1 x2\nx3	0,0	:g/one/s/one/1/c<CR>llalyyx
+x1 x2 x3\ny1 x2\nx3	2,0	:g/one/s/one/1/c<CR><Esc>q<Esc><Esc><Esc>n<Esc><Esc>u<C-r>
+aaa\nbab\nabab\nbbb	1,0	:g!/foo/s/a/A/gc<CR><Esc>yny<Esc>qnuu
+a a\nb a\na b\nc	2,0	:g!/foo/s/a/A/gc<CR>u
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/^/s/a/@/gc<CR>qyy
+aaa\nbab\nabab\nbbb	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>qlq
+a a\nb a\na b\nc	2,0	:g/x/s/x/Z/gc|s/y/W/<CR>anylqu
+aaa\nbab\nabab\nbbb	0,0	:g/foo/s/foo/F/gc<CR>
+a a\nb a\na b\nc	2,0	:g/foo/s/foo/F/gc<CR><Esc><Esc>gg
+a a\nb a\na b\nc	0,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>u
+x1 x2 x3\ny1 x2\nx3	1,0	:%s/a/X/gc<CR>yqanj.
+aaa\nbab\nabab\nbbb	3,0	:2,3g/a/s/a/X/gc<CR>alnu
+x1 x2 x3\ny1 x2\nx3	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR><Esc>yl<Esc>uu
+a a\nb a\na b\nc	2,0	:g/one/s/one/1/c<CR>qallayqu<C-r>
+one two\none three\ntwo one one\nthree	0,0	:v/a/s/b/B/gc<CR>nqanl<Esc>j.
+aaa\nbab\nabab\nbbb	3,0	:g/one/s/one/1/c<CR>nyqllx
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>anlyyj.
+x1 x2 x3\ny1 x2\nx3	1,0	:g!/foo/s/a/A/gc<CR>au
+a a\nb a\na b\nc	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR>n<Esc>lqu<C-r>
+aaa\nbab\nabab\nbbb	1,0	:g/foo/s/foo/F/gc<CR><Esc>nll
+x1 x2 x3\ny1 x2\nx3	2,0	:g/foo/s/foo/F/gc<CR>yaau<C-r>
+x1 x2 x3\ny1 x2\nx3	0,0	:g/foo/s/foo/F/gc<CR>qq<Esc>gg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:v/a/s/b/B/gc<CR>lq<Esc>l<Esc><Esc>l<Esc>j.
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR>nj.
+aaa\nbab\nabab\nbbb	3,0	:g/a/s/a/X/gc|s/b/Q/g<CR>yu<C-r>
+x1 x2 x3\ny1 x2\nx3	1,0	:g/^/s/a/@/gc<CR><Esc>llq<Esc>u
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/a/normal Ax<CR>:s/x/y/c<CR>au
+aaa\nbab\nabab\nbbb	0,0	:g!/foo/s/a/A/gc<CR>lq<Esc>qaalyx
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/s/a/X/gc<CR>aaluu
+one two\none three\ntwo one one\nthree	2,0	:v/a/s/b/B/gc<CR>qa<Esc>lq
+aaa\nbab\nabab\nbbb	3,0	:2,3g/a/s/a/X/gc<CR><Esc>nqaanx
+x1 x2 x3\ny1 x2\nx3	0,0	:g/^/s/a/@/gc<CR>ll<Esc><Esc>lqy
+a a\nb a\na b\nc	0,0	:g/foo/s/foo/F/gc<CR>qnauu
+a a\nb a\na b\nc	3,0	:g/a/normal Ax<CR>:s/x/y/c<CR>yn<Esc>u<C-r>
+one two\none three\ntwo one one\nthree	0,0	:2,3g/a/s/a/X/gc<CR>qyayu
+x1 x2 x3\ny1 x2\nx3	1,0	:g/one/s/one/1/c<CR>q<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:2,3g/a/s/a/X/gc<CR>y<Esc>nlny<Esc>nx
+aaa\nbab\nabab\nbbb	1,0	:g!/foo/s/a/A/gc<CR>aq<Esc>uu
+a a\nb a\na b\nc	3,0	:%s/a/X/gc<CR>lqlu
+x1 x2 x3\ny1 x2\nx3	1,0	:g/^/s/a/@/gc<CR>aln<Esc><Esc>u<C-r>
+one two\none three\ntwo one one\nthree	3,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>lallnlquu
+a a\nb a\na b\nc	0,0	:%s/a/X/gc<CR>q
+one two\none three\ntwo one one\nthree	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>aqnayan
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/x/s/x/Z/gc|s/y/W/<CR>l<Esc>l<Esc>nll
+aaa\nbab\nabab\nbbb	2,0	:g/^/s/a/@/gc<CR><Esc>n<Esc>lnnn
+a a\nb a\na b\nc	1,0	:g!/foo/s/a/A/gc<CR>aayynj.
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g!/foo/s/a/A/gc<CR>qq
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc<CR>a<Esc>qlx
+aaa\nbab\nabab\nbbb	1,0	:%s/a/X/gc<CR>nq<Esc>q<Esc><Esc>y
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/normal Ax<CR>:s/x/y/c<CR>ynlay<C-r>
+one two\none three\ntwo one one\nthree	0,0	:2,3g/a/s/a/X/gc<CR><Esc>
+a a\nb a\na b\nc	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR>q<Esc>gg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/foo/s/foo/F/gc<CR>auu
+aaa\nbab\nabab\nbbb	2,0	:g/foo/s/foo/F/gc<CR>ax
+x1 x2 x3\ny1 x2\nx3	2,0	:g/one/s/one/1/c<CR>n
+a a\nb a\na b\nc	1,0	:g!/foo/s/a/A/gc<CR>q<Esc>
+one two\none three\ntwo one one\nthree	3,0	:v/a/s/b/B/gc<CR><Esc>yln<Esc>
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc<CR>annnyx
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc<CR>q<Esc>ly<Esc><Esc>angg
+a a\nb a\na b\nc	2,0	:g/a/s/a/X/gc|s/b/Q/g<CR>aqalqx
+one two\none three\ntwo one one\nthree	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>qyqyqnnyj.
+one two\none three\ntwo one one\nthree	0,0	:g!/foo/s/a/A/gc<CR>anqx
+one two\none three\ntwo one one\nthree	2,0	:g/^/s/a/@/gc<CR>lya<Esc><Esc>lq<Esc>uu
+one two\none three\ntwo one one\nthree	0,0	:g/a/s/a/X/gc<CR><Esc>aq<Esc>u
+one two\none three\ntwo one one\nthree	0,0	:%s/a/X/gc<CR>qallanqy<C-r>
+a a\nb a\na b\nc	2,0	:g!/foo/s/a/A/gc<CR>y
+one two\none three\ntwo one one\nthree	3,0	:g/x/s/x/Z/gc|s/y/W/<CR>ynnl<Esc>
+aaa\nbab\nabab\nbbb	1,0	:g/x/s/x/Z/gc|s/y/W/<CR>ny<Esc>yaan
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g!/foo/s/a/A/gc<CR>l<Esc>aq
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:v/a/s/b/B/gc<CR>aqyqnqa<Esc>x
+one two\none three\ntwo one one\nthree	1,0	:g!/foo/s/a/A/gc<CR>lly<Esc>any
+x1 x2 x3\ny1 x2\nx3	1,0	:v/a/s/b/B/gc<CR><Esc>l<Esc>qla<Esc>j.
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>la<Esc>uu
+x1 x2 x3\ny1 x2\nx3	0,0	:g/a/s/a/X/gc|s/b/Q/g<CR><C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/^/s/a/@/gc<CR>qyayyqnyx
+aaa\nbab\nabab\nbbb	2,0	:%s/a/X/gc<CR>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/foo/s/foo/F/gc<CR>qnyuu
+x1 x2 x3\ny1 x2\nx3	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR>yayaqllqj.
+x1 x2 x3\ny1 x2\nx3	2,0	:g!/foo/s/a/A/gc<CR>qu<C-r>
+one two\none three\ntwo one one\nthree	3,0	:g/a/normal Ax<CR>:s/x/y/c<CR>n<Esc>
+a a\nb a\na b\nc	3,0	:g/a/s/a/X/gc<CR><Esc>nnllyn<C-r>
+one two\none three\ntwo one one\nthree	3,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>uu
+one two\none three\ntwo one one\nthree	1,0	:g/a/s/a/X/gc<CR>lyayqaax
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g!/foo/s/a/A/gc<CR><Esc>qllaaq<Esc>j.
+a a\nb a\na b\nc	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR><Esc>j.
+x1 x2 x3\ny1 x2\nx3	1,0	:2,3g/a/s/a/X/gc<CR>nnaq
+a a\nb a\na b\nc	0,0	:g/a/normal Ax<CR>:s/x/y/c<CR>q<Esc>qnayygg
+one two\none three\ntwo one one\nthree	1,0	:g/foo/s/foo/F/gc<CR>x
+aaa\nbab\nabab\nbbb	1,0	:g!/foo/s/a/A/gc<CR>yqyl<Esc>a<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:v/a/s/b/B/gc<CR>nqalylauu
+x1 x2 x3\ny1 x2\nx3	0,0	:g/foo/s/foo/F/gc<CR>l<Esc>ylanayx
+one two\none three\ntwo one one\nthree	2,0	:v/a/s/b/B/gc<CR>yn<Esc>yqlq<Esc>gg
+a a\nb a\na b\nc	3,0	:%s/a/X/gc<CR>ny<Esc>u<C-r>
+one two\none three\ntwo one one\nthree	3,0	:g/x/s/x/Z/gc|s/y/W/<CR>naqq<C-r>
+one two\none three\ntwo one one\nthree	3,0	:g/a/s/a/X/gc<CR>ln<Esc>qyqa
+aaa\nbab\nabab\nbbb	1,0	:g/^/s/a/@/gc<CR>aqauu
+a a\nb a\na b\nc	0,0	:g/a/s/a/X/gc<CR>aayqaquu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/^/s/a/@/gc<CR>ly<C-r>
+one two\none three\ntwo one one\nthree	1,0	:g/one/s/one/1/c<CR>laanayu<C-r>
+aaa\nbab\nabab\nbbb	1,0	:g/^/s/a/@/gc<CR><Esc>x
+one two\none three\ntwo one one\nthree	0,0	:2,3g/a/s/a/X/gc<CR>alllj.
+x1 x2 x3\ny1 x2\nx3	2,0	:g/foo/s/foo/F/gc<CR><Esc>uu
+aaa\nbab\nabab\nbbb	2,0	:g/one/s/one/1/c<CR><C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/foo/s/foo/F/gc<CR>qu
+a a\nb a\na b\nc	3,0	:g/x/s/x/Z/gc|s/y/W/<CR>ny<Esc>aayx
+a a\nb a\na b\nc	2,0	:g/^/s/a/@/gc<CR>lqyqnqqnx
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>ayqangg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:2,3g/a/s/a/X/gc<CR>quu
+one two\none three\ntwo one one\nthree	3,0	:2,3g/a/s/a/X/gc<CR>a
+aaa\nbab\nabab\nbbb	1,0	:g/a/normal Ax<CR>:s/x/y/c<CR>nyn<Esc>lnaq
+x1 x2 x3\ny1 x2\nx3	1,0	:g/x/s/x/Z/gc|s/y/W/<CR>qnqnaq<C-r>
+a a\nb a\na b\nc	3,0	:%s/a/X/gc<CR>llqqy<Esc>u<C-r>
+x1 x2 x3\ny1 x2\nx3	2,0	:g!/foo/s/a/A/gc<CR>nnlu
+a a\nb a\na b\nc	3,0	:g/foo/s/foo/F/gc<CR>yu<C-r>
+aaa\nbab\nabab\nbbb	0,0	:%s/a/X/gc<CR><Esc>lx
+one two\none three\ntwo one one\nthree	1,0	:g/one/s/one/1/c<CR>a<Esc>lnqyqj.
+x1 x2 x3\ny1 x2\nx3	1,0	:v/a/s/b/B/gc<CR>qngg
+one two\none three\ntwo one one\nthree	3,0	:g/foo/s/foo/F/gc<CR>uu
+aaa\nbab\nabab\nbbb	2,0	:g/x/s/x/Z/gc|s/y/W/<CR>lyla<Esc>u
+one two\none three\ntwo one one\nthree	0,0	:g/foo/s/foo/F/gc<CR>lay<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>j.
+x1 x2 x3\ny1 x2\nx3	1,0	:g/x/s/x/Z/gc|s/y/W/<CR>qa<Esc>nuu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/a/s/a/X/gc|s/b/Q/g<CR>uu
+a a\nb a\na b\nc	3,0	:g/^/s/a/@/gc<CR>nqqnnq
+one two\none three\ntwo one one\nthree	0,0	:g/x/s/x/Z/gc|s/y/W/<CR>anyu
+x1 x2 x3\ny1 x2\nx3	1,0	:g/one/s/one/1/c<CR>ql<C-r>
+a a\nb a\na b\nc	0,0	:%s/a/X/gc<CR>qj.
+aaa\nbab\nabab\nbbb	0,0	:g/a/s/a/X/gc|s/b/Q/g<CR><Esc>aqnq<Esc>lu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/a/s/a/X/gc<CR>u
+a a\nb a\na b\nc	1,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>qynaqnyu
+x1 x2 x3\ny1 x2\nx3	2,0	:%s/a/X/gc<CR>an<Esc><Esc>qaluu
+x1 x2 x3\ny1 x2\nx3	0,0	:g!/foo/s/a/A/gc<CR>qa<Esc>q<Esc>yyuu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g!/foo/s/a/A/gc<CR>nqayyyy<C-r>
+x1 x2 x3\ny1 x2\nx3	1,0	:g/^/s/a/@/gc<CR>yn
+aaa\nbab\nabab\nbbb	1,0	:%s/a/X/gc<CR><Esc>ylqayu
+x1 x2 x3\ny1 x2\nx3	0,0	:v/a/s/b/B/gc<CR><Esc><Esc><Esc>aaq
+x1 x2 x3\ny1 x2\nx3	2,0	:%s/a/X/gc<CR>a<Esc>l<Esc>qqgg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/^/s/a/@/gc<CR>nyalyaln
+one two\none three\ntwo one one\nthree	0,0	:v/a/s/b/B/gc<CR>ln<Esc><Esc>a
+aaa\nbab\nabab\nbbb	1,0	:g/^/s/a/@/gc<CR>qgg
+a a\nb a\na b\nc	2,0	:g/^/s/a/@/gc<CR>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:2,3g/a/s/a/X/gc<CR>luu
+one two\none three\ntwo one one\nthree	0,0	:2,3g/a/s/a/X/gc<CR>yuu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>l<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/x/s/x/Z/gc|s/y/W/<CR>qlnqny<C-r>
+a a\nb a\na b\nc	1,0	:%s/a/X/gc<CR>nanaa
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g!/foo/s/a/A/gc<CR>yl<Esc>uu
+a a\nb a\na b\nc	2,0	:g/a/normal Ax<CR>:s/x/y/c<CR>ql<Esc>nnn
+a a\nb a\na b\nc	3,0	:g/one/s/one/1/c<CR><Esc>j.
+a a\nb a\na b\nc	2,0	:2,3g/a/s/a/X/gc<CR>qgg
+one two\none three\ntwo one one\nthree	2,0	:%s/a/X/gc<CR>y<Esc><Esc>yqj.
+a a\nb a\na b\nc	3,0	:g/a/s/a/X/gc<CR>nnanu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:2,3g/a/s/a/X/gc<CR>y<Esc><Esc>aqu
+one two\none three\ntwo one one\nthree	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR><Esc>aqa
+aaa\nbab\nabab\nbbb	3,0	:g/foo/s/foo/F/gc<CR><Esc>qx
+one two\none three\ntwo one one\nthree	1,0	:v/a/s/b/B/gc<CR>yanqqqqluu
+aaa\nbab\nabab\nbbb	3,0	:g/one/s/one/1/c<CR>ay<Esc>alaa<Esc>u
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:v/a/s/b/B/gc<CR>q<Esc>aqj.
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc|s/b/Q/g<CR><Esc>lyq<C-r>
+a a\nb a\na b\nc	2,0	:g/x/s/x/Z/gc|s/y/W/<CR>aayuu
+a a\nb a\na b\nc	1,0	:g/foo/s/foo/F/gc<CR><Esc>yuu
+x1 x2 x3\ny1 x2\nx3	2,0	:%s/a/X/gc<CR>lqlagg
+x1 x2 x3\ny1 x2\nx3	1,0	:g/foo/s/foo/F/gc<CR>yn<Esc>qyl<C-r>
+a a\nb a\na b\nc	3,0	:g/a/normal Ax<CR>:s/x/y/c<CR>ynn<C-r>
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR>aln<Esc>ynayj.
+aaa\nbab\nabab\nbbb	1,0	:g/^/s/a/@/gc<CR>lqu<C-r>
+x1 x2 x3\ny1 x2\nx3	0,0	:g!/foo/s/a/A/gc<CR>l<Esc>aqla
+a a\nb a\na b\nc	3,0	:g/foo/s/foo/F/gc<CR>q
+aaa\nbab\nabab\nbbb	1,0	:g/a/s/\\(a\\)/<\\1>/gc<CR><Esc>na<Esc>qq<Esc>u
+one two\none three\ntwo one one\nthree	3,0	:g/a/s/a/X/gc<CR>y<Esc>ygg
+aaa\nbab\nabab\nbbb	1,0	:%s/a/X/gc<CR>u<C-r>
+aaa\nbab\nabab\nbbb	0,0	:g/a/s/a/X/gc<CR>ql<Esc>gg
+x1 x2 x3\ny1 x2\nx3	0,0	:%s/a/X/gc<CR><Esc>a<Esc>lqgg
+x1 x2 x3\ny1 x2\nx3	2,0	:g/foo/s/foo/F/gc<CR>lqq<Esc>qnau
+one two\none three\ntwo one one\nthree	1,0	:v/a/s/b/B/gc<CR>nnny<Esc>y<Esc>auu
+one two\none three\ntwo one one\nthree	1,0	:g/a/s/a/X/gc<CR>aq
+a a\nb a\na b\nc	3,0	:v/a/s/b/B/gc<CR><Esc>ynu
+a a\nb a\na b\nc	2,0	:%s/a/X/gc<CR>
+one two\none three\ntwo one one\nthree	1,0	:g/^/s/a/@/gc<CR>l<Esc>anl<Esc>n
+aaa\nbab\nabab\nbbb	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR><Esc>aaq<Esc>lu
+aaa\nbab\nabab\nbbb	2,0	:g/x/s/x/Z/gc|s/y/W/<CR><Esc>yy
+aaa\nbab\nabab\nbbb	3,0	:g/foo/s/foo/F/gc<CR>y
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/a/normal Ax<CR>:s/x/y/c<CR>yalq<Esc>naq
+aaa\nbab\nabab\nbbb	3,0	:g/a/normal Ax<CR>:s/x/y/c<CR><Esc><Esc><Esc>yx
+x1 x2 x3\ny1 x2\nx3	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR><C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g/^/s/a/@/gc<CR>yj.
+x1 x2 x3\ny1 x2\nx3	2,0	:g!/foo/s/a/A/gc<CR><Esc>lyaqyqnx
+a a\nb a\na b\nc	1,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>nqy<C-r>
+a a\nb a\na b\nc	2,0	:g/foo/s/foo/F/gc<CR>qy<Esc>yyuu
+a a\nb a\na b\nc	1,0	:g/x/s/x/Z/gc|s/y/W/<CR>q<Esc><Esc>yyn<Esc>q
+a a\nb a\na b\nc	2,0	:g/x/s/x/Z/gc|s/y/W/<CR>yn<Esc>llla<Esc>u<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:v/a/s/b/B/gc<CR>nlqaau<C-r>
+a a\nb a\na b\nc	3,0	:v/a/s/b/B/gc<CR>j.
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>lnaanuu
+a a\nb a\na b\nc	1,0	:g/a/s/a/X/gc<CR><Esc><Esc>x
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:%s/a/X/gc<CR>ya
+one two\none three\ntwo one one\nthree	0,0	:g/a/s/a/X/gc<CR>
+a a\nb a\na b\nc	3,0	:2,3g/a/s/a/X/gc<CR>yly<Esc>uu
+one two\none three\ntwo one one\nthree	2,0	:2,3g/a/s/a/X/gc<CR>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	3,0	:v/a/s/b/B/gc<CR><Esc>yan<Esc>qx
+one two\none three\ntwo one one\nthree	0,0	:g/a/s/\\(a\\)/<\\1>/gc<CR>ay<Esc>an<Esc>l<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	1,0	:g/a/s/a/X/gc|s/b/Q/g<CR>anyyaqyu<C-r>
+aaa\nbab\nabab\nbbb	2,0	:g/x/s/x/Z/gc|s/y/W/<CR><Esc>qylyngg
+aaa\nbab\nabab\nbbb	1,0	:g/one/s/one/1/c<CR>ayu<C-r>
+a a\nb a\na b\nc	3,0	:g/a/s/a/X/gc<CR><Esc><Esc><Esc>quu
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:v/a/s/b/B/gc<CR>ln<Esc>aqj.
+aaa\nbab\nabab\nbbb	3,0	:g/x/s/x/Z/gc|s/y/W/<CR>ay<Esc>gg
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	0,0	:g/a/s/a/X/gc<CR>a<C-r>
+a a\nb a\na b\nc	3,0	:g/one/s/one/1/c<CR>alyax
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	2,0	:g/foo/s/foo/F/gc<CR>uu
+one two\none three\ntwo one one\nthree	2,0	:g/a/s/a/X/gc<CR>yl
+one two\none three\ntwo one one\nthree	3,0	:v/a/s/b/B/gc<CR>ql
+one two\none three\ntwo one one\nthree	0,0	:g/one/s/one/1/c<CR>a<Esc>qq<C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:g/a/s/a/X/gc<CR>n<Esc>llngg
+aaa\nbab\nabab\nbbb	1,0	:2,3g/a/s/a/X/gc<CR><Esc>qlqlu<C-r>
+a a\nb a\na b\nc	0,0	:g!/foo/s/a/A/gc<CR><Esc>yu<C-r>
+one two\none three\ntwo one one\nthree	3,0	:g!/foo/s/a/A/gc<CR>qx
+x1 x2 x3\ny1 x2\nx3	2,0	:g/a/s/a/X/gc<CR>yaal<Esc>ln<Esc><C-r>
+foo bar foo\nbaz foo\nfoo\n\nlast foo line	4,0	:2,3g/a/s/a/X/gc<CR>l<Esc>uu

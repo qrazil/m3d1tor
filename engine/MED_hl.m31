@@ -1,0 +1,79 @@
+// Syntax highlighting for the editor: which language a buffer is, and the
+// class of every byte of a line (see MED_syntax). The state each line starts
+// in is cached on the editor; a change at row R keeps the states above R.
+
+import engine.MED_editor;
+import engine.MED_syntax;
+
+/// The language of the buffer: `:set syntax=NAME`, else by file name; "" when
+/// highlighting is off or the file type is not known.
+pub str language(MED_editor.Editor editor) {
+    if (editor.opts.get("syntaxenabled").or("true") == "false") {
+        return "";
+    }
+    str named = editor.opts.get("syntax").or("");
+    if (named == "off" || named == "none") {
+        return "";
+    }
+    if (named != "") {
+        for (str known in MED_syntax.languages()) {
+            if (known == named) {
+                return named;
+            }
+        }
+        // a Vim file type name that this highlighter spells differently
+        if (named == "js" || named == "typescript" || named == "ts") {
+            return "javascript";
+        }
+        if (named == "bash" || named == "zsh") {
+            return "sh";
+        }
+        if (named == "md") {
+            return "markdown";
+        }
+        if (named == "py") {
+            return "python";
+        }
+        if (named == "rs") {
+            return "rust";
+        }
+        return "";
+    }
+    str first = "";
+    if (editor.buffer.line_count() > 0) {
+        first = editor.buffer.line(0);
+    }
+    return MED_syntax.language_of(editor.buffer.path, first);
+}
+
+/// The class of each byte of line `row`, or an empty list without highlighting.
+pub List<int> classes_of(MED_editor.Editor editor, int row, str lang) {
+    if (lang == "") {
+        return [];
+    }
+    if (editor.syn_lang != lang) {
+        editor.syn_lang = lang;
+        editor.syn_states = [0];
+        editor.syn_valid = 0;
+    }
+    int dirty = editor.buffer.dirty_row;
+    editor.buffer.dirty_row = 1000000000;
+    if (dirty < editor.syn_valid) {
+        editor.syn_valid = dirty;
+    }
+    if (row >= editor.buffer.line_count()) {
+        return [];
+    }
+    while (editor.syn_valid < row) {
+        int state = editor.syn_states[editor.syn_valid];
+        MED_syntax.Line done = MED_syntax.classify(lang, editor.buffer.line(editor.syn_valid), state);
+        editor.syn_valid = editor.syn_valid + 1;
+        if (editor.syn_states.size() > editor.syn_valid) {
+            editor.syn_states[editor.syn_valid] = done.state;
+        } else {
+            editor.syn_states.push(done.state);
+        }
+    }
+    MED_syntax.Line shown = MED_syntax.classify(lang, editor.buffer.line(row), editor.syn_states[row]);
+    return shown.classes;
+}

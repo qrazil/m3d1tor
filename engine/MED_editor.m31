@@ -56,6 +56,9 @@ pub type Resume {
 /// The state of a `:s` that asks before each replacement (`:s///c`): the loop
 /// of the substitution, suspended at a prompt and resumed by the answer key.
 pub type SubRun {
+    /// The commands after a `|` that follow a prompting `:s///c`: they run
+    /// when it is answered.
+    pub str rest = "";
     pub bool is_active = false;
     pub bool is_hold = false;
     pub bool is_quit = false;
@@ -135,6 +138,11 @@ pub type Editor {
     /// The cursor row for which `view_top` is known to be right (Vim's
     /// VALID_TOPLINE, set by cursor_correct); -1 when it must be checked.
     pub int view_valid_row = -1;
+    /// Syntax highlighting: the language in use, the state each line starts in
+    /// (valid for the first `syn_valid` + 1 lines).
+    pub str syn_lang = "";
+    pub List<int> syn_states = [0];
+    pub int syn_valid = 0;
     pub int view_valid_text = 0;
     pub int view_valid_height = 0;
     pub int view_valid_width = 0;
@@ -393,6 +401,10 @@ pub type Editor {
     pub List<int> gmarks = [];
     pub bool is_gmarks_on = false;
     pub bool is_global_busy = false;
+    /// A `:g` command is waiting for the answer to a `:s///c` prompt: the
+    /// command to go on with, and whether the answer quit the whole `:g`.
+    pub bool is_global_waiting = false;
+    pub str global_cmd = "";
     pub bool is_need_beginline = false;
     /// Nesting of ex lines (`:normal`, `:g`): 0 when typed.
     pub int ex_depth = 0;

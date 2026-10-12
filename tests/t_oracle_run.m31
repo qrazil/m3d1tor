@@ -117,15 +117,21 @@ str run_case(str line) {
     MED_view.update(editor);
     MED_ex.feed_keys(editor, keys);
     MED_ex.flush_maps(editor);
-    if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) {
+    int escapes = 0;
+    while ((editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) && escapes < 3) {
+        // typeahead that ran out is an Esc for every prompt still open (<C-r>, <C-v> ...)
         MED_ex.feed(editor, 27);
+        escapes = escapes + 1;
     }
     if (editor.mode == MED_editor.CMDLINE) {
         MED_ex.feed(editor, 27);
     }
-    if (editor.sub_run.is_active) {
+    int prompts = 0;
+    while (editor.sub_run.is_active && prompts < 1000) {
         // a prompt still waiting when the keys end gets the Esc nvim's feedkeys() supplies
+        // (and so does each one a `:g` raises after it)
         MED_ex.feed(editor, 27);
+        prompts = prompts + 1;
     }
     editor.end_block();
     List<str> out = [fields[0], hex_of(editor.buffer.lines.join("\n")), editor.row.to_str(), editor.col.to_str(), mode_char(editor)];

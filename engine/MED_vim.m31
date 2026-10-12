@@ -3135,7 +3135,8 @@ bool did_ins_bs(MED_editor.Editor editor, int mode) {
     int mincol = 0;
     str line = editor.buffer.line(editor.row);
     int step = 0;
-    if (mode == 0 && editor.mode == MED_editor.INSERT) {
+    bool is_replace = editor.mode == MED_editor.REPLACE && !editor.is_virtual;
+    if (mode == 0 && (editor.mode == MED_editor.INSERT || is_replace)) {
         if (editor.is_smarttab && is_in_indent_before(line, editor.col)) {
             step = editor.shift_size();
         } else if (editor.soft_width() != 0 && editor.col > 0) {
@@ -3147,25 +3148,40 @@ bool did_ins_bs(MED_editor.Editor editor, int mode) {
     }
     if (step > 0) {
         // 'smarttab' in the indent and 'softtabstop' elsewhere: <BS> steps back one
-        // 'shiftwidth' or 'softtabstop' (Vim's ins_bs)
+        // 'shiftwidth' or 'softtabstop' (Vim's ins_bs). In Replace mode the
+        // characters that were replaced come back; plain text is only passed.
         int vcol = MED_text.display_col(line, editor.col, editor.tab);
         int start_vcol = vcol;
         int want = ((vcol - 1) / step) * step;
         while (vcol > want && editor.col > 0 && is_white_byte(line.byte_at(editor.col - 1))) {
             int previous = MED_text.previous_col(line, editor.col);
-            editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), "");
+            if (is_replace) {
+                if (editor.replaced.size() > 0) {
+                    str back = editor.replaced.pop();
+                    editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), back);
+                }
+            } else {
+                editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), "");
+            }
             editor.col = previous;
             line = editor.buffer.line(editor.row);
             vcol = MED_text.display_col(line, editor.col, editor.tab);
         }
-        if (vcol < want) {
+        if (vcol < want && !is_replace) {
             editor.change(MED_buffer.Pos(editor.row, editor.col), MED_buffer.Pos(editor.row, editor.col), " ".repeat(want - vcol));
             editor.col = editor.col + want - vcol;
             vcol = want;
         }
         if (vcol >= start_vcol && editor.col > 0) {
             int previous = MED_text.previous_col(line, editor.col);
-            editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), "");
+            if (is_replace) {
+                if (editor.replaced.size() > 0) {
+                    str back = editor.replaced.pop();
+                    editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), back);
+                }
+            } else {
+                editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), "");
+            }
             editor.col = previous;
         }
         if (editor.row == editor.ins_start.row && editor.col < editor.ins_start.col) {

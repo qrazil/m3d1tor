@@ -968,6 +968,11 @@ pub bool did_run_line(MED_editor.Editor editor, str line) {
         if (!step.is_more) {
             return true;
         }
+        if (editor.sub_run.is_active) {
+            // a `:s///c` prompt is waiting for its answer: the rest follows it
+            editor.sub_run.rest = step.rest;
+            return true;
+        }
         text = step.rest;
     }
 }
@@ -1333,7 +1338,16 @@ Step exec_cmd(MED_editor.Editor editor, Cmd cmd) {
     if (name == "set" || name == "setlocal" || name == "setglobal") {
         return cmd_set(editor, cmd);
     }
-    if (name == "undojoin" || name == "echo" || name == "echomsg" || name == "redraw" || name == "messages" || name == "highlight" || name == "syntax" || name == "filetype" || name == "version" || name == "history" || name == "pwd") {
+    if (name == "syntax") {
+        str word = cmd.arg.trim().split(" ")[0];
+        if (word == "on" || word == "enable") {
+            editor.opts.set("syntaxenabled", "true");
+        } else if (word == "off") {
+            editor.opts.set("syntaxenabled", "false");
+        }
+        return done();
+    }
+    if (name == "undojoin" || name == "echo" || name == "echomsg" || name == "redraw" || name == "messages" || name == "highlight" || name == "filetype" || name == "version" || name == "history" || name == "pwd") {
         return done();
     }
     if (name == "left" || name == "right" || name == "center") {
@@ -2472,6 +2486,14 @@ Step cmd_global(MED_editor.Editor editor, Cmd cmd_value) {
     editor.is_gmarks_on = true;
     editor.is_global_busy = true;
     editor.is_need_beginline = false;
+    // the whole :g is one undoable change, also while a prompt waits for keys
+    editor.block_hold = editor.block_hold + 1;
+    return global_loop(editor, cmd);
+}
+
+// Run `cmd` on the marked lines that are left; stops at a `:s///c` prompt (the
+// answer to it, in sub_key, comes back here) or when a command fails.
+Step global_loop(MED_editor.Editor editor, str cmd) {
     bool is_ok = true;
     while (editor.gmarks.size() > 0) {
         int best = 0;
@@ -2492,10 +2514,21 @@ Step cmd_global(MED_editor.Editor editor, Cmd cmd_value) {
             is_ok = false;
             break;
         }
+        if (editor.sub_run.is_active) {
+            // a prompt is waiting for a key: go on when it is answered
+            editor.is_global_waiting = true;
+            editor.global_cmd = cmd;
+            return done();
+        }
     }
+    editor.is_global_waiting = false;
     editor.is_global_busy = false;
     editor.is_gmarks_on = false;
     editor.gmarks = [];
+    editor.block_hold = editor.block_hold - 1;
+    if (editor.block_hold == 0 && editor.mode == MED_editor.NORMAL) {
+        editor.end_block();
+    }
     if (editor.is_need_beginline) {
         begin_white(editor);
     } else {
@@ -2733,6 +2766,21 @@ void sub_key(MED_editor.Editor editor, int key) {
     Step step = sub_lines(editor, run, key);
     if (!step.is_ok) {
         editor.is_failed = true;
+    }
+    if (!run.is_active && run.rest != "") {
+        str after = run.rest;
+        run.rest = "";
+        if (!did_run_isolated(editor, after)) {
+            editor.is_failed = true;
+        }
+    }
+    if (editor.is_global_waiting && !editor.sub_run.is_active) {
+        // the `:g` that ran the substitute goes on with its other lines
+        editor.is_global_waiting = false;
+        Step rest = global_loop(editor, editor.global_cmd);
+        if (!rest.is_ok) {
+            editor.is_failed = true;
+        }
     }
 }
 
@@ -3197,9 +3245,6 @@ Step cmd_sub(MED_editor.Editor editor, Cmd cmd_value) {
         } else {
             return fail(editor, "E488: Trailing characters: " + text_value);
         }
-    }
-    if (is_ask && editor.is_global_busy) {
-        return fail(editor, "E999: :s///c is not supported inside :g");
     }
     // the pattern
     if (pattern == "") {

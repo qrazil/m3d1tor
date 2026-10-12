@@ -98,8 +98,23 @@ while (arg_index < arguments.size()) {
 if (files.size() == 0) {
     files.push("");
 }
+
+// A light terminal background, as COLORFGBG ("foreground;background") says.
+bool is_light_background() {
+    str pair = os.env("COLORFGBG").or("");
+    if (pair == "") {
+        return false;
+    }
+    List<str> parts = pair.split(";");
+    int background = parts[parts.size() - 1].parse_int().or(0);
+    return background == 7 || background == 15;
+}
+
 match (MED_app.open_all(files)) {
     case Ok(MED_app.App app): {
+        if (is_light_background()) {
+            app.editor.opts.set("background", "light");
+        }
         app.clipboard = MED_clip.detect();
         app.editor.regs.has_clipboard = app.clipboard.is_present;
         app.load_keymap(keymap, is_keymap_required);

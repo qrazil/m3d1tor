@@ -520,6 +520,31 @@ match (MED_app.open_all([""])) {
         type_text(app, "\x1b");
     }
 }
+// syntax highlighting
+write_file("/tmp/m3d1tor_t_app_syn.py", "def f(): pass  # note\n");
+match (MED_app.open_all(["/tmp/m3d1tor_t_app_syn.py"])) {
+    case Err(str message): {
+        check.ok("open for the syntax tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(60, 6);
+        app.render(screen, screen.area());
+        int word = screen.row_text(0).index_of("pass").or(0);
+        int plain = screen.row_text(0).index_of("f()").or(0);
+        int note = screen.row_text(0).index_of("note").or(0);
+        check.ok("a keyword is coloured", screen.style_at(word, 0) != screen.style_at(plain + 2, 0));
+        check.ok("a function name is coloured", screen.style_at(plain, 0) != screen.style_at(plain + 2, 0));
+        check.ok("a comment is coloured differently", screen.style_at(note, 0) != screen.style_at(word, 0));
+        type_text(app, ":syntax off\n");
+        app.render(screen, screen.area());
+        check.ok(":syntax off turns it off", screen.style_at(word, 0) == screen.style_at(plain + 2, 0));
+        type_text(app, ":syntax on\n");
+        type_text(app, ":set syntax=sh\n");
+        app.render(screen, screen.area());
+        check.ok(":set syntax= picks the language", screen.style_at(note, 0) != screen.style_at(plain + 2, 0));
+    }
+}
+remove_file("/tmp/m3d1tor_t_app_syn.py");
 // the file tree sidebar (:Neotree, <Space>e)
 str side = "/tmp/m3d1tor_t_app_side";
 rm_tree(side);

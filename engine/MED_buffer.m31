@@ -69,6 +69,9 @@ pub type Buffer {
     /// 'iskeyword' as a table over the code points below 256 (1: a keyword
     /// character); empty for the default value.
     pub List<int> keywords = [];
+    /// The first row changed since the highlighter last looked (a big number
+    /// when none): lines above it keep their syntax state.
+    pub int dirty_row = 1000000000;
 }
 
 pub int Buffer.line_count() {
@@ -102,6 +105,9 @@ pub str Buffer.text(Pos from, Pos position) {
 pub Edit Buffer.splice(Pos from, Pos position, str replacement) {
     str removed = text(from, position);
     tick = tick + 1;
+    if (from.row < dirty_row) {
+        dirty_row = from.row;
+    }
     is_modified = true;
     if (removed != replacement) {
         is_empty = false;
