@@ -1,0 +1,701 @@
+#plugins: auto-pairs
+x = [1, 2]	0,3	a]a<BS>.<Esc>
+call(a, b)	0,8	o(<Esc>
+it's ok	0,6	S }bb<Esc>p
+x = [1, 2]	0,3	a[["<C-w><Esc>
+it's ok	0,0	ccb[],<Esc>
+foo bar	0,2	s.]x<BS>) ,1<Esc>
+call(a, b)	0,6	cw())<Esc>
+foo	0,1	o<BS>,<Esc>
+foo	0,2	ia<BS><Esc>j.
+{ a }	0,4	A<BS><Esc>.
+"str" and 's'	0,3	s<CR>]<Esc>
+it's ok	0,6	a`"[<Esc>
+if x	0,0	s<BS> ,<C-w><Esc>
+	0,0	ciw1 <Esc>
+x = [1, 2]	0,7	A,<BS>[)<Esc>u
+foo	0,2	S"<Right><Esc>j.
+if x	0,3	ciw<BS>.<C-w> "<Esc>
+foo(\n  bar\n)	1,2	I<BS>bb"`<Esc>
+"str" and 's'	0,11	S. ` <C-u>.<C-w><Esc>
+foo bar	0,5	i{x<Esc>
+"str" and 's'	0,3	S(<Esc>
+\tindented	0,2	i<Left>b)<Right><BS><Esc>
+\tindented	0,1	Ix<CR><Left>1<C-u><Esc>
+foo	0,2	ciw .[<Esc>
+foo bar	0,3	A<Left>`1<Esc>
+foo(\n  bar\n)	0,0	A.<C-u><Esc>
+"str" and 's'	0,2	a.,<C-u>bb<BS>'"<Esc>
+	0,0	cc]"1<Left><Left>a<Left><Esc>
+{ a }	0,1	s"`x'}x<Esc>
+x = [1, 2]	0,4	ciw'<C-w>]<BS>,<Esc>
+x = [1, 2]	0,2	o,<Esc>
+a\nb	1,0	s<CR>.<Esc>
+it's ok	0,1	cw. 1`(1a<Esc>
+it's ok	0,5	C[<Esc>
+{ a }	0,4	Ox{<Esc>u
+if x	0,3	Ox[<Right>`{<Esc>
+	0,0	S<Left> <Esc>
+"str" and 's'	0,7	C (<Esc>.
+"str" and 's'	0,7	o .["<BS>x<BS>'<Esc>
+"str" and 's'	0,10	i."`<Esc>
+x = [1, 2]	0,8	S"x<Esc>
+"str" and 's'	0,3	S<BS><CR><Esc>
+"str" and 's'	0,9	Ix}]<Left><BS>'a<BS><Esc>
+"str" and 's'	0,5	O<C-u>b'()(.'<Esc>
+\tindented	0,6	a<C-u><C-u><Esc>
+	0,0	ob']<Left><Esc>
+\tindented	0,2	ciw {}())}<Esc>u<C-r>
+it's ok	0,4	S[` .]1<CR>)<Esc>u<C-r>
+it's ok	0,0	S`a]<Esc>
+{ a }	0,0	o`<CR>'<Esc>
+"str" and 's'	0,2	S<Right><Esc>
+it's ok	0,5	cc(<Esc>
+"str" and 's'	0,10	a {]a]ba<Esc>
+\tindented	0,3	s ]{<Right>(<Esc>p
+foo	0,1	I<CR>`1{'<Right><BS><Esc>
+it's ok	0,5	C<C-u><BS>'<C-w>  <Esc>
+	0,0	A1"  <Esc>p
+if x	0,1	o<CR><C-w>{<Esc>
+a\nb	0,0	cw`<Esc>
+if x	0,3	cw<CR><Esc>
+x = [1, 2]	0,0	aa)<Esc>
+foo bar	0,6	I<CR> " b<Esc>.
+x = [1, 2]	0,5	o(a<C-w><Left>`<Esc>
+call(a, b)	0,7	I<C-w>b <Right>)<C-u>, <Esc>
+call(a, b)	0,9	A <BS>) <Esc>
+	0,0	A(.<Esc>
+call(a, b)	0,8	A' x<CR><Right><Esc>
+a\nb	1,0	cw<Right><Esc>
+\tindented	0,6	A1)][<Esc>
+x = [1, 2]	0,5	o'<CR>.}b{<Esc>
+{ a }	0,4	i <Esc>j.
+	0,0	S,<C-u><Esc>
+"str" and 's'	0,9	i ]<Left><Esc>
+foo	0,0	cw(<Left>)<Right><Esc>
+"str" and 's'	0,7	ciw]),a}<BS>`(<Esc>p
+if x	0,0	o[<C-w> (<BS>1<Esc>
+foo bar	0,3	C]`` <BS>b<Esc>
+foo bar	0,3	i)a<Esc>.
+{ a }	0,3	S<CR>'<Esc>
+call(a, b)	0,7	O]<BS>)<C-u>.{}<Esc>
+if x	0,1	ix"<Esc>
+\tindented	0,0	A xx}]<Right>,<Esc>
+call(a, b)	0,5	ab[xb<Right>))<Esc>
+foo	0,0	A)<BS>} <Left>a<Esc>
+foo(\n  bar\n)	0,0	cc<BS>[`<BS><Left><Esc>
+if x	0,3	S<C-u><Right>]"<BS>[<CR><Esc>
+it's ok	0,4	O{1<CR> <BS><Esc>
+it's ok	0,3	Ca<C-w><Left>{,<BS>b<Esc>
+it's ok	0,3	C<C-u>(]<Left>a<BS><Esc>
+\tindented	0,6	ciw}(<Esc>
+if x	0,2	ciw  b}<Esc>
+\tindented	0,7	cw(<Left>,b(,<Left><Left><Esc>
+a\nb	1,0	a<BS><Left> [)"<Esc>
+	0,0	A'{)`<CR>}[<Esc>
+foo bar	0,0	s1`<C-u><Esc>
+{ a }	0,3	Cb<C-u>b<Esc>
+	0,0	cw[<C-w>a<BS>a<Esc>
+foo(\n  bar\n)	0,2	a(<BS><Esc>.
+foo(\n  bar\n)	2,0	S<Left>.a<CR><CR> ]<Esc>
+it's ok	0,4	o{a'<Left><Esc>u
+\tindented	0,1	cw<Right><BS>'. <C-w><Esc>
+foo(\n  bar\n)	1,4	I1b1(<Right>a<Esc>.
+if x	0,1	cc{[<C-w>}<Esc>
+foo(\n  bar\n)	0,2	cwb`'1(}<Esc>
+foo bar	0,2	s<BS><Left>}<C-w><Esc>
+\tindented	0,3	S)`}<Esc>
+foo(\n  bar\n)	2,0	O<Left><Right>]<Right><CR><Esc>
+\tindented	0,1	ciw(`"x <Esc>
+x = [1, 2]	0,6	cc<BS><Esc>p
+\tindented	0,7	ciw(<Esc>.
+if x	0,0	a<BS>(}<Esc>u
+x = [1, 2]	0,7	C<C-w>)][,{[b<Esc>
+foo(\n  bar\n)	0,1	I"<Esc>
+if x	0,2	ciwx)1<C-w><Left><Esc>
+foo	0,0	S<C-u>'<Esc>
+foo(\n  bar\n)	2,0	O.<CR>  `<Esc>
+"str" and 's'	0,4	A[," `x1,<Esc>
+{ a }	0,4	O }<CR>1]<Esc>
+if x	0,3	C( ,`))<Esc>
+	0,0	o<C-w><Esc>u<C-r>
+{ a }	0,2	i(]..]]<Esc>
+{ a }	0,0	O`{ .]{<Esc>
+a\nb	1,0	s11b<C-u><Left>.<Left><Esc>
+foo	0,2	C<Right>`<Esc>
+x = [1, 2]	0,0	s'}]1,<CR><C-w>{<Esc>
+foo(\n  bar\n)	1,3	S.b<Esc>u
+foo(\n  bar\n)	2,0	S<C-u><Esc>
+foo	0,2	ciw ){<C-w>a<Esc>
+call(a, b)	0,2	i' <Esc>
+call(a, b)	0,1	cw<Right>b<C-w><C-w>b<BS><Esc>
+{ a }	0,4	o` , "<Right><Right><Esc>
+a\nb	0,0	o<BS><BS>}((<Esc>u
+{ a }	0,2	A]<BS>} <Esc>p
+	0,0	ciw'<Esc>
+if x	0,1	s<Right>b[<BS>`,}<Esc>
+{ a }	0,3	C{.]<Esc>
+\tindented	0,5	o [<Esc>
+foo bar	0,0	I}<C-w><Esc>
+	0,0	A[<Esc>u<C-r>
+	0,0	s'<Esc>
+x = [1, 2]	0,6	ccaa`<Esc>
+foo(\n  bar\n)	1,1	I<Left><CR>)<Left>]]<Esc>
+call(a, b)	0,9	ciwxb,<Esc>
+foo bar	0,4	i<Right>") [<Esc>
+foo	0,2	ciwa `}<Esc>
+"str" and 's'	0,11	Ix{<BS>a<C-u><Esc>
+{ a }	0,4	C ]xa}]b<Esc>
+call(a, b)	0,5	s`]<Esc>.
+foo bar	0,3	o1.]<CR>]<BS><CR>1<Esc>j.
+"str" and 's'	0,1	cca(,]]<Left>}<Esc>
+foo	0,1	cw]"`<Esc>
+foo(\n  bar\n)	2,0	O(]<BS><Esc>p
+\tindented	0,5	ciwa <BS><Esc>
+foo(\n  bar\n)	0,0	s}.[<CR><Esc>
+call(a, b)	0,4	C).)x<Right><Esc>
+"str" and 's'	0,4	cw`<C-w><BS> [[<Right>{<Esc>
+"str" and 's'	0,8	A,.<Esc>
+{ a }	0,4	Aa`"1)`1'<Esc>
+foo bar	0,5	ciw,<BS>(")x'<Right><Esc>
+foo	0,1	o,"'<C-u> <C-u>')<Esc>
+call(a, b)	0,4	ax'(<Esc>
+"str" and 's'	0,11	cc)<Right><BS><C-w><C-u>x<Esc>
+foo	0,2	S<C-u><BS>11<Esc>
+it's ok	0,1	Ca."`)xa`<Esc>
+	0,0	a}<C-u>.,<Esc>.
+\tindented	0,7	i<Left><CR><BS><Right><C-u><BS><Esc>
+x = [1, 2]	0,0	cc{}<Esc>
+call(a, b)	0,4	S,.<Right><BS>}xa<Left><Esc>
+a\nb	1,0	i]"(1 <Esc>
+a\nb	1,0	O.<BS><CR>'a`<CR><Esc>
+it's ok	0,1	cw{"x<BS>.x'{<Esc>
+foo	0,2	O<BS>`("<Esc>
+{ a }	0,0	I<C-u>{a<C-w><Esc>
+foo bar	0,2	A <Esc>
+call(a, b)	0,1	ciw,<Esc>
+{ a }	0,0	A<BS><C-w><Esc>
+foo(\n  bar\n)	1,4	ciw'a1(`<Esc>
+call(a, b)	0,3	O<C-u> 1.b<Esc>
+\tindented	0,8	A<Left>]<Esc>
+{ a }	0,2	S.<Esc>
+call(a, b)	0,9	cc."<Left>a{<C-w>](<Esc>
+if x	0,3	cwx}(<Right> [<CR><Esc>
+it's ok	0,6	C [<Left> ((<Esc>
+{ a }	0,3	cc{ aab <Left><Esc>
+call(a, b)	0,7	I<Right><CR>.a`",<Esc>p
+a\nb	0,0	I<BS>1{b.<Esc>
+"str" and 's'	0,5	cw{b]<CR><BS>} <Esc>
+foo bar	0,5	cw<BS> " ,<Esc>
+it's ok	0,6	o  <CR>")<Esc>
+	0,0	A{<Left>ab{{ .<Esc>
+call(a, b)	0,4	i(<Esc>
+if x	0,3	I <Esc>p
+foo(\n  bar\n)	1,0	o.[}<BS><Esc>
+if x	0,0	C1<Esc>j.
+if x	0,1	C{<BS>')<BS><Esc>
+{ a }	0,4	ciw[<BS><Left><Esc>
+it's ok	0,5	I.<Esc>
+foo(\n  bar\n)	1,2	o)<C-w> bb<C-u><Right><Esc>
+"str" and 's'	0,2	Ox(<C-w><Esc>
+if x	0,3	s <C-u>'{<Right><Esc>u
+\tindented	0,5	o1<BS>,<Right>)(,,<Esc>
+a\nb	0,0	S<C-w>{<BS> <Esc>
+foo	0,2	cw[<BS><Left><Left>"<Esc>j.
+a\nb	0,0	Cb(1<BS>x}"<Esc>
+{ a }	0,4	cw. .<Esc>
+{ a }	0,3	cw{[ 1<Esc>.
+call(a, b)	0,7	A'}<Esc>j.
+{ a }	0,1	C1<Esc>
+{ a }	0,2	i(<Esc>
+if x	0,2	ciw<C-w><Left><CR>b)<C-u><Esc>
+\tindented	0,7	A1}<Esc>.
+it's ok	0,2	Ca1[a]a{[<Esc>
+"str" and 's'	0,4	cw<C-w>[`<Right><CR><Esc>
+if x	0,0	cc]](<C-u>{.<Esc>
+foo	0,2	s<CR>[<Right>.<BS>`<C-u><Esc>
+foo	0,2	s.]}<CR>1<Esc>
+if x	0,1	C(<Esc>.
+"str" and 's'	0,0	s<C-w>,'<Left>'<Right>(<Esc>
+foo	0,1	i<C-u><BS> b<C-w><Left><Esc>
+foo(\n  bar\n)	1,3	S <CR>,[a<BS>{]<Esc>
+if x	0,1	ib<Left><BS>x. a<Esc>u
+a\nb	1,0	a.)<Esc>p
+	0,0	ciw<Left>)<CR>{<Left>`<Esc>
+foo(\n  bar\n)	0,3	s}x<C-w><Esc>
+\tindented	0,6	C)<Esc>
+it's ok	0,1	ciw1<Left><C-w><C-w><Esc>
+foo	0,1	C.<C-u>. <Esc>
+call(a, b)	0,0	i. {<C-w>{ ,)<Esc>
+call(a, b)	0,5	C<CR>a"<BS><BS>`<Esc>u
+foo bar	0,3	A <BS><Left>)([<Esc>
+"str" and 's'	0,7	I, {<Esc>
+	0,0	s."<C-w>'1<Esc>
+call(a, b)	0,1	a<Right>,a<Esc>.
+if x	0,1	O,"}<Esc>
+call(a, b)	0,3	S<BS><C-u>.x<Esc>
+	0,0	cw"<BS>{<Left><CR><Esc>
+foo bar	0,3	a}<BS><Left>] "<Esc>
+"str" and 's'	0,11	i}.}<C-u>}[<Esc>
+it's ok	0,4	a<Right>`<CR>],]"<Esc>
+a\nb	1,0	s]1""]<Esc>
+call(a, b)	0,6	i"<C-w><BS><BS><CR>b<Esc>
+call(a, b)	0,1	I.<Esc>
+foo(\n  bar\n)	2,0	C<CR><Esc>
+	0,0	O]1 <C-u><Esc>
+it's ok	0,3	cc},),`<Esc>
+foo bar	0,3	cw<CR>}<BS><Esc>
+"str" and 's'	0,7	a}``b<Right>  <Esc>
+x = [1, 2]	0,0	s1{<Left>1<Right>{<Esc>
+x = [1, 2]	0,2	C}<C-u>{<Esc>
+{ a }	0,2	cc`()<Left><C-u>].<Esc>
+foo(\n  bar\n)	0,2	i<C-u>} <Esc>
+it's ok	0,2	C,a<Esc>
+foo	0,2	s<BS>[1<Left>b(<C-u><Esc>
+if x	0,3	S<C-u><BS> a}1<C-u><Esc>
+x = [1, 2]	0,3	cw)<Left><BS>"]<Esc>
+it's ok	0,5	cw ',<Right><BS><BS>)1<Esc>
+	0,0	ciwx<Esc>
+{ a }	0,2	i<C-u>a'}(] <Esc>
+call(a, b)	0,1	Aa <C-u>.`<Esc>
+{ a }	0,3	Iab` <Esc>u
+call(a, b)	0,2	s]'<Esc>
+\tindented	0,0	ciwx<C-w>xx<C-u><Esc>
+	0,0	S<BS>]` <BS>')<Esc>
+it's ok	0,4	i)b<Esc>
+	0,0	C`<C-u>x<BS>`"<Esc>
+"str" and 's'	0,10	i<CR>[{,<Esc>
+a\nb	1,0	cc <C-u><BS><Esc>
+x = [1, 2]	0,1	o,<Esc>
+it's ok	0,5	cw(`<Esc>
+if x	0,2	I)<Esc>
+if x	0,0	cw[<Esc>
+foo bar	0,2	oa<Esc>
+"str" and 's'	0,5	I<BS>'<BS><Esc>
+foo	0,1	o ,<Esc>
+	0,0	ciw`<BS>, ]<Esc>
+call(a, b)	0,8	cw<Right><BS>.<Esc>
+foo(\n  bar\n)	1,3	s'<Left><Left>`'<C-u><Esc>
+x = [1, 2]	0,8	C{)<CR>x<Esc>
+call(a, b)	0,8	O.){b.<C-w><Esc>
+x = [1, 2]	0,6	S'<BS>"}<C-w>.)<Esc>
+{ a }	0,4	C),a<Right>)<C-u>`'<Esc>p
+x = [1, 2]	0,2	S.''<Right><Esc>
+{ a }	0,3	s1}` 1<C-u>` <Esc>
+foo(\n  bar\n)	1,4	ciwx<C-u><Esc>
+if x	0,1	s[<C-u><C-w>]'{)}<Esc>
+\tindented	0,3	Ca)[}(<BS> <Esc>
+	0,0	O `1<Right>[b<Esc>u<C-r>
+a\nb	1,0	o(<BS>ax<C-u>[{<C-w><Esc>
+call(a, b)	0,6	cw.a{a<Esc>
+\tindented	0,3	cw1 {.}<C-u><CR><Esc>
+\tindented	0,3	s"<Esc>
+	0,0	o,'.1<BS> <Esc>
+if x	0,2	Axb<Esc>
+\tindented	0,4	ciw<BS>,<BS>.]]{<Esc>
+a\nb	1,0	cw,xb<Left><Esc>
+foo(\n  bar\n)	2,0	s<C-u>aa}<Esc>
+it's ok	0,3	I a <Right>('<Esc>j.
+{ a }	0,3	a"<BS><Esc>u
+\tindented	0,2	A`<C-w>.(<BS>a<Esc>
+\tindented	0,0	S`<Esc>
+a\nb	0,0	I)<C-u>a`'<Esc>u<C-r>
+foo bar	0,6	cw,)',)<BS><C-w><Esc>
+foo	0,0	S<CR>b<Esc>
+	0,0	O]{<Esc>
+a\nb	1,0	o"<Esc>
+"str" and 's'	0,12	o<BS>]<C-w>a"<Esc>
+\tindented	0,0	ciw<C-u><Right> <BS><BS><C-u> `<Esc>
+x = [1, 2]	0,7	S<C-w>1<Esc>p
+{ a }	0,0	s'' )  <Esc>
+x = [1, 2]	0,9	o1]"<Esc>
+foo bar	0,4	A]bb<Left><BS>([<Esc>
+{ a }	0,0	cc)",[<Esc>
+if x	0,1	a]{b](a}<Esc>j.
+foo	0,2	ciw',<C-u><Esc>
+it's ok	0,0	cc <C-w>}<Esc>
+a\nb	0,0	cc<BS><C-u>a<Right>b"`x<Esc>
+foo(\n  bar\n)	2,0	a<CR><Esc>
+	0,0	cw"],,<C-w><CR><C-u>`<Esc>u
+	0,0	cw<Left>1<Right><Esc>
+foo	0,0	O<BS><BS>ax(<Left>(<Esc>
+if x	0,0	I`<Esc>
+a\nb	0,0	cc<CR>x x<Left><Esc>
+\tindented	0,4	S<CR>,<Esc>
+a\nb	0,0	I'[]`,<C-u>"<Esc>
+foo bar	0,3	sa` <CR>(<Esc>
+\tindented	0,8	cc <BS>}",<Esc>
+call(a, b)	0,8	ox`{} <Esc>
+x = [1, 2]	0,5	Sb,{<BS>`".'<Esc>
+call(a, b)	0,2	oa""<Esc>p
+foo	0,1	S<C-u><Left> <Right>})<Esc>
+foo(\n  bar\n)	0,3	I[".']]<BS><Esc>
+call(a, b)	0,7	cw[<Right>[<CR>`<Esc>
+"str" and 's'	0,4	I(1<Esc>
+foo(\n  bar\n)	0,2	I,"<BS><Esc>
+\tindented	0,1	ciw{<C-w><C-u><Right>},.<Esc>
+call(a, b)	0,5	cc '<Right>{(x.<Esc>
+"str" and 's'	0,8	o{ <BS>(<Left>"'<BS><Esc>
+foo bar	0,2	s<C-w><BS>,,)[ <Esc>
+a\nb	0,0	S<C-u>,'1<Esc>
+if x	0,2	S1(.<Esc>
+\tindented	0,4	S{.""<Esc>
+foo	0,1	C<Left> '[b]'<BS><Esc>u<C-r>
+a\nb	1,0	C<C-u>1`{x<Esc>
+\tindented	0,4	I)<C-u>x<Esc>
+	0,0	oa')} }<Esc>
+"str" and 's'	0,2	C,bb"a,(<Esc>.
+"str" and 's'	0,0	C1<CR><Esc>u<C-r>
+call(a, b)	0,7	S<BS>]<Esc>
+foo	0,2	s]<Right><Left>.x1<Esc>p
+{ a }	0,2	cw"{a1]"<Esc>
+\tindented	0,5	cw"`x1'[<Esc>
+if x	0,3	I(}<BS>1<Esc>
+	0,0	a <Left>{<C-u> <CR><Esc>
+foo	0,0	s.x["1<CR><C-w><Esc>
+foo	0,0	O}`<BS>(<C-u><Esc>.
+foo bar	0,4	o]<Esc>
+foo(\n  bar\n)	2,0	Ab']<BS>b<BS><Esc>p
+foo bar	0,6	a `({<BS><CR>'<Esc>
+call(a, b)	0,4	o,{<BS>}<Esc>
+{ a }	0,3	Ca<Esc>
+{ a }	0,0	O{(1<Esc>u<C-r>
+	0,0	s] .<Esc>
+\tindented	0,3	a.]x<CR>}a<Left><CR><Esc>
+\tindented	0,2	C}1)<Left><BS> a<BS><Esc>
+"str" and 's'	0,12	ciw){{<BS>a<Left><Esc>
+if x	0,0	I`x(<Esc>u<C-r>
+foo bar	0,0	cw`<BS><Right>{x<CR>.<Esc>
+{ a }	0,0	O{ 1 <CR>" <Esc>
+foo(\n  bar\n)	1,3	A( <Left><CR><Esc>
+foo bar	0,3	s<CR>(<C-u>( <C-u>}<Esc>.
+foo bar	0,4	ciw(<BS><Esc>
+"str" and 's'	0,0	o <Esc>
+it's ok	0,0	a1.b(""1<Esc>
+\tindented	0,0	cw 'xa '<BS><Esc>
+it's ok	0,3	A<Right><Esc>
+it's ok	0,6	ix.]<Esc>
+call(a, b)	0,2	cwa<BS><BS><BS><Esc>
+{ a }	0,0	s<BS><Esc>
+call(a, b)	0,2	S[1<BS><Esc>
+"str" and 's'	0,10	i "<BS>'b1'<Esc>
+\tindented	0,8	sa<C-w>1`. x<Esc>.
+foo	0,0	A<C-w><CR><Esc>
+if x	0,2	Ca}<Left><C-w> <Left><C-u><Esc>p
+if x	0,2	S{<Esc>
+	0,0	S'`<CR>[b,'<Esc>
+x = [1, 2]	0,4	ia<Left> "(<Esc>p
+"str" and 's'	0,4	S b)<Esc>
+foo bar	0,6	cc)]<Left>`,<Esc>
+foo bar	0,6	a(1<C-u><Esc>
+"str" and 's'	0,5	O(<Esc>
+it's ok	0,1	a<BS><Esc>p
+if x	0,3	C'(<CR>)<CR>'".<Esc>
+foo(\n  bar\n)	0,2	a<CR><Left>)a<Esc>
+a\nb	0,0	i(.<CR>'<CR><Esc>
+"str" and 's'	0,3	ciw)<CR>"x.{<Esc>p
+it's ok	0,0	s<C-w>1{<CR> x<BS><CR><Esc>u<C-r>
+call(a, b)	0,2	cca<CR><Left><BS><Esc>
+{ a }	0,1	C],,<Esc>
+a\nb	1,0	cc<C-u>b(}]<Esc>
+it's ok	0,1	aa<Esc>u<C-r>
+foo bar	0,4	cwb<Left>1x]<Left><Esc>
+\tindented	0,3	A<C-u>""x x<Esc>
+	0,0	ciw.b<Left><CR>{<BS>,<Esc>
+x = [1, 2]	0,2	S,"<Esc>
+a\nb	0,0	C<Right>1<Esc>
+foo bar	0,6	cc}}]<Esc>
+{ a }	0,2	C},"b<BS><BS><Esc>
+	0,0	C xa.'<Esc>
+\tindented	0,8	C'.".}a<Esc>
+foo	0,2	a'{a<C-u><Esc>p
+	0,0	A('`1<Left><CR>.<Esc>u<C-r>
+	0,0	s a <BS> <BS>x<Esc>
+"str" and 's'	0,4	s}x{)x 1<Esc>
+if x	0,2	cw1<CR>){"a,}<Esc>
+{ a }	0,0	o "1<BS>]{<CR>'<Esc>
+\tindented	0,3	cw(,a<CR><BS><CR>1x<Esc>
+foo bar	0,5	s<BS><Esc>
+x = [1, 2]	0,0	i<Left>}'("<Esc>j.
+call(a, b)	0,6	Ia<Esc>u<C-r>
+call(a, b)	0,9	ciw.}a[a<Esc>
+it's ok	0,2	o <Right><C-u>{ a<Esc>
+if x	0,3	I,<Esc>
+x = [1, 2]	0,0	A <CR>x'<Esc>
+it's ok	0,6	s}}(<Esc>j.
+"str" and 's'	0,12	O'`<Left>}`<Esc>j.
+\tindented	0,6	I} 1[<C-w><Esc>
+call(a, b)	0,0	S{11<BS><Esc>j.
+x = [1, 2]	0,5	C<BS><Right> <Left>b<Esc>
+foo(\n  bar\n)	0,2	A',<BS>a<Esc>
+if x	0,2	cc<C-u>{),, <Esc>
+foo(\n  bar\n)	1,2	ciw{<BS> <Esc>
+	0,0	a.(<Left> .1<Esc>
+{ a }	0,1	A<Right><CR><Esc>
+if x	0,1	i'<Esc>
+if x	0,1	cw.,(a<Left><Esc>u
+	0,0	cc"<BS>[<Esc>
+	0,0	A1a1<Esc>
+a\nb	0,0	i)<CR>ba<BS>']{<Esc>u
+foo bar	0,5	cc<C-w><Left>"(}{1<Esc>
+it's ok	0,5	C, }<BS><Esc>
+	0,0	I. `<Esc>
+if x	0,2	cc(<CR><Esc>
+{ a }	0,0	I.( }x<Esc>
+	0,0	s{<C-u>x<C-w>)<Esc>
+\tindented	0,1	A`<C-u>{<CR>}a}<CR><Esc>
+foo bar	0,6	O[ ]}<Esc>
+\tindented	0,1	S <Right>`1<Esc>
+foo(\n  bar\n)	0,2	a<Left> b<Esc>
+a\nb	0,0	s1'<Esc>
+	0,0	a[,<Esc>
+it's ok	0,3	C<Right>)'<C-w><Esc>
+call(a, b)	0,2	ciw(<Right>([."<Esc>
+\tindented	0,6	S<BS><C-w>((b<Esc>j.
+call(a, b)	0,5	cw[("<Right><Esc>
+foo(\n  bar\n)	2,0	sx<Esc>
+call(a, b)	0,6	ciw)<BS>[a`<Esc>
+\tindented	0,6	cw`[,<Right><C-u> b <Esc>
+x = [1, 2]	0,1	A<BS>]x{<Esc>
+foo(\n  bar\n)	1,2	S(. {<Esc>
+it's ok	0,1	ciw[x<Esc>
+\tindented	0,4	O{<Right><CR><Esc>
+foo	0,0	cc.}<Esc>
+x = [1, 2]	0,6	O<C-u>[]<Right><C-w>{<Esc>u
+	0,0	i.<CR>[.1<C-w>[(<Esc>p
+{ a }	0,0	cc'<C-w> (<Esc>
+x = [1, 2]	0,4	cw <Esc>
+a\nb	0,0	s<CR> <Esc>
+x = [1, 2]	0,6	cw <BS>]}(<Esc>
+	0,0	A.,<Esc>
+	0,0	A x[{'} '<Esc>j.
+x = [1, 2]	0,0	S b)}<BS>.<Esc>
+foo	0,0	cc<C-w> .<Left>]<CR><Esc>j.
+\tindented	0,5	s<BS><Right><Esc>
+\tindented	0,4	i,<C-u><Left><C-w><CR>{<Esc>
+\tindented	0,5	o<CR>]<BS>(x<Esc>
+"str" and 's'	0,8	a,1<CR><BS>},`<Esc>
+foo(\n  bar\n)	2,0	cc(<Esc>
+foo bar	0,4	C<BS> <C-w> <Left><Esc>u
+if x	0,1	o',`'[<BS>,<Esc>p
+x = [1, 2]	0,7	a(ab1<Esc>
+{ a }	0,0	a]},,<CR>{1<CR><Esc>
+\tindented	0,3	i],<BS>1<Esc>
+it's ok	0,2	s.<Right>[b<Esc>.
+	0,0	o<Left> ]<Esc>u
+foo	0,1	cc1xba1b1<Esc>
+\tindented	0,0	i <Esc>
+if x	0,0	C[<Left>),[<Left>,<Esc>
+"str" and 's'	0,0	cc,<Esc>
+{ a }	0,3	Ob<Esc>.
+it's ok	0,1	O {' x]x<Esc>p
+a\nb	0,0	S.b<BS>,<Esc>
+foo bar	0,1	s<BS>`"(<CR><Esc>
+it's ok	0,3	i<C-w>{b1<Esc>
+{ a }	0,2	ciw`<Esc>
+foo	0,1	I[<BS>'(<Esc>.
+a\nb	0,0	ciw<C-u>}][<Esc>
+a\nb	1,0	o<C-u>b [`[x <Esc>
+foo bar	0,4	O<BS><C-u>"}'<Esc>
+foo bar	0,6	C)aa<Right><Esc>
+x = [1, 2]	0,5	i}(<CR>('<BS> <Esc>
+{ a }	0,1	S}]`<Left> <Esc>
+	0,0	s<C-u> x<BS><BS><Esc>
+	0,0	O)<C-w>`x<C-u>.(`<Esc>
+foo bar	0,1	A"<CR>(<BS><BS>1" <Esc>
+foo bar	0,0	s})}<Esc>u<C-r>
+call(a, b)	0,5	ciw <BS><C-w><Esc>
+it's ok	0,6	S[]<Esc>
+foo bar	0,4	S)<BS><CR>}<BS><Esc>
+foo	0,2	cw]<BS>]a<C-w><Esc>u<C-r>
+it's ok	0,5	ciw<BS>,a<Esc>
+foo	0,2	Ox"<C-u>)x(()<Esc>
+foo bar	0,1	s1}<Left>x`["<Esc>
+it's ok	0,6	C.<Esc>
+foo(\n  bar\n)	2,0	O`[<CR>(x<Right>{{<Esc>
+foo(\n  bar\n)	1,0	I<C-u><CR>){) <Esc>
+	0,0	I<C-w>`('<Esc>
+it's ok	0,6	C1} "<C-w>)<Right>b<Esc>
+x = [1, 2]	0,7	ciw`"<CR><BS><Esc>
+call(a, b)	0,5	Oa<Right>][1"}<Esc>
+if x	0,1	cw<Left>'<Esc>
+	0,0	ciw<Left><Left>[`<C-w>,<Esc>u
+if x	0,2	ciwb]<Esc>
+x = [1, 2]	0,2	ciw`'<Esc>
+foo	0,1	ciw1<Esc>
+call(a, b)	0,8	O)<C-w><BS>]]<Esc>
+{ a }	0,4	ia[}]<Right><Esc>
+x = [1, 2]	0,7	s)<Esc>
+foo	0,0	o`}<Esc>
+call(a, b)	0,7	C"b}'<Esc>
+it's ok	0,6	Ib<Esc>
+x = [1, 2]	0,9	o]`<Right> ["] <Esc>
+call(a, b)	0,3	ciw`<Right><Esc>
+{ a }	0,4	a b.`{<Right><Esc>
+foo bar	0,2	Aa<Left><CR><BS>.<Esc>
+foo(\n  bar\n)	0,2	a<C-w> ")1,<Esc>
+"str" and 's'	0,12	o<BS>}<Esc>
+foo(\n  bar\n)	0,2	s {<BS>[)'"`<Esc>
+foo	0,1	S(<C-u>)([b<Esc>
+it's ok	0,4	ciw<C-u> ]<BS>,)<CR>.<Esc>
+	0,0	cc)xa<Esc>
+if x	0,2	cw,<Right>1[<BS>,<Esc>
+{ a }	0,3	cc].(b(<Esc>
+a\nb	1,0	s<BS>{<BS><BS>}..`<Esc>
+it's ok	0,2	i<BS><Esc>
+	0,0	i<CR> ,<BS>.a<C-u><Esc>
+it's ok	0,2	A,<BS>,]]'`)<Esc>
+"str" and 's'	0,0	ab<Esc>
+foo(\n  bar\n)	1,2	I.'',<Esc>.
+x = [1, 2]	0,7	cw <Esc>
+it's ok	0,6	o<Right>[(''.<Esc>
+foo(\n  bar\n)	0,1	O.<Left> {<C-w>" <Esc>
+it's ok	0,3	S,{<Esc>
+foo bar	0,2	o<CR>))<Esc>
+a\nb	1,0	o<C-u>[}<Esc>
+a\nb	1,0	cw(<Esc>
+if x	0,2	C[<Right>a<Esc>
+call(a, b)	0,8	a<C-u><CR>`"<Left>.<Esc>
+{ a }	0,1	s"<Left>))1<CR><Esc>
+foo	0,0	i<Left>` <Right>}.[a<Esc>
+foo bar	0,0	O],<Esc>j.
+foo bar	0,3	O<Left> x}<Esc>.
+foo	0,2	a(<Right>1{[ <Esc>
+foo(\n  bar\n)	0,1	a<BS>x1a[}<Esc>
+foo	0,1	S}( <Right><Esc>
+{ a }	0,3	S).<Esc>
+foo	0,0	C<C-u><Esc>
+it's ok	0,3	i`<Esc>
+{ a }	0,2	a<BS><C-w>,a](<Left>x<Esc>p
+x = [1, 2]	0,1	a<Left><Right>b}<BS><Left>'b<Esc>
+it's ok	0,2	ia<Esc>
+	0,0	i.)<C-w>){,<Esc>j.
+call(a, b)	0,0	A<BS>x(]` <Esc>
+foo	0,0	S[`1x<Esc>
+	0,0	ciw <Esc>
+	0,0	cw.<Esc>
+\tindented	0,7	ciw{<C-u>a"]<Esc>
+foo(\n  bar\n)	2,0	cw<Right> <BS>'<Esc>p
+x = [1, 2]	0,7	ax`]<Right><Left>'<Esc>
+foo bar	0,0	I<BS>1.b[]<Esc>
+	0,0	O<CR>b'<Esc>
+if x	0,2	Ib<BS>ab)'x<Esc>
+a\nb	1,0	I<C-w><Esc>
+{ a }	0,3	S1{a<BS><C-u>a<CR><Esc>
+{ a }	0,0	cc,"[<Esc>
+{ a }	0,4	O,<C-u><CR>[),<Esc>u
+foo(\n  bar\n)	0,0	ciw`<Left><BS>,<Esc>p
+call(a, b)	0,6	s`{" '(x"<Esc>
+x = [1, 2]	0,3	I<Left><Esc>
+a\nb	0,0	s'<BS>,a{(x<BS><Esc>
+it's ok	0,6	C<C-u>}a 1 '{<Esc>
+a\nb	1,0	A1<C-u>,b  <Esc>
+x = [1, 2]	0,7	ciw a{<BS><BS><Esc>
+foo(\n  bar\n)	1,1	S <C-u>{<Right>[<Esc>u
+if x	0,1	I[<BS>a<Esc>
+foo	0,2	O<Left><Left>a ) [`<Esc>
+if x	0,3	cw'a<Esc>
+foo bar	0,1	Sb]]{].'{<Esc>
+call(a, b)	0,5	s<BS><Esc>
+foo	0,0	s.)) "[(<Esc>
+	0,0	o<BS>b }.<Esc>
+foo	0,1	a'<Left><Esc>
+{ a }	0,0	i<BS>,<CR>'`]<C-w><Esc>
+foo(\n  bar\n)	1,0	C<BS><Left><Left><Esc>
+	0,0	C<C-w>)<BS>"a } <Esc>
+\tindented	0,3	ciw<Left>()"<BS><BS><Esc>
+foo(\n  bar\n)	2,0	I<BS> <Left>[<Esc>
+foo(\n  bar\n)	2,0	C}<Left>]`` b<Esc>p
+foo(\n  bar\n)	1,1	i[ <BS><Esc>
+foo bar	0,0	a(<C-w>(<Left>b<Esc>u
+foo	0,1	O<CR><Right>x<BS> <Right><Esc>
+foo bar	0,2	I`<BS>}[.'<C-u><Esc>p
+it's ok	0,6	O<CR>b<Esc>
+x = [1, 2]	0,9	o<BS><Esc>
+x = [1, 2]	0,7	I ][(()<Esc>u<C-r>
+"str" and 's'	0,5	A`<Esc>
+foo	0,1	i[][<Esc>
+it's ok	0,4	ciw{"<BS><Esc>
+foo(\n  bar\n)	0,3	ciwbx<Left><Esc>
+foo	0,0	cw<BS> `"<Esc>
+a\nb	0,0	cc{] ` <Esc>
+foo bar	0,1	i<BS><Left><CR>]<Esc>
+\tindented	0,6	S"[<Left>'<Right>x<C-u>.<Esc>
+it's ok	0,4	ob1a<BS><Esc>
+\tindented	0,1	cc"1 <Esc>
+x = [1, 2]	0,1	cc<BS><Right>a.<C-u><Esc>j.
+a\nb	1,0	a}'1}<Esc>
+"str" and 's'	0,1	S.1'<BS><Esc>
+foo(\n  bar\n)	2,0	i'<BS>x<Esc>
+if x	0,3	C<C-w>ab<Esc>
+x = [1, 2]	0,6	a}.(("{,(<Esc>
+it's ok	0,4	A<C-w>]]a<Esc>
+"str" and 's'	0,12	ccb,."}b1a<Esc>
+call(a, b)	0,0	ciw<BS>.<C-u><C-w>a}<Esc>
+{ a }	0,1	ib<CR> "<C-u>]<BS>1<Esc>
+it's ok	0,2	A.{}<Esc>.
+"str" and 's'	0,12	A<C-w>x{<CR>)'<Esc>
+\tindented	0,5	i<BS> <Esc>.
+foo bar	0,1	s<C-w>1. <Esc>
+\tindented	0,6	sa)]]<Esc>
+"str" and 's'	0,5	C<C-u><Left> <Esc>
+\tindented	0,1	ciw<C-w>`<BS>(ab<Esc>
+	0,0	cw<Left>]<C-u><Esc>
+call(a, b)	0,2	cc<Left>a<Esc>
+	0,0	s<BS>)<CR> <BS><Esc>
+	0,0	O1<Esc>j.
+if x	0,1	O.)  [} <Esc>
+\tindented	0,7	i<Left>  [x<Left>a<Esc>
+if x	0,2	Ix.<C-u><BS>(<C-w><CR><Esc>
+"str" and 's'	0,0	O)["<Esc>
+foo	0,1	S<Right> `<Esc>
+"str" and 's'	0,2	cc.<Esc>
+{ a }	0,1	O{,<Left><C-u><C-w>`<Esc>
+it's ok	0,5	C'a <Left><Esc>
+"str" and 's'	0,1	ciw",11{'<Esc>
+foo	0,1	ox1 x` ]x<Esc>
+foo	0,0	s),<BS> .<Esc>
+x = [1, 2]	0,1	cc<BS>,'`<C-w>'<Esc>
+a\nb	1,0	O'.<Esc>
+call(a, b)	0,2	ciw<BS>)]"<Esc>
+foo(\n  bar\n)	0,0	O"b}<Esc>
+foo(\n  bar\n)	1,3	ab<BS><BS><BS><C-u><Esc>j.
+call(a, b)	0,7	A}<Left><C-w>`"<C-u> <Esc>
+\tindented	0,3	I[x1}b.<Right><Esc>
+\tindented	0,5	s<BS>)''<Esc>
+foo(\n  bar\n)	0,1	ciw "}<C-u><Esc>j.
+	0,0	A{x<C-w><BS>(`.x<Esc>
+foo bar	0,2	i<C-w><Esc>
+\tindented	0,2	cc<CR><Esc>
+it's ok	0,3	i<CR><Esc>
+it's ok	0,3	cwb} 1<Esc>
+	0,0	s<BS><Esc>
+x = [1, 2]	0,2	O<Right>`<Esc>
+"str" and 's'	0,2	a<C-w>{a<Esc>
+foo	0,2	A[a<BS><Esc>
+x = [1, 2]	0,1	ix,"<Esc>
+foo bar	0,0	I[ <C-u><Esc>
+call(a, b)	0,7	ax<C-w><Esc>
+{ a }	0,3	o <CR><Esc>
+if x	0,2	cw,<Right><Esc>
+x = [1, 2]	0,8	i<C-w>('b[<C-u><BS><Esc>
+foo(\n  bar\n)	0,1	cw1<C-w>x' <Esc>
+x = [1, 2]	0,6	Sa(<C-u>, ]('<Esc>.
+call(a, b)	0,3	I`<CR> <BS>[)<Esc>
+"str" and 's'	0,1	A<BS>}<Esc>
+foo	0,2	cc<CR>{ a(<Right><Esc>
+it's ok	0,4	s <Esc>
+\tindented	0,3	S<Left>,a<Right>x<Left> <Esc>
+a\nb	1,0	I'b{b<Esc>
+call(a, b)	0,1	i,'<Right> <BS>]<C-u><C-u><Esc>
+	0,0	O{]<Esc>
+foo bar	0,4	S)]<CR>.<C-u>,<BS>.<Esc>
+if x	0,2	S{  "<Esc>
+foo(\n  bar\n)	2,0	s<BS><CR>()<BS>]<Esc>.
+"str" and 's'	0,4	S".<BS><Esc>
+x = [1, 2]	0,9	cc ,`{<Esc>
+a\nb	0,0	s(x<Esc>u<C-r>
+foo(\n  bar\n)	2,0	cc'<C-w>(<C-w>b<Esc>
+foo	0,0	ciw[{<BS>[a '<Esc>
+x = [1, 2]	0,5	I<C-u><C-w>,"<Esc>
+x = [1, 2]	0,6	i<C-w>]`<Esc>

@@ -179,7 +179,7 @@ def unhexs(digits):
 
 def case_hex_line(index, case):
     return "\t".join([str(index), hexs(case.text), str(case.row), str(case.col),
-                      ",".join(str(k) for k in case.keys)])
+                      ",".join(str(k) for k in case.keys), ",".join(case.plugins.split())])
 
 
 def run_nvim_case(case, tmp):
@@ -258,7 +258,7 @@ def diff(want, got, case=None):
     if want is None or got is None:
         return "no result (nvim=%s engine=%s)" % (want is not None, got is not None)
     a, b = describe(want), describe(got)
-    if case is not None and any(k >= 63232 or k in (8, 127) for k in parse_keys(case.notation)):
+    if case is not None and any(k >= 63232 for k in parse_keys(case.notation)):
         # nvim stores special keys in the "." register as internal byte
         # sequences; known divergence class, not compared.
         a["regs"].pop(".", None)

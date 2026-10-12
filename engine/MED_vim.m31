@@ -25,6 +25,7 @@ import engine.MED_nrfmt;
 import engine.MED_expr;
 import engine.MED_digraph;
 import engine.MED_screen;
+import engine.MED_autopair;
 
 void fail(MED_editor.Editor editor) {
     editor.is_failed = true;
@@ -2650,6 +2651,7 @@ void start_insert(MED_editor.Editor editor, int cmd, int count, bool is_replace)
     }
     editor.ins_cmd = cmd;
     editor.is_completing = false;
+    editor.is_ins_moved = false;
     editor.is_virtual = false;
     editor.ins_count = count1(count);
     editor.ins_keys = [];
@@ -2984,6 +2986,7 @@ void finish_insert(MED_editor.Editor editor) {
         count = 1;
     }
     bool is_untouched = editor.is_ins_arrow && editor.is_ins_restart;
+    bool is_arrow_only = editor.is_ins_arrow;
     editor.is_ins_arrow = false;
     editor.ins_count = 1;
     str typed_text = editor.ins_text;
@@ -3027,10 +3030,10 @@ void finish_insert(MED_editor.Editor editor) {
     if (editor.blk_op != 0) {
         block_insert_end(editor);
     }
-    if (!is_untouched) {
+    if (!is_untouched && !is_arrow_only) {
         editor.regs.set_special(".", typed_text);
     }
-    if (!editor.is_in_dot && !is_untouched) {
+    if (!editor.is_in_dot && !is_untouched && !is_arrow_only) {
         List<int> tail = editor.ins_keys.slice(0, editor.ins_keys.size());
         tail.push(27);
         editor.dot_tail = tail;
@@ -3224,6 +3227,14 @@ void ins_move(MED_editor.Editor editor, int key) {
     }
     editor.is_uline_off = false;
     editor.end_block();
+    if (!editor.is_ins_arrow && editor.ins_text.size() > 0 && !editor.is_in_dot) {
+        // stop_insert(): what was typed so far is the last inserted text
+        // and, with the command, what `.` repeats
+        editor.regs.set_special(".", editor.ins_text);
+        List<int> typed_so_far = editor.ins_keys.slice(0, editor.ins_keys.size());
+        typed_so_far.push(27);
+        editor.dot_tail = typed_so_far;
+    }
     if (key == 63234) {
         editor.col = MED_text.previous_col(line, editor.col);
     } else if (key == 63235) {
@@ -3269,8 +3280,8 @@ void ins_move(MED_editor.Editor editor, int key) {
     editor.is_ins_arrow = true;
     editor.ins_count = 1;
     editor.ins_cmd = 105;
-    editor.dot_body = [105];
-    editor.dot_count = 0;
+    // what `.` repeats changes only when something is typed after the arrow
+    editor.is_ins_moved = true;
 }
 
 // CTRL-R: type a register's text as if it were typed. `kind` 0 is CTRL-R,
@@ -3349,6 +3360,14 @@ void stop_arrow(MED_editor.Editor editor) {
     if (editor.is_ins_arrow) {
         if (editor.is_ins_restart) {
             editor.is_ins_restart = false;
+            if (!editor.is_in_dot) {
+                editor.dot_body = [105];
+                editor.dot_count = 0;
+                editor.dot_tail = [];
+            }
+        }
+        if (editor.is_ins_moved) {
+            editor.is_ins_moved = false;
             if (!editor.is_in_dot) {
                 editor.dot_body = [105];
                 editor.dot_count = 0;
@@ -3631,6 +3650,152 @@ void end_completion(MED_editor.Editor editor, bool is_keep) {
     }
 }
 
+// -------------------------------------------------------------- auto pairs
+
+// The rest of the line and the lines after it up to a non-blank one, joined
+// with spaces (the plugin's `after`).
+str text_after_cursor(MED_editor.Editor editor) {
+    str line = editor.buffer.line(editor.row);
+    str after = line.substr(editor.col, line.size());
+    int row = editor.row + 1;
+    while (row < editor.buffer.line_count()) {
+        str next_line = editor.buffer.line(row);
+        after = after + " " + next_line;
+        if (!is_blank_line(next_line)) {
+            break;
+        }
+        row = row + 1;
+    }
+    return after;
+}
+
+void type_keys(MED_editor.Editor editor, List<int> keys) {
+    bool was_busy = editor.is_autopair_busy;
+    editor.is_autopair_busy = true;
+    for (int code in keys) {
+        insert_key(editor, code);
+    }
+    editor.is_autopair_busy = was_busy;
+}
+
+// The keys the auto-pairs plugin would have typed for `key`; true when it
+// took the key over.
+bool did_autopair_key(MED_editor.Editor editor, int key) {
+    if (editor.mode != MED_editor.INSERT || editor.is_autopair_busy || editor.ins_wait != 0 || editor.is_completing || editor.is_in_dot) {
+        return false;
+    }
+    if (!editor.is_option_on("autopairs", true)) {
+        return false;
+    }
+    str line = editor.buffer.line(editor.row);
+    str before = line.substr(0, editor.col);
+    str rest = line.substr(editor.col, line.size());
+    if (key == 127 || key == 8) {
+        List<int> keys = MED_autopair.on_backspace(before, text_after_cursor(editor));
+        if (keys.size() == 0) {
+            return false;
+        }
+        type_keys(editor, keys);
+        return true;
+    }
+    if (key == 32) {
+        List<int> keys = MED_autopair.on_space(before, text_after_cursor(editor));
+        if (keys.size() == 0) {
+            return false;
+        }
+        type_keys(editor, keys);
+        return true;
+    }
+    if (key == 13 || key == 10) {
+        return false;
+    }
+    bool is_pair_key = key == 40 || key == 41 || key == 91 || key == 93 || key == 123 || key == 125 || key == 39 || key == 34 || key == 96;
+    if (!is_pair_key) {
+        return false;
+    }
+    MED_autopair.Decision decision = MED_autopair.on_key(key, before, text_after_cursor(editor), rest, editor.ap_return_row == editor.row, is_blank_line(line));
+    if (!decision.is_handled) {
+        return false;
+    }
+    if (decision.is_search) {
+        stop_arrow(editor);
+        if (decision.is_blank_line_delete && editor.row > 0) {
+            // normal! ddk$
+            editor.regs.delete("", MED_register.Reg([editor.buffer.line(editor.row)], MED_register.LINE), true, false);
+            // the `dd` leaves nothing for `.` to insert
+            editor.regs.set_special(".", "");
+            editor.change(MED_buffer.Pos(editor.row - 1, editor.buffer.line_size(editor.row - 1)), MED_buffer.Pos(editor.row, editor.buffer.line_size(editor.row)), "");
+            editor.row = editor.row - 1;
+            editor.col = MED_text.last_col(editor.buffer.line(editor.row));
+        }
+        // search(m, 'We'): the end of the next match after the cursor
+        int row = editor.row;
+        int col = editor.col;
+        bool is_found = false;
+        while (row < editor.buffer.line_count() && !is_found) {
+            str here = editor.buffer.line(row);
+            int from = 0;
+            if (row == editor.row) {
+                from = MED_num.smaller(editor.col + 1, here.size());
+                if (editor.col >= here.size()) {
+                    from = here.size();
+                }
+            }
+            int found_at = here.substr(from, here.size()).index_of(decision.search).or(-1);
+            if (found_at >= 0) {
+                col = from + found_at + decision.search.size() - 1;
+                is_found = true;
+            } else {
+                row = row + 1;
+            }
+        }
+        if (is_found) {
+            editor.row = row;
+            editor.col = col;
+            type_keys(editor, [63235]);
+        }
+        editor.want_from_cursor();
+        return true;
+    }
+    type_keys(editor, decision.keys);
+    return true;
+}
+
+// After <CR>: a pair that was split in two lines opens the line between.
+bool did_autopair_return(MED_editor.Editor editor) {
+    if (editor.mode != MED_editor.INSERT || editor.is_autopair_busy || editor.is_in_dot || !editor.is_option_on("autopairs", true)) {
+        return false;
+    }
+    editor.ap_return_row = -1;
+    if (editor.row == 0) {
+        return false;
+    }
+    str previous = editor.buffer.line(editor.row - 1);
+    str line = editor.buffer.line(editor.row);
+    str rest = line.substr(editor.col, line.size());
+    if (!MED_autopair.is_return_pair(previous, rest)) {
+        return false;
+    }
+    editor.ap_return_row = editor.row;
+    bool was_busy = editor.is_autopair_busy;
+    editor.is_autopair_busy = true;
+    List<int> keys = [];
+    int window_row = editor.row - editor.view_top + 1;
+    if (window_row * 3 >= editor.view_height * 2) {
+        keys.push(122);
+        keys.push(122);
+    }
+    keys.push(27);
+    keys.push(61);
+    keys.push(107);
+    keys.push(111);
+    for (int code in keys) {
+        feed(editor, code);
+    }
+    editor.is_autopair_busy = was_busy;
+    return true;
+}
+
 // CTRL-Y / CTRL-E: the character of the line above / below at the cursor's
 // screen column, or 0.
 int copy_char(MED_editor.Editor editor, int step) {
@@ -3719,9 +3884,37 @@ void insert_key(MED_editor.Editor editor, int key) {
         ins_register(editor, str.from_chars([key]), kind);
         return;
     }
+    if (editor.ins_wait == 8) {
+        // CTRL-G U {Left, Right}: the cursor moves and the insert goes on
+        editor.ins_wait = 0;
+        if (key == 63234 || key == 63235) {
+            str line_here = editor.buffer.line(editor.row);
+            editor.ins_keys.push(key);
+            if (key == 63234) {
+                editor.ins_text = editor.ins_text + "\x07U" + str.from_chars([128]) + "kl";
+            } else {
+                editor.ins_text = editor.ins_text + "\x07U" + str.from_chars([128]) + "kr";
+            }
+            if (key == 63234 && editor.col > 0) {
+                editor.col = MED_text.previous_col(line_here, editor.col);
+            } else if (key == 63235 && editor.col < line_here.size()) {
+                editor.col = MED_text.next_col(line_here, editor.col);
+            }
+            editor.want_from_cursor();
+        } else {
+            insert_key(editor, key);
+        }
+        return;
+    }
     if (editor.ins_wait == 7) {
         // CTRL-G u starts a new undoable change, CTRL-G j / k move down / up
         editor.ins_wait = 0;
+        if (key == 85) {
+            editor.ins_wait = 8;
+            editor.ins_keys.push(7);
+            editor.ins_keys.push(85);
+            return;
+        }
         if (key == 117) {
             editor.close_block();
         } else if (key == 106 || key == 10 || key == 63233) {
@@ -3846,6 +4039,9 @@ void insert_key(MED_editor.Editor editor, int key) {
         }
         return;
     }
+    if (did_autopair_key(editor, key)) {
+        return;
+    }
     if (key == 5 || key == 25) {
         int copied = 0;
         if (key == 5) {
@@ -3865,28 +4061,45 @@ void insert_key(MED_editor.Editor editor, int key) {
         }
         return;
     }
+    if ((key == 127 || key == 8 || key == 23 || key == 21) && editor.row == 0 && editor.col == 0) {
+        // nothing to delete: Vim beeps before it starts a new insert
+        return;
+    }
     stop_arrow(editor);
     editor.ins_keys.push(key);
     if (key == 13 || key == 10) {
         ins_cr(editor);
+        if (did_autopair_return(editor)) {
+            return;
+        }
     } else if (key == 127 || key == 8) {
         if (!did_ins_bs(editor, 0)) {
             editor.ins_keys.pop();
+        } else if (key == 127) {
+            // nvim keeps <BS> in the `.` register as its key bytes (here U+0080 + "kb")
+            editor.ins_text = editor.ins_text + str.from_chars([128]) + "kb";
+        } else {
+            editor.ins_text = editor.ins_text + "\x08";
         }
     } else if (key == 23) {
+        // CTRL-W and CTRL-U start a new undoable change
+        editor.close_block();
         if (did_ins_bs(editor, 1)) {
             editor.ins_text = editor.ins_text + "\x17";
         } else {
             editor.ins_keys.pop();
         }
     } else if (key == 21) {
+        editor.close_block();
         if (did_ins_bs(editor, 2)) {
             editor.ins_text = editor.ins_text + "\x15";
         } else {
             editor.ins_keys.pop();
         }
     } else if (key == 63240) {
-        did_ins_del(editor);
+        if (did_ins_del(editor)) {
+            editor.ins_text = editor.ins_text + str.from_chars([128]) + "kD";
+        }
     } else if (key == 9) {
         ins_tab(editor);
     } else if (key == 20 || key == 4) {

@@ -1,0 +1,59 @@
+#plugins: auto-pairs
+foo	0,3	A(x<Esc>
+foo	0,3	A(x)y<Esc>
+foo	0,3	A((<Esc>
+foo	0,3	A[x]<Esc>
+foo	0,3	A{x}<Esc>
+foo	0,3	A"x"<Esc>
+foo	0,3	A'x'<Esc>
+foo bar	0,3	A'x<Esc>
+foo	0,3	A`x`<Esc>
+foo	0,3	A"""x<Esc>
+foo	0,3	A```x<Esc>
+foo	0,3	A()<Esc>
+foo	0,3	A(<BS><Esc>
+foo	0,3	A(x<BS><Esc>
+foo	0,3	A( <BS><Esc>
+foo	0,3	A(<Space>x<Esc>
+foo	0,3	A{<CR>x<Esc>
+foo	0,3	A{<CR>x<CR>y<Esc>
+foo	0,3	A{<CR>}<Esc>
+foo	0,3	A{<CR>x}<Esc>
+foo	0,3	A(<CR>x)<Esc>
+foo	0,3	A[<CR>x<Esc>
+foo	0,3	A"<CR>x<Esc>
+\tfoo	0,4	A{<CR>x<Esc>
+foo	0,3	A\(x<Esc>
+foo	0,3	A(x<Esc>.
+foo	0,3	A(x<Esc>u
+foo	0,3	A({[<Esc>
+foo	0,3	A({[<BS><BS><BS><Esc>
+foo	0,3	A(x)<Left><Left>y<Esc>
+foo	0,0	I(<Esc>
+foo bar	0,4	i(<Esc>
+foo bar	0,4	i"x<Esc>
+foo bar	0,3	a(x<Esc>
+foo bar	0,3	cw(x<Esc>
+foo\nbar	0,0	O(x<Esc>
+foo\nbar	0,0	o{x<Esc>
+a b	0,1	i'x<Esc>
+a'b	0,1	a'x<Esc>
+it	0,1	A's<Esc>
+x	0,1	A'it's'<Esc>
+x	0,1	A"it's"<Esc>
+x	0,1	A(a)(b)<Esc>
+x	0,1	A((a))<Esc>
+x	0,1	A(a)b)<Esc>
+x	0,1	A[a]b]<Esc>
+x	0,1	A<Space><Esc>
+x	0,1	A(<Space><Esc>
+x	0,1	A(<Space>a<Space><Esc>
+x	0,1	A(<Space>a<Space>)<Esc>
+x	0,1	A(<Space><BS><Esc>
+x	0,1	A(<Space><Space><BS><Esc>
+x	0,1	A"<Space><Esc>
+x	0,1	A{<Space>x<Space>}<Esc>
+foo(bar	0,3	A)<Esc>
+foo()	0,4	i)<Esc>
+foo()	0,4	i(<Esc>
+foo()	0,3	a)<Esc>

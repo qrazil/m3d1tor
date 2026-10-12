@@ -94,6 +94,20 @@ str run_case(str line) {
         }
     }
     MED_editor.Editor editor = MED_editor.new("");
+    // nvim has the vim plugins only when the case names them
+    str plugins = "";
+    if (fields.size() > 5) {
+        plugins = fields[5];
+    }
+    editor.opts.set("surround", "false");
+    editor.opts.set("autopairs", "false");
+    for (str plugin in plugins.split(",")) {
+        if (plugin == "surround") {
+            editor.opts.set("surround", "true");
+        } else if (plugin == "auto-pairs") {
+            editor.opts.set("autopairs", "true");
+        }
+    }
     editor.buffer.lines = text.split("\n");
     editor.init_marks();
     editor.row = row;

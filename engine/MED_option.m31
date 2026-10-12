@@ -95,6 +95,7 @@ const List<str> SPECS = [
     "startofline:sol:bool:false",
     "commentstring:cms:str:",
     "surround::bool:true",
+    "autopairs::bool:true",
     "listchars:lcs:str:tab:> ,trail:-,nbsp:+",
     "fillchars:fcs:str:",
     "wrapmargin:wm:num:0",

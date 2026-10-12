@@ -286,10 +286,16 @@ pub type Editor {
     pub str sur_regtype = "";
     pub str sur_pcmd = "";
     pub int sur_oldlnum = 0;
+    /// Auto pairs: the row <CR> opened between a pair (-1: none), and set
+    /// while the keys of a decision are being typed.
+    pub int ap_return_row = -1;
+    pub bool is_autopair_busy = false;
     /// Keyword completion (CTRL-N / CTRL-P) in progress: the items (the first
     /// is the typed text), the shown one, where the word starts, and what
     /// `ins_text` / `ins_keys` held when it began.
     pub bool is_completing = false;
+    /// An arrow key moved the cursor in this insert and nothing was typed since.
+    pub bool is_ins_moved = false;
     /// Virtual Replace mode (gR): replaces screen cells, and the number of
     /// lines the buffer had when it began.
     pub bool is_virtual = false;

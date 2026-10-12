@@ -60,6 +60,10 @@ vim.fn.writefile(lines, tmp)
 vim.cmd('silent noautocmd edit! ' .. vim.fn.fnameescape(tmp))
 vim.bo.undolevels = 1000
 vim.o.inccommand = ''
+-- the plugin initialises itself on BufEnter, which `noautocmd edit` skipped
+if (plugins or ''):find('auto%-pairs') then
+  vim.cmd('call AutoPairsTryInit()')
+end
 os.remove(tmp)
 -- a fresh window's context mark is the start of the buffer
 vim.fn.setpos("''", { 0, 1, 1, 0 })
