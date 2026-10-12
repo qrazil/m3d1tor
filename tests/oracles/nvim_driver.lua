@@ -63,6 +63,8 @@ vim.o.inccommand = ''
 os.remove(tmp)
 -- a fresh window's context mark is the start of the buffer
 vim.fn.setpos("''", { 0, 1, 1, 0 })
+-- setpos() on the context mark leaves a jumplist entry; a fresh window has none
+vim.cmd('clearjumps')
 vim.api.nvim_win_set_cursor(0, { tonumber(row) + 1, tonumber(col) })
 
 local keys = vim.api.nvim_replace_termcodes(key_string(keys_csv or ''), true, true, true)

@@ -1,0 +1,536 @@
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>2gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>2gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gnngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gNgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>vgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>vgnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gnoo
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gNgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>$gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/zzz<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/\zs<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/o*<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>3gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>3gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>cgnX<Esc>.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>cgnX<Esc>n.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>ygn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>ygnP
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gUgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gUgn.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gnc
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/foo<CR>gnogn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	?foo<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	?foo<CR>gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	?foo<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	?foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/\<o\><CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/one<CR>cgnX<Esc>..
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/\n<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/\n<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/^<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	/$<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee*d
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee*n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee#n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	v#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	Vj*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	Vj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	V*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	<C-v>jl*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	<C-v>jl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	v$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vj$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	ve*gv
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	3Gve#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vi.*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	ve*dw
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	2v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	2vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee2*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee*N
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	Vjj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vee#.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vjl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vh#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vk*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vk#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vll*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,0	vlh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>2gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>2gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gnngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gNgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>vgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>vgnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gnoo
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gNgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>$gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/zzz<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/\zs<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/o*<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>3gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>3gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>cgnX<Esc>.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>cgnX<Esc>n.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>ygn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>ygnP
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gUgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gUgn.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gnc
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/foo<CR>gnogn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	?foo<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	?foo<CR>gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	?foo<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	?foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/\<o\><CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/one<CR>cgnX<Esc>..
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/\n<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/\n<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/^<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	/$<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee*d
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee*n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee#n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	v#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	Vj*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	Vj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	V*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	<C-v>jl*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	<C-v>jl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	v$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vj$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	ve*gv
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	3Gve#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vi.*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	ve*dw
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	2v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	2vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee2*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee*N
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	Vjj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vee#.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vjl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vh#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vk*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vk#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vll*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	0,5	vlh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>2gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>2gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gnngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gNgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>vgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>vgnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gnoo
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gNgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>$gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/zzz<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/\zs<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/o*<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>3gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>3gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>cgnX<Esc>.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>cgnX<Esc>n.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>ygn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>ygnP
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gUgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gUgn.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gnc
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/foo<CR>gnogn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	?foo<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	?foo<CR>gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	?foo<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	?foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/\<o\><CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/one<CR>cgnX<Esc>..
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/\n<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/\n<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/^<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	/$<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee*d
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee*n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee#n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	v#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	Vj*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	Vj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	V*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	<C-v>jl*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	<C-v>jl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	v$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vj$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	ve*gv
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	3Gve#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vi.*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	ve*dw
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	2v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	2vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee2*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee*N
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	Vjj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vee#.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vjl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vh#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vk*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vk#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vll*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	1,1	vlh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>2gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>2gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gnngn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gNgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>vgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>vgnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gnoo
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gNgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>$gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/zzz<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/\zs<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/o*<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>3gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>3gnd
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>cgnX<Esc>.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>cgnX<Esc>n.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>ygn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>ygnP
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gUgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gUgn.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gnc
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/foo<CR>gnogn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	?foo<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	?foo<CR>gN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	?foo<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	?foo<CR>dgN
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/\<o\><CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/one<CR>cgnX<Esc>..
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/\n<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/\n<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/^<CR>gn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	/$<CR>dgn
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee*d
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee*n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee#n
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	v#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	Vj*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	Vj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	V*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	<C-v>jl*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	<C-v>jl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	v$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vj$*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	ve*gv
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	3Gve#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vi.*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	ve*dw
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	2v*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	2vee*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee2*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee*N
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	Vjj#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vee#.
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vjl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vh*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vh#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vk*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vk#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vl#
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vll*
+foo bar foo\nbar foo bar\nfoo.baz foo\nthe cat the dog	2,3	vlh*
+one two\n\nthree\nfour one	0,0	/foo<CR>2gn
+one two\n\nthree\nfour one	0,0	/foo<CR>2gnd
+one two\n\nthree\nfour one	0,0	/foo<CR>gngn
+one two\n\nthree\nfour one	0,0	/foo<CR>gnngn
+one two\n\nthree\nfour one	0,0	/foo<CR>gNgN
+one two\n\nthree\nfour one	0,0	/foo<CR>vgn
+one two\n\nthree\nfour one	0,0	/foo<CR>vgnd
+one two\n\nthree\nfour one	0,0	/foo<CR>gnoo
+one two\n\nthree\nfour one	0,0	/foo<CR>gNgn
+one two\n\nthree\nfour one	0,0	/foo<CR>dgN
+one two\n\nthree\nfour one	0,0	/foo<CR>$gN
+one two\n\nthree\nfour one	0,0	/zzz<CR>gn
+one two\n\nthree\nfour one	0,0	/\zs<CR>gn
+one two\n\nthree\nfour one	0,0	/o*<CR>gn
+one two\n\nthree\nfour one	0,0	/foo<CR>3gn
+one two\n\nthree\nfour one	0,0	/foo<CR>3gnd
+one two\n\nthree\nfour one	0,0	/foo<CR>cgnX<Esc>.
+one two\n\nthree\nfour one	0,0	/foo<CR>cgnX<Esc>n.
+one two\n\nthree\nfour one	0,0	/foo<CR>ygn
+one two\n\nthree\nfour one	0,0	/foo<CR>ygnP
+one two\n\nthree\nfour one	0,0	/foo<CR>gUgn
+one two\n\nthree\nfour one	0,0	/foo<CR>gUgn.
+one two\n\nthree\nfour one	0,0	/foo<CR>>gn
+one two\n\nthree\nfour one	0,0	/foo<CR>gnc
+one two\n\nthree\nfour one	0,0	/foo<CR>gnogn
+one two\n\nthree\nfour one	0,0	?foo<CR>gn
+one two\n\nthree\nfour one	0,0	?foo<CR>gN
+one two\n\nthree\nfour one	0,0	?foo<CR>dgn
+one two\n\nthree\nfour one	0,0	?foo<CR>dgN
+one two\n\nthree\nfour one	0,0	/\<o\><CR>dgn
+one two\n\nthree\nfour one	0,0	/one<CR>cgnX<Esc>..
+one two\n\nthree\nfour one	0,0	/\n<CR>gn
+one two\n\nthree\nfour one	0,0	/\n<CR>dgn
+one two\n\nthree\nfour one	0,0	/^<CR>gn
+one two\n\nthree\nfour one	0,0	/$<CR>dgn
+one two\n\nthree\nfour one	0,0	vee*
+one two\n\nthree\nfour one	0,0	vee#
+one two\n\nthree\nfour one	0,0	vee*d
+one two\n\nthree\nfour one	0,0	vee*n
+one two\n\nthree\nfour one	0,0	vee#n
+one two\n\nthree\nfour one	0,0	v*
+one two\n\nthree\nfour one	0,0	v#
+one two\n\nthree\nfour one	0,0	Vj*
+one two\n\nthree\nfour one	0,0	Vj#
+one two\n\nthree\nfour one	0,0	V*
+one two\n\nthree\nfour one	0,0	<C-v>jl*
+one two\n\nthree\nfour one	0,0	<C-v>jl#
+one two\n\nthree\nfour one	0,0	v$*
+one two\n\nthree\nfour one	0,0	vj$*
+one two\n\nthree\nfour one	0,0	ve*gv
+one two\n\nthree\nfour one	0,0	3Gve#
+one two\n\nthree\nfour one	0,0	vi.*
+one two\n\nthree\nfour one	0,0	ve*dw
+one two\n\nthree\nfour one	0,0	2v*
+one two\n\nthree\nfour one	0,0	2vee*
+one two\n\nthree\nfour one	0,0	vee2*
+one two\n\nthree\nfour one	0,0	vee*N
+one two\n\nthree\nfour one	0,0	Vjj#
+one two\n\nthree\nfour one	0,0	vee#.
+one two\n\nthree\nfour one	0,0	vjl#
+one two\n\nthree\nfour one	0,0	vh*
+one two\n\nthree\nfour one	0,0	vh#
+one two\n\nthree\nfour one	0,0	vk*
+one two\n\nthree\nfour one	0,0	vk#
+one two\n\nthree\nfour one	0,0	vl#
+one two\n\nthree\nfour one	0,0	vll*
+one two\n\nthree\nfour one	0,0	vlh*
+one two\n\nthree\nfour one	0,5	/foo<CR>2gn
+one two\n\nthree\nfour one	0,5	/foo<CR>2gnd
+one two\n\nthree\nfour one	0,5	/foo<CR>gngn
+one two\n\nthree\nfour one	0,5	/foo<CR>gnngn
+one two\n\nthree\nfour one	0,5	/foo<CR>gNgN
+one two\n\nthree\nfour one	0,5	/foo<CR>vgn
+one two\n\nthree\nfour one	0,5	/foo<CR>vgnd
+one two\n\nthree\nfour one	0,5	/foo<CR>gnoo
+one two\n\nthree\nfour one	0,5	/foo<CR>gNgn
+one two\n\nthree\nfour one	0,5	/foo<CR>dgN
+one two\n\nthree\nfour one	0,5	/foo<CR>$gN
+one two\n\nthree\nfour one	0,5	/zzz<CR>gn
+one two\n\nthree\nfour one	0,5	/\zs<CR>gn
+one two\n\nthree\nfour one	0,5	/o*<CR>gn
+one two\n\nthree\nfour one	0,5	/foo<CR>3gn
+one two\n\nthree\nfour one	0,5	/foo<CR>3gnd
+one two\n\nthree\nfour one	0,5	/foo<CR>cgnX<Esc>.
+one two\n\nthree\nfour one	0,5	/foo<CR>cgnX<Esc>n.
+one two\n\nthree\nfour one	0,5	/foo<CR>ygn
+one two\n\nthree\nfour one	0,5	/foo<CR>ygnP
+one two\n\nthree\nfour one	0,5	/foo<CR>gUgn
+one two\n\nthree\nfour one	0,5	/foo<CR>gUgn.
+one two\n\nthree\nfour one	0,5	/foo<CR>>gn
+one two\n\nthree\nfour one	0,5	/foo<CR>gnc
+one two\n\nthree\nfour one	0,5	/foo<CR>gnogn
+one two\n\nthree\nfour one	0,5	?foo<CR>gn
+one two\n\nthree\nfour one	0,5	?foo<CR>gN
+one two\n\nthree\nfour one	0,5	?foo<CR>dgn
+one two\n\nthree\nfour one	0,5	?foo<CR>dgN
+one two\n\nthree\nfour one	0,5	/\<o\><CR>dgn
+one two\n\nthree\nfour one	0,5	/one<CR>cgnX<Esc>..
+one two\n\nthree\nfour one	0,5	/\n<CR>gn
+one two\n\nthree\nfour one	0,5	/\n<CR>dgn
+one two\n\nthree\nfour one	0,5	/^<CR>gn
+one two\n\nthree\nfour one	0,5	/$<CR>dgn
+one two\n\nthree\nfour one	0,5	vee*
+one two\n\nthree\nfour one	0,5	vee#
+one two\n\nthree\nfour one	0,5	vee*d
+one two\n\nthree\nfour one	0,5	vee*n
+one two\n\nthree\nfour one	0,5	vee#n
+one two\n\nthree\nfour one	0,5	v*
+one two\n\nthree\nfour one	0,5	v#
+one two\n\nthree\nfour one	0,5	Vj*
+one two\n\nthree\nfour one	0,5	Vj#
+one two\n\nthree\nfour one	0,5	V*
+one two\n\nthree\nfour one	0,5	<C-v>jl*
+one two\n\nthree\nfour one	0,5	<C-v>jl#
+one two\n\nthree\nfour one	0,5	v$*
+one two\n\nthree\nfour one	0,5	vj$*
+one two\n\nthree\nfour one	0,5	ve*gv
+one two\n\nthree\nfour one	0,5	3Gve#
+one two\n\nthree\nfour one	0,5	vi.*
+one two\n\nthree\nfour one	0,5	ve*dw
+one two\n\nthree\nfour one	0,5	2v*
+one two\n\nthree\nfour one	0,5	2vee*
+one two\n\nthree\nfour one	0,5	vee2*
+one two\n\nthree\nfour one	0,5	vee*N
+one two\n\nthree\nfour one	0,5	Vjj#
+one two\n\nthree\nfour one	0,5	vee#.
+one two\n\nthree\nfour one	0,5	vjl#
+one two\n\nthree\nfour one	0,5	vh*
+one two\n\nthree\nfour one	0,5	vh#
+one two\n\nthree\nfour one	0,5	vk*
+one two\n\nthree\nfour one	0,5	vk#
+one two\n\nthree\nfour one	0,5	vl#
+one two\n\nthree\nfour one	0,5	vll*
+one two\n\nthree\nfour one	0,5	vlh*
+one two\n\nthree\nfour one	1,1	/foo<CR>2gn
+one two\n\nthree\nfour one	1,1	/foo<CR>2gnd
+one two\n\nthree\nfour one	1,1	/foo<CR>gngn
+one two\n\nthree\nfour one	1,1	/foo<CR>gnngn
+one two\n\nthree\nfour one	1,1	/foo<CR>gNgN
+one two\n\nthree\nfour one	1,1	/foo<CR>vgn
+one two\n\nthree\nfour one	1,1	/foo<CR>vgnd
+one two\n\nthree\nfour one	1,1	/foo<CR>gnoo
+one two\n\nthree\nfour one	1,1	/foo<CR>gNgn
+one two\n\nthree\nfour one	1,1	/foo<CR>dgN
+one two\n\nthree\nfour one	1,1	/foo<CR>$gN
+one two\n\nthree\nfour one	1,1	/zzz<CR>gn
+one two\n\nthree\nfour one	1,1	/\zs<CR>gn
+one two\n\nthree\nfour one	1,1	/o*<CR>gn
+one two\n\nthree\nfour one	1,1	/foo<CR>3gn
+one two\n\nthree\nfour one	1,1	/foo<CR>3gnd
+one two\n\nthree\nfour one	1,1	/foo<CR>cgnX<Esc>.
+one two\n\nthree\nfour one	1,1	/foo<CR>cgnX<Esc>n.
+one two\n\nthree\nfour one	1,1	/foo<CR>ygn
+one two\n\nthree\nfour one	1,1	/foo<CR>ygnP
+one two\n\nthree\nfour one	1,1	/foo<CR>gUgn
+one two\n\nthree\nfour one	1,1	/foo<CR>gUgn.
+one two\n\nthree\nfour one	1,1	/foo<CR>>gn
+one two\n\nthree\nfour one	1,1	/foo<CR>gnc
+one two\n\nthree\nfour one	1,1	/foo<CR>gnogn
+one two\n\nthree\nfour one	1,1	?foo<CR>gn
+one two\n\nthree\nfour one	1,1	?foo<CR>gN
+one two\n\nthree\nfour one	1,1	?foo<CR>dgn
+one two\n\nthree\nfour one	1,1	?foo<CR>dgN
+one two\n\nthree\nfour one	1,1	/\<o\><CR>dgn
+one two\n\nthree\nfour one	1,1	/one<CR>cgnX<Esc>..
+one two\n\nthree\nfour one	1,1	/\n<CR>gn
+one two\n\nthree\nfour one	1,1	/\n<CR>dgn
+one two\n\nthree\nfour one	1,1	/^<CR>gn
+one two\n\nthree\nfour one	1,1	/$<CR>dgn
+one two\n\nthree\nfour one	1,1	vee*
+one two\n\nthree\nfour one	1,1	vee#
+one two\n\nthree\nfour one	1,1	vee*d
+one two\n\nthree\nfour one	1,1	vee*n
+one two\n\nthree\nfour one	1,1	vee#n
+one two\n\nthree\nfour one	1,1	v*
+one two\n\nthree\nfour one	1,1	v#
+one two\n\nthree\nfour one	1,1	Vj*
+one two\n\nthree\nfour one	1,1	Vj#
+one two\n\nthree\nfour one	1,1	V*
+one two\n\nthree\nfour one	1,1	<C-v>jl*
+one two\n\nthree\nfour one	1,1	<C-v>jl#
+one two\n\nthree\nfour one	1,1	v$*
+one two\n\nthree\nfour one	1,1	vj$*
+one two\n\nthree\nfour one	1,1	ve*gv
+one two\n\nthree\nfour one	1,1	3Gve#
+one two\n\nthree\nfour one	1,1	vi.*
+one two\n\nthree\nfour one	1,1	ve*dw
+one two\n\nthree\nfour one	1,1	2v*
+one two\n\nthree\nfour one	1,1	2vee*
+one two\n\nthree\nfour one	1,1	vee2*
+one two\n\nthree\nfour one	1,1	vee*N
+one two\n\nthree\nfour one	1,1	Vjj#
+one two\n\nthree\nfour one	1,1	vee#.
+one two\n\nthree\nfour one	1,1	vjl#
+one two\n\nthree\nfour one	1,1	vh*
+one two\n\nthree\nfour one	1,1	vh#
+one two\n\nthree\nfour one	1,1	vk*
+one two\n\nthree\nfour one	1,1	vk#
+one two\n\nthree\nfour one	1,1	vl#
+one two\n\nthree\nfour one	1,1	vll*
+one two\n\nthree\nfour one	1,1	vlh*
+one two\n\nthree\nfour one	2,3	/foo<CR>2gn
+one two\n\nthree\nfour one	2,3	/foo<CR>2gnd
+one two\n\nthree\nfour one	2,3	/foo<CR>gngn
+one two\n\nthree\nfour one	2,3	/foo<CR>gnngn
+one two\n\nthree\nfour one	2,3	/foo<CR>gNgN
+one two\n\nthree\nfour one	2,3	/foo<CR>vgn
+one two\n\nthree\nfour one	2,3	/foo<CR>vgnd
+one two\n\nthree\nfour one	2,3	/foo<CR>gnoo
+one two\n\nthree\nfour one	2,3	/foo<CR>gNgn
+one two\n\nthree\nfour one	2,3	/foo<CR>dgN
+one two\n\nthree\nfour one	2,3	/foo<CR>$gN
+one two\n\nthree\nfour one	2,3	/zzz<CR>gn
+one two\n\nthree\nfour one	2,3	/\zs<CR>gn
+one two\n\nthree\nfour one	2,3	/o*<CR>gn
+one two\n\nthree\nfour one	2,3	/foo<CR>3gn
+one two\n\nthree\nfour one	2,3	/foo<CR>3gnd
+one two\n\nthree\nfour one	2,3	/foo<CR>cgnX<Esc>.
+one two\n\nthree\nfour one	2,3	/foo<CR>cgnX<Esc>n.
+one two\n\nthree\nfour one	2,3	/foo<CR>ygn
+one two\n\nthree\nfour one	2,3	/foo<CR>ygnP
+one two\n\nthree\nfour one	2,3	/foo<CR>gUgn
+one two\n\nthree\nfour one	2,3	/foo<CR>gUgn.
+one two\n\nthree\nfour one	2,3	/foo<CR>>gn
+one two\n\nthree\nfour one	2,3	/foo<CR>gnc
+one two\n\nthree\nfour one	2,3	/foo<CR>gnogn
+one two\n\nthree\nfour one	2,3	?foo<CR>gn
+one two\n\nthree\nfour one	2,3	?foo<CR>gN
+one two\n\nthree\nfour one	2,3	?foo<CR>dgn
+one two\n\nthree\nfour one	2,3	?foo<CR>dgN
+one two\n\nthree\nfour one	2,3	/\<o\><CR>dgn
+one two\n\nthree\nfour one	2,3	/one<CR>cgnX<Esc>..
+one two\n\nthree\nfour one	2,3	/\n<CR>gn
+one two\n\nthree\nfour one	2,3	/\n<CR>dgn
+one two\n\nthree\nfour one	2,3	/^<CR>gn
+one two\n\nthree\nfour one	2,3	/$<CR>dgn
+one two\n\nthree\nfour one	2,3	vee*
+one two\n\nthree\nfour one	2,3	vee#
+one two\n\nthree\nfour one	2,3	vee*d
+one two\n\nthree\nfour one	2,3	vee*n
+one two\n\nthree\nfour one	2,3	vee#n
+one two\n\nthree\nfour one	2,3	v*
+one two\n\nthree\nfour one	2,3	v#
+one two\n\nthree\nfour one	2,3	Vj*
+one two\n\nthree\nfour one	2,3	Vj#
+one two\n\nthree\nfour one	2,3	V*
+one two\n\nthree\nfour one	2,3	<C-v>jl*
+one two\n\nthree\nfour one	2,3	<C-v>jl#
+one two\n\nthree\nfour one	2,3	v$*
+one two\n\nthree\nfour one	2,3	vj$*
+one two\n\nthree\nfour one	2,3	ve*gv
+one two\n\nthree\nfour one	2,3	3Gve#
+one two\n\nthree\nfour one	2,3	vi.*
+one two\n\nthree\nfour one	2,3	ve*dw
+one two\n\nthree\nfour one	2,3	2v*
+one two\n\nthree\nfour one	2,3	2vee*
+one two\n\nthree\nfour one	2,3	vee2*
+one two\n\nthree\nfour one	2,3	vee*N
+one two\n\nthree\nfour one	2,3	Vjj#
+one two\n\nthree\nfour one	2,3	vee#.
+one two\n\nthree\nfour one	2,3	vjl#
+one two\n\nthree\nfour one	2,3	vh*
+one two\n\nthree\nfour one	2,3	vh#
+one two\n\nthree\nfour one	2,3	vk*
+one two\n\nthree\nfour one	2,3	vk#
+one two\n\nthree\nfour one	2,3	vl#
+one two\n\nthree\nfour one	2,3	vll*
+one two\n\nthree\nfour one	2,3	vlh*

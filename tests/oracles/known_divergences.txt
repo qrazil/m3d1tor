@@ -1,2 +1,4 @@
 # nvim_buf_set_lines shifts the '] mark when gc adds a tab the old line lacked (mark byte-diff quirk)
 a\n\tb\n  c	1,0	:set cms=#\ %s<CR>gcj`]x
+# nvim leaves the cursor column unclamped (past the last character) when ":$j" fails on a one-line range at the end of the buffer
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	:$j<CR>

@@ -109,6 +109,10 @@ str run_case(str line) {
     if (editor.mode == MED_editor.CMDLINE) {
         MED_ex.feed(editor, 27);
     }
+    if (editor.sub_run.is_active) {
+        // a prompt still waiting when the keys end gets the Esc nvim's feedkeys() supplies
+        MED_ex.feed(editor, 27);
+    }
     editor.end_block();
     List<str> out = [fields[0], hex_of(editor.buffer.lines.join("\n")), editor.row.to_str(), editor.col.to_str(), mode_char(editor)];
     if (editor.mode == MED_editor.VISUAL) {

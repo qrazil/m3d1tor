@@ -20,6 +20,7 @@ import engine.MED_text;
 import engine.MED_num;
 import engine.MED_motion;
 import engine.MED_map;
+import engine.MED_regex;
 
 pub const int NORMAL = 0;
 pub const int INSERT = 1;
@@ -33,6 +34,8 @@ pub type Node {
     pub List<MED_buffer.Edit> edits;
     pub MED_buffer.Pos before;
     pub int redo_child = -1;
+    /// The lowercase marks as they were before the change; undo and redo swap them with the current ones (Vim's uh_namedm).
+    pub Map<str, MED_buffer.Pos> namedm = {};
 }
 
 /// The last f/F/t/T so `;` and `,` can repeat it.
@@ -48,6 +51,46 @@ pub type Resume {
     pub List<int> keys;
     pub List<int> full;
     pub int again = 0;
+}
+
+/// The state of a `:s` that asks before each replacement (`:s///c`): the loop
+/// of the substitution, suspended at a prompt and resumed by the answer key.
+pub type SubRun {
+    pub bool is_active = false;
+    pub bool is_hold = false;
+    pub bool is_quit = false;
+    pub bool is_ask = false;
+    pub MED_regex.Regex regex = MED_regex.Regex();
+    pub MED_regex.Match match_value = MED_regex.Match();
+    pub str pattern = "";
+    pub str sub = "";
+    pub int first_line = 0;
+    pub int line2 = 0;
+    pub bool should_all = false;
+    pub bool should_count = false;
+    pub bool should_error = true;
+    pub bool is_endcolumn = false;
+    pub bool is_multi = false;
+    pub MED_buffer.Pos old_cursor = MED_buffer.Pos(0, 0);
+    pub int nsubs = 0;
+    pub bool is_got_match = false;
+    pub bool is_uline_set = false;
+    pub int lnum = 0;
+    pub int base = 0;
+    pub int nmatch = 0;
+    pub int srel = 0;
+    pub int erel = 0;
+    pub int previous_matchcol = 0;
+    pub int copycol = 0;
+    pub int matchcol = 0;
+    pub bool is_new_has = false;
+    pub str new_start = "";
+    pub bool did_sub = false;
+    pub int nmatch_tl = 0;
+    pub bool is_skip_match = false;
+    pub int sub_row = 0;
+    pub str sub_first = "";
+    pub bool is_have_first = false;
 }
 
 pub type Editor {
@@ -69,6 +112,7 @@ pub type Editor {
     pub List<MED_buffer.Edit> block = [];
     pub bool is_block_open = false;
     pub MED_buffer.Pos block_before = MED_buffer.Pos(0, 0);
+    pub Map<str, MED_buffer.Pos> block_namedm = {};
     pub int tab = 8;
     /// The window: first buffer line shown and number of lines it shows. The
     /// UI keeps these current; H, M and L (and CTRL-D etc.) use them.
@@ -77,6 +121,9 @@ pub type Editor {
     /// CTRL-D / CTRL-U distance; 0 means half the window.
     pub int scroll_opt = 0;
     pub int shiftwidth = 8;
+    /// 'textwidth' (0: the window width, at most 79, for `gq`) and the window's width.
+    pub int textwidth = 0;
+    pub int view_width = 80;
     /// 'commentstring': `gc` wraps a line in this, `%s` standing for the text.
     pub str commentstring = "";
     pub bool is_expandtab = false;
@@ -89,6 +136,15 @@ pub type Editor {
     pub List<int> pending = [];
     pub FindState find = FindState();
     pub Map<str, MED_buffer.Pos> marks = {};
+    /// The jump list and the change list live in `marks` (as "~jN" and "~cN") so
+    /// that edits move them like any mark; these are their lengths and the
+    /// window's position in each.
+    pub int jump_len = 0;
+    pub int jump_idx = 0;
+    pub int change_len = 0;
+    pub int change_idx = 0;
+    /// A new undo block started and no change list entry was made for it yet.
+    pub bool is_new_change = false;
     /// Set by a command that failed (Vim would beep and flush macro input).
     pub bool is_failed = false;
     pub str message = "";
@@ -165,6 +221,12 @@ pub type Editor {
     pub int hist_at = -1;
     pub str hist_prefix = "";
     pub List<int> cmd_saved = [];
+    /// The cursor in `cmdline`, as a byte offset.
+    pub int cmd_pos = 0;
+    /// A command-line key waiting for its argument: 22 CTRL-V, 18 CTRL-R, 19 CTRL-R CTRL-R.
+    pub int cmd_wait = 0;
+    /// The key that ended a CTRL-V number is not part of it.
+    pub bool is_lit_reuse = false;
     pub str ex_line = "";
     pub int mode_before_cmd = 0;
     /// Insert mode waiting for the key after CTRL-R / CTRL-V.
@@ -244,6 +306,8 @@ pub type Editor {
     pub List<str> requests = [];
     /// While above 0 (inside an ex line) `end_block` keeps the block open.
     pub int block_hold = 0;
+    /// A `:s///c` waiting for the answer to its prompt.
+    pub SubRun sub_run = SubRun();
     /// How many of the `block_hold`s belong to running macros (`@a` is one undo step).
     pub int macro_holds = 0;
     /// Undo-tree states (node seq) at which the buffer was written, oldest first.
@@ -275,8 +339,10 @@ pub void Editor.set_cursor(MED_buffer.Pos position) {
 pub void Editor.open_block() {
     if (!is_block_open) {
         is_block_open = true;
+        is_new_change = true;
         block = [];
         block_before = MED_buffer.Pos(row, col);
+        block_namedm = snapshot_named();
     }
 }
 
@@ -285,9 +351,12 @@ pub void Editor.open_block() {
 pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos position, str replacement) {
     if (!is_block_open) {
         is_block_open = true;
+        is_new_change = true;
         block = [];
         block_before = MED_buffer.Pos(row, col);
+        block_namedm = snapshot_named();
     }
+    note_change(from);
     if (!is_uline_off && from.row == position.row && uline_row != from.row && !replacement.index_of("\n").is_some()) {
         // u_save() of a single line remembers it for `U`
         uline_row = from.row;
@@ -433,6 +502,7 @@ pub void Editor.noop_node() {
     int seq = nodes.size();
     List<MED_buffer.Edit> none = [];
     Node node = Node(seq, current, none, MED_buffer.Pos(row, col));
+    node.namedm = snapshot_named();
     nodes.push(node);
     nodes[current].redo_child = seq;
     current = seq;
@@ -452,6 +522,7 @@ pub void Editor.end_block() {
     }
     int seq = nodes.size();
     Node node = Node(seq, current, block, block_before);
+    node.namedm = block_namedm;
     nodes.push(node);
     nodes[current].redo_child = seq;
     current = seq;
@@ -496,6 +567,11 @@ Landing Editor.apply_edit(MED_buffer.Edit edit, bool is_forward) {
         } else if (moved.ends_with("\n") && edit.from.col == 0) {
             landing.mnew = newsize - 1;
         }
+    }
+    int moldsize = oldsize - (newsize - landing.mnew);
+    if (moldsize != landing.mnew) {
+        // u_undoredo(): the marks on the replaced lines go, the ones below move
+        mark_adjust(landing.mtop, moldsize, landing.mnew);
     }
     return landing;
 }
@@ -567,7 +643,14 @@ void Editor.land(Node node, List<Landing> landings, bool is_undoing, int old_lin
             lnum = node.before.row + 1;
         }
     }
-    if (node.before.row + 1 + 1 == lnum && lnum > 1) {
+    int clamped = lnum;
+    if (clamped > buffer.line_count()) {
+        clamped = buffer.line_count();
+    }
+    if (node.before.row + 1 + 1 == clamped && clamped > 1) {
+        // off by one line after the clamp (a moved block): Vim ends on the line it began on
+        lnum = clamped - 1;
+    } else if (node.before.row + 1 + 1 == lnum && lnum > 1) {
         lnum = lnum - 1;
     }
     if (lnum <= buffer.line_count()) {
@@ -586,6 +669,39 @@ void Editor.land(Node node, List<Landing> landings, bool is_undoing, int old_lin
     want_from_cursor();
 }
 
+// The lowercase marks, a copy.
+Map<str, MED_buffer.Pos> Editor.snapshot_named() {
+    Map<str, MED_buffer.Pos> copy = {};
+    for (str name in marks.keys()) {
+        if (name.size() == 1) {
+            int code = name.byte_at(0);
+            if (code >= 97 && code <= 122) {
+                copy.set(name, marks.get(name).or(MED_buffer.Pos(-1, 0)));
+            }
+        }
+    }
+    return copy;
+}
+
+// After undoing or redoing `node`: its marks come back, and it keeps the ones
+// that were set before (Vim's u_undoredo()).
+void Editor.swap_named(Node node, Map<str, MED_buffer.Pos> before) {
+    for (str name in node.namedm.keys()) {
+        MED_buffer.Pos saved = node.namedm.get(name).or(MED_buffer.Pos(-1, 0));
+        if (saved.row >= 0) {
+            marks.set(name, saved);
+        }
+    }
+    Map<str, MED_buffer.Pos> kept = {};
+    for (str name in before.keys()) {
+        MED_buffer.Pos old = before.get(name).or(MED_buffer.Pos(-1, 0));
+        if (old.row >= 0) {
+            kept.set(name, old);
+        }
+    }
+    node.namedm = kept;
+}
+
 /// Undo one block. False when already at the oldest change.
 pub bool Editor.did_undo() {
     close_block();
@@ -594,6 +710,7 @@ pub bool Editor.did_undo() {
     }
     Node node = nodes[current];
     int old_lines = buffer.line_count();
+    Map<str, MED_buffer.Pos> before = snapshot_named();
     List<Landing> landings = [];
     int index = node.edits.size() - 1;
     while (index >= 0) {
@@ -601,6 +718,7 @@ pub bool Editor.did_undo() {
         index = index - 1;
     }
     land(node, landings, true, old_lines);
+    swap_named(node, before);
     current = node.parent;
     nodes[current].redo_child = node.seq;
     return true;
@@ -615,11 +733,13 @@ pub bool Editor.did_redo() {
     }
     Node node = nodes[child];
     int old_lines = buffer.line_count();
+    Map<str, MED_buffer.Pos> before = snapshot_named();
     List<Landing> landings = [];
     for (MED_buffer.Edit edit in node.edits) {
         landings.push(apply_edit(edit, true));
     }
     land(node, landings, false, old_lines);
+    swap_named(node, before);
     current = child;
     return true;
 }
@@ -725,14 +845,152 @@ pub void Editor.init_marks() {
     marks.set("'prev", MED_buffer.Pos(-1, 0));
 }
 
-/// Vim's setpcmark(): the previous-context mark becomes `position`; does nothing in
-/// `:global`.
+const int LIST_SIZE = 100;
+
+str jump_name(int index) {
+    return "~j" + index.to_str();
+}
+
+str change_name(int index) {
+    return "~c" + index.to_str();
+}
+
+MED_buffer.Pos Editor.entry(str name) {
+    return marks.get(name).or(MED_buffer.Pos(0, 0));
+}
+
+/// Vim's setpcmark(): the previous-context mark becomes `position`, which is
+/// also added to the jump list; does nothing in `:global`.
 pub void Editor.set_pcmark(MED_buffer.Pos position) {
     if (is_global_busy) {
         return;
     }
     marks.set("'prev", marks.get("'").or(MED_buffer.Pos(-1, 0)));
     marks.set("'", position);
+    if (jump_len >= LIST_SIZE) {
+        for (int index in 1 .. jump_len) {
+            marks.set(jump_name(index - 1), entry(jump_name(index)));
+        }
+        marks.remove(jump_name(jump_len - 1));
+        jump_len = jump_len - 1;
+    }
+    marks.set(jump_name(jump_len), position);
+    jump_len = jump_len + 1;
+    jump_idx = jump_len;
+}
+
+/// Vim's cleanup_jumplist(): of several entries on one line only the last
+/// stays; when the window is past the last entry and that one is on the
+/// cursor line, it goes too (`is_move`).
+void Editor.clean_jumps(bool is_move) {
+    List<MED_buffer.Pos> kept = [];
+    int new_idx = jump_idx;
+    for (int from in 0 .. jump_len) {
+        if (jump_idx == from) {
+            new_idx = kept.size();
+        }
+        bool is_duplicate = false;
+        for (int later in from + 1 .. jump_len) {
+            if (entry(jump_name(later)).row == entry(jump_name(from)).row) {
+                is_duplicate = true;
+                break;
+            }
+        }
+        if (!is_duplicate) {
+            kept.push(entry(jump_name(from)));
+        }
+    }
+    if (jump_idx == jump_len) {
+        new_idx = kept.size();
+    }
+    if (is_move && kept.size() > 0 && new_idx == kept.size() && kept[kept.size() - 1].row == row) {
+        kept.pop();
+        new_idx = new_idx - 1;
+    }
+    for (int index in 0 .. jump_len) {
+        marks.remove(jump_name(index));
+    }
+    for (int index in 0 .. kept.size()) {
+        marks.set(jump_name(index), kept[index]);
+    }
+    jump_len = kept.size();
+    jump_idx = new_idx;
+}
+
+/// Vim's movemark(): the jump list entry `count` steps from the window's
+/// position (negative is older), or None.
+pub Option<MED_buffer.Pos> Editor.move_jump(int count) {
+    clean_jumps(true);
+    if (jump_len == 0) {
+        return Option<MED_buffer.Pos>.None;
+    }
+    if (jump_idx + count < 0 || jump_idx + count >= jump_len) {
+        return Option<MED_buffer.Pos>.None;
+    }
+    if (jump_idx == jump_len) {
+        set_pcmark(MED_buffer.Pos(row, col));
+        jump_idx = jump_idx - 1;
+        if (jump_idx + count < 0) {
+            return Option<MED_buffer.Pos>.None;
+        }
+    }
+    jump_idx = jump_idx + count;
+    return Option<MED_buffer.Pos>.Some(entry(jump_name(jump_idx)));
+}
+
+/// Vim's changed_common() bookkeeping: the position of the last change is the
+/// `.` mark, and a change far enough from the last entry starts a new change
+/// list entry.
+pub void Editor.note_change(MED_buffer.Pos from) {
+    marks.set(".", from);
+    if (is_new_change || change_len == 0) {
+        bool should_add = false;
+        if (change_len == 0) {
+            should_add = true;
+        } else {
+            MED_buffer.Pos last = entry(change_name(change_len - 1));
+            if (last.row != from.row) {
+                should_add = true;
+            } else {
+                should_add = last.col + 79 < from.col || from.col + 79 < last.col;
+            }
+        }
+        if (should_add) {
+            is_new_change = false;
+            if (change_len == LIST_SIZE) {
+                for (int index in 1 .. change_len) {
+                    marks.set(change_name(index - 1), entry(change_name(index)));
+                }
+            } else {
+                change_len = change_len + 1;
+            }
+        }
+    }
+    marks.set(change_name(change_len - 1), from);
+    change_idx = change_len;
+}
+
+/// Vim's movechangelist(): the change list entry `count` steps on, or None.
+pub Option<MED_buffer.Pos> Editor.move_change(int count) {
+    if (change_len == 0) {
+        return Option<MED_buffer.Pos>.None;
+    }
+    int target = change_idx;
+    if (target + count < 0) {
+        if (target == 0) {
+            return Option<MED_buffer.Pos>.None;
+        }
+        target = 0;
+    } else if (target + count >= change_len) {
+        if (target == change_len - 1) {
+            return Option<MED_buffer.Pos>.None;
+        }
+        target = change_len - 1;
+    } else {
+        target = target + count;
+    }
+    change_idx = target;
+    return Option<MED_buffer.Pos>.Some(entry(change_name(target)));
 }
 
 /// Vim's mark_col_adjust() for a join: a mark on joined line `row + 1 + i` moves

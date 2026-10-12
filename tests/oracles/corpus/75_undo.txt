@@ -1,0 +1,492 @@
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxuur
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxuu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxuu<C-r><C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxUU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxUu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxjxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxjxUU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xjxjxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxjxxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dwdwdwuuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dwdwdwuuu<C-r><C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihello<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihello<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihello<Esc>u<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihello<Esc>uU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihi<Esc>ahi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihi<Esc>ahi<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihi<Esc>ahi<Esc>uuu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihi<C-g>uhi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihi<CR>there<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ihi<CR>there<C-o>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	oabc<Esc>ouu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3x2u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3x3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxx3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxx3u2<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dd3p3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dd3pu.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3ddu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3dduu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3ddu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	Jjjju
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	JjJjJu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	JjJjJuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	cwhi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	cwhi<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	cwhi<Esc>u.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	cwhi<Esc>j.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	cwhi<Esc>j.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	cwhi<Esc>j.uuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xu.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xj.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xj.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ddj.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ddj.uuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ddj.u<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	g-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	g-g-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxg-g-g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxuuug+g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxxuuug+g+g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xuxuxug-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	earlier 1
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	uu:redo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xx:undo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xx:undo 0<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xx:undo 1<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xx:earlier 1f<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	xxu:later 1f<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaxjq@auu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaxjq@a@@u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaxjq3@auuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	vjdu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	vjd<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	vjdu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	vjcab<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	vjcab<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	Vjdu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	Vjd.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	Vjd.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	Vjd.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	<C-v>jld.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	<C-v>jlcX<Esc>.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	<C-v>jlIX<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	<C-v>jlAX<Esc>.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ixx<Esc>:undo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ixx<Esc>:undo<CR>:redo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxuur
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxuu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxuu<C-r><C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxUU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxUu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxjxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxjxUU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xjxjxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxjxxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dwdwdwuuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dwdwdwuuu<C-r><C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihello<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihello<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihello<Esc>u<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihello<Esc>uU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihi<Esc>ahi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihi<Esc>ahi<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihi<Esc>ahi<Esc>uuu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihi<C-g>uhi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihi<CR>there<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ihi<CR>there<C-o>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	oabc<Esc>ouu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3x2u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3x3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxx3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxx3u2<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dd3p3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dd3pu.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3ddu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3dduu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3ddu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	Jjjju
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	JjJjJu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	JjJjJuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	cwhi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	cwhi<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	cwhi<Esc>u.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	cwhi<Esc>j.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	cwhi<Esc>j.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	cwhi<Esc>j.uuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xu.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xj.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xj.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ddj.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ddj.uuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ddj.u<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	g-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	g-g-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxg-g-g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxuuug+g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxxuuug+g+g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xuxuxug-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	earlier 1
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	uu:redo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xx:undo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xx:undo 0<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xx:undo 1<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xx:earlier 1f<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	xxu:later 1f<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaxjq@auu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaxjq@a@@u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaxjq3@auuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	vjdu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	vjd<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	vjdu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	vjcab<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	vjcab<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	Vjdu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	Vjd.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	Vjd.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	Vjd.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	<C-v>jld.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	<C-v>jlcX<Esc>.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	<C-v>jlIX<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	<C-v>jlAX<Esc>.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ixx<Esc>:undo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ixx<Esc>:undo<CR>:redo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxuur
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxuu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxuu<C-r><C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxUU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxUu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxjxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxjxUU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xjxjxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxjxxU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dwdwdwuuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dwdwdwuuu<C-r><C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihello<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihello<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihello<Esc>u<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihello<Esc>uU
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihi<Esc>ahi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihi<Esc>ahi<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihi<Esc>ahi<Esc>uuu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihi<C-g>uhi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihi<CR>there<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ihi<CR>there<C-o>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	oabc<Esc>ouu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3x2u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3x3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxx3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxx3u2<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dd3p3u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dd3pu.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3ddu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3dduu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3ddu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	Jjjju
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	JjJjJu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	JjJjJuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	cwhi<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	cwhi<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	cwhi<Esc>u.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	cwhi<Esc>j.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	cwhi<Esc>j.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	cwhi<Esc>j.uuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xu.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xj.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xj.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ddj.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ddj.uuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ddj.u<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	g-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	g-g-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxg-g-g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxuuug+g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxxuuug+g+g+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xuxuxug-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	earlier 1
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	uu:redo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xx:undo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xx:undo 0<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xx:undo 1<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xx:earlier 1f<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	xxu:later 1f<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	qaxjq@auu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	qaxjq@a@@u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	qaxjq3@auuu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	vjdu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	vjd<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	vjdu<C-r>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	vjcab<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	vjcab<Esc>uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	Vjdu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	Vjd.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	Vjd.u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	Vjd.uu
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	<C-v>jld.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	<C-v>jlcX<Esc>.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	<C-v>jlIX<Esc>u
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	<C-v>jlAX<Esc>.
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ixx<Esc>:undo<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ixx<Esc>:undo<CR>:redo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxuur
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxuu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxuu<C-r><C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxUU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxUu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxjxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxjxUU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xjxjxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxjxxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dwdwdwuuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dwdwdwuuu<C-r><C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihello<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihello<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihello<Esc>u<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihello<Esc>uU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihi<Esc>ahi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihi<Esc>ahi<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihi<Esc>ahi<Esc>uuu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihi<C-g>uhi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihi<CR>there<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ihi<CR>there<C-o>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	oabc<Esc>ouu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3x2u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3x3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxx3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxx3u2<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dd3p3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dd3pu.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3ddu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3dduu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3ddu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	Jjjju
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	JjJjJu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	JjJjJuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	cwhi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	cwhi<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	cwhi<Esc>u.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	cwhi<Esc>j.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	cwhi<Esc>j.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	cwhi<Esc>j.uuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xu.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xj.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xj.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ddj.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ddj.uuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ddj.u<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	g-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	g-g-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxg-g-g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxuuug+g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxxuuug+g+g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xuxuxug-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	earlier 1
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	uu:redo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xx:undo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xx:undo 0<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xx:undo 1<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xx:earlier 1f<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	xxu:later 1f<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaxjq@auu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaxjq@a@@u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaxjq3@auuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	vjdu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	vjd<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	vjdu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	vjcab<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	vjcab<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	Vjdu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	Vjd.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	Vjd.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	Vjd.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	<C-v>jld.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	<C-v>jlcX<Esc>.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	<C-v>jlIX<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	<C-v>jlAX<Esc>.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ixx<Esc>:undo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ixx<Esc>:undo<CR>:redo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxuur
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxuu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxuu<C-r><C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxUU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxUu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxjxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxjxUU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xjxjxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxjxxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dwdwdwuuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dwdwdwuuu<C-r><C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihello<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihello<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihello<Esc>u<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihello<Esc>uU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihi<Esc>ahi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihi<Esc>ahi<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihi<Esc>ahi<Esc>uuu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihi<C-g>uhi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihi<CR>there<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ihi<CR>there<C-o>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	oabc<Esc>ouu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3x2u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3x3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxx3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxx3u2<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dd3p3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dd3pu.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3ddu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3dduu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3ddu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	Jjjju
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	JjJjJu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	JjJjJuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	cwhi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	cwhi<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	cwhi<Esc>u.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	cwhi<Esc>j.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	cwhi<Esc>j.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	cwhi<Esc>j.uuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xu.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xj.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xj.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ddj.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ddj.uuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ddj.u<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	g-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	g-g-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxg-g-g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxuuug+g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxxuuug+g+g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xuxuxug-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	earlier 1
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	uu:redo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xx:undo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xx:undo 0<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xx:undo 1<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xx:earlier 1f<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	xxu:later 1f<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaxjq@auu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaxjq@a@@u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaxjq3@auuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	vjdu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	vjd<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	vjdu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	vjcab<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	vjcab<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	Vjdu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	Vjd.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	Vjd.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	Vjd.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	<C-v>jld.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	<C-v>jlcX<Esc>.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	<C-v>jlIX<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	<C-v>jlAX<Esc>.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ixx<Esc>:undo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ixx<Esc>:undo<CR>:redo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxuur
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxuu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxuu<C-r><C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxUU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxUu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxjxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxjxUU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xjxjxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxjxxU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dwdwdwuuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dwdwdwuuu<C-r><C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihello<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihello<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihello<Esc>u<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihello<Esc>uU
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihi<Esc>ahi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihi<Esc>ahi<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihi<Esc>ahi<Esc>uuu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihi<C-g>uhi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihi<CR>there<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ihi<CR>there<C-o>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	oabc<Esc>ouu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3x2u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3x3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxx3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxx3u2<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dd3p3u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dd3pu.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3ddu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3dduu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3ddu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	Jjjju
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	JjJjJu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	JjJjJuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	cwhi<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	cwhi<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	cwhi<Esc>u.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	cwhi<Esc>j.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	cwhi<Esc>j.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	cwhi<Esc>j.uuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xu.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xj.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xj.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ddj.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ddj.uuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ddj.u<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	g-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	g-g-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxg-g-g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxuuug+g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxxuuug+g+g+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xuxuxug-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	earlier 1
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	uu:redo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xx:undo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xx:undo 0<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xx:undo 1<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xx:earlier 1f<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	xxu:later 1f<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	qaxjq@auu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	qaxjq@a@@u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	qaxjq3@auuu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	vjdu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	vjd<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	vjdu<C-r>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	vjcab<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	vjcab<Esc>uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	Vjdu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	Vjd.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	Vjd.u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	Vjd.uu
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	<C-v>jld.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	<C-v>jlcX<Esc>.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	<C-v>jlIX<Esc>u
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	<C-v>jlAX<Esc>.
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ixx<Esc>:undo<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ixx<Esc>:undo<CR>:redo<CR>

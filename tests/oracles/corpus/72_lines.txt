@@ -1,0 +1,996 @@
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	y%P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	c%X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	y}P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	y{P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	c}X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	[{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ygg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	yGP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d2d
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d2j
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d2k
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	yj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	yk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ykP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	yjP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	H
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	M
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	L
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dH
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dM
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	yL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ggdG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	Gdgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	g_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	dg_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	c$X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	C
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2CX<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	2+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	3-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	d<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	y%P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	c%X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	y}P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	y{P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	c}X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	[{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ygg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	yGP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d2d
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d2j
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d2k
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	yj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	yk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ykP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	yjP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	H
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	M
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	L
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dH
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dM
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	yL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ggdG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	Gdgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	g_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	dg_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	c$X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	C
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2CX<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	2+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	3-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	d<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	y%P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	c%X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	y}P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	y{P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	c}X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	[{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ygg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	yGP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d2d
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d2j
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d2k
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	yj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	yk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ykP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	yjP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	H
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	M
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	L
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dH
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dM
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	yL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	ggdG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	Gdgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	g_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	dg_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	c$X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	C
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2CX<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	2+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	3-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	2,0	d<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d%
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	y%P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	c%X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d)
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	y}P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	y{P
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d2}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	c}X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	[{
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d])
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d[(
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d]}
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	ygg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	yGP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d5G
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d2d
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	3dd
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d2j
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d2k
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	yj
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	yk
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	ykP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	yjP
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	H
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	M
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	L
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dH
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dM
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	yL
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	ggdG
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	Gdgg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d2gg
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	g_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	dg_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d_
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d^
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d$
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2D
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	c$X<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	C
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2CX<Esc>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d5|
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	2+
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	3-
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	<CR>
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,3	d<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	y%P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	c%X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	y}P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	y{P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	c}X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	[{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	ygg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	yGP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d2d
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	3dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d2j
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d2k
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	yj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	yk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	ykP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	yjP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	H
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	M
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	L
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dH
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dM
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	yL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	ggdG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	Gdgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	g_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	dg_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	c$X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	C
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2CX<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	2+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	3-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	0,0	d<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	y%P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	c%X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	y}P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	y{P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	c}X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	[{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	ygg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	yGP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d2d
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	3dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d2j
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d2k
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	yj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	yk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	ykP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	yjP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	H
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	M
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	L
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dH
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dM
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	yL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	ggdG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	Gdgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	g_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	dg_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	c$X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	C
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2CX<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	2+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	3-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	1,5	d<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	y%P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	c%X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	y}P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	y{P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	c}X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	[{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	ygg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	yGP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d2d
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	3dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d2j
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d2k
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	yj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	yk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	ykP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	yjP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	H
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	M
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	L
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dH
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dM
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	yL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	ggdG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	Gdgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	g_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	dg_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	c$X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	C
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2CX<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	2+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	3-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	2,0	d<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d%
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	y%P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	c%X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d)
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	y}P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	y{P
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d2}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	c}X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	[{
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d])
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d[(
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d]}
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	ygg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	yGP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d5G
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d2d
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	3dd
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d2j
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d2k
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	yj
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	yk
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	ykP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	yjP
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	H
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	M
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	L
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dH
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dM
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	yL
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	ggdG
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	Gdgg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d2gg
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	g_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	dg_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d_
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d^
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d0
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d$
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2D
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	c$X<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	C
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2CX<Esc>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d5|
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	2+
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	3-
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	<CR>
+int main(int argc, char **argv) {\n    if (argc > 1) {\n        printf("%s\\n", argv[1]);\n    }\n    return 0;\n}\n	4,3	d<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	y%P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	c%X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	y}P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	y{P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	c}X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	[{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ygg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	yGP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d2d
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d2j
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d2k
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	yj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	yk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ykP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	yjP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	H
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	M
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	L
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dH
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dM
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	yL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	ggdG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	Gdgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	g_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	dg_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	c$X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	C
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2CX<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	2+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	3-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	d<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	y%P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	c%X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	y}P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	y{P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	c}X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	[{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ygg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	yGP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d2d
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d2j
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d2k
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	yj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	yk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ykP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	yjP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	H
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	M
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	L
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dH
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dM
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	yL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	ggdG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	Gdgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	g_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	dg_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	c$X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	C
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2CX<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	2+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	3-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	d<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	y%P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	c%X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	y}P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	y{P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	c}X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	[{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ygg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	yGP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d2d
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d2j
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d2k
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	yj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	yk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ykP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	yjP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	H
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	M
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	L
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dH
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dM
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	yL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	ggdG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	Gdgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	g_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	dg_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	c$X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	C
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2CX<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	2+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	3-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	2,0	d<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d%
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	y%P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	c%X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d)
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	y}P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	y{P
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d2}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	c}X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	[{
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d])
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d[(
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d]}
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	ygg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	yGP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d5G
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d2d
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	3dd
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d2j
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d2k
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	yj
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	yk
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	ykP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	yjP
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	H
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	M
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	L
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dH
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dM
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	yL
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	ggdG
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	Gdgg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d2gg
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	g_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	dg_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d_
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d^
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d$
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2D
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	c$X<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	C
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2CX<Esc>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d5|
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	2+
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	3-
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	<CR>
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	4,3	d<CR>

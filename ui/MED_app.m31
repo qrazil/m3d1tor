@@ -1711,6 +1711,7 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     if (text_width < 1) {
         text_width = 1;
     }
+    subject.view_width = text_width;
     int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
     if (cursor_spot < left) {
         left = cursor_spot;
@@ -1794,7 +1795,7 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
         return;
     }
     if (editor.mode == MED_editor.CMDLINE) {
-        int command_x = area.x + 1 + MED_text.line_width(editor.cmdline, editor.tab);
+        int command_x = area.x + 1 + MED_text.line_width(editor.cmdline.substr(0, editor.cmd_pos), editor.tab);
         if (command_x < area.x + area.width) {
             buffer.set_style(command_x, message_y, cursor_style);
         }
@@ -2052,6 +2053,8 @@ void share_state(MED_editor.Editor from, MED_editor.Editor into) {
     into.is_hexupper = from.is_hexupper;
     into.tab = from.tab;
     into.shiftwidth = from.shiftwidth;
+    into.textwidth = from.textwidth;
+    into.view_width = from.view_width;
     into.commentstring = from.commentstring;
     into.is_expandtab = from.is_expandtab;
     into.is_autoindent = from.is_autoindent;

@@ -1,0 +1,984 @@
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Right><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><Tab><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-h><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>u00e9<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>=1+2<CR><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-o>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-h><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-e>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>0<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-o>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><C-[>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-[><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>"X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-p>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-n>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><Tab><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>-<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-n><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><Left><C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>065<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><Left><C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Home>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Home>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>"<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>u00e9X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>x41<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-v><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-p>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Right><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>0X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>u00e9<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><Tab><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-p>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-w><C-w><C-w><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>o101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-[>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-p>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-a>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>u00e9<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-a><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>/<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>u00e9<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>x41<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Right><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <End><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w><C-w><C-w><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-p>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>/X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-n>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-a><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><Tab><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-w><C-w><C-w><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>=1+2<CR>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><S-Right>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w><C-w><C-w><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<End><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-p>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>065<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-h><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-[><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>-X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>/<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><Tab>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>0<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><Right><Right>Y<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>=1+2<CR><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>-<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><C-[><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w><C-w><C-w><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>0X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>x41X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>065X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Home>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-e>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-a><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-o>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-p>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Home><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>065<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>-<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-w><C-w><C-w><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>0<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Del><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Right><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>x41X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>=1+2<CR>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><Del><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>"<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><Tab><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>065<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><Tab>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>u00e9<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-o>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><Left><C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>-<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><Del><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>u00e9<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Home><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>/<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Home>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>/<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-o>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-h>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Down>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-e>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-p><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Right><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><Tab><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>/<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Right><Right>Y<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-l>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w><C-w><C-w><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-l><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-e>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><C-[>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>=1+2<CR>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>101X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>065X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>o101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><Left><C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-p>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>=1+2<CR><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-v><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>u00e9<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-h><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>x41X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>=1+2<CR><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-o>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w><C-w><C-w><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><C-[>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>u00e9<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><S-Right>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>"<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-p>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>"<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><Left><C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>u00e9<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-n><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>"X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-p><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-a>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>x41<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-a><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><Right><Right>Y<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><S-Right>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><S-Right>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>u00e9<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<End><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Home><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-v><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>-<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>x41<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-h><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-p>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>0<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-e>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><C-[><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>0<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Home><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Home>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>x41<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-w><C-w><C-w><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Home><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><Left><C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-o>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><C-v><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-l><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-o>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Home>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Right><Right>YX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-o>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>-<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Home>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Right><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-o>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><Right><Right>Y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>u00e9X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<End><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><S-Right>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>"<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>=1+2<CR><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-o>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-p><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>"X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><Right><Right>Y<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>u00e9X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><S-Right>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><C-v><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><Del><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-l><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>=1+2<CR><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-n><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-l><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-p>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><Del><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>x41<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><Del><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Down><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>065<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><Tab>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Home><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><Tab><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-[><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>"<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>-X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<End><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Home>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-a>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left><Left><C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-u><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><C-v>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-o>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>/X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>u00e9<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><Tab><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><C-[><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><Tab>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><C-v>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-o>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-p>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>o101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-a><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>0<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>065<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><Del><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><S-Right>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w><C-w><C-w><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><Left><C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>"<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Right><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-v><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-e>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><C-v><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>"X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>x41<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><C-[>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Home><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Down><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><Right><Right>Y<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-a><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>o101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>x41<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-h><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><S-Right>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Home><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<End><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-o>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>x41<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left><Left><C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-u><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-l><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>u00e9<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>0<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>-<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Home>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-l><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-l>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>065<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-n><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>o101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-h><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-h><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-u><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Down><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-h><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Right><Right>Y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-w><C-w><C-w><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-o>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>"<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>u00e9X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-e>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-[><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><Left><C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>0X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-n>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<End><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>0X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><Left><C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-[>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Home>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><Del><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>0<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-a><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>0X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-p>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-o>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>0X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>o101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-v>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-e>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><Tab><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>=1+2<CR><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>u00e9<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-p>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>065<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-a><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><S-Right>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-p>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Down>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>=1+2<CR><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Del><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Down><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<End><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-p><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>"<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Down><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-u><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w><C-w><C-w><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><Right><Right>YX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>u00e9<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-w><C-w><C-w><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-v><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Right><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-p>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><Right><Right>Y<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>u00e9X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w><C-w><C-w><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-l><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>u00e9<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <End><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>0<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>o101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-w><C-w><C-w><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-a><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-p><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>=1+2<CR><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><Left><C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<End><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Home><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-p>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-l><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-o>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>065<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>065<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Right><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-a><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><Right><Right>Y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>=1+2<CR><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-p>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-p>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><C-v><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-p>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>o101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Down>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>101X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>-X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-a><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<End><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-e>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>x41<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>/<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><C-[><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>=1+2<CR><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<End><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-[><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-l><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>-X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-p>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>=1+2<CR><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><S-Right>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>u00e9<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-o>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-l><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<End><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-p>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>0<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>/<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>=1+2<CR><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <S-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-p><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>o101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-n><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-l><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<End><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-e>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><S-Right>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>o101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><Tab><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-u><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-w><C-w><C-w><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-o>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><Right><Right>Y<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-p>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>"<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>=1+2<CR>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Home>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>o101<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left><Left><C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-n>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>065<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<End><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><Left><C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><Tab><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-e>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v><C-[><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-n><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Home>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>o101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>0<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Home><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-h>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>"<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-h><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Down><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>"<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>u00e9<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>=1+2<CR><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>o101X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><S-Right>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left><Left><C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-p>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><Left><C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><C-v><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>065X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-e>Z<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Right><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <End><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>065<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><Del><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<End><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><C-v><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-h><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><Tab><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Right><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Home><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Home><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>x41<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>065<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-o>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><Left><C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-p>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-o>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-o>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-h><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Home>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Left><Left><C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Left><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-h><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>/X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-v>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>/<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-a>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><Right><Right>Y<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-e>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v>o101<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-e>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>/<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-Left>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Left><BS>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>-<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-b><S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><C-v><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><Del><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Home><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>0<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-u><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<BS><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-p><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>065<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left><Left><C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><Del><Del><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>065X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-Left>XX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-u>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><Tab><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-h>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-w><C-w><C-w><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Right><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r><C-l>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-l><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><C-v><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<End><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-u><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>/<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>=1+2<CR>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>x41<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-h><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-a>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><Left><C-u><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Left><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r><C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<S-Right><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>101<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r><C-r>a<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-r>a<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v><C-v><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<S-Right><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-r>/X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-Left>X<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Right><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-b>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-e>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Left><Del><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-r>aX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-u><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<End><BS><BS><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Up><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v>x41<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r>"<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b>Z<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>=1+2<CR><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-w>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r><C-l>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<BS><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>x41<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-u><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-v><C-[><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><S-Right>X<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>u00e9X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<Up><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-b><Right><Right>Y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>u00e9<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r>=1+2<CR><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-w><C-w><C-w><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Down>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><C-w><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>a<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><Right><Right>YX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-r><C-l><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b>ZX<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-p><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v>x41X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-h><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Del><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v>065<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b><Right><Right>Y<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-n><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<C-v><Tab><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Home><Del><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-v><C-[><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-r><C-a><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<C-b>Z<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Home><Del>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-u><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <Left><Left><C-w><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Right>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<C-r>0<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-b><Right><Right>Y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-b><Right><Right>Y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-r>"<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<Left><Left><Left><C-u><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<C-v><Tab><C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-p><Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm I(x) [y] {z}<C-v>065<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<C-p><C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<C-p><C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<C-p><C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<C-p><C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<C-p><C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<C-p><C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<C-p><C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<C-p><C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<C-p><C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<C-p><C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<S-Up><S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<S-Up><S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<S-Up><S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<S-Up><S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<S-Up><S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<PageUp><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<PageUp><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<PageUp><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<PageUp><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<PageUp><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><C-u>y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><C-u>y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><C-u>y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><C-u>y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><C-u>y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<BS>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:x<BS><BS>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<C-w>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<C-u>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/ <BS><BS>x<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<Esc>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<C-c>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<C-[>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<CR>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:  <CR>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:::s/a/Q/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:|s/a/Q/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/Q/|s/b/R/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/Q/ | s/b/R/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:"comment<CR>ix
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/Q/ "c<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:1,2s/a/Q/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:'<,'>s/a/Q/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<C-r><C-w><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/<C-r><C-w>/X/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/<C-r><C-a>/X/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-r>0/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-r>"/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-v><CR>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b\<C-v><CR>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-v>u00e9/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-v><Tab>/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-k>e:/<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/<C-k>a:b/<CR>

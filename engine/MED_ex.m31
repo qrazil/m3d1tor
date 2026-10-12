@@ -31,6 +31,7 @@ import engine.MED_key;
 import engine.MED_case;
 import engine.MED_view;
 import engine.MED_map;
+import engine.MED_expr;
 
 // ------------------------------------------------------------------- driver
 
@@ -54,6 +55,11 @@ pub void feed_keys(MED_editor.Editor editor, List<int> keys) {
 
 // The key goes to the editor as it is: no mapping.
 void feed_plain(MED_editor.Editor editor, int key) {
+    if (editor.sub_run.is_active) {
+        sub_key(editor, key);
+        MED_view.update(editor);
+        return;
+    }
     MED_vim.feed(editor, key);
     drain(editor);
     // Vim's update_topline() runs after the command, ex lines included
@@ -769,6 +775,42 @@ Split split_bar(str arg, bool is_comment) {
     return split;
 }
 
+// Like split_bar() for the commands whose argument is an expression
+// (`:execute`, `:echo`): a `|` inside a string belongs to it and a quote
+// starts a string, not a comment.
+Split split_bar_expr(str arg) {
+    Split split = Split();
+    List<int> codes = arg.chars();
+    int quote = 0;
+    int index = 0;
+    while (index < codes.size()) {
+        int char_code = codes[index];
+        if (quote == 34 && char_code == 92 && index + 1 < codes.size()) {
+            index = index + 2;
+            continue;
+        }
+        if (quote != 0) {
+            if (char_code == quote) {
+                if (quote == 39 && index + 1 < codes.size() && codes[index + 1] == 39) {
+                    index = index + 2;
+                    continue;
+                }
+                quote = 0;
+            }
+        } else if (char_code == 34 || char_code == 39) {
+            quote = char_code;
+        } else if (char_code == 124) {
+            split.is_more = true;
+            split.rest = str.from_chars(codes.slice(index + 1, codes.size()));
+            split.arg = str.from_chars(codes.slice(0, index));
+            return split;
+        }
+        index = index + 1;
+    }
+    split.arg = arg;
+    return split;
+}
+
 // ------------------------------------------------------------------ one line
 
 /// Run a command line: commands separated by `|`. False when one of them failed.
@@ -904,6 +946,11 @@ Step run_one(MED_editor.Editor editor, str text) {
     } else if (MED_map.kind_of(name) != "" || name == "let") {
         // a `|` belongs to the right-hand side
         cmd.arg = skip_one_white(arg);
+    } else if (name == "execute" || name == "echo" || name == "echomsg") {
+        Split split = split_bar_expr(arg);
+        cmd.arg = skip_one_white(split.arg);
+        cmd.is_more = split.is_more;
+        cmd.rest = split.rest;
     } else {
         Split split = split_bar(arg, true);
         cmd.arg = skip_one_white(split.arg);
@@ -1427,7 +1474,7 @@ Step cmd_delmarks(MED_editor.Editor editor, Cmd cmd) {
 // ---------------------------------------------------------------------- :set
 
 str option_name(str word) {
-    List<str> table = ["ignorecase:ic", "smartcase:scs", "wrapscan:ws", "expandtab:et", "autoindent:ai", "joinspaces:js", "startofline:sol", "shiftwidth:sw", "tabstop:ts", "commentstring:cms"];
+    List<str> table = ["ignorecase:ic", "smartcase:scs", "wrapscan:ws", "expandtab:et", "autoindent:ai", "joinspaces:js", "startofline:sol", "shiftwidth:sw", "tabstop:ts", "textwidth:tw", "commentstring:cms"];
     for (str entry in table) {
         int key = entry.index_of(":").or(0);
         if (word == entry.substr(0, key) || word == entry.substr(key + 1, entry.size())) {
@@ -1438,7 +1485,7 @@ str option_name(str word) {
 }
 
 bool did_option_ignored(str word) {
-    List<str> names = ["number", "nu", "relativenumber", "rnu", "hlsearch", "hls", "incsearch", "is", "list", "wrap", "cursorline", "cul", "ruler", "ru", "showmode", "smd", "showcmd", "sc", "softtabstop", "sts", "textwidth", "tw", "scrolloff", "so", "hidden", "hid", "smartindent", "si", "cindent", "cin", "magic", "lazyredraw", "lz", "swapfile", "swf", "undofile", "udf", "backup", "bk", "writebackup", "wb", "mouse", "background", "bg", "termguicolors", "tgc", "laststatus", "ls", "signcolumn", "scl", "foldenable", "fen", "wildmenu", "wmnu", "cmdheight", "ch", "timeoutlen", "tm", "ttimeoutlen", "ttm", "updatetime", "ut", "splitright", "spr", "splitbelow", "sb", "linebreak", "lbr", "report", "shortmess", "shm", "whichwrap", "ww", "virtualedit", "ve", "selection", "sel", "nrformats", "nf", "matchpairs", "mps", "iskeyword", "isk", "tildeop", "top", "gdefault", "gd", "fileformat", "ff", "encoding", "enc", "clipboard", "cb", "backspace", "bs", "formatoptions", "fo", "comments", "com", "commentstring", "cms", "cpoptions", "cpo", "smarttab", "sta", "shiftround", "sr", "foldmethod", "fdm", "undolevels", "ul", "autoread", "ar", "modeline", "ml", "belloff", "bo", "display", "dy", "sidescroll", "ss", "sidescrolloff", "siso", "numberwidth", "nuw", "colorcolumn", "cc", "conceallevel", "cole"];
+    List<str> names = ["number", "nu", "relativenumber", "rnu", "hlsearch", "hls", "incsearch", "is", "list", "wrap", "cursorline", "cul", "ruler", "ru", "showmode", "smd", "showcmd", "sc", "softtabstop", "sts", "scrolloff", "so", "hidden", "hid", "smartindent", "si", "cindent", "cin", "magic", "lazyredraw", "lz", "swapfile", "swf", "undofile", "udf", "backup", "bk", "writebackup", "wb", "mouse", "background", "bg", "termguicolors", "tgc", "laststatus", "ls", "signcolumn", "scl", "foldenable", "fen", "wildmenu", "wmnu", "cmdheight", "ch", "timeoutlen", "tm", "ttimeoutlen", "ttm", "updatetime", "ut", "splitright", "spr", "splitbelow", "sb", "linebreak", "lbr", "report", "shortmess", "shm", "whichwrap", "ww", "virtualedit", "ve", "selection", "sel", "nrformats", "nf", "matchpairs", "mps", "iskeyword", "isk", "tildeop", "top", "gdefault", "gd", "fileformat", "ff", "encoding", "enc", "clipboard", "cb", "backspace", "bs", "formatoptions", "fo", "comments", "com", "commentstring", "cms", "cpoptions", "cpo", "smarttab", "sta", "shiftround", "sr", "foldmethod", "fdm", "undolevels", "ul", "autoread", "ar", "modeline", "ml", "belloff", "bo", "display", "dy", "sidescroll", "ss", "sidescrolloff", "siso", "numberwidth", "nuw", "colorcolumn", "cc", "conceallevel", "cole"];
     for (str name in names) {
         if (name == word) {
             return true;
@@ -1488,7 +1535,7 @@ void bool_store(MED_editor.Editor editor, str key, bool is_value) {
 }
 
 bool is_bool_option(str key) {
-    return key != "shiftwidth" && key != "tabstop" && key != "commentstring";
+    return key != "shiftwidth" && key != "tabstop" && key != "textwidth" && key != "commentstring";
 }
 
 // `:set` words: separated by white space; a backslash keeps a space (or a
@@ -1623,6 +1670,8 @@ Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
         int current = editor.tab;
         if (key == "shiftwidth") {
             current = editor.shiftwidth;
+        } else if (key == "textwidth") {
+            current = editor.textwidth;
         }
         if (operator == "+") {
             count = current + count;
@@ -1636,6 +1685,11 @@ Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
                 return fail(editor, "E487: Argument must be positive: " + token);
             }
             editor.tab = count;
+        } else if (key == "textwidth") {
+            if (count < 0) {
+                return fail(editor, "E487: Argument must be positive: " + token);
+            }
+            editor.textwidth = count;
         } else {
             if (count < 0) {
                 return fail(editor, "E487: Argument must be positive: " + token);
@@ -2308,6 +2362,30 @@ str expand_sub(str sub, MED_regex.Match match_value) {
     return str.from_chars(out);
 }
 
+// The text of a `\=` result as the substitution loop wants it: a NL is a line
+// break, a backslash stays a backslash (and a backslash before a NL is a NUL).
+str expr_replacement(str text) {
+    List<int> codes = text.chars();
+    List<int> out = [];
+    int index = 0;
+    while (index < codes.size()) {
+        int char_code = codes[index];
+        if (char_code == 92) {
+            if (index + 1 < codes.size() && codes[index + 1] == 10) {
+                out.push(0);
+                index = index + 2;
+                continue;
+            }
+            out.push(92);
+        } else if (char_code == 10) {
+            char_code = 13;
+        }
+        out.push(char_code);
+        index = index + 1;
+    }
+    return str.from_chars(out);
+}
+
 bool is_pattern_multiline(str pattern) {
     return pattern.index_of("\\n").is_some() || pattern.index_of("\\_").is_some();
 }
@@ -2333,111 +2411,177 @@ const int MAXCOL = 2147483647;
 
 // The loop of Vim's do_sub(): `line1` and `line2_in` are 1-based, the rest of the
 // state is 0-based rows. `sub` is the replacement after `~` was expanded.
-Step sub_lines(MED_editor.Editor editor, MED_regex.Regex regex, str pattern, str sub, int line1, int line2_in, bool should_all_in, bool should_count, bool should_error, bool is_endcolumn) {
-    int first_line = line1 - 1;
-    int line2 = line2_in - 1;
-    bool should_all = should_all_in;
-    bool is_multi = is_pattern_multiline(pattern);
-    MED_buffer.Pos old_cursor = editor.cursor();
-    int nsubs = 0;
-    bool is_got_match = false;
-    // the first substituted line becomes the "U" line
-    bool is_uline_set = false;
-    editor.is_uline_off = true;
-    int lnum = first_line;
-    while (lnum <= line2 && lnum < editor.buffer.line_count()) {
-        MED_regex.Match match_value = regex.search_line(editor.buffer, lnum, 0);
-        if (match_value.is_ok) {
-            int base = lnum;
-            int nmatch = match_value.erow - base + 1;
-            int srel = match_value.srow - base;
-            int erel = match_value.erow - base;
-            int previous_matchcol = MAXCOL;
-            int copycol = 0;
-            int matchcol = 0;
-            bool is_new_has = false;
-            str new_start = "";
-            bool did_sub = false;
-            int nmatch_tl = 0;
-            bool is_skip_match = false;
-            int sub_row = lnum;
-            str sub_first = "";
-            bool is_have_first = false;
-            if (!is_got_match) {
-                set_pcmark(editor);
-                is_got_match = true;
+
+// The prompt of `:s///c`: the key that answers it comes back through sub_key().
+Step sub_prompt(MED_editor.Editor editor, MED_editor.SubRun run) {
+    if (!run.is_hold) {
+        run.is_hold = true;
+        editor.block_hold = editor.block_hold + 1;
+    }
+    run.is_active = true;
+    editor.sub_run = run;
+    editor.message = "replace with " + run.sub + " (y/n/a/q/l/^E/^Y)?";
+    return done();
+}
+
+// The key answering a `:s///c` prompt.
+void sub_key(MED_editor.Editor editor, int key) {
+    MED_editor.SubRun run = editor.sub_run;
+    if (key == 5 || key == 25) {
+        return;
+    }
+    run.is_active = false;
+    Step step = sub_lines(editor, run, key);
+    if (!step.is_ok) {
+        editor.is_failed = true;
+    }
+}
+
+Step sub_lines(MED_editor.Editor editor, MED_editor.SubRun run, int answer) {
+    bool is_resuming = answer != 0;
+    while (is_resuming || (run.lnum <= run.line2 && run.lnum < editor.buffer.line_count() && !run.is_quit)) {
+        bool is_in_match = is_resuming;
+        if (!is_resuming) {
+            run.match_value = run.regex.search_line(editor.buffer, run.lnum, 0);
+            is_in_match = run.match_value.is_ok;
+        }
+        if (is_in_match) {
+            if (!is_resuming) {
+                run.base = run.lnum;
+                run.nmatch = run.match_value.erow - run.base + 1;
+                run.srel = run.match_value.srow - run.base;
+                run.erel = run.match_value.erow - run.base;
+                run.previous_matchcol = MAXCOL;
+                run.copycol = 0;
+                run.matchcol = 0;
+                run.is_new_has = false;
+                run.new_start = "";
+                run.did_sub = false;
+                run.nmatch_tl = 0;
+                run.is_skip_match = false;
+                run.sub_row = run.lnum;
+                run.sub_first = "";
+                run.is_have_first = false;
+                if (!run.is_got_match) {
+                    set_pcmark(editor);
+                    run.is_got_match = true;
+                }
             }
             while (true) {
-                if (srel > 0) {
-                    lnum = lnum + srel;
-                    sub_row = sub_row + srel;
-                    nmatch = nmatch - srel;
-                    is_have_first = false;
-                }
-                if (lnum >= editor.buffer.line_count()) {
-                    break;
-                }
-                if (!is_have_first) {
-                    sub_first = editor.buffer.line(sub_row);
-                    is_have_first = true;
-                }
-                editor.row = lnum;
                 bool should_again = false;
                 bool is_skip = false;
-                if (matchcol == previous_matchcol && erel == 0 && matchcol == match_value.ecol) {
-                    if (matchcol >= sub_first.size()) {
-                        is_skip_match = true;
-                    } else {
-                        matchcol = MED_text.next_col(sub_first, matchcol);
+                if (!is_resuming) {
+                    if (run.srel > 0) {
+                        run.lnum = run.lnum + run.srel;
+                        run.sub_row = run.sub_row + run.srel;
+                        run.nmatch = run.nmatch - run.srel;
+                        run.is_have_first = false;
                     }
-                    is_skip = true;
-                }
-                if (!is_skip) {
-                    matchcol = match_value.ecol;
-                    previous_matchcol = matchcol;
-                    if (should_count) {
-                        if (nmatch > 1) {
-                            matchcol = sub_first.size();
-                            nmatch = 1;
-                            is_skip_match = true;
+                    if (run.lnum >= editor.buffer.line_count()) {
+                        break;
+                    }
+                    if (!run.is_have_first) {
+                        run.sub_first = editor.buffer.line(run.sub_row);
+                        run.is_have_first = true;
+                    }
+                    editor.row = run.lnum;
+                    if (run.matchcol == run.previous_matchcol && run.erel == 0 && run.matchcol == run.match_value.ecol) {
+                        if (run.matchcol >= run.sub_first.size()) {
+                            run.is_skip_match = true;
+                        } else {
+                            run.matchcol = MED_text.next_col(run.sub_first, run.matchcol);
                         }
-                        nsubs = nsubs + 1;
-                        did_sub = true;
                         is_skip = true;
                     }
-                }
-                if (!is_skip) {
-                    str replacement = expand_sub(sub, match_value);
-                    if (nmatch > editor.buffer.line_count() - sub_row) {
-                        nmatch = editor.buffer.line_count() - sub_row;
-                        is_skip_match = true;
-                    }
-                    if (nmatch > 1) {
-                        nmatch_tl = nmatch_tl + nmatch - 1;
-                    }
-                    str acc = "";
-                    if (is_new_has) {
-                        acc = new_start;
-                    }
-                    if (match_value.scol > copycol) {
-                        acc = acc + sub_first.substr(copycol, match_value.scol);
-                    }
-                    nsubs = nsubs + 1;
-                    did_sub = true;
-                    editor.col = 0;
-                    if (nmatch > 1) {
-                        sub_row = sub_row + nmatch - 1;
-                        sub_first = editor.buffer.line(sub_row);
-                        if (sub_row <= line2) {
-                            should_again = true;
-                        } else {
-                            should_all = false;
+                    if (!is_skip) {
+                        run.matchcol = run.match_value.ecol;
+                        run.previous_matchcol = run.matchcol;
+                        if (run.should_count) {
+                            if (run.nmatch > 1) {
+                                run.matchcol = run.sub_first.size();
+                                run.nmatch = 1;
+                                run.is_skip_match = true;
+                            }
+                            run.nsubs = run.nsubs + 1;
+                            run.did_sub = true;
+                            is_skip = true;
                         }
                     }
-                    copycol = match_value.ecol;
-                    if (is_skip_match) {
-                        sub_first = "";
-                        copycol = 0;
+                }
+                if (!is_skip && run.is_ask) {
+                    if (!is_resuming) {
+                        editor.row = run.lnum;
+                        editor.col = run.match_value.scol;
+                        editor.want_from_cursor();
+                        return sub_prompt(editor, run);
+                    }
+                    is_resuming = false;
+                    if (answer == 113 || answer == MED_key.ESC || answer == 3) {
+                        run.is_quit = true;
+                        is_skip = true;
+                    } else if (answer == 110) {
+                        if (run.nmatch > 1) {
+                            run.matchcol = run.sub_first.size();
+                            run.nmatch = 1;
+                            run.is_skip_match = true;
+                        }
+                        is_skip = true;
+                    } else if (answer == 108) {
+                        run.should_all = false;
+                        run.line2 = run.lnum;
+                    } else if (answer == 97) {
+                        run.is_ask = false;
+                    } else if (answer != 121) {
+                        return sub_prompt(editor, run);
+                    }
+                }
+                if (!is_skip) {
+                    str replacement = "";
+                    if (run.sub.starts_with("\\=")) {
+                        MED_expr.Context context = MED_expr.Context();
+                        context.groups = run.match_value.groups;
+                        context.line_now = run.lnum + 1;
+                        context.line_last = editor.buffer.line_count();
+                        MED_expr.Evaluated evaluated = MED_expr.eval(run.sub.substr(2, run.sub.size()), context);
+                        if (evaluated.is_ok) {
+                            replacement = expr_replacement(evaluated.text);
+                        } else {
+                            // Vim reports the error and substitutes nothing
+                            editor.message = evaluated.error;
+                        }
+                    } else {
+                        replacement = expand_sub(run.sub, run.match_value);
+                    }
+                    if (run.nmatch > editor.buffer.line_count() - run.sub_row) {
+                        run.nmatch = editor.buffer.line_count() - run.sub_row;
+                        run.is_skip_match = true;
+                    }
+                    if (run.nmatch > 1) {
+                        run.nmatch_tl = run.nmatch_tl + run.nmatch - 1;
+                    }
+                    str acc = "";
+                    if (run.is_new_has) {
+                        acc = run.new_start;
+                    }
+                    if (run.match_value.scol > run.copycol) {
+                        acc = acc + run.sub_first.substr(run.copycol, run.match_value.scol);
+                    }
+                    run.nsubs = run.nsubs + 1;
+                    run.did_sub = true;
+                    editor.col = 0;
+                    if (run.nmatch > 1) {
+                        run.sub_row = run.sub_row + run.nmatch - 1;
+                        run.sub_first = editor.buffer.line(run.sub_row);
+                        if (run.sub_row <= run.line2) {
+                            should_again = true;
+                        } else {
+                            run.should_all = false;
+                        }
+                    }
+                    run.copycol = run.match_value.ecol;
+                    if (run.is_skip_match) {
+                        run.sub_first = "";
+                        run.copycol = 0;
                     }
                     List<int> codes = replacement.chars();
                     List<int> part = [];
@@ -2448,98 +2592,112 @@ Step sub_lines(MED_editor.Editor editor, MED_regex.Regex regex, str pattern, str
                             part.push(codes[index + 1]);
                             index = index + 2;
                         } else if (char_code == 13) {
-                            append_above(editor, lnum, acc + str.from_chars(part));
+                            append_above(editor, run.lnum, acc + str.from_chars(part));
                             acc = "";
                             part = [];
-                            sub_row = sub_row + 1;
-                            lnum = lnum + 1;
-                            line2 = line2 + 1;
-                            editor.row = lnum;
+                            run.sub_row = run.sub_row + 1;
+                            run.lnum = run.lnum + 1;
+                            run.line2 = run.line2 + 1;
+                            editor.row = run.lnum;
                             index = index + 1;
                         } else {
                             part.push(char_code);
                             index = index + 1;
                         }
                     }
-                    new_start = acc + str.from_chars(part);
-                    is_new_has = true;
+                    run.new_start = acc + str.from_chars(part);
+                    run.is_new_has = true;
                 }
                 // skip:
-                bool is_lastone = is_skip_match || lnum > line2 || !(should_all || should_again) || (matchcol >= sub_first.size() && nmatch <= 1 && !is_multi);
-                nmatch = -1;
-                bool is_replace_now = is_lastone || nmatch_tl > 0;
+                bool is_lastone = run.is_skip_match || run.is_quit || run.lnum > run.line2 || !(run.should_all || should_again) || (run.matchcol >= run.sub_first.size() && run.nmatch <= 1 && !run.is_multi);
+                run.nmatch = -1;
+                bool is_replace_now = is_lastone || run.nmatch_tl > 0;
                 if (!is_replace_now) {
-                    MED_regex.Match match_item = regex.search_line(editor.buffer, sub_row, matchcol);
+                    MED_regex.Match match_item = run.regex.search_line(editor.buffer, run.sub_row, run.matchcol);
                     if (match_item.is_ok) {
-                        match_value = match_item;
-                        base = sub_row;
-                        nmatch = match_value.erow - base + 1;
-                        srel = match_value.srow - base;
-                        erel = match_value.erow - base;
+                        run.match_value = match_item;
+                        run.base = run.sub_row;
+                        run.nmatch = run.match_value.erow - run.base + 1;
+                        run.srel = run.match_value.srow - run.base;
+                        run.erel = run.match_value.erow - run.base;
                     } else {
-                        nmatch = 0;
+                        run.nmatch = 0;
                     }
-                    is_replace_now = nmatch == 0 || srel > 0;
+                    is_replace_now = run.nmatch == 0 || run.srel > 0;
                 }
                 if (is_replace_now) {
-                    if (is_new_has) {
-                        if (copycol < sub_first.size()) {
-                            new_start = new_start + sub_first.substr(copycol, sub_first.size());
+                    if (run.is_new_has) {
+                        if (run.copycol < run.sub_first.size()) {
+                            run.new_start = run.new_start + run.sub_first.substr(run.copycol, run.sub_first.size());
                         }
-                        matchcol = sub_first.size() - matchcol;
-                        previous_matchcol = sub_first.size() - previous_matchcol;
-                        if (!is_uline_set && nmatch_tl == 0) {
-                            is_uline_set = true;
-                            editor.uline_row = lnum;
-                            editor.uline_text = editor.buffer.line(lnum);
+                        run.matchcol = run.sub_first.size() - run.matchcol;
+                        run.previous_matchcol = run.sub_first.size() - run.previous_matchcol;
+                        if (!run.is_uline_set && run.nmatch_tl == 0) {
+                            run.is_uline_set = true;
+                            editor.uline_row = run.lnum;
+                            editor.uline_text = editor.buffer.line(run.lnum);
                             editor.uline_col = 0;
                         }
-                        replace_row(editor, lnum, new_start);
-                        if (nmatch_tl > 0) {
-                            delete_rows(editor, lnum + 1, lnum + nmatch_tl);
-                            line2 = line2 - nmatch_tl;
-                            nmatch_tl = 0;
+                        replace_row(editor, run.lnum, run.new_start);
+                        if (run.nmatch_tl > 0) {
+                            delete_rows(editor, run.lnum + 1, run.lnum + run.nmatch_tl);
+                            run.line2 = run.line2 - run.nmatch_tl;
+                            run.nmatch_tl = 0;
                         }
-                        sub_row = lnum;
-                        sub_first = new_start;
-                        is_new_has = false;
-                        matchcol = sub_first.size() - matchcol;
-                        previous_matchcol = sub_first.size() - previous_matchcol;
-                        copycol = 0;
+                        run.sub_row = run.lnum;
+                        run.sub_first = run.new_start;
+                        run.is_new_has = false;
+                        run.matchcol = run.sub_first.size() - run.matchcol;
+                        run.previous_matchcol = run.sub_first.size() - run.previous_matchcol;
+                        run.copycol = 0;
                     }
-                    if (nmatch == -1 && !is_lastone) {
-                        MED_regex.Match match_other = regex.search_line(editor.buffer, sub_row, matchcol);
+                    if (run.nmatch == -1 && !is_lastone) {
+                        MED_regex.Match match_other = run.regex.search_line(editor.buffer, run.sub_row, run.matchcol);
                         if (match_other.is_ok) {
-                            match_value = match_other;
-                            base = sub_row;
-                            nmatch = match_value.erow - base + 1;
-                            srel = match_value.srow - base;
-                            erel = match_value.erow - base;
+                            run.match_value = match_other;
+                            run.base = run.sub_row;
+                            run.nmatch = run.match_value.erow - run.base + 1;
+                            run.srel = run.match_value.srow - run.base;
+                            run.erel = run.match_value.erow - run.base;
                         } else {
-                            nmatch = 0;
+                            run.nmatch = 0;
                         }
                     }
-                    if (nmatch <= 0) {
-                        if (nmatch == -1) {
-                            lnum = lnum - srel;
+                    if (run.nmatch <= 0) {
+                        if (run.nmatch == -1) {
+                            run.lnum = run.lnum - run.srel;
                         }
                         break;
                     }
                 }
             }
         }
-        lnum = lnum + 1;
+        run.lnum = run.lnum + 1;
     }
+    return sub_finish(editor, run);
+}
+
+Step sub_finish(MED_editor.Editor editor, MED_editor.SubRun run) {
+    run.is_active = false;
     editor.is_uline_off = false;
-    if (should_count) {
-        editor.set_cursor(old_cursor);
+    if (run.is_hold) {
+        run.is_hold = false;
+        editor.block_hold = editor.block_hold - 1;
+        if (editor.block_hold == 0 && editor.mode == MED_editor.NORMAL) {
+            editor.end_block();
+        }
     }
-    if (nsubs > 0) {
-        editor.marks.set("[", MED_buffer.Pos(first_line, 0));
-        editor.marks.set("]", MED_buffer.Pos(line2, 0));
+    if (run.should_count) {
+        editor.set_cursor(run.old_cursor);
+    }
+    if (run.nsubs > 0) {
+        editor.marks.set("[", MED_buffer.Pos(run.first_line, 0));
+        editor.marks.set("]", MED_buffer.Pos(run.line2, 0));
         editor.clamp();
         if (!editor.is_global_busy) {
-            if (is_endcolumn) {
+            if (run.is_ask) {
+                editor.clamp();
+            } else if (run.is_endcolumn) {
                 editor.col = editor.buffer.line_size(editor.row);
                 editor.clamp();
                 editor.want = -1;
@@ -2551,8 +2709,8 @@ Step sub_lines(MED_editor.Editor editor, MED_regex.Regex regex, str pattern, str
         }
     } else if (!editor.is_global_busy) {
         editor.clamp();
-        if (!is_got_match && should_error) {
-            return fail(editor, "E486: Pattern not found: " + pattern);
+        if (!run.is_got_match && run.should_error) {
+            return fail(editor, "E486: Pattern not found: " + run.pattern);
         }
     }
     return done();
@@ -2740,8 +2898,8 @@ Step cmd_sub(MED_editor.Editor editor, Cmd cmd_value) {
             return fail(editor, "E488: Trailing characters: " + text_value);
         }
     }
-    if (is_ask) {
-        return fail(editor, "E999: :s///c is not supported");
+    if (is_ask && editor.is_global_busy) {
+        return fail(editor, "E999: :s///c is not supported inside :g");
     }
     // the pattern
     if (pattern == "") {
@@ -2762,12 +2920,26 @@ Step cmd_sub(MED_editor.Editor editor, Cmd cmd_value) {
     if (!regex.is_ok) {
         return fail(editor, regex.error);
     }
-    if (sub.starts_with("\\=")) {
-        return fail(editor, "E999: \\= in the replacement is not supported");
+    if (!sub.starts_with("\\=")) {
+        sub = regtilde(sub, editor.sub_replacement);
     }
-    sub = regtilde(sub, editor.sub_replacement);
     editor.sub_replacement = sub;
-    return sub_lines(editor, regex, pattern, sub, cmd_value.line1, cmd_value.line2, should_all, should_count, should_error, is_endcolumn);
+    MED_editor.SubRun run = MED_editor.SubRun();
+    run.regex = regex;
+    run.pattern = pattern;
+    run.sub = sub;
+    run.first_line = cmd_value.line1 - 1;
+    run.line2 = cmd_value.line2 - 1;
+    run.should_all = should_all;
+    run.should_count = should_count;
+    run.should_error = should_error;
+    run.is_endcolumn = is_endcolumn;
+    run.is_ask = is_ask;
+    run.is_multi = is_pattern_multiline(pattern);
+    run.old_cursor = editor.cursor();
+    run.lnum = run.first_line;
+    editor.is_uline_off = true;
+    return sub_lines(editor, run, 0);
 }
 
 // ----------------------------------------------------------------------- :sort

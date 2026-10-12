@@ -56,7 +56,8 @@ pub type Registers {
 
 /// Content of register `name`.
 pub Option<Reg> Registers.get(str name) {
-    if (name == "" || name == "\"") {
+    // nvim without a clipboard provider reads "+ and "* as the unnamed register
+    if (name == "" || name == "\"" || name == "+" || name == "*") {
         if (previous == "") {
             return Option<Reg>.None;
         }
@@ -73,9 +74,6 @@ pub Option<Reg> Registers.get(str name) {
     }
     if (name == "%") {
         return text_reg(file_name);
-    }
-    if (name == "+" || name == "*") {
-        return slots.get("0");
     }
     return slots.get(slot_of(name));
 }
@@ -210,6 +208,10 @@ str slot_of(str name) {
     }
     if (code == 45) {
         return name;
+    }
+    if (code == 43 || code == 42) {
+        // the clipboard: one register for "+ and "*
+        return "+";
     }
     return "0";
 }
