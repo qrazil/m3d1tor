@@ -296,34 +296,39 @@ diff-the-listing-on-write step.
 
 ## 6. Module list (v0.1)
 
+The tree is grouped (m3d1tor 0.0.x, see RENAMES.md): `engine/` is the editing core with no
+terminal dependency, `ui/` is everything that draws, picks or lays out; `m3d1tor.m31` is the entry
+at the root. Modules are imported by path (`import engine.MED_buffer;`); names keep the `MED_`
+prefix. The rows below are the original plan, including modules not written yet.
+
 ```
-MED_key.m31        key codes, notation <Esc> <C-v> <leader> <CR> <Tab> ...
-MED_text.m31       cluster boundaries, widths, word/WORD/blank classes
-MED_buffer.m31     line array, splice, load/save, line endings
+engine/MED_key.m31  key codes, notation <Esc> <C-v> <leader> <CR> <Tab> ...
+engine/MED_text.m31  cluster boundaries, widths, word/WORD/blank classes
+engine/MED_buffer.m31  line array, splice, load/save, line endings
 MED_edit.m31       Edit, Transaction, apply/invert
 MED_undo.m31       undo tree
-MED_register.m31   register file
-MED_motion.m31     w b e ge W B E gE 0 ^ $ g_ | f F t T ; , % ( ) { } H M L gg G ...
-MED_textobj.m31    iw aw iW aW is as ip ap i( a( i[ i{ i< i" i' i` it at ...
+engine/MED_register.m31  register file
+engine/MED_motion.m31  w b e ge W B E gE 0 ^ $ g_ | f F t T ; , % ( ) { } H M L gg G ...
+engine/MED_textobj.m31  iw aw iW aW is as ip ap i( a( i[ i{ i< i" i' i` it at ...
 MED_operator.m31   d c y > < = gu gU g~ g? gq J gJ ~ r ...
-MED_search.m31     / ? n N * # g* g#, Vim-regex translation
-MED_nrfmt.m31      <C-a> <C-x> g<C-a> g<C-x>: decimal/0x/0b numbers (64-bit signed; Vim's are unsigned 64-bit, so a decimal of 2^63 or more is left alone)
-MED_ex.m31         ex-command parser and executor: ranges (patterns, marks, offsets, `;`), `:s` (flags, `&&`, `~`, `\r`, `\u`/`\U`/`\e`, multi-line patterns), `:g`/`:v`, `:d :y :pu :m :t/:co :j :> :< :k :normal :undo :redo :earlier :later :sort :z :registers`, `:set` of the supported options, `|` chains, `@:` and cmdline history (Up/Down); an ex line is one undo block. `:earlier Nf` / `:later Nf` follow file writes (the editor records the undo node of every write in `saved_nodes`). A whole `@a` (with a count) is one undo block. Insert-mode `<C-o>` runs one Normal command and restarts the insert (cursor, `Insstart` and `<C-w>`/`<C-u>` limits follow nvim; `:normal` keeps the pending restart). `{Visual}@a` is `:'<,'>normal @a` for linewise Visual and runs inside Visual for `v`/`<C-v>`. Not supported: the command-line window (`q:`, `q/`), `.` repeating directly after an insert `<C-o>` (nvim replays the half-finished insert in an order we do not model), `<C-o>` combined with `.`/`g;`/`` `. `` marks (those need the changelist), the nvim K_SPECIAL artifact that a macro recorded with `r`/`f`/`t` + a char picks up when more commands follow, `:s///c`, `\=` replacement expressions, `:!`, `:r`, `:a`/`:i`/`:c`, time-based `:earlier 10s`, an operator followed by `:` (`d:cmd<CR>`), the `.`/`(`/`)` marks, jumplist/changelist. Corpus 52 keeps only the insert-`<C-o>` cases that match nvim; the rest (a column off by one after a `<C-o>` motion from an `A` insert at the end of a line, a block insert inside `<C-o>`, the ``` `` ``` mark, registers or `@a` inside `<C-o>`) are known gaps. `:sort` and `:z` match nvim for the cursor, not the printed text
-MED_keymap.m31     leader table (rows: keys, label, action), prefix/leaf lookup, which-key timeout
+engine/MED_search.m31  / ? n N * # g* g#, Vim-regex translation
+engine/MED_nrfmt.m31  <C-a> <C-x> g<C-a> g<C-x>: decimal/0x/0b numbers (64-bit signed; Vim's are unsigned 64-bit, so a decimal of 2^63 or more is left alone)
+engine/MED_ex.m31  ex-command parser and executor: ranges (patterns, marks, offsets, `;`), `:s` (flags, `&&`, `~`, `\r`, `\u`/`\U`/`\e`, multi-line patterns), `:g`/`:v`, `:d :y :pu :m :t/:co :j :> :< :k :normal :undo :redo :earlier :later :sort :z :registers`, `:set` of the supported options, `|` chains, `@:` and cmdline history (Up/Down); an ex line is one undo block. `:earlier Nf` / `:later Nf` follow file writes (the editor records the undo node of every write in `saved_nodes`). A whole `@a` (with a count) is one undo block. Insert-mode `<C-o>` runs one Normal command and restarts the insert (cursor, `Insstart` and `<C-w>`/`<C-u>` limits follow nvim; `:normal` keeps the pending restart). `{Visual}@a` is `:'<,'>normal @a` for linewise Visual and runs inside Visual for `v`/`<C-v>`. Not supported: the command-line window (`q:`, `q/`), `.` repeating directly after an insert `<C-o>` (nvim replays the half-finished insert in an order we do not model), `<C-o>` combined with `.`/`g;`/`` `. `` marks (those need the changelist), the nvim K_SPECIAL artifact that a macro recorded with `r`/`f`/`t` + a char picks up when more commands follow, `:s///c`, `\=` replacement expressions, `:!`, `:r`, `:a`/`:i`/`:c`, time-based `:earlier 10s`, an operator followed by `:` (`d:cmd<CR>`), the `.`/`(`/`)` marks, jumplist/changelist. Corpus 52 keeps only the insert-`<C-o>` cases that match nvim; the rest (a column off by one after a `<C-o>` motion from an `A` insert at the end of a line, a block insert inside `<C-o>`, the ``` `` ``` mark, registers or `@a` inside `<C-o>`) are known gaps. `:sort` and `:z` match nvim for the cursor, not the printed text
+ui/MED_keymap.m31  leader table (rows: keys, label, action), prefix/leaf lookup, which-key timeout
 MED_command.m31    command registry and dispatch
-MED_editor.m31     modes, pending keys, dot, macros, jumplist
-MED_fuzzy.m31      scorer: smart-case, fzf-style DP, extended syntax (^ $ ' !), highlight positions; tests/t_fuzzy.m31
-MED_ignore.m31     .gitignore / .git/info/exclude matcher; tests/t_ignore.m31
-MED_files.m31      project root, file walk with ignore and hidden toggles, directory listing
-MED_grep.m31       corpus + search (literal fast path, regex, smart-case); tests/t_grep.m31
-MED_picker.m31     picker state machine (prompt, ranking, selection, keys); tests/t_picker.m31
-MED_picker_view.m31  picker drawing: list, highlights, preview pane
-MED_window.m31    window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
-MED_view.m31       drawing
-MED_window.m31     window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
+engine/MED_editor.m31  modes, pending keys, dot, macros, jumplist
+ui/MED_fuzzy.m31  scorer: smart-case, fzf-style DP, extended syntax (^ $ ' !), highlight positions; tests/t_fuzzy.m31
+ui/MED_ignore.m31  .gitignore / .git/info/exclude matcher; tests/t_ignore.m31
+ui/MED_files.m31  project root, file walk with ignore and hidden toggles, directory listing
+ui/MED_grep.m31  corpus + search (literal fast path, regex, smart-case); tests/t_grep.m31
+ui/MED_picker.m31  picker state machine (prompt, ranking, selection, keys); tests/t_picker.m31
+ui/MED_picker_view.m31  picker drawing: list, highlights, preview pane
+ui/MED_window.m31  window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
+engine/MED_view.m31  drawing
+ui/MED_window.m31  window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
 MED_help.m31       ? and which-key content from keymap data
 m3d1tor.m31        entry: args, terminal check, tui loop
-MED_app.m31        front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
+ui/MED_app.m31  front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
 ```
 
 ## 7. Oracle test plan
