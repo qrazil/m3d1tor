@@ -5,6 +5,10 @@
 
 local out_path, text_hex, row, col, keys_csv, plugins = unpack(arg)
 
+-- no system clipboard: "+ and "* behave the same on every machine (macOS has
+-- pbcopy, so nvim would otherwise read the runner's clipboard)
+vim.g.loaded_clipboard_provider = 1
+
 local function unhex(s)
   return (s:gsub('..', function(c) return string.char(tonumber(c, 16)) end))
 end

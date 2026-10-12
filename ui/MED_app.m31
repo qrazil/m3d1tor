@@ -64,6 +64,8 @@ pub type GitInfo {
     pub bool has_base = false;
     pub List<str> base = [];
     pub int tick = -1;
+    /// The text changed since `hunks` was made; the next quiet tick diffs again.
+    pub bool is_dirty = false;
     pub MED_git.Hunks hunks = MED_git.Hunks();
 }
 
@@ -1511,15 +1513,27 @@ pub TUI_app.Action App.tick(int elapsed_ms) {
             return TUI_app.Action.Redraw;
         }
     }
+    if (path.size() > 0 && !has_picker) {
+        match (git.get(path)) {
+            case Some(GitInfo pending): {
+                if (pending.is_dirty && editor.mode == MED_editor.NORMAL) {
+                    GitInfo fresh = git_info(path, editor, true);
+                    return TUI_app.Action.Redraw;
+                }
+            }
+            case None: {
+            }
+        }
+    }
     git_ms = git_ms + elapsed_ms;
     if (git_ms >= GIT_REFRESH_MS) {
         git_ms = 0;
         if (path.size() > 0 && git.get(path).is_some()) {
-            GitInfo before = git_info(path, editor);
+            GitInfo before = git_info(path, editor, true);
             bool was_tracked = before.has_base;
             before.is_checked = false;
             git.set(path, before);
-            GitInfo after = git_info(path, editor);
+            GitInfo after = git_info(path, editor, true);
             if (after.has_base != was_tracked || after.hunks.starts.size() != before.hunks.starts.size()) {
                 return TUI_app.Action.Redraw;
             }
@@ -1557,7 +1571,7 @@ bool App.should_quit_after(int key) {
         // ]c and [c: the next and previous change against HEAD
         bool is_forward = editor.pending[0] == 93;
         editor.pending = [];
-        GitInfo state = git_info(path, editor);
+        GitInfo state = git_info(path, editor, true);
         int target = -1;
         if (state.has_base) {
             target = MED_git.next_start(state.hunks, editor.row, is_forward);
@@ -1913,7 +1927,7 @@ bool App.is_selected(int row, int col, int spot) {
 
 /// The git information of `file` for the buffer `subject` shows, brought up to
 /// date (HEAD is read once, the diff again when the text changed).
-GitInfo App.git_info(str file, MED_editor.Editor subject) {
+GitInfo App.git_info(str file, MED_editor.Editor subject, bool is_diff_now) {
     GitInfo info = GitInfo();
     if (file.size() == 0 || !subject.is_option_on("gitsigns", true) || fs.is_directory(file)) {
         return info;
@@ -1941,8 +1955,21 @@ GitInfo App.git_info(str file, MED_editor.Editor subject) {
     if (info.has_base) {
         int tick = subject.current * 1000003 + subject.buffer.line_count();
         if (tick != info.tick) {
-            info.tick = tick;
-            info.hunks = MED_git.diff(info.base, subject.buffer.lines);
+            if (info.tick < 0 || is_diff_now) {
+                info.tick = tick;
+                info.is_dirty = false;
+                info.hunks = MED_git.diff(info.base, subject.buffer.lines);
+            } else {
+                // while typing keep the signs, fitted to the number of rows
+                info.is_dirty = true;
+                int rows = subject.buffer.line_count();
+                while (info.hunks.kinds.size() < rows) {
+                    info.hunks.kinds.push(MED_git.NONE);
+                }
+                while (info.hunks.kinds.size() > rows) {
+                    info.hunks.kinds.pop();
+                }
+            }
         }
     }
     git.set(file, info);
@@ -2013,13 +2040,15 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
     TUI_style.Style found = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(3));
     bool is_list = subject.is_option_on("list", false);
     int spot = 0;
-    for (int offset in MED_text.starts(line)) {
-        if (offset >= line.size() || offset >= stop_at) {
-            break;
-        }
+    if (from > 0) {
+        // a wrapped row: `left` is the display column of `from`
+        spot = left;
+    }
+    int offset = from;
+    while (offset < line.size() && offset < stop_at) {
         int width = MED_text.cell_width(line, offset, spot, subject.tab);
         int next = MED_text.next_col(line, offset);
-        if (offset >= from && spot >= left && spot + width <= left + text_width) {
+        if (spot >= left && spot + width <= left + text_width) {
             TUI_style.Style style = plain;
             if (is_in_spans(spans, offset)) {
                 style = found;
@@ -2040,6 +2069,7 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
             buffer.set_str(x_start + spot - left, y, text, style);
         }
         spot = spot + width;
+        offset = next;
         if (spot >= left + text_width && !subject.is_option_on("wrap", true)) {
             break;
         }
@@ -2187,7 +2217,7 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         subject.clamp();
     }
     subject.view_height = rows;
-    GitInfo git_state = git_info(file, subject);
+    GitInfo git_state = git_info(file, subject, false);
     subject.sign_columns = 0;
     if (git_state.has_base || has_marks(subject)) {
         subject.sign_columns = 1;
@@ -2283,10 +2313,18 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
             spans = search_spans(subject, regex, row);
         }
         int total = breaks.size();
+        List<int> break_spots = [0];
+        int line_cells = 0;
+        if (is_wrap) {
+            List<int> wanted = breaks.slice(0, breaks.size());
+            wanted.push(line.size());
+            List<int> found_spots = MED_text.spots_of(line, wanted, subject.tab);
+            line_cells = found_spots[found_spots.size() - 1];
+            break_spots = found_spots.slice(0, found_spots.size() - 1);
+        }
         if (is_wrap && subject.row == row && subject.col >= line.size() && subject.mode != MED_editor.NORMAL && subject.mode != MED_editor.VISUAL) {
             // the cursor after the last character may need a row of its own
-            int last_start = MED_text.display_col(line, breaks[total - 1], subject.tab);
-            if (MED_text.line_width(line, subject.tab) - last_start >= text_width) {
+            if (line_cells - break_spots[total - 1] >= text_width) {
                 total = total + 1;
             }
         }
@@ -2307,10 +2345,10 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
             }
             int base = left;
             if (is_wrap) {
-                base = MED_text.display_col(line, breaks[cursor_part], subject.tab);
+                base = break_spots[cursor_part];
                 if (total > breaks.size() && subject.col >= line.size()) {
                     cursor_part = breaks.size();
-                    base = MED_text.line_width(line, subject.tab);
+                    base = line_cells;
                 }
             }
             cursor_screen_row = screen_row + cursor_part - first_part;
@@ -2337,14 +2375,14 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
             if (is_wrap) {
                 if (part < breaks.size()) {
                     from = breaks[part];
-                    base = MED_text.display_col(line, from, subject.tab);
+                    base = break_spots[part];
                 }
                 if (part + 1 < breaks.size()) {
                     stop_at = breaks[part + 1];
                 }
                 if (part >= breaks.size()) {
                     from = line.size();
-                    base = MED_text.line_width(line, subject.tab);
+                    base = line_cells;
                 }
             }
             draw_line(buffer, subject, base, is_active, row, frame.x + gutter, part_y, text_width, from, stop_at, spans);

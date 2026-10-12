@@ -274,6 +274,23 @@ pub List<int> wrap_breaks(str line, int width, int tab) {
     if (width <= 0) {
         return breaks;
     }
+    // plain printable ASCII: every `width` bytes is a row
+    bool is_plain = true;
+    for (int index in 0 .. line.size()) {
+        int byte = line.byte_at(index);
+        if (byte < 32 || byte >= 127) {
+            is_plain = false;
+            break;
+        }
+    }
+    if (is_plain) {
+        int next_break = width;
+        while (next_break < line.size()) {
+            breaks.push(next_break);
+            next_break = next_break + width;
+        }
+        return breaks;
+    }
     int spot = 0;
     int room = 0;
     for (int offset in starts(line)) {
@@ -289,6 +306,32 @@ pub List<int> wrap_breaks(str line, int width, int tab) {
         spot = spot + cells;
     }
     return breaks;
+}
+
+/// The display column of each offset in `offsets` (ascending), in one pass.
+pub List<int> spots_of(str line, List<int> offsets, int tab) {
+    List<int> spots = [];
+    int want = 0;
+    int spot = 0;
+    for (int offset in starts(line)) {
+        while (want < offsets.size() && offsets[want] <= offset) {
+            if (offsets[want] == offset) {
+                spots.push(spot);
+            } else {
+                spots.push(display_col(line, offsets[want], tab));
+            }
+            want = want + 1;
+        }
+        if (want >= offsets.size() || offset >= line.size()) {
+            break;
+        }
+        spot = spot + cell_width(line, offset, spot, tab);
+    }
+    while (want < offsets.size()) {
+        spots.push(spot);
+        want = want + 1;
+    }
+    return spots;
 }
 
 /// The cluster start whose cells cover screen column `want`; the last
