@@ -3,6 +3,7 @@
 //   m3d1tor FILE...   open the files as buffers (a new buffer when one does not exist yet)
 //   m3d1tor           an empty buffer with no name
 //   m3d1tor -u FILE   read FILE as the keymap file (-u NONE reads none)
+//   m3d1tor --no-mouse  do not ask the terminal for mouse reports
 //
 // The keymap file holds ex lines (`nnoremap`, `let mapleader`, `set` ...); by
 // default it is $XDG_CONFIG_HOME/m3d1tor/keymap.vim (~/.config/...).
@@ -17,7 +18,30 @@ import tui.app.TUI_app;
 import tui.core.TUI_buffer;
 import tui.core.TUI_geometry;
 import tui.core.TUI_mouse;
+import tui.core.TUI_style;
 import ui.MED_app;
+
+// How many colours the terminal has: truecolor when it says so (COLORTERM,
+// or a terminal program known to), 256 for a *256color TERM (Terminal.app),
+// else the 16 ANSI colours.
+TUI_style.Depth colour_depth() {
+    str colour_term = os.env("COLORTERM").or("");
+    if (colour_term == "truecolor" || colour_term == "24bit") {
+        return TUI_style.Depth.TrueColour;
+    }
+    str program = os.env("TERM_PROGRAM").or("");
+    if (program == "iTerm.app" || program == "WezTerm" || program == "vscode" || program == "ghostty") {
+        return TUI_style.Depth.TrueColour;
+    }
+    str term_name = os.env("TERM").or("");
+    if (term_name.contains("truecolor") || term_name.contains("direct") || term_name == "xterm-kitty" || term_name == "alacritty") {
+        return TUI_style.Depth.TrueColour;
+    }
+    if (term_name.contains("256color")) {
+        return TUI_style.Depth.Ansi256;
+    }
+    return TUI_style.Depth.Ansi16;
+}
 
 List<str> arguments = os.arguments();
 if (!term.is_terminal(0) || !term.is_terminal(1)) {
@@ -28,9 +52,13 @@ List<str> files = [];
 // -u FILE reads that keymap file, -u NONE reads none
 str keymap = MED_app.keymap_path();
 bool is_keymap_required = false;
+bool is_mouse = os.env("M3D1TOR_NO_MOUSE").or("") == "";
 int arg_index = 1;
 while (arg_index < arguments.size()) {
-    if (arguments[arg_index] == "-u" && arg_index + 1 < arguments.size()) {
+    if (arguments[arg_index] == "--no-mouse") {
+        is_mouse = false;
+        arg_index = arg_index + 1;
+    } else if (arguments[arg_index] == "-u" && arg_index + 1 < arguments.size()) {
         keymap = arguments[arg_index + 1];
         is_keymap_required = true;
         if (keymap == "NONE") {
@@ -48,7 +76,7 @@ if (files.size() == 0) {
 match (MED_app.open_all(files)) {
     case Ok(MED_app.App app): {
         app.load_keymap(keymap, is_keymap_required);
-        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: true, animate_ms: 50);
+        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, animate_ms: 50, depth: colour_depth());
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {
             }

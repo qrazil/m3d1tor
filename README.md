@@ -29,7 +29,12 @@ until it is. The `version` in `deps` is not bumped by the reorganisation.
 - A keymap file in Vim syntax: `:map` / `:noremap` for n, x, o, i, c modes, `:unmap`,
   `:mapclear`, `let mapleader`, `:source` (see below).
 
-The editing engine is tested differentially against `nvim --headless` (15k+ cases).
+The editing engine is tested differentially against `nvim --headless` (31k+ cases): motions, operators, text objects,
+counts, dot repeat, registers, undo, visual modes, macros, marks, search, ex commands, insert-mode keys (including
+`<C-r>` forms, `<C-n>`/`<C-p>` completion, `<C-t>`/`<C-d>`, `gR`), `:set` options, soft wrap and screen-line motions.
+
+Display: soft wrap (`:set nowrap` for horizontal scrolling), `gj gk g0 g^ g$ gm`, `:set number relativenumber list`,
+`hlsearch` highlighting (`:noh`).
 
 ## Keys
 
@@ -67,6 +72,14 @@ named by `$M3D1TOR_KEYMAP`, or `m3d1tor -u FILE`; `-u NONE` reads none) is a lis
 map starting with `j` in Insert mode replaces the built-in `jk`. Behaviour follows nvim
 (checked in the oracle corpus); `<buffer>` and `<expr>` maps are refused (E474), and maps do
 not apply inside macros, `.` or `:normal`.
+
+## macOS (Apple silicon) in three lines
+
+    curl -fsSL https://github.com/qrazil/m31/releases/download/v0.4.0/m31-macos-arm64.tar.gz | tar -xz -C /tmp && export M31_ROOT=/tmp LANGC=/tmp/m31c   # the m31 compiler and runtime
+    git clone https://github.com/qrazil/m3d1tor && cd m3d1tor && bash scripts/build.sh      # needs Xcode command line tools (cc); first run fetches tui
+    ./m3d1tor FILE   # Terminal.app (256 colours) and iTerm2 / kitty / WezTerm (truecolor) work; --no-mouse turns mouse reports off
+
+Colour depth follows `COLORTERM` / `TERM`; `--no-mouse` (or `M3D1TOR_NO_MOUSE=1`) leaves the mouse to the terminal.
 
 ## Build
 
