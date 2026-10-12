@@ -1,0 +1,43 @@
+// Unit checks for MED_surround through the engine (the differential check
+// against the surround.vim plugin is tests/oracles/corpus/88_ to 90_, which
+// needs the plugin; these run anywhere).
+
+import engine.MED_editor;
+import engine.MED_ex;
+import engine.MED_key;
+import tests.MED_check;
+
+MED_check.Check check = MED_check.Check();
+
+MED_editor.Editor fresh(str text, int row, int col) {
+    MED_editor.Editor editor = MED_editor.new("");
+    editor.buffer.lines = text.split("\n");
+    editor.init_marks();
+    editor.row = row;
+    editor.col = col;
+    return editor;
+}
+
+str run(str text, int row, int col, str keys) {
+    MED_editor.Editor editor = fresh(text, row, col);
+    MED_ex.feed_keys(editor, MED_key.parse(keys));
+    return editor.buffer.dump();
+}
+
+check.eq_str("ysiw)", run("hello world", 0, 1, "ysiw)"), "(hello) world\n");
+check.eq_str("ysiw(", run("hello world", 0, 1, "ysiw("), "( hello ) world\n");
+check.eq_str("ysiw quote", run("hello world", 0, 7, "ysiw\""), "hello \"world\"\n");
+check.eq_str("yss", run("  hello world", 0, 5, "yss)"), "  (hello world)\n");
+check.eq_str("ysiw tag", run("hello", 0, 0, "ysiw<em>"), "<em>hello</em>\n");
+check.eq_str("ds)", run("a (b c) d", 0, 4, "ds)"), "a b c d\n");
+check.eq_str("dsq", run("say \"hi\" now", 0, 6, "ds\""), "say hi now\n");
+check.eq_str("cs)]", run("a (b c) d", 0, 4, "cs)]"), "a [b c] d\n");
+check.eq_str("cs(", run("a (b c) d", 0, 4, "cs)("), "a ( b c ) d\n");
+check.eq_str("cs quote", run("say \"hi\" now", 0, 6, "cs\"'"), "say 'hi' now\n");
+check.eq_str("cst", run("<p>text</p>", 0, 4, "cst<div>"), "<div>text</div>\n");
+check.eq_str("dst", run("<p>text</p>", 0, 4, "dst"), "text\n");
+check.eq_str("visual S", run("one two", 0, 0, "viwS]"), "[one] two\n");
+check.eq_str("dot", run("a b", 0, 0, "ysiw)w."), "((a)) b\n");
+check.eq_str("undo is one step", run("hello", 0, 0, "ysiw)u"), "hello\n");
+check.eq_str("no target is a no-op", run("hello", 0, 0, "ds)"), "hello\n");
+check.finish("t_surround");
