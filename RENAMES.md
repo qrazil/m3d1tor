@@ -3,10 +3,12 @@
 **No module, type, function or field changed its name.** The `MED_` prefix and
 every name stay. Only file locations and import paths changed: `engine/` holds
 the editing core, `ui/` holds drawing, input and navigation, `m3d1tor.m31`
-stays at the root. `deps` says version 0.0.1: the first release. v0.1.0
+stays at the root. `deps` says version 0.0.2: the first published release (0.0.1 was never published: its
+release build failed on a call to a function that does not exist, `io.print`, in the entry file
+that no test compiled; `tests/test_entry.sh` now builds and runs the real binary on every platform). v0.1.0
 acceptance (DESIGN section 9) is not met, so every release stays a pre-release.
 
-v0.0.1, first release: what works is listed in README.md (Status and Features);
+v0.0.2, first published release: what works is listed in README.md (Status and Features);
 the known limits are listed there too and in `tests/oracles/known_divergences.txt`.
 
 | old file / import | new file / import |

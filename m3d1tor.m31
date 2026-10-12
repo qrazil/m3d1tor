@@ -45,16 +45,27 @@ TUI_style.Depth colour_depth() {
     return TUI_style.Depth.Ansi16;
 }
 
-const str VERSION = "0.0.1";
+const str VERSION = "0.0.2";
+
+// Standard output, for the options that print and exit.
+void say(str text) {
+    io.File out = io.stdout();
+    match (out.write(text.to_bytes())) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
 
 List<str> arguments = os.arguments();
 for (str argument in arguments) {
     if (argument == "--version" || argument == "-v") {
-        io.print("m3d1tor " + VERSION + "\n");
+        say("m3d1tor " + VERSION + "\n");
         os.exit(0);
     }
     if (argument == "--help" || argument == "-h") {
-        io.print("m3d1tor " + VERSION + "\nusage: m3d1tor [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>e file tree, <Space>? keymap help, :q quits\n");
+        say("m3d1tor " + VERSION + "\nusage: m3d1tor [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>e file tree, <Space>? keymap help, :q quits\n");
         os.exit(0);
     }
 }

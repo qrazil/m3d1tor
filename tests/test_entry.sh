@@ -1,0 +1,63 @@
+# sourced by tests/test.sh: the real binary (m3d1tor.m31, the entry file no unit
+# program compiles), its --version and --help, and a pty smoke test: start it,
+# type `:q`, expect a clean exit.
+if build m3d1tor m3d1tor.m31; then
+    version=$(grep '^version ' deps | awk '{print $2}')
+    if out=$("$WORK/m3d1tor" --version 2>&1) && [ "$out" = "m3d1tor $version" ]; then
+        note "m3d1tor --version: $out"
+    else
+        bad "m3d1tor --version (want 'm3d1tor $version')" "$out"
+    fi
+    if out=$("$WORK/m3d1tor" --help 2>&1) && printf '%s' "$out" | grep -q '^usage: m3d1tor'; then
+        note "m3d1tor --help"
+    else
+        bad "m3d1tor --help" "$out"
+    fi
+    if out=$(python3 - "$WORK/m3d1tor" <<'PY' 2>&1
+import os, pty, select, struct, subprocess, sys, termios, fcntl, time
+binary = sys.argv[1]
+master, slave = pty.openpty()
+fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 24, 80, 0, 0))
+env = dict(os.environ, TERM="xterm-256color", COLORTERM="truecolor")
+proc = subprocess.Popen([binary, "-u", "NONE"], stdin=slave, stdout=slave, stderr=slave,
+                        env=env, start_new_session=True, close_fds=True)
+os.close(slave)
+def pump(seconds):
+    end = time.time() + seconds
+    got = b""
+    while time.time() < end:
+        ready, _, _ = select.select([master], [], [], 0.1)
+        if ready:
+            try:
+                got += os.read(master, 65536)
+            except OSError:
+                break
+    return got
+first = pump(1.5)
+if not first:
+    print("no output from the editor")
+    proc.kill()
+    sys.exit(1)
+os.write(master, b":q\r")
+deadline = time.time() + 10
+code = None
+while time.time() < deadline:
+    pump(0.1)
+    code = proc.poll()
+    if code is not None:
+        break
+if code is None:
+    proc.kill()
+    print("did not exit after :q")
+    sys.exit(1)
+if code != 0:
+    print("exit status %d" % code)
+    sys.exit(1)
+print("started, drew %d bytes, :q exited 0" % len(first))
+PY
+    ); then
+        note "m3d1tor pty smoke: $out"
+    else
+        bad "m3d1tor pty smoke" "$out"
+    fi
+fi

@@ -6,7 +6,7 @@ name: Release
 # (compiler + runtime SDK) and the qrazil/tui commit named in `deps`.
 #
 #   git tag vX.Y.Z && git push origin vX.Y.Z   # pushed on the user's explicit instruction
-#                                               # (v0.0.1 is the first release); every release
+#                                               # (v0.0.2 is the first published release); every release
 #                                               # is marked a pre-release until v0.1.0 acceptance
 #                                               # (DESIGN section 9)
 #

@@ -6,7 +6,8 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.0.1, the first release (a pre-release).** What works: the Vim
+**Status: v0.0.2, the first published release (a pre-release; 0.0.1 was never
+published, its release build failed).** What works: the Vim
 engine, checked against `nvim --headless` on more than 34,000 generated and
 hand-written cases (21 known divergences, listed in `tests/oracles/known_divergences.txt`),
 windows, pickers, the file tree sidebar, git gutter, surround, auto pairs, marks
@@ -177,5 +178,5 @@ aarch64 and macOS arm64 for every push to master. Pushing a `v*` tag runs
 `.github/workflows/release.yml`: the test workflow is a hard precondition, then
 it builds `m3d1tor` on the same three platforms and attaches
 `m3d1tor-linux-x86_64`, `m3d1tor-linux-aarch64` and `m3d1tor-macos-arm64`
-tarballs to the GitHub Release. The release is marked a pre-release; v0.0.1 is tagged on the
+tarballs to the GitHub Release. The release is marked a pre-release; v0.0.2 is tagged on the
 user's instruction. v0.1.0 waits for DESIGN section 9 acceptance.
