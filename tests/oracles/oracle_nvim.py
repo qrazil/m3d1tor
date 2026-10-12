@@ -44,6 +44,38 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 NVIM = os.environ.get("NVIM", "nvim")
+
+
+def unpack_appimage(binary):
+    """An AppImage nvim mounts a FUSE filesystem per run, which is slow and leaves
+    a helper process behind whenever a run is killed. Unpack it once and run the
+    real binary; any other nvim is used as it is."""
+    import shutil
+    import tempfile
+    found = shutil.which(binary) or binary
+    try:
+        with open(found, "rb") as f:
+            head = f.read(16)
+    except OSError:
+        return binary
+    if head[8:11] != b"AI\x02":
+        return binary
+    target = tempfile.mkdtemp(prefix="medit_nvim_")
+    try:
+        subprocess.run([found, "--appimage-extract"], cwd=target, stdout=subprocess.DEVNULL,
+                       stderr=subprocess.DEVNULL, timeout=120, stdin=subprocess.DEVNULL)
+    except Exception:  # noqa
+        shutil.rmtree(target, ignore_errors=True)
+        return binary
+    inner = os.path.join(target, "squashfs-root", "usr", "bin", "nvim")
+    if not os.path.exists(inner):
+        shutil.rmtree(target, ignore_errors=True)
+        return binary
+    atexit.register(shutil.rmtree, target, True)
+    return inner
+
+
+NVIM = unpack_appimage(NVIM)
 DRIVER = os.path.join(HERE, "nvim_driver.lua")
 
 PLUGIN_ROOT = os.environ.get("M3D_PLUGINS", os.path.expanduser("~/.vim/plugged"))
