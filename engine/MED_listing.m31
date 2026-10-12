@@ -1,0 +1,142 @@
+// The listings of `:marks`, `:registers` (`:display`), `:jumps` and
+// `:changes`, laid out the way Vim prints them. Each returns the lines; the
+// front end shows them in the "Press ENTER" overlay.
+
+import engine.MED_buffer;
+import engine.MED_editor;
+import engine.MED_register;
+import engine.MED_text;
+
+str pad_left(str text, int width) {
+    if (text.size() >= width) {
+        return text;
+    }
+    return " ".repeat(width - text.size()) + text;
+}
+
+// The text of a line without its leading blanks, for a mark or jump entry.
+str line_text(MED_editor.Editor editor, int row) {
+    if (row >= editor.buffer.line_count()) {
+        return "-invalid-";
+    }
+    str line = editor.buffer.line(row);
+    return line.substr(MED_text.first_nonblank(line), line.size());
+}
+
+str mark_line(MED_editor.Editor editor, str name, MED_buffer.Pos position) {
+    return " " + name + " " + pad_left((position.row + 1).to_str(), 6) + " " + pad_left(position.col.to_str(), 4) + " " + line_text(editor, position.row);
+}
+
+/// `:marks [chars]`.
+pub List<str> marks(MED_editor.Editor editor, str only) {
+    List<str> lines = ["mark line  col file/text"];
+    str order = "'abcdefghijklmnopqrstuvwxyz\"[]^.<>";
+    for (int code in order.chars()) {
+        str name = str.from_chars([code]);
+        if (only != "" && !only.contains(name)) {
+            continue;
+        }
+        MED_buffer.Pos found = MED_buffer.Pos(0, 0);
+        bool is_set = false;
+        match (editor.marks.get(name)) {
+            case Some(MED_buffer.Pos position): {
+                found = position;
+                is_set = true;
+            }
+            case None: {
+            }
+        }
+        if (name == "'" && !is_set) {
+            // the previous context mark starts at the top of the buffer
+            continue;
+        }
+        if (is_set) {
+            lines.push(mark_line(editor, name, found));
+        }
+    }
+    return lines;
+}
+
+// How a register's text shows: line breaks as ^J, other control characters as ^X.
+str shown_text(str text) {
+    List<str> parts = [];
+    for (int code in text.chars()) {
+        if (code == 10) {
+            parts.push("^J");
+        } else if (code == 9) {
+            parts.push("^I");
+        } else if (code < 32) {
+            parts.push("^" + str.from_chars([code + 64]));
+        } else if (code == 127) {
+            parts.push("^?");
+        } else {
+            parts.push(str.from_chars([code]));
+        }
+    }
+    return parts.join("");
+}
+
+/// `:registers` / `:display`.
+pub List<str> registers(MED_editor.Editor editor, str only) {
+    List<str> lines = ["Type Name Content"];
+    str order = "\"0123456789abcdefghijklmnopqrstuvwxyz-.:%/";
+    for (int code in order.chars()) {
+        str name = str.from_chars([code]);
+        if (only != "" && !only.contains(name)) {
+            continue;
+        }
+        match (editor.regs.get(name)) {
+            case Some(MED_register.Reg reg): {
+                str kind = "c";
+                if (reg.kind == MED_register.LINE) {
+                    kind = "l";
+                } else if (reg.kind == MED_register.BLOCK) {
+                    kind = "b";
+                }
+                str body = reg.text();
+                lines.push("  " + kind + "  \"" + name + "   " + shown_text(body));
+            }
+            case None: {
+            }
+        }
+    }
+    return lines;
+}
+
+// A jump or change entry: `marker`, the distance from the current entry.
+str entry_line(MED_editor.Editor editor, str marker, int distance, MED_buffer.Pos position) {
+    return marker + " " + pad_left(distance.to_str(), 3) + " " + pad_left((position.row + 1).to_str(), 5) + " " + pad_left(position.col.to_str(), 4) + " " + line_text(editor, position.row);
+}
+
+/// `:jumps`.
+pub List<str> jumps(MED_editor.Editor editor) {
+    List<str> lines = [" jump line  col file/text"];
+    for (int index in 0 .. editor.jump_length) {
+        MED_buffer.Pos position = editor.marks.get(MED_editor.jump_name(index)).or(MED_buffer.Pos(0, 0));
+        int distance = index - editor.jump_index;
+        if (distance < 0) {
+            distance = 0 - distance;
+        }
+        str marker = " ";
+        if (index == editor.jump_index) {
+            marker = ">";
+        }
+        lines.push(entry_line(editor, marker, distance, position));
+    }
+    if (editor.jump_index >= editor.jump_length) {
+        lines.push(">");
+    }
+    return lines;
+}
+
+/// `:changes`.
+pub List<str> changes(MED_editor.Editor editor) {
+    List<str> lines = ["change line  col text"];
+    for (int index in 0 .. editor.change_length) {
+        MED_buffer.Pos position = editor.marks.get(MED_editor.change_name(index)).or(MED_buffer.Pos(0, 0));
+        int distance = editor.change_length - index;
+        lines.push(entry_line(editor, " ", distance, position));
+    }
+    lines.push(">");
+    return lines;
+}

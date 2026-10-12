@@ -25,8 +25,10 @@ import engine.MED_editor;
 import engine.MED_ex;
 import ui.MED_clip;
 import ui.MED_files;
+import ui.MED_git;
 import ui.MED_grep;
 import engine.MED_key;
+import engine.MED_listing;
 import ui.MED_keymap;
 import ui.MED_picker;
 import ui.MED_picker_view;
@@ -38,6 +40,8 @@ import engine.MED_view;
 
 /// Rows below the text: the status line and the command line.
 const int FOOTER_ROWS = 2;
+/// How often (ms) HEAD is read again for the git gutter.
+const int GIT_REFRESH_MS = 3000;
 /// Visual selection background (a palette grey).
 const int SELECTION_COLOUR = 240;
 /// Lines the mouse wheel scrolls per notch.
@@ -52,6 +56,16 @@ const int MIN_WINDOW_HEIGHT = 2;
 const int MIN_WINDOW_WIDTH = 5;
 const int VKIND_CHAR = 118;
 const int VKIND_LINE = 86;
+
+/// What the git gutter knows about one file.
+pub type GitInfo {
+    /// HEAD was asked for (and, when `has_base`, answered).
+    pub bool is_checked = false;
+    pub bool has_base = false;
+    pub List<str> base = [];
+    pub int tick = -1;
+    pub MED_git.Hunks hunks = MED_git.Hunks();
+}
 
 /// One buffer of the session: its engine state (a reference, so the active
 /// buffer's editor is the very object the App drives) and its file.
@@ -69,6 +83,9 @@ pub type Slot {
 
 pub type App {
     pub MED_editor.Editor editor;
+    /// The git gutter of each file path, and how long since HEAD was last read.
+    pub Map<str, GitInfo> git = {};
+    pub int git_ms = 0;
     /// The match 'incsearch' shows while a pattern is typed (row -1: none).
     int inc_row = -1;
     int inc_col = 0;
@@ -951,6 +968,9 @@ void App.open_picker(str name, str arg) {
     } else if (name == "help") {
         picker = MED_picker.make(MED_picker.KIND_HELP, "Keymap");
         load_commands(true);
+    } else if (name == "marks") {
+        picker = MED_picker.make(MED_picker.KIND_MARKS, "Marks");
+        load_marks();
     } else if (name == "explore") {
         picker = MED_picker.make(MED_picker.KIND_EXPLORE, "Explore");
         picker.directory = parent_directory(path);
@@ -970,6 +990,24 @@ void App.load_files() {
     List<MED_picker.Entry> entries = [];
     for (str relative in MED_files.list_files(root, picker.is_hidden_shown, picker.is_ignore_used)) {
         entries.push(MED_picker.Entry(relative, path: MED_files.path_of(root, relative)));
+    }
+    picker.set_entries(entries);
+}
+
+void App.load_marks() {
+    List<MED_picker.Entry> entries = [];
+    List<str> listed = MED_listing.marks(editor, "");
+    for (int index in 1 .. listed.size()) {
+        str line = listed[index];
+        // " a      3    0 text": the name is the second character
+        if (line.size() > 2) {
+            str name = line.substr(1, 2);
+            str quoted = name;
+            if (name == "'") {
+                quoted = "'";
+            }
+            entries.push(MED_picker.Entry(line.substr(1, line.size()), action: "ex:normal! `" + quoted));
+        }
     }
     picker.set_entries(entries);
 }
@@ -1280,6 +1318,20 @@ pub TUI_app.Action App.tick(int elapsed_ms) {
             return TUI_app.Action.Redraw;
         }
     }
+    git_ms = git_ms + elapsed_ms;
+    if (git_ms >= GIT_REFRESH_MS) {
+        git_ms = 0;
+        if (path.size() > 0 && git.get(path).is_some()) {
+            GitInfo before = git_info(path, editor);
+            bool was_tracked = before.has_base;
+            before.is_checked = false;
+            git.set(path, before);
+            GitInfo after = git_info(path, editor);
+            if (after.has_base != was_tracked || after.hunks.starts.size() != before.hunks.starts.size()) {
+                return TUI_app.Action.Redraw;
+            }
+        }
+    }
     if (has_picker && is_grep_due) {
         idle_ms = idle_ms + elapsed_ms;
         if (idle_ms >= GREP_DEBOUNCE_MS) {
@@ -1307,6 +1359,26 @@ bool App.should_quit_after(int key) {
     if (editor.mode == MED_editor.NORMAL && key == 23 && editor.pending.size() == 0) {
         is_window_key = true;
         return false;
+    }
+    if (editor.mode == MED_editor.NORMAL && key == 99 && editor.pending.size() == 1 && (editor.pending[0] == 93 || editor.pending[0] == 91) && editor.ta_keys.size() == 0) {
+        // ]c and [c: the next and previous change against HEAD
+        bool is_forward = editor.pending[0] == 93;
+        editor.pending = [];
+        GitInfo state = git_info(path, editor);
+        int target = -1;
+        if (state.has_base) {
+            target = MED_git.next_start(state.hunks, editor.row, is_forward);
+        }
+        if (target >= 0) {
+            editor.set_pcmark(MED_buffer.Pos(editor.row, editor.col));
+            editor.row = target;
+            editor.col = MED_text.first_nonblank(editor.buffer.line(target));
+            editor.clamp();
+            editor.want_from_cursor();
+        } else {
+            editor.is_failed = true;
+        }
+        return did_finish();
     }
     if (editor.mode == MED_editor.NORMAL && key == MED_key.SPACE && editor.pending.size() == 0 && editor.ta_keys.size() == 0 && !editor.maps.has_prefix("n", MED_key.SPACE)) {
         is_leader = true;
@@ -1615,6 +1687,70 @@ bool App.is_selected(int row, int col, int spot) {
     return spot >= low && spot <= high;
 }
 
+/// The git information of `file` for the buffer `subject` shows, brought up to
+/// date (HEAD is read once, the diff again when the text changed).
+GitInfo App.git_info(str file, MED_editor.Editor subject) {
+    GitInfo info = GitInfo();
+    if (file.size() == 0 || !subject.is_option_on("gitsigns", true)) {
+        return info;
+    }
+    match (git.get(file)) {
+        case Some(GitInfo known): {
+            info = known;
+        }
+        case None: {
+        }
+    }
+    if (!info.is_checked) {
+        info.is_checked = true;
+        match (MED_git.head_lines(file)) {
+            case Some(List<str> lines): {
+                info.has_base = true;
+                info.base = lines;
+            }
+            case None: {
+                info.has_base = false;
+            }
+        }
+        info.tick = -1;
+    }
+    if (info.has_base) {
+        int tick = subject.current * 1000003 + subject.buffer.line_count();
+        if (tick != info.tick) {
+            info.tick = tick;
+            info.hunks = MED_git.diff(info.base, subject.buffer.lines);
+        }
+    }
+    git.set(file, info);
+    return info;
+}
+
+/// The sign of one row: a mark's letter, else the git change.
+void App.draw_sign(TUI_buffer.Buffer buffer, MED_editor.Editor shown, GitInfo state, int row, int x, int y) {
+    for (int code in 97 .. 123) {
+        match (shown.marks.get(str.from_chars([code]))) {
+            case Some(MED_buffer.Pos mark): {
+                if (mark.row == row) {
+                    buffer.set_str(x, y, str.from_chars([code]), TUI_style.Style(foreground: TUI_style.Colour.Indexed(6), attrs: TUI_style.BOLD));
+                    return;
+                }
+            }
+            case None: {
+            }
+        }
+    }
+    if (state.has_base && row < state.hunks.kinds.size()) {
+        int kind = state.hunks.kinds[row];
+        if (kind == MED_git.ADDED) {
+            buffer.set_str(x, y, "+", TUI_style.Style(foreground: TUI_style.Colour.Indexed(2)));
+        } else if (kind == MED_git.CHANGED) {
+            buffer.set_str(x, y, "~", TUI_style.Style(foreground: TUI_style.Colour.Indexed(3)));
+        } else if (kind == MED_git.REMOVED) {
+            buffer.set_str(x, y, "_", TUI_style.Style(foreground: TUI_style.Colour.Indexed(1)));
+        }
+    }
+}
+
 /// The matches of the last search pattern in `row`: start and end byte offsets.
 List<int> App.search_spans(MED_editor.Editor subject, MED_regex.Regex regex, int row) {
     List<int> spans = [];
@@ -1827,6 +1963,11 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         subject.clamp();
     }
     subject.view_height = rows;
+    GitInfo git_state = git_info(file, subject);
+    subject.sign_columns = 0;
+    if (git_state.has_base || has_marks(subject)) {
+        subject.sign_columns = 1;
+    }
     int gutter = gutter_of(subject);
     int text_width = frame.width - gutter;
     if (text_width < 1) {
@@ -1958,9 +2099,12 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
             }
             int part_y = y + shown_part;
             if (part == 0) {
-                buffer.set_str(frame.x, part_y, number_text(subject, row, gutter), dim);
+                buffer.set_str(frame.x + subject.sign_columns, part_y, number_text(subject, row, gutter), dim);
                 if (row == subject.row) {
-                    buffer.set_str(frame.x, part_y, number_text(subject, row, gutter), current);
+                    buffer.set_str(frame.x + subject.sign_columns, part_y, number_text(subject, row, gutter), current);
+                }
+                if (subject.sign_columns > 0) {
+                    draw_sign(buffer, subject, git_state, row, frame.x, part_y);
                 }
             }
             int from = 0;
@@ -2187,6 +2331,16 @@ bool App.is_in_preview(int row, int offset, int size) {
     return true;
 }
 
+/// Whether the buffer has a lower-case mark (shown in the sign column).
+bool has_marks(MED_editor.Editor shown) {
+    for (int code in 97 .. 123) {
+        if (shown.marks.get(str.from_chars([code])).is_some()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool is_in_spans(List<int> spans, int offset) {
     int index = 0;
     while (index + 1 < spans.size()) {
@@ -2202,7 +2356,7 @@ int gutter_of(MED_editor.Editor shown) {
     bool is_number = shown.is_option_on("number", true);
     bool is_relative = shown.is_option_on("relativenumber", false);
     if (!is_number && !is_relative) {
-        return 0;
+        return shown.sign_columns;
     }
     int lines = shown.buffer.line_count();
     if (is_relative && !is_number) {
@@ -2216,14 +2370,14 @@ int gutter_of(MED_editor.Editor shown) {
     if (digits < least) {
         digits = least;
     }
-    return digits + 1;
+    return digits + 1 + shown.sign_columns;
 }
 
 /// The line-number column for buffer line `row`, as wide as `gutter`.
 str number_text(MED_editor.Editor shown, int row, int gutter) {
     bool is_number = shown.is_option_on("number", true);
     bool is_relative = shown.is_option_on("relativenumber", false);
-    if (gutter == 0) {
+    if (gutter - shown.sign_columns == 0) {
         return "";
     }
     int shown_number = row + 1;
@@ -2239,11 +2393,15 @@ str number_text(MED_editor.Editor shown, int row, int gutter) {
             shown_number = distance;
         }
     }
+    int width = gutter - shown.sign_columns;
+    if (width <= 0) {
+        return "";
+    }
     str digits = shown_number.to_str();
     if (is_left) {
-        return digits + " ".repeat(gutter - digits.size());
+        return digits + " ".repeat(width - digits.size());
     }
-    return " ".repeat(gutter - 1 - digits.size()) + digits + " ";
+    return " ".repeat(width - 1 - digits.size()) + digits + " ";
 }
 
 /// Write `slot`'s text to `target` (its own file when `target` is empty) and

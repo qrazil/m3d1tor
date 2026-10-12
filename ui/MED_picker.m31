@@ -22,6 +22,7 @@ pub const int KIND_GREP = 2;
 pub const int KIND_COMMANDS = 3;
 pub const int KIND_HELP = 4;
 pub const int KIND_EXPLORE = 5;
+pub const int KIND_MARKS = 6;
 /// Most rows ranked and kept (the list shows a window of them).
 const int MAX_SHOWN = 5000;
 const int PAGE = 10;

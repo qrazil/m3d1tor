@@ -96,6 +96,7 @@ const List<str> SPECS = [
     "commentstring:cms:str:",
     "surround::bool:true",
     "autopairs::bool:true",
+    "gitsigns::bool:true",
     "listchars:lcs:str:tab:> ,trail:-,nbsp:+",
     "fillchars:fcs:str:",
     "wrapmargin:wm:num:0",

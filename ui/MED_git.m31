@@ -1,0 +1,227 @@
+// The git gutter: where the buffer differs from HEAD.
+//
+// API
+// ---
+//   MED_git.head_lines(path)       Option<List<str>>: the file as HEAD has it, None when untracked or no repo
+//   MED_git.diff(base, current)    Hunks: a sign per buffer row and where each hunk starts
+//
+// `kinds[row]` is NONE, ADDED, CHANGED, or REMOVED (lines were removed just
+// below this row; row 0 also stands for removals above the first line).
+// The text in between is compared with a longest common subsequence after the
+// common head and tail are cut off; a middle too big for that counts as one
+// changed block.
+
+import fs;
+import io;
+import os;
+import random;
+
+pub const int NONE = 0;
+pub const int ADDED = 1;
+pub const int CHANGED = 2;
+pub const int REMOVED = 3;
+/// Rows times lines compared in the middle part before giving up on an exact diff.
+const int CELL_LIMIT = 4000000;
+
+pub type Hunks {
+    pub List<int> kinds = [];
+    /// The first row of every hunk, ascending.
+    pub List<int> starts = [];
+}
+
+str quote(str text) {
+    return "'" + text.split("'").join("'\\''") + "'";
+}
+
+/// The file as the last commit has it.
+pub Option<List<str>> head_lines(str path) {
+    int slash = -1;
+    for (int index in 0 .. path.size()) {
+        if (path.byte_at(index) == 47) {
+            slash = index;
+        }
+    }
+    str directory = ".";
+    str name = path;
+    if (slash >= 0) {
+        directory = path.substr(0, slash);
+        if (directory == "") {
+            directory = "/";
+        }
+        name = path.substr(slash + 1, path.size());
+    }
+    str base = os.env("TMPDIR").or("/tmp");
+    if (base.ends_with("/")) {
+        base = base.substr(0, base.size() - 1);
+    }
+    str scratch = base + "/m3d1tor-git-" + random.system().hex(6);
+    str command = "git -C " + quote(directory) + " show " + quote("HEAD:./" + name) + " > " + quote(scratch) + " 2>/dev/null";
+    bool is_ok = false;
+    match (os.run(["sh", "-c", command])) {
+        case Ok(os.ExitStatus status): {
+            is_ok = status.is_success();
+        }
+        case Err(io.Error error): {
+            is_ok = false;
+        }
+    }
+    if (!is_ok) {
+        remove_scratch(scratch);
+        return Option<List<str>>.None;
+    }
+    match (io.read(scratch)) {
+        case Ok(str text): {
+            remove_scratch(scratch);
+            List<str> lines = text.split("\n");
+            if (lines.size() > 0 && lines[lines.size() - 1] == "") {
+                lines.pop();
+            }
+            return Option<List<str>>.Some(lines);
+        }
+        case Err(io.Error error): {
+            remove_scratch(scratch);
+            return Option<List<str>>.None;
+        }
+    }
+}
+
+void remove_scratch(str scratch) {
+    match (fs.remove(scratch)) {
+        case Ok(bool is_removed): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
+
+// Mark the rows [from, to) of `kinds` and say where the hunk starts.
+void note_hunk(Hunks hunks, int from, int removed, int added) {
+    if (added == 0) {
+        // lines went away: the sign sits on the row above the gap
+        int row = from - 1;
+        if (row < 0) {
+            row = 0;
+        }
+        if (row < hunks.kinds.size() && hunks.kinds[row] == NONE) {
+            hunks.kinds[row] = REMOVED;
+        }
+        hunks.starts.push(row);
+        return;
+    }
+    for (int offset in 0 .. added) {
+        int row = from + offset;
+        if (row < hunks.kinds.size()) {
+            if (offset < removed) {
+                hunks.kinds[row] = CHANGED;
+            } else {
+                hunks.kinds[row] = ADDED;
+            }
+        }
+    }
+    hunks.starts.push(from);
+}
+
+/// The differences between `base` (HEAD) and `current`.
+pub Hunks diff(List<str> base, List<str> current) {
+    Hunks hunks = Hunks();
+    for (int row in 0 .. current.size()) {
+        hunks.kinds.push(NONE);
+    }
+    int head = 0;
+    while (head < base.size() && head < current.size() && base[head] == current[head]) {
+        head = head + 1;
+    }
+    int tail = 0;
+    while (tail < base.size() - head && tail < current.size() - head && base[base.size() - 1 - tail] == current[current.size() - 1 - tail]) {
+        tail = tail + 1;
+    }
+    int base_count = base.size() - head - tail;
+    int current_count = current.size() - head - tail;
+    if (base_count == 0 && current_count == 0) {
+        return hunks;
+    }
+    if (base_count == 0 || current_count == 0 || base_count * current_count > CELL_LIMIT) {
+        note_hunk(hunks, head, base_count, current_count);
+        return hunks;
+    }
+    // lengths[row_at][col_at]: the longest common subsequence of base[head+row_at ..] and current[head+col_at ..]
+    List<List<int>> lengths = [];
+    for (int row_at in 0 .. base_count + 1) {
+        List<int> line = [];
+        for (int col_at in 0 .. current_count + 1) {
+            line.push(0);
+        }
+        lengths.push(line);
+    }
+    int row_at = base_count - 1;
+    while (row_at >= 0) {
+        int col_at = current_count - 1;
+        while (col_at >= 0) {
+            if (base[head + row_at] == current[head + col_at]) {
+                lengths[row_at][col_at] = lengths[row_at + 1][col_at + 1] + 1;
+            } else if (lengths[row_at + 1][col_at] >= lengths[row_at][col_at + 1]) {
+                lengths[row_at][col_at] = lengths[row_at + 1][col_at];
+            } else {
+                lengths[row_at][col_at] = lengths[row_at][col_at + 1];
+            }
+            col_at = col_at - 1;
+        }
+        row_at = row_at - 1;
+    }
+    int base_at = 0;
+    int current_at = 0;
+    int removed = 0;
+    int added = 0;
+    int hunk_row = head;
+    while (base_at < base_count || current_at < current_count) {
+        bool is_same = base_at < base_count && current_at < current_count && base[head + base_at] == current[head + current_at];
+        if (is_same) {
+            if (removed > 0 || added > 0) {
+                note_hunk(hunks, hunk_row, removed, added);
+                removed = 0;
+                added = 0;
+            }
+            base_at = base_at + 1;
+            current_at = current_at + 1;
+            hunk_row = head + current_at;
+            continue;
+        }
+        if (current_at < current_count && (base_at >= base_count || lengths[base_at][current_at + 1] >= lengths[base_at + 1][current_at])) {
+            if (removed == 0 && added == 0) {
+                hunk_row = head + current_at;
+            }
+            added = added + 1;
+            current_at = current_at + 1;
+        } else {
+            if (removed == 0 && added == 0) {
+                hunk_row = head + current_at;
+            }
+            removed = removed + 1;
+            base_at = base_at + 1;
+        }
+    }
+    if (removed > 0 || added > 0) {
+        note_hunk(hunks, hunk_row, removed, added);
+    }
+    return hunks;
+}
+
+/// The first hunk start after `row` (or the last one before it, for
+/// `is_forward` false); -1 when there is none.
+pub int next_start(Hunks hunks, int row, bool is_forward) {
+    if (is_forward) {
+        for (int start in hunks.starts) {
+            if (start > row) {
+                return start;
+            }
+        }
+        return -1;
+    }
+    int found = -1;
+    for (int start in hunks.starts) {
+        if (start < row) {
+            found = start;
+        }
+    }
+    return found;
+}

@@ -32,6 +32,7 @@ import engine.MED_case;
 import engine.MED_view;
 import engine.MED_map;
 import engine.MED_expr;
+import engine.MED_listing;
 import engine.MED_option;
 import engine.MED_surround;
 
@@ -1425,7 +1426,23 @@ Step exec_cmd(MED_editor.Editor editor, Cmd cmd) {
         editor.requests.push(name + bang + " " + cmd.arg);
         return done();
     }
-    if (name == "registers" || name == "display" || name == "marks" || name == "jumps" || name == "changes" || name == "stopinsert") {
+    if (name == "marks") {
+        editor.message = MED_listing.marks(editor, cmd.arg.trim().split(" ").join("")).join("\n");
+        return done();
+    }
+    if (name == "registers" || name == "display") {
+        editor.message = MED_listing.registers(editor, cmd.arg.trim().split(" ").join("")).join("\n");
+        return done();
+    }
+    if (name == "jumps") {
+        editor.message = MED_listing.jumps(editor).join("\n");
+        return done();
+    }
+    if (name == "changes") {
+        editor.message = MED_listing.changes(editor).join("\n");
+        return done();
+    }
+    if (name == "stopinsert") {
         return done();
     }
     if (name == "startinsert") {
