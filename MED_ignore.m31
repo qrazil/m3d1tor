@@ -1,0 +1,212 @@
+// .gitignore matching for the file and grep pickers.
+//
+// A pure module over strings: `Ignore.add_text(base, text)` takes the lines of
+// a .gitignore that lives in directory `base` ("" for the project root, else
+// "dir/sub/") and `Ignore.is_ignored(path, is_directory)` answers for a path relative
+// to the project root. Rules are tried in order and the last match wins, so a
+// later `!pattern` re-includes what an earlier rule excluded.
+//
+// Supported: `#` comments, blank lines, `!` negation, a trailing `/` (directories
+// only), a leading `/` or any other `/` (anchored to the directory of the
+// file), and the wildcards `*` `?` `[a-z]` `[!a-z]` `\x` within one path
+// segment, `**` as a whole segment (any number of directories). The walker
+// never descends into an ignored directory, so a file whose parent is ignored
+// needs no check of its own (git's rule too: it cannot be re-included).
+
+pub type Rule {
+    pub str base;
+    pub List<str> segments;
+    pub bool is_negated;
+    pub bool is_directory_only;
+    pub bool is_anchored;
+}
+
+pub type Ignore {
+    pub List<Rule> rules = [];
+}
+
+/// Add the rules of one ignore file living in `base`.
+pub void Ignore.add_text(str base, str text) {
+    for (str raw in text.split("\n")) {
+        str line = raw;
+        if (line.ends_with("\r")) {
+            line = line.substr(0, line.size() - 1);
+        }
+        while (line.ends_with(" ") && !line.ends_with("\\ ")) {
+            line = line.substr(0, line.size() - 1);
+        }
+        if (line.size() == 0 || line.starts_with("#")) {
+            continue;
+        }
+        bool is_negated = false;
+        if (line.starts_with("!")) {
+            is_negated = true;
+            line = line.substr(1, line.size());
+        } else if (line.starts_with("\\!") || line.starts_with("\\#")) {
+            line = line.substr(1, line.size());
+        }
+        bool is_directory_only = false;
+        if (line.ends_with("/")) {
+            is_directory_only = true;
+            line = line.substr(0, line.size() - 1);
+        }
+        bool is_anchored = false;
+        if (line.starts_with("/")) {
+            is_anchored = true;
+            line = line.substr(1, line.size());
+        }
+        if (line.size() == 0) {
+            continue;
+        }
+        if (line.contains("/")) {
+            is_anchored = true;
+        }
+        rules.push(Rule(base, line.split("/"), is_negated, is_directory_only, is_anchored));
+    }
+}
+
+/// How many rules there are (to drop a directory's own rules when leaving it).
+pub int Ignore.size() {
+    return rules.size();
+}
+
+/// Keep only the first `count` rules.
+pub void Ignore.truncate(int count) {
+    if (count < rules.size()) {
+        rules = rules.slice(0, count);
+    }
+}
+
+/// Whether the rules exclude `path` (relative to the project root, `/` separated).
+pub bool Ignore.is_ignored(str path, bool is_directory) {
+    bool is_hit = false;
+    for (Rule rule in rules) {
+        if (rule.is_directory_only && !is_directory) {
+            continue;
+        }
+        if (!path.starts_with(rule.base)) {
+            continue;
+        }
+        List<str> below = path.substr(rule.base.size(), path.size()).split("/");
+        bool is_match = false;
+        if (rule.is_anchored) {
+            is_match = is_segments_match(rule.segments, 0, below, 0);
+        } else {
+            is_match = is_glob_match(rule.segments[0].chars(), 0, below[below.size() - 1].chars(), 0);
+        }
+        if (is_match) {
+            is_hit = !rule.is_negated;
+        }
+    }
+    return is_hit;
+}
+
+/// Whether the pattern segments from `first` match the path segments from `from`.
+bool is_segments_match(List<str> pattern, int first, List<str> path, int from) {
+    if (first == pattern.size()) {
+        return from == path.size();
+    }
+    if (pattern[first] == "**") {
+        if (first == pattern.size() - 1) {
+            // a trailing `**` is everything inside, not the directory itself
+            return from < path.size();
+        }
+        for (int skip in from .. path.size() + 1) {
+            if (is_segments_match(pattern, first + 1, path, skip)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (from >= path.size()) {
+        return false;
+    }
+    if (!is_glob_match(pattern[first].chars(), 0, path[from].chars(), 0)) {
+        return false;
+    }
+    return is_segments_match(pattern, first + 1, path, from + 1);
+}
+
+/// Wildcard match of one segment: `*` `?` `[set]` `[!set]` and `\x`.
+pub bool is_glob_match(List<int> pattern, int pattern_at, List<int> text, int text_at) {
+    if (pattern_at == pattern.size()) {
+        return text_at == text.size();
+    }
+    int code = pattern[pattern_at];
+    if (code == 42) {
+        for (int skip in text_at .. text.size() + 1) {
+            if (is_glob_match(pattern, pattern_at + 1, text, skip)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (text_at >= text.size()) {
+        return false;
+    }
+    if (code == 63) {
+        return is_glob_match(pattern, pattern_at + 1, text, text_at + 1);
+    }
+    if (code == 91) {
+        int set_close = set_end(pattern, pattern_at);
+        if (set_close > 0) {
+            if (!is_in_set(pattern, pattern_at + 1, set_close, text[text_at])) {
+                return false;
+            }
+            return is_glob_match(pattern, set_close + 1, text, text_at + 1);
+        }
+    }
+    int literal = code;
+    int next = pattern_at + 1;
+    if (code == 92 && pattern_at + 1 < pattern.size()) {
+        literal = pattern[pattern_at + 1];
+        next = pattern_at + 2;
+    }
+    if (literal != text[text_at]) {
+        return false;
+    }
+    return is_glob_match(pattern, next, text, text_at + 1);
+}
+
+/// The index of the `]` closing the set that opens at `open`, or -1.
+int set_end(List<int> pattern, int open) {
+    int spot = open + 1;
+    if (spot < pattern.size() && (pattern[spot] == 33 || pattern[spot] == 94)) {
+        spot = spot + 1;
+    }
+    if (spot < pattern.size() && pattern[spot] == 93) {
+        spot = spot + 1;
+    }
+    while (spot < pattern.size()) {
+        if (pattern[spot] == 93) {
+            return spot;
+        }
+        spot = spot + 1;
+    }
+    return -1;
+}
+
+/// Whether `code` is in the set between `first` (after the `[`) and `set_close`.
+bool is_in_set(List<int> pattern, int first, int set_close, int code) {
+    int spot = first;
+    bool is_inverted = false;
+    if (pattern[spot] == 33 || pattern[spot] == 94) {
+        is_inverted = true;
+        spot = spot + 1;
+    }
+    bool is_in = false;
+    while (spot < set_close) {
+        if (spot + 2 < set_close && pattern[spot + 1] == 45) {
+            if (code >= pattern[spot] && code <= pattern[spot + 2]) {
+                is_in = true;
+            }
+            spot = spot + 3;
+        } else {
+            if (code == pattern[spot]) {
+                is_in = true;
+            }
+            spot = spot + 1;
+        }
+    }
+    return is_in != is_inverted;
+}

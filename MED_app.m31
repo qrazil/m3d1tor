@@ -16,12 +16,18 @@ import term;
 import tui.TUI_app;
 import tui.TUI_buffer;
 import tui.TUI_geometry;
+import tui.TUI_menu;
 import tui.TUI_mouse;
 import tui.TUI_style;
 import MED_buffer;
 import MED_editor;
 import MED_ex;
+import MED_files;
+import MED_grep;
 import MED_key;
+import MED_keymap;
+import MED_picker;
+import MED_picker_view;
 import MED_text;
 import MED_view;
 
@@ -33,6 +39,9 @@ const int MIN_DIGITS = 3;
 const int SELECTION_COLOUR = 240;
 /// Lines the mouse wheel scrolls per notch.
 const int WHEEL_LINES = 3;
+/// Quiet time (ms) after typing in the grep prompt before the search runs.
+const int GREP_DEBOUNCE_MS = 120;
+const int PREVIEW_LINES = 3000;
 const int VKIND_CHAR = 118;
 const int VKIND_LINE = 86;
 
@@ -66,6 +75,24 @@ pub type App {
     pub int next_id = 2;
     /// Lines shown over the text until the next key (`:ls` and long messages).
     pub List<str> overlay = [];
+    /// The open picker, if any.
+    pub MED_picker.Picker picker = MED_picker.make(0, "");
+    pub bool has_picker = false;
+    /// The project root the file and grep pickers walk.
+    pub str root = ".";
+    pub MED_grep.Corpus corpus = MED_grep.Corpus();
+    pub bool is_grep_due = false;
+    pub int idle_ms = 0;
+    pub MED_picker_view.Preview preview = MED_picker_view.Preview();
+    pub str preview_path = "";
+    pub List<str> preview_lines = [];
+    /// <Space> was typed: the keys after it so far, and the wait for which-key.
+    pub bool is_leader = false;
+    pub str leader = "";
+    pub int leader_ms = 0;
+    pub bool is_which_key = false;
+    /// The previous key fed to the engine (for the `jk` mapping).
+    pub int last_key = 0;
 }
 
 /// Whether the text differs from what was last written (undo back to the
@@ -441,6 +468,18 @@ void App.run_request(str request) {
         delete_buffer(arg, is_forced);
     } else if (name == "ls" || name == "buffers" || name == "files") {
         overlay = buffer_list();
+    } else if (name == "Files") {
+        open_picker("files", arg);
+    } else if (name == "Buffers") {
+        open_picker("buffers", arg);
+    } else if (name == "Grep") {
+        open_picker("grep", arg);
+    } else if (name == "Commands") {
+        open_picker("commands", arg);
+    } else if (name == "help") {
+        open_picker("help", arg);
+    } else if (name == "Explore") {
+        open_picker("explore", arg);
     } else {
         notice = "Not supported yet: :" + request.trim();
     }
@@ -481,8 +520,372 @@ bool App.did_finish() {
     return true;
 }
 
+// ------------------------------------------------------------------ pickers
+
+/// Open the picker `name` (files, buffers, grep, commands, help, explore);
+/// `arg` is the starting query of grep or the directory of the explorer.
+void App.open_picker(str name, str arg) {
+    overlay = [];
+    is_leader = false;
+    is_which_key = false;
+    preview_path = "";
+    is_grep_due = false;
+    if (name == "files") {
+        picker = MED_picker.make(MED_picker.KIND_FILES, "Files");
+        root = MED_files.project_root();
+        load_files();
+    } else if (name == "buffers") {
+        picker = MED_picker.make(MED_picker.KIND_BUFFERS, "Buffers");
+        load_buffers();
+    } else if (name == "grep") {
+        picker = MED_picker.make(MED_picker.KIND_GREP, "Grep");
+        root = MED_files.project_root();
+        load_corpus();
+        picker.query = arg.trim();
+        run_grep();
+    } else if (name == "commands") {
+        picker = MED_picker.make(MED_picker.KIND_COMMANDS, "Commands");
+        load_commands(false);
+    } else if (name == "help") {
+        picker = MED_picker.make(MED_picker.KIND_HELP, "Keymap");
+        load_commands(true);
+    } else if (name == "explore") {
+        picker = MED_picker.make(MED_picker.KIND_EXPLORE, "Explore");
+        picker.directory = parent_directory(path);
+        if (arg.trim().size() > 0) {
+            picker.directory = arg.trim();
+        }
+        load_directory();
+    } else {
+        notice = "Not supported yet: " + name;
+        return;
+    }
+    has_picker = true;
+    update_preview();
+}
+
+void App.load_files() {
+    List<MED_picker.Entry> entries = [];
+    for (str relative in MED_files.list_files(root, picker.is_hidden_shown, picker.is_ignore_used)) {
+        entries.push(MED_picker.Entry(relative, path: MED_files.path_of(root, relative)));
+    }
+    picker.set_entries(entries);
+}
+
+void App.load_buffers() {
+    save_active();
+    List<MED_picker.Entry> entries = [];
+    for (Slot slot in slots) {
+        str text = slot.id.to_str() + "  " + slot_name(slot);
+        if (is_slot_modified(slot)) {
+            text = text + " [+]";
+        }
+        if (slot.id == current_id) {
+            text = text + "  (current)";
+        }
+        entries.push(MED_picker.Entry(text, id: slot.id));
+    }
+    picker.set_entries(entries);
+}
+
+void App.load_commands(bool is_help) {
+    List<MED_picker.Entry> entries = [];
+    List<str> seen = [];
+    List<MED_keymap.Binding> rows = [];
+    for (MED_keymap.Binding row in MED_keymap.defaults()) {
+        if (row.action.size() > 0) {
+            rows.push(row);
+        }
+    }
+    for (MED_keymap.Binding row in MED_keymap.commands()) {
+        rows.push(row);
+    }
+    for (MED_keymap.Binding row in rows) {
+        if (!is_help && seen.contains(row.label)) {
+            continue;
+        }
+        seen.push(row.label);
+        entries.push(MED_picker.Entry(MED_keymap.entry_text(row, is_help), action: row.action));
+    }
+    if (is_help) {
+        for (MED_keymap.Binding row in MED_keymap.notes()) {
+            entries.push(MED_picker.Entry(MED_keymap.entry_text(row, true)));
+        }
+    }
+    picker.set_entries(entries);
+}
+
+void App.load_directory() {
+    List<MED_picker.Entry> entries = [];
+    entries.push(MED_picker.Entry("../", path: child_path(picker.directory, "..")));
+    for (str name in MED_files.list_directory(picker.directory, picker.is_hidden_shown)) {
+        str bare = name;
+        if (name.ends_with("/")) {
+            bare = name.substr(0, name.size() - 1);
+        }
+        entries.push(MED_picker.Entry(name, path: child_path(picker.directory, bare)));
+    }
+    picker.title = "Explore " + picker.directory;
+    picker.query = "";
+    picker.set_entries(entries);
+}
+
+/// Read the files grep searches (again after a toggle).
+void App.load_corpus() {
+    corpus = MED_grep.load(root, MED_files.list_files(root, picker.is_hidden_shown, picker.is_ignore_used));
+}
+
+void App.run_grep() {
+    is_grep_due = false;
+    List<MED_picker.Entry> entries = [];
+    for (MED_grep.Hit hit in MED_grep.search(corpus, picker.query, picker.is_fixed)) {
+        str text = hit.text.trim().split("\t").join(" ");
+        entries.push(MED_picker.Entry(hit.path + ":" + (hit.line + 1).to_str() + ": " + text, path: MED_files.path_of(root, hit.path), line: hit.line, column: hit.column));
+    }
+    picker.set_entries(entries);
+}
+
+/// A toggle changed what the picker lists.
+void App.reload_picker() {
+    if (picker.kind == MED_picker.KIND_FILES) {
+        load_files();
+    } else if (picker.kind == MED_picker.KIND_GREP) {
+        load_corpus();
+        run_grep();
+    } else if (picker.kind == MED_picker.KIND_EXPLORE) {
+        load_directory();
+    }
+}
+
+/// The lines previewed for the selection, read again only when the file changes.
+void App.update_preview() {
+    preview = MED_picker_view.Preview();
+    match (picker.current()) {
+        case Some(MED_picker.Entry entry): {
+            if (picker.kind == MED_picker.KIND_BUFFERS) {
+                save_active();
+                int position = index_of(entry.id);
+                if (position >= 0) {
+                    Slot slot = slots[position];
+                    preview = MED_picker_view.Preview(title: slot_name(slot), lines: slot.editor.buffer.dump().split("\n"), focus: slot.editor.row);
+                }
+                return;
+            }
+            bool is_file = picker.kind == MED_picker.KIND_FILES || picker.kind == MED_picker.KIND_GREP || picker.kind == MED_picker.KIND_EXPLORE;
+            if (!is_file || entry.path.size() == 0 || entry.text.ends_with("/")) {
+                return;
+            }
+            if (entry.path != preview_path) {
+                preview_lines = read_preview(entry.path);
+                preview_path = entry.path;
+            }
+            int focus = -1;
+            if (picker.kind == MED_picker.KIND_GREP) {
+                focus = entry.line;
+            }
+            preview = MED_picker_view.Preview(title: entry.path, lines: preview_lines, focus: focus);
+        }
+        case None: {
+        }
+    }
+}
+
+/// Run an action row: `picker:NAME` or `ex:LINE`. True when the editor should quit.
+bool App.should_quit_after_action(str action) {
+    if (action.starts_with("picker:")) {
+        open_picker(action.substr(7, action.size()), "");
+        return false;
+    }
+    if (action.starts_with("ex:")) {
+        MED_ex.feed(editor, 58);
+        for (int code_point in action.substr(3, action.size()).chars()) {
+            MED_ex.feed(editor, code_point);
+        }
+        MED_ex.feed(editor, MED_key.CARRIAGE_RETURN);
+        return did_finish();
+    }
+    return false;
+}
+
+/// Enter in the picker. True when the editor should quit.
+bool App.should_quit_after_accept() {
+    match (picker.current()) {
+        case Some(MED_picker.Entry entry): {
+            int kind = picker.kind;
+            if (kind == MED_picker.KIND_EXPLORE && entry.text.ends_with("/")) {
+                if (entry.text == "../") {
+                    picker.directory = up_directory(picker.directory);
+                } else {
+                    picker.directory = entry.path;
+                }
+                load_directory();
+                update_preview();
+                return false;
+            }
+            has_picker = false;
+            if (kind == MED_picker.KIND_FILES || kind == MED_picker.KIND_EXPLORE) {
+                edit(entry.path, false);
+            } else if (kind == MED_picker.KIND_BUFFERS) {
+                go_buffer(entry.id.to_str());
+            } else if (kind == MED_picker.KIND_GREP) {
+                edit(entry.path, false);
+                editor.row = entry.line;
+                editor.col = entry.column;
+                editor.clamp();
+                editor.want_from_cursor();
+            } else if (entry.action.size() > 0) {
+                return should_quit_after_action(entry.action);
+            }
+        }
+        case None: {
+            has_picker = false;
+        }
+    }
+    return false;
+}
+
+/// One event while a picker is open.
+TUI_app.Action App.handle_picker(term.Event event) {
+    List<int> keys = [];
+    match (event) {
+        case Key(term.Key key): {
+            keys = keys_of_key(key);
+        }
+        case Paste(str text): {
+            for (int code_point in text.chars()) {
+                if (code_point >= 32) {
+                    keys.push(code_point);
+                }
+            }
+        }
+        case Mouse(term.Mouse mouse): {
+        }
+        case Unknown(bytes data): {
+        }
+    }
+    for (int key in keys) {
+        match (picker.feed(key)) {
+            case Stay: {
+            }
+            case Accept: {
+                if (should_quit_after_accept()) {
+                    return TUI_app.Action.Quit;
+                }
+            }
+            case Cancel: {
+                has_picker = false;
+            }
+            case Requery: {
+                is_grep_due = true;
+                idle_ms = 0;
+            }
+            case Reload: {
+                reload_picker();
+            }
+            case Up: {
+                picker.directory = up_directory(picker.directory);
+                load_directory();
+            }
+        }
+        if (!has_picker) {
+            break;
+        }
+    }
+    if (has_picker) {
+        update_preview();
+    }
+    return TUI_app.Action.Redraw;
+}
+
+// -------------------------------------------------------------- leader keys
+
+void App.cancel_leader() {
+    is_leader = false;
+    is_which_key = false;
+    leader = "";
+}
+
+/// One key after <Space>. True when the editor should quit.
+bool App.should_quit_after_leader(int key) {
+    if (key < 32 || key > 126) {
+        cancel_leader();
+        return false;
+    }
+    leader = leader + str.from_chars([key]);
+    List<MED_keymap.Binding> table = MED_keymap.defaults();
+    int found = MED_keymap.lookup(table, leader);
+    if (found == MED_keymap.IS_LEAF) {
+        MED_keymap.Binding row = MED_keymap.leaf(table, leader);
+        cancel_leader();
+        return should_quit_after_action(row.action);
+    }
+    if (found == MED_keymap.IS_PREFIX) {
+        leader_ms = 0;
+        return false;
+    }
+    notice = "No mapping for <Space>" + leader;
+    cancel_leader();
+    return false;
+}
+
+/// The timer: which-key after a pending leader waits, and the grep debounce.
+pub TUI_app.Action App.tick(int elapsed_ms) {
+    if (is_leader && !is_which_key) {
+        leader_ms = leader_ms + elapsed_ms;
+        if (leader_ms >= MED_keymap.WHICH_KEY_MS) {
+            is_which_key = true;
+            return TUI_app.Action.Redraw;
+        }
+    }
+    if (has_picker && is_grep_due) {
+        idle_ms = idle_ms + elapsed_ms;
+        if (idle_ms >= GREP_DEBOUNCE_MS) {
+            run_grep();
+            update_preview();
+            return TUI_app.Action.Redraw;
+        }
+    }
+    return TUI_app.Action.Continue;
+}
+
+/// One key for the engine, with the front end's own mappings first. True when
+/// the editor should quit.
+bool App.should_quit_after(int key) {
+    if (is_leader) {
+        return should_quit_after_leader(key);
+    }
+    if (editor.mode == MED_editor.NORMAL && key == MED_key.SPACE && editor.pending.size() == 0) {
+        is_leader = true;
+        is_which_key = false;
+        leader = "";
+        leader_ms = 0;
+        return false;
+    }
+    int sent = key;
+    if (editor.mode == MED_editor.INSERT && key == 107 && last_key == 106) {
+        // jk: take back the j and leave Insert mode
+        MED_ex.feed(editor, MED_key.BACKSPACE);
+        sent = MED_key.ESC;
+    } else if (editor.mode == MED_editor.CMDLINE && editor.cmd_type == 58 && editor.cmdline.size() == 0 && key == MED_key.CARRIAGE_RETURN) {
+        // Enter on an empty `:` opens the palette
+        MED_ex.feed(editor, MED_key.ESC);
+        open_picker("commands", "");
+        last_key = 0;
+        return false;
+    }
+    last_key = sent;
+    if (sent == MED_key.ESC) {
+        last_key = 0;
+    }
+    MED_ex.feed(editor, sent);
+    return did_finish();
+}
+
 /// One event: feed its keys to the engine, then the UI requests.
 pub TUI_app.Action App.handle(term.Event event) {
+    if (has_picker) {
+        return handle_picker(event);
+    }
     List<int> keys = keys_of(event);
     if (keys.size() == 0) {
         return TUI_app.Action.Continue;
@@ -497,10 +900,17 @@ pub TUI_app.Action App.handle(term.Event event) {
     }
     editor.view_height = text_rows(TUI_app.screen_size().rows);
     for (int key in keys) {
-        MED_ex.feed(editor, key);
-        if (did_finish()) {
+        if (has_picker) {
+            // a request opened a picker; the rest of the keys are its
+            picker.feed(key);
+            continue;
+        }
+        if (should_quit_after(key)) {
             return TUI_app.Action.Quit;
         }
+    }
+    if (has_picker) {
+        update_preview();
     }
     return TUI_app.Action.Redraw;
 }
@@ -545,6 +955,12 @@ bool App.did_place_cursor(int x_cell, int y_cell) {
 /// A mouse gesture: a press puts the cursor there, a drag selects, the wheel scrolls.
 pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
     TUI_mouse.Gesture gesture = routed.gesture;
+    if (has_picker) {
+        return handle_picker_wheel(gesture);
+    }
+    if (is_leader) {
+        cancel_leader();
+    }
     if (editor.mode == MED_editor.CMDLINE || editor.mode == MED_editor.REPLACE) {
         return TUI_app.Action.Continue;
     }
@@ -694,6 +1110,9 @@ void App.draw_line(TUI_buffer.Buffer buffer, int row, int x_start, int y, int te
 
 /// The pending keys of an unfinished command (`2d`), as typed.
 str App.pending_text() {
+    if (is_leader) {
+        return "<Space>" + leader;
+    }
     str out = "";
     for (int key in editor.pending) {
         if (key >= 32 && key < 127) {
@@ -814,10 +1233,24 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     if (overlay.size() > 0) {
         draw_overlay(buffer, area, rows);
     }
+    if (is_leader && is_which_key) {
+        TUI_menu.WhichKey menu = TUI_menu.WhichKey("<Space>" + leader, MED_keymap.next_items(MED_keymap.defaults(), leader));
+        menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
+    }
+    if (has_picker) {
+        picker.scroll_to(MED_picker_view.list_rows(area));
+        if (preview.focus >= 0) {
+            preview.first = preview.focus - MED_picker_view.list_rows(area) / 3;
+            if (preview.first < 0) {
+                preview.first = 0;
+            }
+        }
+        MED_picker_view.render(buffer, area, picker, preview);
+    }
     draw_status(buffer, area, area.y + rows);
     draw_message(buffer, area, area.y + rows + 1);
     TUI_style.Style cursor_style = TUI_style.Style(attrs: TUI_style.REVERSE);
-    if (overlay.size() > 0) {
+    if (overlay.size() > 0 || has_picker || is_leader) {
         return;
     }
     if (editor.mode == MED_editor.CMDLINE) {
@@ -828,6 +1261,44 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     } else {
         buffer.set_style(area.x + gutter + cursor_spot - left_column, area.y + editor.row - editor.view_top, cursor_style);
     }
+}
+
+/// The mouse wheel moves the picker's selection; nothing else is handled.
+TUI_app.Action App.handle_picker_wheel(TUI_mouse.Gesture gesture) {
+    match (gesture.kind) {
+        case ScrollUp: {
+            picker.feed(MED_key.UP_KEY);
+        }
+        case ScrollDown: {
+            picker.feed(MED_key.DOWN);
+        }
+        case Press: {
+            return TUI_app.Action.Continue;
+        }
+        case Drag: {
+            return TUI_app.Action.Continue;
+        }
+        case Release: {
+            return TUI_app.Action.Continue;
+        }
+        case Click: {
+            return TUI_app.Action.Continue;
+        }
+        case Hover: {
+            return TUI_app.Action.Continue;
+        }
+        case Leave: {
+            return TUI_app.Action.Continue;
+        }
+        case ScrollLeft: {
+            return TUI_app.Action.Continue;
+        }
+        case ScrollRight: {
+            return TUI_app.Action.Continue;
+        }
+    }
+    update_preview();
+    return TUI_app.Action.Redraw;
 }
 
 /// Write `slot`'s text to `target` (its own file when `target` is empty) and
@@ -1002,6 +1473,81 @@ pub Result<App, str> open_all(List<str> paths) {
         return Result<App, str>.Err("no buffer");
     }
     return Result<App, str>.Ok(app);
+}
+
+/// Where the last `/` of `text` is, or -1.
+int last_slash(str text) {
+    int spot = text.size() - 1;
+    while (spot >= 0) {
+        if (text.byte_at(spot) == 47) {
+            return spot;
+        }
+        spot = spot - 1;
+    }
+    return -1;
+}
+
+/// The directory of a file path ("." when it has none).
+str parent_directory(str file) {
+    int spot = last_slash(file);
+    if (spot < 0) {
+        return ".";
+    }
+    if (spot == 0) {
+        return "/";
+    }
+    return file.substr(0, spot);
+}
+
+/// The directory above `directory`.
+str up_directory(str directory) {
+    if (directory == ".") {
+        return "..";
+    }
+    if (directory == ".." || directory.ends_with("/..") || directory == "/") {
+        if (directory == "/") {
+            return "/";
+        }
+        return directory + "/..";
+    }
+    return parent_directory(directory);
+}
+
+str child_path(str directory, str name) {
+    if (directory == ".") {
+        return name;
+    }
+    if (directory.ends_with("/")) {
+        return directory + name;
+    }
+    return directory + "/" + name;
+}
+
+/// The lines of a file for the preview pane.
+List<str> read_preview(str file) {
+    if (!fs.is_file(file)) {
+        return ["(not a file)"];
+    }
+    match (io.read(file)) {
+        case Ok(str text): {
+            if (text.size() > MED_grep.MAX_BYTES) {
+                return ["(file too large to preview)"];
+            }
+            for (int spot in 0 .. 512) {
+                if (spot < text.size() && text.byte_at(spot) == 0) {
+                    return ["(binary file)"];
+                }
+            }
+            List<str> lines = text.split("\n");
+            if (lines.size() > PREVIEW_LINES) {
+                return lines.slice(0, PREVIEW_LINES);
+            }
+            return lines;
+        }
+        case Err(io.Error error): {
+            return ["(cannot read: " + error.to_str() + ")"];
+        }
+    }
 }
 
 /// The rows of text for a window of `rows` rows.

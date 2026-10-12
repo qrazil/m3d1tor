@@ -1,0 +1,187 @@
+// Project grep for the grep picker: ripgrep-like, in m31.
+//
+// A `Corpus` is the readable text files of a list of paths, loaded once (a file
+// over MAX_BYTES, or with a NUL byte in its first 8 KiB, or that is not valid
+// UTF-8, is skipped). `search` matches one query line by line:
+//
+//   * smart-case: case-insensitive unless the query has a capital letter
+//   * a query with no regex metacharacter, or with `is_fixed` set, is a plain
+//     substring (the fast path: one `contains` per file rules most files out)
+//   * otherwise it is a regex (m31's `regex`: no backreferences; `^`/`$` are
+//     line anchors here because the search is per line); a pattern that does
+//     not compile falls back to the plain substring
+//
+// A hit carries the 0-based line, the byte column of the match and the line.
+
+import fs;
+import io;
+import text.regex;
+import MED_case;
+import MED_files;
+
+/// Files bigger than this are not searched.
+pub const int MAX_BYTES = 1000000;
+/// Hits returned at most.
+pub const int MAX_HITS = 2000;
+const int NUL_CHECK_BYTES = 8192;
+
+pub type Hit {
+    pub str path;
+    pub int line;
+    pub int column;
+    pub str text;
+}
+
+pub type Corpus {
+    pub List<str> paths = [];
+    pub List<str> texts = [];
+}
+
+bool has_nul(str text) {
+    int stop = text.size();
+    if (stop > NUL_CHECK_BYTES) {
+        stop = NUL_CHECK_BYTES;
+    }
+    for (int spot in 0 .. stop) {
+        if (text.byte_at(spot) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// Read `files` (relative to `root`) into a corpus.
+pub Corpus load(str root, List<str> files) {
+    Corpus corpus = Corpus();
+    for (str relative in files) {
+        str path = MED_files.path_of(root, relative);
+        match (io.read(path)) {
+            case Ok(str text): {
+                if (text.size() <= MAX_BYTES && !has_nul(text)) {
+                    corpus.paths.push(relative);
+                    corpus.texts.push(text);
+                }
+            }
+            case Err(io.Error error): {
+            }
+        }
+    }
+    return corpus;
+}
+
+pub str lowered(str text) {
+    List<int> out = [];
+    for (int code_point in text.chars()) {
+        out.push(MED_case.lower_cp(code_point));
+    }
+    return str.from_chars(out);
+}
+
+/// The pattern lower-cased except what follows a backslash (`\D` stays).
+str lowered_pattern(str pattern) {
+    List<int> out = [];
+    bool is_escaped = false;
+    for (int code_point in pattern.chars()) {
+        if (is_escaped) {
+            out.push(code_point);
+            is_escaped = false;
+        } else if (code_point == 92) {
+            out.push(code_point);
+            is_escaped = true;
+        } else {
+            out.push(MED_case.lower_cp(code_point));
+        }
+    }
+    return str.from_chars(out);
+}
+
+bool has_capital(str text) {
+    for (int code_point in text.chars()) {
+        if (MED_case.lower_cp(code_point) != code_point) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool has_metachar(str query) {
+    for (int code_point in query.chars()) {
+        if (".*+?()[]{}|^$\\".contains(str.from_chars([code_point]))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// Every line of the corpus the query matches, in file order (at most MAX_HITS).
+pub List<Hit> search(Corpus corpus, str query, bool is_fixed) {
+    List<Hit> hits = [];
+    if (query.size() == 0) {
+        return hits;
+    }
+    bool is_folded = !has_capital(query);
+    str needle = query;
+    if (is_folded) {
+        needle = lowered(query);
+    }
+    bool is_regex = !is_fixed && has_metachar(query);
+    List<regex.Regex> compiled_patterns = [];
+    if (is_regex) {
+        str source = query;
+        if (is_folded) {
+            source = lowered_pattern(query);
+        }
+        match (regex.compile(source)) {
+            case Ok(regex.Regex compiled): {
+                compiled_patterns.push(compiled);
+            }
+            case Err(regex.CompileError error): {
+                is_regex = false;
+            }
+        }
+    }
+    for (int file in 0 .. corpus.paths.size()) {
+        if (hits.size() >= MAX_HITS) {
+            break;
+        }
+        str text = corpus.texts[file];
+        str folded = text;
+        if (is_folded) {
+            folded = lowered(text);
+        }
+        if (!is_regex && !folded.contains(needle)) {
+            continue;
+        }
+        List<str> lines = text.split("\n");
+        List<str> compared = lines;
+        if (is_folded) {
+            compared = folded.split("\n");
+        }
+        for (int row in 0 .. lines.size()) {
+            if (hits.size() >= MAX_HITS) {
+                break;
+            }
+            int column = -1;
+            if (is_regex) {
+                match (compiled_patterns[0].find(compared[row])) {
+                    case Some(regex.Match found): {
+                        column = byte_offset(compared[row], found.whole.start);
+                    }
+                    case None: {
+                    }
+                }
+            } else {
+                column = compared[row].index_of(needle).or(-1);
+            }
+            if (column >= 0) {
+                hits.push(Hit(corpus.paths[file], row, column, lines[row]));
+            }
+        }
+    }
+    return hits;
+}
+
+/// The byte offset of code point index `index` in `text`.
+int byte_offset(str text, int index) {
+    return str.from_chars(text.chars().slice(0, index)).size();
+}

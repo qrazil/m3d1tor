@@ -1,0 +1,52 @@
+// Unit checks for MED_ignore: gitignore rules.
+
+import tests.MED_check;
+import MED_ignore;
+
+MED_check.Check check = MED_check.Check();
+
+MED_ignore.Ignore rules_of(str text) {
+    MED_ignore.Ignore ignore = MED_ignore.Ignore();
+    ignore.add_text("", text);
+    return ignore;
+}
+
+MED_ignore.Ignore root = rules_of("# comment\n\n*.log\n/build\ntarget/\n!keep.log\ndocs/*.tmp\n**/cache\nout/**\n*.[oa]\nfoo?.txt\n");
+check.ok("glob star", root.is_ignored("a.log", false));
+check.ok("glob star deep", root.is_ignored("x/y/a.log", false));
+check.ok("negation re-includes", !root.is_ignored("keep.log", false));
+check.ok("negation deep", !root.is_ignored("x/keep.log", false));
+check.ok("anchored matches at the root", root.is_ignored("build", true));
+check.ok("anchored not deeper", !root.is_ignored("x/build", true));
+check.ok("dir-only matches a directory", root.is_ignored("target", true));
+check.ok("dir-only skips a file", !root.is_ignored("target", false));
+check.ok("dir-only deep", root.is_ignored("x/target", true));
+check.ok("slash pattern", root.is_ignored("docs/a.tmp", false));
+check.ok("slash pattern is anchored", !root.is_ignored("x/docs/a.tmp", false));
+check.ok("slash pattern needs the dir", !root.is_ignored("a.tmp", false));
+check.ok("double star prefix, zero dirs", root.is_ignored("cache", true));
+check.ok("double star prefix, deep", root.is_ignored("a/b/cache", true));
+check.ok("double star suffix, inside", root.is_ignored("out/a", false));
+check.ok("double star suffix, not the dir", !root.is_ignored("out", true));
+check.ok("set", root.is_ignored("x.o", false));
+check.ok("set, second member", root.is_ignored("x.a", false));
+check.ok("set, other", !root.is_ignored("x.c", false));
+check.ok("question mark", root.is_ignored("foo1.txt", false));
+check.ok("question mark, none", !root.is_ignored("foo.txt", false));
+check.ok("unrelated", !root.is_ignored("src/main.m31", false));
+MED_ignore.Ignore nested = MED_ignore.Ignore();
+nested.add_text("", "*.tmp\n");
+nested.add_text("sub/", "!keep.tmp\n/only\n");
+check.ok("nested rule applies below its dir", !nested.is_ignored("sub/keep.tmp", false));
+check.ok("nested rule not outside its dir", nested.is_ignored("keep.tmp", false));
+check.ok("nested anchored", nested.is_ignored("sub/only", false));
+check.ok("nested anchored, not deeper", !nested.is_ignored("sub/x/only", false));
+check.ok("nested anchored, not a sibling", !nested.is_ignored("other/only", false));
+int mark = nested.size();
+nested.add_text("deep/", "*\n");
+check.ok("rule added", nested.is_ignored("deep/a", false));
+nested.truncate(mark);
+check.ok("rule dropped", !nested.is_ignored("deep/a", false));
+check.ok("CRLF and trailing blanks", rules_of("a.txt  \r\nb.txt\r\n").is_ignored("a.txt", false));
+check.ok("escaped hash", rules_of("\\#file\n").is_ignored("#file", false));
+check.finish("t_ignore");

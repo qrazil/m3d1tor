@@ -1,0 +1,129 @@
+// The project's files for the pickers: a walk that honours .gitignore.
+//
+// `project_root()` is the nearest ancestor of the working directory with a
+// `.git` (spelled relative, "." or "../.."), else ".". `list_files(root, ...)`
+// returns the paths below it relative to `root`, `/` separated, files only,
+// depth first in name order. It never enters `.git` or an ignored directory,
+// does not follow symbolic links, and skips dot files unless asked.
+
+import fs;
+import io;
+import MED_ignore;
+
+/// The most files a walk returns (a guard for a walk started at `/`).
+pub const int MAX_FILES = 100000;
+const int MAX_UP = 8;
+
+/// The root of the project containing the working directory.
+pub str project_root() {
+    str root = ".";
+    for (int level in 0 .. MAX_UP) {
+        if (fs.is_present(fs.join(root, ".git"))) {
+            return root;
+        }
+        root = fs.join(root, "..");
+    }
+    return ".";
+}
+
+/// The path to open for `relative` below `root`.
+pub str path_of(str root, str relative) {
+    if (root == ".") {
+        return relative;
+    }
+    return fs.join(root, relative);
+}
+
+str read_text(str path) {
+    if (!fs.is_file(path)) {
+        return "";
+    }
+    match (io.read(path)) {
+        case Ok(str text): {
+            return text;
+        }
+        case Err(io.Error error): {
+            return "";
+        }
+    }
+}
+
+/// The files below `root`; dot files only when `is_hidden_shown`, ignored files
+/// only when `is_ignore_used` is false.
+pub List<str> list_files(str root, bool is_hidden_shown, bool is_ignore_used) {
+    List<str> out = [];
+    MED_ignore.Ignore ignore = MED_ignore.Ignore();
+    if (is_ignore_used) {
+        ignore.add_text("", read_text(path_of(root, ".git/info/exclude")));
+    }
+    walk_directory(root, "", is_hidden_shown, is_ignore_used, ignore, out);
+    return out;
+}
+
+void walk_directory(str root, str relative_directory, bool is_hidden_shown, bool is_ignore_used, MED_ignore.Ignore ignore, List<str> out) {
+    str here = path_of(root, relative_directory);
+    if (relative_directory.size() == 0) {
+        here = root;
+    }
+    List<str> names = [];
+    match (fs.listdir(here)) {
+        case Ok(List<str> found): {
+            names = found;
+        }
+        case Err(io.Error error): {
+            return;
+        }
+    }
+    int mark = ignore.size();
+    if (is_ignore_used) {
+        ignore.add_text(relative_directory, read_text(fs.join(here, ".gitignore")));
+    }
+    for (str name in names) {
+        if (out.size() >= MAX_FILES) {
+            break;
+        }
+        if (name == ".git" || (!is_hidden_shown && name.starts_with("."))) {
+            continue;
+        }
+        str relative = relative_directory + name;
+        str full = fs.join(here, name);
+        bool is_directory = fs.is_directory(full) && !fs.is_link(full);
+        if (is_ignore_used && ignore.is_ignored(relative, is_directory)) {
+            continue;
+        }
+        if (is_directory) {
+            walk_directory(root, relative + "/", is_hidden_shown, is_ignore_used, ignore, out);
+        } else {
+            out.push(relative);
+        }
+    }
+    ignore.truncate(mark);
+}
+
+/// The entries of one directory for the explorer: directories first (with a
+/// trailing `/`), then files, each group in name order.
+pub List<str> list_directory(str directory, bool is_hidden_shown) {
+    List<str> dirs = [];
+    List<str> files = [];
+    match (fs.listdir(directory)) {
+        case Ok(List<str> names): {
+            for (str name in names) {
+                if (name == ".git" || (!is_hidden_shown && name.starts_with("."))) {
+                    continue;
+                }
+                str full = fs.join(directory, name);
+                if (fs.is_directory(full)) {
+                    dirs.push(name + "/");
+                } else {
+                    files.push(name);
+                }
+            }
+        }
+        case Err(io.Error error): {
+        }
+    }
+    for (str name in files) {
+        dirs.push(name);
+    }
+    return dirs;
+}

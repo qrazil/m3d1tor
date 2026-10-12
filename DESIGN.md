@@ -309,13 +309,15 @@ MED_operator.m31   d c y > < = gu gU g~ g? gq J gJ ~ r ...
 MED_search.m31     / ? n N * # g* g#, Vim-regex translation
 MED_nrfmt.m31      <C-a> <C-x> g<C-a> g<C-x>: decimal/0x/0b numbers (64-bit signed; Vim's are unsigned 64-bit, so a decimal of 2^63 or more is left alone)
 MED_ex.m31         ex-command parser and executor: ranges (patterns, marks, offsets, `;`), `:s` (flags, `&&`, `~`, `\r`, `\u`/`\U`/`\e`, multi-line patterns), `:g`/`:v`, `:d :y :pu :m :t/:co :j :> :< :k :normal :undo :redo :earlier :later :sort :z :registers`, `:set` of the supported options, `|` chains, `@:` and cmdline history (Up/Down); an ex line is one undo block. `:earlier Nf` / `:later Nf` follow file writes (the editor records the undo node of every write in `saved_nodes`). A whole `@a` (with a count) is one undo block. Insert-mode `<C-o>` runs one Normal command and restarts the insert (cursor, `Insstart` and `<C-w>`/`<C-u>` limits follow nvim; `:normal` keeps the pending restart). `{Visual}@a` is `:'<,'>normal @a` for linewise Visual and runs inside Visual for `v`/`<C-v>`. Not supported: the command-line window (`q:`, `q/`), `.` repeating directly after an insert `<C-o>` (nvim replays the half-finished insert in an order we do not model), `<C-o>` combined with `.`/`g;`/`` `. `` marks (those need the changelist), the nvim K_SPECIAL artifact that a macro recorded with `r`/`f`/`t` + a char picks up when more commands follow, `:s///c`, `\=` replacement expressions, `:!`, `:r`, `:a`/`:i`/`:c`, time-based `:earlier 10s`, an operator followed by `:` (`d:cmd<CR>`), the `.`/`(`/`)` marks, jumplist/changelist. Corpus 52 keeps only the insert-`<C-o>` cases that match nvim; the rest (a column off by one after a `<C-o>` motion from an `A` insert at the end of a line, a block insert inside `<C-o>`, the ``` `` ``` mark, registers or `@a` inside `<C-o>`) are known gaps. `:sort` and `:z` match nvim for the cursor, not the printed text
-MED_keymap.m31     trie, notation compiler, leader, timeouts
-MED_defaults.m31   default bindings as rows
+MED_keymap.m31     leader table (rows: keys, label, action), prefix/leaf lookup, which-key timeout
 MED_command.m31    command registry and dispatch
 MED_editor.m31     modes, pending keys, dot, macros, jumplist
-MED_fuzzy.m31      scorer
-MED_grep.m31       file walk + search
-MED_picker.m31     picker state machine
+MED_fuzzy.m31      scorer: smart-case, fzf-style DP, extended syntax (^ $ ' !), highlight positions; tests/t_fuzzy.m31
+MED_ignore.m31     .gitignore / .git/info/exclude matcher; tests/t_ignore.m31
+MED_files.m31      project root, file walk with ignore and hidden toggles, directory listing
+MED_grep.m31       corpus + search (literal fast path, regex, smart-case); tests/t_grep.m31
+MED_picker.m31     picker state machine (prompt, ranking, selection, keys); tests/t_picker.m31
+MED_picker_view.m31  picker drawing: list, highlights, preview pane
 MED_view.m31       drawing
 MED_help.m31       ? and which-key content from keymap data
 m3d1tor.m31        entry: args, terminal check, tui loop
@@ -444,7 +446,15 @@ as Helix without its language intelligence", and the tag description must say so
 * M1: engine + oracle harness + fuzzer, with a stated divergence list.
 * M2 (started: `m3d1tor <file>` opens, renders with gutter and status line, edits, `:w`, `:q`, `ZZ`; build with `scripts/build.sh`): tui integration: render, scroll, numbers, statusline, command line, insert
   entry, open/save, grapheme width.
-* M3: pickers (files, buffers, grep, palette), which-key, `?`.
+* M3 (done): pickers (files, buffers, grep, commands, help, explorer), which-key, keymap help.
+  Deviations from section 4: sources run synchronously on the loop (the file list
+  and grep corpus are cached; grep is debounced 120 ms by the ticker), not on a
+  spawned thread; `?` stays Vim's backward search, so the keymap help is
+  `<Space>?` / `:help`; Space is the leader in Normal mode (it no longer moves
+  right); which-key only exists for the leader, not for `g`/`z`; no `<C-q>`
+  quickfix list yet; the buffers picker is in buffer order, not MRU. There is no
+  nvim oracle for buffers and pickers, so they are covered by unit tests and
+  manual runs only.
 * M4 (before the tag): splits, explorer, git gutter, surround/comment/autopairs,
   marks UI, keymap file, benchmarks run and recorded.
 

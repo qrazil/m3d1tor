@@ -29,8 +29,8 @@ if (files.size() == 0) {
 }
 match (MED_app.open_all(files)) {
     case Ok(MED_app.App app): {
-        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: true);
-        match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), TUI_app.NoTicker(), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
+        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: true, animate_ms: 50);
+        match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {
             }
             case Err(term.Error error): {

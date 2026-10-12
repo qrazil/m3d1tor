@@ -1,0 +1,278 @@
+// The picker's state machine: a prompt, a ranked list and a selection. No
+// drawing and no I/O; the front end fills `entries`, feeds keys, and carries
+// out the result.
+//
+// Kinds: files, buffers, grep (the prompt is the search, not a filter),
+// commands (the palette), help (the keymap), explore (one directory).
+//
+// Keys (engine key codes): printable characters edit the prompt; Backspace,
+// CTRL-U (clear) and CTRL-W (word) delete; Down/CTRL-N/CTRL-J and Up/CTRL-P/
+// CTRL-K move; PageUp/PageDown jump a page; Enter accepts; Esc/CTRL-C/CTRL-G
+// cancel; CTRL-H toggles hidden files, Tab (CTRL-I) toggles the ignore rules,
+// CTRL-F toggles fixed-string grep. In the explorer `-` on an empty prompt goes
+// up a directory.
+
+import MED_fuzzy;
+import MED_key;
+
+pub const int KIND_FILES = 0;
+pub const int KIND_BUFFERS = 1;
+pub const int KIND_GREP = 2;
+pub const int KIND_COMMANDS = 3;
+pub const int KIND_HELP = 4;
+pub const int KIND_EXPLORE = 5;
+/// Most rows ranked and kept (the list shows a window of them).
+const int MAX_SHOWN = 5000;
+const int PAGE = 10;
+
+pub type Entry {
+    /// What is shown and matched.
+    pub str text;
+    /// The file, for files, grep and explorer entries.
+    pub str path = "";
+    /// The 0-based line and byte column of a grep hit.
+    pub int line = 0;
+    pub int column = 0;
+    /// The buffer number of a buffer entry.
+    pub int id = 0;
+    /// The action of a palette or help entry.
+    pub str action = "";
+}
+
+pub enum Outcome {
+    Stay;
+    Accept;
+    Cancel;
+    /// The grep prompt changed: search again.
+    Requery;
+    /// A toggle changed which files exist: list them again.
+    Reload;
+    /// The explorer goes up one directory.
+    Up;
+}
+
+pub int Outcome.code() {
+    match (this) {
+        case Stay: {
+            return 0;
+        }
+        case Accept: {
+            return 1;
+        }
+        case Cancel: {
+            return 2;
+        }
+        case Requery: {
+            return 3;
+        }
+        case Reload: {
+            return 4;
+        }
+        case Up: {
+            return 5;
+        }
+    }
+}
+
+pub bool Outcome.eq(Outcome other) {
+    return code() == other.code();
+}
+
+pub type Picker {
+    pub int kind = 0;
+    pub str title = "";
+    pub List<Entry> entries = [];
+    /// Indices into `entries`, best first.
+    pub List<int> shown = [];
+    pub str query = "";
+    pub int selected = 0;
+    pub int top = 0;
+    pub bool is_hidden_shown = false;
+    pub bool is_ignore_used = true;
+    pub bool is_fixed = false;
+    /// The explorer's directory ("" for the others).
+    pub str directory = "";
+}
+
+/// Whether the prompt is a filter over `entries` (every kind but grep).
+pub bool Picker.is_filter() {
+    return kind != KIND_GREP;
+}
+
+/// Replace the entries and rank them again.
+pub void Picker.set_entries(List<Entry> fresh) {
+    entries = fresh;
+    refilter();
+}
+
+/// Rank the entries by the prompt, keeping the selection on the first row.
+pub void Picker.refilter() {
+    shown = [];
+    selected = 0;
+    top = 0;
+    if (!is_filter()) {
+        for (int index in 0 .. entries.size()) {
+            if (index >= MAX_SHOWN) {
+                break;
+            }
+            shown.push(index);
+        }
+        return;
+    }
+    MED_fuzzy.Query parsed = MED_fuzzy.parse(query);
+    if (parsed.is_empty()) {
+        for (int index in 0 .. entries.size()) {
+            if (index >= MAX_SHOWN) {
+                break;
+            }
+            shown.push(index);
+        }
+        return;
+    }
+    List<str> texts = [];
+    for (Entry entry in entries) {
+        texts.push(entry.text);
+    }
+    for (MED_fuzzy.Ranked ranked in MED_fuzzy.rank(parsed, texts, MAX_SHOWN)) {
+        shown.push(ranked.item_index);
+    }
+}
+
+pub int Picker.count() {
+    return shown.size();
+}
+
+/// The selected entry; `None` when nothing matches.
+pub Option<Entry> Picker.current() {
+    if (selected < 0 || selected >= shown.size()) {
+        return Option<Entry>.None;
+    }
+    return Option<Entry>.Some(entries[shown[selected]]);
+}
+
+/// Move the selection by `step`, clamped to the list.
+void Picker.move(int step) {
+    selected = selected + step;
+    if (selected >= shown.size()) {
+        selected = shown.size() - 1;
+    }
+    if (selected < 0) {
+        selected = 0;
+    }
+}
+
+/// Scroll so the selection is inside a window of `rows` rows.
+pub void Picker.scroll_to(int rows) {
+    if (rows < 1) {
+        return;
+    }
+    if (selected < top) {
+        top = selected;
+    }
+    if (selected >= top + rows) {
+        top = selected - rows + 1;
+    }
+}
+
+/// The prompt changed: filter again, or ask for a new grep.
+Outcome Picker.edited() {
+    if (is_filter()) {
+        refilter();
+        return Outcome.Stay;
+    }
+    return Outcome.Requery;
+}
+
+/// One key.
+pub Outcome Picker.feed(int key) {
+    if (key == MED_key.ESC || key == 3 || key == 7) {
+        return Outcome.Cancel;
+    }
+    if (key == MED_key.CARRIAGE_RETURN) {
+        return Outcome.Accept;
+    }
+    if (key == MED_key.DOWN || key == 14 || key == 10) {
+        move(1);
+        return Outcome.Stay;
+    }
+    if (key == MED_key.UP_KEY || key == 16 || key == 11) {
+        move(-1);
+        return Outcome.Stay;
+    }
+    if (key == MED_key.PAGE_DOWN) {
+        move(PAGE);
+        return Outcome.Stay;
+    }
+    if (key == MED_key.PAGE_UP) {
+        move(-PAGE);
+        return Outcome.Stay;
+    }
+    if (key == MED_key.HOME) {
+        selected = 0;
+        return Outcome.Stay;
+    }
+    if (key == MED_key.END) {
+        move(shown.size());
+        return Outcome.Stay;
+    }
+    if (key == MED_key.BACKSPACE) {
+        if (query.size() == 0) {
+            return Outcome.Stay;
+        }
+        query = without_last_char(query);
+        return edited();
+    }
+    if (key == 21) {
+        query = "";
+        return edited();
+    }
+    if (key == 23) {
+        query = without_last_word(query);
+        return edited();
+    }
+    if (key == MED_key.CTRL_H) {
+        is_hidden_shown = !is_hidden_shown;
+        return Outcome.Reload;
+    }
+    if (key == MED_key.TAB) {
+        is_ignore_used = !is_ignore_used;
+        return Outcome.Reload;
+    }
+    if (key == 6) {
+        is_fixed = !is_fixed;
+        if (kind == KIND_GREP) {
+            return Outcome.Requery;
+        }
+        return Outcome.Stay;
+    }
+    if (key == 45 && kind == KIND_EXPLORE && query.size() == 0) {
+        return Outcome.Up;
+    }
+    if (key >= 32 && key != 127 && key < MED_key.UP_KEY) {
+        query = query + str.from_chars([key]);
+        return edited();
+    }
+    return Outcome.Stay;
+}
+
+pub Picker make(int kind, str title) {
+    return Picker(kind: kind, title: title);
+}
+
+/// Delete the last word of the prompt (and the blanks before it).
+str without_last_word(str text) {
+    List<int> chars = text.chars();
+    int stop = chars.size();
+    while (stop > 0 && chars[stop - 1] == 32) {
+        stop = stop - 1;
+    }
+    while (stop > 0 && chars[stop - 1] != 32) {
+        stop = stop - 1;
+    }
+    return str.from_chars(chars.slice(0, stop));
+}
+
+str without_last_char(str text) {
+    List<int> chars = text.chars();
+    return str.from_chars(chars.slice(0, chars.size() - 1));
+}

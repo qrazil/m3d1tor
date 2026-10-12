@@ -1,0 +1,176 @@
+// Drawing a picker: a bordered box over the text with the prompt on top, the
+// ranked list under it (matched characters highlighted) and, when the box is
+// wide enough, a preview of the selected file on the right.
+
+import tui.TUI_buffer;
+import tui.TUI_geometry;
+import tui.TUI_style;
+import tui.TUI_text;
+import tui.TUI_widget;
+import MED_fuzzy;
+import MED_picker;
+
+/// The box needs this much width for a preview pane beside the list.
+const int PREVIEW_MIN_WIDTH = 100;
+const int SELECTED_COLOUR = 237;
+const int MATCH_COLOUR = 3;
+/// Rows of the screen left uncovered below the box (status and command line).
+const int FOOTER = 2;
+
+/// The preview pane's text: lines of a file from `first`, with `focus` (a line
+/// index, or -1) marked.
+pub type Preview {
+    pub str title = "";
+    pub List<str> lines = [];
+    pub int first = 0;
+    pub int focus = -1;
+}
+
+/// The box a picker occupies in `area`.
+pub TUI_geometry.Rect box_of(TUI_geometry.Rect area) {
+    int margin_x = 2;
+    if (area.width < 50) {
+        margin_x = 0;
+    }
+    int height = area.height - FOOTER - 1;
+    if (height < 5) {
+        height = area.height - FOOTER;
+    }
+    return TUI_geometry.Rect(area.x + margin_x, area.y, area.width - margin_x * 2, height);
+}
+
+/// The rows of the list inside the box (for scrolling and mouse picking).
+pub int list_rows(TUI_geometry.Rect area) {
+    int rows = box_of(area).height - 3;
+    if (rows < 1) {
+        return 1;
+    }
+    return rows;
+}
+
+/// Draw `text` with the characters at `matched` highlighted, `max` columns at most.
+void draw_matched(TUI_buffer.Buffer buffer, int x, int y, str text, List<int> matched, TUI_style.Style base, int max) {
+    TUI_style.Style hot = base.with_foreground(TUI_style.Colour.Indexed(MATCH_COLOUR)).with_attrs(TUI_style.BOLD);
+    int spot = x;
+    int index = 0;
+    for (int code_point in text.chars()) {
+        str symbol = str.from_chars([code_point]);
+        int width = TUI_text.width(symbol);
+        if (spot - x + width > max) {
+            break;
+        }
+        TUI_style.Style style = base;
+        if (matched.contains(index)) {
+            style = hot;
+        }
+        buffer.set_str(spot, y, symbol, style, max: width);
+        spot = spot + width;
+        index = index + 1;
+    }
+}
+
+void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Picker picker) {
+    MED_fuzzy.Query query = MED_fuzzy.parse(picker.query);
+    TUI_style.Style plain = TUI_style.Style.plain;
+    TUI_style.Style chosen = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTED_COLOUR), attrs: TUI_style.BOLD);
+    for (int row in 0 .. rect.height) {
+        int rank = picker.top + row;
+        if (rank >= picker.shown.size()) {
+            break;
+        }
+        MED_picker.Entry entry = picker.entries[picker.shown[rank]];
+        int y = rect.y + row;
+        TUI_style.Style style = plain;
+        str marker = "  ";
+        if (rank == picker.selected) {
+            style = chosen;
+            marker = "> ";
+            buffer.fill(TUI_geometry.Rect(rect.x, y, rect.width, 1), " ", chosen);
+        }
+        buffer.set_str(rect.x, y, marker, style, max: rect.width);
+        List<int> matched = [];
+        if (picker.is_filter()) {
+            matched = query.positions(entry.text);
+        }
+        draw_matched(buffer, rect.x + 2, y, entry.text, matched, style, rect.width - 2);
+    }
+}
+
+void draw_preview(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, Preview preview) {
+    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
+    TUI_style.Style focus = TUI_style.Style(attrs: TUI_style.BOLD | TUI_style.REVERSE);
+    TUI_style.Style plain = TUI_style.Style.plain;
+    buffer.set_str(rect.x, rect.y, TUI_text.truncate(preview.title, rect.width), TUI_style.Style(attrs: TUI_style.BOLD), max: rect.width);
+    for (int row in 1 .. rect.height) {
+        int index = preview.first + row - 1;
+        if (index >= preview.lines.size()) {
+            break;
+        }
+        int y = rect.y + row;
+        str number = (index + 1).to_str();
+        str gutter = " ".repeat(4 - number.size()) + number + " ";
+        if (number.size() > 4) {
+            gutter = number + " ";
+        }
+        TUI_style.Style style = plain;
+        if (index == preview.focus) {
+            style = focus;
+            buffer.fill(TUI_geometry.Rect(rect.x, y, rect.width, 1), " ", focus);
+        }
+        buffer.set_str(rect.x, y, gutter, dim, max: rect.width);
+        str text = preview.lines[index].split("\t").join("    ");
+        buffer.set_str(rect.x + gutter.size(), y, text, style, max: rect.width - gutter.size());
+    }
+}
+
+/// Draw the picker in `area`.
+pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Picker picker, Preview preview) {
+    TUI_geometry.Rect box = box_of(area);
+    TUI_style.Style plain = TUI_style.Style.plain;
+    buffer.fill(box, " ", plain);
+    str title = " " + picker.title + " " + picker.shown.size().to_str() + "/" + picker.entries.size().to_str() + " ";
+    TUI_widget.Block block = TUI_widget.Block(title: title, borders: TUI_widget.Borders.Rounded, style: plain, title_style: TUI_style.Style(attrs: TUI_style.BOLD), pad_x: 1);
+    block.render(buffer, box);
+    TUI_geometry.Rect inner = block.inner(box);
+    if (inner.height < 2 || inner.width < 4) {
+        return;
+    }
+    buffer.set_str(inner.x, inner.y, "> " + picker.query, TUI_style.Style(attrs: TUI_style.BOLD), max: inner.width);
+    int cursor_x = inner.x + 2 + TUI_text.width(picker.query);
+    if (cursor_x < inner.x + inner.width) {
+        buffer.set_style(cursor_x, inner.y, TUI_style.Style(attrs: TUI_style.REVERSE));
+    }
+    str hints = "";
+    if (picker.kind == MED_picker.KIND_FILES || picker.kind == MED_picker.KIND_GREP) {
+        hints = "^H hidden:" + flag(picker.is_hidden_shown) + " Tab ignore:" + flag(picker.is_ignore_used);
+        if (picker.kind == MED_picker.KIND_GREP) {
+            hints = hints + " ^F fixed:" + flag(picker.is_fixed);
+        }
+    }
+    int used = 2 + TUI_text.width(picker.query) + 2;
+    if (hints.size() > 0 && used + hints.size() < inner.width) {
+        buffer.set_str(inner.x + inner.width - hints.size(), inner.y, hints, TUI_style.Style(attrs: TUI_style.DIM));
+    }
+    TUI_geometry.Rect body = TUI_geometry.Rect(inner.x, inner.y + 2, inner.width, inner.height - 2);
+    if (body.height < 1) {
+        return;
+    }
+    buffer.fill(TUI_geometry.Rect(inner.x, inner.y + 1, inner.width, 1), "\u{2500}", TUI_style.Style(attrs: TUI_style.DIM));
+    if (inner.width >= PREVIEW_MIN_WIDTH && preview.title.size() > 0) {
+        int list_width = inner.width * 2 / 5;
+        draw_list(buffer, TUI_geometry.Rect(body.x, body.y, list_width, body.height), picker);
+        for (int row in 0 .. body.height) {
+            buffer.set_str(body.x + list_width, body.y + row, "\u{2502}", TUI_style.Style(attrs: TUI_style.DIM));
+        }
+        draw_preview(buffer, TUI_geometry.Rect(body.x + list_width + 2, body.y, inner.width - list_width - 2, body.height), preview);
+    } else {
+        draw_list(buffer, body, picker);
+    }
+}
+
+str flag(bool is_on) {
+    if (is_on) {
+        return "on";
+    }
+    return "off";
+}

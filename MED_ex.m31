@@ -457,7 +457,7 @@ Cmd parse_range(MED_editor.Editor editor, str text, int start) {
 
 /// The commands the UI layer carries out (they need files, buffers or windows).
 bool is_ui_command(str name) {
-    List<str> names = ["edit", "enew", "bnext", "bprevious", "bNext", "buffer", "bdelete", "bwipeout", "bunload", "bfirst", "brewind", "blast", "ls", "buffers", "files", "close", "only", "split", "vsplit", "new", "vnew"];
+    List<str> names = ["edit", "enew", "bnext", "bprevious", "bNext", "buffer", "bdelete", "bwipeout", "bunload", "bfirst", "brewind", "blast", "ls", "buffers", "files", "close", "only", "split", "vsplit", "new", "vnew", "Files", "Buffers", "Grep", "Commands", "help", "Explore"];
     for (str known in names) {
         if (known == name) {
             return true;
@@ -471,7 +471,7 @@ bool is_ui_command(str name) {
 // "full:shortest": a word names the first command whose full name it starts
 // and whose shortest form it reaches (Vim's order matters for ambiguity).
 List<str> command_table() {
-    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "bNext:2", "buffer:1", "bdelete:2", "bwipeout:2", "bunload:3", "bfirst:2", "brewind:2", "blast:2", "ls:2", "buffers:7", "files:5", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "write!:99"];
+    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "bNext:2", "buffer:1", "bdelete:2", "bwipeout:2", "bunload:3", "bfirst:2", "brewind:2", "blast:2", "ls:2", "buffers:7", "files:5", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "Files:1", "Buffers:2", "Grep:1", "Commands:3", "help:1", "Explore:2", "write!:99"];
 }
 
 str resolve(str word) {

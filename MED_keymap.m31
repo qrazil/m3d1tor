@@ -1,0 +1,122 @@
+// The front end's keymap as data: leader sequences, the command palette and
+// the `?` help are all built from the same rows.
+//
+// A row is `(keys, label, action)`:
+//   keys     the keys after <leader> (Space) in Normal mode; "" for a command
+//            that has no key
+//   label    what which-key, the palette and the help show
+//   action   `picker:NAME` opens a picker, `ex:LINE` runs an ex line, `""` marks
+//            a group (a prefix such as `f`) or a plain note
+//
+// A group row only names a prefix: `("f", "+find", "")`. Everything else is a
+// leaf. `lookup` says whether what was typed is a leaf, a prefix of more keys,
+// or nothing.
+
+import tui.TUI_menu;
+
+pub type Binding {
+    pub str keys;
+    pub str label;
+    pub str action;
+}
+
+/// How long (ms) a pending leader sequence waits before which-key shows.
+pub const int WHICH_KEY_MS = 400;
+pub const int NO_BINDING = 0;
+pub const int IS_PREFIX = 1;
+pub const int IS_LEAF = 2;
+
+pub List<Binding> defaults() {
+    return [Binding("f", "+find", ""), Binding("ff", "Find files", "picker:files"), Binding("fb", "Buffers", "picker:buffers"), Binding("fg", "Live grep", "picker:grep"), Binding("fc", "Commands", "picker:commands"), Binding("fh", "Keymap help", "picker:help"), Binding("fe", "File explorer", "picker:explore"), Binding("b", "+buffer", ""), Binding("bb", "Switch buffer", "picker:buffers"), Binding("bn", "Next buffer", "ex:bnext"), Binding("bp", "Previous buffer", "ex:bprevious"), Binding("ba", "Alternate buffer", "ex:buffer #"), Binding("bd", "Delete buffer", "ex:bdelete"), Binding("bl", "List buffers", "ex:ls"), Binding("s", "+search", ""), Binding("sg", "Live grep", "picker:grep"), Binding("sh", "Clear search highlight", "ex:nohlsearch"), Binding("q", "+quit", ""), Binding("qq", "Quit", "ex:quit"), Binding("qa", "Quit all", "ex:qall"), Binding("w", "Write file", "ex:write"), Binding("e", "File explorer", "picker:explore"), Binding(" ", "Find files", "picker:files"), Binding(",", "Switch buffer", "picker:buffers"), Binding("/", "Live grep", "picker:grep"), Binding(":", "Commands", "picker:commands"), Binding("?", "Keymap help", "picker:help")];
+}
+
+/// Commands the palette lists besides the leader rows.
+pub List<Binding> commands() {
+    return [Binding("", "Write file", "ex:write"), Binding("", "Write all buffers", "ex:wall"), Binding("", "Write and quit", "ex:wq"), Binding("", "Quit without saving", "ex:quit!"), Binding("", "New empty buffer", "ex:enew"), Binding("", "Undo", "ex:undo"), Binding("", "Redo", "ex:redo"), Binding("", "Show line numbers", "ex:set number"), Binding("", "Hide line numbers", "ex:set nonumber"), Binding("", "Clear search highlight", "ex:nohlsearch"), Binding("", "Reload the file", "ex:edit!"), Binding("", "Sort lines", "ex:sort"), Binding("", "First buffer", "ex:bfirst"), Binding("", "Last buffer", "ex:blast")];
+}
+
+/// Notes that the help lists but nothing runs.
+pub List<Binding> notes() {
+    return [Binding("jk", "Insert mode: leave to Normal mode", ""), Binding("<Space>", "Normal mode: leader key", ""), Binding("<C-^>", "Normal mode: alternate buffer", "")];
+}
+
+/// Whether `typed` names a leaf, a prefix of longer sequences, or nothing.
+/// A sequence that is both a leaf and a prefix counts as a leaf.
+pub int lookup(List<Binding> table, str typed) {
+    int found = NO_BINDING;
+    for (Binding row in table) {
+        if (row.keys == typed && row.action.size() > 0) {
+            return IS_LEAF;
+        }
+        if (row.keys.size() > typed.size() && row.keys.starts_with(typed)) {
+            found = IS_PREFIX;
+        }
+    }
+    return found;
+}
+
+/// The row of the leaf `typed`.
+pub Binding leaf(List<Binding> table, str typed) {
+    for (Binding row in table) {
+        if (row.keys == typed && row.action.size() > 0) {
+            return row;
+        }
+    }
+    return Binding(typed, "", "");
+}
+
+/// The key notation for display: Space is `<Space>`.
+pub str shown_key(str key) {
+    if (key == " ") {
+        return "<Space>";
+    }
+    return key;
+}
+
+/// What each key that can follow `typed` does, for which-key: a leaf shows its
+/// label, a group its `+name` (or `+more`).
+pub List<TUI_menu.Item> next_items(List<Binding> table, str typed) {
+    List<str> keys = [];
+    List<str> labels = [];
+    for (Binding row in table) {
+        if (row.keys.size() <= typed.size() || !row.keys.starts_with(typed)) {
+            continue;
+        }
+        str next = row.keys.substr(typed.size(), typed.size() + 1);
+        str label = row.label;
+        if (row.keys.size() > typed.size() + 1) {
+            label = "+more";
+        }
+        int position = keys.index_of(next).or(-1);
+        if (position < 0) {
+            keys.push(next);
+            labels.push(label);
+        } else if (row.keys.size() == typed.size() + 1 && (row.action.size() > 0 || labels[position] == "+more")) {
+            labels[position] = label;
+        }
+    }
+    List<TUI_menu.Item> items = [];
+    for (int position in 0 .. keys.size()) {
+        items.push(TUI_menu.Item(shown_key(keys[position]), labels[position]));
+    }
+    return items;
+}
+
+/// One line of the palette or help: label and the keys that run it.
+pub str entry_text(Binding row, bool is_keys_first) {
+    str keys = "";
+    if (row.keys.size() > 0) {
+        if (row.keys.starts_with("<") || row.keys == "jk") {
+            keys = row.keys;
+        } else {
+            keys = "<Space>" + row.keys.split(" ").join("<Space>");
+        }
+    }
+    if (is_keys_first) {
+        return keys + "  " + row.label;
+    }
+    if (keys.size() == 0) {
+        return row.label;
+    }
+    return row.label + "  (" + keys + ")";
+}

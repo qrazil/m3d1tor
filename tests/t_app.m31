@@ -236,4 +236,56 @@ match (MED_app.open_all([first_path, second_path])) {
 }
 remove_file(first_path);
 remove_file(second_path);
+// leader keys, which-key, jk, the palette, pickers
+str lead_path = "/tmp/m3d1tor_t_app_lead.txt";
+write_file(lead_path, "one\ntwo\n");
+match (MED_app.open_all([lead_path])) {
+    case Err(str message): {
+        check.ok("open for the leader tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, " ");
+        check.ok("space starts a leader", app.is_leader);
+        check.ok("which-key waits", !app.is_which_key);
+        app.tick(100);
+        check.ok("still waiting at 100ms", !app.is_which_key);
+        app.tick(400);
+        check.ok("which-key after the delay", app.is_which_key);
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(80, 24);
+        app.render(screen, screen.area());
+        check.ok("which-key popup lists the groups", screen.to_str().contains("file"));
+        type_text(app, "\x1b");
+        check.ok("escape cancels the leader", !app.is_leader);
+        type_text(app, " ff");
+        check.ok("space f f opens the files picker", app.has_picker);
+        type_text(app, "\x1b");
+        check.ok("escape closes the picker", !app.has_picker);
+        type_text(app, " bb");
+        check.ok("space b b opens the buffers picker", app.has_picker);
+        type_text(app, "\n");
+        check.ok("enter accepts and closes", !app.has_picker);
+        type_text(app, " z");
+        check.ok("an unmapped leader is reported", app.notice.starts_with("No mapping"));
+        check.ok("and the leader ends", !app.is_leader);
+        type_text(app, "ixjk");
+        check.eq_int("jk leaves insert mode", app.editor.mode, MED_editor.NORMAL);
+        check.eq_str("jk leaves the x only", app.editor.buffer.line(0), "xone");
+        type_text(app, ":\n");
+        check.ok("enter on an empty colon opens the palette", app.has_picker);
+        type_text(app, "\x1b");
+        type_text(app, " :");
+        check.ok("space colon opens the palette", app.has_picker);
+        type_text(app, "\x1b");
+        type_text(app, "u");
+        type_text(app, ":Grep two\n");
+        check.ok(":Grep opens the grep picker", app.has_picker);
+        app.tick(300);
+        screen = TUI_buffer.Buffer.sized(80, 24);
+        app.render(screen, screen.area());
+        check.ok("grep finds the line after the debounce", screen.to_str().contains("two"));
+        type_text(app, "\x1b");
+        check.ok("the picker is closed again", !app.has_picker);
+    }
+}
+remove_file(lead_path);
 check.finish("t_app");

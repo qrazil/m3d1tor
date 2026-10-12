@@ -1,0 +1,38 @@
+// Unit checks for MED_grep and MED_files: the corpus, smart-case, regex and the walk.
+
+import tests.MED_check;
+import MED_files;
+import MED_grep;
+
+MED_check.Check check = MED_check.Check();
+MED_grep.Corpus corpus = MED_grep.Corpus();
+corpus.paths = ["a.txt", "b.txt"];
+corpus.texts = ["Hello world\nfoo bar\nHELLO again\n", "nothing here\nhello b\ncafé au lait\n"];
+check.eq_int("literal, smart-case folds", MED_grep.search(corpus, "hello", false).size(), 3);
+check.eq_int("capital is exact", MED_grep.search(corpus, "Hello", false).size(), 1);
+List<MED_grep.Hit> hits = MED_grep.search(corpus, "foo", false);
+check.eq_int("one hit", hits.size(), 1);
+check.eq_str("hit path", hits[0].path, "a.txt");
+check.eq_int("hit line is 0-based", hits[0].line, 1);
+check.eq_int("hit column", hits[0].column, 0);
+check.eq_str("hit text", hits[0].text, "foo bar");
+check.eq_int("column inside a line", MED_grep.search(corpus, "world", false)[0].column, 6);
+check.eq_int("regex alternation", MED_grep.search(corpus, "foo|nothing", false).size(), 2);
+check.eq_int("regex class", MED_grep.search(corpus, "h.llo b", false).size(), 1);
+check.eq_int("fixed string treats the dot literally", MED_grep.search(corpus, "h.llo", true).size(), 0);
+check.eq_int("bad regex falls back to text", MED_grep.search(corpus, "(", false).size(), 0);
+check.eq_int("regex column is in bytes", MED_grep.search(corpus, "au lait", false)[0].column, 6);
+check.eq_int("empty query", MED_grep.search(corpus, "", false).size(), 0);
+check.eq_int("no match", MED_grep.search(corpus, "zzz", false).size(), 0);
+List<str> tree = MED_files.list_files(".", false, true);
+check.ok("walk finds a source file", tree.contains("MED_fuzzy.m31"));
+check.ok("walk finds a nested file", tree.contains("tests/t_grep.m31"));
+check.ok("walk skips .git", !tree.contains(".git/config"));
+check.ok("walk skips dot files", !tree.contains(".gitignore"));
+check.ok("hidden files on request", MED_files.list_files(".", true, true).contains(".gitignore"));
+check.ok("walk honours .gitignore", !tree.contains("m3d1tor"));
+check.ok("project root is a directory", MED_files.project_root().size() > 0);
+List<str> entries = MED_files.list_directory("tests", false);
+check.ok("directories come first", entries[0].ends_with("/"));
+check.ok("then files", entries.contains("t_grep.m31"));
+check.finish("t_grep");

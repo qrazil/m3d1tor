@@ -1,0 +1,111 @@
+// Unit checks for MED_picker and MED_keymap: the prompt, ranking, selection,
+// toggles and the leader table.
+
+import tests.MED_check;
+import tui.TUI_menu;
+import MED_key;
+import MED_keymap;
+import MED_picker;
+
+MED_check.Check check = MED_check.Check();
+
+List<MED_picker.Entry> entries_of(List<str> texts) {
+    List<MED_picker.Entry> out = [];
+    for (str text in texts) {
+        out.push(MED_picker.Entry(text));
+    }
+    return out;
+}
+
+void type_text(MED_picker.Picker picker, str text) {
+    for (int code_point in text.chars()) {
+        picker.feed(code_point);
+    }
+}
+
+str current_text(MED_picker.Picker picker) {
+    match (picker.current()) {
+        case Some(MED_picker.Entry entry): {
+            return entry.text;
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+MED_picker.Picker picker = MED_picker.make(MED_picker.KIND_FILES, "Files");
+picker.set_entries(entries_of(["src/main.m31", "README.md", "src/MED_app.m31", "tests/t_app.m31"]));
+check.eq_int("all shown with an empty prompt", picker.count(), 4);
+check.eq_str("first is the first entry", current_text(picker), "src/main.m31");
+type_text(picker, "app");
+check.eq_int("filter keeps the matches", picker.count(), 2);
+check.eq_str("best match first", current_text(picker), "src/MED_app.m31");
+picker.feed(MED_key.DOWN);
+check.eq_str("down selects the next", current_text(picker), "tests/t_app.m31");
+picker.feed(MED_key.DOWN);
+check.eq_str("down stops at the end", current_text(picker), "tests/t_app.m31");
+picker.feed(16);
+check.eq_str("ctrl-p goes up", current_text(picker), "src/MED_app.m31");
+picker.feed(MED_key.BACKSPACE);
+check.eq_str("backspace edits the prompt", picker.query, "ap");
+picker.feed(21);
+check.eq_str("ctrl-u clears", picker.query, "");
+check.eq_int("cleared prompt shows all", picker.count(), 4);
+type_text(picker, "src main");
+picker.feed(23);
+check.eq_str("ctrl-w deletes a word", picker.query, "src ");
+picker.feed(21);
+type_text(picker, "zzzz");
+check.eq_int("no match", picker.count(), 0);
+check.ok("no current entry", current_text(picker) == "");
+check.ok("accept with nothing still reports", picker.feed(MED_key.CARRIAGE_RETURN) == MED_picker.Outcome.Accept);
+check.ok("esc cancels", picker.feed(MED_key.ESC) == MED_picker.Outcome.Cancel);
+check.ok("ctrl-c cancels", picker.feed(3) == MED_picker.Outcome.Cancel);
+check.ok("tab toggles ignore and reloads", picker.feed(MED_key.TAB) == MED_picker.Outcome.Reload);
+check.ok("ignore is off", !picker.is_ignore_used);
+check.ok("ctrl-h toggles hidden", picker.feed(MED_key.CTRL_H) == MED_picker.Outcome.Reload);
+check.ok("hidden is on", picker.is_hidden_shown);
+picker.feed(21);
+picker.set_entries(entries_of(["a", "b", "c"]));
+picker.feed(MED_key.END);
+check.eq_str("end selects the last", current_text(picker), "c");
+picker.feed(MED_key.HOME);
+check.eq_str("home selects the first", current_text(picker), "a");
+picker.selected = 2;
+picker.top = 0;
+picker.scroll_to(2);
+check.eq_int("scroll keeps the selection visible", picker.top, 1);
+MED_picker.Picker grep = MED_picker.make(MED_picker.KIND_GREP, "Grep");
+grep.set_entries(entries_of(["x:1: foo", "y:2: bar"]));
+check.ok("grep typing asks for a search", grep.feed(102) == MED_picker.Outcome.Requery);
+check.eq_int("grep does not filter", grep.count(), 2);
+check.ok("ctrl-f toggles fixed", grep.feed(6) == MED_picker.Outcome.Requery);
+check.ok("fixed is on", grep.is_fixed);
+MED_picker.Picker explore = MED_picker.make(MED_picker.KIND_EXPLORE, "Explore");
+check.ok("minus goes up on an empty prompt", explore.feed(45) == MED_picker.Outcome.Up);
+explore.feed(97);
+check.ok("minus is text otherwise", explore.feed(45) == MED_picker.Outcome.Stay);
+check.eq_str("minus typed", explore.query, "a-");
+// the leader table
+List<MED_keymap.Binding> table = MED_keymap.defaults();
+check.eq_int("f is a prefix", MED_keymap.lookup(table, "f"), MED_keymap.IS_PREFIX);
+check.eq_int("ff is a leaf", MED_keymap.lookup(table, "ff"), MED_keymap.IS_LEAF);
+check.eq_int("space space is a leaf", MED_keymap.lookup(table, " "), MED_keymap.IS_LEAF);
+check.eq_int("zz is nothing", MED_keymap.lookup(table, "zz"), MED_keymap.NO_BINDING);
+check.eq_str("leaf action", MED_keymap.leaf(table, "ff").action, "picker:files");
+check.eq_str("leaf ex action", MED_keymap.leaf(table, "bn").action, "ex:bnext");
+List<TUI_menu.Item> items = MED_keymap.next_items(table, "f");
+check.ok("which-key lists the next keys", items.size() >= 4);
+check.eq_str("which-key labels a leaf", items[0].label, "Find files");
+List<TUI_menu.Item> top_items = MED_keymap.next_items(table, "");
+bool is_group_named = false;
+for (TUI_menu.Item item in top_items) {
+    if (item.key == "f" && item.label == "+find") {
+        is_group_named = true;
+    }
+}
+check.ok("which-key names a group", is_group_named);
+check.eq_str("entry text with keys last", MED_keymap.entry_text(MED_keymap.leaf(table, "ff"), false), "Find files  (<Space>ff)");
+check.eq_str("entry text with keys first", MED_keymap.entry_text(MED_keymap.leaf(table, "ff"), true), "<Space>ff  Find files");
+check.finish("t_picker");
