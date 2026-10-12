@@ -11,6 +11,7 @@
 
 import engine.MED_buffer;
 import engine.MED_complete;
+import engine.MED_fold;
 import engine.MED_editor;
 import engine.MED_motion;
 import engine.MED_num;
@@ -162,17 +163,67 @@ MED_motion.Motion move_vertical(MED_editor.Editor editor, int delta) {
     motion.want = -3;
     int last = editor.buffer.line_count() - 1;
     if (delta > 0) {
-        if (editor.row >= last) {
+        int from = editor.row;
+        int fold_end = editor.fold_end_of(from);
+        if (fold_end >= 0) {
+            from = fold_end;
+        }
+        if (from >= last) {
             motion.is_ok = false;
             return motion;
         }
-        motion.row = MED_num.smaller(editor.row + delta, last);
+        if (from + delta >= last) {
+            motion.row = last;
+        } else if (editor.folds.size() > 0) {
+            // each sequence of folded lines counts as one line
+            int walk = from;
+            int steps = delta;
+            while (steps > 0) {
+                steps = steps - 1;
+                int closed_end = editor.fold_end_of(walk);
+                if (closed_end >= 0) {
+                    walk = closed_end + 1;
+                } else {
+                    walk = walk + 1;
+                }
+                if (walk >= last) {
+                    break;
+                }
+            }
+            motion.row = MED_num.smaller(walk, last);
+        } else {
+            motion.row = from + delta;
+        }
     } else {
+        int count_up = 0 - delta;
         if (editor.row <= 0) {
             motion.is_ok = false;
             return motion;
         }
-        motion.row = MED_num.larger(editor.row + delta, 0);
+        if (count_up >= editor.row) {
+            motion.row = 0;
+        } else if (editor.folds.size() > 0) {
+            int walk = editor.row;
+            int start = editor.fold_start_of(walk);
+            if (start >= 0) {
+                walk = start;
+            }
+            int steps = count_up;
+            while (steps > 0) {
+                steps = steps - 1;
+                walk = walk - 1;
+                if (walk <= 0) {
+                    break;
+                }
+                int fold_start = editor.fold_start_of(walk);
+                if (fold_start >= 0) {
+                    walk = fold_start;
+                }
+            }
+            motion.row = MED_num.larger(walk, 0);
+        } else {
+            motion.row = editor.row - count_up;
+        }
     }
     motion.col = col_by_want(editor, motion.row, editor.want);
     return motion;
@@ -206,15 +257,57 @@ MED_motion.Motion word_motion(MED_editor.Editor editor, int key, int count, str 
                 }
             }
         }
-        if (is_word_end) {
+        if (editor.folds.size() > 0 && !editor.is_fold_off && !is_word_end) {
+            // a word motion in a closed fold starts from its last character
+            for (int step in 0 .. count1(count)) {
+                int fold_end = editor.fold_end_of(cursor.row);
+                if (fold_end >= 0) {
+                    cursor.row = fold_end;
+                    cursor.col = MED_text.last_col(editor.buffer.line(fold_end));
+                }
+                is_ok = MED_motion.did_fwd_word(cursor, 1, is_big, operator != "" && step == count1(count) - 1);
+                if (!is_ok) {
+                    break;
+                }
+            }
+        } else if (is_word_end) {
             is_ok = MED_motion.did_end_word(cursor, count1(count), is_big, is_flag, false);
         } else {
             is_ok = MED_motion.did_fwd_word(cursor, count1(count), is_big, operator != "");
         }
     } else if (key == 98 || key == 66) {
-        is_ok = MED_motion.did_bck_word(cursor, count1(count), is_big, false);
+        if (editor.folds.size() > 0 && !editor.is_fold_off) {
+            // ... and backwards from its first character
+            for (int step in 0 .. count1(count)) {
+                int fold_start = editor.fold_start_of(cursor.row);
+                if (fold_start >= 0) {
+                    cursor.row = fold_start;
+                    cursor.col = 0;
+                }
+                is_ok = MED_motion.did_bck_word(cursor, 1, is_big, false);
+                if (!is_ok) {
+                    break;
+                }
+            }
+        } else {
+            is_ok = MED_motion.did_bck_word(cursor, count1(count), is_big, false);
+        }
     } else {
-        is_ok = MED_motion.did_end_word(cursor, count1(count), is_big, false, false);
+        if (editor.folds.size() > 0 && !editor.is_fold_off) {
+            for (int step in 0 .. count1(count)) {
+                int fold_end = editor.fold_end_of(cursor.row);
+                if (fold_end >= 0) {
+                    cursor.row = fold_end;
+                    cursor.col = MED_text.last_col(editor.buffer.line(fold_end));
+                }
+                is_ok = MED_motion.did_end_word(cursor, 1, is_big, false, false);
+                if (!is_ok) {
+                    break;
+                }
+            }
+        } else {
+            is_ok = MED_motion.did_end_word(cursor, count1(count), is_big, false, false);
+        }
         motion.is_inclusive = true;
     }
     motion.row = cursor.row;
@@ -2059,6 +2152,18 @@ bool did_put_reg(MED_editor.Editor editor, MED_register.Reg reg0, int dir0, int 
         reg = MED_register.Reg(reg.lines, MED_register.LINE);
     }
     if (reg.kind == MED_register.LINE) {
+        // a closed fold counts as one line: put below its last line or above its first
+        if (directory > 0) {
+            int fold_end = editor.fold_end_of(editor.row);
+            if (fold_end >= 0) {
+                editor.row = fold_end;
+            }
+        } else {
+            int fold_start = editor.fold_start_of(editor.row);
+            if (fold_start >= 0) {
+                editor.row = fold_start;
+            }
+        }
         int orig_indent = indent_width(editor, buffer.line(editor.row));
         str body = reg.lines.join("\n");
         List<str> parts = [];
@@ -2318,10 +2423,35 @@ bool did_operate(MED_editor.Editor editor, str operator, str reg, int count, Lis
     } else if (force == 86) {
         is_linewise = true;
     }
+    bool is_forward = is_position_before(start, end);
     if (is_position_before(end, start)) {
         MED_buffer.Pos swap = start;
         start = end;
         end = swap;
+    }
+    if (editor.folds.size() > 0 && !editor.is_fold_off) {
+        // closed folds are taken whole
+        if (is_forward) {
+            int fold_start = editor.fold_start_of(start.row);
+            if (fold_start >= 0) {
+                start = MED_buffer.Pos(fold_start, 0);
+            }
+            if (end.col > 0 || is_inclusive || is_linewise) {
+                int fold_end = editor.fold_end_of(end.row);
+                if (fold_end >= 0) {
+                    end = MED_buffer.Pos(fold_end, editor.buffer.line_size(fold_end));
+                }
+            }
+        } else if (is_linewise) {
+            int fold_start = editor.fold_start_of(start.row);
+            if (fold_start >= 0) {
+                start = MED_buffer.Pos(fold_start, 0);
+            }
+            int fold_end = editor.fold_end_of(end.row);
+            if (fold_end >= 0) {
+                end = MED_buffer.Pos(fold_end, editor.buffer.line_size(fold_end));
+            }
+        }
     }
     oap.start = start;
     oap.end = end;
@@ -2552,6 +2682,12 @@ bool did_run_op(MED_editor.Editor editor, Oap oap) {
         editor.want_from_cursor();
     } else if (operator == "gq" || operator == "gw") {
         op_format(editor, oap, operator == "gw");
+        editor.want_from_cursor();
+    } else if (operator == "zf") {
+        MED_fold.create(editor, oap.start.row, oap.end.row);
+        editor.row = oap.start.row;
+        editor.col = oap.start.col;
+        editor.clamp();
         editor.want_from_cursor();
     } else if (operator == "gc") {
         return did_op_comment(editor, oap);
@@ -2835,6 +2971,10 @@ bool is_white_byte(int right) {
 }
 
 void start_insert(MED_editor.Editor editor, int cmd, int count, bool is_replace) {
+    if (editor.folds.size() > 0) {
+        // typing in a closed fold opens it
+        MED_fold.open_at(editor, editor.row);
+    }
     editor.mode = MED_editor.INSERT;
     if (is_replace) {
         editor.mode = MED_editor.REPLACE;
@@ -3317,7 +3457,10 @@ void finish_insert(MED_editor.Editor editor) {
         }
         editor.is_replaying = is_saved;
     }
+    bool was_autoindent = editor.did_ai;
+    int want_at_esc = 0;
     if (editor.did_ai) {
+        want_at_esc = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
         strip_autoindent(editor);
     }
     editor.is_uline_off = false;
@@ -3354,7 +3497,11 @@ void finish_insert(MED_editor.Editor editor) {
     editor.ins_keys = [];
     editor.end_block();
     editor.clamp();
-    if (!is_eol_kept) {
+    if (was_autoindent && editor.col == 0 && want_at_esc > 0 && !is_eol_kept) {
+        // the autoindent went and the cursor stayed in column 0 (so Vim does not
+        // look at the cursor again): up and down still use the column it had
+        editor.want = want_at_esc;
+    } else if (!is_eol_kept) {
         editor.want_from_cursor();
     }
 }
@@ -4752,6 +4899,18 @@ bool did_cmd_replace_char(MED_editor.Editor editor, List<int> keys, int count) {
 
 // `o` and `O`: open a line (Vim's open_line) and start inserting.
 void cmd_open(MED_editor.Editor editor, bool is_below, int count) {
+    // open below the last line of a closed fold, above its first line
+    if (is_below) {
+        int fold_end = editor.fold_end_of(editor.row);
+        if (fold_end >= 0) {
+            editor.row = fold_end;
+        }
+    } else {
+        int fold_start = editor.fold_start_of(editor.row);
+        if (fold_start >= 0) {
+            editor.row = fold_start;
+        }
+    }
     str line = editor.buffer.line(editor.row);
     str indent = "";
     if (editor.is_autoindent) {
@@ -4855,6 +5014,26 @@ bool did_view_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed) {
     int key = parsed.keys[0];
     int count = parsed.count;
     if (key == 122) {
+        if (parsed.keys[1] == 70) {
+            // zF: a fold of `count` lines from the cursor line (zfzf)
+            int total = count;
+            if (total < 1) {
+                total = 1;
+            }
+            int last_row = editor.buffer.line_count() - 1;
+            if (total > 1 && editor.row >= last_row) {
+                return false;
+            }
+            MED_fold.create(editor, editor.row, MED_num.smaller(editor.row + total - 1, last_row));
+            if (total == 1) {
+                editor.col = MED_num.smaller(editor.col, first_nonblank_fix(editor.buffer.line(editor.row)));
+            }
+            editor.want_from_cursor();
+            return true;
+        }
+        if (MED_fold.did_z_command(editor, parsed.keys[1], count)) {
+            return true;
+        }
         return MED_view.did_z_command(editor, parsed.keys[1], count);
     }
     if (key == 5 || key == 25) {
@@ -4898,14 +5077,22 @@ void run_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typed)
         editor.clamp();
         editor.want_from_cursor();
     } else if (key == 117) {
+        int undo_tick = editor.buffer.tick;
         cmd_undo(editor, count, false);
+        if (editor.folds.size() > 0 && !editor.is_replaying && editor.buffer.tick != undo_tick) {
+            MED_fold.open_at(editor, editor.row);
+        }
     } else if (key == 85) {
         if (!editor.did_undo_line()) {
             editor.is_failed = true;
         }
         editor.end_block();
     } else if (key == 18) {
+        int redo_tick = editor.buffer.tick;
         cmd_undo(editor, count, true);
+        if (editor.folds.size() > 0 && !editor.is_replaying && editor.buffer.tick != redo_tick) {
+            MED_fold.open_at(editor, editor.row);
+        }
     } else if (key == 46) {
         dot_repeat(editor, count);
     } else if (key == 105 || key == 97 || key == 73 || key == 65) {
@@ -5276,6 +5463,26 @@ void execute(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typed)
     }
 }
 
+// The motions that open the closed fold they end in ('foldopen' "hor", "search",
+// "percent", "block" and "mark").
+bool is_fold_opening_motion(List<int> keys) {
+    int key = keys[0];
+    List<int> plain = [104, 108, 32, 127, 8, 48, 94, 36, 119, 87, 98, 66, 101, 69, 102, 70, 116, 84, 59, 44, 47, 63, 110, 78, 42, 35, 37, 40, 41, 123, 125, 39, 96];
+    for (int one in plain) {
+        if (one == key) {
+            return true;
+        }
+    }
+    if ((key == 103 || key == 91 || key == 93) && keys.size() > 1) {
+        int second = keys[1];
+        if (key == 103) {
+            return second == 95 || second == 48 || second == 94 || second == 36 || second == 109 || second == 101 || second == 69 || second == 42 || second == 35 || second == 39 || second == 96;
+        }
+        return second == 91 || second == 93;
+    }
+    return false;
+}
+
 void execute_inner(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typed) {
     if (!editor.is_replaying) {
         editor.is_failed = false;
@@ -5300,6 +5507,9 @@ void execute_inner(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> 
             apply_motion(editor, motion);
             if (motion.is_beep) {
                 editor.is_failed = true;
+            } else if (editor.folds.size() > 0 && !editor.is_in_dot && !editor.is_replaying && is_fold_opening_motion(parsed.keys)) {
+                // 'foldopen': horizontal moves, searches, % ( ) { } and marks open the fold
+                MED_fold.open_at(editor, editor.row);
             }
         } else {
             editor.is_failed = true;
@@ -5490,6 +5700,33 @@ Oap visual_oap(MED_editor.Editor editor, str operator, str reg) {
     if (editor.vkind == 86 && !editor.is_visible_redo) {
         // a redo (`.`) keeps the column the cursor was at: undo returns there
         position = MED_buffer.Pos(position.row, 0);
+    }
+    if (editor.folds.size() > 0 && !editor.is_fold_off) {
+        // a selection that starts in a closed fold takes the whole fold at its
+        // start, and all of it when it stays inside that fold
+        bool is_ahead = !is_position_before(position_value, position);
+        MED_buffer.Pos low = position;
+        MED_buffer.Pos high = position_value;
+        if (!is_ahead) {
+            low = position_value;
+            high = position;
+        }
+        int low_start = editor.fold_start_of(low.row);
+        int high_end = editor.fold_end_of(high.row);
+        if (low_start >= 0) {
+            int low_end = editor.fold_end_of(low.row);
+            low = MED_buffer.Pos(low_start, 0);
+            if (high_end >= 0 && high_end == low_end) {
+                high = MED_buffer.Pos(high_end, editor.buffer.line_size(high_end));
+            }
+        }
+        if (is_ahead) {
+            position = low;
+            position_value = high;
+        } else {
+            position_value = low;
+            position = high;
+        }
     }
     if (is_position_before(position, position_value)) {
         oap.start = position;

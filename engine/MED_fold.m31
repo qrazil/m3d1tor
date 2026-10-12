@@ -1,0 +1,285 @@
+// Manual folds: creating, opening, closing and deleting them (the z commands
+// and `:fold`). The fold list and the lookups live on the Editor; the rows a
+// closed fold hides are handled by the motions, operators and the window.
+//
+// API
+// ---
+//   MED_fold.create(editor, first, last)       a new, closed fold over rows first ..= last
+//   MED_fold.did_z_command(editor, key, count) zo zc za zO zC zA zv zR zM zd zD zE zn zN zi zj zk
+//   MED_fold.open_at(editor, row)              open every closed fold that holds `row`
+//   MED_fold.set_range(editor, a, b, is_closed, is_bang)   :foldopen / :foldclose
+
+import engine.MED_editor;
+import engine.MED_motion;
+import engine.MED_num;
+import engine.MED_text;
+
+// The folds that hold `row`, outermost first.
+List<int> holding(MED_editor.Editor editor, int row) {
+    List<int> found = [];
+    for (int index in 0 .. editor.folds.size()) {
+        MED_editor.Fold fold = editor.folds[index];
+        if (fold.start <= row && row <= fold.end) {
+            found.push(index);
+        }
+    }
+    // outermost first: wider ranges, then the earlier ones
+    for (int slot in 1 .. found.size()) {
+        int held = found[slot];
+        int back = slot - 1;
+        while (back >= 0 && is_inside(editor, found[back], held)) {
+            found[back + 1] = found[back];
+            back = back - 1;
+        }
+        found[back + 1] = held;
+    }
+    return found;
+}
+
+// Whether fold `inner` sits inside fold `outer` (or is the later of two equal ones).
+bool is_inside(MED_editor.Editor editor, int outer, int inner) {
+    MED_editor.Fold one = editor.folds[outer];
+    MED_editor.Fold other = editor.folds[inner];
+    int one_size = one.end - one.start;
+    int other_size = other.end - other.start;
+    if (one_size < other_size) {
+        return true;
+    }
+    if (one_size == other_size && outer > inner) {
+        return true;
+    }
+    return false;
+}
+
+/// A new fold over rows `first` ..= `last`; it starts out closed.
+pub void create(MED_editor.Editor editor, int first, int last) {
+    int top = first;
+    int bottom = last;
+    if (bottom < top) {
+        top = last;
+        bottom = first;
+    }
+    editor.folds.push(MED_editor.Fold(start: top, end: bottom, is_closed: true));
+    editor.is_fold_off = false;
+}
+
+/// Open every closed fold that holds `row` (Vim's foldOpenCursor).
+pub void open_at(MED_editor.Editor editor, int row) {
+    for (int index in holding(editor, row)) {
+        editor.folds[index].is_closed = false;
+    }
+}
+
+// Open or close at `row` the way Vim's setManualFold does: from the outermost
+// fold inwards, opening the first closed one, or closing the deepest open one.
+// True when a fold holds `row`.
+bool did_set_manual(MED_editor.Editor editor, int row, bool is_opening, bool is_recursive) {
+    List<int> chain = holding(editor, row);
+    if (chain.size() == 0) {
+        return false;
+    }
+    int found = -1;
+    for (int index in chain) {
+        MED_editor.Fold fold = editor.folds[index];
+        if (!is_opening && is_recursive) {
+            editor.folds[index].is_closed = true;
+            found = index;
+            continue;
+        }
+        if (fold.is_closed) {
+            if (is_opening) {
+                editor.folds[index].is_closed = false;
+                if (is_recursive) {
+                    for (int other in 0 .. editor.folds.size()) {
+                        MED_editor.Fold inner = editor.folds[other];
+                        if (inner.start >= fold.start && inner.end <= fold.end) {
+                            editor.folds[other].is_closed = false;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        found = index;
+    }
+    if (!is_opening && !is_recursive && found >= 0) {
+        editor.folds[found].is_closed = true;
+    }
+    return true;
+}
+
+// Delete the fold at `row`: the closed one that is shown, else the innermost.
+bool did_delete_at(MED_editor.Editor editor, int row, bool is_recursive) {
+    List<int> chain = holding(editor, row);
+    if (chain.size() == 0) {
+        return false;
+    }
+    int target = chain[chain.size() - 1];
+    for (int index in chain) {
+        if (editor.folds[index].is_closed) {
+            target = index;
+            break;
+        }
+    }
+    MED_editor.Fold gone = editor.folds[target];
+    if (is_recursive) {
+        // the outermost fold that holds the row, and what is inside it
+        target = chain[0];
+        gone = editor.folds[target];
+    }
+    List<MED_editor.Fold> kept = [];
+    for (int index in 0 .. editor.folds.size()) {
+        MED_editor.Fold fold = editor.folds[index];
+        bool is_removed = index == target;
+        if (is_recursive && fold.start >= gone.start && fold.end <= gone.end) {
+            is_removed = true;
+        }
+        if (!is_removed) {
+            kept.push(fold);
+        }
+    }
+    editor.folds = kept;
+    return true;
+}
+
+/// `:{range}foldopen[!]` and `:{range}foldclose[!]`.
+pub bool did_set_range(MED_editor.Editor editor, int first, int last, bool is_closed, bool is_bang) {
+    bool is_found = false;
+    for (int row in first .. last + 1) {
+        if (did_set_manual(editor, row, !is_closed, is_bang)) {
+            is_found = true;
+        }
+    }
+    return is_found;
+}
+
+// The row of the next fold start below `row`, or -1.
+int next_start(MED_editor.Editor editor, int row) {
+    int best = -1;
+    for (MED_editor.Fold fold in editor.folds) {
+        if (fold.start > row && (best < 0 || fold.start < best)) {
+            best = fold.start;
+        }
+    }
+    return best;
+}
+
+// The row of the previous fold end above `row`, or -1.
+int previous_end(MED_editor.Editor editor, int row) {
+    int best = -1;
+    for (MED_editor.Fold fold in editor.folds) {
+        if (fold.end < row && fold.end > best) {
+            best = fold.end;
+        }
+    }
+    return best;
+}
+
+/// How deeply the fold `start` ..= `end` is nested: 1 for one no other holds.
+pub int level_of(MED_editor.Editor editor, int start, int end) {
+    int level = 1;
+    for (MED_editor.Fold fold in editor.folds) {
+        bool is_outer = fold.start <= start && fold.end >= end && (fold.start < start || fold.end > end);
+        if (is_outer) {
+            level = level + 1;
+        }
+    }
+    return level;
+}
+
+/// What a closed fold shows (Vim's foldtext()): `+--  3 lines: first line`.
+pub str text_of(MED_editor.Editor editor, int start, int end) {
+    str dashes = "-".repeat(level_of(editor, start, end));
+    str lines = (end - start + 1).to_str();
+    str padded = " ".repeat(MED_num.larger(0, 3 - lines.size())) + lines;
+    str first = editor.buffer.line(start);
+    int skip = MED_text.first_nonblank(first);
+    str body = first.substr(skip, first.size());
+    if (body.starts_with("/*") || body.starts_with("//")) {
+        body = body.substr(2, body.size());
+        int more = MED_text.first_nonblank(body);
+        body = body.substr(more, body.size());
+    }
+    return "+-" + dashes + padded + " lines: " + body;
+}
+
+/// The z commands that work on folds. False when `key` is not one of them.
+pub bool did_z_command(MED_editor.Editor editor, int key, int count) {
+    int row = editor.row;
+    int total = count;
+    if (total < 1) {
+        total = 1;
+    }
+    bool is_found = true;
+    if (key == 111) {
+        for (int step in 0 .. total) {
+            is_found = did_set_manual(editor, row, true, false);
+        }
+    } else if (key == 79) {
+        is_found = did_set_manual(editor, row, true, true);
+    } else if (key == 99) {
+        for (int step in 0 .. total) {
+            is_found = did_set_manual(editor, row, false, false);
+        }
+    } else if (key == 67) {
+        is_found = did_set_manual(editor, row, false, true);
+    } else if (key == 97) {
+        if (editor.fold_start_of(row) >= 0) {
+            is_found = did_set_manual(editor, row, true, false);
+        } else {
+            is_found = did_set_manual(editor, row, false, false);
+        }
+    } else if (key == 65) {
+        if (editor.fold_start_of(row) >= 0) {
+            is_found = did_set_manual(editor, row, true, true);
+        } else {
+            is_found = did_set_manual(editor, row, false, true);
+        }
+    } else if (key == 118) {
+        open_at(editor, row);
+    } else if (key == 82) {
+        for (int index in 0 .. editor.folds.size()) {
+            editor.folds[index].is_closed = false;
+        }
+    } else if (key == 77) {
+        for (int index in 0 .. editor.folds.size()) {
+            editor.folds[index].is_closed = true;
+        }
+        editor.is_fold_off = false;
+    } else if (key == 100) {
+        is_found = did_delete_at(editor, row, false);
+    } else if (key == 68) {
+        is_found = did_delete_at(editor, row, true);
+    } else if (key == 69) {
+        editor.folds = [];
+    } else if (key == 110) {
+        editor.is_fold_off = true;
+    } else if (key == 78) {
+        editor.is_fold_off = false;
+    } else if (key == 105) {
+        editor.is_fold_off = !editor.is_fold_off;
+    } else if (key == 106) {
+        int target = next_start(editor, row);
+        if (target < 0) {
+            editor.is_failed = true;
+            return true;
+        }
+        editor.row = target;
+        editor.col = MED_motion.col_for_want(editor.buffer.line(target), editor.want, editor.tab, false);
+    } else if (key == 107) {
+        int target = previous_end(editor, row);
+        if (target < 0) {
+            editor.is_failed = true;
+            return true;
+        }
+        editor.row = target;
+        editor.col = MED_motion.col_for_want(editor.buffer.line(target), editor.want, editor.tab, false);
+    } else {
+        return false;
+    }
+    if (!is_found) {
+        editor.message = "E490: No fold found";
+        editor.is_failed = true;
+    }
+    return true;
+}

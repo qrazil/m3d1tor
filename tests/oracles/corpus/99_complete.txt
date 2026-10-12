@@ -531,7 +531,6 @@ x	0,0	:cd tests/oracles/corpus/0<Tab><C-b>"<CR>
 x	0,0	:lcd tests/o<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:edit tests/oracles/<Tab><C-b>"<CR>
 x	0,0	:up b<Tab><C-b>"<CR>
-x	0,0	:up tests/<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:up tests/<Tab><Tab><C-b>"<CR>
 x	0,0	:vnew ../<Tab><C-b>"<CR>
 x	0,0	:sav u<Tab><Tab><C-b>"<CR>

@@ -23,6 +23,7 @@ import tui.core.TUI_style;
 import engine.MED_buffer;
 import engine.MED_editor;
 import engine.MED_ex;
+import engine.MED_fold;
 import engine.MED_syntax;
 import ui.MED_clip;
 import ui.MED_files;
@@ -3033,6 +3034,40 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         if (row >= subject.buffer.line_count()) {
             buffer.set_str(frame.x, y, "~", filler);
             screen_row = screen_row + 1;
+            continue;
+        }
+        int closed_end = subject.fold_end_of(row);
+        if (closed_end >= 0) {
+            // a closed fold is one row: its text, then dots
+            int closed_start = subject.fold_start_of(row);
+            if (subject.row >= closed_start && subject.row <= closed_end) {
+                cursor_screen_row = screen_row;
+                cursor_screen_x = 0;
+            }
+            TUI_style.Style folded = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
+            if (subject.is_option_on("number", false) || subject.is_option_on("relativenumber", false)) {
+                buffer.set_str(frame.x + subject.sign_columns, y, number_text(subject, closed_start, gutter), dim);
+            }
+            str text = MED_fold.text_of(subject, closed_start, closed_end);
+            int used = 0;
+            for (int offset in MED_text.starts(text)) {
+                if (offset >= text.size()) {
+                    break;
+                }
+                int next_offset = MED_text.next_col(text, offset);
+                int cells = MED_text.cell_width(text, offset, used, subject.tab);
+                if (used + cells > text_width) {
+                    break;
+                }
+                buffer.set_str(frame.x + gutter + used, y, text.substr(offset, next_offset), folded);
+                used = used + cells;
+            }
+            while (used < text_width) {
+                buffer.set_str(frame.x + gutter + used, y, str.from_chars([183]), folded);
+                used = used + 1;
+            }
+            screen_row = screen_row + 1;
+            row = closed_end + 1;
             continue;
         }
         str line = subject.buffer.line(row);

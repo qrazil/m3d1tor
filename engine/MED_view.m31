@@ -14,6 +14,16 @@ import engine.MED_screen;
 
 /// The screen rows buffer line `row` takes (1 when lines do not wrap).
 pub int rows_of(MED_editor.Editor editor, int row) {
+    if (editor.folds.size() > 0) {
+        // a closed fold is one row and its other lines have none
+        int fold_start = editor.fold_start_of(row);
+        if (fold_start >= 0) {
+            if (fold_start == row) {
+                return 1;
+            }
+            return 0;
+        }
+    }
     if (!editor.is_option_on("wrap", true) || editor.view_width < 1) {
         return 1;
     }
@@ -354,6 +364,26 @@ pub void horizontal(MED_editor.Editor editor) {
 /// Vim's update_topline: scroll just enough to show the cursor line, or
 /// centre it when it is far away.
 pub void update(MED_editor.Editor editor) {
+    if (editor.folds.size() > 0 && !editor.is_fold_off) {
+        // the cursor is on the first line of a closed fold as far as the window
+        // is concerned, and the window starts at one
+        int saved_row = editor.row;
+        int start = editor.fold_start_of(editor.row);
+        if (start >= 0) {
+            editor.row = start;
+        }
+        int top_start = editor.fold_start_of(editor.view_top);
+        if (top_start >= 0) {
+            editor.view_top = top_start;
+        }
+        update_view(editor);
+        editor.row = saved_row;
+        return;
+    }
+    update_view(editor);
+}
+
+void update_view(MED_editor.Editor editor) {
     horizontal(editor);
     if (editor.view_valid_row >= 0) {
         if (editor.row == editor.view_valid_row && editor.current == editor.view_valid_text && editor.view_height == editor.view_valid_height && editor.view_width == editor.view_valid_width) {
@@ -525,6 +555,27 @@ pub void cursor_correct(MED_editor.Editor editor) {
 /// whether it moved. The cursor is not touched.
 pub bool did_scroll_window(MED_editor.Editor editor, bool is_upward, int count) {
     int before = editor.view_top;
+    if (editor.folds.size() > 0 && !editor.is_fold_off) {
+        // a closed fold is one line to scroll over
+        for (int step in 0 .. count) {
+            if (is_upward) {
+                int fold_end = editor.fold_end_of(editor.view_top);
+                int next = editor.view_top + 1;
+                if (fold_end >= 0) {
+                    next = fold_end + 1;
+                }
+                editor.view_top = MED_num.smaller(next, editor.buffer.line_count() - 1);
+            } else {
+                int previous = MED_num.larger(editor.view_top - 1, 0);
+                int fold_start = editor.fold_start_of(previous);
+                if (fold_start >= 0) {
+                    previous = fold_start;
+                }
+                editor.view_top = previous;
+            }
+        }
+        return editor.view_top != before;
+    }
     if (is_upward) {
         editor.view_top = MED_num.smaller(editor.view_top + count, editor.buffer.line_count() - 1);
     } else {

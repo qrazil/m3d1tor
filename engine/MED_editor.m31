@@ -55,6 +55,14 @@ pub type Resume {
 
 /// The state of a `:s` that asks before each replacement (`:s///c`): the loop
 /// of the substitution, suspended at a prompt and resumed by the answer key.
+/// A manual fold: the rows `start` ..= `end`. Folds nest by containment; of
+/// two with the same rows the earlier one in `Editor.folds` is the outer one.
+pub type Fold {
+    pub int start = 0;
+    pub int end = 0;
+    pub bool is_closed = true;
+}
+
 pub type SubRun {
     /// The commands after a `|` that follow a prompting `:s///c`: they run
     /// when it is answered.
@@ -401,6 +409,9 @@ pub type Editor {
     pub List<int> gmarks = [];
     pub bool is_gmarks_on = false;
     pub bool is_global_busy = false;
+    /// Manual folds, and whether folding is on at all (zn / zN / zi).
+    pub List<Fold> folds = [];
+    pub bool is_fold_off = false;
     /// A `:g` command is waiting for the answer to a `:s///c` prompt: the
     /// command to go on with, and whether the answer quit the whole `:g`.
     pub bool is_global_waiting = false;
@@ -516,9 +527,90 @@ pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos position, 
     return edit;
 }
 
+/// The first row of the outermost closed fold that holds `row`, or -1.
+pub int Editor.fold_start_of(int row) {
+    if (is_fold_off || folds.size() == 0) {
+        return -1;
+    }
+    int found = -1;
+    int found_end = -1;
+    for (Fold fold in folds) {
+        if (fold.is_closed && fold.start <= row && row <= fold.end) {
+            if (found < 0 || fold.start < found || (fold.start == found && fold.end > found_end)) {
+                found = fold.start;
+                found_end = fold.end;
+            }
+        }
+    }
+    return found;
+}
+
+/// The last row of the outermost closed fold that holds `row`, or -1.
+pub int Editor.fold_end_of(int row) {
+    if (is_fold_off || folds.size() == 0) {
+        return -1;
+    }
+    int found = -1;
+    int found_start = -1;
+    for (Fold fold in folds) {
+        if (fold.is_closed && fold.start <= row && row <= fold.end) {
+            if (found < 0 || fold.start < found_start || (fold.start == found_start && fold.end > found)) {
+                found = fold.end;
+                found_start = fold.start;
+            }
+        }
+    }
+    return found;
+}
+
+// Folds follow the lines (Vim's foldMarkAdjust): deleted lines shrink or
+// remove them, inserted lines inside one grow it.
+void Editor.fold_adjust(int left, int new_delete, int new_insert) {
+    if (folds.size() == 0) {
+        return;
+    }
+    List<Fold> kept = [];
+    for (Fold fold in folds) {
+        int start = fold.start;
+        int end = fold.end;
+        bool is_gone = false;
+        if (new_delete > 0) {
+            int last_deleted = left + new_delete - 1;
+            if (end < left) {
+            } else if (start > last_deleted) {
+                start = start - new_delete;
+                end = end - new_delete;
+            } else if (start >= left && end <= last_deleted) {
+                is_gone = true;
+            } else if (start < left && end > last_deleted) {
+                end = end - new_delete;
+            } else if (start < left) {
+                end = left - 1;
+            } else {
+                start = left;
+                end = end - new_delete;
+            }
+        }
+        if (!is_gone && new_insert > 0) {
+            if (end < left) {
+            } else if (start >= left) {
+                start = start + new_insert;
+                end = end + new_insert;
+            } else {
+                end = end + new_insert;
+            }
+        }
+        if (!is_gone) {
+            kept.push(Fold(start: start, end: end, is_closed: fold.is_closed));
+        }
+    }
+    folds = kept;
+}
+
 /// Lines `a ..< a + nd` were deleted and `new_insert` lines inserted at `a + nd`
 /// (Vim's mark_adjust()): move or drop the marks that sit below.
 pub void Editor.mark_adjust(int left, int new_delete, int new_insert) {
+    fold_adjust(left, new_delete, new_insert);
     if (is_gmarks_on && gmarks.size() > 0) {
         List<int> kept = [];
         for (int marker in gmarks) {

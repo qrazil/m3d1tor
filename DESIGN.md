@@ -428,7 +428,7 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Multiple selections / multi-cursor | **Partial** | Not Helix's selection-first model. Covered by visual block `I`/`A`/`c`, `:s`, `:g`, `:normal`, macros and dot repeat, and (later) `gn`/`cgn` |
 | Fuzzy file picker, buffer picker, global search, jumplist picker, last picker | Yes | M3 |
 | Command palette | Yes | M3 |
-| File explorer | Yes | Picker-based, as in Helix (M4) |
+| File explorer | Yes | A neo-tree style sidebar (`<Space>e`, `:Neotree`: expand/collapse, add/delete/rename/copy/move/paste, filter, git status letters, follow current file), the picker explorer (`<Space>fe`) and a netrw-style directory buffer (`:Explore`, `:e dir`) |
 | Which-key style popups for prefixes | Yes | M3 |
 | Splits | Yes | M4 |
 | Buffers (list, switch, close) | Yes | |
@@ -436,20 +436,22 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Auto pairs, comment toggle, surround | Yes | M4 |
 | Mouse (click, scroll, drag-select) | Partial | Click/scroll first; drag-select later |
 | Clipboard | Yes | `"+` `"*` and `clipboard=unnamedplus` through pbcopy / pbpaste, wl-clipboard, xclip or xsel (spawned through `sh` with a file in between: no pipes needed); without a tool the registers are the unnamed one, as in nvim |
-| Themes | Partial | One dark and one light built in; no per-language scopes |
-| Syntax highlighting | **Later** | Lexical highlighter, not tree-sitter |
+| Themes | Partial | The terminal's own 16-colour palette (works at 16, 256 and truecolor); dark and light by `COLORFGBG` or `:set background=`; no per-language scopes, no user schemes |
+| Syntax highlighting | **Partial** | A lexical highlighter (`MED_syntax`, no parse tree) for c, cpp, go, javascript/typescript, json, m31, markdown, python, rust, sh, toml and yaml; `:syntax on/off`, `:set syntax=`. Multi-line comments, strings and code fences carry across lines |
 | Tree-sitter textobjects (`maf`, `mic`), indentation, selection expansion | **Impossible** (G3) | No tree-sitter runtime in m31 and the rule forbids Rust/FFI work |
 | LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Impossible today** (G1) | Needs piped child stdio |
 | Formatting via external formatter, shell pipe (`!`, `\|`, `:pipe`), `:sh`-capture, `:r !cmd` | **Impossible today** (G1) | Same gap; `:!cmd` with inherited terminal works |
 | Debug adapter (DAP) | **Impossible today** (G1) | |
 | Embedded terminal | **Impossible** (G4) | No pty |
-| Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list`, `number`, `relativenumber` done; rulers and indent guides later |
+| Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list` + `listchars`, `number`, `relativenumber`, `colorcolumn`, `cursorline`, `cursorcolumn`, `scrolloff`, `sidescroll(off)` and `nowrap` scrolling done; indent guides and `linebreak` later |
 | Snippets | Later | |
 | Auto-reload on external change, auto-save | Partial | Poll `fs.stat` mtimes on idle tick; auto-save later |
 | Persistent undo, session restore | Later | |
 | Increment/decrement (`<C-a>`/`<C-x>`) | Yes | Engine feature, oracle-tested |
 | Search (`/`, `?`, `*`, `#`), `:s`, `:g` | Yes | Vim regex subset; no backreferences or lookaround in the regex engine (G6) |
 | Config file | Yes (minimal) | `~/.config/m3d1tor/keymap.vim`: `:map` family, `let mapleader`, `:set`; no scripting |
+| Command-line completion and history | Yes | Tab / Shift-Tab complete ex commands (nvim's own list and order), option names (long and short), files, directories and buffers; `<Up>`/`<Down>` history with prefix, `<C-p>`/`<C-n>` |
+| Folds | **Partial** | Manual folds: `zf{motion}` `zF` `:fold`, `zo zO zc zC za zA zv zR zM zd zD zE zj zk zn zN zi`, `j`/`k`/`dd`/`p`/`o`/ranges take a closed fold whole, shown as `+--  N lines: text`; no fold methods, no `foldlevel`, no `zx`/`zm`/`zr` |
 
 Honest summary: with Vim bindings, medit can match or exceed Helix on
 editing, navigation, picker and window features. It cannot match Helix on the

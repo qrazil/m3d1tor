@@ -6,16 +6,22 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.0.2, the first published release (a pre-release; 0.0.1 was never
-published, its release build failed).** What works: the Vim
-engine, checked against `nvim --headless` on more than 34,000 generated and
-hand-written cases (21 known divergences, listed in `tests/oracles/known_divergences.txt`),
-windows, pickers, the file tree sidebar, git gutter, surround, auto pairs, marks
-UI, comment toggle and the clipboard. Known limits: no syntax highlighting yet,
-no manual folds, no command-line window, a reduced `=` indent, many options are
-stored but do not change behaviour yet, and LSP / tree-sitter / plugins are out
-of scope. The acceptance bar for v0.1.0 is DESIGN section 9. `m3d1tor --version`
-prints the version.
+**Status: v0.0.2 and after (pre-release; 0.0.1 was never published, its release
+build failed).** What works: the Vim engine, checked against `nvim --headless` on
+more than 37,000 generated and hand-written cases (20 known divergences, listed in
+`tests/oracles/known_divergences.txt`), windows, pickers, the file tree sidebar,
+syntax highlighting, command-line completion, git gutter, surround, auto pairs,
+marks UI, comment toggle, manual folds and the clipboard. Options that change
+behaviour are checked against nvim one by one: `scrolloff`, `sidescroll`,
+`sidescrolloff`, `wrap`/`nowrap` scrolling, `whichwrap`, `iskeyword`, `textwidth`
+with `formatoptions` (auto-wrap, `gq`, comment leaders), `tabstop`, `shiftwidth`,
+`softtabstop`, `expandtab`, `smarttab`, `autoindent`, `ignorecase`, `smartcase`,
+`wrapscan`, `startofline`, `list`/`listchars`, `cursorline`, `cursorcolumn`,
+`colorcolumn`. Known limits: no command-line window, no fold methods besides manual,
+a reduced `=` indent, `formatoptions` `a` and `n`, `linebreak`, `smartindent`, many
+options are stored but do not change behaviour yet, and LSP / tree-sitter /
+plugins are out of scope. The acceptance bar for v0.1.0 is DESIGN section 9.
+`m3d1tor --version` prints the version.
 
 ## Features
 
@@ -28,6 +34,12 @@ prints the version.
 - Buffers and windows: `:e :ls :b :bn :bp :bd`, `:split :vsplit :close :only`,
   `<C-w>` commands, mouse click, drag and wheel.
 - Pickers: files, buffers, live grep, commands, keymap help, explorer; `.gitignore` aware.
+- Syntax highlighting for c, cpp, go, javascript/typescript, json, m31, markdown,
+  python, rust, sh, toml and yaml (`:syntax on|off`, `:set syntax=NAME`); the
+  colours are the terminal's palette, light or dark by `COLORFGBG` or `:set background=`.
+- Command-line completion: `<Tab>` / `<C-n>` and `<S-Tab>` / `<C-p>` complete ex
+  commands, option names (long and short), file and directory names and buffers.
+- Manual folds: `zf` `zF` `:fold`, `zo zO zc zC za zA zv zR zM zd zD zE zj zk`.
 - File tree sidebar (neo-tree style): `<Space>e` toggles it, `<Space>E` reveals the
   current file, `:Neotree [toggle|show|focus|close|reveal|refresh|DIR]`. Rows are
   folders first, git status letters (M A D R ? !) sit at the right and folders

@@ -20,6 +20,7 @@
 // system (those are requests for the UI layer).
 
 import engine.MED_editor;
+import engine.MED_fold;
 import engine.MED_vim;
 import engine.MED_buffer;
 import engine.MED_search;
@@ -820,7 +821,7 @@ bool is_ui_command(str name) {
 // "full:shortest": a word names the first command whose full name it starts
 // and whose shortest form it reaches (Vim's order matters for ambiguity).
 List<str> command_table() {
-    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "bNext:2", "buffer:1", "bdelete:2", "bwipeout:2", "bunload:3", "bfirst:2", "brewind:2", "blast:2", "ls:2", "buffers:7", "files:5", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "wincmd:4", "Rename:3", "Delete:3", "Create:3", "Mkdir:2", "resize:3", "vertical:4", "Files:1", "Buffers:2", "Grep:1", "Commands:3", "help:1", "Explore:2", "Sexplore:3", "Vexplore:3", "Neotree:7", "NeoTree:7", "map:3", "nmap:2", "vmap:2", "xmap:2", "omap:2", "imap:2", "cmap:2", "noremap:2", "nnoremap:2", "vnoremap:2", "xnoremap:2", "onoremap:3", "inoremap:3", "cnoremap:3", "unmap:3", "nunmap:3", "vunmap:2", "xunmap:2", "ounmap:2", "iunmap:2", "cunmap:2", "mapclear:4", "nmapclear:5", "vmapclear:5", "xmapclear:5", "omapclear:5", "imapclear:5", "cmapclear:5", "let:3", "source:2", "write!:99"];
+    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "bNext:2", "buffer:1", "bdelete:2", "bwipeout:2", "bunload:3", "bfirst:2", "brewind:2", "blast:2", "ls:2", "buffers:7", "files:5", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "wincmd:4", "Rename:3", "Delete:3", "Create:3", "Mkdir:2", "resize:3", "vertical:4", "Files:1", "Buffers:2", "Grep:1", "Commands:3", "help:1", "Explore:2", "Sexplore:3", "Vexplore:3", "Neotree:7", "NeoTree:7", "fold:2", "foldopen:5", "foldclose:5", "map:3", "nmap:2", "vmap:2", "xmap:2", "omap:2", "imap:2", "cmap:2", "noremap:2", "nnoremap:2", "vnoremap:2", "xnoremap:2", "onoremap:3", "inoremap:3", "cnoremap:3", "unmap:3", "nunmap:3", "vunmap:2", "xunmap:2", "ounmap:2", "iunmap:2", "cunmap:2", "mapclear:4", "nmapclear:5", "vmapclear:5", "xmapclear:5", "omapclear:5", "imapclear:5", "cmapclear:5", "let:3", "source:2", "write!:99"];
 }
 
 str resolve(str word) {
@@ -1080,7 +1081,7 @@ Step run_one(MED_editor.Editor editor, str text) {
         }
     }
     bool is_bang = false;
-    if (at(text, argstart) == 33 && (is_ui_command(name) || name == "global" || name == "join" || name == "put" || name == "z" || name == "normal" || name == "write" || name == "quit" || name == "sort" || name == "delmarks" || name == "wq" || name == "xit" || name == "update" || name == "qall" || name == "wall" || MED_map.kind_of(name) != "")) {
+    if (at(text, argstart) == 33 && (is_ui_command(name) || name == "foldopen" || name == "foldclose" || name == "global" || name == "join" || name == "put" || name == "z" || name == "normal" || name == "write" || name == "quit" || name == "sort" || name == "delmarks" || name == "wq" || name == "xit" || name == "update" || name == "qall" || name == "wall" || MED_map.kind_of(name) != "")) {
         is_bang = true;
         argstart = argstart + 1;
     }
@@ -1133,6 +1134,17 @@ Step run_one(MED_editor.Editor editor, str text) {
         cmd.line1 = 1;
         cmd.line2 = count;
     }
+    if (editor.folds.size() > 0 && !editor.is_global_busy && (cmd.addr_count >= 2 || is_whole_fold_command(name))) {
+        // a range starts at the first line of a closed fold and ends at its last line
+        int fold_start = editor.fold_start_of(cmd.line1 - 1);
+        if (fold_start >= 0) {
+            cmd.line1 = fold_start + 1;
+        }
+        int fold_end = editor.fold_end_of(cmd.line2 - 1);
+        if (fold_end >= 0) {
+            cmd.line2 = fold_end + 1;
+        }
+    }
     Step result = Step();
     if (is_keepp) {
         str sp_pattern = editor.search_pattern;
@@ -1156,6 +1168,17 @@ Step run_one(MED_editor.Editor editor, str text) {
         editor.is_colon_skip = true;
     }
     return result;
+}
+
+// The commands whose default range is a closed fold taken whole.
+bool is_whole_fold_command(str name) {
+    List<str> names = ["delete", "yank", "substitute", "&", "~", ">", "<", "copy", "t", "move", "join", "print", "number", "list", "sort", "retab", "left", "right", "center", "fold", "foldopen", "foldclose", "global", "vglobal"];
+    for (str known in names) {
+        if (known == name) {
+            return true;
+        }
+    }
+    return false;
 }
 
 str skip_one_white(str text) {
@@ -1333,6 +1356,16 @@ Step exec_cmd(MED_editor.Editor editor, Cmd cmd) {
     }
     if (name == "nohlsearch") {
         editor.is_no_hl = true;
+        return done();
+    }
+    if (name == "fold") {
+        MED_fold.create(editor, cmd.line1 - 1, cmd.line2 - 1);
+        return done();
+    }
+    if (name == "foldopen" || name == "foldclose") {
+        if (!MED_fold.did_set_range(editor, cmd.line1 - 1, cmd.line2 - 1, name == "foldclose", cmd.is_bang)) {
+            return fail(editor, "E490: No fold found");
+        }
         return done();
     }
     if (name == "set" || name == "setlocal" || name == "setglobal") {

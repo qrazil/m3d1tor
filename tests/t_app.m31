@@ -545,6 +545,29 @@ match (MED_app.open_all(["/tmp/m3d1tor_t_app_syn.py"])) {
     }
 }
 remove_file("/tmp/m3d1tor_t_app_syn.py");
+// manual folds
+match (MED_app.open_all([""])) {
+    case Err(str message): {
+        check.ok("open for the fold tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, "ione\ntwo\nthree\nfour\nfive");
+        app.handle(named(term.Code.Escape));
+        type_text(app, "ggzfj");
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(40, 8);
+        app.render(screen, screen.area());
+        check.ok("a closed fold shows its text", screen.row_text(0).contains("+--  2 lines: one"));
+        check.ok("and the line after it follows at once", screen.row_text(1).contains("three"));
+        check.ok("the fold line is padded with dots", screen.row_text(0).contains(str.from_chars([183, 183, 183])));
+        type_text(app, "j");
+        check.eq_int("j goes over a closed fold", app.editor.row, 2);
+        type_text(app, "ggzo");
+        app.render(screen, screen.area());
+        check.ok("zo opens it", screen.row_text(1).contains("two"));
+        type_text(app, "zcdd");
+        check.eq_int("dd on a closed fold takes all of it", app.editor.buffer.line_count(), 3);
+    }
+}
 // the file tree sidebar (:Neotree, <Space>e)
 str side = "/tmp/m3d1tor_t_app_side";
 rm_tree(side);
