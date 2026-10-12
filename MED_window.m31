@@ -1,0 +1,280 @@
+// Windows: the layout tree and the geometry of the split screen.
+//
+// A tree whose leaves are windows and whose branches hold their children side
+// by side (`is_vertical`, made by :vsplit) or one above the other (:split).
+// Windows of one branch share the space equally. Every window has its own
+// status line as its last row, so stacked windows need no separator; windows
+// side by side are parted by a one-column separator.
+//
+// Pure data and arithmetic, no terminal: the front end (MED_app) owns the
+// buffers and asks this module where everything goes.
+
+/// One window: the buffer it shows and, while it is not the active window,
+/// where its cursor and view are. (The active window's own values live in the
+/// editor and are stored back here whenever the front end saves its state.)
+pub type Win {
+    pub int id;
+    pub int buffer_id;
+    pub int row = 0;
+    pub int col = 0;
+    pub int view_top = 0;
+    pub int left_column = 0;
+}
+
+/// A leaf (`win_id` > 0) or a branch (`kids`).
+pub type Node {
+    pub int win_id = 0;
+    pub bool is_vertical = false;
+    pub List<Node> kids = [];
+}
+
+/// A rectangle of the screen for window `win_id` (0 for a separator).
+pub type Placed {
+    pub int win_id;
+    pub int x;
+    pub int y;
+    pub int width;
+    pub int height;
+}
+
+pub type Layout {
+    pub List<Placed> windows = [];
+    pub List<Placed> separators = [];
+}
+
+pub const int GO_LEFT = 104;
+pub const int GO_DOWN = 106;
+pub const int GO_UP = 107;
+pub const int GO_RIGHT = 108;
+
+pub Node leaf(int id) {
+    return Node(win_id: id);
+}
+
+bool is_leaf(Node node) {
+    return node.win_id > 0;
+}
+
+/// The window ids in reading order (left to right, top to bottom).
+pub List<int> leaves(Node node) {
+    List<int> found = [];
+    if (is_leaf(node)) {
+        found.push(node.win_id);
+        return found;
+    }
+    for (Node kid in node.kids) {
+        for (int id in leaves(kid)) {
+            found.push(id);
+        }
+    }
+    return found;
+}
+
+/// Where each window and separator goes for a screen area of `width` x `height`
+/// cells whose top left is (`x`, `y`).
+pub Layout place(Node root, int x, int y, int width, int height) {
+    Layout out = Layout();
+    place_into(root, x, y, width, height, out);
+    return out;
+}
+
+void place_into(Node node, int x, int y, int width, int height, Layout out) {
+    if (is_leaf(node)) {
+        out.windows.push(Placed(node.win_id, x, y, width, height));
+        return;
+    }
+    int count = node.kids.size();
+    if (node.is_vertical) {
+        int space = width - (count - 1);
+        int used = 0;
+        for (int position in 0 .. count) {
+            int share = space / count;
+            if (position < space % count) {
+                share = share + 1;
+            }
+            place_into(node.kids[position], x + used, y, share, height, out);
+            used = used + share;
+            if (position < count - 1) {
+                out.separators.push(Placed(0, x + used, y, 1, height));
+                used = used + 1;
+            }
+        }
+    } else {
+        int used = 0;
+        for (int position in 0 .. count) {
+            int share = height / count;
+            if (position < height % count) {
+                share = share + 1;
+            }
+            place_into(node.kids[position], x, y + used, width, share, out);
+            used = used + share;
+        }
+    }
+}
+
+/// The rectangle of window `id`; a zero-sized one when there is no such window.
+pub Placed placed_of(Layout layout, int id) {
+    for (Placed one in layout.windows) {
+        if (one.win_id == id) {
+            return one;
+        }
+    }
+    return Placed(0, 0, 0, 0, 0);
+}
+
+/// The window whose rectangle holds the cell (`x`, `y`), or 0.
+pub int window_at(Layout layout, int x, int y) {
+    for (Placed one in layout.windows) {
+        if (x >= one.x && x < one.x + one.width && y >= one.y && y < one.y + one.height) {
+            return one.win_id;
+        }
+    }
+    return 0;
+}
+
+/// Split the window `target`: the new window `new_id` goes before it (left or
+/// above) or, when `is_after`, after it. Returns the new root.
+pub Node split(Node root, int target, int new_id, bool is_vertical, bool is_after) {
+    if (is_leaf(root)) {
+        if (root.win_id != target) {
+            return root;
+        }
+        return Node(is_vertical: is_vertical, kids: pair(root, leaf(new_id), is_after));
+    }
+    did_split_in(root, target, new_id, is_vertical, is_after);
+    return root;
+}
+
+List<Node> pair(Node old, Node added, bool is_after) {
+    if (is_after) {
+        return [old, added];
+    }
+    return [added, old];
+}
+
+bool did_split_in(Node node, int target, int new_id, bool is_vertical, bool is_after) {
+    for (int position in 0 .. node.kids.size()) {
+        Node kid = node.kids[position];
+        if (is_leaf(kid) && kid.win_id == target) {
+            if (node.is_vertical == is_vertical) {
+                int index = position;
+                if (is_after) {
+                    index = position + 1;
+                }
+                node.kids.insert(index, leaf(new_id));
+            } else {
+                node.kids[position] = Node(is_vertical: is_vertical, kids: pair(kid, leaf(new_id), is_after));
+            }
+            return true;
+        }
+        if (!is_leaf(kid) && did_split_in(kid, target, new_id, is_vertical, is_after)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// Remove window `id`; its space goes to its neighbours. Returns the new root
+/// (the same root when `id` is the only window).
+pub Node without(Node root, int id) {
+    if (is_leaf(root)) {
+        return root;
+    }
+    remove_in(root, id);
+    return normalized(root);
+}
+
+void remove_in(Node node, int id) {
+    List<Node> kept = [];
+    for (Node kid in node.kids) {
+        if (is_leaf(kid)) {
+            if (kid.win_id != id) {
+                kept.push(kid);
+            }
+        } else {
+            remove_in(kid, id);
+            kept.push(kid);
+        }
+    }
+    node.kids = kept;
+}
+
+/// Branches with one child collapse into it; a branch inside a branch of the
+/// same direction is merged into it; empty branches vanish.
+Node normalized(Node node) {
+    if (is_leaf(node)) {
+        return node;
+    }
+    List<Node> kept = [];
+    for (Node kid in node.kids) {
+        Node flat = normalized(kid);
+        if (is_leaf(flat)) {
+            kept.push(flat);
+        } else if (flat.kids.size() > 0) {
+            if (flat.is_vertical == node.is_vertical) {
+                for (Node inner in flat.kids) {
+                    kept.push(inner);
+                }
+            } else {
+                kept.push(flat);
+            }
+        }
+    }
+    node.kids = kept;
+    if (kept.size() == 1) {
+        return kept[0];
+    }
+    return node;
+}
+
+/// The window next to `active` in direction `direction` (GO_LEFT, GO_DOWN, GO_UP, GO_RIGHT) as
+/// seen from the screen cell (`ref_x`, `ref_y`), or 0 when there is none.
+pub int neighbor(Layout layout, int active, int direction, int ref_x, int ref_y) {
+    Placed here = placed_of(layout, active);
+    int best = 0;
+    int best_edge = 0;
+    for (int pass in 0 .. 2) {
+        for (Placed one in layout.windows) {
+            if (one.win_id == active) {
+                continue;
+            }
+            bool is_beside = false;
+            int edge = 0;
+            if (direction == GO_LEFT && one.x + one.width < here.x + 1) {
+                is_beside = true;
+                edge = one.x;
+            } else if (direction == GO_RIGHT && one.x > here.x + here.width) {
+                is_beside = true;
+                edge = 10000 - one.x;
+            } else if (direction == GO_UP && one.y + one.height <= here.y) {
+                is_beside = true;
+                edge = one.y;
+            } else if (direction == GO_DOWN && one.y >= here.y + here.height) {
+                is_beside = true;
+                edge = 10000 - one.y;
+            }
+            if (!is_beside) {
+                continue;
+            }
+            bool is_sideways = direction == GO_LEFT || direction == GO_RIGHT;
+            bool is_inside = false;
+            if (pass == 0 && is_sideways) {
+                is_inside = ref_y >= one.y && ref_y < one.y + one.height;
+            } else if (pass == 0) {
+                is_inside = ref_x >= one.x && ref_x < one.x + one.width;
+            } else if (is_sideways) {
+                is_inside = one.y < here.y + here.height && one.y + one.height > here.y;
+            } else {
+                is_inside = one.x < here.x + here.width && one.x + one.width > here.x;
+            }
+            if (is_inside && (best == 0 || edge > best_edge)) {
+                best = one.win_id;
+                best_edge = edge;
+            }
+        }
+        if (best > 0) {
+            return best;
+        }
+    }
+    return 0;
+}

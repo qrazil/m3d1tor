@@ -2766,6 +2766,7 @@ void run_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typed)
                 editor.requests.push("update ");
             }
             editor.is_quit = true;
+            editor.is_quit_one = true;
             editor.is_force_quit = second == 81;
         } else {
             is_ok = false;

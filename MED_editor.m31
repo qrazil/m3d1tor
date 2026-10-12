@@ -91,6 +91,8 @@ pub type Editor {
     pub str message = "";
     pub bool is_quit = false;
     pub bool is_force_quit = false;
+    /// The quit asked for closes one window (:q :wq :x ZZ ZQ), not the editor (:qa).
+    pub bool is_quit_one = false;
     /// Keys of the command being typed, and the last repeatable change.
     pub List<int> cmd_keys = [];
     pub List<int> dot = [];

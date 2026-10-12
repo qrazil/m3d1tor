@@ -29,6 +29,7 @@ import MED_keymap;
 import MED_picker;
 import MED_picker_view;
 import MED_text;
+import MED_window;
 import MED_view;
 
 /// Rows below the text: the status line and the command line.
@@ -42,6 +43,9 @@ const int WHEEL_LINES = 3;
 /// Quiet time (ms) after typing in the grep prompt before the search runs.
 const int GREP_DEBOUNCE_MS = 120;
 const int PREVIEW_LINES = 3000;
+/// The smallest a window may get, status line included.
+const int MIN_WINDOW_HEIGHT = 2;
+const int MIN_WINDOW_WIDTH = 5;
 const int VKIND_CHAR = 118;
 const int VKIND_LINE = 86;
 
@@ -93,6 +97,18 @@ pub type App {
     pub bool is_which_key = false;
     /// The previous key fed to the engine (for the `jk` mapping).
     pub int last_key = 0;
+    /// The windows and how they are laid out; `current_win` is the active one,
+    /// whose cursor and view live in `editor` and `left_column`.
+    pub List<MED_window.Win> wins = [];
+    pub MED_window.Node layout = MED_window.leaf(1);
+    pub int current_win = 1;
+    pub int previous_win = 0;
+    pub int next_win = 2;
+    /// CTRL-W was typed: the next key is a window command.
+    pub bool is_window_key = false;
+    /// Where the active window's cursor was drawn.
+    pub int cursor_x = 0;
+    pub int cursor_y = 0;
 }
 
 /// Whether the text differs from what was last written (undo back to the
@@ -145,6 +161,25 @@ void App.save_active() {
     slot.path = path;
     slot.saved_current = saved_current;
     slot.left_column = left_column;
+    int at_window = win_index(current_win);
+    if (at_window >= 0) {
+        MED_window.Win win = wins[at_window];
+        win.buffer_id = current_id;
+        win.row = editor.row;
+        win.col = editor.col;
+        win.view_top = editor.view_top;
+        win.left_column = left_column;
+    }
+}
+
+/// Where window `id` is in `wins`, or -1.
+int App.win_index(int id) {
+    for (int position in 0 .. wins.size()) {
+        if (wins[position].id == id) {
+            return position;
+        }
+    }
+    return -1;
 }
 
 /// Where buffer `id` is in `slots`, or -1.
@@ -207,7 +242,7 @@ void App.activate(int id) {
     path = target.path;
     saved_current = target.saved_current;
     left_column = target.left_column;
-    editor.view_height = text_rows(TUI_app.screen_size().rows);
+    editor.view_height = current_text_rows();
 }
 
 /// Add `slot` to the session and make it active.
@@ -376,6 +411,15 @@ void App.delete_buffer(str arg, bool is_forced) {
         notice = "E89: No write since last change for buffer " + id.to_str() + " (add ! to override)";
         return;
     }
+    List<int> shown_in = [];
+    for (MED_window.Win win in wins) {
+        if (win.buffer_id == id && win.id != current_win) {
+            shown_in.push(win.id);
+        }
+    }
+    for (int win_id in shown_in) {
+        close_window(win_id);
+    }
     if (slots.size() == 1) {
         match (read_slot(next_id, "")) {
             case Ok(Slot fresh): {
@@ -468,6 +512,18 @@ void App.run_request(str request) {
         delete_buffer(arg, is_forced);
     } else if (name == "ls" || name == "buffers" || name == "files") {
         overlay = buffer_list();
+    } else if (name == "split" || name == "vsplit" || name == "new" || name == "vnew") {
+        run_split(name, arg);
+    } else if (name == "close") {
+        close_window(current_win);
+    } else if (name == "only") {
+        only_window();
+    } else if (name == "wincmd") {
+        if (arg.trim().size() == 0) {
+            notice = "E471: Argument required";
+        } else {
+            window_command(arg.trim().byte_at(0));
+        }
     } else if (name == "Files") {
         open_picker("files", arg);
     } else if (name == "Buffers") {
@@ -503,6 +559,12 @@ bool App.did_finish() {
     editor.is_quit = false;
     bool is_forced = editor.is_force_quit;
     editor.is_force_quit = false;
+    bool is_one = editor.is_quit_one;
+    editor.is_quit_one = false;
+    if (is_one && wins.size() > 1) {
+        close_window(current_win);
+        return false;
+    }
     if (is_forced) {
         return true;
     }
@@ -518,6 +580,202 @@ bool App.did_finish() {
         }
     }
     return true;
+}
+
+// ------------------------------------------------------------------ windows
+
+/// The whole screen as the loop gives it.
+TUI_geometry.Rect App.screen_rect() {
+    term.Size size = TUI_app.screen_size();
+    return TUI_geometry.Rect(0, 0, size.columns, size.rows);
+}
+
+/// Where the windows go on `area`: every row but the last (the command line).
+MED_window.Layout App.layout_in(TUI_geometry.Rect area) {
+    int height = area.height - 1;
+    if (height < 1) {
+        height = 1;
+    }
+    return MED_window.place(layout, area.x, area.y, area.width, height);
+}
+
+/// The text rows of the active window (its status line takes the last row).
+int App.current_text_rows() {
+    MED_window.Placed placed = MED_window.placed_of(layout_in(screen_rect()), current_win);
+    if (placed.height - 1 < 1) {
+        return 1;
+    }
+    return placed.height - 1;
+}
+
+/// Make window `id` the active one: its buffer and cursor come back.
+void App.focus_window(int id) {
+    save_active();
+    int position = win_index(id);
+    if (position < 0 || id == current_win) {
+        return;
+    }
+    MED_window.Win target = wins[position];
+    int buffer_position = index_of(target.buffer_id);
+    if (buffer_position < 0) {
+        return;
+    }
+    if (target.buffer_id != current_id) {
+        Slot slot = slots[buffer_position];
+        share_state(editor, slot.editor);
+        current_id = slot.id;
+        editor = slot.editor;
+        path = slot.path;
+        saved_current = slot.saved_current;
+    }
+    if (win_index(current_win) >= 0) {
+        previous_win = current_win;
+    } else {
+        previous_win = 0;
+    }
+    current_win = id;
+    editor.row = target.row;
+    editor.col = target.col;
+    editor.view_top = target.view_top;
+    left_column = target.left_column;
+    editor.clamp();
+    editor.want_from_cursor();
+    editor.view_height = current_text_rows();
+}
+
+/// Split the active window (side by side when `is_vertical`); the new window
+/// goes right or below, shows the same buffer and takes the focus. False when
+/// there is no room.
+bool App.did_split(bool is_vertical) {
+    save_active();
+    int id = next_win;
+    wins.push(MED_window.Win(id, current_id, row: editor.row, col: editor.col, view_top: editor.view_top, left_column: left_column));
+    layout = MED_window.split(layout, current_win, id, is_vertical, true);
+    MED_window.Layout fresh = layout_in(screen_rect());
+    for (MED_window.Placed one in fresh.windows) {
+        if (one.height < MIN_WINDOW_HEIGHT || one.width < MIN_WINDOW_WIDTH) {
+            layout = MED_window.without(layout, id);
+            wins.remove_at(win_index(id));
+            notice = "E36: Not enough room";
+            return false;
+        }
+    }
+    next_win = id + 1;
+    focus_window(id);
+    return true;
+}
+
+/// Close window `id`; the one before it in reading order (or after, for the
+/// first) gets the focus when it was the active one. The buffer stays loaded.
+void App.close_window(int id) {
+    if (wins.size() < 2 || win_index(id) < 0) {
+        notice = "E444: Cannot close last window";
+        return;
+    }
+    save_active();
+    List<int> order = MED_window.leaves(layout);
+    int spot = position_of(order, id);
+    int target = order[1];
+    if (spot > 0) {
+        target = order[spot - 1];
+    }
+    layout = MED_window.without(layout, id);
+    wins.remove_at(win_index(id));
+    if (previous_win == id) {
+        previous_win = 0;
+    }
+    if (id == current_win) {
+        current_win = -1;
+        focus_window(target);
+    }
+}
+
+/// `:only`: keep the active window.
+void App.only_window() {
+    save_active();
+    if (wins.size() < 2) {
+        notice = "Already only one window";
+        return;
+    }
+    wins = [wins[win_index(current_win)]];
+    layout = MED_window.leaf(current_win);
+    previous_win = 0;
+}
+
+/// CTRL-W w / W: the next or previous window in reading order, wrapping.
+void App.cycle_window(int step) {
+    List<int> order = MED_window.leaves(layout);
+    int count = order.size();
+    int spot = position_of(order, current_win);
+    focus_window(order[(spot + step + count) % count]);
+}
+
+/// CTRL-W h j k l: the window in that direction, from where the cursor is.
+void App.move_window(int direction) {
+    save_active();
+    MED_window.Layout current = layout_in(screen_rect());
+    MED_window.Placed here = MED_window.placed_of(current, current_win);
+    int spot = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
+    int ref_x = here.x + gutter_width() + spot - left_column;
+    int ref_y = here.y + editor.row - editor.view_top;
+    int target = MED_window.neighbor(current, current_win, direction, ref_x, ref_y);
+    if (target > 0) {
+        focus_window(target);
+    }
+}
+
+/// The window command `key` (CTRL-W KEY, `:wincmd KEY`).
+void App.window_command(int key) {
+    List<int> order = MED_window.leaves(layout);
+    if (key == 115 || key == 83 || key == 19) {
+        did_split(false);
+    } else if (key == 118 || key == 22) {
+        did_split(true);
+    } else if (key == 110 || key == 14) {
+        if (did_split(false)) {
+            new_buffer();
+        }
+    } else if (key == 99) {
+        close_window(current_win);
+    } else if (key == 113 || key == 17) {
+        editor.is_quit = true;
+        editor.is_quit_one = true;
+    } else if (key == 111 || key == 15) {
+        only_window();
+    } else if (key == 119 || key == 23) {
+        cycle_window(1);
+    } else if (key == 87) {
+        cycle_window(-1);
+    } else if (key == 112 || key == 16) {
+        if (win_index(previous_win) >= 0) {
+            focus_window(previous_win);
+        }
+    } else if (key == 116 || key == 20) {
+        focus_window(order[0]);
+    } else if (key == 98 || key == 2) {
+        focus_window(order[order.size() - 1]);
+    } else if (key == 104 || key == 8) {
+        move_window(MED_window.GO_LEFT);
+    } else if (key == 106 || key == 10) {
+        move_window(MED_window.GO_DOWN);
+    } else if (key == 107 || key == 11) {
+        move_window(MED_window.GO_UP);
+    } else if (key == 108 || key == 12) {
+        move_window(MED_window.GO_RIGHT);
+    }
+}
+
+/// `:split`, `:vsplit`, `:new`, `:vnew` with an optional file.
+void App.run_split(str name, str arg) {
+    bool is_vertical = name == "vsplit" || name == "vnew";
+    if (!did_split(is_vertical)) {
+        return;
+    }
+    if (arg.trim().size() > 0) {
+        edit(arg, false);
+    } else if (name == "new" || name == "vnew") {
+        new_buffer();
+    }
 }
 
 // ------------------------------------------------------------------ pickers
@@ -854,6 +1112,17 @@ bool App.should_quit_after(int key) {
     if (is_leader) {
         return should_quit_after_leader(key);
     }
+    if (is_window_key) {
+        is_window_key = false;
+        if (key != MED_key.ESC) {
+            window_command(key);
+        }
+        return did_finish();
+    }
+    if (editor.mode == MED_editor.NORMAL && key == 23 && editor.pending.size() == 0) {
+        is_window_key = true;
+        return false;
+    }
     if (editor.mode == MED_editor.NORMAL && key == MED_key.SPACE && editor.pending.size() == 0) {
         is_leader = true;
         is_which_key = false;
@@ -898,7 +1167,7 @@ pub TUI_app.Action App.handle(term.Event event) {
             return TUI_app.Action.Redraw;
         }
     }
-    editor.view_height = text_rows(TUI_app.screen_size().rows);
+    editor.view_height = current_text_rows();
     for (int key in keys) {
         if (has_picker) {
             // a request opened a picker; the rest of the keys are its
@@ -932,9 +1201,12 @@ int App.offset_at(int row, int spot) {
 }
 
 /// Put the cursor on the text cell under the pointer; false outside the text.
-bool App.did_place_cursor(int x_cell, int y_cell) {
-    int rows = text_rows(TUI_app.screen_size().rows);
-    if (y_cell < 0 || y_cell >= rows) {
+bool App.did_place_cursor(int screen_x, int screen_y) {
+    MED_window.Placed here = MED_window.placed_of(layout_in(screen_rect()), current_win);
+    int x_cell = screen_x - here.x;
+    int y_cell = screen_y - here.y;
+    int rows = here.height - 1;
+    if (y_cell < 0 || y_cell >= rows || x_cell < 0) {
         return false;
     }
     int row = editor.view_top + y_cell;
@@ -966,12 +1238,16 @@ pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
     }
     notice = "";
     overlay = [];
-    editor.view_height = text_rows(TUI_app.screen_size().rows);
+    editor.view_height = current_text_rows();
     match (gesture.kind) {
         case Press: {
             if (gesture.button == 0) {
                 if (editor.mode == MED_editor.VISUAL) {
                     MED_ex.feed(editor, MED_key.ESC);
+                }
+                int hit = MED_window.window_at(layout_in(screen_rect()), gesture.x, gesture.y);
+                if (hit > 0 && hit != current_win) {
+                    focus_window(hit);
                 }
                 if (did_place_cursor(gesture.x, gesture.y)) {
                     return TUI_app.Action.Redraw;
@@ -1040,11 +1316,7 @@ str App.mode_name() {
 
 /// The columns of the line-number gutter, with its trailing space.
 int App.gutter_width() {
-    int digits = editor.buffer.line_count().to_str().size();
-    if (digits < MIN_DIGITS) {
-        digits = MIN_DIGITS;
-    }
-    return digits + 1;
+    return gutter_of(editor);
 }
 
 /// Whether the character at (`row`, `col`), shown from display column `spot`,
@@ -1082,9 +1354,9 @@ bool App.is_selected(int row, int col, int spot) {
     return spot >= low && spot <= high;
 }
 
-/// Draw one line of text at screen row `y`.
-void App.draw_line(TUI_buffer.Buffer buffer, int row, int x_start, int y, int text_width) {
-    str line = editor.buffer.line(row);
+/// Draw one line of `subject` at screen row `y`, from display column `left`.
+void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left, bool is_active, int row, int x_start, int y, int text_width) {
+    str line = subject.buffer.line(row);
     TUI_style.Style plain = TUI_style.Style.plain;
     TUI_style.Style selected = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTION_COLOUR));
     int spot = 0;
@@ -1092,17 +1364,17 @@ void App.draw_line(TUI_buffer.Buffer buffer, int row, int x_start, int y, int te
         if (offset >= line.size()) {
             break;
         }
-        int width = MED_text.cell_width(line, offset, spot, editor.tab);
+        int width = MED_text.cell_width(line, offset, spot, subject.tab);
         int next = MED_text.next_col(line, offset);
-        if (spot >= left_column && spot + width <= left_column + text_width) {
+        if (spot >= left && spot + width <= left + text_width) {
             TUI_style.Style style = plain;
-            if (is_selected(row, offset, spot)) {
+            if (is_active && is_selected(row, offset, spot)) {
                 style = selected;
             }
-            buffer.set_str(x_start + spot - left_column, y, shown(line, offset, next, width), style);
+            buffer.set_str(x_start + spot - left, y, shown(line, offset, next, width), style);
         }
         spot = spot + width;
-        if (spot >= left_column + text_width) {
+        if (spot >= left + text_width) {
             break;
         }
     }
@@ -1112,6 +1384,9 @@ void App.draw_line(TUI_buffer.Buffer buffer, int row, int x_start, int y, int te
 str App.pending_text() {
     if (is_leader) {
         return "<Space>" + leader;
+    }
+    if (is_window_key) {
+        return "^W";
     }
     str out = "";
     for (int key in editor.pending) {
@@ -1124,26 +1399,31 @@ str App.pending_text() {
     return out;
 }
 
-/// The status line: mode, name, modified flag on the left; position on the right.
-void App.draw_status(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int y) {
+/// A window's status line at its last row: (the mode of the active one,) name
+/// and modified flag on the left; position on the right.
+void App.draw_status(TUI_buffer.Buffer buffer, MED_window.Placed frame, MED_editor.Editor subject, str file, bool is_changed, bool is_active) {
     TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.REVERSE);
     TUI_style.Style strong = TUI_style.Style(attrs: TUI_style.REVERSE | TUI_style.BOLD);
-    buffer.fill(TUI_geometry.Rect(area.x, y, area.width, 1), " ", bar);
-    str name = path;
+    int y = frame.y + frame.height - 1;
+    buffer.fill(TUI_geometry.Rect(frame.x, y, frame.width, 1), " ", bar);
+    str name = file;
     if (name.size() == 0) {
         name = "[No Name]";
     }
-    if (is_modified()) {
+    if (is_changed) {
         name = name + " [+]";
     }
-    int used = buffer.set_str(area.x, y, " " + mode_name() + " ", strong);
-    buffer.set_str(area.x + used, y, " " + name, bar);
-    int vcol = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
-    int count = editor.buffer.line_count();
-    int percent = (editor.row + 1) * 100 / count;
-    str where = (editor.row + 1).to_str() + ":" + (vcol + 1).to_str() + "  " + percent.to_str() + "% ";
-    int where_x = area.x + area.width - where.size();
-    if (where_x > area.x + used + name.size() + 2) {
+    int used = 0;
+    if (is_active) {
+        used = buffer.set_str(frame.x, y, " " + mode_name() + " ", strong);
+    }
+    buffer.set_str(frame.x + used, y, " " + name, bar, max: frame.width - used);
+    int vcol = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
+    int count = subject.buffer.line_count();
+    int percent = (subject.row + 1) * 100 / count;
+    str where = (subject.row + 1).to_str() + ":" + (vcol + 1).to_str() + "  " + percent.to_str() + "% ";
+    int where_x = frame.x + frame.width - where.size();
+    if (where_x > frame.x + used + name.size() + 2) {
         buffer.set_str(where_x, y, where, bar);
     }
 }
@@ -1195,40 +1475,103 @@ void App.draw_overlay(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int rows
     }
 }
 
-/// Draw the whole screen.
-pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
-    int rows = text_rows(area.height);
-    editor.view_height = rows;
-    MED_view.update(editor);
-    int gutter = gutter_width();
-    int text_width = area.width - gutter;
+/// Draw window `frame` (the active one when `is_active`): the line numbers, the
+/// text and the status line. Another window shows its own cursor and view, which
+/// are lent to the buffer's editor for the drawing.
+void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_active) {
+    int rows = frame.height - 1;
+    if (rows < 1) {
+        rows = 1;
+    }
+    MED_editor.Editor subject = editor;
+    str file = path;
+    bool is_changed = is_modified();
+    int left = left_column;
+    MED_window.Win win = wins[win_index(frame.win_id)];
+    int kept_row = subject.row;
+    int kept_col = subject.col;
+    int kept_top = subject.view_top;
+    int kept_height = subject.view_height;
+    if (!is_active) {
+        Slot slot = slots[index_of(win.buffer_id)];
+        subject = slot.editor;
+        file = slot.path;
+        is_changed = is_slot_modified(slot);
+        left = win.left_column;
+        kept_row = subject.row;
+        kept_col = subject.col;
+        kept_top = subject.view_top;
+        kept_height = subject.view_height;
+        subject.row = win.row;
+        subject.col = win.col;
+        subject.view_top = win.view_top;
+        subject.clamp();
+    }
+    subject.view_height = rows;
+    MED_view.update(subject);
+    int gutter = gutter_of(subject);
+    int text_width = frame.width - gutter;
     if (text_width < 1) {
         text_width = 1;
     }
-    int cursor_spot = MED_text.display_col(editor.buffer.line(editor.row), editor.col, editor.tab);
-    if (cursor_spot < left_column) {
-        left_column = cursor_spot;
+    int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
+    if (cursor_spot < left) {
+        left = cursor_spot;
     }
-    if (cursor_spot >= left_column + text_width) {
-        left_column = cursor_spot - text_width + 1;
+    if (cursor_spot >= left + text_width) {
+        left = cursor_spot - text_width + 1;
     }
     TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
     TUI_style.Style filler = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
     TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
     for (int screen_row in 0 .. rows) {
-        int row = editor.view_top + screen_row;
-        int y = area.y + screen_row;
-        if (row >= editor.buffer.line_count()) {
-            buffer.set_str(area.x, y, "~", filler);
+        int row = subject.view_top + screen_row;
+        int y = frame.y + screen_row;
+        if (row >= subject.buffer.line_count()) {
+            buffer.set_str(frame.x, y, "~", filler);
         } else {
             str number = (row + 1).to_str();
             TUI_style.Style number_style = dim;
-            if (row == editor.row) {
+            if (row == subject.row) {
                 number_style = current;
             }
-            buffer.set_str(area.x + gutter - 1 - number.size(), y, number, number_style);
-            draw_line(buffer, row, area.x + gutter, y, text_width);
+            buffer.set_str(frame.x + gutter - 1 - number.size(), y, number, number_style);
+            draw_line(buffer, subject, left, is_active, row, frame.x + gutter, y, text_width);
         }
+    }
+    draw_status(buffer, frame, subject, file, is_changed, is_active);
+    if (is_active) {
+        left_column = left;
+        cursor_x = frame.x + gutter + cursor_spot - left;
+        cursor_y = frame.y + subject.row - subject.view_top;
+    } else {
+        win.row = subject.row;
+        win.col = subject.col;
+        win.view_top = subject.view_top;
+        win.left_column = left;
+        subject.row = kept_row;
+        subject.col = kept_col;
+        subject.view_top = kept_top;
+        subject.view_height = kept_height;
+    }
+}
+
+/// Draw the whole screen.
+pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
+    save_active();
+    MED_window.Layout placed = layout_in(area);
+    for (MED_window.Placed one in placed.windows) {
+        draw_window(buffer, one, one.win_id == current_win);
+    }
+    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
+    for (MED_window.Placed bar in placed.separators) {
+        for (int offset in 0 .. bar.height) {
+            buffer.set_str(bar.x, bar.y + offset, "|", dim);
+        }
+    }
+    int rows = area.height - FOOTER_ROWS;
+    if (rows < 1) {
+        rows = 1;
     }
     if (overlay.size() > 0) {
         draw_overlay(buffer, area, rows);
@@ -1247,19 +1590,19 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
         }
         MED_picker_view.render(buffer, area, picker, preview);
     }
-    draw_status(buffer, area, area.y + rows);
-    draw_message(buffer, area, area.y + rows + 1);
+    int message_y = area.y + area.height - 1;
+    draw_message(buffer, area, message_y);
     TUI_style.Style cursor_style = TUI_style.Style(attrs: TUI_style.REVERSE);
     if (overlay.size() > 0 || has_picker || is_leader) {
         return;
     }
     if (editor.mode == MED_editor.CMDLINE) {
-        int cursor_x = area.x + 1 + MED_text.line_width(editor.cmdline, editor.tab);
-        if (cursor_x < area.x + area.width) {
-            buffer.set_style(cursor_x, area.y + rows + 1, cursor_style);
+        int command_x = area.x + 1 + MED_text.line_width(editor.cmdline, editor.tab);
+        if (command_x < area.x + area.width) {
+            buffer.set_style(command_x, message_y, cursor_style);
         }
     } else {
-        buffer.set_style(area.x + gutter + cursor_spot - left_column, area.y + editor.row - editor.view_top, cursor_style);
+        buffer.set_style(cursor_x, cursor_y, cursor_style);
     }
 }
 
@@ -1299,6 +1642,14 @@ TUI_app.Action App.handle_picker_wheel(TUI_mouse.Gesture gesture) {
     }
     update_preview();
     return TUI_app.Action.Redraw;
+}
+
+int gutter_of(MED_editor.Editor shown) {
+    int digits = shown.buffer.line_count().to_str().size();
+    if (digits < MIN_DIGITS) {
+        digits = MIN_DIGITS;
+    }
+    return digits + 1;
 }
 
 /// Write `slot`'s text to `target` (its own file when `target` is empty) and
@@ -1452,6 +1803,7 @@ pub Result<App, str> open_all(List<str> paths) {
             case Ok(Slot slot): {
                 if (is_first) {
                     app.slots.push(slot);
+                    app.wins.push(MED_window.Win(1, slot.id));
                     app.current_id = slot.id;
                     app.editor = slot.editor;
                     app.path = path;
@@ -1548,6 +1900,16 @@ List<str> read_preview(str file) {
             return ["(cannot read: " + error.to_str() + ")"];
         }
     }
+}
+
+/// Where `value` is in `items`, or -1.
+int position_of(List<int> items, int value) {
+    for (int position in 0 .. items.size()) {
+        if (items[position] == value) {
+            return position;
+        }
+    }
+    return -1;
 }
 
 /// The rows of text for a window of `rows` rows.

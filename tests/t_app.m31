@@ -236,6 +236,83 @@ match (MED_app.open_all([first_path, second_path])) {
 }
 remove_file(first_path);
 remove_file(second_path);
+// windows
+str win_a = "/tmp/m3d1tor_t_app_wa.txt";
+str win_b = "/tmp/m3d1tor_t_app_wb.txt";
+write_file(win_a, "one\ntwo\nthree\nfour\n");
+write_file(win_b, "bravo\n");
+match (MED_app.open_all([win_a, win_b])) {
+    case Err(str message): {
+        check.ok("open for the window tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        check.eq_int("one window to begin with", app.wins.size(), 1);
+        type_text(app, ":q\n");
+        type_text(app, "jj");
+        type_text(app, ":vsplit\n");
+        check.eq_int("vsplit makes two windows", app.wins.size(), 2);
+        check.eq_int("the new window is active", app.current_win, 2);
+        check.eq_int("with the cursor of the first", app.editor.row, 2);
+        type_text(app, "gg");
+        type_text(app, "\x17h");
+        check.eq_int("ctrl-w h goes left", app.current_win, 1);
+        check.eq_int("the left window kept its row", app.editor.row, 2);
+        type_text(app, "\x17l");
+        check.eq_int("ctrl-w l goes right", app.current_win, 2);
+        check.eq_int("the right window kept its row", app.editor.row, 0);
+        type_text(app, ":split\n");
+        check.eq_int("split makes three", app.wins.size(), 3);
+        type_text(app, ":b2\n");
+        check.eq_str("a window can show another buffer", app.path, win_b);
+        type_text(app, "\x17k");
+        check.eq_str("ctrl-w k goes up to the first buffer", app.path, win_a);
+        type_text(app, "\x17j");
+        check.eq_str("ctrl-w j goes back down", app.path, win_b);
+        type_text(app, "\x17w");
+        check.eq_int("ctrl-w w wraps around", app.current_win, 1);
+        type_text(app, "\x17p");
+        check.eq_int("ctrl-w p goes to the previous window", app.current_win, 3);
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(80, 24);
+        app.render(screen, screen.area());
+        check.ok("the left window draws its text", screen.row_text(0).contains("one"));
+        check.ok("the right windows are parted by a separator", screen.row_text(0).contains("|"));
+        check.ok("the other buffer is drawn too", screen.to_str().contains("bravo"));
+        type_text(app, "ihello");
+        type_text(app, "\x1b");
+        app.render(screen, screen.area());
+        check.ok("an edit shows in the other window of the same buffer", screen.to_str().contains("hellobravo"));
+        type_text(app, ":q\n");
+        check.eq_int("q closes a window even when its buffer changed", app.wins.size(), 2);
+        type_text(app, ":close\n");
+        check.eq_int("close drops another", app.wins.size(), 1);
+        type_text(app, ":close\n");
+        check.ok("the last window stays", app.notice.starts_with("E444"));
+        type_text(app, ":sp\n");
+        type_text(app, ":only\n");
+        check.eq_int("only leaves one", app.wins.size(), 1);
+        type_text(app, ":new\n");
+        check.eq_int("new makes a window", app.wins.size(), 2);
+        check.eq_str("showing an empty buffer", app.path, "");
+        check.ok(":q on the last window is refused for the modified buffer", !is_quit(type_text(app, ":q\n:q\n")));
+        check.ok("E162 for the hidden modified buffer", app.notice.starts_with("E162"));
+        check.ok(":qa! quits", is_quit(type_text(app, ":qa!\n")));
+    }
+}
+match (MED_app.open_all([win_a])) {
+    case Err(str message): {
+        check.ok("open for the window delete test: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, ":vsplit\n:enew\n");
+        check.eq_int("two windows", app.wins.size(), 2);
+        type_text(app, "\x17h");
+        type_text(app, ":bd 2\n");
+        check.eq_int("deleting a buffer closes its windows", app.wins.size(), 1);
+        check.eq_str("the remaining window keeps its buffer", app.path, win_a);
+    }
+}
+remove_file(win_a);
+remove_file(win_b);
 // leader keys, which-key, jk, the palette, pickers
 str lead_path = "/tmp/m3d1tor_t_app_lead.txt";
 write_file(lead_path, "one\ntwo\n");

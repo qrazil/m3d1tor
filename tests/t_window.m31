@@ -1,0 +1,83 @@
+// Unit checks for MED_window: the layout tree, splitting, closing, geometry
+// and directional neighbours.
+
+import tests.MED_check;
+import MED_window;
+
+MED_check.Check check = MED_check.Check();
+
+str ids(MED_window.Node root) {
+    List<str> parts = [];
+    for (int id in MED_window.leaves(root)) {
+        parts.push(id.to_str());
+    }
+    return parts.join(",");
+}
+
+MED_window.Node root = MED_window.leaf(1);
+check.eq_str("one window", ids(root), "1");
+MED_window.Layout single = MED_window.place(root, 0, 0, 80, 23);
+check.eq_int("the whole area", MED_window.placed_of(single, 1).width, 80);
+check.eq_int("the whole height", MED_window.placed_of(single, 1).height, 23);
+// :split puts the new window above, :vsplit to the left (is_after false)
+root = MED_window.split(root, 1, 2, false, false);
+check.eq_str("new window above", ids(root), "2,1");
+MED_window.Layout stacked = MED_window.place(root, 0, 0, 80, 23);
+check.eq_int("upper height gets the odd row", MED_window.placed_of(stacked, 2).height, 12);
+check.eq_int("lower height", MED_window.placed_of(stacked, 1).height, 11);
+check.eq_int("lower starts below", MED_window.placed_of(stacked, 1).y, 12);
+check.eq_int("full width", MED_window.placed_of(stacked, 1).width, 80);
+check.eq_int("no separator when stacked", stacked.separators.size(), 0);
+// splitting a window of a stack in the same direction adds a sibling
+root = MED_window.split(root, 1, 3, false, true);
+check.eq_str("a third in the same column", ids(root), "2,1,3");
+check.eq_int("one branch, three kids", root.kids.size(), 3);
+MED_window.Layout three = MED_window.place(root, 0, 0, 80, 24);
+check.eq_int("equal thirds", MED_window.placed_of(three, 3).height, 8);
+check.eq_int("third starts at 16", MED_window.placed_of(three, 3).y, 16);
+// a vertical split inside the stack nests
+root = MED_window.split(root, 1, 4, true, true);
+check.eq_str("side by side inside the stack", ids(root), "2,1,4,3");
+MED_window.Layout nested = MED_window.place(root, 0, 0, 81, 24);
+check.eq_int("left half", MED_window.placed_of(nested, 1).width, 40);
+check.eq_int("right half", MED_window.placed_of(nested, 4).width, 40);
+check.eq_int("right half starts after the separator", MED_window.placed_of(nested, 4).x, 41);
+check.eq_int("one separator", nested.separators.size(), 1);
+check.eq_int("the separator column", nested.separators[0].x, 40);
+check.eq_int("the separator is as tall as the window", nested.separators[0].height, 8);
+check.eq_int("window at a cell", MED_window.window_at(nested, 50, 10), 4);
+check.eq_int("window at a separator", MED_window.window_at(nested, 40, 10), 0);
+// neighbours
+check.eq_int("right of 1 is 4", MED_window.neighbor(nested, 1, MED_window.GO_RIGHT, 5, 10), 4);
+check.eq_int("left of 4 is 1", MED_window.neighbor(nested, 4, MED_window.GO_LEFT, 50, 10), 1);
+check.eq_int("up of 1 is 2", MED_window.neighbor(nested, 1, MED_window.GO_UP, 5, 10), 2);
+check.eq_int("down of 4 is 3", MED_window.neighbor(nested, 4, MED_window.GO_DOWN, 50, 10), 3);
+check.eq_int("nothing left of 1", MED_window.neighbor(nested, 1, MED_window.GO_LEFT, 5, 10), 0);
+check.eq_int("nothing up of 2", MED_window.neighbor(nested, 2, MED_window.GO_UP, 5, 2), 0);
+check.eq_int("down of 3 is nothing", MED_window.neighbor(nested, 3, MED_window.GO_DOWN, 5, 20), 0);
+check.eq_int("up from 3 follows the column of the cursor", MED_window.neighbor(nested, 3, MED_window.GO_UP, 60, 18), 4);
+check.eq_int("up from 3 on the left", MED_window.neighbor(nested, 3, MED_window.GO_UP, 10, 18), 1);
+// closing
+root = MED_window.without(root, 4);
+check.eq_str("closing a side window", ids(root), "2,1,3");
+check.eq_int("the branch collapses to the stack", root.kids.size(), 3);
+root = MED_window.without(root, 2);
+check.eq_str("closing the top", ids(root), "1,3");
+root = MED_window.without(root, 3);
+check.eq_str("closing down to one", ids(root), "1");
+check.ok("the root is a leaf again", root.win_id == 1);
+root = MED_window.without(root, 1);
+check.eq_str("the last window stays", ids(root), "1");
+// merging after a close: side by side inside a stack, one stack member goes
+MED_window.Node tree = MED_window.leaf(1);
+tree = MED_window.split(tree, 1, 2, true, true);
+tree = MED_window.split(tree, 2, 3, false, true);
+check.eq_str("left, then right over right", ids(tree), "1,2,3");
+tree = MED_window.without(tree, 3);
+check.eq_str("back to two side by side", ids(tree), "1,2");
+check.ok("a vertical branch", tree.is_vertical);
+tree = MED_window.split(tree, 1, 5, false, true);
+tree = MED_window.without(tree, 2);
+check.eq_str("the stack remains", ids(tree), "1,5");
+check.ok("and is stacked", !tree.is_vertical);
+check.finish("t_window");

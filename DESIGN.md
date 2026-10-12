@@ -318,7 +318,9 @@ MED_files.m31      project root, file walk with ignore and hidden toggles, direc
 MED_grep.m31       corpus + search (literal fast path, regex, smart-case); tests/t_grep.m31
 MED_picker.m31     picker state machine (prompt, ranking, selection, keys); tests/t_picker.m31
 MED_picker_view.m31  picker drawing: list, highlights, preview pane
+MED_window.m31    window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
 MED_view.m31       drawing
+MED_window.m31     window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
 MED_help.m31       ? and which-key content from keymap data
 m3d1tor.m31        entry: args, terminal check, tui loop
 MED_app.m31        front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
@@ -455,7 +457,8 @@ as Helix without its language intelligence", and the tag description must say so
   quickfix list yet; the buffers picker is in buffer order, not MRU. There is no
   nvim oracle for buffers and pickers, so they are covered by unit tests and
   manual runs only.
-* M4 (before the tag): splits, explorer, git gutter, surround/comment/autopairs,
+* M4 (in progress): splits are done (`:split :vsplit :new :vnew :close :only :wincmd`, `<C-w>` s v n c q o w W p t b h j k l, `<Space>sv/sh/se/sc/o/n`, mouse click focuses a window). Windows split the space equally (no `:resize` or `<C-w>+-<>|`, `<C-w>=` is a no-op); each has its own status line and shows its own cursor and view of a shared buffer; closing a window keeps its buffer loaded (hidden), so `:q` of a modified buffer in a window never prompts, and E162 reports it at the final quit. Edits made through one window do not move the cursor of another window on the same buffer (it is only clamped). Not done: `<C-w>HJKLrRx` (move/rotate/exchange windows), counts for `<C-w>`, picker keys that open in a split.
+* M4 (before the tag): explorer, git gutter, surround/comment/autopairs,
   marks UI, keymap file, benchmarks run and recorded.
 
 ## 11. m31 gaps (stop-and-report items, not worked around)
