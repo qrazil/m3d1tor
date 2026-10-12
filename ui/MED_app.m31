@@ -1610,7 +1610,7 @@ bool App.should_quit_after(int key) {
     if (sent == MED_key.ESC) {
         last_key = 0;
     }
-    if (editor.mode == MED_editor.NORMAL && editor.pending.size() == 0 && is_in_listing()) {
+    if (editor.mode == MED_editor.NORMAL && editor.pending.size() == 0 && is_in_listing() && !is_pending_g) {
         if (sent == MED_key.CARRIAGE_RETURN) {
             open_listing_entry();
             return did_finish();

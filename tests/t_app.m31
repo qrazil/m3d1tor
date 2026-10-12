@@ -291,7 +291,10 @@ match (MED_app.open_all([win_a, win_b])) {
         app.render(screen, screen.area());
         check.ok("an edit shows in the other window of the same buffer", screen.to_str().contains("hellobravo"));
         type_text(app, ":q\n");
-        check.eq_int("q closes a window even when its buffer changed", app.wins.size(), 2);
+        check.eq_int("q keeps the only window of a changed buffer", app.wins.size(), 3);
+        check.ok("E37 for it", app.notice.starts_with("E37"));
+        type_text(app, ":close!\n");
+        check.eq_int("close! hides the changed buffer", app.wins.size(), 2);
         type_text(app, ":close\n");
         check.eq_int("close drops another", app.wins.size(), 1);
         type_text(app, ":close\n");
@@ -413,8 +416,12 @@ match (MED_app.open_all([tree + "/beta.txt"])) {
         check.ok("typing is refused with E21", app.notice.starts_with("E21"));
         check.eq_str("the text is intact", app.editor.buffer.line(2), "beta.txt");
         check.eq_int("and stays in Normal mode", app.editor.mode, MED_editor.NORMAL);
-        type_text(app, "dd");
-        check.eq_int("deleting is refused too", app.editor.buffer.line_count(), 4);
+        type_text(app, "x");
+        check.eq_str("deleting is refused too", app.editor.buffer.line(2), "beta.txt");
+        type_text(app, "R");
+        check.eq_int("R in a listing starts the Rename command line", app.editor.mode, MED_editor.CMDLINE);
+        check.eq_str("with the name", app.editor.cmdline, "Rename beta.txt ");
+        type_text(app, "\x1b");
         type_text(app, ":w\n");
         check.ok("a listing cannot be written", app.notice.starts_with("E382"));
         type_text(app, "gg");

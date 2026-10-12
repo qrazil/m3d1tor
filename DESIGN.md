@@ -432,10 +432,10 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Which-key style popups for prefixes | Yes | M3 |
 | Splits | Yes | M4 |
 | Buffers (list, switch, close) | Yes | |
-| Git diff gutter | Yes | M4, HEAD vs buffer |
+| Git diff gutter | Yes | M4, HEAD vs buffer, `]c` `[c` |
 | Auto pairs, comment toggle, surround | Yes | M4 |
 | Mouse (click, scroll, drag-select) | Partial | Click/scroll first; drag-select later |
-| Clipboard | Partial | Yank via OSC 52 to the terminal clipboard, paste via the terminal's bracketed paste. No `"+p` read-back (G5) |
+| Clipboard | Yes | `"+` `"*` and `clipboard=unnamedplus` through pbcopy / pbpaste, wl-clipboard, xclip or xsel (spawned through `sh` with a file in between: no pipes needed); without a tool the registers are the unnamed one, as in nvim |
 | Themes | Partial | One dark and one light built in; no per-language scopes |
 | Syntax highlighting | **Later** | Lexical highlighter, not tree-sitter |
 | Tree-sitter textobjects (`maf`, `mic`), indentation, selection expansion | **Impossible** (G3) | No tree-sitter runtime in m31 and the rule forbids Rust/FFI work |
@@ -443,7 +443,7 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Formatting via external formatter, shell pipe (`!`, `\|`, `:pipe`), `:sh`-capture, `:r !cmd` | **Impossible today** (G1) | Same gap; `:!cmd` with inherited terminal works |
 | Debug adapter (DAP) | **Impossible today** (G1) | |
 | Embedded terminal | **Impossible** (G4) | No pty |
-| Soft wrap, rulers, indent guides, whitespace rendering | Later | Rulers and soft wrap are view features, listed for after the tag |
+| Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list`, `number`, `relativenumber` done; rulers and indent guides later |
 | Snippets | Later | |
 | Auto-reload on external change, auto-save | Partial | Poll `fs.stat` mtimes on idle tick; auto-save later |
 | Persistent undo, session restore | Later | |
@@ -476,8 +476,20 @@ as Helix without its language intelligence", and the tag description must say so
 * M4 (in progress): splits are done (`:split :vsplit :new :vnew :close :only :wincmd`, `<C-w>` s v n c q o w W p t b h j k l, `<Space>sv/sh/se/sc/o/n`, mouse click focuses a window). Windows split the space equally (no `:resize` or `<C-w>+-<>|`, `<C-w>=` is a no-op); each has its own status line and shows its own cursor and view of a shared buffer; closing a window keeps its buffer loaded (hidden), so `:q` of a modified buffer in a window never prompts, and E162 reports it at the final quit. Edits made through one window do not move the cursor of another window on the same buffer (it is only clamped). Not done: `<C-w>HJKLrRx` (move/rotate/exchange windows), counts for `<C-w>`.
 * M4 explorer: done. `<Space>e` / `<Space>fe` is the picker explorer (`-` up on an empty prompt). `:Explore [dir]`, `:Sexplore`, `:Vexplore` and `:e dir` open a read-only directory buffer (`../`, folders, files; cursor on the file we came from): Enter opens the entry (the listing buffer is dropped when a file replaces it), `-` goes up, and any edit is undone at once by re-reading the directory with Vim's E21; `:w` gives E382. Not done: netrw's rename/delete/create keys, `gh` hidden toggle (dotfiles are always shown, `.git` never). In every picker CTRL-S / CTRL-V accept a file, buffer or grep hit into a new window below / beside.
 * M4 keymap file: done. `:map` family (see 2.3), `:source`, startup file, `-u`.
-* M4 (before the tag): git gutter, surround/comment/autopairs,
-  marks UI, benchmarks run and recorded.
+* M4 (done): git gutter (`MED_git`, signs and `]c` `[c`, HEAD read through `git show`, diff by LCS
+  with a size limit), surround (`MED_surround`, a port of surround.vim run on the engine and checked against
+  the plugin: corpora 88 to 90), auto pairs (`MED_autopair`, a port of auto-pairs 2.0.0's decisions, corpora
+  91 and 92), marks UI (sign letters, `:marks`, `:registers`, `:jumps`, `:changes`, `<Space>fm`), system
+  clipboard (`MED_clip`), `:resize` and the `<C-w>` size and move keys, soft wrap with nvim's scrolling
+  rules (corpus 87), `bench/bench.py`. The oracle runner knows which vim plugins a case names; the
+  corpora that need a plugin are skipped where the plugin is missing (CI), so `tests/t_surround.m31`
+  and `tests/t_git.m31` hold the checks that run everywhere.
+* Known divergences from nvim after M4 (see `tests/oracles/known_divergences.txt` and `pending/`): manual
+  folds; the command-line window; `=` is a reduced C indenter (it matters for the line a closing bracket
+  gets after `<CR>` between a pair); `:s///c` inside `:g`; `CTRL-D` with the cursor on a tall wrapped
+  line; the `.` register after `<BS>` runs into the buffer start in Replace mode; insert-mode
+  completion is keyword completion (`CTRL-N`, `CTRL-P`, `CTRL-X CTRL-N`, `CTRL-X CTRL-P`) only;
+  options that only store a value ('foldmethod', 'spell', 'smoothscroll', 'cindent' ...).
 
 ## 11. m31 gaps (stop-and-report items, not worked around)
 

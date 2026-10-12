@@ -6,11 +6,11 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: 0.0.x, pre-release.** The v0.1.0 acceptance bar (DESIGN section 9:
-"at least as capable as Helix, with Vim bindings") is not met yet: the git
-gutter, surround, comment toggle, auto pairs, marks UI and the
-recorded benchmarks are still to do. No release has been tagged and none will be
-until it is. The `version` in `deps` is not bumped by the reorganisation.
+**Status: 0.0.x, pre-release.** The features of the v0.1.0 acceptance bar (DESIGN
+section 9: "at least as capable as Helix, with Vim bindings") are in: git gutter,
+surround, comment toggle, auto pairs, marks UI, splits, pickers, clipboard. The
+benchmark harness is in `bench/`. The editing engine still has known divergences
+from nvim (below); no release has been tagged. The `version` in `deps` is not bumped.
 
 ## Features
 
@@ -35,6 +35,22 @@ counts, dot repeat, registers, undo, visual modes, macros, marks, search, ex com
 
 Display: soft wrap (`:set nowrap` for horizontal scrolling), `gj gk g0 g^ g$ gm`, `:set number relativenumber list`,
 `hlsearch` highlighting (`:noh`).
+
+More
+
+- Surround as in vim-surround: `ys{motion}{char}`, `yss`, `yS`, `ySS`, `ds{char}`, `cs{old}{new}`, `cS`, and `S` / `gS` in
+  Visual mode (`)`/`b`, `(`, `]`/`r`, `}`/`B`, `>`/`a`, quotes, `t` and `<` for tags with attributes kept by `cs`, `f` and `F` for
+  function calls, `l` for LaTeX, `p`, `s`, a space prefix). The engine is checked against the plugin itself.
+- Auto pairs as in auto-pairs: `(` `[` `{` `'` `"` `` ` `` and the triples, a closing key steps over, `<BS>` in an empty pair deletes
+  both, `<Space>` pads, `<CR>` between brackets opens a line. `:set noautopairs` turns it off.
+- Git gutter: `+` added, `~` changed, `_` removed lines against HEAD in a sign column, `]c` / `[c` to jump between changes
+  (`:set nogitsigns` turns it off). Lower-case marks show as letters in the same column; `:marks`, `:registers`, `:jumps`,
+  `:changes` list as Vim does and `<Space>fm` is a marks picker.
+- System clipboard: `"+` and `"*` use pbcopy / pbpaste (macOS), wl-clipboard, xclip or xsel; `:set clipboard=unnamedplus` makes
+  every yank and put use it.
+- Windows: `:resize`, `:vertical resize`, `<C-w>` `+ - < > _ | =` `H J K L` `r R x`; closing a modified buffer's last window is E37.
+- Display: soft wrap, `incsearch`, `hlsearch`, `number`, `relativenumber`, `list`; `gj gk g0 g^ g$ gm`.
+- Directory listings (`:Explore`): `R` rename, `D` delete, `%` new file, `d` new directory, `gh` toggle dotfiles.
 
 ## Keys
 
