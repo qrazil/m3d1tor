@@ -1929,7 +1929,12 @@ bool did_put_reg(MED_editor.Editor editor, MED_register.Reg reg0, int dir0, int 
     editor.change(start, start, text);
     MED_buffer.Pos end = MED_buffer.advance(start, text);
     if (text.size() > 0) {
-        set_op_marks(editor, start, dec_position(editor, end));
+        if (end.col == 0 && end.row > start.row) {
+            // the text ended with a line break: `] is the start of the rest
+            set_op_marks(editor, start, end);
+        } else {
+            set_op_marks(editor, start, dec_position(editor, end));
+        }
     }
     if (reg.lines.size() > 1 || text.index_of("\n").is_some()) {
         if (is_cursor_end) {
@@ -2359,11 +2364,258 @@ bool did_run_op(MED_editor.Editor editor, Oap oap) {
         editor.want_from_cursor();
     } else if (operator == "gc") {
         return did_op_comment(editor, oap);
+    } else if (operator == "ys" || operator == "yS") {
+        return did_op_surround(editor, oap);
     } else {
         return false;
     }
     editor.clamp();
     return true;
+}
+
+// ----------------------------------------------------------------- surround
+
+// `ys` / `yS`: the motion's text is remembered through the `[` `]` marks and
+// the surroundings are typed next (see `sur_feed`).
+bool did_op_surround(MED_editor.Editor editor, Oap oap) {
+    if (!editor.is_option_on("surround", true)) {
+        return false;
+    }
+    if (oap.is_linewise) {
+        set_op_marks(editor, MED_buffer.Pos(oap.start.row, 0), MED_buffer.Pos(oap.end.row, MAXCOL));
+        editor.sur_kind = "line";
+    } else {
+        MED_buffer.Pos last = oap.end;
+        if (!oap.is_inclusive) {
+            // decl(): back one character, skipping the line break
+            last = dec_position(editor, oap.end);
+            if (last.row < oap.end.row && last.col > 0) {
+                last = MED_buffer.Pos(last.row, MED_text.previous_col(editor.buffer.line(last.row), last.col));
+            }
+        }
+        set_op_marks(editor, oap.start, last);
+        editor.sur_kind = "char";
+    }
+    editor.sur_command = oap.operator;
+    editor.sur_stage = 1;
+    editor.sur_keys = [];
+    editor.sur_old = "";
+    editor.sur_new = "";
+    editor.sur_input = "";
+    editor.row = oap.start.row;
+    editor.col = oap.start.col;
+    return true;
+}
+
+// The surround command has all its input: it runs from the ex queue.
+void sur_finish(MED_editor.Editor editor) {
+    editor.sur_stage = 0;
+    if (!editor.is_in_dot) {
+        editor.dot_tail = editor.sur_keys;
+    }
+    editor.ex_queue.push("\x04surround");
+}
+
+void sur_cancel(MED_editor.Editor editor) {
+    editor.sur_stage = 0;
+    editor.sur_command = "";
+    editor.is_failed = true;
+}
+
+// What a replacement character asks for next: 1 a tag, 2 a function name, 3 a
+// LaTeX environment, 0 nothing.
+int sur_prompt_kind(str symbol) {
+    str base = symbol;
+    if (base.size() == 2 && base.byte_at(0) == 32) {
+        base = base.substr(1, 2);
+    }
+    if (base == "t" || base == "T" || base == "<" || base == "\x14") {
+        return 1;
+    }
+    if (base == "f" || base == "F" || base == "\x06") {
+        return 2;
+    }
+    if (base == "l" || base == "\\") {
+        return 3;
+    }
+    return 0;
+}
+
+// One key of the surround command being typed.
+void sur_feed(MED_editor.Editor editor, int key) {
+    int stage = editor.sur_stage;
+    if (stage == 4 || stage == 5) {
+        // a target: digits, then a character (a space takes the next one too)
+        if (key == 27 || key == 3 || key == 0) {
+            sur_cancel(editor);
+            return;
+        }
+        editor.sur_keys.push(key);
+        if (stage == 4 && key >= 48 && key <= 57) {
+            editor.sur_old = editor.sur_old + str.from_chars([key]);
+            return;
+        }
+        if (stage == 4 && key == 32) {
+            editor.sur_old = editor.sur_old + " ";
+            editor.sur_stage = 5;
+            return;
+        }
+        editor.sur_old = editor.sur_old + str.from_chars([key]);
+        if (editor.sur_command == "ds") {
+            sur_finish(editor);
+        } else {
+            editor.sur_stage = 1;
+        }
+        return;
+    }
+    if (stage == 1 || stage == 2) {
+        if (key == 27 || key == 3) {
+            sur_cancel(editor);
+            return;
+        }
+        editor.sur_keys.push(key);
+        if (stage == 1 && key == 32) {
+            editor.sur_new = " ";
+            editor.sur_stage = 2;
+            return;
+        }
+        editor.sur_new = editor.sur_new + str.from_chars([key]);
+        int kind = sur_prompt_kind(editor.sur_new);
+        if (kind == 0) {
+            sur_finish(editor);
+            return;
+        }
+        editor.sur_input = "";
+        if (editor.sur_command == "cs" || editor.sur_command == "cS") {
+            // the prompt only comes when there is something to change: take
+            // the surroundings out first (`\x04surround-begin`)
+            editor.sur_stage = 7;
+            editor.ex_queue.push("\x04surround-begin");
+            return;
+        }
+        if (kind == 1 && (editor.sur_new == "T" || editor.sur_new == " T")) {
+            // 'T' offers the tag that was deleted last
+            str tag = editor.sur_last_deleted;
+            int open = tag.index_of("<").or(-1);
+            int tag_end = tag.index_of(">").or(-1);
+            if (open >= 0 && tag_end > open) {
+                editor.sur_input = tag.substr(open + 1, tag_end);
+            }
+        }
+        editor.sur_stage = 3;
+        return;
+    }
+    if (stage == 3) {
+        if (key == 27 || key == 3) {
+            editor.sur_keys.push(key);
+            editor.sur_input = "";
+            sur_finish(editor);
+            return;
+        }
+        editor.sur_keys.push(key);
+        if (key == 13 || key == 10) {
+            sur_finish(editor);
+            return;
+        }
+        if (key == 62 && sur_prompt_kind(editor.sur_new) == 1) {
+            editor.sur_input = editor.sur_input + ">";
+            sur_finish(editor);
+            return;
+        }
+        if (key == 127 || key == 8) {
+            if (editor.sur_input.size() > 0) {
+                editor.sur_input = editor.sur_input.substr(0, editor.sur_input.size() - 1);
+            }
+            return;
+        }
+        if (key >= 32 && key < 63232) {
+            editor.sur_input = editor.sur_input + str.from_chars([key]);
+        }
+        return;
+    }
+}
+
+// `ds` / `cs` / `cS` after the `d` or `c` was typed: `pending` holds a count
+// and register prefix, then the operator key.
+bool did_begin_surround_command(MED_editor.Editor editor, int key) {
+    if (!editor.is_option_on("surround", true) || editor.mode != MED_editor.NORMAL) {
+        return false;
+    }
+    int size = editor.pending.size();
+    if (size == 0 || (key != 115 && key != 83)) {
+        return false;
+    }
+    int last = editor.pending[size - 1];
+    if (last != 100 && last != 99) {
+        return false;
+    }
+    if (key == 83 && last == 100) {
+        return false;
+    }
+    int count = 0;
+    int index = 0;
+    while (index < size - 1) {
+        int code = editor.pending[index];
+        if (code == 34 && index + 1 < size - 1) {
+            index = index + 2;
+        } else if (code >= 48 && code <= 57) {
+            count = count * 10 + (code - 48);
+            index = index + 1;
+        } else {
+            return false;
+        }
+    }
+    str command = "ds";
+    if (last == 99) {
+        command = "cs";
+        if (key == 83) {
+            command = "cS";
+        }
+    }
+    MED_parse.Parsed parsed = MED_parse.Parsed();
+    parsed.count = count;
+    parsed.body = [last, key];
+    record_dot(editor, parsed);
+    editor.pending = [];
+    editor.sur_command = command;
+    editor.sur_stage = 4;
+    editor.sur_keys = [];
+    editor.sur_old = "";
+    editor.sur_new = "";
+    editor.sur_input = "";
+    editor.sur_count = count1(count);
+    return true;
+}
+
+// Visual `S` and `gS`.
+void visual_surround(MED_editor.Editor editor, MED_parse.Parsed parsed, bool is_g) {
+    if (!editor.is_option_on("surround", true)) {
+        editor.is_failed = true;
+        return;
+    }
+    int kind = editor.vkind;
+    Oap area = visual_oap(editor, "y", parsed.reg);
+    List<int> body = [83];
+    if (is_g) {
+        body = [103, 83];
+    }
+    record_visual_dot(editor, area, kind, parsed.count, body);
+    leave_visual(editor);
+    editor.sur_command = "vS";
+    if (is_g) {
+        editor.sur_command = "vgS";
+    }
+    editor.sur_kind = "v";
+    if (kind == 86) {
+        editor.sur_kind = "V";
+    } else if (kind == 22) {
+        editor.sur_kind = "b";
+    }
+    editor.sur_stage = 1;
+    editor.sur_keys = [];
+    editor.sur_old = "";
+    editor.sur_new = "";
+    editor.sur_input = "";
 }
 
 // -------------------------------------------------------------- insert mode
@@ -4385,6 +4637,13 @@ void feed_key(MED_editor.Editor editor, int key) {
         editor.needs_stale = false;
         editor.want_from_cursor();
     }
+    if (editor.sur_stage != 0) {
+        if (editor.macro_reg != "" && !editor.is_replaying) {
+            editor.macro_keys.push(key);
+        }
+        sur_feed(editor, key);
+        return;
+    }
     if (editor.macro_reg != "" && !editor.is_replaying) {
         bool is_stop = key == 113 && editor.pending.size() == 0 && (editor.mode == MED_editor.NORMAL || editor.mode == MED_editor.VISUAL);
         if (editor.is_char_done && !is_stop) {
@@ -4404,6 +4663,9 @@ void feed_key(MED_editor.Editor editor, int key) {
     }
     if (key == 113 && editor.macro_reg != "" && editor.pending.size() == 0 && (editor.mode == MED_editor.NORMAL || editor.mode == MED_editor.VISUAL)) {
         stop_recording(editor);
+        return;
+    }
+    if (did_begin_surround_command(editor, key)) {
         return;
     }
     int cmd_key = key;
@@ -4501,7 +4763,28 @@ void execute_inner(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> 
         if (parsed.operator != "y" && parsed.operator != "zf") {
             record_dot(editor, parsed);
         }
-        bool is_ok = did_operate(editor, parsed.operator, parsed.reg, parsed.count, parsed.keys, parsed.is_doubled, parsed.force);
+        List<int> operate_keys = parsed.keys;
+        bool is_operate_doubled = parsed.is_doubled;
+        if (is_operate_doubled && parsed.operator == "ys") {
+            // yss: from the first non-blank to the last one (`^` then `g_`)
+            editor.col = first_nonblank_fix(editor.buffer.line(editor.row));
+            editor.want_from_cursor();
+            operate_keys = [103, 95];
+            is_operate_doubled = false;
+        } else if (is_operate_doubled && parsed.operator == "yS") {
+            operate_keys = [95];
+            is_operate_doubled = false;
+        }
+        if (!is_operate_doubled && parsed.is_doubled && !editor.is_in_dot && (parsed.operator == "ys" || parsed.operator == "yS")) {
+            // the plugin maps yss to `^` and g@ g_: `.` repeats the operator
+            // and its motion from where the cursor is, without the `^`
+            List<int> repeat_body = [121, parsed.operator.byte_at(1)];
+            for (int key_code in operate_keys) {
+                repeat_body.push(key_code);
+            }
+            editor.dot_body = repeat_body;
+        }
+        bool is_ok = did_operate(editor, parsed.operator, parsed.reg, parsed.count, operate_keys, is_operate_doubled, parsed.force);
         if (!is_ok) {
             editor.is_failed = true;
             if (!editor.is_in_dot) {
@@ -5747,6 +6030,29 @@ void visual_put(MED_editor.Editor editor, MED_parse.Parsed parsed, bool is_keep,
             editor.col = MED_text.last_col(editor.buffer.line(last));
         }
     }
+    // after a Visual put `gv` selects the text that was put
+    match (editor.marks.get("[")) {
+        case Some(MED_buffer.Pos put_start): {
+            match (editor.marks.get("]")) {
+                case Some(MED_buffer.Pos put_end): {
+                    editor.last_vstart = put_start;
+                    editor.last_vend = put_end;
+                    MED_buffer.Pos from_mark = put_start;
+                    MED_buffer.Pos to_mark = put_end;
+                    if (kind == 86) {
+                        from_mark = MED_buffer.Pos(put_start.row, 0);
+                        to_mark = MED_buffer.Pos(put_end.row, MAXCOL);
+                    }
+                    editor.marks.set("<", from_mark);
+                    editor.marks.set(">", to_mark);
+                }
+                case None: {
+                }
+            }
+        }
+        case None: {
+        }
+    }
     editor.clamp();
     editor.want_from_cursor();
 }
@@ -5807,6 +6113,8 @@ void visual_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typ
             next_key = 22;
         }
         visual_operator(editor, str.from_chars([key]), reg, parsed.count, [key], next_key, kind);
+    } else if (key == 83 && editor.is_option_on("surround", true)) {
+        visual_surround(editor, parsed, false);
     } else if (key == 83 || key == 82) {
         visual_operator(editor, "c", reg, parsed.count, [key], 86, kind);
     } else if (key == 60 || key == 62) {
@@ -5849,6 +6157,8 @@ void visual_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typ
             }
         } else if (second == 112 || second == 80) {
             visual_put(editor, parsed, false, second == 80, true);
+        } else if (second == 83 && editor.is_option_on("surround", true)) {
+            visual_surround(editor, parsed, true);
         } else {
             editor.is_failed = true;
         }

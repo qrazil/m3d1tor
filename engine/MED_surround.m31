@@ -1,0 +1,800 @@
+// Surroundings: `ys{motion}{symbol}`, `yss`, `yS`, `ySS`, `ds{symbol}`,
+// `cs{old}{new}`, `cS`, and `S` / `gS` in Visual mode.
+//
+// A port of Tim Pope's surround.vim (the plugin the oracle can load next to
+// nvim, see tests/oracles/corpus/63_surround.txt). The plugin is built from
+// Normal mode commands on the unnamed register, so this is too: it runs
+// those commands on the engine, which keeps the register, mark and cursor
+// effects the same. The typed input (the replacement, a tag, a function
+// name) is collected by MED_vim before `apply` runs.
+//
+// API
+// ---
+//   MED_surround.apply(editor)       run the command the editor collected
+//   MED_surround.wrap(...)           the plugin's s:wrap (pure text work)
+
+import engine.MED_buffer;
+import engine.MED_editor;
+import engine.MED_register;
+import engine.MED_text;
+import engine.MED_vim;
+
+// --------------------------------------------------------------- text help
+
+bool is_blank_byte(int code) {
+    return code == 32 || code == 9;
+}
+
+bool is_alpha_byte(int code) {
+    return (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
+}
+
+str leading_blanks(str text) {
+    int index = 0;
+    while (index < text.size() && is_blank_byte(text.byte_at(index))) {
+        index = index + 1;
+    }
+    return text.substr(0, index);
+}
+
+str strip_leading_blanks(str text) {
+    return text.substr(leading_blanks(text).size(), text.size());
+}
+
+str strip_trailing_blanks(str text) {
+    int stop = text.size();
+    while (stop > 0 && is_blank_byte(text.byte_at(stop - 1))) {
+        stop = stop - 1;
+    }
+    return text.substr(0, stop);
+}
+
+str strip_trailing_spaces(str text) {
+    int stop = text.size();
+    while (stop > 0 && text.byte_at(stop - 1) == 32) {
+        stop = stop - 1;
+    }
+    return text.substr(0, stop);
+}
+
+str strip_leading_spaces(str text) {
+    int start = 0;
+    while (start < text.size() && text.byte_at(start) == 32) {
+        start = start + 1;
+    }
+    return text.substr(start, text.size());
+}
+
+// Whether `text` ends with a newline followed by blanks only (`\n\s*\%$`).
+bool is_open_line_end(str text) {
+    int stop = text.size();
+    while (stop > 0 && is_blank_byte(text.byte_at(stop - 1))) {
+        stop = stop - 1;
+    }
+    return stop > 0 && text.byte_at(stop - 1) == 10;
+}
+
+str repeated(str text, int count) {
+    if (count <= 0) {
+        return "";
+    }
+    return text.repeat(count);
+}
+
+// s:fixindent
+str fix_indent(MED_editor.Editor editor, str text, str padding) {
+    str unit = repeated(" ", editor.shiftwidth);
+    str body = text.split("\t").join(unit);
+    str spc = padding.split("\t").join(unit);
+    List<str> lines = body.split("\n");
+    List<str> out = [];
+    int index = 0;
+    for (str line in lines) {
+        // every position after a newline, and the start, that has a character
+        if (line.size() > 0) {
+            out.push(spc + line);
+        } else {
+            out.push(line);
+        }
+        index = index + 1;
+    }
+    str result = out.join("\n");
+    if (!editor.is_expandtab) {
+        str run = " ".repeat(editor.tab);
+        result = result.split(run).join("\t");
+    }
+    return result;
+}
+
+// ------------------------------------------------------------------- s:wrap
+
+/// The text `string` (of register type `type`: "v", "V" or "b") with the
+/// surroundings `symbol` names. `removed` is what a `cs` took away (for the
+/// attributes of a changed tag), `input` the typed tag / function / environment.
+pub str wrap(MED_editor.Editor editor, str text_in, str symbol, str shape, str removed, bool is_special, str last_deleted, str input) {
+    str keeper = text_in;
+    str newchar = symbol;
+    str before = "";
+    str after = "";
+    str initspaces = "";
+    if (shape == "V") {
+        initspaces = leading_blanks(keeper);
+    } else {
+        initspaces = leading_blanks(editor.buffer.line(editor.row));
+    }
+    str pairs = "b()B{}r[]a<>";
+    str extraspace = "";
+    if (newchar.size() > 1 && newchar.byte_at(0) == 32) {
+        newchar = newchar.substr(1, newchar.size());
+        extraspace = " ";
+    }
+    int pair_index = -1;
+    if (newchar.size() == 1) {
+        pair_index = pairs.index_of(newchar).or(-1);
+    }
+    if (newchar == " ") {
+        before = "";
+        after = "";
+    } else if (newchar == "p") {
+        before = "\n";
+        after = "\n\n";
+    } else if (newchar == "s") {
+        before = " ";
+        after = "";
+    } else if (newchar == ":") {
+        before = ":";
+        after = "";
+    } else if (newchar == "t" || newchar == "T" || newchar == "\x14" || newchar == "<") {
+        str tag = input;
+        if (tag != "") {
+            bool is_keep_attributes = !tag.ends_with(">");
+            while (tag.ends_with(">")) {
+                tag = tag.substr(0, tag.size() - 1);
+            }
+            str attributes = "";
+            if (is_keep_attributes) {
+                attributes = tag_attributes(removed);
+            }
+            if (tag.ends_with("/")) {
+                tag = tag.substr(0, tag.size() - 1);
+                before = "<" + tag + attributes + " />";
+                after = "";
+            } else {
+                before = "<" + tag + attributes + ">";
+                str name = tag;
+                int space = name.index_of(" ").or(-1);
+                if (space >= 0) {
+                    name = name.substr(0, space);
+                }
+                after = "</" + name + ">";
+            }
+            if (newchar == "\x14") {
+                if (shape == "v" || shape == "V") {
+                    before = before + "\n\t";
+                }
+                if (shape == "v") {
+                    after = "\n" + after;
+                }
+            }
+        }
+    } else if (newchar == "l" || newchar == "\\") {
+        str env = input;
+        if (env != "") {
+            str open_env = "{" + env;
+            open_env = open_env + close_match(open_env);
+            before = "\\begin" + open_env;
+            int stop = open_env.index_of("}").or(open_env.size());
+            after = "\\end" + open_env.substr(0, stop) + "}";
+        }
+    } else if (newchar == "f" || newchar == "F") {
+        str function_name = input;
+        if (function_name != "") {
+            if (function_name.ends_with("(")) {
+                function_name = function_name.substr(0, function_name.size() - 1);
+            }
+            before = function_name + "(";
+            after = ")";
+            if (newchar == "F") {
+                before = before + " ";
+                after = " " + after;
+            }
+        }
+    } else if (newchar == "\x06") {
+        before = "(" + input + " ";
+        after = ")";
+    } else if (pair_index >= 0) {
+        str spc = "";
+        if (pair_index % 3 == 1) {
+            spc = " ";
+        }
+        int base = pair_index / 3 * 3;
+        before = pairs.substr(base + 1, base + 2) + spc;
+        after = spc + pairs.substr(base + 2, base + 3);
+    } else if (newchar == "\x1d") {
+        before = "{\n\t";
+        after = "\n}";
+    } else if (newchar.size() > 0 && !is_alpha_byte(newchar.byte_at(0))) {
+        before = newchar;
+        after = newchar;
+    } else {
+        before = "";
+        after = "";
+    }
+    after = after.split("\n").join("\n" + initspaces);
+    if (shape == "V" || (is_special && shape == "v")) {
+        before = strip_trailing_spaces(before);
+        after = strip_leading_spaces(after);
+        if (!after.starts_with("\n")) {
+            after = initspaces + after;
+        }
+        if (!keeper.ends_with("\n") && !after.starts_with("\n")) {
+            keeper = keeper + "\n";
+        } else if (keeper.ends_with("\n") && after.starts_with("\n")) {
+            after = after.substr(1, after.size());
+        }
+        if (!keeper.starts_with("\n") && !is_open_line_end(before)) {
+            before = before + "\n";
+            if (is_special) {
+                before = before + "\t";
+            }
+        } else if (keeper.starts_with("\n") && is_open_line_end(before)) {
+            keeper = keeper.substr(1, keeper.size());
+        }
+        if (shape == "V" && is_blank_line_end(keeper)) {
+            keeper = keeper.substr(0, keeper.size() - 1);
+        }
+    }
+    if (shape == "V") {
+        before = initspaces + before;
+    }
+    if (is_open_line_end(before)) {
+        if (shape == "v") {
+            keeper = initspaces + keeper;
+        }
+        int newline = last_newline(before);
+        str padding = before.substr(newline + 1, before.size());
+        before = before.substr(0, newline + 1);
+        keeper = fix_indent(editor, keeper, padding);
+    }
+    if (shape == "V") {
+        return before + keeper + after;
+    }
+    if (shape == "b") {
+        str flat_before = before.split("\n").join(" ");
+        str flat_after = after.split("\n").join(" ");
+        List<str> out = [];
+        for (str line in keeper.split("\n")) {
+            out.push(flat_before + line + flat_after);
+        }
+        return out.join("\n");
+    }
+    return before + extraspace + keeper + extraspace + after;
+}
+
+int last_newline(str text) {
+    int index = text.size();
+    while (index > 0) {
+        index = index - 1;
+        if (text.byte_at(index) == 10) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+// `\n\s*\n$`: the text ends in an empty line
+bool is_blank_line_end(str text) {
+    if (!text.ends_with("\n")) {
+        return false;
+    }
+    int stop = text.size() - 1;
+    while (stop > 0 && is_blank_byte(text.byte_at(stop - 1))) {
+        stop = stop - 1;
+    }
+    return stop > 0 && text.byte_at(stop - 1) == 10;
+}
+
+// '<[^ \t\n]\+\zs\_.\{-\}\ze>' in the removed text: the attributes of its tag
+str tag_attributes(str removed) {
+    int open = removed.index_of("<").or(-1);
+    if (open < 0) {
+        return "";
+    }
+    int index = open + 1;
+    while (index < removed.size() && !is_blank_byte(removed.byte_at(index)) && removed.byte_at(index) != 10 && removed.byte_at(index) != 62) {
+        index = index + 1;
+    }
+    if (index == open + 1) {
+        return "";
+    }
+    int stop = removed.substr(index, removed.size()).index_of(">").or(-1);
+    if (stop < 0) {
+        return "";
+    }
+    return removed.substr(index, index + stop);
+}
+
+// s:closematch
+str close_match(str text) {
+    int index = text.size();
+    while (index > 0) {
+        index = index - 1;
+        int code = text.byte_at(index);
+        if (code == 91 || code == 40 || code == 123 || code == 60) {
+            if (index + 1 >= text.size()) {
+                return "";
+            }
+            if (code == 91) {
+                return "]";
+            }
+            if (code == 40) {
+                return ")";
+            }
+            if (code == 123) {
+                return "}";
+            }
+            return "";
+        }
+        if (code == 93 || code == 41 || code == 125 || code == 62) {
+            return "";
+        }
+    }
+    return "";
+}
+
+// --------------------------------------------------------- engine plumbing
+
+// `norm!`: keys run as Normal mode commands, leaving nothing half done.
+void norm(MED_editor.Editor editor, str keys) {
+    List<int> codes = keys.chars();
+    bool is_saved = editor.is_replaying;
+    editor.is_replaying = true;
+    editor.pending = [];
+    MED_vim.run_keys(editor, codes, codes, 0);
+    if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) {
+        MED_vim.feed(editor, 27);
+    }
+    editor.pending = [];
+    editor.is_replaying = is_saved;
+}
+
+str register_kind(MED_register.Reg reg) {
+    if (reg.kind == MED_register.LINE) {
+        return "V";
+    }
+    if (reg.kind == MED_register.BLOCK) {
+        return "b";
+    }
+    return "v";
+}
+
+// getreg('"') and getregtype('"')
+str unnamed_text(MED_editor.Editor editor) {
+    match (editor.regs.get("\"")) {
+        case Some(MED_register.Reg reg): {
+            return reg.text();
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+str unnamed_kind(MED_editor.Editor editor) {
+    match (editor.regs.get("\"")) {
+        case Some(MED_register.Reg reg): {
+            return register_kind(reg);
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+MED_register.Reg register_of(str text, str kind) {
+    List<str> lines = text.split("\n");
+    if (kind == "V") {
+        if (lines.size() > 1 && lines[lines.size() - 1] == "") {
+            lines.pop();
+        }
+        return MED_register.Reg(lines, MED_register.LINE);
+    }
+    if (kind == "b") {
+        // setreg() takes a final newline as the end of the last line
+        if (lines.size() > 1 && lines[lines.size() - 1] == "") {
+            lines.pop();
+        }
+        int width = 0;
+        for (str line in lines) {
+            int size = MED_text.line_width(line, 8);
+            if (size > width) {
+                width = size;
+            }
+        }
+        return MED_register.Reg(lines, MED_register.BLOCK, width: width);
+    }
+    return MED_register.Reg(lines, MED_register.CHAR);
+}
+
+void set_unnamed(MED_editor.Editor editor, str text, str kind) {
+    editor.regs.set_unnamed(register_of(text, kind));
+}
+
+// "reg_save" of the plugin: whatever the unnamed register held
+type Saved {
+    MED_register.Reg reg = MED_register.Reg([], MED_register.CHAR);
+    bool is_empty = true;
+}
+
+Saved save_unnamed(MED_editor.Editor editor) {
+    Saved saved = Saved();
+    match (editor.regs.get("\"")) {
+        case Some(MED_register.Reg reg): {
+            saved.reg = reg;
+            saved.is_empty = false;
+        }
+        case None: {
+        }
+    }
+    return saved;
+}
+
+void restore_unnamed(MED_editor.Editor editor, Saved saved) {
+    if (saved.is_empty) {
+        editor.regs.set_unnamed(MED_register.Reg([""], MED_register.CHAR));
+    } else {
+        editor.regs.set_unnamed(saved.reg);
+    }
+}
+
+// ------------------------------------------------------------ dosurround
+
+// One character back along the buffer (`search('\m.', 'bW')`).
+void search_char_back(MED_editor.Editor editor) {
+    str line = editor.buffer.line(editor.row);
+    if (editor.col > 0) {
+        editor.col = MED_text.previous_col(line, editor.col);
+        return;
+    }
+    int row = editor.row;
+    while (row > 0) {
+        row = row - 1;
+        str above = editor.buffer.line(row);
+        if (above.size() > 0) {
+            editor.row = row;
+            editor.col = MED_text.last_col(above);
+            return;
+        }
+    }
+}
+
+bool is_punct_or_space(int code) {
+    return (code >= 33 && code <= 47) || (code >= 58 && code <= 64) || (code >= 91 && code <= 96) || (code >= 123 && code <= 126) || code == 32;
+}
+
+bool is_pair_char(int code) {
+    return code == 91 || code == 93 || code == 40 || code == 41 || code == 123 || code == 125 || code == 60 || code == 62 || code == 34 || code == 39 || code == 96;
+}
+
+bool is_bracket_char(int code) {
+    return code == 91 || code == 93 || code == 40 || code == 41 || code == 123 || code == 125 || code == 60 || code == 62;
+}
+
+// s:dosurround(char[, newchar[, special]]), in two halves: `prepare` takes
+// the surroundings out (everything before the text is wrapped), `finish`
+// wraps the kept text and puts it back. A tag, function or environment typed
+// in between is asked for only when `prepare` found something to change.
+// Returns false when there was nothing (the editor is left as it was).
+bool did_prepare(MED_editor.Editor editor, str target, str newchar, bool is_special, bool has_new, int count_in) {
+    editor.was_sur_startofline = editor.is_startofline;
+    editor.is_startofline = true;
+    int scount = count_in;
+    if (scount < 1) {
+        scount = 1;
+    }
+    str symbol = target;
+    bool has_space = false;
+    int digits = 0;
+    while (digits < symbol.size() && symbol.byte_at(digits) >= 48 && symbol.byte_at(digits) <= 57) {
+        digits = digits + 1;
+    }
+    if (digits > 0) {
+        scount = scount * symbol.substr(0, digits).parse_int().or(1);
+        symbol = symbol.substr(digits, symbol.size());
+    }
+    if (symbol.starts_with(" ")) {
+        symbol = symbol.substr(1, symbol.size());
+        has_space = true;
+    }
+    if (symbol == "a") {
+        symbol = ">";
+    }
+    if (symbol == "r") {
+        symbol = "]";
+    }
+    if (has_new && (newchar == "" || newchar == "\x1b" || newchar == "\x03")) {
+        editor.is_startofline = editor.was_sur_startofline;
+        return false;
+    }
+    Saved original = save_unnamed(editor);
+    editor.sur_orig = original.reg;
+    editor.is_sur_orig_empty = original.is_empty;
+    set_unnamed(editor, "", "v");
+    str strcount = "";
+    if (scount != 1) {
+        strcount = scount.to_str();
+    }
+    int code = 0;
+    if (symbol.size() > 0) {
+        code = symbol.byte_at(0);
+    }
+    bool is_other_punct = symbol.size() == 1 && is_punct_or_space(code) && !is_pair_char(code);
+    if (symbol == "/") {
+        norm(editor, strcount + "[/d" + strcount + "]/");
+    } else if (is_other_punct) {
+        norm(editor, "T" + symbol);
+        str here = editor.buffer.line(editor.row);
+        if (editor.col < here.size() && here.byte_at(editor.col) == code) {
+            norm(editor, "l");
+        }
+        norm(editor, "dt" + symbol);
+    } else {
+        norm(editor, "d" + strcount + "i" + symbol);
+    }
+    str keeper = unnamed_text(editor);
+    editor.sur_okeeper = keeper;
+    if (keeper == "") {
+        restore_unnamed(editor, original);
+        editor.is_startofline = editor.was_sur_startofline;
+        return false;
+    }
+    str oldline = editor.buffer.line(editor.row);
+    editor.sur_oldlnum = editor.row + 1;
+    if (symbol == "p") {
+        set_unnamed(editor, "", "V");
+    } else if (symbol == "s" || symbol == "w" || symbol == "W") {
+        set_unnamed(editor, "", "v");
+    } else if (symbol == "\"" || symbol == "'" || symbol == "`") {
+        norm(editor, "i \x1bd2i" + symbol);
+        str got = unnamed_text(editor);
+        int space = got.index_of(" ").or(-1);
+        if (space >= 0) {
+            got = got.substr(0, space) + got.substr(space + 1, got.size());
+        }
+        set_unnamed(editor, got, "v");
+    } else if (symbol == "/") {
+        norm(editor, "\"_x");
+        set_unnamed(editor, "/**/", "v");
+        keeper = strip_comment(keeper);
+    } else if (is_other_punct && !is_bracket_char(code)) {
+        norm(editor, "F" + symbol);
+        norm(editor, "df" + symbol);
+    } else {
+        search_char_back(editor);
+        norm(editor, "da" + symbol);
+    }
+    str removed = unnamed_text(editor);
+    str rem2 = removed;
+    int newline = rem2.index_of("\n").or(-1);
+    if (newline >= 0) {
+        rem2 = rem2.substr(0, newline);
+    }
+    int head_size = oldline.size() - rem2.size();
+    if (head_size < 0) {
+        head_size = 0;
+    }
+    str oldhead = oldline.substr(0, head_size);
+    str regtype = unnamed_kind(editor);
+    bool is_open = symbol == "[" || symbol == "(" || symbol == "{" || symbol == "<" || symbol == "T";
+    if (is_open || has_space) {
+        keeper = strip_trailing_blanks(strip_leading_blanks(keeper));
+    }
+    str pcmd = "P";
+    MED_buffer.Pos closing = MED_buffer.Pos(editor.row, 0);
+    match (editor.marks.get("]")) {
+        case Some(MED_buffer.Pos mark): {
+            closing = mark;
+        }
+        case None: {
+        }
+    }
+    str current = editor.buffer.line(editor.row);
+    int cursor_vcol = MED_text.display_col(current, editor.col, editor.tab);
+    int end_vcol = MED_text.line_width(current, editor.tab);
+    if (closing.col == current.size() && cursor_vcol + 1 == end_vcol) {
+        if (is_blank_only(oldhead) && !has_new) {
+            keeper = strip_wrapping_lines(keeper, oldhead);
+        }
+        pcmd = "p";
+    }
+    if (editor.row + 2 < editor.sur_oldlnum && regtype == "V") {
+        pcmd = "p";
+    }
+    editor.sur_keeper = keeper;
+    editor.sur_removed = removed;
+    editor.sur_regtype = regtype;
+    editor.sur_pcmd = pcmd;
+    editor.is_sur_special = is_special;
+    return true;
+}
+
+void finish(MED_editor.Editor editor, str newchar, bool has_new) {
+    str keeper = editor.sur_keeper;
+    str regtype = editor.sur_regtype;
+    set_unnamed(editor, keeper, regtype);
+    if (has_new) {
+        str wrapped = wrap(editor, unnamed_text(editor), newchar, unnamed_kind(editor), editor.sur_removed, editor.is_sur_special, editor.sur_last_deleted, editor.sur_input);
+        set_unnamed(editor, wrapped, regtype);
+    }
+    norm(editor, "\"\"" + editor.sur_pcmd + "`[");
+    str here_line = editor.buffer.line(editor.row);
+    if (is_blank_only(here_line) && here_line.size() > 0 && is_blank_line_start(keeper)) {
+        norm(editor, "cc");
+    }
+    Saved original = Saved();
+    original.reg = editor.sur_orig;
+    original.is_empty = editor.is_sur_orig_empty;
+    restore_unnamed(editor, original);
+    editor.sur_last_deleted = editor.sur_removed;
+    editor.is_startofline = editor.was_sur_startofline;
+}
+
+bool is_blank_only(str text) {
+    for (int index in 0 .. text.size()) {
+        if (!is_blank_byte(text.byte_at(index))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// '^\s*\n': the text starts with blanks and a newline
+bool is_blank_line_start(str keeper) {
+    int index = 0;
+    while (index < keeper.size() && is_blank_byte(keeper.byte_at(index))) {
+        index = index + 1;
+    }
+    return index < keeper.size() && keeper.byte_at(index) == 10;
+}
+
+// substitute(keeper, '\%^\n'.oldhead.'\(\s*.\{-\}\)\n\s*\%$', '\1', '')
+str strip_wrapping_lines(str keeper, str oldhead) {
+    if (!keeper.starts_with("\n" + oldhead)) {
+        return keeper;
+    }
+    str rest = keeper.substr(1 + oldhead.size(), keeper.size());
+    int newline = last_newline(rest);
+    if (newline < 0) {
+        return keeper;
+    }
+    str tail = rest.substr(newline + 1, rest.size());
+    if (!is_blank_only(tail)) {
+        return keeper;
+    }
+    return rest.substr(0, newline);
+}
+
+// substitute(substitute(keeper,'^/\*\s\=','',''),'\s\=\*$','','')
+str strip_comment(str keeper) {
+    str text = keeper;
+    if (text.starts_with("/*")) {
+        text = text.substr(2, text.size());
+        if (text.starts_with(" ") || text.starts_with("\t")) {
+            text = text.substr(1, text.size());
+        }
+    }
+    if (text.ends_with("*")) {
+        text = text.substr(0, text.size() - 1);
+        if (text.ends_with(" ") || text.ends_with("\t")) {
+            text = text.substr(0, text.size() - 1);
+        }
+    }
+    return text;
+}
+
+// ------------------------------------------------------------------ opfunc
+
+// s:opfunc: wrap the text of the last motion (`marks [ ]`) or the last
+// Visual area; `kind` is "symbol", "line" or the visual mode ("v", "V", "b").
+void opfunc(MED_editor.Editor editor, str kind, str symbol, bool is_special) {
+    Saved saved = save_unnamed(editor);
+    str shape = "v";
+    if (kind == "char") {
+        norm(editor, "v`[o`]\"\"y");
+    } else if (kind == "line") {
+        norm(editor, "`[V`]\"\"y");
+        shape = "V";
+    } else {
+        norm(editor, "gv\"\"y");
+        shape = kind;
+    }
+    str keeper = unnamed_text(editor);
+    str append = "";
+    if (shape == "v" && kind != "v") {
+        // trailing blanks stay outside the surroundings
+        int stop = keeper.size();
+        while (stop > 0 && is_blank_byte(keeper.byte_at(stop - 1))) {
+            stop = stop - 1;
+        }
+        bool is_after_blank = stop > 0 && (keeper.byte_at(stop - 1) == 10 || is_blank_byte(keeper.byte_at(stop - 1)));
+        if (!is_after_blank) {
+            append = keeper.substr(stop, keeper.size());
+            keeper = keeper.substr(0, stop);
+        }
+    }
+    if (shape == "b" && keeper.ends_with("\n")) {
+        // the plugin writes the text back with setreg(), which drops the
+        // empty last line of a block
+        keeper = keeper.substr(0, keeper.size() - 1);
+    }
+    str wrapped = wrap(editor, keeper, symbol, shape, "", is_special, editor.sur_last_deleted, editor.sur_input);
+    set_unnamed(editor, wrapped + append, shape);
+    norm(editor, "gvp`[");
+    restore_unnamed(editor, saved);
+}
+
+// ------------------------------------------------------------------- apply
+
+/// `cs` / `cS` with a tag, function or environment to ask for: take the
+/// surroundings out now. False when there are none (nothing was typed then).
+pub bool did_begin_change(MED_editor.Editor editor) {
+    editor.block_hold = editor.block_hold + 1;
+    if (!did_prepare(editor, editor.sur_old, editor.sur_new, editor.sur_command == "cS", true, editor.sur_count)) {
+        editor.block_hold = editor.block_hold - 1;
+        return false;
+    }
+    editor.is_sur_prepared = true;
+    return true;
+}
+
+/// Run the command `editor.sur_command` with the input collected so far.
+pub void apply(MED_editor.Editor editor) {
+    str command = editor.sur_command;
+    // the commands run here must not become what `.` repeats
+    str dot_reg = editor.dot_reg;
+    int dot_count = editor.dot_count;
+    List<int> dot_body = editor.dot_body;
+    List<int> dot_tail = editor.dot_tail;
+    int dot_vkind = editor.dot_vkind;
+    int dot_vlines = editor.dot_vlines;
+    int dot_vcols = editor.dot_vcols;
+    editor.block_hold = editor.block_hold + 1;
+    if (command == "ys" || command == "yS") {
+        opfunc(editor, editor.sur_kind, editor.sur_new, command == "yS");
+    } else if (command == "vS" || command == "vgS") {
+        bool is_line = editor.sur_kind == "V";
+        bool is_special = is_line;
+        if (command == "vgS") {
+            is_special = !is_line;
+        }
+        opfunc(editor, editor.sur_kind, editor.sur_new, is_special);
+    } else if (command == "ds") {
+        if (did_prepare(editor, editor.sur_old, "", false, false, editor.sur_count)) {
+            finish(editor, "", false);
+        }
+    } else if (command == "cs" || command == "cS") {
+        if (editor.is_sur_prepared) {
+            // `did_begin_change` took one hold already
+            editor.block_hold = editor.block_hold - 1;
+            finish(editor, editor.sur_new, true);
+        } else if (did_prepare(editor, editor.sur_old, editor.sur_new, command == "cS", true, editor.sur_count)) {
+            finish(editor, editor.sur_new, true);
+        }
+    }
+    editor.is_sur_prepared = false;
+    editor.sur_command = "";
+    // commands that found nothing to change are not errors
+    editor.is_failed = false;
+    editor.dot_reg = dot_reg;
+    editor.dot_count = dot_count;
+    editor.dot_body = dot_body;
+    editor.dot_tail = dot_tail;
+    editor.dot_vkind = dot_vkind;
+    editor.dot_vlines = dot_vlines;
+    editor.dot_vcols = dot_vcols;
+    editor.block_hold = editor.block_hold - 1;
+    if (editor.block_hold <= 0 && editor.mode == MED_editor.NORMAL) {
+        editor.block_hold = 0;
+        editor.end_block();
+    }
+}

@@ -33,6 +33,7 @@ import engine.MED_view;
 import engine.MED_map;
 import engine.MED_expr;
 import engine.MED_option;
+import engine.MED_surround;
 
 // ------------------------------------------------------------------- driver
 
@@ -373,6 +374,32 @@ pub void drain(MED_editor.Editor editor) {
         if (editor.ex_queue.size() > 0) {
             str line = editor.ex_queue[0];
             editor.ex_queue.remove_at(0);
+            if (line == "\x04surround-begin") {
+                editor.sur_stage = 0;
+                if (MED_surround.did_begin_change(editor)) {
+                    str tag_default = "";
+                    if (editor.sur_new == "T" || editor.sur_new == " T") {
+                        int open = editor.sur_last_deleted.index_of("<").or(-1);
+                        int tag_end = editor.sur_last_deleted.index_of(">").or(-1);
+                        if (open >= 0 && tag_end > open) {
+                            tag_default = editor.sur_last_deleted.substr(open + 1, tag_end);
+                        }
+                    }
+                    editor.sur_input = tag_default;
+                    editor.sur_stage = 3;
+                } else {
+                    editor.sur_stage = 0;
+                    editor.sur_command = "";
+                }
+                continue;
+            }
+            if (line == "\x04surround") {
+                MED_surround.apply(editor);
+                if (editor.ex_depth == 0 && editor.mode == MED_editor.NORMAL) {
+                    editor.end_block();
+                }
+                continue;
+            }
             bool is_typed = line.size() > 0 && (line.byte_at(0) == 1 || line.byte_at(0) == 2);
             bool is_remembered = line.size() > 0 && line.byte_at(0) == 1;
             if (is_typed) {

@@ -1,0 +1,976 @@
+#plugins: surround repeat
+x = y.z(1)(2)	0,11	ds|
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,17	ysiwb
+\n  \nlone\n\n	4,0	yst,[
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,11	VabS|
+if (a && (b || c)) {\n    run(x, y);\n}	1,10	ySSr
+a (b (c d) e) f\n  g [h] i	1,3	ysa"_
+\n  \nlone\n\n	1,0	ysasp
+one,two;three.four\n\tfive,six	1,6	2cs#B
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,5	3ds'
+say "hi there" and `code` and 'it'	0,21	2yss"
+a (b (c d) e) f\n  g [h] i	0,9	cs(!
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,5	ysap#
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	2ds/
+\n  \nlone\n\n	1,0	ysibT<CR>
+one,two;three.four\n\tfive,six	0,15	ysap*
+one,two;three.four\n\tfive,six	0,10	yss {
+\n  \nlone\n\n	0,0	ysa<Tx>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,32	ysat`
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	cs "fa.b<CR>
+a (b (c d) e) f\n  g [h] i	0,1	ysipt<p><b>>
+tab\there\twe go\n   spaced   line   \nend	0,10	ysips
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	v2jgS"
+def f(x):\n    return {"a": (x, 1)}\n	0,4	ySS(
+foo("bar baz", 'qux') + [1, 2, 3]	0,0	<C-v>2jSFx<CR>
+one,two;three.four\n\tfive,six	1,8	VipS "
+say "hi there" and `code` and 'it'	0,14	cS["
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	ysa(B
+x = y.z(1)(2)	0,7	cs>t<span>>
+one,two;three.four\n\tfive,six	0,1	cS/t<p><b>>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	3dss
+\n  \nlone\n\n	4,0	vi(Sfa.b<CR>
+tab\there\twe go\n   spaced   line   \nend	1,14	ds3)
+def f(x):\n    return {"a": (x, 1)}\n	2,0	dsb>`]ix<Esc>
+\n  \nlone\n\n	2,2	ds#
+a (b (c d) e) f\n  g [h] i	0,6	<C-v>egS-
+x = y.z(1)(2)	0,4	ySS [
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,4	cs (Fx<CR>
+say "hi there" and `code` and 'it'	0,33	ySS:
+a (b (c d) e) f\n  g [h] i	0,9	cs<1
+def f(x):\n    return {"a": (x, 1)}\n	0,4	ys{ [
+def f(x):\n    return {"a": (x, 1)}\n	1,5	ysit[
+x = y.z(1)(2)	0,1	cST<
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysGr
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,8	ySs#
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ySsfbar<CR>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cs"/
+say "hi there" and `code` and 'it'	0,7	ysap|'..
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,14	ySit "
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,43	yssrgvd
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,32	ds[
+one,two;three.four\n\tfive,six	1,3	ysi`(
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	ys_]
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ds [
+one,two;three.four\n\tfive,six	0,10	2cS _
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,45	ysGp
+a (b (c d) e) f\n  g [h] i	0,2	2cSbT<CR>
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	vjlgS [
+if (a && (b || c)) {\n    run(x, y);\n}	0,3	<C-v>egSt<div class="a">>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,0	2ds#
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	ys% [
+\n  \nlone\n\n	3,0	ys0|
+x = y.z(1)(2)	0,7	ds{
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysiwBp
+a (b (c d) e) f\n  g [h] i	0,5	cs:..
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,24	2ds>
+if (a && (b || c)) {\n    run(x, y);\n}	0,16	ysi(~'u<C-r>
+if (a && (b || c)) {\n    run(x, y);\n}	0,8	ysiBffoo<CR>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	v}Sb
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	ysa( (
+one,two;three.four\n\tfive,six	1,7	cs'b
+say "hi there" and `code` and 'it'	0,29	yssB'u<C-r>
+a (b (c d) e) f\n  g [h] i	0,9	VjSFfoo<CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	yss/|"-p
+tab\there\twe go\n   spaced   line   \nend	0,12	2cS'-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	cS|#
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,25	v2jgS>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,17	ysbB
+foo("bar baz", 'qux') + [1, 2, 3]	0,31	ysapTx>
+x = y.z(1)(2)	0,9	2cS!;
+a (b (c d) e) f\n  g [h] i	1,8	ysip|
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2csx`
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,7	ysG~
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,22	3ds]
+x = y.z(1)(2)	0,5	ysap-u<C-r>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,28	ySS "
+\n  \nlone\n\n	2,2	2ds]
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,1	3ds "
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	cs]'
+one,two;three.four\n\tfive,six	1,4	<C-v>ipgS*
+x = y.z(1)(2)	0,12	ySe{
+tab\there\twe go\n   spaced   line   \nend	0,10	yse*
+foo("bar baz", 'qux') + [1, 2, 3]	0,21	ys$/
+tab\there\twe go\n   spaced   line   \nend	2,2	2ds-
+if (a && (b || c)) {\n    run(x, y);\n}	1,11	dsr..
+if (a && (b || c)) {\n    run(x, y);\n}	0,16	VipgS {
+def f(x):\n    return {"a": (x, 1)}\n	1,4	ys%>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,9	ySg_a
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,12	ysa[[
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,13	VjS|
+def f(x):\n    return {"a": (x, 1)}\n	0,0	ys%_
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,36	ys2wp
+x = y.z(1)(2)	0,10	ds "
+if (a && (b || c)) {\n    run(x, y);\n}	1,10	2ysst<div class="a"><CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,8	<C-v>abSB
+x = y.z(1)(2)	0,0	2yss}
+\n  \nlone\n\n	1,1	cs#s
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,11	ysi[b
+tab\there\twe go\n   spaced   line   \nend	0,0	ysat}
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2csT(
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysatx
+say "hi there" and `code` and 'it'	0,3	<C-v>iwS|
+foo("bar baz", 'qux') + [1, 2, 3]	0,4	ysst<br/>>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,36	Vi(S:
+x = y.z(1)(2)	0,6	ySS*
+x = y.z(1)(2)	0,3	ysiw ..
+\n  \nlone\n\n	0,0	ySaw}
+if (a && (b || c)) {\n    run(x, y);\n}	1,5	VlgSt<br/>>
+tab\there\twe go\n   spaced   line   \nend	1,8	ys%/
+x = y.z(1)(2)	0,12	v2jS~
+def f(x):\n    return {"a": (x, 1)}\n	0,4	2yss!
+if (a && (b || c)) {\n    run(x, y);\n}	0,19	2dsb
+tab\there\twe go\n   spaced   line   \nend	0,7	yss*:s/\w/X/<CR>
+\n  \nlone\n\n	2,0	yst,~
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,12	<C-v>abSx
+x = y.z(1)(2)	0,12	2ysst<span><CR>
+\n  \nlone\n\n	0,0	ysa'B
+x = y.z(1)(2)	0,0	yset<br/>>
+foo("bar baz", 'qux') + [1, 2, 3]	0,0	ysi([Bj.
+tab\there\twe go\n   spaced   line   \nend	0,3	2cs~<
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,30	ys$h,
+\n  \nlone\n\n	0,0	ys{t<q><CR>
+if (a && (b || c)) {\n    run(x, y);\n}	0,5	cs-t<q>>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	v$Sb
+a (b (c d) e) f\n  g [h] i	1,4	2yss'
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2cSB [
+\n  \nlone\n\n	4,0	ysBt<span>>
+say "hi there" and `code` and 'it'	0,4	ysi{{
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,37	cs1u
+foo("bar baz", 'qux') + [1, 2, 3]	0,6	ysget<p><b><CR>
+x = y.z(1)(2)	0,2	Va"gSb
+foo("bar baz", 'qux') + [1, 2, 3]	0,13	<C-v>ipS.
+a (b (c d) e) f\n  g [h] i	0,2	cS/B
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	ysiw#
+\n  \nlone\n\n	2,2	ysat,
+\n  \nlone\n\n	0,0	yss(*..
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	VeSfbar<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,45	v$St<q>>
+foo("bar baz", 'qux') + [1, 2, 3]	0,21	3ds!
+foo("bar baz", 'qux') + [1, 2, 3]	0,19	ysi'{
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	2cs_Tx>
+foo("bar baz", 'qux') + [1, 2, 3]	0,27	ysa"x
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	yse.
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,2	cs{]
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	csB#
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,1	ysibr
+tab\there\twe go\n   spaced   line   \nend	2,2	ys2wt<div class="a">>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,32	ysW 
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,40	2ds{
+x = y.z(1)(2)	0,9	ySap~
+tab\there\twe go\n   spaced   line   \nend	0,13	2ds2(
+tab\there\twe go\n   spaced   line   \nend	0,10	<C-v>$S:
+x = y.z(1)(2)	0,12	ys0p
+if (a && (b || c)) {\n    run(x, y);\n}	0,17	ysg_B
+one,two;three.four\n\tfive,six	1,0	ys0s
+a (b (c d) e) f\n  g [h] i	1,2	vi(gS-
+tab\there\twe go\n   spaced   line   \nend	1,0	dsW
+foo("bar baz", 'qux') + [1, 2, 3]	0,3	ds/
+\n  \nlone\n\n	1,1	ysit[
+a (b (c d) e) f\n  g [h] i	0,13	ysa"-
+one,two;three.four\n\tfive,six	1,4	cs],
+foo("bar baz", 'qux') + [1, 2, 3]	0,16	csa<
+a (b (c d) e) f\n  g [h] i	0,5	yss"`]ix<Esc>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,21	ysa(t<span><CR>
+def f(x):\n    return {"a": (x, 1)}\n	1,1	ys3e{
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	yst,|
+foo("bar baz", 'qux') + [1, 2, 3]	0,18	ys$hs
+a (b (c d) e) f\n  g [h] i	1,8	cS>;
+foo("bar baz", 'qux') + [1, 2, 3]	0,23	ysip {
+x = y.z(1)(2)	0,7	cs_Tx>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysb`
+a (b (c d) e) f\n  g [h] i	1,0	<C-v>$STx>
+one,two;three.four\n\tfive,six	0,6	ysw(
+x = y.z(1)(2)	0,4	yssr
+tab\there\twe go\n   spaced   line   \nend	2,2	cs<b:s/\w/X/<CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ysab)
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,35	ysa'<
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	<C-v>lS 
+\n  \nlone\n\n	1,1	cs[<
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	dsa
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,13	ysw>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	ysap-:s/\w/X/<CR>
+say "hi there" and `code` and 'it'	0,33	cS)~
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	v2jgSt<p><b>>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	2cS<,
+\n  \nlone\n\n	4,0	va"S|
+def f(x):\n    return {"a": (x, 1)}\n	0,7	ysk[
+def f(x):\n    return {"a": (x, 1)}\n	1,1	2ds|
+if (a && (b || c)) {\n    run(x, y);\n}	1,7	vabgS-
+one,two;three.four\n\tfive,six	0,2	ysk{
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,10	ds(
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,27	ysi' 
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,11	2ds [
+say "hi there" and `code` and 'it'	0,27	ysi"t<span><CR>
+say "hi there" and `code` and 'it'	0,18	va"St<p><b>>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,18	V2jS{
+foo("bar baz", 'qux') + [1, 2, 3]	0,6	ysggfa.b<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,9	ysjt<span><CR>
+if (a && (b || c)) {\n    run(x, y);\n}	0,0	ySs.
+foo("bar baz", 'qux') + [1, 2, 3]	0,13	v}gS)
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,6	ysBr
+foo("bar baz", 'qux') + [1, 2, 3]	0,31	ds~
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysTa#
+say "hi there" and `code` and 'it'	0,25	ysi(;{"-p
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,34	2cS_ {
+if (a && (b || c)) {\n    run(x, y);\n}	1,0	vabgSa
+one,two;three.four\n\tfive,six	0,15	cs "`[ix<Esc>
+if (a && (b || c)) {\n    run(x, y);\n}	0,16	dst
+if (a && (b || c)) {\n    run(x, y);\n}	1,9	cs2([
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2yss'
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,1	<C-v>itgS {
+\n  \nlone\n\n	3,0	veS1
+x = y.z(1)(2)	0,2	ysi"s
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,9	2yss {
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,20	2cs_t<span>>
+one,two;three.four\n\tfive,six	1,1	ysa'.
+x = y.z(1)(2)	0,7	ysiw'
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	3dsT
+x = y.z(1)(2)	0,9	ys_:
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	<C-v>abgS/
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,33	<C-v>jgSfbar<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,4	cs#[gvd
+foo("bar baz", 'qux') + [1, 2, 3]	0,22	ysi"_
+x = y.z(1)(2)	0,8	2yssTx>
+tab\there\twe go\n   spaced   line   \nend	1,16	ySst<p><b>>
+x = y.z(1)(2)	0,8	Va"gS(
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	ysw;
+\n  \nlone\n\n	4,0	ysap/`p
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cS[|
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,43	ys0'
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysibFfoo<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,37	ySs#
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysib`
+x = y.z(1)(2)	0,9	ySst<div class="a">>
+foo("bar baz", 'qux') + [1, 2, 3]	0,17	ds [:s/\w/X/<CR>
+\n  \nlone\n\n	4,0	ds gvd
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	yst,,
+if (a && (b || c)) {\n    run(x, y);\n}	1,10	csa "
+one,two;three.four\n\tfive,six	1,5	ysiBt<q>>
+a (b (c d) e) f\n  g [h] i	0,14	ysiw_
+def f(x):\n    return {"a": (x, 1)}\n	1,23	VipS{
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,7	csa`[ix<Esc>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	v}SFx<CR>
+def f(x):\n    return {"a": (x, 1)}\n	1,22	ysi(Ffoo<CR>
+a (b (c d) e) f\n  g [h] i	0,1	V2jSt<span><CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	dsa
+say "hi there" and `code` and 'it'	0,25	ds*`[ix<Esc>
+a (b (c d) e) f\n  g [h] i	1,2	2cS2( [
+x = y.z(1)(2)	0,3	ysiw]
+tab\there\twe go\n   spaced   line   \nend	0,10	yse/
+def f(x):\n    return {"a": (x, 1)}\n	1,3	VjgS {
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	yssr w.
+say "hi there" and `code` and 'it'	0,31	viwS_
+if (a && (b || c)) {\n    run(x, y);\n}	0,7	ysawTx>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,23	ysiB<
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2cS~~
+tab\there\twe go\n   spaced   line   \nend	2,1	ysap"u<C-r>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysaB1
+say "hi there" and `code` and 'it'	0,29	csb (
+a (b (c d) e) f\n  g [h] i	0,2	yss>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	yss.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	ds-w.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	2ds (
+say "hi there" and `code` and 'it'	0,6	csx'
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysaB]
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ds!u
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,11	cs/[
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,13	2cs/{
+foo("bar baz", 'qux') + [1, 2, 3]	0,31	ySbt<span>>
+def f(x):\n    return {"a": (x, 1)}\n	0,1	VitgST<CR>
+one,two;three.four\n\tfive,six	0,11	ysaB(
+one,two;three.four\n\tfive,six	0,3	yss [s..
+a (b (c d) e) f\n  g [h] i	0,10	vi(gSx
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	ds (
+def f(x):\n    return {"a": (x, 1)}\n	1,9	ds"
+def f(x):\n    return {"a": (x, 1)}\n	0,3	ys{Tx>
+foo("bar baz", 'qux') + [1, 2, 3]	0,8	yss :s/\w/X/<CR>
+tab\there\twe go\n   spaced   line   \nend	1,13	2dsr
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,4	ySsffoo<CR>
+\n  \nlone\n\n	0,0	2cs{ (
+say "hi there" and `code` and 'it'	0,5	ysap1u
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	ysi({/..
+say "hi there" and `code` and 'it'	0,22	veS{
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ySS/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	3ds;
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	yss;u<C-r>
+foo("bar baz", 'qux') + [1, 2, 3]	0,15	ys2j_
+x = y.z(1)(2)	0,8	ysw[
+foo("bar baz", 'qux') + [1, 2, 3]	0,6	2ds2(
+a (b (c d) e) f\n  g [h] i	0,14	3dsW
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,7	vipgS(
+tab\there\twe go\n   spaced   line   \nend	2,2	2cs (t<p><b>>
+x = y.z(1)(2)	0,2	3ds2(
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysi{[
+\n  \nlone\n\n	0,0	V2jS>
+foo("bar baz", 'qux') + [1, 2, 3]	0,5	ys3ep
+a (b (c d) e) f\n  g [h] i	1,1	2yss#
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,12	vegS-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,10	ds>
+one,two;three.four\n\tfive,six	1,7	yss!_`[ix<Esc>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,35	ysiwx p
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,34	ds-
+one,two;three.four\n\tfive,six	1,2	<C-v>abSt<q><CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	ysiB [
+\n  \nlone\n\n	0,0	ySs}
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,0	ysasp
+def f(x):\n    return {"a": (x, 1)}\n	0,3	<C-v>}Sb
+foo("bar baz", 'qux') + [1, 2, 3]	0,25	v2jgS#
+if (a && (b || c)) {\n    run(x, y);\n}	0,5	ds`.j.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,2	ysap_<p
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,38	3dsp
+say "hi there" and `code` and 'it'	0,14	3ds "
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,1	cs [*
+one,two;three.four\n\tfive,six	1,6	2cs_-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	2ds[
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysa[]
+one,two;three.four\n\tfive,six	1,1	ysb|
+\n  \nlone\n\n	3,0	cs;-
+say "hi there" and `code` and 'it'	0,15	ysi"1
+a (b (c d) e) f\n  g [h] i	1,7	ys3eT<CR>
+x = y.z(1)(2)	0,4	ysi(,bj.
+one,two;three.four\n\tfive,six	0,7	ysi{/
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,17	2cSTt<br/><CR>
+tab\there\twe go\n   spaced   line   \nend	2,2	<C-v>itgS"
+x = y.z(1)(2)	0,7	VabgSTx>
+x = y.z(1)(2)	0,3	ysa"1
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,6	ysis(
+say "hi there" and `code` and 'it'	0,30	ysiB;
+if (a && (b || c)) {\n    run(x, y);\n}	0,5	3ds;
+foo("bar baz", 'qux') + [1, 2, 3]	0,21	cs;1p
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,12	vitgSt<div class="a">>
+a (b (c d) e) f\n  g [h] i	0,9	3ds/
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,34	ys$h~
+foo("bar baz", 'qux') + [1, 2, 3]	0,11	csp {"-p
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	dsr
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	ysb/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ysi<{
+\n  \nlone\n\n	0,0	ds#>gvd
+foo("bar baz", 'qux') + [1, 2, 3]	0,25	ds,
+foo("bar baz", 'qux') + [1, 2, 3]	0,18	yss. {"-p
+one,two;three.four\n\tfive,six	1,3	ds1;..
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ys3e{
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,9	3ds`
+if (a && (b || c)) {\n    run(x, y);\n}	0,6	cs"r
+foo("bar baz", 'qux') + [1, 2, 3]	0,26	2yssT<CR>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysg_~
+if (a && (b || c)) {\n    run(x, y);\n}	0,11	2cs|s
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	2cs ":
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,18	3dst
+foo("bar baz", 'qux') + [1, 2, 3]	0,16	vlSfa.b<CR>
+tab\there\twe go\n   spaced   line   \nend	2,2	ysiWt<span>>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysTa;
+say "hi there" and `code` and 'it'	0,19	ysge_
+def f(x):\n    return {"a": (x, 1)}\n	0,5	ysit {
+a (b (c d) e) f\n  g [h] i	0,2	ys$ht<p><b><CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	cS(fbar<CR>
+x = y.z(1)(2)	0,2	ysiW.
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	vabgSt<span><CR>
+one,two;three.four\n\tfive,six	0,5	<C-v>jlS,
+def f(x):\n    return {"a": (x, 1)}\n	0,8	VeSfa.b<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,18	yst,:
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,2	VegS`
+a (b (c d) e) f\n  g [h] i	0,3	cs2(s
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	<C-v>lgSa
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	cS (}
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,2	ySge:
+tab\there\twe go\n   spaced   line   \nend	0,0	ys$h:
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	3ds/
+one,two;three.four\n\tfive,six	1,2	<C-v>i(gSa
+x = y.z(1)(2)	0,10	2ds [
+a (b (c d) e) f\n  g [h] i	1,8	ysiWs
+a (b (c d) e) f\n  g [h] i	1,2	v2jS"
+say "hi there" and `code` and 'it'	0,28	2cS>:
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,9	2cS'-
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,40	2ds-
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,32	ds:
+say "hi there" and `code` and 'it'	0,0	ysggt<q>>
+\n  \nlone\n\n	4,0	2cs[ [
+\n  \nlone\n\n	1,1	ysTa:
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,19	ys}t<q>>
+x = y.z(1)(2)	0,2	2dsr
+foo("bar baz", 'qux') + [1, 2, 3]	0,30	ysa']
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysiB[
+a (b (c d) e) f\n  g [h] i	0,10	vitSTx>
+say "hi there" and `code` and 'it'	0,5	ySs(
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	ys% {
+tab\there\twe go\n   spaced   line   \nend	1,0	2csp(
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	2ds [
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ySs 
+say "hi there" and `code` and 'it'	0,3	csat<span><CR>
+tab\there\twe go\n   spaced   line   \nend	1,17	yse>
+x = y.z(1)(2)	0,12	ys3et<span>>
+if (a && (b || c)) {\n    run(x, y);\n}	0,13	2cS2(x
+if (a && (b || c)) {\n    run(x, y);\n}	1,0	cStr
+one,two;three.four\n\tfive,six	0,5	2ds>
+foo("bar baz", 'qux') + [1, 2, 3]	0,19	2ds;
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2dsw
+x = y.z(1)(2)	0,1	2ds`
+x = y.z(1)(2)	0,8	ysb>
+x = y.z(1)(2)	0,7	2cs>ffoo<CR>
+\n  \nlone\n\n	0,0	ysgg/
+a (b (c d) e) f\n  g [h] i	1,2	2yss 
+one,two;three.four\n\tfive,six	0,4	2ds[
+say "hi there" and `code` and 'it'	0,20	VitgS!
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	ysi'-
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,0	yss}
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysfa [
+\n  \nlone\n\n	3,0	3ds~
+def f(x):\n    return {"a": (x, 1)}\n	1,5	2ds)
+say "hi there" and `code` and 'it'	0,25	csBu<C-r>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	2dsx
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	cs]Fx<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,3	ysf.<
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	ys^b
+say "hi there" and `code` and 'it'	0,18	ds1-u
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	ys$ha
+tab\there\twe go\n   spaced   line   \nend	2,1	ysiw:/"-p
+tab\there\twe go\n   spaced   line   \nend	1,3	va"SB
+\n  \nlone\n\n	2,0	3dsp
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	2yss/
+\n  \nlone\n\n	2,3	ysiB]
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,4	cs;u
+\n  \nlone\n\n	0,0	cS`,
+x = y.z(1)(2)	0,9	2ds"
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,9	ds(
+def f(x):\n    return {"a": (x, 1)}\n	1,4	yse.
+one,two;three.four\n\tfive,six	0,15	<C-v>lS*
+foo("bar baz", 'qux') + [1, 2, 3]	0,26	ysibt<br/>>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	VitSt<q>>
+say "hi there" and `code` and 'it'	0,9	3dsT
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ds[
+if (a && (b || c)) {\n    run(x, y);\n}	1,4	ysi`"
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,11	2cSat<p><b>>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	2cS>t<div class="a"><CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,33	3dsa
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	ds"
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,19	ys3ex
+tab\there\twe go\n   spaced   line   \nend	2,1	yssp{p
+a (b (c d) e) f\n  g [h] i	1,2	cs[t<div class="a"><CR>
+one,two;three.four\n\tfive,six	1,0	cs.-
+x = y.z(1)(2)	0,11	cs1{"1p
+foo("bar baz", 'qux') + [1, 2, 3]	0,25	3ds:
+x = y.z(1)(2)	0,2	ysi(sw.
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,14	VipS!
+tab\there\twe go\n   spaced   line   \nend	2,0	ds*'u
+one,two;three.four\n\tfive,six	1,4	2ds3)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	v$S{
+if (a && (b || c)) {\n    run(x, y);\n}	0,8	ysw {
+\n  \nlone\n\n	0,0	ySSt<span><CR>
+x = y.z(1)(2)	0,7	3dsT
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	cs}u
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	yst,B
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,9	ySS_
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	ds_
+a (b (c d) e) f\n  g [h] i	0,13	ySS "
+tab\there\twe go\n   spaced   line   \nend	0,10	cSr(
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,44	ysi`fa.b<CR>
+tab\there\twe go\n   spaced   line   \nend	2,1	ys3e)
+say "hi there" and `code` and 'it'	0,28	2csb>
+foo("bar baz", 'qux') + [1, 2, 3]	0,17	ysiBt<span>>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,44	cs"~`[ix<Esc>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,10	ysst<span><CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,40	2ds3)
+x = y.z(1)(2)	0,2	2cs[.
+x = y.z(1)(2)	0,11	ySaB-
+foo("bar baz", 'qux') + [1, 2, 3]	0,13	ysW!
+if (a && (b || c)) {\n    run(x, y);\n}	1,10	ysw,
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	2csp(
+if (a && (b || c)) {\n    run(x, y);\n}	1,4	ySs{
+\n  \nlone\n\n	1,0	ysiwr;"-p
+x = y.z(1)(2)	0,11	2cs<}
+if (a && (b || c)) {\n    run(x, y);\n}	0,18	3dsa
+a (b (c d) e) f\n  g [h] i	1,8	cs(t<span>>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,9	ds "
+a (b (c d) e) f\n  g [h] i	0,8	<C-v>jgS]
+if (a && (b || c)) {\n    run(x, y);\n}	0,12	ysst<div class="a"><CR>
+a (b (c d) e) f\n  g [h] i	0,2	ysgg "
+say "hi there" and `code` and 'it'	0,31	cs!Tx>
+a (b (c d) e) f\n  g [h] i	0,11	ysBt<span>>
+if (a && (b || c)) {\n    run(x, y);\n}	0,2	ysa{!
+x = y.z(1)(2)	0,7	viwgSTx>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,5	ysa(ffoo<CR>
+one,two;three.four\n\tfive,six	0,8	ysi[t<div class="a"><CR>
+say "hi there" and `code` and 'it'	0,20	ysiw}/u<C-r>
+def f(x):\n    return {"a": (x, 1)}\n	1,3	VegS'
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	cS {>
+x = y.z(1)(2)	0,1	2cS_a
+\n  \nlone\n\n	1,1	2ds>
+one,two;three.four\n\tfive,six	0,13	3ds (
+\n  \nlone\n\n	0,0	ysa(a
+say "hi there" and `code` and 'it'	0,25	VjgS)
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2cs]]
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,41	2yssb
+say "hi there" and `code` and 'it'	0,3	dss
+foo("bar baz", 'qux') + [1, 2, 3]	0,24	ysa(Fx<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,20	ysiw(:s/\w/X/<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,13	2cSa1
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,37	ysa['
+x = y.z(1)(2)	0,8	2cs Tx>
+a (b (c d) e) f\n  g [h] i	1,7	2ds{
+\n  \nlone\n\n	2,0	cS-t<q><CR>
+say "hi there" and `code` and 'it'	0,21	ysa{t<br/><CR>
+if (a && (b || c)) {\n    run(x, y);\n}	0,11	ysi's
+\n  \nlone\n\n	3,0	2yss1
+\n  \nlone\n\n	2,0	VlS*
+a (b (c d) e) f\n  g [h] i	1,8	<C-v>a"S-
+\n  \nlone\n\n	3,0	ysaBx
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysa<r
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,0	ysgg}
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ds [
+def f(x):\n    return {"a": (x, 1)}\n	0,8	ysa{,
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,25	ys_`
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	ysabt<p><b>>
+\n  \nlone\n\n	2,2	cSBfa.b<CR>
+a (b (c d) e) f\n  g [h] i	1,7	ds,
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	2cs!#
+tab\there\twe go\n   spaced   line   \nend	1,1	ysasT<CR>
+say "hi there" and `code` and 'it'	0,24	ysi[a
+foo("bar baz", 'qux') + [1, 2, 3]	0,9	ysab)
+one,two;three.four\n\tfive,six	1,6	Va"Sr
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	yst,{
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,45	ysabt<div class="a"><CR>
+def f(x):\n    return {"a": (x, 1)}\n	1,17	<C-v>lS"
+one,two;three.four\n\tfive,six	0,17	ysap'j.
+say "hi there" and `code` and 'it'	0,6	va"SFfoo<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,5	ysk/
+def f(x):\n    return {"a": (x, 1)}\n	1,15	ys%;
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysge|
+x = y.z(1)(2)	0,12	3ds/
+foo("bar baz", 'qux') + [1, 2, 3]	0,17	ds2(
+def f(x):\n    return {"a": (x, 1)}\n	0,1	2cS.T<CR>
+say "hi there" and `code` and 'it'	0,32	yss "
+say "hi there" and `code` and 'it'	0,23	v}SB
+say "hi there" and `code` and 'it'	0,21	V}Sb
+say "hi there" and `code` and 'it'	0,4	ysast<div class="a">>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,45	dsB
+one,two;three.four\n\tfive,six	1,7	2yss/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,11	cs!x
+tab\there\twe go\n   spaced   line   \nend	1,7	ySB (
+a (b (c d) e) f\n  g [h] i	0,12	ySa"t<div class="a"><CR>
+tab\there\twe go\n   spaced   line   \nend	2,0	ysawp
+x = y.z(1)(2)	0,6	ysa[t<span><CR>
+tab\there\twe go\n   spaced   line   \nend	0,1	cS< [
+foo("bar baz", 'qux') + [1, 2, 3]	0,26	cS-1
+a (b (c d) e) f\n  g [h] i	1,5	ysat[
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,9	ysi`r
+one,two;three.four\n\tfive,six	1,8	ysi(."1p
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ysb|
+a (b (c d) e) f\n  g [h] i	1,5	<C-v>abgS>
+\n  \nlone\n\n	3,0	ysa"ffoo<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,35	ysawb
+x = y.z(1)(2)	0,11	2cSBFx<CR>
+tab\there\twe go\n   spaced   line   \nend	0,0	ysi(ffoo<CR>
+def f(x):\n    return {"a": (x, 1)}\n	1,1	vlSr
+def f(x):\n    return {"a": (x, 1)}\n	1,11	cS~t<br/>>
+a (b (c d) e) f\n  g [h] i	0,4	2cS`ffoo<CR>
+one,two;three.four\n\tfive,six	0,9	2dsT
+foo("bar baz", 'qux') + [1, 2, 3]	0,3	<C-v>ipS[
+one,two;three.four\n\tfive,six	1,1	vi(gS-
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,6	cS"*
+one,two;three.four\n\tfive,six	1,6	ySsTx>
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysiba
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,45	ysi(|
+\n  \nlone\n\n	1,0	ysst<div class="a"><CR>
+\n  \nlone\n\n	0,0	va"S{
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	cS! [
+x = y.z(1)(2)	0,6	ViwgS (
+if (a && (b || c)) {\n    run(x, y);\n}	0,2	2cS#/
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,5	ds#
+\n  \nlone\n\n	2,1	2ds [
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysa<*
+\n  \nlone\n\n	1,0	yseFfoo<CR>
+tab\there\twe go\n   spaced   line   \nend	0,1	ysi( ( "p
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	yswt<div class="a">>
+say "hi there" and `code` and 'it'	0,13	ds w.
+say "hi there" and `code` and 'it'	0,23	vjSB
+\n  \nlone\n\n	2,0	cS}r
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,16	<C-v>abgS>
+one,two;three.four\n\tfive,six	1,8	ds,p
+a (b (c d) e) f\n  g [h] i	0,13	Vi(gSt<span><CR>
+if (a && (b || c)) {\n    run(x, y);\n}	0,0	2cs-]
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	cs.[j.
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,8	cS!Fx<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,5	vabgS~
+x = y.z(1)(2)	0,7	csx,
+x = y.z(1)(2)	0,3	cs;s:s/\w/X/<CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	ysawx
+one,two;three.four\n\tfive,six	0,6	dsx
+if (a && (b || c)) {\n    run(x, y);\n}	1,0	<C-v>a"gS!
+tab\there\twe go\n   spaced   line   \nend	0,12	V2jgS;
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,2	VabS/
+x = y.z(1)(2)	0,7	ds<
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,5	yss~.p
+one,two;three.four\n\tfive,six	0,17	ds/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	2ds_
+a (b (c d) e) f\n  g [h] i	1,4	ySs>
+\n  \nlone\n\n	1,0	ysaw(
+x = y.z(1)(2)	0,5	ysa(Tx>
+\n  \nlone\n\n	0,0	cS,r
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	yse {
+foo("bar baz", 'qux') + [1, 2, 3]	0,24	ysg_ [
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,30	ySa{_
+\n  \nlone\n\n	1,1	ysaBx
+tab\there\twe go\n   spaced   line   \nend	1,12	ysTat<div class="a">>
+one,two;three.four\n\tfive,six	1,1	cS-<
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	<C-v>awgS|
+\n  \nlone\n\n	4,0	2csa [
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,3	ys$t<q><CR>
+tab\there\twe go\n   spaced   line   \nend	2,0	2dsB
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,2	VeS_
+def f(x):\n    return {"a": (x, 1)}\n	2,0	<C-v>a"S'
+\n  \nlone\n\n	2,2	2dsB
+tab\there\twe go\n   spaced   line   \nend	0,11	ysa<t<p><b>>
+def f(x):\n    return {"a": (x, 1)}\n	1,9	yss;
+say "hi there" and `code` and 'it'	0,1	yss}:"-p
+tab\there\twe go\n   spaced   line   \nend	0,2	ys^t<span><CR>
+say "hi there" and `code` and 'it'	0,13	ysfaa
+if (a && (b || c)) {\n    run(x, y);\n}	1,0	dsW
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	2cS1T<CR>
+one,two;three.four\n\tfive,six	0,10	ysk{
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,41	ysa'p
+say "hi there" and `code` and 'it'	0,19	<C-v>$S~
+if (a && (b || c)) {\n    run(x, y);\n}	1,11	2ds}
+x = y.z(1)(2)	0,12	va"Ss
+foo("bar baz", 'qux') + [1, 2, 3]	0,21	ysi("*`[ix<Esc>
+foo("bar baz", 'qux') + [1, 2, 3]	0,18	VitgSt<q>>
+def f(x):\n    return {"a": (x, 1)}\n	1,6	ds:
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,37	ysa( [
+tab\there\twe go\n   spaced   line   \nend	2,0	2ds*
+\n  \nlone\n\n	3,0	3dst
+def f(x):\n    return {"a": (x, 1)}\n	2,0	3ds~
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysB (
+x = y.z(1)(2)	0,0	ysa[ [
+if (a && (b || c)) {\n    run(x, y);\n}	0,13	ysi(;.gvd
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,12	csp;w.
+def f(x):\n    return {"a": (x, 1)}\n	1,10	csxb..
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,8	2dsb
+one,two;three.four\n\tfive,six	1,6	ds)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	ysiWfa.b<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,1	cs _
+say "hi there" and `code` and 'it'	0,30	cS/>
+say "hi there" and `code` and 'it'	0,33	ysa<*
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,17	ysi(]:s/\w/X/<CR>
+tab\there\twe go\n   spaced   line   \nend	0,4	2yssFfoo<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,23	3ds~
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,11	3ds:
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,9	ysB#
+a (b (c d) e) f\n  g [h] i	1,2	ysa']
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,15	ys%,
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,5	ys{t<q><CR>
+one,two;three.four\n\tfive,six	1,3	2yssr
+\n  \nlone\n\n	0,0	ysaw;
+if (a && (b || c)) {\n    run(x, y);\n}	1,11	yst,t<div class="a">>
+a (b (c d) e) f\n  g [h] i	1,5	cs_.
+say "hi there" and `code` and 'it'	0,3	yss>..
+x = y.z(1)(2)	0,5	ysTat<p><b>>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	ds,
+\n  \nlone\n\n	2,2	yss`
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	2cS*'
+if (a && (b || c)) {\n    run(x, y);\n}	1,1	2cS1>
+tab\there\twe go\n   spaced   line   \nend	0,10	VabgS(
+def f(x):\n    return {"a": (x, 1)}\n	1,11	ysiwa':s/\w/X/<CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,13	2cS*_
+say "hi there" and `code` and 'it'	0,17	cS}"
+tab\there\twe go\n   spaced   line   \nend	1,16	ysip{
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	cS#`
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	ysa']
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	ysapb {..
+\n  \nlone\n\n	3,0	ysab(
+say "hi there" and `code` and 'it'	0,17	VipSt<p><b>>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	2cS| 
+foo("bar baz", 'qux') + [1, 2, 3]	0,30	ysist<span>>
+a (b (c d) e) f\n  g [h] i	1,2	ys0[
+say "hi there" and `code` and 'it'	0,19	2ds"
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,12	ysa' {
+def f(x):\n    return {"a": (x, 1)}\n	0,4	cs!_
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,1	yss:|..
+say "hi there" and `code` and 'it'	0,18	ysggFx<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,4	ysib*
+a (b (c d) e) f\n  g [h] i	1,2	2ds>
+say "hi there" and `code` and 'it'	0,13	ySsb
+def f(x):\n    return {"a": (x, 1)}\n	0,1	cs {-
+a (b (c d) e) f\n  g [h] i	1,5	VitS`
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,8	<C-v>a"S[
+one,two;three.four\n\tfive,six	0,13	ySS{
+one,two;three.four\n\tfive,six	1,3	<C-v>abS)
+def f(x):\n    return {"a": (x, 1)}\n	0,7	ys}(
+tab\there\twe go\n   spaced   line   \nend	2,0	ySs}
+x = y.z(1)(2)	0,9	2ds {
+x = y.z(1)(2)	0,7	ys2j 
+one,two;three.four\n\tfive,six	1,7	<C-v>i(Sx
+tab\there\twe go\n   spaced   line   \nend	2,2	cs#x
+one,two;three.four\n\tfive,six	1,6	ys{-
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2cSt~
+foo("bar baz", 'qux') + [1, 2, 3]	0,5	ysw {
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysfa1
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysips
+say "hi there" and `code` and 'it'	0,15	2cS (|
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,12	2ds{
+x = y.z(1)(2)	0,5	cs [B
+x = y.z(1)(2)	0,8	yss {
+one,two;three.four\n\tfive,six	1,6	ysa(>
+one,two;three.four\n\tfive,six	1,8	ys$.
+\n  \nlone\n\n	3,0	ysgg-
+tab\there\twe go\n   spaced   line   \nend	0,5	ds:
+say "hi there" and `code` and 'it'	0,17	ysi"Fx<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	cs "t<span><CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,9	dss
+def f(x):\n    return {"a": (x, 1)}\n	2,0	va"gS"
+def f(x):\n    return {"a": (x, 1)}\n	1,16	VitgS!
+tab\there\twe go\n   spaced   line   \nend	2,2	cs# "
+tab\there\twe go\n   spaced   line   \nend	0,0	ysiwB]`[ix<Esc>
+\n  \nlone\n\n	3,0	ys$`
+say "hi there" and `code` and 'it'	0,18	va"gS#
+tab\there\twe go\n   spaced   line   \nend	1,12	ysaps
+x = y.z(1)(2)	0,3	ySS,
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	3dsp
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,11	ysa" {
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,32	ysap! p
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysib~
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	ysiw*
+say "hi there" and `code` and 'it'	0,24	V2jgS|
+x = y.z(1)(2)	0,1	<C-v>i(gS/
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	2dsp
+tab\there\twe go\n   spaced   line   \nend	0,3	vawS {
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,17	VipgS~
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysiw)r`]ix<Esc>
+\n  \nlone\n\n	0,0	ysb,
+foo("bar baz", 'qux') + [1, 2, 3]	0,3	vitSTx>
+foo("bar baz", 'qux') + [1, 2, 3]	0,17	<C-v>2jgSt<p><b>>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	3ds:
+if (a && (b || c)) {\n    run(x, y);\n}	1,11	3ds(
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,23	ysit1
+\n  \nlone\n\n	4,0	2cs[{
+one,two;three.four\n\tfive,six	1,1	ViwSt<q><CR>
+tab\there\twe go\n   spaced   line   \nend	0,0	2ds`
+say "hi there" and `code` and 'it'	0,28	ys$ht<p><b>>
+a (b (c d) e) f\n  g [h] i	1,2	ysa{}
+say "hi there" and `code` and 'it'	0,3	ds "
+a (b (c d) e) f\n  g [h] i	0,9	ysi[t<q>>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,10	ds "`u<C-r>
+one,two;three.four\n\tfive,six	1,7	2cs_ [
+a (b (c d) e) f\n  g [h] i	1,8	<C-v>ipgSt<p><b><CR>
+x = y.z(1)(2)	0,4	2cs< 
+foo("bar baz", 'qux') + [1, 2, 3]	0,25	2cSx [
+if (a && (b || c)) {\n    run(x, y);\n}	0,13	ysib.
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	vi(gS~
+x = y.z(1)(2)	0,2	ysi(#("-p
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,15	3ds:
+\n  \nlone\n\n	4,0	<C-v>abgS!
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,18	yss|u<C-r>
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ys_x
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,17	<C-v>abgS{
+foo("bar baz", 'qux') + [1, 2, 3]	0,4	ySS/
+\n  \nlone\n\n	3,0	cs'/
+a (b (c d) e) f\n  g [h] i	1,8	3dsr
+tab\there\twe go\n   spaced   line   \nend	2,1	ysapp#gvd
+foo("bar baz", 'qux') + [1, 2, 3]	0,27	yss|
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,36	ys$*
+one,two;three.four\n\tfive,six	1,1	3ds;
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,0	ysasT<CR>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	3ds "
+\n  \nlone\n\n	1,0	yss,
+def f(x):\n    return {"a": (x, 1)}\n	1,12	ysib,
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	cS!t<br/><CR>
+if (a && (b || c)) {\n    run(x, y);\n}	1,5	ysi[b
+say "hi there" and `code` and 'it'	0,2	2ds (
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	ysapt<p><b><CR>
+x = y.z(1)(2)	0,6	3dsp
+x = y.z(1)(2)	0,11	ys%t<div class="a"><CR>
+say "hi there" and `code` and 'it'	0,21	cSr"
+say "hi there" and `code` and 'it'	0,12	ysap|"-p
+tab\there\twe go\n   spaced   line   \nend	1,4	ysB [
+x = y.z(1)(2)	0,9	ysiw"
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	ysi' (
+a (b (c d) e) f\n  g [h] i	0,5	ysf.'
+if (a && (b || c)) {\n    run(x, y);\n}	0,13	ysiw<.:s/\w/X/<CR>
+if (a && (b || c)) {\n    run(x, y);\n}	0,0	ys^a
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2yss;
+if (a && (b || c)) {\n    run(x, y);\n}	1,5	ysa{B
+say "hi there" and `code` and 'it'	0,16	ysg_a
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysTa[
+a (b (c d) e) f\n  g [h] i	0,10	ysaw*
+one,two;three.four\n\tfive,six	1,0	ds/`[ix<Esc>
+x = y.z(1)(2)	0,11	2dsr
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	v$S;
+a (b (c d) e) f\n  g [h] i	1,7	3ds!
+say "hi there" and `code` and 'it'	0,14	2cS{;
+say "hi there" and `code` and 'it'	0,31	ysasp
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ysiw}p
+tab\there\twe go\n   spaced   line   \nend	0,7	ysGfbar<CR>
+one,two;three.four\n\tfive,six	1,7	ysaprp
+say "hi there" and `code` and 'it'	0,10	<C-v>itS_
+a (b (c d) e) f\n  g [h] i	1,6	2cs~t<br/><CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,39	ds'
+a (b (c d) e) f\n  g [h] i	0,9	cs<<
+def f(x):\n    return {"a": (x, 1)}\n	1,22	ViwgSa
+a (b (c d) e) f\n  g [h] i	0,10	ysawT<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,0	ds u
+\n  \nlone\n\n	0,0	yswT<CR>
+if (a && (b || c)) {\n    run(x, y);\n}	1,8	vjS {
+foo("bar baz", 'qux') + [1, 2, 3]	0,15	yss"~w.
+a (b (c d) e) f\n  g [h] i	0,14	ysi(]`:s/\w/X/<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,36	ys{|
+\n  \nlone\n\n	1,0	2cSt>
+tab\there\twe go\n   spaced   line   \nend	0,2	ysawFfoo<CR>
+tab\there\twe go\n   spaced   line   \nend	0,2	2cs~Tx>
+tab\there\twe go\n   spaced   line   \nend	0,10	veS [
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,8	ysi<]
+x = y.z(1)(2)	0,4	ysi``
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	ys3e_
+say "hi there" and `code` and 'it'	0,7	2ds[
+\n  \nlone\n\n	3,0	2cs2(.
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	ys_a
+say "hi there" and `code` and 'it'	0,21	3ds-
+a (b (c d) e) f\n  g [h] i	0,5	ysap"j.
+x = y.z(1)(2)	0,11	2dsx
+one,two;three.four\n\tfive,six	1,5	2yss*
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,16	ysat!
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,0	cS/ {
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,44	vlS1
+\n  \nlone\n\n	0,0	ys0'
+tab\there\twe go\n   spaced   line   \nend	1,2	ysiw~
+def f(x):\n    return {"a": (x, 1)}\n	0,3	cst`
+x = y.z(1)(2)	0,5	2cs"T<CR>
+say "hi there" and `code` and 'it'	0,14	cS""
+a (b (c d) e) f\n  g [h] i	0,4	vabS/
+tab\there\twe go\n   spaced   line   \nend	2,0	cS->
+tab\there\twe go\n   spaced   line   \nend	0,9	ysi`t<div class="a">>
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	ds#
+def f(x):\n    return {"a": (x, 1)}\n	0,5	yst,)
+one,two;three.four\n\tfive,six	1,6	2cs({
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,10	<C-v>lS~
+tab\there\twe go\n   spaced   line   \nend	2,1	2yss/
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysgg(
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,1	csT}
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	2ds!
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,10	ysf.>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	ysiw"
+\n  \nlone\n\n	1,0	ySS{
+a (b (c d) e) f\n  g [h] i	0,3	<C-v>$gS*
+def f(x):\n    return {"a": (x, 1)}\n	1,12	ysiW]
+x = y.z(1)(2)	0,3	cS<#
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	ysGp
+say "hi there" and `code` and 'it'	0,18	ysi` [
+a (b (c d) e) f\n  g [h] i	0,9	v}gS,
+one,two;three.four\n\tfive,six	1,1	3ds;
+x = y.z(1)(2)	0,12	cS ((
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,36	ySS:
+tab\there\twe go\n   spaced   line   \nend	2,2	cS] {
+tab\there\twe go\n   spaced   line   \nend	1,16	<C-v>abgS;
+def f(x):\n    return {"a": (x, 1)}\n	1,7	ysap1w.
+foo("bar baz", 'qux') + [1, 2, 3]	0,29	3ds!
+if (a && (b || c)) {\n    run(x, y);\n}	0,3	ysi(" "1p
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	yst,[
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cs>[
+def f(x):\n    return {"a": (x, 1)}\n	1,21	ysi('p
+foo("bar baz", 'qux') + [1, 2, 3]	0,5	ysi(p`]ix<Esc>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,6	ysa(#
+x = y.z(1)(2)	0,12	ysi[ {
+x = y.z(1)(2)	0,3	ys0"
+a (b (c d) e) f\n  g [h] i	1,8	cSp 
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysi<[
+one,two;three.four\n\tfive,six	0,17	<C-v>abgS#
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	ysas{
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,10	3dsa
+def f(x):\n    return {"a": (x, 1)}\n	1,6	V}gS[
+a (b (c d) e) f\n  g [h] i	1,3	ysggx
+tab\there\twe go\n   spaced   line   \nend	0,3	yss (
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	cS~}
+say "hi there" and `code` and 'it'	0,18	vjgS:
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	cST|
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	2ds{
+one,two;three.four\n\tfive,six	1,3	<C-v>ipgS-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ds (
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,20	<C-v>jlS#
+say "hi there" and `code` and 'it'	0,17	ysi[ "
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysjffoo<CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,5	ys%x
+foo("bar baz", 'qux') + [1, 2, 3]	0,23	<C-v>$gS_
+a (b (c d) e) f\n  g [h] i	1,2	2cSb~
+x = y.z(1)(2)	0,2	ys%#
+say "hi there" and `code` and 'it'	0,32	2cS_ "
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ysap"_u
+def f(x):\n    return {"a": (x, 1)}\n	1,22	2dsx
+foo("bar baz", 'qux') + [1, 2, 3]	0,5	ds-
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,18	ysiw` "..
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,8	cs"[:s/\w/X/<CR>
+tab\there\twe go\n   spaced   line   \nend	2,0	2cs [ 
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	2cs[t<div class="a">>
+\n  \nlone\n\n	2,0	yss-B"1p
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	3dsb
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,5	ys2j_
+say "hi there" and `code` and 'it'	0,25	VipS (
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,8	3dsb
+tab\there\twe go\n   spaced   line   \nend	1,13	2yss,
+foo("bar baz", 'qux') + [1, 2, 3]	0,11	dsx
+foo("bar baz", 'qux') + [1, 2, 3]	0,19	2cs)<
+tab\there\twe go\n   spaced   line   \nend	2,2	ysg_`
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,21	2ds_
+tab\there\twe go\n   spaced   line   \nend	2,0	ysi( " "u
+tab\there\twe go\n   spaced   line   \nend	0,13	ysit;
+tab\there\twe go\n   spaced   line   \nend	1,12	ysfa:
+\n  \nlone\n\n	4,0	yss 
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,8	ysf.ffoo<CR>
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,6	ySS1
+one,two;three.four\n\tfive,six	0,4	VabgSt<p><b><CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,8	cS>s
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ysa't<div class="a"><CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,9	cs}<
+one,two;three.four\n\tfive,six	1,8	ys{t<div class="a"><CR>
+say "hi there" and `code` and 'it'	0,13	ysa"(
+x = y.z(1)(2)	0,1	ysi`x
+\n  \nlone\n\n	3,0	ysab {
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,3	ysap "1p
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,25	dsa
+a (b (c d) e) f\n  g [h] i	1,4	ysitFfoo<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,34	yst,t<p><b>>
+\n  \nlone\n\n	1,1	2cs{ {
+x = y.z(1)(2)	0,7	ysi<"
+def f(x):\n    return {"a": (x, 1)}\n	1,5	2dsB
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	ds2(
+say "hi there" and `code` and 'it'	0,18	ds`w.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,11	ysi{t<br/><CR>
+foo("bar baz", 'qux') + [1, 2, 3]	0,18	2cS<}
+x = y.z(1)(2)	0,2	ysg_}
+say "hi there" and `code` and 'it'	0,8	2cs|B
+a (b (c d) e) f\n  g [h] i	0,0	ySS'
+foo("bar baz", 'qux') + [1, 2, 3]	0,13	<C-v>itS:
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	2,17	ysa{b
+say "hi there" and `code` and 'it'	0,29	v$gS "
+tab\there\twe go\n   spaced   line   \nend	0,12	ysap|
+tab\there\twe go\n   spaced   line   \nend	2,1	2ds:
+foo("bar baz", 'qux') + [1, 2, 3]	0,25	ysi{ (
+one,two;three.four\n\tfive,six	0,3	cs;#
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,0	ds2(
+one,two;three.four\n\tfive,six	1,1	ysap]):s/\w/X/<CR>
+\n  \nlone\n\n	1,1	3ds'
+say "hi there" and `code` and 'it'	0,22	ys2wt<span><CR>
+tab\there\twe go\n   spaced   line   \nend	1,7	VjlgS]
+one,two;three.four\n\tfive,six	1,2	vabSfbar<CR>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,1	2cSpp
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	1,5	ys2jt<br/>>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	2cs}!
+def f(x):\n    return {"a": (x, 1)}\n	0,4	ysf.Tx>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	ysa{,
+\n  \nlone\n\n	3,0	ys^'
+one,two;three.four\n\tfive,six	1,0	ys$]
+tab\there\twe go\n   spaced   line   \nend	1,3	ds{
+\n  \nlone\n\n	1,1	ysi<"
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	3,0	ySaw1
+foo("bar baz", 'qux') + [1, 2, 3]	0,4	ysi<)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,13	ysi"/
+a (b (c d) e) f\n  g [h] i	1,0	cS{ {
+{\n  "k": [1, 2],\n  "j": {"z": null}\n}	0,0	vlgSFx<CR>
+a (b (c d) e) f\n  g [h] i	0,6	ds`
+tab\there\twe go\n   spaced   line   \nend	2,2	ysa'fa.b<CR>
+def f(x):\n    return {"a": (x, 1)}\n	0,8	2yssFx<CR>
+<a href="x">link</a> and <b>bold <i>it</i></b>	0,1	2cs><
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,8	ys$h;
+def f(x):\n    return {"a": (x, 1)}\n	0,6	ysWx
+one,two;three.four\n\tfive,six	1,1	ysiwFx<CR>
+a (b (c d) e) f\n  g [h] i	1,5	VabS/
+x = y.z(1)(2)	0,9	cS'}
+if (a && (b || c)) {\n    run(x, y);\n}	0,4	dsa
+x = y.z(1)(2)	0,6	ysa(B

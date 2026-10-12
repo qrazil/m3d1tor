@@ -94,6 +94,7 @@ const List<str> SPECS = [
     "joinspaces:js:bool:false",
     "startofline:sol:bool:false",
     "commentstring:cms:str:",
+    "surround::bool:true",
     "listchars:lcs:str:tab:> ,trail:-,nbsp:+",
     "fillchars:fcs:str:",
     "wrapmargin:wm:num:0",

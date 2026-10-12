@@ -150,6 +150,12 @@ pub OpAt op_at(List<int> keys, int other_index) {
         return op_at_value;
     }
     int key = keys[other_index];
+    if (key == 121 && other_index + 1 < count && (keys[other_index + 1] == 115 || keys[other_index + 1] == 83)) {
+        // ys and yS: surround
+        op_at_value.name = "y" + str.from_chars([keys[other_index + 1]]);
+        op_at_value.length = 2;
+        return op_at_value;
+    }
     if (key == 100 || key == 99 || key == 121 || key == 60 || key == 62 || key == 61 || key == 33) {
         op_at_value.name = str.from_chars([key]);
         op_at_value.length = 1;
@@ -321,7 +327,7 @@ pub Parsed parse(List<int> keys, bool is_visual) {
             is_doubled = true;
             other_index = other_index + 1;
         } else if (op_at_value.length == 2) {
-            if (marker == keys[index + 1]) {
+            if (marker == keys[index + 1] || (op_at_value.name == "yS" && marker == 115)) {
                 is_doubled = true;
                 other_index = other_index + 1;
             } else if (marker == 103) {

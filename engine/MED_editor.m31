@@ -263,6 +263,29 @@ pub type Editor {
     pub int mode_before_cmd = 0;
     /// Insert mode waiting for the key after CTRL-R / CTRL-V.
     pub int ins_wait = 0;
+    /// Surround (MED_surround): the command being collected ("ys", "yS", "ds",
+    /// "cs", "cS", "vS", "vgS"), what was typed so far, and what it names.
+    pub str sur_command = "";
+    pub int sur_stage = 0;
+    pub List<int> sur_keys = [];
+    pub str sur_kind = "";
+    pub str sur_old = "";
+    pub str sur_new = "";
+    pub str sur_input = "";
+    pub str sur_last_deleted = "";
+    pub int sur_count = 1;
+    pub int sur_lines = 0;
+    pub bool is_sur_prepared = false;
+    pub bool was_sur_startofline = false;
+    pub bool is_sur_special = false;
+    pub bool is_sur_orig_empty = true;
+    pub MED_register.Reg sur_orig = MED_register.Reg([], MED_register.CHAR);
+    pub str sur_keeper = "";
+    pub str sur_okeeper = "";
+    pub str sur_removed = "";
+    pub str sur_regtype = "";
+    pub str sur_pcmd = "";
+    pub int sur_oldlnum = 0;
     /// Keyword completion (CTRL-N / CTRL-P) in progress: the items (the first
     /// is the typed text), the shown one, where the word starts, and what
     /// `ins_text` / `ins_keys` held when it began.

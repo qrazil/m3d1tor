@@ -1,0 +1,515 @@
+#plugins: surround repeat
+a b\n\tc d e\nf	0,6	ysiw(
+hello world foo	0,1	ysiw)
+hello world foo	0,0	ysiw{
+<div>text</div> tail	0,1	ysiw[
+one two\nthree four\nfive six\nseven	0,6	ysiw"
+  indented line here\nnext line\nthird	0,1	ysiw'
+one two\nthree four\nfive six\nseven	0,1	ysiw*
+one two\nthree four\nfive six\nseven	0,0	ysiw (
+"quoted text" and more	0,1	ysiwb
+"quoted text" and more	0,0	ysiwB
+  indented line here\nnext line\nthird	0,1	ysiwr
+"quoted text" and more	0,3	ysiwa
+  indented line here\nnext line\nthird	0,1	ysw(
+  indented line here\nnext line\nthird	0,3	ysw)
+hello world foo	0,4	ysw{
+"quoted text" and more	0,3	ysw[
+foo(bar, baz) qux	0,3	ysw"
+hello world foo	0,0	ysw'
+a b\n\tc d e\nf	0,3	ysw*
+x	0,1	ysw (
+x	0,1	yswb
+hello world foo	0,0	yswB
+<div>text</div> tail	0,0	yswr
+one two\nthree four\nfive six\nseven	0,4	yswa
+hello world foo	0,0	ys$(
+"quoted text" and more	0,0	ys$)
+  indented line here\nnext line\nthird	0,3	ys${
+<div>text</div> tail	0,4	ys$[
+foo(bar, baz) qux	0,3	ys$"
+hello world foo	0,0	ys$'
+  indented line here\nnext line\nthird	0,6	ys$*
+<div>text</div> tail	0,3	ys$ (
+a b\n\tc d e\nf	0,3	ys$b
+<div>text</div> tail	0,1	ys$B
+foo(bar, baz) qux	0,3	ys$r
+x	0,0	ys$a
+foo(bar, baz) qux	0,0	ys2w(
+  indented line here\nnext line\nthird	0,3	ys2w)
+x	0,1	ys2w{
+hello world foo	0,4	ys2w[
+<div>text</div> tail	0,1	ys2w"
+"quoted text" and more	0,0	ys2w'
+"quoted text" and more	0,3	ys2w*
+"quoted text" and more	0,4	ys2w (
+a b\n\tc d e\nf	0,4	ys2wb
+"quoted text" and more	0,4	ys2wB
+<div>text</div> tail	0,3	ys2wr
+a b\n\tc d e\nf	0,4	ys2wa
+"quoted text" and more	0,4	yse(
+"quoted text" and more	0,3	yse)
+"quoted text" and more	0,4	yse{
+a b\n\tc d e\nf	0,0	yse[
+<div>text</div> tail	0,3	yse"
+<div>text</div> tail	0,4	yse'
+a b\n\tc d e\nf	0,3	yse*
+"quoted text" and more	0,4	yse (
+a b\n\tc d e\nf	0,3	yseb
+x	0,6	yseB
+<div>text</div> tail	0,3	yser
+<div>text</div> tail	0,3	ysea
+"quoted text" and more	0,3	ysj(
+<div>text</div> tail	0,6	ysj)
+"quoted text" and more	0,3	ysj{
+x	0,0	ysj[
+one two\nthree four\nfive six\nseven	0,6	ysj"
+one two\nthree four\nfive six\nseven	0,6	ysj'
+a b\n\tc d e\nf	0,1	ysj*
+"quoted text" and more	0,6	ysj (
+"quoted text" and more	0,1	ysjb
+hello world foo	0,1	ysjB
+"quoted text" and more	0,1	ysjr
+foo(bar, baz) qux	0,1	ysja
+x	0,6	ysip(
+hello world foo	0,4	ysip)
+<div>text</div> tail	0,6	ysip{
+foo(bar, baz) qux	0,1	ysip[
+<div>text</div> tail	0,3	ysip"
+one two\nthree four\nfive six\nseven	0,4	ysip'
+foo(bar, baz) qux	0,0	ysip*
+a b\n\tc d e\nf	0,3	ysip (
+<div>text</div> tail	0,3	ysipb
+"quoted text" and more	0,4	ysipB
+<div>text</div> tail	0,1	ysipr
+"quoted text" and more	0,6	ysipa
+x	0,1	ysi((
+foo(bar, baz) qux	0,0	ysi()
+one two\nthree four\nfive six\nseven	0,3	ysi({
+"quoted text" and more	0,6	ysi([
+one two\nthree four\nfive six\nseven	0,4	ysi("
+  indented line here\nnext line\nthird	0,3	ysi('
+x	0,4	ysi(*
+"quoted text" and more	0,3	ysi( (
+x	0,4	ysi(b
+hello world foo	0,3	ysi(B
+x	0,1	ysi(r
+x	0,0	ysi(a
+x	0,3	ysa((
+hello world foo	0,4	ysa()
+hello world foo	0,6	ysa({
+a b\n\tc d e\nf	0,4	ysa([
+hello world foo	0,4	ysa("
+a b\n\tc d e\nf	0,3	ysa('
+a b\n\tc d e\nf	0,6	ysa(*
+x	0,0	ysa( (
+"quoted text" and more	0,3	ysa(b
+<div>text</div> tail	0,6	ysa(B
+hello world foo	0,3	ysa(r
+<div>text</div> tail	0,0	ysa(a
+hello world foo	0,6	yst,(
+x	0,6	yst,)
+  indented line here\nnext line\nthird	0,4	yst,{
+one two\nthree four\nfive six\nseven	0,4	yst,[
+x	0,1	yst,"
+a b\n\tc d e\nf	0,0	yst,'
+a b\n\tc d e\nf	0,4	yst,*
+a b\n\tc d e\nf	0,3	yst, (
+"quoted text" and more	0,4	yst,b
+x	0,6	yst,B
+"quoted text" and more	0,6	yst,r
+hello world foo	0,1	yst,a
+a b\n\tc d e\nf	0,0	ysaw(
+hello world foo	0,4	ysaw)
+foo(bar, baz) qux	0,4	ysaw{
+hello world foo	0,0	ysaw[
+  indented line here\nnext line\nthird	0,1	ysaw"
+a b\n\tc d e\nf	0,1	ysaw'
+"quoted text" and more	0,4	ysaw*
+"quoted text" and more	0,6	ysaw (
+  indented line here\nnext line\nthird	0,6	ysawb
+foo(bar, baz) qux	0,0	ysawB
+a b\n\tc d e\nf	0,6	ysawr
+foo(bar, baz) qux	0,6	ysawa
+"quoted text" and more	0,4	yss(
+foo(bar, baz) qux	0,6	ySS(
+x	0,3	ySs(
+<div>text</div> tail	0,1	ysiw(
+a b\n\tc d e\nf	0,6	yS$(
+a b\n\tc d e\nf	0,3	ySiw(
+foo(bar, baz) qux	0,3	yss)
+a b\n\tc d e\nf	0,1	ySS)
+<div>text</div> tail	0,4	ySs)
+"quoted text" and more	0,0	ysiw)
+<div>text</div> tail	0,6	yS$)
+hello world foo	0,0	ySiw)
+x	0,4	yss{
+x	0,3	ySS{
+foo(bar, baz) qux	0,6	ySs{
+one two\nthree four\nfive six\nseven	0,1	ysiw{
+one two\nthree four\nfive six\nseven	0,0	yS${
+foo(bar, baz) qux	0,1	ySiw{
+"quoted text" and more	0,3	yss[
+  indented line here\nnext line\nthird	0,3	ySS[
+<div>text</div> tail	0,4	ySs[
+"quoted text" and more	0,3	ysiw[
+one two\nthree four\nfive six\nseven	0,6	yS$[
+hello world foo	0,1	ySiw[
+one two\nthree four\nfive six\nseven	0,0	yss"
+hello world foo	0,1	ySS"
+  indented line here\nnext line\nthird	0,0	ySs"
+x	0,3	ysiw"
+hello world foo	0,4	yS$"
+a b\n\tc d e\nf	0,3	ySiw"
+x	0,0	yss'
+  indented line here\nnext line\nthird	0,1	ySS'
+foo(bar, baz) qux	0,4	ySs'
+x	0,6	ysiw'
+a b\n\tc d e\nf	0,3	yS$'
+"quoted text" and more	0,1	ySiw'
+hello world foo	0,0	yss*
+<div>text</div> tail	0,3	ySS*
+hello world foo	0,4	ySs*
+x	0,0	ysiw*
+<div>text</div> tail	0,4	yS$*
+  indented line here\nnext line\nthird	0,0	ySiw*
+  indented line here\nnext line\nthird	0,6	yss (
+  indented line here\nnext line\nthird	0,6	ySS (
+one two\nthree four\nfive six\nseven	0,3	ySs (
+"quoted text" and more	0,3	ysiw (
+a b\n\tc d e\nf	0,4	yS$ (
+"quoted text" and more	0,1	ySiw (
+  indented line here\nnext line\nthird	0,6	yssb
+one two\nthree four\nfive six\nseven	0,0	ySSb
+x	0,4	ySsb
+one two\nthree four\nfive six\nseven	0,0	ysiwb
+hello world foo	0,0	yS$b
+foo(bar, baz) qux	0,4	ySiwb
+foo(bar, baz) qux	0,0	yssB
+  indented line here\nnext line\nthird	0,4	ySSB
+one two\nthree four\nfive six\nseven	0,0	ySsB
+a b\n\tc d e\nf	0,4	ysiwB
+a b\n\tc d e\nf	0,0	yS$B
+  indented line here\nnext line\nthird	0,6	ySiwB
+one two\nthree four\nfive six\nseven	0,6	yssr
+  indented line here\nnext line\nthird	0,3	ySSr
+foo(bar, baz) qux	0,6	ySsr
+"quoted text" and more	0,1	ysiwr
+hello world foo	0,6	yS$r
+<div>text</div> tail	0,4	ySiwr
+one two\nthree four\nfive six\nseven	0,0	yssa
+a b\n\tc d e\nf	0,1	ySSa
+foo(bar, baz) qux	0,3	ySsa
+x	0,3	ysiwa
+one two\nthree four\nfive six\nseven	0,1	yS$a
+"quoted text" and more	0,4	ySiwa
+  indented line here\nnext line\nthird	0,4	yss<q><CR>
+  indented line here\nnext line\nthird	0,0	ySS<q><CR>
+x	0,0	ySs<q><CR>
+  indented line here\nnext line\nthird	0,3	ysiw<q><CR>
+foo(bar, baz) qux	0,4	yS$<q><CR>
+<div>text</div> tail	0,6	ySiw<q><CR>
+hello world foo	0,1	yss<div class="x"><CR>
+hello world foo	0,1	ySS<div class="x"><CR>
+hello world foo	0,4	ySs<div class="x"><CR>
+a b\n\tc d e\nf	0,4	ysiw<div class="x"><CR>
+"quoted text" and more	0,0	yS$<div class="x"><CR>
+a b\n\tc d e\nf	0,1	ySiw<div class="x"><CR>
+a b\n\tc d e\nf	0,3	yssf<CR>
+a b\n\tc d e\nf	0,0	ySSf<CR>
+hello world foo	0,0	ySsf<CR>
+hello world foo	0,3	ysiwf<CR>
+one two\nthree four\nfive six\nseven	0,6	yS$f<CR>
+hello world foo	0,6	ySiwf<CR>
+one two\nthree four\nfive six\nseven	0,3	yssffoo<CR>
+  indented line here\nnext line\nthird	0,3	ySSffoo<CR>
+hello world foo	0,6	ySsffoo<CR>
+"quoted text" and more	0,3	ysiwffoo<CR>
+"quoted text" and more	0,4	yS$ffoo<CR>
+one two\nthree four\nfive six\nseven	0,0	ySiwffoo<CR>
+<div>text</div> tail	0,4	yssF<CR>
+  indented line here\nnext line\nthird	0,6	ySSF<CR>
+one two\nthree four\nfive six\nseven	0,4	ySsF<CR>
+hello world foo	0,6	ysiwF<CR>
+x	0,6	yS$F<CR>
+hello world foo	0,1	ySiwF<CR>
+one two\nthree four\nfive six\nseven	0,1	ysst<q>>
+hello world foo	0,6	ySSt<q>>
+  indented line here\nnext line\nthird	0,3	ySst<q>>
+one two\nthree four\nfive six\nseven	0,1	ysiwt<q>>
+  indented line here\nnext line\nthird	0,1	yS$t<q>>
+a b\n\tc d e\nf	0,1	ySiwt<q>>
+<div>text</div> tail	0,1	ds(
+hello world foo	0,4	cs((
+<div>text</div> tail	0,1	cs([
+  indented line here\nnext line\nthird	0,4	cs("
+hello world foo	0,1	cs(<q>
+one two\nthree four\nfive six\nseven	0,3	cs(tdiv><CR>
+  indented line here\nnext line\nthird	0,4	cs( (
+x	0,1	cs({
+one two\nthree four\nfive six\nseven	0,0	ds)
+"quoted text" and more	0,0	cs)(
+<div>text</div> tail	0,6	cs)[
+a b\n\tc d e\nf	0,6	cs)"
+x	0,4	cs)<q>
+hello world foo	0,4	cs)tdiv><CR>
+<div>text</div> tail	0,6	cs) (
+  indented line here\nnext line\nthird	0,3	cs){
+foo(bar, baz) qux	0,0	ds{
+<div>text</div> tail	0,3	cs{(
+hello world foo	0,1	cs{[
+foo(bar, baz) qux	0,0	cs{"
+a b\n\tc d e\nf	0,6	cs{<q>
+  indented line here\nnext line\nthird	0,6	cs{tdiv><CR>
+foo(bar, baz) qux	0,1	cs{ (
+<div>text</div> tail	0,4	cs{{
+hello world foo	0,4	ds[
+"quoted text" and more	0,6	cs[(
+<div>text</div> tail	0,3	cs[[
+foo(bar, baz) qux	0,1	cs["
+foo(bar, baz) qux	0,3	cs[<q>
+a b\n\tc d e\nf	0,6	cs[tdiv><CR>
+foo(bar, baz) qux	0,0	cs[ (
+one two\nthree four\nfive six\nseven	0,1	cs[{
+foo(bar, baz) qux	0,4	ds"
+  indented line here\nnext line\nthird	0,4	cs"(
+  indented line here\nnext line\nthird	0,4	cs"[
+a b\n\tc d e\nf	0,6	cs""
+<div>text</div> tail	0,4	cs"<q>
+hello world foo	0,0	cs"tdiv><CR>
+a b\n\tc d e\nf	0,4	cs" (
+  indented line here\nnext line\nthird	0,6	cs"{
+foo(bar, baz) qux	0,0	ds'
+hello world foo	0,1	cs'(
+foo(bar, baz) qux	0,1	cs'[
+x	0,1	cs'"
+x	0,0	cs'<q>
+  indented line here\nnext line\nthird	0,0	cs'tdiv><CR>
+foo(bar, baz) qux	0,1	cs' (
+<div>text</div> tail	0,6	cs'{
+x	0,1	ds`
+foo(bar, baz) qux	0,0	cs`(
+foo(bar, baz) qux	0,1	cs`[
+<div>text</div> tail	0,1	cs`"
+x	0,1	cs`<q>
+one two\nthree four\nfive six\nseven	0,4	cs`tdiv><CR>
+hello world foo	0,6	cs` (
+<div>text</div> tail	0,0	cs`{
+x	0,3	dst
+foo(bar, baz) qux	0,3	cst(
+hello world foo	0,4	cst[
+<div>text</div> tail	0,3	cst"
+one two\nthree four\nfive six\nseven	0,3	cst<q>
+x	0,6	csttdiv><CR>
+foo(bar, baz) qux	0,4	cst (
+<div>text</div> tail	0,6	cst{
+one two\nthree four\nfive six\nseven	0,1	dsb
+one two\nthree four\nfive six\nseven	0,3	csb(
+foo(bar, baz) qux	0,3	csb[
+foo(bar, baz) qux	0,4	csb"
+"quoted text" and more	0,1	csb<q>
+foo(bar, baz) qux	0,3	csbtdiv><CR>
+"quoted text" and more	0,0	csb (
+"quoted text" and more	0,0	csb{
+hello world foo	0,6	dsB
+x	0,6	csB(
+foo(bar, baz) qux	0,1	csB[
+  indented line here\nnext line\nthird	0,0	csB"
+x	0,3	csB<q>
+x	0,0	csBtdiv><CR>
+"quoted text" and more	0,6	csB (
+one two\nthree four\nfive six\nseven	0,1	csB{
+hello world foo	0,4	dsr
+one two\nthree four\nfive six\nseven	0,0	csr(
+"quoted text" and more	0,1	csr[
+a b\n\tc d e\nf	0,4	csr"
+foo(bar, baz) qux	0,1	csr<q>
+one two\nthree four\nfive six\nseven	0,1	csrtdiv><CR>
+a b\n\tc d e\nf	0,4	csr (
+<div>text</div> tail	0,0	csr{
+foo(bar, baz) qux	0,4	dsa
+foo(bar, baz) qux	0,4	csa(
+hello world foo	0,1	csa[
+  indented line here\nnext line\nthird	0,4	csa"
+<div>text</div> tail	0,1	csa<q>
+x	0,0	csatdiv><CR>
+<div>text</div> tail	0,0	csa (
+"quoted text" and more	0,0	csa{
+a b\n\tc d e\nf	0,3	ds>
+<div>text</div> tail	0,1	cs>(
+a b\n\tc d e\nf	0,3	cs>[
+foo(bar, baz) qux	0,4	cs>"
+<div>text</div> tail	0,3	cs><q>
+x	0,1	cs>tdiv><CR>
+"quoted text" and more	0,0	cs> (
+hello world foo	0,1	cs>{
+  indented line here\nnext line\nthird	0,0	ds,
+hello world foo	0,1	cs,(
+one two\nthree four\nfive six\nseven	0,6	cs,[
+  indented line here\nnext line\nthird	0,0	cs,"
+  indented line here\nnext line\nthird	0,4	cs,<q>
+<div>text</div> tail	0,6	cs,tdiv><CR>
+a b\n\tc d e\nf	0,4	cs, (
+foo(bar, baz) qux	0,3	cs,{
+a b\n\tc d e\nf	0,4	ds.
+a b\n\tc d e\nf	0,6	cs.(
+foo(bar, baz) qux	0,0	cs.[
+  indented line here\nnext line\nthird	0,0	cs."
+a b\n\tc d e\nf	0,4	cs.<q>
+"quoted text" and more	0,3	cs.tdiv><CR>
+foo(bar, baz) qux	0,0	cs. (
+  indented line here\nnext line\nthird	0,0	cs.{
+hello world foo	0,0	dsw
+<div>text</div> tail	0,3	csw(
+<div>text</div> tail	0,3	csw[
+x	0,0	csw"
+a b\n\tc d e\nf	0,0	csw<q>
+a b\n\tc d e\nf	0,1	cswtdiv><CR>
+  indented line here\nnext line\nthird	0,6	csw (
+x	0,6	csw{
+"quoted text" and more	0,3	dss
+foo(bar, baz) qux	0,4	css(
+hello world foo	0,0	css[
+hello world foo	0,0	css"
+one two\nthree four\nfive six\nseven	0,6	css<q>
+  indented line here\nnext line\nthird	0,0	csstdiv><CR>
+foo(bar, baz) qux	0,0	css (
+x	0,6	css{
+foo(bar, baz) qux	0,0	dsp
+one two\nthree four\nfive six\nseven	0,3	csp(
+x	0,3	csp[
+hello world foo	0,6	csp"
+x	0,4	csp<q>
+"quoted text" and more	0,3	csptdiv><CR>
+<div>text</div> tail	0,4	csp (
+foo(bar, baz) qux	0,3	csp{
+foo(bar, baz) qux	0,4	ds2(
+one two\nthree four\nfive six\nseven	0,1	cs2((
+"quoted text" and more	0,1	cs2([
+x	0,0	cs2("
+"quoted text" and more	0,3	cs2(<q>
+x	0,6	cs2(tdiv><CR>
+  indented line here\nnext line\nthird	0,4	cs2( (
+a b\n\tc d e\nf	0,3	cs2({
+foo(bar, baz) qux	0,3	ds/
+one two\nthree four\nfive six\nseven	0,6	cs/(
+a b\n\tc d e\nf	0,0	cs/[
+foo(bar, baz) qux	0,3	cs/"
+foo(bar, baz) qux	0,3	cs/<q>
+"quoted text" and more	0,6	cs/tdiv><CR>
+one two\nthree four\nfive six\nseven	0,3	cs/ (
+a b\n\tc d e\nf	0,4	cs/{
+<div>text</div> tail	0,3	dsx
+foo(bar, baz) qux	0,3	csx(
+one two\nthree four\nfive six\nseven	0,0	csx[
+foo(bar, baz) qux	0,0	csx"
+"quoted text" and more	0,0	csx<q>
+one two\nthree four\nfive six\nseven	0,4	csxtdiv><CR>
+one two\nthree four\nfive six\nseven	0,1	csx (
+one two\nthree four\nfive six\nseven	0,6	csx{
+a b\n\tc d e\nf	0,6	cS((
+<div>text</div> tail	0,0	cS({
+x	0,0	cS"(
+"quoted text" and more	0,0	cS"{
+foo(bar, baz) qux	0,6	cS[(
+one two\nthree four\nfive six\nseven	0,0	cS[{
+a b\n\tc d e\nf	0,6	cS{(
+x	0,0	cS{{
+  indented line here\nnext line\nthird	0,4	cSt(
+"quoted text" and more	0,3	cSt{
+foo(bar, baz) qux	0,3	cSb(
+hello world foo	0,3	cSb{
+x	0,3	viwS(
+"quoted text" and more	0,4	vegS(
+x	0,6	VS(
+foo(bar, baz) qux	0,6	VgS(
+  indented line here\nnext line\nthird	0,0	vjS(
+x	0,1	<C-v>jlS(
+  indented line here\nnext line\nthird	0,0	viwS)
+x	0,6	vegS)
+x	0,4	VS)
+foo(bar, baz) qux	0,6	VgS)
+a b\n\tc d e\nf	0,0	vjS)
+foo(bar, baz) qux	0,0	<C-v>jlS)
+<div>text</div> tail	0,4	viwS{
+a b\n\tc d e\nf	0,0	vegS{
+a b\n\tc d e\nf	0,6	VS{
+one two\nthree four\nfive six\nseven	0,4	VgS{
+<div>text</div> tail	0,3	vjS{
+  indented line here\nnext line\nthird	0,0	<C-v>jlS{
+x	0,3	viwS[
+one two\nthree four\nfive six\nseven	0,4	vegS[
+x	0,6	VS[
+<div>text</div> tail	0,1	VgS[
+x	0,6	vjS[
+x	0,3	<C-v>jlS[
+hello world foo	0,6	viwS"
+hello world foo	0,0	vegS"
+  indented line here\nnext line\nthird	0,1	VS"
+  indented line here\nnext line\nthird	0,0	VgS"
+one two\nthree four\nfive six\nseven	0,1	vjS"
+a b\n\tc d e\nf	0,1	<C-v>jlS"
+  indented line here\nnext line\nthird	0,6	viwS'
+<div>text</div> tail	0,6	vegS'
+a b\n\tc d e\nf	0,0	VS'
+<div>text</div> tail	0,0	VgS'
+a b\n\tc d e\nf	0,1	vjS'
+one two\nthree four\nfive six\nseven	0,4	<C-v>jlS'
+hello world foo	0,1	viwS*
+foo(bar, baz) qux	0,4	vegS*
+x	0,4	VS*
+a b\n\tc d e\nf	0,0	VgS*
+x	0,0	vjS*
+x	0,0	<C-v>jlS*
+<div>text</div> tail	0,0	viwS (
+<div>text</div> tail	0,1	vegS (
+  indented line here\nnext line\nthird	0,0	VS (
+hello world foo	0,0	VgS (
+a b\n\tc d e\nf	0,4	vjS (
+one two\nthree four\nfive six\nseven	0,0	<C-v>jlS (
+one two\nthree four\nfive six\nseven	0,1	viwSb
+"quoted text" and more	0,4	vegSb
+"quoted text" and more	0,0	VSb
+a b\n\tc d e\nf	0,6	VgSb
+  indented line here\nnext line\nthird	0,0	vjSb
+  indented line here\nnext line\nthird	0,4	<C-v>jlSb
+x	0,1	viwSB
+<div>text</div> tail	0,0	vegSB
+  indented line here\nnext line\nthird	0,3	VSB
+foo(bar, baz) qux	0,3	VgSB
+"quoted text" and more	0,1	vjSB
+hello world foo	0,4	<C-v>jlSB
+foo(bar, baz) qux	0,6	viwSr
+x	0,0	vegSr
+x	0,3	VSr
+hello world foo	0,6	VgSr
+<div>text</div> tail	0,3	vjSr
+x	0,6	<C-v>jlSr
+one two\nthree four\nfive six\nseven	0,4	viwSa
+one two\nthree four\nfive six\nseven	0,0	vegSa
+  indented line here\nnext line\nthird	0,3	VSa
+foo(bar, baz) qux	0,6	VgSa
+x	0,0	vjSa
+<div>text</div> tail	0,0	<C-v>jlSa
+<div>text</div> tail	0,1	viwS<q><CR>
+<div>text</div> tail	0,0	vegS<q><CR>
+a b\n\tc d e\nf	0,6	VS<q><CR>
+foo(bar, baz) qux	0,0	VgS<q><CR>
+x	0,1	vjS<q><CR>
+x	0,1	<C-v>jlS<q><CR>
+one two\nthree four\nfive six\nseven	0,6	ysiw)w.
+x	0,6	ysiw"w.
+  indented line here\nnext line\nthird	0,0	dsb.
+a b\n\tc d e\nf	0,4	cs"'.
+a b\n\tc d e\nf	0,0	yssb.
+"quoted text" and more	0,4	ysiw)u
+foo(bar, baz) qux	0,1	ysiw)u<C-r>
+<div>text</div> tail	0,4	dsbu
+<div>text</div> tail	0,4	cs"'u
+<div>text</div> tail	0,4	ysiwtq<CR>w.
+hello world foo	0,3	csbtp<CR>
+a b\n\tc d e\nf	0,4	ds"j.
+<div>text</div> tail	0,6	2dsb
+x	0,1	ysiw)`[ix<Esc>
+one two\nthree four\nfive six\nseven	0,0	ysiw)`]ix<Esc>
+"quoted text" and more	0,4	ysiw)gvd

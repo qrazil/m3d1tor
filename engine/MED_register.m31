@@ -186,6 +186,13 @@ void Registers.store(str slot, Reg reg, bool is_append_value) {
     }
 }
 
+/// What `setreg('"', ...)` does: write register "0 and make the unnamed
+/// register point to it (Vim's get_yank_register with writing set).
+pub void Registers.set_unnamed(Reg reg) {
+    slots.set("0", reg);
+    previous = "0";
+}
+
 /// Write `name` without changing which register the unnamed one names
 /// (recording a macro does this).
 pub void Registers.set_named(str name, Reg reg) {

@@ -1,0 +1,667 @@
+#plugins: surround repeat
+x = y.z(1)(2)	0,7	3ds[
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	v$gS}
+foo("bar baz", 'qux') + [1, 2, 3]	0,25	yss#
+one,two;three.four	0,1	ysas#
+if (a && (b || c)) {\n    run(x, y);\n}	1,5	ySS-
+def f(x):\n    return {"a": (x, 1)}\n	2,0	3dsb
+x = y.z(1)(2)	0,6	ysiw w.
+a (b (c d) e) f	0,8	ysW/
+foo("bar baz", 'qux') + [1, 2, 3]	0,6	VjSs
+if (a && (b || c)) {\n    run(x, y);\n}	0,6	ysiw*u
+long line with many words in it to wrap around the place	0,26	ys2j[
+tab\there\twe go	0,5	ysi{(
+\n  \nlone\n\n	0,0	ys$(
+if (a && (b || c)) {\n    run(x, y);\n}	1,12	3ds_
+def f(x):\n    return {"a": (x, 1)}\n	1,16	ysTa1
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	ysa[[
+if (a && (b || c)) {\n    run(x, y);\n}	1,13	ds(j.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	cs}[
+x = y.z(1)(2)	0,0	2cS"b
+foo("bar baz", 'qux') + [1, 2, 3]	0,13	ds(
+\n  \nlone\n\n	1,0	ysis#
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ys2j_
+def f(x):\n    return {"a": (x, 1)}\n	2,0	<C-v>jgS)
+foo("bar baz", 'qux') + [1, 2, 3]	0,2	2ds]
+one,two;three.four	0,2	ysa'_
+tab\there\twe go	0,4	ysapx
+if (a && (b || c)) {\n    run(x, y);\n}	0,8	yss)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,5	dsb
+a (b (c d) e) f	0,14	2dss
+long line with many words in it to wrap around the place	0,37	ysaw*
+a (b (c d) e) f	0,0	ys2jb
+x = y.z(1)(2)	0,11	ys^b
+foo("bar baz", 'qux') + [1, 2, 3]	0,23	cSab
+tab\there\twe go	0,1	ViwgS/
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	yssb
+foo("bar baz", 'qux') + [1, 2, 3]	0,16	<C-v>ipgSx
+long line with many words in it to wrap around the place	0,28	3dsb
+one,two;three.four	0,9	2ds(
+def f(x):\n    return {"a": (x, 1)}\n	2,0	3dss
+x = y.z(1)(2)	0,0	ySS-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	cs]w."
+tab\there\twe go	0,3	cs"]
+/* c */ int a = 1; /* d */	0,6	ysi`a
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	dsB
+x = y.z(1)(2)	0,4	cs"..-
+x = y.z(1)(2)	0,11	<C-v>$gSb
+say "hi there" and `code` and 'it'	0,19	cs"`
+def f(x):\n    return {"a": (x, 1)}\n	0,4	ysb.
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ySsb
+tab\there\twe go	0,3	VjlS1
+x = y.z(1)(2)	0,2	ys%a
+one,two;three.four	0,12	<C-v>lS'
+long line with many words in it to wrap around the place	0,8	dsp
+if (a && (b || c)) {\n    run(x, y);\n}	1,8	3ds.
+a (b (c d) e) f	0,5	csx.
+tab\there\twe go	0,3	ysaBb
+say "hi there" and `code` and 'it'	0,16	ysiwau<C-r>
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	ysa[1
+say "hi there" and `code` and 'it'	0,1	ysW'
+if (a && (b || c)) {\n    run(x, y);\n}	0,17	ys%}
+x = y.z(1)(2)	0,8	cs*u<C-r> 
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	2dsx
+one,two;three.four	0,16	3dsr
+say "hi there" and `code` and 'it'	0,13	ysb_
+one,two;three.four	0,15	ysi<{
+one,two;three.four	0,12	ysiW-
+\n  \nlone\n\n	4,0	3dsB
+foo("bar baz", 'qux') + [1, 2, 3]	0,26	csrj.*
+x = y.z(1)(2)	0,5	ySg_-
+a (b (c d) e) f	0,3	ySs}
+long line with many words in it to wrap around the place	0,2	ysis(
+tab\there\twe go	0,5	cS{*
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ys2j'
+one,two;three.four	0,17	ys2j_
+tab\there\twe go	0,8	ysi<#
+/* c */ int a = 1; /* d */	0,7	dsBw.
+/* c */ int a = 1; /* d */	0,6	ysip{
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,2	2cS{'
+\n  \nlone\n\n	4,0	ys2js
+if (a && (b || c)) {\n    run(x, y);\n}	0,6	2dsa
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	yss.
+x = y.z(1)(2)	0,0	ysa<#
+one,two;three.four	0,4	ys0[
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,4	ysiw/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	2cS`'
+one,two;three.four	0,13	ysiB(
+tab\there\twe go	0,13	ysa[`
+a (b (c d) e) f	0,6	yss{u<C-r>
+if (a && (b || c)) {\n    run(x, y);\n}	1,1	<C-v>2jS-
+/* c */ int a = 1; /* d */	0,25	2csxx
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	<C-v>ipgS1
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	cS<*
+foo("bar baz", 'qux') + [1, 2, 3]	0,22	ysiw]w.
+tab\there\twe go	0,5	ysi[/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	2dsp
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cs#{
+long line with many words in it to wrap around the place	0,16	yss1
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysi(r
+say "hi there" and `code` and 'it'	0,32	yssp
+x = y.z(1)(2)	0,8	ds"
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	cs_u<C-r>#
+if (a && (b || c)) {\n    run(x, y);\n}	1,7	ySat#
+say "hi there" and `code` and 'it'	0,33	ys}r
+one,two;three.four	0,9	ys%]
+/* c */ int a = 1; /* d */	0,20	ysf.s
+\n  \nlone\n\n	0,0	cSb.
+def f(x):\n    return {"a": (x, 1)}\n	1,23	ds)
+one,two;three.four	0,14	ysg_]
+/* c */ int a = 1; /* d */	0,1	2cs[)
+a (b (c d) e) f	0,1	yS^`
+/* c */ int a = 1; /* d */	0,20	2dsa
+long line with many words in it to wrap around the place	0,18	cS{-
+say "hi there" and `code` and 'it'	0,17	ysGx
+/* c */ int a = 1; /* d */	0,20	ysas[
+def f(x):\n    return {"a": (x, 1)}\n	2,0	viwSr
+say "hi there" and `code` and 'it'	0,1	cs_r
+foo("bar baz", 'qux') + [1, 2, 3]	0,10	3dsa
+x = y.z(1)(2)	0,5	ysi{*
+long line with many words in it to wrap around the place	0,53	v$S`
+one,two;three.four	0,13	cS>b
+one,two;three.four	0,13	2dss
+x = y.z(1)(2)	0,12	ysib[
+tab\there\twe go	0,11	ysTa1
+long line with many words in it to wrap around the place	0,18	vipgSa
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	3dsr
+x = y.z(1)(2)	0,7	ysi[x
+one,two;three.four	0,2	yssa
+tab\there\twe go	0,9	ySs.
+\n  \nlone\n\n	4,0	<C-v>jlSb
+x = y.z(1)(2)	0,12	ysat)
+one,two;three.four	0,9	csbu<C-r>_
+say "hi there" and `code` and 'it'	0,21	yst,{
+a (b (c d) e) f	0,0	csxp
+\n  \nlone\n\n	1,0	3ds>
+x = y.z(1)(2)	0,5	ysi{s
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	3dsb
+long line with many words in it to wrap around the place	0,26	2cs."
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	3ds(
+foo("bar baz", 'qux') + [1, 2, 3]	0,26	yssxj.
+tab\there\twe go	0,10	ysap"
+\n  \nlone\n\n	4,0	ysw*
+say "hi there" and `code` and 'it'	0,19	cs1`
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysiw>
+def f(x):\n    return {"a": (x, 1)}\n	0,5	ysas#
+long line with many words in it to wrap around the place	0,38	2dsB
+say "hi there" and `code` and 'it'	0,11	dspu<C-r>
+one,two;three.four	0,8	2ds>
+tab\there\twe go	0,7	ViwS}
+\n  \nlone\n\n	4,0	vlS*
+a (b (c d) e) f	0,12	ysa[#
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	cS.-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,8	ds/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	vjlSa
+say "hi there" and `code` and 'it'	0,30	cS(.
+def f(x):\n    return {"a": (x, 1)}\n	1,6	ysiw.u
+a (b (c d) e) f	0,6	ysib`
+tab\there\twe go	0,5	ys^{
+tab\there\twe go	0,10	dsp
+x = y.z(1)(2)	0,6	2cs</
+tab\there\twe go	0,8	2cS_s
+foo("bar baz", 'qux') + [1, 2, 3]	0,12	ysTa{
+a (b (c d) e) f	0,4	3dsp
+a (b (c d) e) f	0,13	ySS#
+foo("bar baz", 'qux') + [1, 2, 3]	0,11	ysi[)
+x = y.z(1)(2)	0,1	ysB{
+\n  \nlone\n\n	3,0	ysg_'
+one,two;three.four	0,6	2cS>'
+/* c */ int a = 1; /* d */	0,23	ySs.
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysip>
+say "hi there" and `code` and 'it'	0,6	ds-
+a (b (c d) e) f	0,13	ysfaB
+say "hi there" and `code` and 'it'	0,14	ySS/
+long line with many words in it to wrap around the place	0,33	yss/
+tab\there\twe go	0,12	ysas*
+/* c */ int a = 1; /* d */	0,22	ysea
+say "hi there" and `code` and 'it'	0,7	3ds}
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2dsB
+long line with many words in it to wrap around the place	0,38	ysg_(
+say "hi there" and `code` and 'it'	0,15	2csB#
+one,two;three.four	0,14	ysiw.
+tab\there\twe go	0,4	2csB[
+\n  \nlone\n\n	3,0	ysaB{
+/* c */ int a = 1; /* d */	0,5	ys^r
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ys%)
+long line with many words in it to wrap around the place	0,25	ysiw*w.
+\n  \nlone\n\n	4,0	2cS '
+\n  \nlone\n\n	0,0	ds-u<C-r>
+long line with many words in it to wrap around the place	0,46	ySs/
+foo("bar baz", 'qux') + [1, 2, 3]	0,7	vi(gS)
+x = y.z(1)(2)	0,8	dssu
+def f(x):\n    return {"a": (x, 1)}\n	0,5	Va"S]
+tab\there\twe go	0,9	ysW{
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysiwb
+x = y.z(1)(2)	0,8	ySS)
+say "hi there" and `code` and 'it'	0,29	VipgS}
+x = y.z(1)(2)	0,3	ysgg)
+def f(x):\n    return {"a": (x, 1)}\n	1,11	vjlS_
+tab\there\twe go	0,3	ysiwp
+x = y.z(1)(2)	0,1	ysib{
+long line with many words in it to wrap around the place	0,17	ysas-
+tab\there\twe go	0,12	ys_s
+one,two;three.four	0,16	ysibB
+tab\there\twe go	0,4	ys{b
+x = y.z(1)(2)	0,7	ysiw-
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2ds.
+/* c */ int a = 1; /* d */	0,5	ysf.[
+def f(x):\n    return {"a": (x, 1)}\n	0,4	cs.}
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	cs(u)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	ysa'.
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	3dss
+one,two;three.four	0,5	ysi"]
+tab\there\twe go	0,8	cS*_
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ysip#
+long line with many words in it to wrap around the place	0,36	ySs}
+/* c */ int a = 1; /* d */	0,19	2ds-
+x = y.z(1)(2)	0,12	ys0B
+/* c */ int a = 1; /* d */	0,19	ysib'
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	<C-v>i(gS1
+/* c */ int a = 1; /* d */	0,2	cSr]
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	vipgS`
+a (b (c d) e) f	0,11	ysiw}u
+/* c */ int a = 1; /* d */	0,4	cs]'
+one,two;three.four	0,2	ySib'
+foo("bar baz", 'qux') + [1, 2, 3]	0,14	ys0_
+def f(x):\n    return {"a": (x, 1)}\n	1,14	ysisa
+say "hi there" and `code` and 'it'	0,13	ysi[/
+tab\there\twe go	0,11	ysgg/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	yss"u
+if (a && (b || c)) {\n    run(x, y);\n}	0,13	ysiw.
+one,two;three.four	0,15	ysap#
+x = y.z(1)(2)	0,7	ySS*
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ySsa
+say "hi there" and `code` and 'it'	0,33	ysi(-
+\n  \nlone\n\n	4,0	ysiB)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,2	cs>"
+x = y.z(1)(2)	0,6	ys%-
+tab\there\twe go	0,4	ySas)
+def f(x):\n    return {"a": (x, 1)}\n	0,8	ds[
+say "hi there" and `code` and 'it'	0,27	3ds}
+one,two;three.four	0,10	2cs[r
+one,two;three.four	0,12	ysata
+def f(x):\n    return {"a": (x, 1)}\n	0,4	ySS}
+tab\there\twe go	0,13	ysgga
+tab\there\twe go	0,12	veS.
+\n  \nlone\n\n	0,0	2ds"
+a (b (c d) e) f	0,7	cs"[
+x = y.z(1)(2)	0,5	csx>
+\n  \nlone\n\n	1,1	3ds_
+say "hi there" and `code` and 'it'	0,25	ysW"
+x = y.z(1)(2)	0,4	ysiWa
+a (b (c d) e) f	0,9	ysg_s
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	2ds(
+/* c */ int a = 1; /* d */	0,24	ysw#
+one,two;three.four	0,13	ysW`
+x = y.z(1)(2)	0,6	ys^s
+one,two;three.four	0,9	2ds(
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,4	ysG]
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cs(j._
+x = y.z(1)(2)	0,9	<C-v>ipgSa
+foo("bar baz", 'qux') + [1, 2, 3]	0,20	v2jS[
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,5	2cSa'
+say "hi there" and `code` and 'it'	0,31	ysasa
+a (b (c d) e) f	0,14	dsb
+foo("bar baz", 'qux') + [1, 2, 3]	0,19	ysa"-
+tab\there\twe go	0,0	ysa[*
+if (a && (b || c)) {\n    run(x, y);\n}	1,4	ySt,r
+long line with many words in it to wrap around the place	0,23	2cs>1
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2dsp
+long line with many words in it to wrap around the place	0,39	2cs}[
+\n  \nlone\n\n	4,0	ysiw(
+x = y.z(1)(2)	0,4	2cSps
+\n  \nlone\n\n	3,0	ysfa{
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	yss"
+a (b (c d) e) f	0,13	2dsB
+a (b (c d) e) f	0,4	ySs]
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	<C-v>egS'
+foo("bar baz", 'qux') + [1, 2, 3]	0,20	Va"Sr
+tab\there\twe go	0,4	yse*
+def f(x):\n    return {"a": (x, 1)}\n	1,17	ysw}
+foo("bar baz", 'qux') + [1, 2, 3]	0,19	cs>*
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,13	ySiWa
+one,two;three.four	0,17	ysa<#
+tab\there\twe go	0,4	ysi)]
+x = y.z(1)(2)	0,2	vi(Ss
+foo("bar baz", 'qux') + [1, 2, 3]	0,0	vipS1
+one,two;three.four	0,15	ySfar
+/* c */ int a = 1; /* d */	0,0	ds>
+say "hi there" and `code` and 'it'	0,20	2ds>
+def f(x):\n    return {"a": (x, 1)}\n	2,0	yst,}
+one,two;three.four	0,6	ys$}
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,5	ysaw(
+\n  \nlone\n\n	4,0	ySS(
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,1	cS'*
+def f(x):\n    return {"a": (x, 1)}\n	1,13	veSs
+\n  \nlone\n\n	2,1	csxp
+tab\there\twe go	0,10	ysk#
+a (b (c d) e) f	0,13	2cs{x
+long line with many words in it to wrap around the place	0,27	2cS-]
+\n  \nlone\n\n	4,0	ds-
+tab\there\twe go	0,7	ysiW#
+if (a && (b || c)) {\n    run(x, y);\n}	1,2	2dsr
+long line with many words in it to wrap around the place	0,12	2cs}1
+x = y.z(1)(2)	0,3	ys}.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,0	2dsb
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	ys_a
+x = y.z(1)(2)	0,8	ysi"[
+x = y.z(1)(2)	0,10	ys$_
+x = y.z(1)(2)	0,3	ysi`)
+one,two;three.four	0,4	vjgS)
+a (b (c d) e) f	0,13	ysa[B
+/* c */ int a = 1; /* d */	0,0	<C-v>$gSb
+foo("bar baz", 'qux') + [1, 2, 3]	0,20	<C-v>lgS"
+if (a && (b || c)) {\n    run(x, y);\n}	1,11	ys2jr
+tab\there\twe go	0,11	ys%}
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	ys0r
+a (b (c d) e) f	0,4	ysW 
+def f(x):\n    return {"a": (x, 1)}\n	2,0	VlSb
+tab\there\twe go	0,6	ySkr
+x = y.z(1)(2)	0,8	ys$a
+foo("bar baz", 'qux') + [1, 2, 3]	0,5	2cs*"
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2dsp
+foo("bar baz", 'qux') + [1, 2, 3]	0,26	ys3e`
+tab\there\twe go	0,4	cs('
+a (b (c d) e) f	0,9	V2jgSr
+a (b (c d) e) f	0,13	<C-v>jS`
+def f(x):\n    return {"a": (x, 1)}\n	0,5	ysawx
+/* c */ int a = 1; /* d */	0,0	cSba
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	ys{p
+/* c */ int a = 1; /* d */	0,7	cs'j.p
+one,two;three.four	0,1	ysi'p
+\n  \nlone\n\n	1,0	ds-
+\n  \nlone\n\n	0,0	ys} 
+/* c */ int a = 1; /* d */	0,21	<C-v>$S'
+x = y.z(1)(2)	0,0	yss{
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	ds/
+a (b (c d) e) f	0,3	2ds)
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ys$`
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	ys2w-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,4	3ds{
+\n  \nlone\n\n	0,0	ysg_{
+long line with many words in it to wrap around the place	0,10	ysk(
+\n  \nlone\n\n	0,0	ysi<p
+if (a && (b || c)) {\n    run(x, y);\n}	1,6	ysapr
+one,two;three.four	0,13	ysi`[
+tab\there\twe go	0,9	ysiw"..
+say "hi there" and `code` and 'it'	0,16	yse'
+x = y.z(1)(2)	0,5	2cS{)
+say "hi there" and `code` and 'it'	0,10	3ds>
+\n  \nlone\n\n	1,0	cSa*
+def f(x):\n    return {"a": (x, 1)}\n	2,0	2cS/{
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ds#..
+a (b (c d) e) f	0,3	3ds)
+a (b (c d) e) f	0,7	ysf.1
+a (b (c d) e) f	0,13	ysi(/
+say "hi there" and `code` and 'it'	0,23	yssb
+\n  \nlone\n\n	1,1	ysab}
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	ysf.*
+if (a && (b || c)) {\n    run(x, y);\n}	1,9	ys^>
+tab\there\twe go	0,9	yss/u<C-r>
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	yssB
+foo("bar baz", 'qux') + [1, 2, 3]	0,8	ySa".
+foo("bar baz", 'qux') + [1, 2, 3]	0,20	<C-v>jSa
+tab\there\twe go	0,11	ysib 
+tab\there\twe go	0,13	ysa[>
+one,two;three.four	0,3	ysa(*
+\n  \nlone\n\n	0,0	ysss..
+x = y.z(1)(2)	0,6	2cS{_
+long line with many words in it to wrap around the place	0,49	ds(
+a (b (c d) e) f	0,10	ys3e.
+one,two;three.four	0,14	2dsa
+/* c */ int a = 1; /* d */	0,15	2cSb 
+x = y.z(1)(2)	0,10	ysTa'
+/* c */ int a = 1; /* d */	0,8	ds"j.
+long line with many words in it to wrap around the place	0,27	ysiw_j.
+\n  \nlone\n\n	4,0	ySSB
+/* c */ int a = 1; /* d */	0,21	ysb)
+long line with many words in it to wrap around the place	0,36	ysi`>
+foo("bar baz", 'qux') + [1, 2, 3]	0,9	ysip_
+long line with many words in it to wrap around the place	0,7	ysip/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,11	ys$.
+long line with many words in it to wrap around the place	0,38	<C-v>eS]
+a (b (c d) e) f	0,2	2dss
+say "hi there" and `code` and 'it'	0,16	2ds*
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	ysa(-
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,1	<C-v>jlS_
+long line with many words in it to wrap around the place	0,34	2cS)'
+a (b (c d) e) f	0,7	2dsa
+long line with many words in it to wrap around the place	0,40	3dsx
+a (b (c d) e) f	0,1	ysiw/..
+long line with many words in it to wrap around the place	0,19	ysiw/
+def f(x):\n    return {"a": (x, 1)}\n	1,9	ysss
+tab\there\twe go	0,2	ys2w}
+tab\there\twe go	0,6	dsb
+one,two;three.four	0,15	ysiw'j.
+say "hi there" and `code` and 'it'	0,14	cs'.
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	<C-v>a"gSB
+if (a && (b || c)) {\n    run(x, y);\n}	1,0	ysiw 
+/* c */ int a = 1; /* d */	0,0	ySS"
+def f(x):\n    return {"a": (x, 1)}\n	1,11	ysa{"
+if (a && (b || c)) {\n    run(x, y);\n}	0,8	ysiB-
+long line with many words in it to wrap around the place	0,33	2cs'B
+def f(x):\n    return {"a": (x, 1)}\n	0,3	ysa']
+a (b (c d) e) f	0,3	2cS/(
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	ysit>
+long line with many words in it to wrap around the place	0,43	ysas_
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	ysap)
+\n  \nlone\n\n	4,0	yssb
+\n  \nlone\n\n	1,1	vipS"
+say "hi there" and `code` and 'it'	0,30	ysiw)u
+if (a && (b || c)) {\n    run(x, y);\n}	1,1	ySSb
+def f(x):\n    return {"a": (x, 1)}\n	0,7	ds>j.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,12	cs]}
+long line with many words in it to wrap around the place	0,54	2cSax
+foo("bar baz", 'qux') + [1, 2, 3]	0,9	ysiwB..
+a (b (c d) e) f	0,1	ysiw/
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	2csbp
+def f(x):\n    return {"a": (x, 1)}\n	0,1	yssBw.
+tab\there\twe go	0,4	3ds`
+a (b (c d) e) f	0,7	ysb*
+tab\there\twe go	0,7	2cs<B
+if (a && (b || c)) {\n    run(x, y);\n}	0,12	cs(]
+\n  \nlone\n\n	3,0	ds>
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	dsru<C-r>
+one,two;three.four	0,15	yst,>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,2	<C-v>a"gS'
+one,two;three.four	0,8	ysi`]
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	2dsB
+long line with many words in it to wrap around the place	0,18	cS*_
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	cS"r
+x = y.z(1)(2)	0,0	ysi`p
+x = y.z(1)(2)	0,10	ysawr
+one,two;three.four	0,1	ys_)
+def f(x):\n    return {"a": (x, 1)}\n	2,0	VlS'
+a (b (c d) e) f	0,1	2ds}
+say "hi there" and `code` and 'it'	0,32	dsp
+def f(x):\n    return {"a": (x, 1)}\n	2,0	<C-v>jlS.
+long line with many words in it to wrap around the place	0,51	ysiw{
+x = y.z(1)(2)	0,11	ys_(
+one,two;three.four	0,15	<C-v>2jSs
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,2	cs<w.B
+/* c */ int a = 1; /* d */	0,22	cs''
+\n  \nlone\n\n	0,0	cs]u 
+a (b (c d) e) f	0,0	VlSp
+/* c */ int a = 1; /* d */	0,22	ysi">
+x = y.z(1)(2)	0,11	ys}r
+tab\there\twe go	0,5	ysw(
+say "hi there" and `code` and 'it'	0,29	2csr[
+one,two;three.four	0,2	ysfa_
+if (a && (b || c)) {\n    run(x, y);\n}	1,12	cS[/
+a (b (c d) e) f	0,6	ysW>
+if (a && (b || c)) {\n    run(x, y);\n}	1,4	3ds_
+\n  \nlone\n\n	1,1	csb'
+\n  \nlone\n\n	3,0	2cS(-
+foo("bar baz", 'qux') + [1, 2, 3]	0,11	csB_
+say "hi there" and `code` and 'it'	0,17	cs`)
+\n  \nlone\n\n	0,0	ysi()
+one,two;three.four	0,0	ysgg#
+x = y.z(1)(2)	0,6	3ds]
+\n  \nlone\n\n	1,1	ysfa/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,0	2ds(
+\n  \nlone\n\n	0,0	cs]x
+x = y.z(1)(2)	0,10	ysib(
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cS).
+foo("bar baz", 'qux') + [1, 2, 3]	0,28	ys{'
+def f(x):\n    return {"a": (x, 1)}\n	1,13	ysk(
+\n  \nlone\n\n	2,0	2dsp
+one,two;three.four	0,12	2csx]
+say "hi there" and `code` and 'it'	0,29	ySs]
+/* c */ int a = 1; /* d */	0,17	3ds>
+/* c */ int a = 1; /* d */	0,0	V2jgSb
+/* c */ int a = 1; /* d */	0,7	VlgS)
+x = y.z(1)(2)	0,3	VjgSx
+a (b (c d) e) f	0,4	ysG_
+\n  \nlone\n\n	4,0	yss1u<C-r>
+a (b (c d) e) f	0,4	2cS>B
+tab\there\twe go	0,10	2dss
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,0	3ds_
+x = y.z(1)(2)	0,4	yssb
+if (a && (b || c)) {\n    run(x, y);\n}	1,8	2cs" 
+say "hi there" and `code` and 'it'	0,22	3ds(
+one,two;three.four	0,12	cSp#
+def f(x):\n    return {"a": (x, 1)}\n	0,2	ysep
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ysi`)
+a (b (c d) e) f	0,12	v$gS(
+x = y.z(1)(2)	0,9	2ds]
+one,two;three.four	0,10	ysi{.
+x = y.z(1)(2)	0,2	<C-v>jlgSa
+/* c */ int a = 1; /* d */	0,6	2cs*a
+if (a && (b || c)) {\n    run(x, y);\n}	0,15	cs1s
+one,two;three.four	0,3	ys3ea
+x = y.z(1)(2)	0,1	ViwS_
+say "hi there" and `code` and 'it'	0,9	2cs`1
+say "hi there" and `code` and 'it'	0,1	yss]
+\n  \nlone\n\n	4,0	ys0B
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	ysi<1
+/* c */ int a = 1; /* d */	0,22	cS"a
+if (a && (b || c)) {\n    run(x, y);\n}	1,4	yss#
+x = y.z(1)(2)	0,8	ys$h_
+tab\there\twe go	0,11	yss"
+one,two;three.four	0,6	ysas_
+one,two;three.four	0,2	ds(
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,0	yss/
+long line with many words in it to wrap around the place	0,4	dss
+x = y.z(1)(2)	0,7	2cs(]
+a (b (c d) e) f	0,14	dsp
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	<C-v>lS)
+a (b (c d) e) f	0,11	vlSx
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	<C-v>jlgSp
+foo("bar baz", 'qux') + [1, 2, 3]	0,2	V2jgS"
+long line with many words in it to wrap around the place	0,26	ds]
+/* c */ int a = 1; /* d */	0,8	ysiwbw.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	1,6	ys{ 
+foo("bar baz", 'qux') + [1, 2, 3]	0,20	ds'
+x = y.z(1)(2)	0,1	ds{
+if (a && (b || c)) {\n    run(x, y);\n}	1,9	ySi{}
+/* c */ int a = 1; /* d */	0,6	2dss
+tab\there\twe go	0,7	ysTa)
+foo("bar baz", 'qux') + [1, 2, 3]	0,8	ysi']
+\n  \nlone\n\n	4,0	2csab
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,2	ds]
+tab\there\twe go	0,2	ysiW}
+a (b (c d) e) f	0,9	ysi)B
+def f(x):\n    return {"a": (x, 1)}\n	1,3	ySSb
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	ys2wx
+one,two;three.four	0,12	ysib)
+one,two;three.four	0,4	ys_ 
+def f(x):\n    return {"a": (x, 1)}\n	0,2	2cS{_
+foo("bar baz", 'qux') + [1, 2, 3]	0,23	3ds/
+/* c */ int a = 1; /* d */	0,7	<C-v>eSr
+\n  \nlone\n\n	3,0	ys%p
+if (a && (b || c)) {\n    run(x, y);\n}	1,10	ds>
+/* c */ int a = 1; /* d */	0,6	ys{(
+say "hi there" and `code` and 'it'	0,23	3ds[
+one,two;three.four	0,6	ySsx
+if (a && (b || c)) {\n    run(x, y);\n}	0,0	2cS*-
+tab\there\twe go	0,1	ySisB
+long line with many words in it to wrap around the place	0,54	3ds'
+say "hi there" and `code` and 'it'	0,25	ysTax
+x = y.z(1)(2)	0,12	cs##
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,3	ySS/
+tab\there\twe go	0,10	ys$)
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	2cS{)
+tab\there\twe go	0,7	ysaw/
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,1	dsb
+/* c */ int a = 1; /* d */	0,3	ySs'
+one,two;three.four	0,1	2cS`1
+say "hi there" and `code` and 'it'	0,29	ysa"*
+say "hi there" and `code` and 'it'	0,32	ysa()
+one,two;three.four	0,11	3ds{
+long line with many words in it to wrap around the place	0,4	3ds'
+say "hi there" and `code` and 'it'	0,30	csa{
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	3ds}
+x = y.z(1)(2)	0,9	ySS1
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,2	ysaB[
+long line with many words in it to wrap around the place	0,0	VjlSB
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,0	ds[
+if (a && (b || c)) {\n    run(x, y);\n}	1,11	ys%b
+foo("bar baz", 'qux') + [1, 2, 3]	0,21	ds)
+/* c */ int a = 1; /* d */	0,15	2ds'
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ySB#
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,0	cs}_
+one,two;three.four	0,7	ysat>
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,12	ysG'
+long line with many words in it to wrap around the place	0,29	ysit{
+def f(x):\n    return {"a": (x, 1)}\n	0,3	V$gS[
+a (b (c d) e) f	0,2	ysj#
+def f(x):\n    return {"a": (x, 1)}\n	0,1	2cS]p
+a (b (c d) e) f	0,12	ySsa
+x = y.z(1)(2)	0,8	<C-v>jlgS"
+tab\there\twe go	0,4	yss.
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,9	ySSp
+one,two;three.four	0,17	ysf.*
+def f(x):\n    return {"a": (x, 1)}\n	0,1	ySS.
+say "hi there" and `code` and 'it'	0,17	ysa'(
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ds{
+\n  \nlone\n\n	0,0	<C-v>i(S]
+x = y.z(1)(2)	0,9	2ds)
+one,two;three.four	0,14	ySs#
+tab\there\twe go	0,2	ys2jb
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	0,0	yskB
+say "hi there" and `code` and 'it'	0,18	v$S*
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	ysat-
+\n  \nlone\n\n	4,0	ysbx
+if (a && (b || c)) {\n    run(x, y);\n}	0,9	ys^`
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,10	2cs>.
+\n  \nlone\n\n	0,0	ds[
+foo("bar baz", 'qux') + [1, 2, 3]	0,17	cS>-
+tab\there\twe go	0,6	2ds)
+tab\there\twe go	0,1	3ds[
+/* c */ int a = 1; /* d */	0,0	ysspu
+tab\there\twe go	0,7	VjlgS/
+def f(x):\n    return {"a": (x, 1)}\n	2,0	ySSb
+if (a && (b || c)) {\n    run(x, y);\n}	1,13	ysa{b
+def f(x):\n    return {"a": (x, 1)}\n	1,20	<C-v>ipgS`
+if (a && (b || c)) {\n    run(x, y);\n}	1,12	ySs/
+long line with many words in it to wrap around the place	0,9	ysaB/
+a (b (c d) e) f	0,8	ysi"s
+def f(x):\n    return {"a": (x, 1)}\n	1,0	ysisa
+foo("bar baz", 'qux') + [1, 2, 3]	0,8	ysG#
+\n  \nlone\n\n	2,1	ysi{(
+x = y.z(1)(2)	0,2	cs["
+if (a && (b || c)) {\n    run(x, y);\n}	1,7	yss.
+say "hi there" and `code` and 'it'	0,19	3ds{
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,3	yss{u
+say "hi there" and `code` and 'it'	0,4	<C-v>ipSb
+\n  \nlone\n\n	3,0	2dsb
+\n  \nlone\n\n	1,1	2cS]*
+foo("bar baz", 'qux') + [1, 2, 3]	0,19	ySs"
+/* c */ int a = 1; /* d */	0,11	ysG)
+a (b (c d) e) f	0,12	yss(
+say "hi there" and `code` and 'it'	0,10	ysaw.
+x = y.z(1)(2)	0,11	ViwgS_
+one,two;three.four	0,0	ySi[{
+a (b (c d) e) f	0,12	ysaB.
+long line with many words in it to wrap around the place	0,43	ysi</
+one,two;three.four	0,17	ds#
+x = y.z(1)(2)	0,6	ys3eB
+/* c */ int a = 1; /* d */	0,4	VjgS'
+if (a && (b || c)) {\n    run(x, y);\n}	1,3	VeS'
+long line with many words in it to wrap around the place	0,46	ysiw)u
+x = y.z(1)(2)	0,5	ys3e"
+x = y.z(1)(2)	0,12	yssB
+a (b (c d) e) f	0,6	3ds'
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	2,0	yss j.
+def f(x):\n    return {"a": (x, 1)}\n	1,20	3dsa
+tab\there\twe go	0,4	cs[x
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ys0.
+foo("bar baz", 'qux') + [1, 2, 3]	0,6	ySa(}
+long line with many words in it to wrap around the place	0,49	ds-u<C-r>
+tab\there\twe go	0,11	cS[B
+def f(x):\n    return {"a": (x, 1)}\n	2,0	cspw./
+tab\there\twe go	0,11	ysiw)u
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ys3es
+x = y.z(1)(2)	0,10	ysi"a
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2cS`[
+<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>	3,3	cs("
+def f(x):\n    return {"a": (x, 1)}\n	0,2	ysa[ 
+/* c */ int a = 1; /* d */	0,21	<C-v>a"Sx
+say "hi there" and `code` and 'it'	0,22	ys2jb
+a (b (c d) e) f	0,13	cS#*
+foo("bar baz", 'qux') + [1, 2, 3]	0,29	cSa)
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	2cs)1
+/* c */ int a = 1; /* d */	0,14	cs _
+a (b (c d) e) f	0,0	cs>w.b
+long line with many words in it to wrap around the place	0,36	ysi[x
+foo("bar baz", 'qux') + [1, 2, 3]	0,32	yss>
+/* c */ int a = 1; /* d */	0,18	ds>
+if (a && (b || c)) {\n    run(x, y);\n}	2,0	ySs>
+x = y.z(1)(2)	0,11	ds'
+a (b (c d) e) f	0,13	cSx"
+if (a && (b || c)) {\n    run(x, y);\n}	1,2	ys$_
+/* c */ int a = 1; /* d */	0,18	ysa"#
+x = y.z(1)(2)	0,6	ds)u
+\n  \nlone\n\n	0,0	ysapB
+say "hi there" and `code` and 'it'	0,27	ys{_
+def f(x):\n    return {"a": (x, 1)}\n	2,0	dsbu<C-r>
+/* c */ int a = 1; /* d */	0,15	ysgg}
+def f(x):\n    return {"a": (x, 1)}\n	2,0	viwgS`
+x = y.z(1)(2)	0,7	cs`s
+foo("bar baz", 'qux') + [1, 2, 3]	0,11	2cs'-
+one,two;three.four	0,9	2cSb1
+\n  \nlone\n\n	2,1	ysiw{
+/* c */ int a = 1; /* d */	0,19	ySs]
+foo("bar baz", 'qux') + [1, 2, 3]	0,1	ysawB
+x = y.z(1)(2)	0,6	ySs[
+one,two;three.four	0,3	2ds#
