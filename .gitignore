@@ -3,3 +3,5 @@
 *.o
 /m3d1tor
 __pycache__/
+/dist/
+*.log
