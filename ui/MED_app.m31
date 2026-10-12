@@ -23,6 +23,7 @@ import tui.core.TUI_style;
 import engine.MED_buffer;
 import engine.MED_editor;
 import engine.MED_ex;
+import ui.MED_clip;
 import ui.MED_files;
 import ui.MED_grep;
 import engine.MED_key;
@@ -68,6 +69,8 @@ pub type Slot {
 
 pub type App {
     pub MED_editor.Editor editor;
+    /// The system clipboard tools, when `m3d1tor` found a pair (see MED_clip).
+    pub MED_clip.Provider clipboard = MED_clip.Provider();
     /// The file `:w` writes; empty for a buffer with no name yet.
     pub str path;
     /// The undo node (`editor.current`) that was last written to disk.
@@ -1340,6 +1343,37 @@ bool App.should_quit_after(int key) {
     return did_finish();
 }
 
+/// Read the system clipboard into the `+` register when the keys may use it.
+void App.refresh_clipboard(List<int> keys) {
+    if (!clipboard.is_present) {
+        return;
+    }
+    bool is_wanted = false;
+    for (int key in keys) {
+        if (key == 112 || key == 80 || key == 43 || key == 42 || key == 18 || key == 34 || key == 58) {
+            is_wanted = true;
+        }
+    }
+    if (!is_wanted) {
+        return;
+    }
+    match (MED_clip.paste(clipboard)) {
+        case Some(str text): {
+            editor.regs.set_clipboard(text);
+        }
+        case None: {
+        }
+    }
+}
+
+/// Hand a changed `+` register to the system clipboard.
+void App.flush_clipboard() {
+    if (clipboard.is_present && editor.regs.is_clip_dirty) {
+        MED_clip.did_copy(clipboard, editor.regs.clip_text());
+        editor.regs.did_flush_clipboard();
+    }
+}
+
 /// One event: feed its keys to the engine, then the UI requests.
 pub TUI_app.Action App.handle(term.Event event) {
     if (has_picker) {
@@ -1359,6 +1393,7 @@ pub TUI_app.Action App.handle(term.Event event) {
     }
     editor.view_height = current_text_rows();
     map_ms = 0;
+    refresh_clipboard(keys);
     for (int key in keys) {
         if (has_picker) {
             // a request opened a picker; the rest of the keys are its
@@ -1366,9 +1401,11 @@ pub TUI_app.Action App.handle(term.Event event) {
             continue;
         }
         if (should_quit_after(key)) {
+            flush_clipboard();
             return TUI_app.Action.Quit;
         }
     }
+    flush_clipboard();
     if (has_picker) {
         update_preview();
     }

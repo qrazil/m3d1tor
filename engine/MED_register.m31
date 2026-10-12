@@ -48,6 +48,15 @@ pub str Reg.text() {
 pub type Registers {
     Map<str, Reg> slots = {};
     str previous = "";
+    /// A system clipboard is reachable (the front end found a provider): "+
+    /// and "* are then a register of their own, and 'clipboard' can make the
+    /// unnamed register use it.
+    pub bool has_clipboard = false;
+    /// The 'clipboard' option: "unnamed" and "unnamedplus" among its items.
+    pub str clip_mode = "";
+    /// A write went to the clipboard register that the provider has not seen.
+    pub bool is_clip_dirty = false;
+    str clip_seen = "";
     pub str last_command = "";
     pub str last_search = "";
     pub str last_insert = "";
@@ -56,6 +65,14 @@ pub type Registers {
 
 /// Content of register `name`.
 pub Option<Reg> Registers.get(str name) {
+    if (has_clipboard) {
+        if (name == "+" || name == "*") {
+            return slots.get("+");
+        }
+        if ((name == "" || name == "\"") && is_clip_unnamed() && slots.get("+").is_some()) {
+            return slots.get("+");
+        }
+    }
     // nvim without a clipboard provider reads "+ and "* as the unnamed register
     if (name == "" || name == "\"" || name == "+" || name == "*") {
         if (previous == "") {
@@ -76,6 +93,48 @@ pub Option<Reg> Registers.get(str name) {
         return text_reg(file_name);
     }
     return slots.get(slot_of(name));
+}
+
+bool Registers.is_clip_unnamed() {
+    return clip_mode.contains("unnamed");
+}
+
+/// The text the clipboard register holds, for the provider.
+pub str Registers.clip_text() {
+    match (slots.get("+")) {
+        case Some(Reg reg): {
+            return reg.text();
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+/// The provider's contents. The register keeps its shape (line- or
+/// blockwise) while the text is the one this editor wrote.
+pub void Registers.set_clipboard(str text) {
+    if (text == clip_seen && slots.get("+").is_some()) {
+        return;
+    }
+    clip_seen = text;
+    if (text == "") {
+        slots.remove("+");
+        return;
+    }
+    if (text.ends_with("\n")) {
+        List<str> lines = text.split("\n");
+        lines.pop();
+        slots.set("+", Reg(lines, LINE));
+    } else {
+        slots.set("+", Reg(text.split("\n"), CHAR));
+    }
+}
+
+/// The provider took the text.
+pub void Registers.did_flush_clipboard() {
+    is_clip_dirty = false;
+    clip_seen = clip_text();
 }
 
 /// Set one of the read-only-ish registers (".", ":", "/", "%").
@@ -147,6 +206,14 @@ pub void Registers.yank(str name, Reg reg) {
     }
     store(slot, reg, is_append(name));
     previous = slot;
+    if (has_clipboard) {
+        if (slot == "+") {
+            is_clip_dirty = true;
+        } else if (name == "" && is_clip_unnamed()) {
+            slots.set("+", reg);
+            is_clip_dirty = true;
+        }
+    }
 }
 
 /// A delete or change into `name`. `is_shift` is true when the text was linewise
@@ -187,6 +254,14 @@ pub void Registers.delete(str name, Reg reg, bool is_shift, bool is_small) {
     if (name == "" && is_small) {
         store("-", reg, false);
         previous = "-";
+    }
+    if (has_clipboard) {
+        if (name != "" && slot_of(name) == "+") {
+            is_clip_dirty = true;
+        } else if (name == "" && is_clip_unnamed()) {
+            slots.set("+", reg);
+            is_clip_dirty = true;
+        }
     }
 }
 

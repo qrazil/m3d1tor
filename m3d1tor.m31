@@ -20,6 +20,7 @@ import tui.core.TUI_geometry;
 import tui.core.TUI_mouse;
 import tui.core.TUI_style;
 import ui.MED_app;
+import ui.MED_clip;
 
 // How many colours the terminal has: truecolor when it says so (COLORTERM,
 // or a terminal program known to), 256 for a *256color TERM (Terminal.app),
@@ -75,6 +76,8 @@ if (files.size() == 0) {
 }
 match (MED_app.open_all(files)) {
     case Ok(MED_app.App app): {
+        app.clipboard = MED_clip.detect();
+        app.editor.regs.has_clipboard = app.clipboard.is_present;
         app.load_keymap(keymap, is_keymap_required);
         TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, animate_ms: 50, depth: colour_depth());
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
