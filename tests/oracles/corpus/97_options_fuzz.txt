@@ -1,0 +1,674 @@
+Hello World hello WORLD\na,b;c d-e f_g	0,5	:set smartindent sw=2 sw=4 sr<CR>>>gUUdi<d%a<C-w><Esc>W
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\n	1,1	:set ve=all sts=4<CR>J3lbPa<CR><Esc>e
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes\nHello World hello WORLD	1,5	:set fo+=n ic ww=h,l<CR><Esc>/o<CR>Ndaw
+foo-bar baz_qux  x.y(z)	0,0	:set lbr mps+=<:><CR>3lP
+foo-bar baz_qux  x.y(z)	0,0	:set fo+=n noic<CR>y%va<~gvg~~
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	0,0	:set ws nows<CR>r1d%
+\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>\nx	2,1	:set ww=~ ve=block<CR>Ifoo bar baz qux quux corge grault garply waldo fred plugh<Esc>dasfaO(<Esc>di<
+foo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes\nline with   spaces and-dashes	0,1	:set ve=insert<CR>a<Esc><Esc>ciw<BS><Esc>~;,<<
+x\n\nfoo-bar baz_qux  x.y(z)	0,1	:set ww=h,l tw=15 fo-=t noai<CR>B<C-x>3lviwyiwviw
+  indented <tag> (paren) [br] {cu}	0,1	:set ww=h,l list sts=4<CR>dwfa
+  indented <tag> (paren) [br] {cu}	0,0	:set ai<CR>vip<Esc>gqj%<<*
+(a (b) c) [d [e] f] <g <h> i>	0,1	:set ww=b,s,h,l,<,>,[,] ww=h,l<CR><<>>gUU10l<<0
+The quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\n(a (b) c) [d [e] f] <g <h> i>	2,0	:set tw=20 ve=block<CR>Oa b<Esc>ciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>gUU
+\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set ai ic fo=tcqj<CR>Bdw
+\tTabbed\tline here\nline with   spaces and-dashes\na,b;c d-e f_g	2,0	:set nosol<CR>c%<Esc><Esc>N<C-x>a<Tab><Esc>A<CR><Esc>
+a,b;c d-e f_g	0,1	:set ts=4 sw=2<CR>%yiw
+line with   spaces and-dashes\nHello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)	2,0	:set mps=(:)<CR>Wdapyiwviw,
+a,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	2,3	:set sts=4 fo=tcqj cul<CR>d%?a<CR>0#d%
+a,b;c d-e f_g\nHello World hello WORLD	0,0	:set ve=insert<CR><<di<ciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>10lgww
+\tTabbed\tline here	0,0	:set et sw=3 isk+=- list<CR>0<C-a>gUUd%n
+x	0,0	:set sw=0 ts=4<CR>pdawr1r1,a<Esc><Esc>
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\nfoo-bar baz_qux  x.y(z)	1,0	:set isk-=_ noai<CR>ddyiwpc%hello<Esc>
+a,b;c d-e f_g\nx	1,0	:set cin nows<CR><Space>,P
+\na,b;c d-e f_g	1,0	:set cul ic scs fo+=a<CR>%dawdisvip
+a,b;c d-e f_g	0,1	:set et sw=3<CR>^,dis~
+line with   spaces and-dashes\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)	1,0	:set ww=h,l smartindent sw=2 lbr<CR>c%}<Esc>B>>,
+\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here	1,1	:set nosol mps=(:) isk=@,48-57<CR>ddi}<Esc>>>gv
+a,b;c d-e f_g	0,3	:set cul<CR>vePdawdwdap10l
+Hello World hello WORLD\n\tTabbed\tline here\na,b;c d-e f_g\nx	2,0	:set sts=4<CR>3llyiwdb==
+x\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set noic isk-=_ fo+=n<CR><Esc>e
+\tTabbed\tline here	0,3	:set lbr<CR>3lva<viw<BS>gv<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)\n\nline with   spaces and-dashes	0,0	:set sw=0 ts=4<CR>dwdapa<C-w><Esc>
+line with   spaces and-dashes\nHello World hello WORLD\n	0,0	:set isk+=- tw=30 fo+=t list<CR>>>R<BS><Esc>
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)	0,5	:set tw=30 fo+=t<CR>y%dapWgv*
+The quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes\n	1,0	:set ww=h,l ve=onemore tw=20<CR>viwJ^3l
+The quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here\n	0,3	:set ve=all lbr ve=insert<CR>/o<CR>==o{<Esc>ngUiwgqip
+	0,0	:set ws isk-=_<CR>R}<Esc><Space>gUUciw<Esc><Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	1,5	:set ve=block tw=20<CR>,ndw#wciw[<Esc>
+line with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	1,0	:set nosol mps+=<:> nows<CR>pgvb
+\nHello World hello WORLD\nHello World hello WORLD\n	2,0	:set sw=4 sr ve=block tw=15 fo-=t<CR><Esc>disI<C-w><Esc>i<Esc><Esc>gqipdb
+The quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set noic ts=4 sw=2 isk=@,48-57<CR>hhc%<Esc><Esc>3h
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes\nHello World hello WORLD	1,0	:set isk=@,48-57 sw=0 ts=4 cul<CR><BS>ci[<<o  x<Esc>A[<Esc>~
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set isk-=_ ve=all si<CR>10lgUiwedi<
+foo-bar baz_qux  x.y(z)	0,0	:set cul<CR>^di<
+line with   spaces and-dashes	0,3	:set ic scs<CR>y%bh
+x\n\tTabbed\tline here	0,5	:set sw=4 sr ts=4 sw=2 cul<CR>i<BS><Esc>dis
+\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>\n(a (b) c) [d [e] f] <g <h> i>\nx	1,3	:set nows lbr<CR>vi(10l
+The quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	0,5	:set sw=4 sr ws<CR>*r1<<
+The quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set ww=h,l ve=block<CR>O  x<Esc>fa
+x\n(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g\nline with   spaces and-dashes	1,0	:set ve=all<CR>eyiw?a<CR>==
+  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes	2,3	:set mps+=<:> nosol<CR>l#b
+\tTabbed\tline here\n\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set ws sw=4 sr ww=~<CR>kfax
+a,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD	1,0	:set isk=@,48-57 ww=h,l<CR>dap#yiw3h
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	1,3	:set fo+=n fo+=a<CR>faJ
+x	0,0	:set tw=15 fo-=t<CR>$Ia b<Esc>dawvedi<
+	0,1	:set fo=tcqj<CR>Jl
+line with   spaces and-dashes\na,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}	2,0	:set ws sw=4 sr ts=4 sw=2<CR>cwhello<Esc><Esc>
+x\nfoo-bar baz_qux  x.y(z)	0,0	:set fo+=a mps+=<:><CR>n$k/o<CR>gqj
+foo-bar baz_qux  x.y(z)\n\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ic scs sw=0 ts=4<CR>pbdbb
+Hello World hello WORLD\nHello World hello WORLD\nHello World hello WORLD	1,0	:set ww=~<CR>cwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>gqipyiwlvi(dw
+x\n\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g	2,3	:set ww=~<CR>?a<CR>gqqciw}<Esc>
+  indented <tag> (paren) [br] {cu}\na,b;c d-e f_g\nline with   spaces and-dashes	0,0	:set nosol sw=0 ts=4<CR>gqq<BS>%<<
+  indented <tag> (paren) [br] {cu}\nx	0,3	:set et sw=3 noai ve=block<CR>/o<CR>*>>
+line with   spaces and-dashes\nx\n(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set ve=insert lbr ts=4 sw=2<CR>dapA(<Esc>$gqip3gq}
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g\n	1,5	:set si list ve=insert<CR><Space>#gwwcw(<Esc>ta
+(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here\n\tTabbed\tline here	2,1	:set sol<CR>vi(Pdde3l
+(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\nline with   spaces and-dashes	1,5	:set fo=tcqj ww=h,l smartindent sw=2<CR>gUiw10la}<Esc>h<Space>dw
+	0,5	:set ww=h,l nows<CR>c%<BS><Esc>disdawvipci[gUU
+\nThe quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD	1,0	:set fo+=n tw=20 smartindent sw=2<CR>y%<C-x>dw<<<BS>yiw
+The quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}	0,0	:set ve=block isk+=-<CR><C-x>xdi<
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes\na,b;c d-e f_g	2,0	:set ic scs noai noic<CR><C-a>he
+a,b;c d-e f_g\nfoo-bar baz_qux  x.y(z)\n\nx	2,0	:set lbr ic scs<CR>/o<CR><C-x><Space>das
+(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)\n	1,0	:set mps+=<:> fo=tcqj ve=onemore<CR>y%vegww
+line with   spaces and-dashes\na,b;c d-e f_g\nHello World hello WORLD	0,1	:set isk+=- smartindent sw=2<CR>pgqipe,
+\na,b;c d-e f_g\nline with   spaces and-dashes	0,5	:set ts=4 sw=2 mps+=<:> sol<CR>dw==O<Tab><Esc>gqqR<CR><Esc>==
+line with   spaces and-dashes\n\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,0	:set et sw=3 mps+=<:><CR>3hjO  x<Esc>3gq}
+x	0,0	:set fo+=a<CR>ci[<Space>
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)\nHello World hello WORLD	2,0	:set noic<CR>d%eA  x<Esc>
+	0,0	:set ai mps=(:) cin<CR>ve<<$^
+foo-bar baz_qux  x.y(z)	0,5	:set tw=30 fo+=t<CR>#viwn
+\na,b;c d-e f_g\na,b;c d-e f_g\n	0,3	:set sol<CR>O(<Esc>gUU
+foo-bar baz_qux  x.y(z)	0,5	:set ww=b,s,h,l,<,>,[,]<CR>#kJ
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set sw=0 ts=4 ve=insert<CR><Esc>dw
+(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)\nline with   spaces and-dashes	0,3	:set ve=all<CR>#i(<Esc>y%db<<>>
+x\n  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here	1,0	:set tw=15 fo-=t<CR>he<<
+foo-bar baz_qux  x.y(z)\n  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set ic cin noai<CR>dw^viwviwA<C-w><Esc>%
+a,b;c d-e f_g\na,b;c d-e f_g	0,5	:set et sw=3 sts=4 ic<CR>$i<BS><Esc>y%==N
+The quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\nline with   spaces and-dashes	1,3	:set ww=b,s,h,l,<,>,[,] fo+=n tw=15 fo-=t<CR>y%bgUiwdap
+x	0,3	:set ic scs mps=(:) cul<CR>jgqipBvi(pcwhello<Esc>
+x\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>	1,3	:set cin sw=4 sr<CR>vi(<C-a>dis
+a,b;c d-e f_g\nx\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	1,0	:set cin<CR>gUiwfal<<
+Hello World hello WORLD\nx	0,3	:set mps=(:)<CR>fa<C-x>i<BS><Esc>;a<C-w><Esc>/o<CR>
+Hello World hello WORLD\n  indented <tag> (paren) [br] {cu}\na,b;c d-e f_g\n\tTabbed\tline here	1,3	:set mps=(:) ww=b,s,h,l,<,>,[,]<CR>lva<gqq3h
+foo-bar baz_qux  x.y(z)	0,0	:set sts=4 cul<CR>Afoo bar baz qux quux corge grault garply waldo fred plugh<Esc>di<j
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes	0,0	:set sts=4 isk-=_<CR>$0d%<C-a>ci[~
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here\n	1,3	:set ic scs et sw=3<CR>Ndapdap3hdd
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\nline with   spaces and-dashes\nline with   spaces and-dashes	2,0	:set tw=30 fo+=t<CR>gqipy%Pdw<Space>==
+foo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set ic<CR>jdw>>Ncwa b<Esc>^
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>	1,0	:set sw=4 sr ve=block tw=30 fo+=t<CR>3gq}<Space>p
+a,b;c d-e f_g\n\nline with   spaces and-dashes\n	2,0	:set nows<CR>neci[kdb
+\n\tTabbed\tline here	1,3	:set ic<CR>?a<CR>;lgUU?a<CR>~
+foo-bar baz_qux  x.y(z)	0,0	:set ic<CR>ndi<
+line with   spaces and-dashes\n\n\tTabbed\tline here	1,5	:set sw=4 sr<CR>ci[O(<Esc>taRa b<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set tw=30 fo+=t<CR>Jwyiw0dwdaw
+  indented <tag> (paren) [br] {cu}	0,1	:set sw=0 ts=4 ww=b,s,h,l,<,>,[,] ve=block<CR>3hg~~
+foo-bar baz_qux  x.y(z)\nline with   spaces and-dashes\n	0,5	:set ve=onemore<CR>Wgqipe*W
+Hello World hello WORLD	0,3	:set ic list smartindent sw=2<CR>c%a b<Esc>j~<Space>
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set nows<CR>3lva<kdis
+x\n(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)	0,5	:set smartindent sw=2<CR>Ohello<Esc>vi(0
+Hello World hello WORLD\nHello World hello WORLD	0,0	:set ai<CR>$N
+\nfoo-bar baz_qux  x.y(z)	0,1	:set tw=30 fo+=t ve=block nows<CR>R<Esc><Esc>~<C-a>
+line with   spaces and-dashes\na,b;c d-e f_g\n\tTabbed\tline here\nline with   spaces and-dashes	1,3	:set noai<CR>vi(yiwfa<BS>R<BS><Esc>
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g	0,3	:set fo=tcqj cul<CR><Esc>vipldapgUU
+foo-bar baz_qux  x.y(z)\n  indented <tag> (paren) [br] {cu}	0,0	:set ai cul<CR><C-x>gUU10l
+x\nfoo-bar baz_qux  x.y(z)	1,1	:set mps=(:) fo+=n cul<CR>o<Esc><Esc>>>h
+\tTabbed\tline here\na,b;c d-e f_g\na,b;c d-e f_g	2,5	:set isk+=-<CR>gUiwIfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>vipviw
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set smartindent sw=2 tw=20<CR>n<<das0jgqq
+The quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	1,0	:set noic ve=onemore fo+=n<CR>viwba{<Esc>dap
+line with   spaces and-dashes	0,3	:set list ws ve=onemore<CR>veWgqq
+The quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set fo=tcqj ts=4 sw=2<CR>R<BS><Esc>das,^I{<Esc>dis
+\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>	1,3	:set isk-=_ sts=4<CR><<ngv<C-a>3h
+line with   spaces and-dashes\n\tTabbed\tline here\nline with   spaces and-dashes	1,3	:set cin<CR>y%dw<<I(<Esc>fa
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes	1,0	:set smartindent sw=2 tw=30 fo+=t fo+=n<CR>d%dasW
+\nx\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	0,5	:set ww=b,s,h,l,<,>,[,] ws<CR>$vi(d%
+Hello World hello WORLD\n\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\na,b;c d-e f_g	2,3	:set tw=20 list<CR>gqipy%e
+Hello World hello WORLD	0,0	:set tw=20 cin<CR>wgqq<<
+x\nfoo-bar baz_qux  x.y(z)\nx\nline with   spaces and-dashes	0,1	:set noai fo+=n<CR>0Pdwdaw
+\tTabbed\tline here	0,1	:set isk-=_<CR>tajBgqipo}<Esc>ve
+  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g\n\tTabbed\tline here	2,5	:set ai mps+=<:> nows<CR>d%3l
+	0,1	:set fo+=a<CR><Esc>;c%<CR><Esc>wJw
+line with   spaces and-dashes\n\tTabbed\tline here	0,5	:set ts=4 sw=2 isk=@,48-57 ve=onemore<CR>gv,fa*<<A<Esc><Esc>
+x	0,0	:set ve=insert ic scs<CR>ddA<Esc><Esc>gUUvi(,b
+\tTabbed\tline here	0,3	:set noic ww=~ sol<CR>gqqgv
+line with   spaces and-dashes	0,3	:set noic noai<CR>d%c%<CR><Esc>
+line with   spaces and-dashes	0,5	:set mps+=<:> ve=block sw=0 ts=4<CR>~ia b<Esc>R}<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\n	1,1	:set isk=@,48-57 mps+=<:><CR>~a<CR><Esc><<fa==gww
+line with   spaces and-dashes\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)\nx	2,1	:set si noic sts=4<CR>~>>
+line with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set ic scs noic<CR>disy%
+\nfoo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>	0,3	:set ww=b,s,h,l,<,>,[,] cul<CR>dwi[<Esc>a}<Esc>
+a,b;c d-e f_g	0,0	:set tw=30 fo+=t<CR>dapP~lPta
+The quick brown fox jumps over the lazy dog and keeps running far away\n\n\tTabbed\tline here	1,1	:set ww=b,s,h,l,<,>,[,]<CR>by%
+Hello World hello WORLD\nfoo-bar baz_qux  x.y(z)	1,0	:set isk+=-<CR>>>~<Space>
+Hello World hello WORLD\nline with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	2,0	:set nows fo+=n<CR>ci[gqip
+Hello World hello WORLD\n	1,0	:set ww=b,s,h,l,<,>,[,] fo+=a cin<CR>*<BS>viwd%gqjJ
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\n\na,b;c d-e f_g	1,0	:set ww=h,l mps+=<:><CR>va<pl
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set sts=4 ai ve=all<CR>N<<gqipgwwvipp
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\nline with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)	1,1	:set noic isk-=_ sol<CR>ci[xfaciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>3l
+(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\n	1,0	:set sw=0 ts=4 ai noai<CR>ktadap
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>	2,0	:set nosol cin<CR>wddJa<BS><Esc>ci[
+Hello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g	1,1	:set noic list sol<CR>P<<$
+\tTabbed\tline here\n\tTabbed\tline here	0,1	:set fo+=a<CR>vi(3lc%{<Esc>
+\tTabbed\tline here\n\tTabbed\tline here	1,1	:set ts=4 sw=2 nosol list<CR>ciw<Esc><Esc><<johello<Esc>,
+\nThe quick brown fox jumps over the lazy dog and keeps running far away\nx\nx	0,3	:set ve=onemore isk+=-<CR>B<C-a>y%d%
+  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,1	:set ws<CR>I(<Esc>%3l?a<CR>ve
+\n(a (b) c) [d [e] f] <g <h> i>	0,5	:set tw=15 fo-=t et sw=3<CR>y%<C-a>dwgUU>>e
+(a (b) c) [d [e] f] <g <h> i>\nx\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,0	:set sw=0 ts=4 ai fo+=n<CR>nva<<Space>gvI(<Esc>
+\nline with   spaces and-dashes\nHello World hello WORLD	0,5	:set ts=4 sw=2<CR>03h<<Ia b<Esc>yiwgqip
+\nHello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set cul<CR>dw==vipvi(
+a,b;c d-e f_g	0,5	:set tw=15 fo-=t fo+=a list<CR>ta#>>y%yiw
+foo-bar baz_qux  x.y(z)	0,3	:set smartindent sw=2<CR>dd<Space>g~~%a<BS><Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nx\n  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes	2,3	:set isk+=-<CR>dbdawgUiw<C-x>R<BS><Esc>oa b<Esc>
+x\n  indented <tag> (paren) [br] {cu}	0,1	:set ww=~<CR>3gq}gqj10lxW
+x	0,0	:set ic<CR>dasdawci[yiwjOa b<Esc>
+x	0,5	:set sw=4 sr<CR>veg~~jJ>>
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}	0,5	:set smartindent sw=2<CR>va<3lk
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\nline with   spaces and-dashes\nx	0,5	:set ts=4 sw=2 fo+=n sw=0 ts=4<CR>10l<Space>vipyiwN#
+\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set list<CR>bci[xdis/o<CR>ve
+a,b;c d-e f_g\nline with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}	2,0	:set et sw=3 ve=insert sw=4 sr<CR>gww$va<
+(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here\n\tTabbed\tline here	0,0	:set ws ai<CR>*10l
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	0,1	:set si sol mps=(:)<CR>n/o<CR>o<Tab><Esc>N00
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\n\na,b;c d-e f_g	0,3	:set isk=@,48-57 tw=15 fo-=t<CR><BS>gUiw
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes\nline with   spaces and-dashes	0,5	:set ic scs sw=4 sr cin<CR>dasdawdasva<g~~3gq}
+foo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	0,0	:set smartindent sw=2<CR>;0
+Hello World hello WORLD	0,3	:set ww=h,l<CR>pdasJh*
+line with   spaces and-dashes	0,5	:set fo+=n<CR>>>e10lgUiw3lp
+line with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>\n(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}	1,5	:set tw=20 ts=4 sw=2<CR>No(<Esc>0<C-a><C-x>
+(a (b) c) [d [e] f] <g <h> i>\n\nHello World hello WORLD\nHello World hello WORLD	2,0	:set ve=block nows<CR>y%vi(?a<CR>
+Hello World hello WORLD\nx\nx\nx	0,3	:set ai ww=h,l ve=all<CR>ciw<Esc><Esc>viwx/o<CR>
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\nx	2,3	:set noai ww=h,l sol<CR>e/o<CR><Space>
+\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,1	:set ve=insert fo+=n sts=4<CR>10lgqipciw<C-w><Esc>
+a,b;c d-e f_g	0,0	:set ws<CR>O<Esc><Esc>b
+\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	2,5	:set fo+=n<CR>*Wg~~<C-x><C-a>c%foo bar baz qux quux corge grault garply waldo fred plugh<Esc>
+a,b;c d-e f_g	0,1	:set ws tw=20<CR><<ddkdisn
+line with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)	0,3	:set sol ve=insert<CR><C-a>Rhello<Esc>?a<CR><BS>
+	0,5	:set ws<CR>ta10l<Esc>
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes	0,0	:set ve=block cul<CR><BS>gqjgww3gq}%P
+x\n\tTabbed\tline here\nx\n  indented <tag> (paren) [br] {cu}	1,5	:set sol lbr<CR>va<dis$<C-a>
+\tTabbed\tline here	0,5	:set mps+=<:> si<CR>10l<Space>,Ifoo bar baz qux quux corge grault garply waldo fred plugh<Esc>n==
+line with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set ve=insert mps=(:)<CR>3gq}<Esc>
+  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here\n\nHello World hello WORLD	2,1	:set list fo=tcqj<CR>taengv~
+\tTabbed\tline here\nline with   spaces and-dashes	0,0	:set fo=tcqj mps+=<:><CR>ci[nB/o<CR>;
+  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes	0,5	:set lbr<CR>$gv?a<CR>fah
+a,b;c d-e f_g\na,b;c d-e f_g\na,b;c d-e f_g	1,3	:set ve=all<CR>vex,~er1
+a,b;c d-e f_g\nfoo-bar baz_qux  x.y(z)	1,1	:set ww=~ si<CR>R  x<Esc>vipgwwve
+(a (b) c) [d [e] f] <g <h> i>\n\nThe quick brown fox jumps over the lazy dog and keeps running far away\n	2,0	:set tw=20<CR>gqq~3gq}
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	0,0	:set sw=0 ts=4 ve=all<CR>vip>>3h#ci[
+a,b;c d-e f_g\n\tTabbed\tline here\n\tTabbed\tline here	0,0	:set mps+=<:> cin sw=4 sr<CR>gvg~~kdb
+foo-bar baz_qux  x.y(z)\nline with   spaces and-dashes	0,0	:set sol<CR>Pdish3gq}
+Hello World hello WORLD\nx\n  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,5	:set smartindent sw=2 noic fo=tcqj<CR>dd~%3h~y%
+The quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	1,1	:set ve=insert ve=block<CR>Rfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>;ci[
+Hello World hello WORLD	0,0	:set ic scs fo=tcqj<CR>d%<C-a>n
+x\nThe quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)\n	1,1	:set fo+=n<CR>?a<CR>veciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>gUUevi(
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	1,0	:set sw=0 ts=4<CR>*kna<CR><Esc>gUiw
+foo-bar baz_qux  x.y(z)	0,3	:set sts=4 list<CR>va<gqip
+The quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}	0,3	:set ai tw=20 ve=insert<CR>~3l
+a,b;c d-e f_g\n\nline with   spaces and-dashes	0,0	:set fo+=n ws nosol<CR>vecw<BS><Esc>
+  indented <tag> (paren) [br] {cu}\nx\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set ic sw=0 ts=4 isk=@,48-57<CR>>>y%e3l
+The quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set cin<CR>3gq}%O{<Esc>hd%*
+The quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set mps=(:) sw=4 sr<CR><BS>x>>I{<Esc>Bvi(
+Hello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)	1,1	:set fo+=n ww=~<CR>Bcw<CR><Esc>dawvi(gqjciw[<Esc>
+Hello World hello WORLD	0,0	:set nosol<CR>dasgww~dw?a<CR>
+x\n  indented <tag> (paren) [br] {cu}	0,3	:set noic<CR>gUUc%<Esc><Esc>r1gUU
+\tTabbed\tline here	0,0	:set ic fo=tcqj cin<CR>Bci[ciw{<Esc>%gqjd%
+x	0,5	:set ww=b,s,h,l,<,>,[,] ic scs<CR>ciw<Tab><Esc>gUiw<<cwa b<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	0,1	:set sts=4 tw=15 fo-=t ve=block<CR>wi{<Esc>*,#
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	2,0	:set ww=~ cul<CR>i<BS><Esc>#10lPdawd%
+\nx\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	0,0	:set ic si fo=tcqj<CR>yiw>>l
+x	0,1	:set fo+=n<CR>r1viwr1O<Esc><Esc>
+\nline with   spaces and-dashes\nline with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)	2,1	:set ww=b,s,h,l,<,>,[,] ic tw=15 fo-=t<CR>viwj~ci[/o<CR>
+line with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,5	:set nosol ww=b,s,h,l,<,>,[,] sol<CR><Space>gqjdas
+\nx	1,3	:set noai lbr smartindent sw=2<CR>Pdi<c%a b<Esc>i  x<Esc>
+line with   spaces and-dashes	0,0	:set ww=~ nows mps+=<:><CR><Space>ci[gvvipx
+line with   spaces and-dashes\na,b;c d-e f_g\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,1	:set noic ve=block ve=all<CR>r1j==
+x\nfoo-bar baz_qux  x.y(z)	0,0	:set et sw=3<CR>r1#viwdap
+\tTabbed\tline here	0,1	:set list sw=0 ts=4<CR><C-a>N#
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here	0,0	:set ic<CR>dasJ
+Hello World hello WORLD	0,5	:set ws ic scs tw=20<CR>10l?a<CR>daw<BS>di<
+foo-bar baz_qux  x.y(z)	0,0	:set tw=20<CR><Esc>yiw3hviwPJ
+Hello World hello WORLD\n\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set nosol ai list<CR>/o<CR>w,$A<CR><Esc><C-x>
+Hello World hello WORLD\nx\na,b;c d-e f_g	2,0	:set tw=30 fo+=t sts=4<CR>>>c%<BS><Esc>>>va<o}<Esc>3h
+a,b;c d-e f_g	0,5	:set sw=0 ts=4 ww=h,l ws<CR>P/o<CR>ddnN^
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,1	:set nows<CR>gUU<Esc>aa b<Esc>R<BS><Esc>>>gqq
+Hello World hello WORLD	0,1	:set et sw=3 ic<CR>O<Tab><Esc>*
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set et sw=3 ws<CR>o<CR><Esc>fa<C-a>dapgwwJ
+\tTabbed\tline here	0,5	:set cul<CR>Ba(<Esc>vipfagvgww
+(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g	0,0	:set ts=4 sw=2 ww=b,s,h,l,<,>,[,] sts=4<CR>h~dddwfan
+\n(a (b) c) [d [e] f] <g <h> i>	1,1	:set ts=4 sw=2 ve=insert ww=b,s,h,l,<,>,[,]<CR>bgUUl$
+The quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set ww=h,l isk-=_ tw=30 fo+=t<CR>ciw<Tab><Esc>gUU>>
+a,b;c d-e f_g	0,1	:set tw=15 fo-=t tw=30 fo+=t tw=20<CR>hdisdw
+Hello World hello WORLD\n\tTabbed\tline here\nx	0,0	:set cul si<CR>#dawcwhello<Esc>
+\nfoo-bar baz_qux  x.y(z)\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	2,0	:set ww=h,l smartindent sw=2 lbr<CR><C-x>ciw{<Esc>cwa b<Esc>daw
+The quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set si<CR>ohello<Esc>ee
+x	0,3	:set noic<CR>disddgww
+line with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}\n	0,1	:set nows mps=(:) mps+=<:><CR>jndi<
+\nHello World hello WORLD	0,1	:set noai ve=block<CR><C-x>i}<Esc>a<C-w><Esc>o{<Esc>>>
+a,b;c d-e f_g	0,5	:set ts=4 sw=2 ww=h,l ve=insert<CR>3h10l
+line with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	0,3	:set et sw=3<CR>$gqjN
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,1	:set ve=block noic<CR>i[<Esc>oa b<Esc>Oa b<Esc>
+x	0,5	:set fo+=a si<CR>jgUUdb<BS>Aa b<Esc>N
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>	1,0	:set ww=h,l ts=4 sw=2 tw=30 fo+=t<CR>gvta>>A<Tab><Esc>
+\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	0,0	:set ve=onemore<CR>d%o<CR><Esc>*y%3h
+a,b;c d-e f_g	0,5	:set lbr ic fo=tcqj<CR>disdby%
+x\nHello World hello WORLD\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)	2,5	:set ws lbr<CR>gqipgUUi<Tab><Esc>/o<CR>ci[di<
+Hello World hello WORLD\nfoo-bar baz_qux  x.y(z)	1,0	:set sts=4 sw=0 ts=4 ww=~<CR>gwwNR[<Esc>
+\tTabbed\tline here	0,0	:set isk=@,48-57<CR>nta%di<vegv
+Hello World hello WORLD\nline with   spaces and-dashes	1,5	:set smartindent sw=2<CR>yiwc%<C-w><Esc>dwva<b
+\n  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here\nline with   spaces and-dashes	1,5	:set mps=(:) cul<CR>I<CR><Esc>3hW
+	0,5	:set noai cin ww=h,l<CR>cw  x<Esc>r1ve
+line with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set list fo+=a ww=h,l<CR>vip<C-x>^gqj
+\tTabbed\tline here\n\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	2,1	:set mps=(:) ve=block<CR>g~~<C-a>A}<Esc>a<C-w><Esc>gwwdaw
+a,b;c d-e f_g	0,5	:set cin ws nosol<CR>ciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>$
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)\nx\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,5	:set ic fo+=a et sw=3<CR>ta<Esc>x$
+line with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	0,5	:set ww=~<CR>wta
+(a (b) c) [d [e] f] <g <h> i>	0,0	:set mps=(:)<CR>/o<CR>r1~N
+x\nThe quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set sol ww=b,s,h,l,<,>,[,]<CR>^10ldbB3l10l
+(a (b) c) [d [e] f] <g <h> i>\n\na,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>	1,0	:set si<CR>;$
+\tTabbed\tline here	0,1	:set sts=4 ve=insert<CR>hRa b<Esc>db
+(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here	0,1	:set ic scs ts=4 sw=2 isk=@,48-57<CR>dasgqq^,vip
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here	1,0	:set ve=onemore ve=insert cin<CR>bgwwgUiw
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	2,3	:set ic scs et sw=3<CR>;O}<Esc>disy%dawh
+Hello World hello WORLD\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,0	:set ve=onemore ic<CR>jjk
+(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}	1,5	:set ww=h,l sts=4<CR>%dbfa
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\n\nHello World hello WORLD	0,5	:set mps=(:) smartindent sw=2 ts=4 sw=2<CR>NgUU>>%gqj
+\tTabbed\tline here	0,0	:set sts=4 ve=block fo+=a<CR><<O<C-w><Esc>kta
+x\n  indented <tag> (paren) [br] {cu}	0,0	:set list fo+=a<CR>gva<Esc><Esc><C-a>
+(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD	1,3	:set isk+=- smartindent sw=2 cin<CR>g~~<C-a>ci[k
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\nx	0,0	:set smartindent sw=2 ww=b,s,h,l,<,>,[,] cul<CR>c%hello<Esc>gwwve
+line with   spaces and-dashes	0,1	:set ic scs nows<CR>jg~~%
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}	1,1	:set ai lbr<CR>BI<C-w><Esc>?a<CR>O<BS><Esc>dis
+x\n  indented <tag> (paren) [br] {cu}\n	1,3	:set tw=15 fo-=t ww=~ ts=4 sw=2<CR>n3hk<Esc>tay%
+  indented <tag> (paren) [br] {cu}\na,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}	0,1	:set ic cin<CR>vepvi(i<CR><Esc>;;
+a,b;c d-e f_g\n\na,b;c d-e f_g	1,0	:set ts=4 sw=2<CR>%,vi(n,
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	1,1	:set lbr isk=@,48-57 ic scs<CR>^o<Esc><Esc>
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	1,1	:set smartindent sw=2 nosol sol<CR>$x<<
+\na,b;c d-e f_g\nfoo-bar baz_qux  x.y(z)	1,0	:set isk+=-<CR>a<BS><Esc>I<Esc><Esc>di<~p
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set cul<CR>daw~
+\tTabbed\tline here\nline with   spaces and-dashes\nline with   spaces and-dashes	2,3	:set et sw=3 ve=block<CR>gvdas>>$
+\n\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>	0,3	:set fo=tcqj<CR>dbdbcw}<Esc>*dddaw
+  indented <tag> (paren) [br] {cu}	0,5	:set ai smartindent sw=2<CR>%gUU#O<Esc><Esc>i<BS><Esc>h
+	0,5	:set nows ve=onemore<CR>ngUiwlciw<C-w><Esc>dw
+	0,3	:set ts=4 sw=2<CR><<dis#di<
+\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\nline with   spaces and-dashes	0,0	:set ws et sw=3<CR><C-x>x~dap
+a,b;c d-e f_g\n\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away\n	0,1	:set noai<CR>/o<CR>d%xveci[gqip
+\tTabbed\tline here	0,5	:set tw=20 cin<CR><Esc>/o<CR>
+x	0,0	:set sw=4 sr noic<CR>gqjva<B3gq}
+(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	1,0	:set ai mps=(:) tw=30 fo+=t<CR>gqjc%[<Esc>ddPc%<C-w><Esc>
+foo-bar baz_qux  x.y(z)	0,1	:set nosol noai ic<CR>bOhello<Esc><<jtaB
+\tTabbed\tline here	0,1	:set ve=onemore sw=4 sr<CR>,dd~<Esc>gvgqip
+	0,0	:set ve=insert sol mps+=<:><CR>,Bdaw
+foo-bar baz_qux  x.y(z)\nline with   spaces and-dashes	1,0	:set ww=b,s,h,l,<,>,[,] ww=h,l<CR>g~~I(<Esc>dap
+\n  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes\na,b;c d-e f_g	1,5	:set isk-=_ si<CR>vi(gUUb
+foo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	1,3	:set tw=20<CR>viw?a<CR>Ndisvegv
+  indented <tag> (paren) [br] {cu}	0,0	:set list isk-=_<CR>xh;
+a,b;c d-e f_g\n\nHello World hello WORLD\n	1,0	:set cin<CR>tavi(Ohello<Esc>^3gq}
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set ts=4 sw=2<CR>i<C-w><Esc><Space><C-a>gUiwjdd
+foo-bar baz_qux  x.y(z)	0,0	:set ww=b,s,h,l,<,>,[,]<CR>~va<g~~o(<Esc>B
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	0,3	:set list ww=~ isk+=-<CR>N>>fa<C-x><Space>k
+x	0,3	:set lbr ic scs<CR>%gvci[>>
+The quick brown fox jumps over the lazy dog and keeps running far away\n\n\tTabbed\tline here\n	2,0	:set lbr<CR><<3gq}WBBA<Tab><Esc>
+(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\n\tTabbed\tline here	0,0	:set ws<CR>^>>ciw<Tab><Esc>J<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\nHello World hello WORLD	2,0	:set ww=b,s,h,l,<,>,[,] ww=~<CR>$ahello<Esc>nd%gUiw
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set cul fo+=n<CR>k~I<BS><Esc>;
+line with   spaces and-dashes\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}	1,0	:set ic sw=4 sr isk=@,48-57<CR>gUUdw?a<CR>r1%
+x\n  indented <tag> (paren) [br] {cu}	0,5	:set noai<CR>>>das
+	0,0	:set ts=4 sw=2 mps+=<:><CR>Jfa3lta
+\tTabbed\tline here	0,1	:set fo=tcqj<CR><C-x>*di<*
+The quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away\nx	0,1	:set ts=4 sw=2<CR>b%$,*%
+x	0,3	:set tw=20 ww=b,s,h,l,<,>,[,] ve=all<CR>gqip?a<CR>
+Hello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>\n(a (b) c) [d [e] f] <g <h> i>	1,5	:set ws ai<CR>;l<Esc>
+\nfoo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set fo+=n isk=@,48-57 mps+=<:><CR>10ly%dis
+Hello World hello WORLD\na,b;c d-e f_g\n\nfoo-bar baz_qux  x.y(z)	1,3	:set tw=30 fo+=t<CR>,~Ndi<
+line with   spaces and-dashes	0,5	:set isk=@,48-57 list<CR>A{<Esc>vipc%<Tab><Esc>vi(bvip
+foo-bar baz_qux  x.y(z)\nHello World hello WORLD	0,0	:set noai fo+=n sts=4<CR>#%<<#
+foo-bar baz_qux  x.y(z)	0,5	:set ve=all si<CR>BgUiwi<Esc><Esc>tao  x<Esc>%
+foo-bar baz_qux  x.y(z)\nx\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	0,5	:set ts=4 sw=2 cul<CR><<<Esc>r1
+a,b;c d-e f_g	0,0	:set ai<CR>disR{<Esc>J
+  indented <tag> (paren) [br] {cu}	0,0	:set lbr<CR>daw<Esc>cw<Esc><Esc>bdi<gww
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set si<CR>3lfa,
+x\nline with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	1,5	:set list<CR>viwec%<CR><Esc>R<BS><Esc>
+\tTabbed\tline here\nx\n(a (b) c) [d [e] f] <g <h> i>	2,1	:set cin smartindent sw=2 ww=b,s,h,l,<,>,[,]<CR>gUU3gq}dawPR  x<Esc>fa
+\nThe quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}	2,5	:set noic<CR>^gqq
+\tTabbed\tline here	0,3	:set sw=4 sr tw=15 fo-=t mps+=<:><CR>BddwgUiw
+Hello World hello WORLD	0,5	:set noic ws<CR>n*,==w
+(a (b) c) [d [e] f] <g <h> i>	0,0	:set isk+=- tw=20<CR>0WNWdd
+  indented <tag> (paren) [br] {cu}	0,0	:set ve=insert<CR>ci[lyiwgvgqj
+\tTabbed\tline here\na,b;c d-e f_g	0,1	:set isk-=_<CR>ddcw<C-w><Esc>db$==*
+(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)	2,5	:set ic nows<CR>BPp~ddve
+x\nline with   spaces and-dashes	1,1	:set sw=0 ts=4 ww=b,s,h,l,<,>,[,]<CR>ciw<BS><Esc><C-x>,10lNk
+foo-bar baz_qux  x.y(z)\nline with   spaces and-dashes	0,1	:set isk-=_<CR>vi(*w
+Hello World hello WORLD\nfoo-bar baz_qux  x.y(z)	0,1	:set cin<CR>wjyiwciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>P
+The quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set tw=30 fo+=t et sw=3<CR>wdas*,
+x\n  indented <tag> (paren) [br] {cu}\n	2,0	:set noic lbr<CR>R[<Esc>/o<CR><C-x><<0yiw
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away\n	1,1	:set sts=4 isk+=-<CR>tadaw#nve
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	1,3	:set tw=15 fo-=t<CR>vipc%a b<Esc><Esc>viw
+line with   spaces and-dashes\n\nline with   spaces and-dashes\nx	1,3	:set tw=15 fo-=t tw=30 fo+=t<CR>dasta==gvgvw
+foo-bar baz_qux  x.y(z)\nline with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)	1,5	:set ic tw=15 fo-=t<CR>xI<C-w><Esc>PwR<CR><Esc>
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set noic fo+=n<CR>x==<BS>B==
+(a (b) c) [d [e] f] <g <h> i>\nx\n\n\tTabbed\tline here	1,5	:set sw=0 ts=4 tw=15 fo-=t<CR><Esc>db
+Hello World hello WORLD	0,5	:set tw=30 fo+=t ww=~<CR>ve;>>3hx
+The quick brown fox jumps over the lazy dog and keeps running far away\nx\n  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	2,5	:set ws isk=@,48-57<CR>tadd
+  indented <tag> (paren) [br] {cu}	0,1	:set ww=b,s,h,l,<,>,[,] tw=20 mps=(:)<CR>cwhello<Esc>ciwhello<Esc>pdb<C-x>d%
+x	0,3	:set ww=h,l<CR>vi(dddd3hgvva<
+\tTabbed\tline here\na,b;c d-e f_g\nline with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}	2,1	:set list<CR>gUiwva<va<eJciwa b<Esc>
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\n\tTabbed\tline here	0,1	:set sw=4 sr<CR>dawviwgqj%0*
+\tTabbed\tline here	0,3	:set ww=b,s,h,l,<,>,[,] mps+=<:> isk+=-<CR>Ia b<Esc>N
+\nHello World hello WORLD\n\tTabbed\tline here	2,1	:set fo+=n tw=20<CR>h%
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set cin ww=b,s,h,l,<,>,[,] noai<CR>dwgUU
+  indented <tag> (paren) [br] {cu}	0,3	:set ww=b,s,h,l,<,>,[,] ic ww=h,l<CR>oa b<Esc>J
+The quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ai ve=onemore<CR>gUUgww
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes\nline with   spaces and-dashes\n	1,3	:set ic scs<CR>gqqnvipviw
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g	1,5	:set ve=block list mps=(:)<CR>dap#ci[<BS>i<C-w><Esc>y%
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)\n\tTabbed\tline here	2,0	:set ic list sw=4 sr<CR>gqjci[
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes	1,0	:set cin fo=tcqj<CR>ciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>k;;10l<BS>
+The quick brown fox jumps over the lazy dog and keeps running far away\nx	0,5	:set ww=h,l<CR>Po(<Esc>
+line with   spaces and-dashes\nx	1,0	:set ww=h,l fo+=n<CR>#gv
+foo-bar baz_qux  x.y(z)\n  indented <tag> (paren) [br] {cu}\nx	2,1	:set isk=@,48-57 ve=insert<CR>gUiwgUUjR<C-w><Esc>di<
+foo-bar baz_qux  x.y(z)\nHello World hello WORLD	0,1	:set ve=insert list smartindent sw=2<CR>gUiwdaskgUUfa
+(a (b) c) [d [e] f] <g <h> i>\nx	0,5	:set smartindent sw=2 nosol sw=4 sr<CR>viw?a<CR>va<di<gqq
+\tTabbed\tline here	0,5	:set ww=b,s,h,l,<,>,[,]<CR>ngUUi}<Esc>
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g\nx\n  indented <tag> (paren) [br] {cu}	0,3	:set tw=30 fo+=t ve=insert<CR>I<BS><Esc>Jci[
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)\n  indented <tag> (paren) [br] {cu}	1,1	:set sts=4 ve=onemore si<CR>#>>ci[o<C-w><Esc>gqj
+  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}	1,1	:set ic scs ic<CR>viwva<y%ne
+\tTabbed\tline here	0,0	:set sw=4 sr si sol<CR><Esc>%<Space>
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)\n  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set nosol ve=block<CR>jj
+The quick brown fox jumps over the lazy dog and keeps running far away\nx\nx\n\tTabbed\tline here	0,0	:set isk=@,48-57 lbr<CR><Esc>ciw{<Esc>#bx
+\n(a (b) c) [d [e] f] <g <h> i>	0,3	:set ve=block fo+=n sol<CR><C-a>gvjbI<CR><Esc>dw
+  indented <tag> (paren) [br] {cu}\na,b;c d-e f_g	1,1	:set ve=block<CR>/o<CR>y%daw
+\nfoo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,0	:set sw=0 ts=4 ai tw=15 fo-=t<CR>j<C-x>veta
+  indented <tag> (paren) [br] {cu}\n\nHello World hello WORLD	0,3	:set ve=insert<CR>ldiscwa b<Esc>
+Hello World hello WORLD	0,0	:set isk+=-<CR>gww0lWci[<Esc>
+Hello World hello WORLD\nx\n(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g	0,0	:set ve=block ve=onemore<CR>gwwI  x<Esc>viwPdbgv
+line with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	2,0	:set ve=insert<CR>==venci[
+\n\n	2,0	:set et sw=3 fo+=a ic scs<CR>di<N
+a,b;c d-e f_g\n	0,0	:set tw=20 nows ve=all<CR>ciw[<Esc>vip3lWp
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	0,1	:set ww=b,s,h,l,<,>,[,]<CR>gqip<<vi(
+Hello World hello WORLD\n  indented <tag> (paren) [br] {cu}	1,0	:set sol isk-=_<CR>3hgvdisp
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}	1,1	:set lbr sw=4 sr isk+=-<CR><BS>d%/o<CR>
+\nThe quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)	0,3	:set ve=block isk-=_ smartindent sw=2<CR>/o<CR>#WRa b<Esc>di<gUU
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	0,5	:set ws ve=insert<CR>daskBdisdb
+Hello World hello WORLD	0,0	:set nosol<CR>bj
+a,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,3	:set sts=4<CR>ci[g~~~
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD	0,5	:set tw=30 fo+=t<CR>N0J<BS>Afoo bar baz qux quux corge grault garply waldo fred plugh<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\nline with   spaces and-dashes	0,1	:set mps+=<:> ic scs<CR>3hdapcwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>e
+a,b;c d-e f_g\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>\nx	0,5	:set noic<CR><C-a>gUiwyiwa}<Esc>
+  indented <tag> (paren) [br] {cu}	0,5	:set sw=0 ts=4<CR>vi(vi(^^k
+The quick brown fox jumps over the lazy dog and keeps running far away\n  indented <tag> (paren) [br] {cu}	0,0	:set lbr ws<CR><Esc><<<C-a>
+Hello World hello WORLD\nx\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,1	:set nows lbr tw=30 fo+=t<CR>c%<CR><Esc>3l
+(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	1,0	:set smartindent sw=2 ic<CR>vewA<Tab><Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ve=insert mps=(:)<CR>gqq>>%viw
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	0,0	:set ic scs si<CR>;?a<CR>;Wr1g~~
+line with   spaces and-dashes	0,0	:set sts=4 isk=@,48-57 tw=20<CR>vebvip
+line with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here	0,1	:set ws ve=all<CR>3lva<gwwy%c%<Tab><Esc>
+foo-bar baz_qux  x.y(z)\nHello World hello WORLD	1,3	:set ww=h,l ww=b,s,h,l,<,>,[,]<CR>ji(<Esc>wdas<C-a>
+a,b;c d-e f_g\nx\nx	2,3	:set sw=0 ts=4 tw=20 isk=@,48-57<CR>Wcw{<Esc>gqj
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}	0,1	:set ts=4 sw=2 list<CR>n03l
+line with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes	0,0	:set et sw=3 sol si<CR>dapgvnA<Esc><Esc><C-a>?a<CR>
+line with   spaces and-dashes	0,3	:set sts=4<CR>viwWve<C-a>n
+x	0,3	:set ve=all ve=onemore isk-=_<CR>dwgqq
+	0,5	:set tw=20<CR>Rfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>j
+line with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)\nHello World hello WORLD	2,0	:set cin sw=4 sr<CR>ci[<C-a>c%a b<Esc>va<
+  indented <tag> (paren) [br] {cu}\na,b;c d-e f_g\na,b;c d-e f_g\nx	2,3	:set cul<CR>P%ve
+foo-bar baz_qux  x.y(z)\n	1,1	:set nosol<CR>gvJAfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>
+  indented <tag> (paren) [br] {cu}	0,5	:set list tw=20<CR>r1ci[y%Wta
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	1,5	:set fo+=a tw=30 fo+=t ai<CR>^ci[%
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes\n\tTabbed\tline here	2,5	:set sw=4 sr<CR>daw,gvg~~
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set ve=insert<CR>gUiwy%ve
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD	2,1	:set nosol<CR>gqqfaj
+\na,b;c d-e f_g\nline with   spaces and-dashes	2,3	:set mps=(:)<CR>l#y%
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\n	2,3	:set tw=15 fo-=t ve=all<CR>3hci[xIfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>dasg~~
+line with   spaces and-dashes\n\n\n  indented <tag> (paren) [br] {cu}	1,0	:set fo+=n ic si<CR><C-x>gqip
+x\n\nline with   spaces and-dashes\nHello World hello WORLD	1,0	:set list ww=~<CR>gv<Space>gwwbr13l
+\nline with   spaces and-dashes	1,3	:set nows ww=b,s,h,l,<,>,[,] list<CR>?a<CR>?a<CR><C-a>
+  indented <tag> (paren) [br] {cu}	0,0	:set ww=~<CR>vi(a}<Esc>n
+line with   spaces and-dashes\n\tTabbed\tline here\nx\nline with   spaces and-dashes	0,1	:set ic scs<CR><<ahello<Esc>WI<C-w><Esc>
+\nHello World hello WORLD\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	2,0	:set smartindent sw=2 ts=4 sw=2 mps=(:)<CR>I<BS><Esc>==xx,
+a,b;c d-e f_g	0,0	:set isk=@,48-57 sw=4 sr<CR>va<di<*p
+foo-bar baz_qux  x.y(z)	0,5	:set ic<CR>r1<C-a>
+Hello World hello WORLD\na,b;c d-e f_g\na,b;c d-e f_g	0,3	:set sts=4<CR>#*vi(j0<Esc>
+line with   spaces and-dashes\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>\n	1,1	:set sw=0 ts=4 mps+=<:> list<CR>dapva<k#db
+x\nline with   spaces and-dashes\n	0,0	:set fo=tcqj si<CR>ldawg~~
+x\nfoo-bar baz_qux  x.y(z)\n	2,1	:set fo=tcqj<CR>y%<C-a>
+a,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	2,0	:set ve=all ww=~<CR>3hR{<Esc>>>gqjR  x<Esc>==
+\n\n	1,1	:set isk=@,48-57<CR>bpdi<vi(
+Hello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,0	:set ve=all<CR>gwwR<Tab><Esc>gUiwdbci[
+x	0,0	:set sol<CR>eenc%[<Esc><C-a>
+Hello World hello WORLD\nfoo-bar baz_qux  x.y(z)	0,0	:set lbr<CR>gUiwl
+\nx\nThe quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD	0,1	:set nosol<CR>gww<C-a>gqipgqj
+\tTabbed\tline here\nHello World hello WORLD\na,b;c d-e f_g\nfoo-bar baz_qux  x.y(z)	0,3	:set tw=30 fo+=t ve=insert mps=(:)<CR><<gww<Esc>db^I{<Esc>
+\n  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}	1,1	:set ww=~<CR>dasdi<*R<CR><Esc>B
+\tTabbed\tline here\nline with   spaces and-dashes\nx	2,3	:set sw=0 ts=4 tw=20 list<CR>gUU/o<CR>w>>r1x
+(a (b) c) [d [e] f] <g <h> i>\nx	1,1	:set ww=b,s,h,l,<,>,[,] fo+=n<CR>dw,
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\nx\n	1,3	:set isk+=-<CR>jh;gv
+(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>	2,1	:set sw=0 ts=4<CR>dw<C-a>aa b<Esc>Ndasl
+  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>	2,5	:set tw=30 fo+=t nows<CR>edd3lA}<Esc>
+	0,5	:set isk=@,48-57 ic scs<CR>g~~0vi(gww<<^
+\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\na,b;c d-e f_g	2,1	:set smartindent sw=2<CR>3hvipgqjh<C-x>
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>	0,3	:set ww=h,l<CR>P03ldi<0
+line with   spaces and-dashes	0,0	:set lbr fo=tcqj<CR>hBw>>vi(
+a,b;c d-e f_g\n\n	1,0	:set tw=30 fo+=t<CR>%dbP
+  indented <tag> (paren) [br] {cu}\n	0,5	:set ws ic scs ic<CR>N$
+\n(a (b) c) [d [e] f] <g <h> i>	1,3	:set sw=4 sr ww=b,s,h,l,<,>,[,]<CR>yiwkw
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)	0,0	:set noai<CR>ciw<Tab><Esc>lvi(xW
+\tTabbed\tline here	0,0	:set ve=block ve=all<CR>yiw/o<CR>W;
+\nHello World hello WORLD	0,0	:set isk-=_ ww=b,s,h,l,<,>,[,] lbr<CR><BS>a}<Esc>gqja  x<Esc>di<
+  indented <tag> (paren) [br] {cu}\n	1,5	:set ve=insert ts=4 sw=2<CR>dapgqqyiw
+x\nline with   spaces and-dashes	0,0	:set cin<CR>g~~vipI(<Esc>viw10l
+\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>	0,5	:set ve=onemore mps+=<:> ww=h,l<CR>dwxdis
+a,b;c d-e f_g	0,0	:set ve=insert<CR>ve3l
+Hello World hello WORLD	0,0	:set ts=4 sw=2 smartindent sw=2<CR>viwJp~by%
+foo-bar baz_qux  x.y(z)	0,3	:set ww=h,l ww=~<CR>,ddeR<BS><Esc>Pc%  x<Esc>
+line with   spaces and-dashes\nline with   spaces and-dashes\n	2,0	:set sol sw=4 sr<CR>0dapd%3gq}
+The quick brown fox jumps over the lazy dog and keeps running far away\n\nHello World hello WORLD\na,b;c d-e f_g	0,1	:set sw=4 sr ve=block<CR>/o<CR>dawdapohello<Esc>
+\n	0,3	:set ai list<CR>#J
+Hello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>	0,3	:set ww=~ cin<CR>J#nW
+\tTabbed\tline here	0,3	:set ve=all ic scs<CR>~gqqJnveci[
+x\n  indented <tag> (paren) [br] {cu}	0,0	:set list sw=0 ts=4<CR>disp0
+Hello World hello WORLD	0,0	:set mps=(:)<CR><Esc>gUiwvegUU
+\nHello World hello WORLD	0,1	:set cin tw=30 fo+=t<CR>o<CR><Esc>^g~~N
+(a (b) c) [d [e] f] <g <h> i>	0,3	:set si isk+=- ww=~<CR>dasciw<C-w><Esc>*
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)\n	2,0	:set et sw=3<CR>0A<CR><Esc>3l/o<CR>
+line with   spaces and-dashes\na,b;c d-e f_g	0,3	:set sw=0 ts=4<CR>r1vi(
+line with   spaces and-dashes\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)	1,0	:set sol cin fo+=a<CR>#<C-x>0ci[c%<C-w><Esc>
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	1,0	:set tw=15 fo-=t ww=h,l<CR>dwhgUiw
+\nHello World hello WORLD\na,b;c d-e f_g	0,5	:set ve=insert mps=(:) cul<CR>eA[<Esc>pcw{<Esc>h%
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set lbr<CR>d%o<Tab><Esc><Space>>>~
+line with   spaces and-dashes\nHello World hello WORLD	0,1	:set ww=b,s,h,l,<,>,[,]<CR>g~~N3hNx
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}\nHello World hello WORLD	1,0	:set fo+=a isk=@,48-57<CR>kgqjJ#dw
+(a (b) c) [d [e] f] <g <h> i>\nx\n\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)	2,0	:set nows si ww=b,s,h,l,<,>,[,]<CR><Esc>e
+line with   spaces and-dashes\nline with   spaces and-dashes\n\tTabbed\tline here\nline with   spaces and-dashes	2,0	:set isk+=-<CR>g~~o<BS><Esc>
+a,b;c d-e f_g\nHello World hello WORLD	0,0	:set noic ww=h,l<CR>I<CR><Esc>j~ci[eyiw
+x\n(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}	1,3	:set ic ww=b,s,h,l,<,>,[,]<CR>gwwb<C-x><<
+x\n  indented <tag> (paren) [br] {cu}	0,0	:set ve=onemore mps=(:)<CR>i<Esc><Esc>3gq}ciw(<Esc><C-x>vi(cw[<Esc>
+\tTabbed\tline here	0,3	:set ww=h,l nows fo+=n<CR>e,==p;==
+(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}	1,3	:set ai<CR>gvy%
+(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)\n  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes	2,0	:set cul<CR><Space>yiwdaw<BS>,
+x	0,0	:set mps+=<:> isk-=_<CR>O<Esc><Esc>d%Ifoo bar baz qux quux corge grault garply waldo fred plugh<Esc>i<C-w><Esc>3gq}ciw[<Esc>
+Hello World hello WORLD\nx	1,1	:set tw=20<CR>vipJ;10l
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	2,3	:set sw=4 sr<CR>c%<Esc><Esc>va<^gqqc%(<Esc>
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\nx\n\tTabbed\tline here	1,0	:set cul ve=all ws<CR>hdapo<Tab><Esc>
+(a (b) c) [d [e] f] <g <h> i>	0,1	:set ww=h,l isk+=- ic scs<CR>dawd%
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	1,0	:set mps+=<:> sol smartindent sw=2<CR>Ra b<Esc>%
+foo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away\nx\n  indented <tag> (paren) [br] {cu}	2,5	:set ve=insert nosol cin<CR>==<Esc>I<C-w><Esc>di<dis
+(a (b) c) [d [e] f] <g <h> i>	0,0	:set ve=onemore mps+=<:><CR>va<<BS>R<CR><Esc>
+Hello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>	0,1	:set sts=4 ic scs noai<CR>gwwg~~ci[gUU
+line with   spaces and-dashes\n\tTabbed\tline here\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	1,5	:set ve=onemore smartindent sw=2<CR><C-a>r110ldapOhello<Esc>
+line with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}	0,0	:set ww=h,l noai<CR>%daw^$gqj
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD	0,0	:set fo=tcqj<CR><Space>ciw<Esc><Esc>O<CR><Esc><Esc>Ihello<Esc>dis
+  indented <tag> (paren) [br] {cu}	0,3	:set ww=b,s,h,l,<,>,[,]<CR>y%a}<Esc>
+line with   spaces and-dashes	0,5	:set ww=b,s,h,l,<,>,[,]<CR>hxefaP
+x\n(a (b) c) [d [e] f] <g <h> i>\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD	1,3	:set tw=30 fo+=t lbr si<CR>?a<CR>^Ofoo bar baz qux quux corge grault garply waldo fred plugh<Esc>lWta
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>	2,1	:set fo+=n<CR>,vi(Ohello<Esc>dwtac%  x<Esc>
+\tTabbed\tline here\nline with   spaces and-dashes	0,5	:set ww=b,s,h,l,<,>,[,] cul fo=tcqj<CR>R(<Esc>ve>><BS>
+\tTabbed\tline here\nline with   spaces and-dashes\nx\nx	1,3	:set noic<CR>gqipJ
+\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}\na,b;c d-e f_g\na,b;c d-e f_g	0,3	:set mps+=<:> tw=15 fo-=t ai<CR>yiw0
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}	1,0	:set ve=block<CR>dawi<CR><Esc>gUiw
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\nx\nfoo-bar baz_qux  x.y(z)	2,3	:set noai ws<CR><C-x>dap/o<CR>3gq}dd
+line with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set sts=4 mps+=<:><CR>dis$#,
+a,b;c d-e f_g	0,0	:set ww=b,s,h,l,<,>,[,]<CR>03ldddddis
+a,b;c d-e f_g\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>	2,1	:set tw=20 ai<CR>taJ
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set mps=(:) list isk-=_<CR>N3h
+The quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g\na,b;c d-e f_g\nline with   spaces and-dashes	2,1	:set isk-=_ ve=block tw=20<CR>i<Tab><Esc>3hgUiw<<k
+a,b;c d-e f_g\n\tTabbed\tline here	0,1	:set isk+=- ai si<CR>#vi(o<C-w><Esc>
+Hello World hello WORLD\nx	1,0	:set noai nows<CR><C-x>d%e
+line with   spaces and-dashes\na,b;c d-e f_g	0,3	:set cin fo=tcqj<CR>==gqjddw>>gqip
+a,b;c d-e f_g	0,0	:set fo+=a<CR>^hx>>
+  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes\nline with   spaces and-dashes	0,1	:set sw=4 sr<CR>O[<Esc>j
+\tTabbed\tline here	0,0	:set tw=20<CR>r1hc%(<Esc>10ldw
+foo-bar baz_qux  x.y(z)\nx\nline with   spaces and-dashes	0,0	:set ve=all<CR>gUUgqj<C-x>0
+\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)\n\tTabbed\tline here	0,1	:set mps+=<:> ve=all tw=20<CR>disN
+\tTabbed\tline here\nline with   spaces and-dashes	0,0	:set noic isk-=_<CR>g~~%B$r1R}<Esc>
+a,b;c d-e f_g\nline with   spaces and-dashes\nHello World hello WORLD\nline with   spaces and-dashes	0,1	:set ts=4 sw=2 si<CR>Wd%bO<C-w><Esc>%
+a,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set ve=all<CR><Space>#b
+  indented <tag> (paren) [br] {cu}	0,0	:set isk+=-<CR>vipva<>>
+x\n\tTabbed\tline here\n\tTabbed\tline here\nfoo-bar baz_qux  x.y(z)	2,0	:set ve=insert tw=20 mps+=<:><CR>>>hkb<Esc>
+Hello World hello WORLD\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here	1,3	:set cin mps=(:) sw=0 ts=4<CR>e<C-a>ofoo bar baz qux quux corge grault garply waldo fred plugh<Esc>0das
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ws<CR>3hd%ci[
+foo-bar baz_qux  x.y(z)\nx\nline with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}	1,3	:set tw=15 fo-=t<CR>>>;tayiwdasx
+a,b;c d-e f_g	0,3	:set lbr ww=b,s,h,l,<,>,[,]<CR>gwwhcw<BS><Esc>va<r1
+	0,0	:set tw=30 fo+=t cul<CR>3gq}dddwd%
+x\n\tTabbed\tline here\nline with   spaces and-dashes	0,0	:set si<CR>dapgww
+\tTabbed\tline here	0,5	:set ve=all<CR><Space>ci[<C-a>das/o<CR>va<
+  indented <tag> (paren) [br] {cu}	0,0	:set lbr<CR>WJ;veB
+a,b;c d-e f_g\nline with   spaces and-dashes\nline with   spaces and-dashes\nx	2,0	:set nows si<CR>gvr1ciwhello<Esc>;;
+line with   spaces and-dashes\n	0,5	:set ve=all ai<CR>gqqhdap$gqq
+foo-bar baz_qux  x.y(z)	0,1	:set nosol isk+=-<CR><Space>ddgww10lI[<Esc>x
+  indented <tag> (paren) [br] {cu}\n\n	2,0	:set ww=h,l fo+=a ic scs<CR>dapci[a<Tab><Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here	0,1	:set et sw=3 smartindent sw=2<CR>a<Tab><Esc>gqq==dawdb
+foo-bar baz_qux  x.y(z)\nx\nfoo-bar baz_qux  x.y(z)	1,0	:set noai<CR>Jci[fava<?a<CR>x
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set nosol et sw=3<CR>vipgqjciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>va<
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}	0,0	:set mps+=<:><CR>dawgUU
+Hello World hello WORLD\na,b;c d-e f_g	0,1	:set ts=4 sw=2 isk+=-<CR>db<BS>disviw
+(a (b) c) [d [e] f] <g <h> i>\n	0,5	:set sw=4 sr sol<CR>y%ciw}<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\n\n\tTabbed\tline here	2,1	:set cul sw=4 sr<CR>ciw(<Esc>3gq}l==h
+(a (b) c) [d [e] f] <g <h> i>	0,1	:set ai ve=block<CR>$dap
+Hello World hello WORLD\n  indented <tag> (paren) [br] {cu}	0,0	:set ic scs sw=0 ts=4<CR>dapgqq<C-x>r1
+a,b;c d-e f_g	0,0	:set tw=30 fo+=t fo+=a sw=4 sr<CR>vipfagqip%a}<Esc>
+  indented <tag> (paren) [br] {cu}\nx\nx	0,3	:set ww=~<CR>dis,^dwfa
+  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ve=onemore<CR>gqipi{<Esc>b$
+foo-bar baz_qux  x.y(z)	0,0	:set mps+=<:> si tw=20<CR>j>>
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away\nx	2,0	:set mps+=<:><CR>dapdis10l
+line with   spaces and-dashes\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)\nx	0,1	:set sw=4 sr nosol<CR>eo}<Esc>ve
+(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\nHello World hello WORLD\na,b;c d-e f_g	2,3	:set ic scs list<CR>;vi(==vi(c%a b<Esc>p
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	0,0	:set ve=insert<CR>A{<Esc>R<CR><Esc>
+foo-bar baz_qux  x.y(z)\n\tTabbed\tline here\nx	0,0	:set mps+=<:><CR>wgvdawB#e
+The quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set mps+=<:> fo+=n<CR>gqjO<Tab><Esc>3gq}
+Hello World hello WORLD\n\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>	0,0	:set ww=b,s,h,l,<,>,[,] isk+=- noic<CR>ciwa b<Esc>r13l
+(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g	1,5	:set fo=tcqj<CR>dwgqjgwwedap
+line with   spaces and-dashes\n\na,b;c d-e f_g	0,0	:set ww=b,s,h,l,<,>,[,] ww=h,l ic<CR>ci[ciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>c%}<Esc>gqip
+\tTabbed\tline here\na,b;c d-e f_g	0,0	:set isk+=- ve=block ic<CR><Space>3gq}
+a,b;c d-e f_g	0,5	:set sol tw=20 isk+=-<CR><BS>*vip
+\tTabbed\tline here\n\tTabbed\tline here\nline with   spaces and-dashes\nx	0,5	:set tw=20 isk-=_<CR>va<viwciw(<Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes\na,b;c d-e f_g	2,1	:set sol isk=@,48-57<CR>/o<CR>ciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>daw^
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g\nline with   spaces and-dashes\nx	2,0	:set mps=(:) ww=h,l<CR>==r1lN
+Hello World hello WORLD\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\na,b;c d-e f_g	0,3	:set fo+=n<CR><BS>fagv?a<CR>ciw{<Esc>h
+\tTabbed\tline here\n\tTabbed\tline here	0,1	:set isk=@,48-57 fo=tcqj<CR>dbdapveA}<Esc>>>^
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\n  indented <tag> (paren) [br] {cu}	2,5	:set ic scs cin lbr<CR>gqji[<Esc>viwd%gv
+\tTabbed\tline here	0,0	:set sts=4 cin<CR>Jyiwveg~~daw
+  indented <tag> (paren) [br] {cu}	0,0	:set sol smartindent sw=2 tw=20<CR>g~~w#o<C-w><Esc><BS>O<C-w><Esc>
+\tTabbed\tline here\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away\n	0,3	:set ww=b,s,h,l,<,>,[,] list sw=4 sr<CR>gqipdwgqjdas>>j
+a,b;c d-e f_g\nHello World hello WORLD\nx	1,3	:set ww=h,l sw=4 sr<CR>wdaw
+a,b;c d-e f_g\n\tTabbed\tline here\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set ww=~ sw=0 ts=4<CR>dap<<r1<Esc>A[<Esc>x
+foo-bar baz_qux  x.y(z)\nHello World hello WORLD\nHello World hello WORLD\nline with   spaces and-dashes	2,3	:set ve=block lbr<CR>gwwdas
+\nx	0,1	:set mps=(:)<CR>y%gvtaA<C-w><Esc>
+Hello World hello WORLD\na,b;c d-e f_g	0,1	:set noai<CR>dbdasdawci[dd3gq}
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ve=onemore<CR>;w#
+Hello World hello WORLD\n\n\tTabbed\tline here	1,0	:set isk-=_ nows sol<CR>fa==3l
+  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)\nline with   spaces and-dashes	1,1	:set ws<CR>0cwhello<Esc>gvI(<Esc>
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)\nHello World hello WORLD\nHello World hello WORLD	2,0	:set ww=b,s,h,l,<,>,[,]<CR>va<o<Tab><Esc>
+(a (b) c) [d [e] f] <g <h> i>\nx\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set sts=4<CR>gqq^db<<gqipg~~
+\tTabbed\tline here\nx\na,b;c d-e f_g	2,1	:set mps+=<:><CR>R(<Esc>O[<Esc>
+Hello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\nx	2,3	:set isk=@,48-57<CR>/o<CR>va<<C-a>dddi<
+x\n(a (b) c) [d [e] f] <g <h> i>	1,1	:set isk-=_ et sw=3 ic<CR>N>>gqq
+line with   spaces and-dashes	0,0	:set cin<CR>ciw[<Esc>dd<C-x>%<<
+a,b;c d-e f_g\nHello World hello WORLD	0,1	:set ic scs<CR>ta3h^r1
+  indented <tag> (paren) [br] {cu}	0,0	:set nosol tw=20<CR>dbph
+Hello World hello WORLD\nHello World hello WORLD\nline with   spaces and-dashes\n(a (b) c) [d [e] f] <g <h> i>	2,0	:set ve=onemore cul et sw=3<CR>;<Space>R{<Esc><C-x>
+foo-bar baz_qux  x.y(z)	0,1	:set fo=tcqj ai tw=30 fo+=t<CR>yiwen
+  indented <tag> (paren) [br] {cu}	0,1	:set ww=b,s,h,l,<,>,[,] list et sw=3<CR>gqipgUiwyiwr1
+Hello World hello WORLD\n  indented <tag> (paren) [br] {cu}\n\n\tTabbed\tline here	1,3	:set isk+=- fo+=n<CR>dbgqq~<C-a>a{<Esc>vip
+  indented <tag> (paren) [br] {cu}	0,3	:set sol ww=~ cin<CR>gUiwdaphviw
+(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set ts=4 sw=2 sw=0 ts=4<CR>3hP>>gUiw
+The quick brown fox jumps over the lazy dog and keeps running far away\n(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}	0,5	:set isk=@,48-57 smartindent sw=2 ai<CR>g~~wWy%
+The quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here\n\tTabbed\tline here\nx	2,0	:set nosol ve=all ai<CR>das,das
+Hello World hello WORLD	0,0	:set ws<CR>kR[<Esc>
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD	2,5	:set cin<CR>gvcw  x<Esc>P
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,1	:set cin<CR>~dw
+line with   spaces and-dashes	0,0	:set sw=0 ts=4 nosol<CR>r110l
+The quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	0,0	:set nosol<CR>tava<nbA<Esc><Esc>
+  indented <tag> (paren) [br] {cu}	0,3	:set et sw=3 ve=insert<CR>10lgUUnciw<Esc><Esc>Ohello<Esc>^
+  indented <tag> (paren) [br] {cu}	0,3	:set sts=4<CR>d%dbciwhello<Esc>
+(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\nline with   spaces and-dashes	2,0	:set isk=@,48-57 lbr<CR>?a<CR>daw3hdbPr1
+x\n\n  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here	0,1	:set tw=30 fo+=t<CR>3hi[<Esc>
+\n  indented <tag> (paren) [br] {cu}	0,5	:set si cin fo+=n<CR>>>a<CR><Esc>Rhello<Esc>?a<CR>
+x\nHello World hello WORLD\nline with   spaces and-dashes	2,0	:set nows<CR>l==
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	1,3	:set ts=4 sw=2<CR>JgUUvipld%
+x\nfoo-bar baz_qux  x.y(z)\na,b;c d-e f_g	1,0	:set ww=h,l si ai<CR>;==ciw  x<Esc>%
+(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}	0,0	:set nosol<CR>hc%<BS><Esc><Esc>
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>	1,5	:set isk+=- mps=(:)<CR>/o<CR>3gq}lgUU/o<CR>
+\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}\n	0,3	:set ww=b,s,h,l,<,>,[,]<CR>^3hve%h
+Hello World hello WORLD\n  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}	2,1	:set ws<CR>gqip#k
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\n  indented <tag> (paren) [br] {cu}\n\tTabbed\tline here	0,0	:set ws<CR>hr1
+\tTabbed\tline here\nThe quick brown fox jumps over the lazy dog and keeps running far away\n\tTabbed\tline here\nline with   spaces and-dashes	1,0	:set nosol list ww=h,l<CR>yiwBPg~~
+Hello World hello WORLD\nx\nx\nfoo-bar baz_qux  x.y(z)	1,0	:set list ic<CR>bgqjgvgUU
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ve=insert tw=15 fo-=t fo=tcqj<CR>dw,bxgUU<Space>
+line with   spaces and-dashes\nfoo-bar baz_qux  x.y(z)\na,b;c d-e f_g	0,3	:set ic scs<CR>wci[g~~fa<C-x>
+(a (b) c) [d [e] f] <g <h> i>\nx\nx	0,1	:set smartindent sw=2 tw=20 nows<CR>gUUdb<<dawr1
+line with   spaces and-dashes\na,b;c d-e f_g\nline with   spaces and-dashes	2,5	:set nosol mps=(:)<CR>PgUU
+line with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}\nHello World hello WORLD\n  indented <tag> (paren) [br] {cu}	0,5	:set nows<CR>A}<Esc>==
+foo-bar baz_qux  x.y(z)\na,b;c d-e f_g	1,1	:set ww=b,s,h,l,<,>,[,] si<CR>oa b<Esc>kviw
+	0,3	:set ww=h,l ts=4 sw=2 tw=20<CR>ciw<Esc><Esc>%r1*das
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set mps+=<:> smartindent sw=2 cin<CR>g~~<BS>#~
+(a (b) c) [d [e] f] <g <h> i>	0,5	:set ww=h,l<CR>>>*<BS>
+Hello World hello WORLD\nx\n(a (b) c) [d [e] f] <g <h> i>	1,0	:set lbr isk=@,48-57<CR>^<Space><C-a>dap<C-a>I{<Esc>
+line with   spaces and-dashes\n\tTabbed\tline here\n  indented <tag> (paren) [br] {cu}	2,0	:set sw=0 ts=4<CR>viwtadwo<CR><Esc>
+line with   spaces and-dashes	0,5	:set ww=~<CR><C-x>bngUiw
+The quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ww=~<CR>pW
+(a (b) c) [d [e] f] <g <h> i>\n	0,5	:set ww=h,l ic<CR>N<C-x>
+\na,b;c d-e f_g	0,1	:set ve=insert fo+=a ts=4 sw=2<CR>ciw<CR><Esc>h0gUiwBO<CR><Esc>
+The quick brown fox jumps over the lazy dog and keeps running far away\nx	0,1	:set ic<CR><Esc>gUiwciwfoo bar baz qux quux corge grault garply waldo fred plugh<Esc>
+  indented <tag> (paren) [br] {cu}\nline with   spaces and-dashes\nx\nline with   spaces and-dashes	0,0	:set ww=h,l cul fo=tcqj<CR>g~~<<%gqj
+line with   spaces and-dashes\n\tTabbed\tline here\nHello World hello WORLD\nx	1,1	:set lbr<CR><Space>/o<CR>10l
+a,b;c d-e f_g\na,b;c d-e f_g\nx\n	0,5	:set isk+=- noai<CR>3lg~~ew
+foo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}	0,0	:set ww=~ list smartindent sw=2<CR>gUUlci[daw,W
+  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD	1,3	:set smartindent sw=2 sw=4 sr fo+=n<CR>nohello<Esc>ciwhello<Esc><Esc>c%<BS><Esc>
+(a (b) c) [d [e] f] <g <h> i>\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)\n\tTabbed\tline here	1,0	:set si fo=tcqj ve=onemore<CR>>>e;
+(a (b) c) [d [e] f] <g <h> i>\n\tTabbed\tline here	1,5	:set tw=15 fo-=t nosol sw=0 ts=4<CR>veo[<Esc>di<
+(a (b) c) [d [e] f] <g <h> i>	0,0	:set ww=h,l sol<CR>3lPgqip#
+line with   spaces and-dashes\nx\n  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,0	:set ww=~<CR>oa b<Esc>W
+a,b;c d-e f_g\n\tTabbed\tline here\n(a (b) c) [d [e] f] <g <h> i>\nfoo-bar baz_qux  x.y(z)	1,0	:set ve=all<CR>I  x<Esc>lgUUdwW
+x\n\nfoo-bar baz_qux  x.y(z)	2,0	:set lbr<CR>dd;;ci[
+foo-bar baz_qux  x.y(z)\nHello World hello WORLD	0,3	:set ic nows ww=b,s,h,l,<,>,[,]<CR>gqq<BS><BS>ll
+a,b;c d-e f_g\nHello World hello WORLD\nfoo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	0,1	:set ts=4 sw=2 sol isk+=-<CR>lxO<Tab><Esc>ta~0
+  indented <tag> (paren) [br] {cu}\nThe quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD	1,1	:set fo+=n et sw=3 list<CR>ihello<Esc>i<Esc><Esc>tagqjgqj
+foo-bar baz_qux  x.y(z)\nfoo-bar baz_qux  x.y(z)	0,1	:set fo=tcqj<CR>,dapb
+  indented <tag> (paren) [br] {cu}	0,0	:set mps+=<:> si<CR>ciwa b<Esc>xgqip
+a,b;c d-e f_g	0,1	:set ve=onemore ts=4 sw=2 mps+=<:><CR>ddd%dis
+x\nline with   spaces and-dashes\na,b;c d-e f_g\nline with   spaces and-dashes	2,0	:set isk-=_ fo+=n<CR><C-x>fave<Space>i<Esc><Esc>~
+(a (b) c) [d [e] f] <g <h> i>	0,1	:set nows isk-=_ smartindent sw=2<CR>/o<CR>va<i{<Esc>O(<Esc>gqj
+  indented <tag> (paren) [br] {cu}	0,1	:set ic scs isk+=-<CR>O<Esc><Esc>3h
+foo-bar baz_qux  x.y(z)\n\tTabbed\tline here\na,b;c d-e f_g\nHello World hello WORLD	0,0	:set lbr<CR>~,gv<C-x>3hn
+foo-bar baz_qux  x.y(z)\nline with   spaces and-dashes\nline with   spaces and-dashes\nThe quick brown fox jumps over the lazy dog and keeps running far away	1,0	:set isk=@,48-57 ww=~ cin<CR><<di<ew<Space>b
+Hello World hello WORLD\n\tTabbed\tline here\na,b;c d-e f_g	0,1	:set noai<CR>J;<C-a>pvi(
+a,b;c d-e f_g	0,5	:set fo+=a<CR>db/o<CR>;dd
+  indented <tag> (paren) [br] {cu}	0,3	:set ai<CR>hva<x<Esc>3gq}$
+foo-bar baz_qux  x.y(z)\n\tTabbed\tline here\n\n  indented <tag> (paren) [br] {cu}	0,0	:set cul mps=(:)<CR>i<Esc><Esc>x
+a,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>	0,1	:set sts=4 nows mps=(:)<CR>xegv3lg~~*
+(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD\nThe quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)	2,3	:set et sw=3 ic<CR><C-x>byiw;gUiw
+line with   spaces and-dashes\n  indented <tag> (paren) [br] {cu}	1,0	:set ai<CR>ddN?a<CR>gv
+a,b;c d-e f_g\nx\nline with   spaces and-dashes	0,0	:set tw=20 nows ic<CR>ll%N~
+The quick brown fox jumps over the lazy dog and keeps running far away\nHello World hello WORLD\n(a (b) c) [d [e] f] <g <h> i>	2,3	:set ww=h,l tw=20<CR>pdi<dwn%
+\n(a (b) c) [d [e] f] <g <h> i>\nHello World hello WORLD	2,1	:set si<CR>eva<
+The quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)\n\nfoo-bar baz_qux  x.y(z)	2,0	:set isk=@,48-57 ts=4 sw=2<CR>bWgwwJ
+The quick brown fox jumps over the lazy dog and keeps running far away\nfoo-bar baz_qux  x.y(z)	0,0	:set ts=4 sw=2<CR>10l<C-a>yiw3li(<Esc>
+line with   spaces and-dashes\n\tTabbed\tline here\na,b;c d-e f_g\n\tTabbed\tline here	1,0	:set nows isk-=_<CR>3gq}gvJe
+\n  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)	0,5	:set ve=onemore<CR>ciw<C-w><Esc>faihello<Esc>ci[nx
+The quick brown fox jumps over the lazy dog and keeps running far away	0,5	:set ww=~ sw=0 ts=4<CR>==c%foo bar baz qux quux corge grault garply waldo fred plugh<Esc>k>>h<Space>
+  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}	0,0	:set et sw=3 sts=4<CR>gvc%}<Esc>%/o<CR>k
+  indented <tag> (paren) [br] {cu}\nfoo-bar baz_qux  x.y(z)\n(a (b) c) [d [e] f] <g <h> i>\nline with   spaces and-dashes	0,0	:set isk-=_ noai nows<CR>I<Esc><Esc>,jd%*A<Esc><Esc>
+(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	0,0	:set ic lbr<CR>ve<Space>==vip
+a,b;c d-e f_g\na,b;c d-e f_g\n(a (b) c) [d [e] f] <g <h> i>\na,b;c d-e f_g	0,0	:set ve=onemore noic tw=20<CR>;fadap
+x\n  indented <tag> (paren) [br] {cu}\n  indented <tag> (paren) [br] {cu}	0,5	:set tw=20 cul<CR><Esc>l*gUiw
+	0,3	:set ve=insert<CR>3gq}0efao<C-w><Esc>
+  indented <tag> (paren) [br] {cu}\n(a (b) c) [d [e] f] <g <h> i>\nThe quick brown fox jumps over the lazy dog and keeps running far away	2,3	:set nosol<CR>h3h
+Hello World hello WORLD	0,5	:set ve=all tw=15 fo-=t<CR>ci[ci[3hdapcw<Esc><Esc>

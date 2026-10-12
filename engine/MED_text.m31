@@ -189,6 +189,110 @@ pub int class_of(int code_point) {
     return 2;
 }
 
+/// `class_of` with an 'iskeyword' table (see `keyword_table`): below 256 a
+/// character is a word character when the table says so; an empty table is
+/// the default value.
+pub int class_in(int code_point, List<int> keywords) {
+    if (keywords.size() == 0 || code_point >= 256) {
+        return class_of(code_point);
+    }
+    if (code_point == 32 || code_point == 9 || code_point == 0 || code_point == 160) {
+        return 0;
+    }
+    if (keywords[code_point] == 1) {
+        return 2;
+    }
+    return 1;
+}
+
+/// The class of the cluster at `col` with an 'iskeyword' table.
+pub int class_at_in(str line, int col, List<int> keywords) {
+    int code_point = cp_at(line, col);
+    if (code_point < 0) {
+        return 0;
+    }
+    return class_in(code_point, keywords);
+}
+
+// One number or character of an 'iskeyword' item; -1 when it is neither.
+int keyword_code(str text) {
+    if (text.size() == 0) {
+        return -1;
+    }
+    bool is_number = true;
+    for (int index in 0 .. text.size()) {
+        int byte = text.byte_at(index);
+        if (byte < 48 || byte > 57) {
+            is_number = false;
+        }
+    }
+    if (is_number && text.size() > 0) {
+        return text.parse_int().or(-1);
+    }
+    if (text.size() == sequence_length(text.byte_at(0))) {
+        return cp_at(text, 0);
+    }
+    return -1;
+}
+
+/// Parse an 'iskeyword' value into a table of 256 entries (1: keyword).
+/// Items are `@` (letters), `N`, `N-M`, `c`, `c-d` and `^item` to remove.
+pub List<int> keyword_table(str value) {
+    List<int> table = [];
+    for (int code in 0 .. 256) {
+        table.push(0);
+    }
+    for (str raw in value.split(",")) {
+        str item = raw;
+        int mark = 1;
+        if (item.size() > 1 && item.starts_with("^")) {
+            mark = 0;
+            item = item.substr(1, item.size());
+        }
+        int first = -1;
+        int last = -1;
+        if (item == "@") {
+            for (int code in 65 .. 91) {
+                table[code] = mark;
+            }
+            for (int code in 97 .. 123) {
+                table[code] = mark;
+            }
+            continue;
+        }
+        int dash = -1;
+        for (int index in 1 .. item.size()) {
+            if (item.byte_at(index) == 45 && index + 1 < item.size()) {
+                dash = index;
+                break;
+            }
+        }
+        if (dash > 0) {
+            str left = item.substr(0, dash);
+            str right = item.substr(dash + 1, item.size());
+            if (left == "@" && right == "@") {
+                first = 64;
+                last = 64;
+            } else {
+                first = keyword_code(left);
+                last = keyword_code(right);
+            }
+        } else {
+            first = keyword_code(item);
+            last = first;
+        }
+        if (first < 0 || last < first) {
+            continue;
+        }
+        for (int code in first .. last + 1) {
+            if (code < 256) {
+                table[code] = mark;
+            }
+        }
+    }
+    return table;
+}
+
 /// The class of the cluster at `col` (blank at the end of the line).
 pub int class_at(str line, int col) {
     int code_point = cp_at(line, col);

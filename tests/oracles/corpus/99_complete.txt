@@ -1,0 +1,584 @@
+x	0,0	:tlu<Tab><Tab><C-b>"<CR>
+x	0,0	:ime<Tab><C-b>"<CR>
+x	0,0	:tlu<Tab><C-b>"<CR>
+x	0,0	:cfd<Tab><Tab><C-b>"<CR>
+x	0,0	:cu<Tab><C-b>"<CR>
+x	0,0	:s<Tab><Tab><C-b>"<CR>
+x	0,0	:sm<Tab><Tab><C-b>"<CR>
+x	0,0	:kee<Tab><C-b>"<CR>
+x	0,0	:ll<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:v<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:ju<Tab><C-b>"<CR>
+x	0,0	:b<Tab><Tab><C-b>"<CR>
+x	0,0	:exu<Tab><Tab><C-b>"<CR>
+x	0,0	:b<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:l<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:rub<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:cn<Tab><C-b>"<CR>
+x	0,0	:ru<Tab><C-b>"<CR>
+x	0,0	:au<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:t<Tab><C-b>"<CR>
+x	0,0	:me<Tab><C-b>"<CR>
+x	0,0	:n<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:bf<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vm<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:cg<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sno<Tab><Tab><C-b>"<CR>
+x	0,0	:s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:l<Tab><C-b>"<CR>
+x	0,0	:he<Tab><C-b>"<CR>
+x	0,0	:la<Tab><Tab><C-b>"<CR>
+x	0,0	:re<Tab><C-b>"<CR>
+x	0,0	:m<Tab><C-b>"<CR>
+x	0,0	:t<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:scr<Tab><C-b>"<CR>
+x	0,0	:mks<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><Tab><C-b>"<CR>
+x	0,0	:ter<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lwi<Tab><C-b>"<CR>
+x	0,0	:bne<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:pac<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:cge<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:o<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:e<Tab><C-b>"<CR>
+x	0,0	:t<Tab><Tab><C-b>"<CR>
+x	0,0	:ln<Tab><C-b>"<CR>
+x	0,0	:v<Tab><C-b>"<CR>
+x	0,0	:cnf<Tab><C-b>"<CR>
+x	0,0	:bo<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:t<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:tab<Tab><C-b>"<CR>
+x	0,0	:u<Tab><C-b>"<CR>
+x	0,0	:chi<Tab><C-b>"<CR>
+x	0,0	:bd<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sNe<Tab><C-b>"<CR>
+x	0,0	:lp<Tab><Tab><C-b>"<CR>
+x	0,0	:ldo<Tab><C-b>"<CR>
+x	0,0	:ec<Tab><C-b>"<CR>
+x	0,0	:re<Tab><C-b>"<CR>
+x	0,0	:o<Tab><C-b>"<CR>
+x	0,0	:lo<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:qu<Tab><Tab><C-b>"<CR>
+x	0,0	:mo<Tab><Tab><C-b>"<CR>
+x	0,0	:rub<Tab><C-b>"<CR>
+x	0,0	:cn<Tab><Tab><C-b>"<CR>
+x	0,0	:s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:p<Tab><C-b>"<CR>
+x	0,0	:st<Tab><C-b>"<CR>
+x	0,0	:al<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:ex<Tab><C-b>"<CR>
+x	0,0	:wi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sfi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:win<Tab><Tab><C-b>"<CR>
+x	0,0	:m<Tab><Tab><C-b>"<CR>
+x	0,0	:iju<Tab><C-b>"<CR>
+x	0,0	:ar<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:mz<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:s<Tab><Tab><C-b>"<CR>
+x	0,0	:ws<Tab><Tab><C-b>"<CR>
+x	0,0	:mz<Tab><C-b>"<CR>
+x	0,0	:co<Tab><C-b>"<CR>
+x	0,0	:ec<Tab><C-b>"<CR>
+x	0,0	:s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sm<Tab><Tab><C-b>"<CR>
+x	0,0	:int<Tab><C-b>"<CR>
+x	0,0	:cn<Tab><Tab><C-b>"<CR>
+x	0,0	:top<Tab><C-b>"<CR>
+x	0,0	:arg<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:kee<Tab><Tab><C-b>"<CR>
+x	0,0	:ea<Tab><Tab><C-b>"<CR>
+x	0,0	:cl<Tab><C-b>"<CR>
+x	0,0	:bw<Tab><C-b>"<CR>
+x	0,0	:kee<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sbr<Tab><C-b>"<CR>
+x	0,0	:br<Tab><C-b>"<CR>
+x	0,0	:unl<Tab><C-b>"<CR>
+x	0,0	:con<Tab><Tab><C-b>"<CR>
+x	0,0	:lr<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:qui<Tab><C-b>"<CR>
+x	0,0	:cd<Tab><Tab><C-b>"<CR>
+x	0,0	:dl<Tab><Tab><C-b>"<CR>
+x	0,0	:a<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:mk<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:l<Tab><C-b>"<CR>
+x	0,0	:lua<Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:s<Tab><C-b>"<CR>
+x	0,0	:fin<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:rea<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:s<Tab><C-b>"<CR>
+x	0,0	:pe<Tab><Tab><C-b>"<CR>
+x	0,0	:tab<Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><Tab><C-b>"<CR>
+x	0,0	:le<Tab><Tab><C-b>"<CR>
+x	0,0	:s<Tab><Tab><C-b>"<CR>
+x	0,0	:t<Tab><Tab><C-b>"<CR>
+x	0,0	:b<Tab><Tab><C-b>"<CR>
+x	0,0	:w<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:wa<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:i<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:p<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:i<Tab><Tab><C-b>"<CR>
+x	0,0	:tun<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:wa<Tab><C-b>"<CR>
+x	0,0	:u<Tab><C-b>"<CR>
+x	0,0	:fcl<Tab><Tab><C-b>"<CR>
+x	0,0	:v<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:nm<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:map<Tab><C-b>"<CR>
+x	0,0	:ptn<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:wu<Tab><Tab><C-b>"<CR>
+x	0,0	:fol<Tab><Tab><C-b>"<CR>
+x	0,0	:pta<Tab><Tab><C-b>"<CR>
+x	0,0	:lt<Tab><C-b>"<CR>
+x	0,0	:t<Tab><Tab><C-b>"<CR>
+x	0,0	:tc<Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><C-b>"<CR>
+x	0,0	:n<Tab><Tab><C-b>"<CR>
+x	0,0	:fo<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:l<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:iu<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:spe<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:m<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:bad<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:tc<Tab><C-b>"<CR>
+x	0,0	:se<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:p<Tab><C-b>"<CR>
+x	0,0	:ll<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:tm<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:tab<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:tc<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:fi<Tab><C-b>"<CR>
+x	0,0	:d<Tab><C-b>"<CR>
+x	0,0	:new<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:w<Tab><C-b>"<CR>
+x	0,0	:l<Tab><Tab><C-b>"<CR>
+x	0,0	:cpf<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:d<Tab><C-b>"<CR>
+x	0,0	:glo<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:m<Tab><C-b>"<CR>
+x	0,0	:aun<Tab><C-b>"<CR>
+x	0,0	:i<Tab><Tab><C-b>"<CR>
+x	0,0	:u<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:in<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:ch<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lan<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:c<Tab><C-b>"<CR>
+x	0,0	:tju<Tab><C-b>"<CR>
+x	0,0	:cb<Tab><C-b>"<CR>
+x	0,0	:end<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:thr<Tab><Tab><C-b>"<CR>
+x	0,0	:tab<Tab><Tab><C-b>"<CR>
+x	0,0	:de<Tab><Tab><C-b>"<CR>
+x	0,0	:b<Tab><C-b>"<CR>
+x	0,0	:ch<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:dif<Tab><Tab><C-b>"<CR>
+x	0,0	:lb<Tab><C-b>"<CR>
+x	0,0	:sle<Tab><Tab><C-b>"<CR>
+x	0,0	:k<Tab><C-b>"<CR>
+x	0,0	:pts<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:tc<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:ta<Tab><C-b>"<CR>
+x	0,0	:s<Tab><C-b>"<CR>
+x	0,0	:p<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sto<Tab><C-b>"<CR>
+x	0,0	:ru<Tab><Tab><C-b>"<CR>
+x	0,0	:bla<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:st<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:as<Tab><C-b>"<CR>
+x	0,0	:set pre<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set cin<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 fol<Tab><C-b>"<CR>
+x	0,0	:setlocal p<Tab><C-b>"<CR>
+x	0,0	:se upd<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal pu<Tab><Tab><C-b>"<CR>
+x	0,0	:set und<Tab><C-b>"<CR>
+x	0,0	:se c<Tab><Tab><C-b>"<CR>
+x	0,0	:set cp<Tab><Tab><C-b>"<CR>
+x	0,0	:setl ico<Tab><C-b>"<CR>
+x	0,0	:se di<Tab><C-b>"<CR>
+x	0,0	:set sp<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set qu<Tab><Tab><C-b>"<CR>
+x	0,0	:se p<Tab><Tab><C-b>"<CR>
+x	0,0	:setl spel<Tab><Tab><C-b>"<CR>
+x	0,0	:set invl<Tab><C-b>"<CR>
+x	0,0	:se w<Tab><C-b>"<CR>
+x	0,0	:set ma<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal sho<Tab><C-b>"<CR>
+x	0,0	:setl in<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set a<Tab><C-b>"<CR>
+x	0,0	:set t<Tab><C-b>"<CR>
+x	0,0	:set m<Tab><C-b>"<CR>
+x	0,0	:set wi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set qu<Tab><Tab><C-b>"<CR>
+x	0,0	:se t<Tab><C-b>"<CR>
+x	0,0	:set fold<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set form<Tab><C-b>"<CR>
+x	0,0	:set l<Tab><C-b>"<CR>
+x	0,0	:se inc<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 p<Tab><C-b>"<CR>
+x	0,0	:set v<Tab><C-b>"<CR>
+x	0,0	:se noco<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 buf<Tab><Tab><C-b>"<CR>
+x	0,0	:setl au<Tab><Tab><C-b>"<CR>
+x	0,0	:set spel<Tab><Tab><C-b>"<CR>
+x	0,0	:set com<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 nu<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 eadi<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal nomo<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal ba<Tab><C-b>"<CR>
+x	0,0	:se back<Tab><C-b>"<CR>
+x	0,0	:setlocal s<Tab><C-b>"<CR>
+x	0,0	:set sw=2 invr<Tab><Tab><C-b>"<CR>
+x	0,0	:set wi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal cink<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sel<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 sho<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se emoj<Tab><C-b>"<CR>
+x	0,0	:se nowrap<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se back<Tab><C-b>"<CR>
+x	0,0	:se k<Tab><Tab><C-b>"<CR>
+x	0,0	:set even<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set ti<Tab><C-b>"<CR>
+x	0,0	:setlocal s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se b<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal e<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set m<Tab><Tab><C-b>"<CR>
+x	0,0	:se pr<Tab><Tab><C-b>"<CR>
+x	0,0	:setl m<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 sec<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set mous<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl sw<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 ke<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal fold<Tab><C-b>"<CR>
+x	0,0	:setl tt<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal aut<Tab><C-b>"<CR>
+x	0,0	:setlocal w<Tab><C-b>"<CR>
+x	0,0	:se incc<Tab><C-b>"<CR>
+x	0,0	:set incl<Tab><Tab><C-b>"<CR>
+x	0,0	:setl h<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 scro<Tab><Tab><C-b>"<CR>
+x	0,0	:set rege<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set v<Tab><Tab><C-b>"<CR>
+x	0,0	:set nostar<Tab><Tab><C-b>"<CR>
+x	0,0	:set fi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se win<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 diff<Tab><Tab><C-b>"<CR>
+x	0,0	:se cur<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 curs<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set shif<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set for<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se invwinf<Tab><Tab><C-b>"<CR>
+x	0,0	:set pat<Tab><Tab><C-b>"<CR>
+x	0,0	:set th<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 bre<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal mod<Tab><C-b>"<CR>
+x	0,0	:set sw=2 e<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal w<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set ba<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal w<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set i<Tab><C-b>"<CR>
+x	0,0	:setl winb<Tab><C-b>"<CR>
+x	0,0	:set spe<Tab><C-b>"<CR>
+x	0,0	:set sw=2 co<Tab><Tab><C-b>"<CR>
+x	0,0	:se pyxv<Tab><C-b>"<CR>
+x	0,0	:set i<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 shel<Tab><C-b>"<CR>
+x	0,0	:setl v<Tab><C-b>"<CR>
+x	0,0	:setlocal t<Tab><C-b>"<CR>
+x	0,0	:set sh<Tab><C-b>"<CR>
+x	0,0	:set sw=2 key<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal e<Tab><C-b>"<CR>
+x	0,0	:set sc<Tab><C-b>"<CR>
+x	0,0	:set norea<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se te<Tab><Tab><C-b>"<CR>
+x	0,0	:set cdho<Tab><C-b>"<CR>
+x	0,0	:set sw=2 dif<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal nostar<Tab><C-b>"<CR>
+x	0,0	:set mou<Tab><C-b>"<CR>
+x	0,0	:set ver<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal i<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set in<Tab><Tab><C-b>"<CR>
+x	0,0	:set in<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set vie<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal she<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se st<Tab><Tab><C-b>"<CR>
+x	0,0	:set la<Tab><C-b>"<CR>
+x	0,0	:set sho<Tab><C-b>"<CR>
+x	0,0	:set sw=2 pa<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 s<Tab><C-b>"<CR>
+x	0,0	:se equa<Tab><Tab><C-b>"<CR>
+x	0,0	:set sho<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl show<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal h<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 omni<Tab><C-b>"<CR>
+x	0,0	:set invshe<Tab><C-b>"<CR>
+x	0,0	:se buft<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 fol<Tab><C-b>"<CR>
+x	0,0	:set t<Tab><C-b>"<CR>
+x	0,0	:setlocal p<Tab><C-b>"<CR>
+x	0,0	:se ta<Tab><C-b>"<CR>
+x	0,0	:set sw=2 mou<Tab><Tab><C-b>"<CR>
+x	0,0	:setl cdp<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set va<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal mous<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se mo<Tab><C-b>"<CR>
+x	0,0	:set sw=2 j<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se ma<Tab><C-b>"<CR>
+x	0,0	:set sw=2 bom<Tab><C-b>"<CR>
+x	0,0	:set sw=2 b<Tab><C-b>"<CR>
+x	0,0	:setl c<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 d<Tab><Tab><C-b>"<CR>
+x	0,0	:set aut<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 com<Tab><Tab><C-b>"<CR>
+x	0,0	:set patc<Tab><C-b>"<CR>
+x	0,0	:setl winh<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set bac<Tab><Tab><C-b>"<CR>
+x	0,0	:set hel<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal writ<Tab><C-b>"<CR>
+x	0,0	:setlocal m<Tab><C-b>"<CR>
+x	0,0	:set sw=2 tab<Tab><Tab><C-b>"<CR>
+x	0,0	:set mat<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal sta<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se s<Tab><C-b>"<CR>
+x	0,0	:set cl<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl ter<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl sh<Tab><Tab><C-b>"<CR>
+x	0,0	:set fold<Tab><Tab><C-b>"<CR>
+x	0,0	:set fi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal fo<Tab><Tab><C-b>"<CR>
+x	0,0	:setl jum<Tab><C-b>"<CR>
+x	0,0	:setlocal b<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set in<Tab><C-b>"<CR>
+x	0,0	:se aut<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 wr<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl side<Tab><Tab><C-b>"<CR>
+x	0,0	:setl incc<Tab><Tab><C-b>"<CR>
+x	0,0	:se invmod<Tab><Tab><C-b>"<CR>
+x	0,0	:se invl<Tab><C-b>"<CR>
+x	0,0	:setlocal winb<Tab><Tab><C-b>"<CR>
+x	0,0	:set c<Tab><C-b>"<CR>
+x	0,0	:setl fix<Tab><Tab><C-b>"<CR>
+x	0,0	:set und<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set view<Tab><Tab><C-b>"<CR>
+x	0,0	:setl synt<Tab><Tab><C-b>"<CR>
+x	0,0	:set w<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 fold<Tab><Tab><C-b>"<CR>
+x	0,0	:se u<Tab><C-b>"<CR>
+x	0,0	:setlocal nohid<Tab><Tab><C-b>"<CR>
+x	0,0	:se shi<Tab><C-b>"<CR>
+x	0,0	:set invtag<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal bre<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal file<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se invconf<Tab><Tab><C-b>"<CR>
+x	0,0	:setl maxm<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se invwra<Tab><C-b>"<CR>
+x	0,0	:se l<Tab><Tab><C-b>"<CR>
+x	0,0	:setl th<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal nowri<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal prev<Tab><Tab><C-b>"<CR>
+x	0,0	:se g<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se te<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 va<Tab><Tab><C-b>"<CR>
+x	0,0	:se spe<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 max<Tab><Tab><C-b>"<CR>
+x	0,0	:set ba<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set c<Tab><C-b>"<CR>
+x	0,0	:setlocal i<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set cmdh<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set t<Tab><Tab><C-b>"<CR>
+x	0,0	:set st<Tab><C-b>"<CR>
+x	0,0	:set win<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 pyx<Tab><Tab><C-b>"<CR>
+x	0,0	:set shel<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se f<Tab><Tab><C-b>"<CR>
+x	0,0	:set gui<Tab><C-b>"<CR>
+x	0,0	:set cin<Tab><Tab><C-b>"<CR>
+x	0,0	:setl nospli<Tab><C-b>"<CR>
+x	0,0	:setl tit<Tab><C-b>"<CR>
+x	0,0	:setlocal n<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 b<Tab><C-b>"<CR>
+x	0,0	:setlocal mat<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 ced<Tab><Tab><C-b>"<CR>
+x	0,0	:set mod<Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 side<Tab><Tab><C-b>"<CR>
+x	0,0	:set incl<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sh<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal t<Tab><C-b>"<CR>
+x	0,0	:setlocal isf<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sw=2 suf<Tab><C-b>"<CR>
+x	0,0	:set sw=2 shel<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se term<Tab><C-b>"<CR>
+x	0,0	:setl w<Tab><Tab><C-b>"<CR>
+x	0,0	:set m<Tab><Tab><C-b>"<CR>
+x	0,0	:set load<Tab><C-b>"<CR>
+x	0,0	:set i<Tab><C-b>"<CR>
+x	0,0	:set w<Tab><C-b>"<CR>
+x	0,0	:set sw=2 inc<Tab><C-b>"<CR>
+x	0,0	:set dif<Tab><C-b>"<CR>
+x	0,0	:set op<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal fi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal c<Tab><C-b>"<CR>
+x	0,0	:setlocal co<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl winb<Tab><C-b>"<CR>
+x	0,0	:set sw=2 lis<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal hi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set sho<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se invi<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set mks<Tab><Tab><C-b>"<CR>
+x	0,0	:setlocal c<Tab><C-b>"<CR>
+x	0,0	:set sw=2 suff<Tab><Tab><C-b>"<CR>
+x	0,0	:set ti<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:se sma<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:set gu<Tab><C-b>"<CR>
+x	0,0	:set s<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:setl swap<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:up READ<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd .<Tab><Tab><C-b>"<CR>
+x	0,0	:cd m3d1tor.m<Tab><C-b>"<CR>
+x	0,0	:sp tests/oracles/corpus/8<Tab><Tab><C-b>"<CR>
+x	0,0	:sav tests/oracles/<Tab><C-b>"<CR>
+x	0,0	:up te<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd tests/t_<Tab><Tab><C-b>"<CR>
+x	0,0	:edit R<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:new tests/oracles/corpus/0<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sp R<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:new READ<Tab><Tab><C-b>"<CR>
+x	0,0	:cd tests/t_<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd tests/<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:cd .g<Tab><Tab><C-b>"<CR>
+x	0,0	:e t<Tab><Tab><C-b>"<CR>
+x	0,0	:vnew ui/<Tab><C-b>"<CR>
+x	0,0	:w tests/oracles/corpus/8<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vnew m3d1tor.m<Tab><C-b>"<CR>
+x	0,0	:so D<Tab><C-b>"<CR>
+x	0,0	:new .g<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:cd tests/oracles/<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:w u<Tab><C-b>"<CR>
+x	0,0	:lcd engine/MED_v<Tab><C-b>"<CR>
+x	0,0	:up ./<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vnew en<Tab><C-b>"<CR>
+x	0,0	:up t<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sp u<Tab><C-b>"<CR>
+x	0,0	:w .g<Tab><C-b>"<CR>
+x	0,0	:sp <Tab><C-b>"<CR>
+x	0,0	:sp m3d1tor.m<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:e tests/oracles/<Tab><Tab><C-b>"<CR>
+x	0,0	:new bench/<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:w e<Tab><Tab><C-b>"<CR>
+x	0,0	:sp ./<Tab><Tab><C-b>"<CR>
+x	0,0	:sp tests/oracles/<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd bench/<Tab><Tab><C-b>"<CR>
+x	0,0	:lcd D<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:up .g<Tab><Tab><C-b>"<CR>
+x	0,0	:sp b<Tab><Tab><C-b>"<CR>
+x	0,0	:vs te<Tab><C-b>"<CR>
+x	0,0	:edit m3d1tor.m<Tab><Tab><C-b>"<CR>
+x	0,0	:new ui/<Tab><C-b>"<CR>
+x	0,0	:lcd ui/MED_a<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:w R<Tab><Tab><C-b>"<CR>
+x	0,0	:new tests/t_<Tab><Tab><C-b>"<CR>
+x	0,0	:r ui/MED_a<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit tests/t_<Tab><Tab><C-b>"<CR>
+x	0,0	:edit en<Tab><C-b>"<CR>
+x	0,0	:r READ<Tab><C-b>"<CR>
+x	0,0	:vnew D<Tab><C-b>"<CR>
+x	0,0	:up tests/<Tab><C-b>"<CR>
+x	0,0	:new .g<Tab><C-b>"<CR>
+x	0,0	:sp R<Tab><C-b>"<CR>
+x	0,0	:sp engine/MED_v<Tab><C-b>"<CR>
+x	0,0	:e t<Tab><C-b>"<CR>
+x	0,0	:sp ../<Tab><Tab><C-b>"<CR>
+x	0,0	:cd tests/t_<Tab><C-b>"<CR>
+x	0,0	:sp t<Tab><Tab><C-b>"<CR>
+x	0,0	:edit R<Tab><Tab><C-b>"<CR>
+x	0,0	:so .<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd b<Tab><Tab><C-b>"<CR>
+x	0,0	:new m3<Tab><Tab><C-b>"<CR>
+x	0,0	:so e<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit READ<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:w bench/<Tab><Tab><C-b>"<CR>
+x	0,0	:vs tests/oracles/corpus/8<Tab><Tab><C-b>"<CR>
+x	0,0	:sp tests/oracles/<Tab><C-b>"<CR>
+x	0,0	:e ui/<Tab><Tab><C-b>"<CR>
+x	0,0	:sp en<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd .<Tab><C-b>"<CR>
+x	0,0	:cd m3<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit tests/oracles/<Tab><C-b>"<CR>
+x	0,0	:e te<Tab><Tab><C-b>"<CR>
+x	0,0	:r bench/<Tab><C-b>"<CR>
+x	0,0	:new .g<Tab><Tab><C-b>"<CR>
+x	0,0	:e <Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd tests/t_<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd m3<Tab><Tab><C-b>"<CR>
+x	0,0	:edit <Tab><Tab><C-b>"<CR>
+x	0,0	:r tests/t_<Tab><Tab><C-b>"<CR>
+x	0,0	:so tests/oracles/corpus/8<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:new engine/MED_v<Tab><Tab><C-b>"<CR>
+x	0,0	:e .<Tab><C-b>"<CR>
+x	0,0	:so R<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit t<Tab><Tab><C-b>"<CR>
+x	0,0	:so te<Tab><Tab><C-b>"<CR>
+x	0,0	:new b<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:so en<Tab><C-b>"<CR>
+x	0,0	:vs .<Tab><C-b>"<CR>
+x	0,0	:cd tests/oracles/corpus/0<Tab><C-b>"<CR>
+x	0,0	:lcd tests/o<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit tests/oracles/<Tab><C-b>"<CR>
+x	0,0	:up b<Tab><C-b>"<CR>
+x	0,0	:up tests/<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:up tests/<Tab><Tab><C-b>"<CR>
+x	0,0	:vnew ../<Tab><C-b>"<CR>
+x	0,0	:sav u<Tab><Tab><C-b>"<CR>
+x	0,0	:so te<Tab><Tab><C-b>"<CR>
+x	0,0	:new t<Tab><Tab><C-b>"<CR>
+x	0,0	:so .g<Tab><C-b>"<CR>
+x	0,0	:lcd R<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vs b<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:up tests/oracles/corpus/8<Tab><C-b>"<CR>
+x	0,0	:r ./<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vs u<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit R<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:lcd ../<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:new tests/o<Tab><Tab><C-b>"<CR>
+x	0,0	:sav tests/oracles/<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:edit tests/oracles/corpus/8<Tab><Tab><C-b>"<CR>
+x	0,0	:e .<Tab><C-b>"<CR>
+x	0,0	:sp D<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:e .g<Tab><Tab><C-b>"<CR>
+x	0,0	:edit <Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:so READ<Tab><Tab><C-b>"<CR>
+x	0,0	:new tests/oracles/<Tab><Tab><C-b>"<CR>
+x	0,0	:new tests/oracles/corpus/0<Tab><Tab><C-b>"<CR>
+x	0,0	:e R<Tab><C-b>"<CR>
+x	0,0	:e .g<Tab><Tab><C-b>"<CR>
+x	0,0	:vs te<Tab><Tab><C-b>"<CR>
+x	0,0	:w u<Tab><Tab><C-b>"<CR>
+x	0,0	:vnew tests/o<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:up ui/<Tab><C-b>"<CR>
+x	0,0	:so ./<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:up D<Tab><C-b>"<CR>
+x	0,0	:new m3d1tor.m<Tab><Tab><C-b>"<CR>
+x	0,0	:r ./<Tab><C-b>"<CR>
+x	0,0	:vs tests/oracles/corpus/0<Tab><C-b>"<CR>
+x	0,0	:up R<Tab><Tab><C-b>"<CR>
+x	0,0	:e READ<Tab><Tab><C-b>"<CR>
+x	0,0	:r tests/oracles/<Tab><C-b>"<CR>
+x	0,0	:sp m3<Tab><C-b>"<CR>
+x	0,0	:lcd tests/t_<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vs tests/<Tab><C-b>"<CR>
+x	0,0	:lcd b<Tab><Tab><C-b>"<CR>
+x	0,0	:e R<Tab><C-b>"<CR>
+x	0,0	:up tests/oracles/<Tab><C-b>"<CR>
+x	0,0	:so R<Tab><C-b>"<CR>
+x	0,0	:vs tests/<Tab><Tab><C-b>"<CR>
+x	0,0	:new m3<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sp tests/oracles/<Tab><Tab><C-b>"<CR>
+x	0,0	:vnew ui/<Tab><C-b>"<CR>
+x	0,0	:lcd m3<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:vs m3<Tab><Tab><Tab><C-b>"<CR>

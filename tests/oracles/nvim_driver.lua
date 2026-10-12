@@ -106,10 +106,13 @@ if final_mode ~= 'n' then
   local p = vim.fn.getpos('v')
   vrow, vcol = tostring(p[2] - 1), tostring(p[3] - 1)
 end
+-- wincol() validates the cursor, which scrolls sideways for 'nowrap' (the last
+-- command's scrolling is otherwise only done before the next command)
+vim.fn.wincol()
 local f = assert(io.open(out_path, 'w'))
 f:write(table.concat({
   '0', hex(table.concat(result_lines, '\n')), tostring(cur[1] - 1), tostring(cur[2]),
-  final_mode, vrow, vcol, table.concat(regs, ';'), tostring(vim.fn.line('w0') - 1),
+  final_mode, vrow, vcol, table.concat(regs, ';'), tostring(vim.fn.line('w0') - 1), tostring(vim.fn.winsaveview().leftcol),
 }, '\t'), '\n')
 f:close()
 vim.cmd('qa!')

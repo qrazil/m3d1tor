@@ -104,7 +104,7 @@ check.eq_int("escape", MED_app.keys_of_key(term.Key(term.Code.Escape, 0))[0], 27
 check.eq_int("up", MED_app.keys_of_key(term.Key(term.Code.Up, 0))[0], MED_key.UP_KEY);
 check.eq_int("alt is two keys", MED_app.keys_of_key(term.Key(term.Code.Char(106), term.ALT)).size(), 2);
 check.eq_int("shift-up", MED_app.keys_of_key(term.Key(term.Code.Up, term.SHIFT))[0], MED_key.UP_KEY | MED_key.MOD_SHIFT);
-check.eq_int("back-tab is none", MED_app.keys_of_key(term.Key(term.Code.BackTab, 0)).size(), 0);
+check.eq_int("back-tab is shift-tab", MED_app.keys_of_key(term.Key(term.Code.BackTab, 0))[0], MED_key.MOD_SHIFT | MED_key.TAB);
 check.eq_int("text rows", MED_app.text_rows(24), 22);
 check.eq_int("text rows tiny", MED_app.text_rows(1), 1);
 // a new file: type, write, quit
@@ -470,6 +470,54 @@ match (MED_app.open_all([tree + "/beta.txt"])) {
         check.eq_int("Vexplore splits", app.wins.size(), 2);
         type_text(app, "\x17c");
         type_text(app, ":q\n");
+    }
+}
+// display options: 'list' with 'listchars', 'colorcolumn', 'cursorline'
+match (MED_app.open_all([""])) {
+    case Err(str message): {
+        check.ok("open for the option tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, "ia\tb  ");
+        app.handle(named(term.Code.Escape));
+        type_text(app, ":set list\n");
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(40, 6);
+        app.render(screen, screen.area());
+        check.ok("list shows the tab with the default listchars", screen.row_text(0).contains("a>"));
+        check.ok("and trailing blanks as -", screen.row_text(0).contains("b--"));
+        type_text(app, ":set listchars=tab:<->,eol:$,trail:.\n");
+        app.render(screen, screen.area());
+        check.ok("tab:xyz", screen.row_text(0).contains("a<"));
+        check.ok("trail", screen.row_text(0).contains("b.."));
+        check.ok("eol", screen.row_text(0).contains(".$"));
+        type_text(app, ":set nolist cursorline colorcolumn=3 cursorcolumn\n");
+        app.render(screen, screen.area());
+        check.ok("the line is still drawn", screen.row_text(0).contains("a"));
+        type_text(app, ":set scrolloff=3 sidescroll=5 sidescrolloff=2 nowrap\n");
+        app.render(screen, screen.area());
+        check.ok("options that move the view are accepted", app.notice.size() == 0);
+    }
+}
+// command-line completion
+match (MED_app.open_all([""])) {
+    case Err(str message): {
+        check.ok("open for the completion tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, ":set shiftw\t");
+        check.eq_str("Tab completes an option name", app.editor.cmdline, "set shiftwidth");
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(60, 6);
+        type_text(app, "\x1b");
+        type_text(app, ":set sw\t");
+        check.eq_str("a short name goes first to its full name", app.editor.cmdline, "set shiftwidth");
+        app.render(screen, screen.area());
+        check.ok("the matches are shown", screen.row_text(4).contains("swapfile"));
+        type_text(app, "\t");
+        check.eq_str("the next Tab shows the next match", app.editor.cmdline, "set swapfile");
+        type_text(app, "\x1b");
+        type_text(app, ":sor\t");
+        check.eq_str("Tab completes a command name", app.editor.cmdline, "sort");
+        type_text(app, "\x1b");
     }
 }
 // the file tree sidebar (:Neotree, <Space>e)

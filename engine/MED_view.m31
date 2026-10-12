@@ -60,6 +60,16 @@ pub int bottom(MED_editor.Editor editor) {
     return count;
 }
 
+/// 'scrolloff': the lines kept above and below the cursor (a value past what
+/// the window holds centres the cursor line, as in Vim).
+pub int margin(MED_editor.Editor editor) {
+    int wanted = editor.option_number("scrolloff", 0);
+    if (wanted <= 0) {
+        return 0;
+    }
+    return wanted;
+}
+
 // The rows of the window the lines shown completely leave free (w_empty_rows).
 pub int empty_rows(MED_editor.Editor editor) {
     int used = 0;
@@ -129,16 +139,40 @@ pub void center(MED_editor.Editor editor, bool is_at_end, bool is_prefer_above) 
     editor.view_top = top;
 }
 
-// Vim's scroll_cursor_bot (with 'scrolloff' 0 and 'scrolljump' 1) for a
-// cursor below the window: scroll just far enough to put the cursor line at
-// the bottom, or centre it when that would take a screenful.
-void scroll_to_bottom(MED_editor.Editor editor) {
+// Vim's scroll_cursor_bot: scroll just far enough to put the cursor line at
+// the bottom with 'scrolloff' lines below it, or centre it when that would
+// take a screenful. `is_set_topbot` (zb) starts from a window that ends at the
+// cursor line instead of the current one.
+void scroll_to_bottom(MED_editor.Editor editor, int min_scroll, bool is_set_topbot) {
     int last = editor.buffer.line_count() - 1;
     int height = editor.view_height;
     int cursor_row = editor.row;
     int used = rows_of(editor, cursor_row);
-    int bottom_row = bottom(editor);
-    int empty = empty_rows(editor);
+    int keep = margin(editor);
+    int bottom_row = 0;
+    int empty = 0;
+    if (is_set_topbot) {
+        int fitted = 0;
+        int top = cursor_row + 1;
+        while (top > 0) {
+            int one = rows_of(editor, top - 1);
+            if (fitted + one > height) {
+                break;
+            }
+            fitted = fitted + one;
+            top = top - 1;
+        }
+        editor.view_top = top;
+        editor.view_skip = 0;
+        bottom_row = cursor_row + 1;
+        empty = height - fitted;
+        if (empty < 0) {
+            empty = 0;
+        }
+    } else {
+        bottom_row = bottom(editor);
+        empty = empty_rows(editor);
+    }
     int scrolled = 0;
     int extra = 0;
     if (cursor_row >= bottom_row) {
@@ -150,7 +184,7 @@ void scroll_to_bottom(MED_editor.Editor editor) {
     int above = cursor_row;
     int below = cursor_row;
     while (above > 0) {
-        if (above <= bottom_row) {
+        if ((((scrolled <= 0 || scrolled >= min_scroll) && extra >= keep) || below >= last) && above <= bottom_row) {
             break;
         }
         above = above - 1;
@@ -170,7 +204,7 @@ void scroll_to_bottom(MED_editor.Editor editor) {
             if (used > height) {
                 break;
             }
-            if (scrolled < 1) {
+            if (extra < keep || scrolled < min_scroll) {
                 extra = extra + rows_of(editor, below);
                 if (below >= bottom_row) {
                     scrolled = scrolled + rows_of(editor, below);
@@ -198,10 +232,53 @@ void scroll_to_bottom(MED_editor.Editor editor) {
             lines = 9999;
         }
     }
-    if (lines >= height && lines > 1) {
+    if (lines >= height && lines > min_scroll) {
         center(editor, false, true);
     } else {
         editor.view_top = editor.view_top + lines;
+    }
+}
+
+// Vim's scroll_cursor_top: put the cursor line near the top with 'scrolloff'
+// lines above it (zt). `is_always` moves the window down as well as up.
+void scroll_to_top(MED_editor.Editor editor, int min_scroll, bool is_always) {
+    int height = editor.view_height;
+    int keep = margin(editor);
+    int count = editor.buffer.line_count();
+    int used = rows_of(editor, editor.row);
+    int scrolled = 0;
+    if (editor.row < editor.view_top) {
+        scrolled = used;
+    }
+    int top = editor.row - 1;
+    int bot = editor.row + 1;
+    int new_top = editor.row;
+    int extra = 0;
+    while (top >= 0) {
+        int one = rows_of(editor, top);
+        used = used + one;
+        if (extra + one <= keep && bot < count) {
+            used = used + rows_of(editor, bot);
+        }
+        if (used > height) {
+            break;
+        }
+        if (top < editor.view_top) {
+            scrolled = scrolled + one;
+        }
+        if ((new_top >= editor.view_top || scrolled > min_scroll) && extra >= keep) {
+            break;
+        }
+        extra = extra + one;
+        new_top = top;
+        top = top - 1;
+        bot = bot + 1;
+    }
+    if (used > height) {
+        center(editor, false, false);
+    } else if (new_top < editor.view_top || is_always) {
+        editor.view_top = new_top;
+        editor.view_skip = 0;
     }
 }
 
@@ -221,9 +298,69 @@ void fit_wrapped(MED_editor.Editor editor) {
     }
 }
 
+/// Vim's curs_columns for 'nowrap': scroll sideways until the cursor is in
+/// the window, with 'sidescrolloff' columns to spare and 'sidescroll' columns
+/// per step (0, or a far jump: the cursor goes to the middle).
+pub void horizontal(MED_editor.Editor editor) {
+    if (editor.is_option_on("wrap", true)) {
+        editor.view_left = 0;
+        return;
+    }
+    int width = editor.view_width;
+    if (width < 1) {
+        return;
+    }
+    str line = editor.buffer.line(editor.row);
+    int start = MED_text.display_col(line, editor.col, editor.tab);
+    int cells = 1;
+    if (editor.col < line.size()) {
+        cells = MED_text.cell_width(line, editor.col, start, editor.tab);
+    }
+    int end = start + cells - 1;
+    int cursor_virtual = start;
+    if (editor.col < line.size() && line.byte_at(editor.col) == 9 && editor.mode != MED_editor.INSERT && !editor.is_option_on("list", false)) {
+        cursor_virtual = end;
+    }
+    int side = editor.option_number("sidescrolloff", 0);
+    int step = editor.option_number("sidescroll", 1);
+    int off_left = start - editor.view_left - side;
+    int off_right = end - (editor.view_left + width - side) + 1;
+    if (off_left >= 0 && off_right <= 0) {
+        return;
+    }
+    int diff = off_right;
+    if (off_left < 0) {
+        diff = 0 - off_left;
+    }
+    int target = 0;
+    if (step == 0 || diff >= width / 2 || off_right >= off_left) {
+        target = cursor_virtual - width / 2;
+    } else {
+        if (diff < step) {
+            diff = step;
+        }
+        if (off_left < 0) {
+            target = editor.view_left - diff;
+        } else {
+            target = editor.view_left + diff;
+        }
+    }
+    if (target < 0) {
+        target = 0;
+    }
+    editor.view_left = target;
+}
+
 /// Vim's update_topline: scroll just enough to show the cursor line, or
 /// centre it when it is far away.
 pub void update(MED_editor.Editor editor) {
+    horizontal(editor);
+    if (editor.view_valid_row >= 0) {
+        if (editor.row == editor.view_valid_row && editor.current == editor.view_valid_text && editor.view_height == editor.view_valid_height && editor.view_width == editor.view_valid_width) {
+            return;
+        }
+        editor.view_valid_row = -1;
+    }
     int before = editor.view_top;
     update_lines(editor);
     fit_wrapped(editor);
@@ -237,6 +374,7 @@ pub void update(MED_editor.Editor editor) {
             editor.view_skip = cursor_part;
         }
     }
+    mark_valid(editor);
 }
 
 // The cursor on the top line must be on a row that shows (nvim's scrollup
@@ -269,33 +407,118 @@ void show_cursor_in_top(MED_editor.Editor editor) {
 void update_lines(MED_editor.Editor editor) {
     int count = editor.buffer.line_count();
     int height = editor.view_height;
+    int keep = margin(editor);
     if (editor.view_top > count - 1) {
         editor.view_top = count - 1;
     }
     if (editor.view_top < 0) {
         editor.view_top = 0;
     }
-    if (editor.row < editor.view_top) {
+    if (editor.view_top > 0 && editor.row < editor.view_top + keep) {
+        // above the window, or inside the 'scrolloff' lines at its top
         int half = height / 2 - 1;
         if (half < 2) {
             half = 2;
         }
-        if (editor.view_top - editor.row >= half) {
+        int behind = editor.view_top + keep - editor.row;
+        if (behind > count - editor.row) {
+            behind = count - editor.row;
+        }
+        if (behind >= half) {
             center(editor, false, false);
         } else {
-            editor.view_top = editor.row;
+            scroll_to_top(editor, 1, false);
         }
-    } else {
-        int bottom_row = bottom(editor);
-        if (bottom_row < count && editor.row >= bottom_row) {
-            int beyond = editor.row - bottom_row + 1;
-            if (beyond <= height + 1) {
-                scroll_to_bottom(editor);
-            } else {
-                center(editor, false, true);
-            }
+        return;
+    }
+    if (editor.row < editor.view_top) {
+        editor.view_top = editor.row;
+        return;
+    }
+    int bottom_row = bottom(editor);
+    if (bottom_row < count && editor.row >= bottom_row - keep) {
+        int beyond = editor.row - bottom_row + 1 + keep;
+        if (beyond <= height + 1) {
+            scroll_to_bottom(editor, 1, false);
+        } else {
+            center(editor, false, false);
         }
     }
+}
+
+/// Vim's cursor_correct for the row `row`: the row moved inside the window
+/// by the 'scrolloff' lines (fewer at the start and end of the buffer).
+pub int corrected_row(MED_editor.Editor editor, int row) {
+    int keep = editor.option_number("scrolloff", 0);
+    int count = editor.buffer.line_count();
+    int bottom_row = bottom(editor);
+    int height = editor.view_height;
+    int above_wanted = keep;
+    int below_wanted = keep;
+    if (editor.view_top == 0) {
+        above_wanted = 0;
+        if (below_wanted > height / 2) {
+            below_wanted = height / 2;
+        }
+    }
+    if (bottom_row >= count) {
+        below_wanted = 0;
+        if (above_wanted > (height - 1) / 2) {
+            above_wanted = (height - 1) / 2;
+        }
+    }
+    if (row >= editor.view_top + above_wanted && row < bottom_row - below_wanted) {
+        return row;
+    }
+    int top = editor.view_top;
+    int bot = bottom_row - 1;
+    int above = 0;
+    int below = 0;
+    while ((above < above_wanted || below < below_wanted) && top < bot) {
+        if (below < below_wanted && (below <= above || above >= above_wanted)) {
+            below = below + rows_of(editor, bot);
+            bot = bot - 1;
+        } else {
+            above = above + rows_of(editor, top);
+            top = top + 1;
+        }
+    }
+    if (top == bot || bot < 0) {
+        return top;
+    }
+    if (top > bot) {
+        return bot;
+    }
+    int result = row;
+    if (row < top && editor.view_top > 0) {
+        result = top;
+    }
+    if (row > bot && bottom_row < count) {
+        result = bot;
+    }
+    return result;
+}
+
+// The window position is right for the cursor as it is (Vim's VALID_TOPLINE):
+// it is checked again only when the cursor line, the text or the window size
+// changes.
+void mark_valid(MED_editor.Editor editor) {
+    editor.view_valid_row = editor.row;
+    editor.view_valid_text = editor.current;
+    editor.view_valid_height = editor.view_height;
+    editor.view_valid_width = editor.view_width;
+}
+
+/// Move the cursor inside the 'scrolloff' margins of the window.
+pub void cursor_correct(MED_editor.Editor editor) {
+    if (editor.option_number("scrolloff", 0) <= 0) {
+        return;
+    }
+    int row = corrected_row(editor, editor.row);
+    if (row != editor.row) {
+        to_row(editor, row);
+    }
+    mark_valid(editor);
 }
 
 /// Scroll the window `count` lines (up: the text moves up, CTRL-E). Returns
@@ -323,6 +546,7 @@ void pull_cursor(MED_editor.Editor editor) {
     if (row != editor.row) {
         to_row(editor, row);
     }
+    cursor_correct(editor);
 }
 
 /// CTRL-E (up) and CTRL-Y.
@@ -526,10 +750,95 @@ pub bool did_page(MED_editor.Editor editor, bool is_forward, int count0, bool is
             show_cursor_in_top(editor);
         }
     }
+    cursor_correct(editor);
     return is_moved || editor.row != previous_row || editor.col != previous_col;
 }
 
 // ----------------------------------------------------------------- z family
+
+// Vim's leftcol_changed: after the window scrolled sideways, move the cursor
+// into the columns that show (inside the 'sidescrolloff' margins).
+void keep_cursor_in_columns(MED_editor.Editor editor) {
+    int side = editor.option_number("sidescrolloff", 0);
+    int last_column = editor.view_left + editor.view_width - 1;
+    str line = editor.buffer.line(editor.row);
+    bool is_visual = editor.mode == MED_editor.VISUAL;
+    int start = MED_text.display_col(line, editor.col, editor.tab);
+    int cells = 1;
+    if (editor.col < line.size()) {
+        cells = MED_text.cell_width(line, editor.col, start, editor.tab);
+    }
+    int end = start + cells - 1;
+    int virtual_col = start;
+    if (editor.col < line.size() && line.byte_at(editor.col) == 9 && !editor.is_option_on("list", false)) {
+        virtual_col = end;
+    }
+    if (virtual_col > last_column - side) {
+        editor.col = MED_motion.col_for_want(line, last_column - side, editor.tab, is_visual);
+    } else if (virtual_col < editor.view_left + side) {
+        editor.col = MED_motion.col_for_want(line, editor.view_left + side, editor.tab, is_visual);
+    }
+    start = MED_text.display_col(line, editor.col, editor.tab);
+    cells = 1;
+    if (editor.col < line.size()) {
+        cells = MED_text.cell_width(line, editor.col, start, editor.tab);
+    }
+    end = start + cells - 1;
+    if (end > last_column) {
+        editor.col = MED_motion.col_for_want(line, start - 1, editor.tab, is_visual);
+    } else if (start < editor.view_left) {
+        int next = MED_motion.col_for_want(line, end + 1, editor.tab, is_visual);
+        if (MED_text.display_col(line, next, editor.tab) > end) {
+            editor.col = next;
+        } else {
+            editor.view_left = start;
+        }
+    }
+    editor.want_from_cursor();
+}
+
+// zh zl zH zL zs ze while lines do not wrap.
+void scroll_sideways(MED_editor.Editor editor, int key, int count) {
+    int amount = MED_num.larger(count, 1);
+    int width = editor.view_width;
+    int side = editor.option_number("sidescrolloff", 0);
+    str line = editor.buffer.line(editor.row);
+    int start = MED_text.display_col(line, editor.col, editor.tab);
+    int cells = 1;
+    if (editor.col < line.size()) {
+        cells = MED_text.cell_width(line, editor.col, start, editor.tab);
+    }
+    int end = start + cells - 1;
+    int before = editor.view_left;
+    if (key == 108) {
+        editor.view_left = editor.view_left + amount;
+    } else if (key == 104) {
+        editor.view_left = MED_num.larger(editor.view_left - amount, 0);
+    } else if (key == 76) {
+        editor.view_left = editor.view_left + (width / 2) * amount;
+    } else if (key == 72) {
+        editor.view_left = MED_num.larger(editor.view_left - (width / 2) * amount, 0);
+    } else if (key == 115) {
+        int target = start;
+        if (target > side) {
+            target = target - side;
+        } else {
+            target = 0;
+        }
+        editor.view_left = target;
+    } else {
+        int target = end;
+        if (target + side < width) {
+            target = 0;
+        } else {
+            target = target + side - width + 1;
+        }
+        editor.view_left = target;
+    }
+    if ((key == 108 || key == 104 || key == 76 || key == 72) && editor.view_left != before) {
+        keep_cursor_in_columns(editor);
+    }
+}
 
 /// zt z<CR> zz z. zb z-. `target` is the line to go to first (0: stay).
 /// Returns false for a key that is not one of these.
@@ -537,6 +846,9 @@ pub bool did_z_command(MED_editor.Editor editor, int key, int target) {
     bool is_known = key == 116 || key == 13 || key == 122 || key == 46 || key == 98 || key == 45;
     if (key == 104 || key == 108 || key == 115 || key == 101 || key == 72 || key == 76) {
         // horizontal scrolling does nothing while lines wrap
+        if (!editor.is_option_on("wrap", true)) {
+            scroll_sideways(editor, key, target);
+        }
         return true;
     }
     if (!is_known) {
@@ -555,18 +867,11 @@ pub bool did_z_command(MED_editor.Editor editor, int key, int target) {
         editor.want_from_cursor();
     }
     if (key == 116 || key == 13) {
-        editor.view_top = editor.row;
+        scroll_to_top(editor, 0, true);
     } else if (key == 122 || key == 46) {
         center(editor, true, false);
     } else {
-        // zb: the cursor line at the bottom, as many lines above it as fit
-        int top = editor.row;
-        int used = rows_of(editor, top);
-        while (top > 0 && used + rows_of(editor, top - 1) <= editor.view_height) {
-            top = top - 1;
-            used = used + rows_of(editor, top);
-        }
-        editor.view_top = top;
+        scroll_to_bottom(editor, 0, true);
     }
     return true;
 }

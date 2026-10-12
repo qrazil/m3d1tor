@@ -959,12 +959,12 @@ bool is_end_tag_at(MED_buffer.Buffer buffer, int row, int col) {
     return false;
 }
 
-bool is_keyword_at(str line, int col) {
+bool is_keyword_at(str line, int col, List<int> keywords) {
     if (col < 0 || col >= line.size()) {
         return false;
     }
     int code_point = MED_text.cp_at(line, col);
-    return MED_text.class_of(code_point) >= 2;
+    return MED_text.class_in(code_point, keywords) >= 2;
 }
 
 // Does `name` (lowercased) sit at `col`, then a word end?
@@ -986,7 +986,7 @@ bool is_named_start_at(MED_buffer.Buffer buffer, int row, int col, str name) {
         return false;
     }
     int offset = col + 1 + name.size();
-    if (!is_keyword_at(line, MED_text.previous_col(line, offset)) || is_keyword_at(line, offset)) {
+    if (!is_keyword_at(line, MED_text.previous_col(line, offset), buffer.keywords) || is_keyword_at(line, offset, buffer.keywords)) {
         return false;
     }
     if (offset < line.size() && line.byte_at(offset) == 62) {

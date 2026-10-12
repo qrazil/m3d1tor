@@ -1,0 +1,398 @@
+\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=10 fo=tq<CR>oend.<Esc>gqip
+- list item text that is long enough to wrap\nfoo bar baz qux\nword	0,0	:set tw=5 fo+=2<CR>0Rx<Esc>j.
+\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=5 fo=jcq<CR>3lciwx<Esc>gqip
+The quick brown fox jumps over the lazy dog	0,0	:set tw=10 fo+=2<CR>3lC(paren text) [and] {more}<Esc>u
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=5 fo+=2<CR>3i(paren text) [and] {more}<Esc>u
+- list item text that is long enough to wrap\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=15 <CR>wR(paren text) [and] {more}<Esc>gqip
+longwordwithoutanyblanksatallverylongword and more\n\ttabbed words to wrap around the border\n  indented text here and there	2,0	:set tw=20 <CR>Aend.<Esc>
+\ttabbed words to wrap around the border\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=15 fo+=2<CR>send.<Esc>u
+- list item text that is long enough to wrap\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=5 fo+=2<CR>$3i<CR>wrapped text goes here ok<Esc>
+  indented text here and there\nfoo bar baz qux	1,0	:set tw=40 <CR>0Iend.<Esc>u
+The quick brown fox jumps over the lazy dog\n  indented text here and there	0,0	:set tw=10 fo=jcq<CR>0Rfoo bar baz qux quux<Esc>gqq
+foo bar baz qux	0,0	:set tw=5 fo=tq<CR>ecc<CR>wrapped text goes here ok<Esc>j.
+word\n# a comment line that is long enough to wrap around\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=20 fo+=l<CR>$cc  spaced  out   words  <Esc>.
+foo bar baz qux	0,0	:set tw=30 fo+=2<CR>Ahello world<Esc>gqq
+The quick brown fox jumps over the lazy dog	0,0	:set tw=30 fo=tq<CR>eI<CR>wrapped text goes here ok<Esc>gqq
+\ttabbed words to wrap around the border\nword\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=20 fo+=l<CR>03i<CR>wrapped text goes here ok<Esc>.
+- list item text that is long enough to wrap	0,0	:set tw=15 fo-=t<CR>0R  spaced  out   words  <Esc><C-r>
+- list item text that is long enough to wrap\n\ttabbed words to wrap around the border\n- list item text that is long enough to wrap	0,0	:set tw=30 fo+=l<CR>$cw(paren text) [and] {more}<Esc>.
+The quick brown fox jumps over the lazy dog\n  indented text here and there	0,0	:set tw=10 fo-=t<CR>eAx<Esc>
+# a comment line that is long enough to wrap around\nThe quick brown fox jumps over the lazy dog\n  indented text here and there	0,0	:set tw=15 fo=tcqj<CR>eOhello world<Esc>j.
+word\nThe quick brown fox jumps over the lazy dog\n	1,0	:set tw=20 <CR>ciwa b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\n\ttabbed words to wrap around the border\nfoo bar baz qux	2,0	:set tw=5 <CR>wRa b c d e f g h i j k l m n<Esc>
+# a comment line that is long enough to wrap around\nword	0,0	:set tw=40 fo=tcqj<CR>3l3ifoo bar baz qux quux<Esc>u
+\ttabbed words to wrap around the border\n- list item text that is long enough to wrap\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=10 fo+=2<CR>0ccaveryveryverylongwordwithoutblanks<Esc><C-r>
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=20 fo+=l<CR>3lcw(paren text) [and] {more}<Esc>gqip
+The quick brown fox jumps over the lazy dog\na b c d e f g h i j k l m n o p q r s t u v w x y z\n# a comment line that is long enough to wrap around	2,0	:set tw=40 fo=jcq<CR>esaveryveryverylongwordwithoutblanks<Esc><C-r>
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n- list item text that is long enough to wrap	0,0	:set tw=30 fo-=t<CR>ei  spaced  out   words  <Esc><C-r>
+	0,0	:set tw=40 fo=tcqj<CR>$ccend.<Esc>.
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=20 fo=t<CR>$oa b c d e f g h i j k l m n<Esc>
+\ttabbed words to wrap around the border\n\ttabbed words to wrap around the border\n- list item text that is long enough to wrap	2,0	:set tw=30 fo+=l<CR>ecwfoo bar baz qux quux<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=20 fo=tcqj<CR>wcw(paren text) [and] {more}<Esc>j.
+# a comment line that is long enough to wrap around	0,0	:set tw=15 fo=jcq<CR>wccend.<Esc>
+\n	1,0	:set tw=40 fo=jcq<CR>3lgRfoo bar baz qux quux<Esc><C-r>
+The quick brown fox jumps over the lazy dog	0,0	:set tw=20 fo=tcqj<CR>0Aend.<Esc>.
+The quick brown fox jumps over the lazy dog\nword	0,0	:set tw=10 fo=tcqj<CR>$cwhello world<Esc>A x y z w<Esc>
+\ttabbed words to wrap around the border\na b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=40 <CR>wI<CR>wrapped text goes here ok<Esc>
+foo bar baz qux	0,0	:set tw=40 fo-=t<CR>wciw  spaced  out   words  <Esc>j.
+- list item text that is long enough to wrap	0,0	:set tw=15 fo=tq<CR>3l3ihello world<Esc>gqq
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nword\n	2,0	:set tw=15 <CR>ecc(paren text) [and] {more}<Esc>u
+	0,0	:set tw=40 fo+=2<CR>esend.<Esc>gqip
+longwordwithoutanyblanksatallverylongword and more\nlongwordwithoutanyblanksatallverylongword and more\n\ttabbed words to wrap around the border	0,0	:set tw=40 fo+=l<CR>3lciwfoo bar baz qux quux<Esc><C-r>
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=10 fo=jcq<CR>3lO  spaced  out   words  <Esc><C-r>
+\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=5 <CR>ccx<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=40 fo+=l<CR>0Send.<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=40 fo-=t<CR>wSend.<Esc>gqq
+\ttabbed words to wrap around the border\n  indented text here and there	1,0	:set tw=10 <CR>Aa b c d e f g h i j k l m n<Esc>
+word\n- list item text that is long enough to wrap	1,0	:set tw=20 fo=t<CR>$cw(paren text) [and] {more}<Esc>u
+  indented text here and there	0,0	:set tw=15 fo+=2<CR>0Ia b c d e f g h i j k l m n<Esc>.
+	0,0	:set tw=30 fo=jcq<CR>a  spaced  out   words  <Esc>.
+\ttabbed words to wrap around the border	0,0	:set tw=15 fo-=t<CR>0shello world<Esc>A x y z w<Esc>
+foo bar baz qux\nfoo bar baz qux\n\ttabbed words to wrap around the border	0,0	:set tw=40 fo+=l<CR>0R<CR>wrapped text goes here ok<Esc>gqq
+The quick brown fox jumps over the lazy dog\n	1,0	:set tw=15 fo=tq<CR>eSend.<Esc>gqip
+\ttabbed words to wrap around the border\nThe quick brown fox jumps over the lazy dog\n  indented text here and there	1,0	:set tw=40 <CR>cchello world<Esc>gqq
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=15 fo=tcqj<CR>0s(paren text) [and] {more}<Esc>gqq
+	0,0	:set tw=30 fo=tq<CR>ecw<CR>wrapped text goes here ok<Esc>j.
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=10 <CR>3li<CR>wrapped text goes here ok<Esc>j.
+- list item text that is long enough to wrap	0,0	:set tw=10 fo-=t<CR>3l3i(paren text) [and] {more}<Esc>gqq
+longwordwithoutanyblanksatallverylongword and more\n  indented text here and there	1,0	:set tw=5 fo=t<CR>A<CR>wrapped text goes here ok<Esc>.
+  indented text here and there\n- list item text that is long enough to wrap	1,0	:set tw=10 fo+=2<CR>cwend.<Esc>j.
+\nfoo bar baz qux	1,0	:set tw=5 fo=tq<CR>$A(paren text) [and] {more}<Esc>u
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=20 fo=tq<CR>wOfoo bar baz qux quux<Esc>
+\nword	0,0	:set tw=15 <CR>$C  spaced  out   words  <Esc><C-r>
+foo bar baz qux	0,0	:set tw=20 fo+=2<CR>Caveryveryverylongwordwithoutblanks<Esc>j.
+# a comment line that is long enough to wrap around\n\ttabbed words to wrap around the border\nword	1,0	:set tw=10 fo=tcqj<CR>3lihello world<Esc>j.
+\ttabbed words to wrap around the border	0,0	:set tw=40 fo+=l<CR>$S  spaced  out   words  <Esc>u
+- list item text that is long enough to wrap	0,0	:set tw=40 fo=tq<CR>wcc  spaced  out   words  <Esc>
+\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=40 fo-=t<CR>ecw(paren text) [and] {more}<Esc>
+# a comment line that is long enough to wrap around\n\ttabbed words to wrap around the border\n\ttabbed words to wrap around the border	0,0	:set tw=10 <CR>3lgRhello world<Esc>u
+word\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=15 fo-=t<CR>$iend.<Esc>gqq
+- list item text that is long enough to wrap	0,0	:set tw=15 fo-=t<CR>3l3ihello world<Esc>gqq
+\ttabbed words to wrap around the border	0,0	:set tw=20 fo+=l<CR>0A(paren text) [and] {more}<Esc>u
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=30 fo=tcqj<CR>0cwfoo bar baz qux quux<Esc>gqq
+\na b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=20 <CR>eAend.<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=5 fo=jcq<CR>0ciw  spaced  out   words  <Esc>
+# a comment line that is long enough to wrap around	0,0	:set tw=10 fo+=2<CR>O  spaced  out   words  <Esc>u
+- list item text that is long enough to wrap	0,0	:set tw=30 fo=tq<CR>0Ifoo bar baz qux quux<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\nword\nword	1,0	:set tw=20 fo+=2<CR>$ofoo bar baz qux quux<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\n  indented text here and there\nfoo bar baz qux	1,0	:set tw=15 fo=t<CR>Aaveryveryverylongwordwithoutblanks<Esc>A x y z w<Esc>
+- list item text that is long enough to wrap	0,0	:set tw=20 fo=tq<CR>3li  spaced  out   words  <Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\n- list item text that is long enough to wrap	0,0	:set tw=5 fo=tcqj<CR>0aa b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\n  indented text here and there\n	1,0	:set tw=10 fo=tcqj<CR>$3i  spaced  out   words  <Esc>
+\ttabbed words to wrap around the border	0,0	:set tw=15 fo-=t<CR>0I(paren text) [and] {more}<Esc>gqip
+\n\ttabbed words to wrap around the border\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=15 fo=t<CR>$Ohello world<Esc>
+foo bar baz qux	0,0	:set tw=10 fo-=t<CR>Aend.<Esc>gqq
+word\n  indented text here and there\nThe quick brown fox jumps over the lazy dog	2,0	:set tw=15 fo+=2<CR>3i  spaced  out   words  <Esc>A x y z w<Esc>
+  indented text here and there\nfoo bar baz qux\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=20 fo=t<CR>0ciwfoo bar baz qux quux<Esc>A x y z w<Esc>
+\n- list item text that is long enough to wrap	1,0	:set tw=15 fo-=t<CR>0Send.<Esc>j.
+longwordwithoutanyblanksatallverylongword and more\n- list item text that is long enough to wrap\n- list item text that is long enough to wrap	2,0	:set tw=30 fo=tcqj<CR>wcw  spaced  out   words  <Esc>gqq
+\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=15 fo+=2<CR>0ciw(paren text) [and] {more}<Esc><C-r>
+word	0,0	:set tw=30 fo+=l<CR>0Sx<Esc>j.
+  indented text here and there\nfoo bar baz qux	1,0	:set tw=10 fo=tcqj<CR>gRaveryveryverylongwordwithoutblanks<Esc>gqip
+\ttabbed words to wrap around the border\n	1,0	:set tw=10 fo-=t<CR>3lRa b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+foo bar baz qux\n# a comment line that is long enough to wrap around	1,0	:set tw=15 <CR>3lsend.<Esc>.
+\na b c d e f g h i j k l m n o p q r s t u v w x y z\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=40 fo+=l<CR>Ax<Esc>j.
+The quick brown fox jumps over the lazy dog\n- list item text that is long enough to wrap\n\ttabbed words to wrap around the border	0,0	:set tw=5 fo=tq<CR>0A  spaced  out   words  <Esc>A x y z w<Esc>
+\ttabbed words to wrap around the border	0,0	:set tw=30 fo=t<CR>wAa b c d e f g h i j k l m n<Esc>.
+	0,0	:set tw=15 fo+=l<CR>3laaveryveryverylongwordwithoutblanks<Esc><C-r>
+# a comment line that is long enough to wrap around\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=5 fo=jcq<CR>wI  spaced  out   words  <Esc>.
+\nThe quick brown fox jumps over the lazy dog\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=5 fo=t<CR>0Aend.<Esc>j.
+- list item text that is long enough to wrap\nword\nlongwordwithoutanyblanksatallverylongword and more	2,0	:set tw=20 fo+=l<CR>oend.<Esc><C-r>
+word	0,0	:set tw=10 fo=jcq<CR>0sfoo bar baz qux quux<Esc>gqq
+\ttabbed words to wrap around the border\nThe quick brown fox jumps over the lazy dog\n	2,0	:set tw=20 fo+=2<CR>0cc<CR>wrapped text goes here ok<Esc>gqq
+word\n# a comment line that is long enough to wrap around\n	0,0	:set tw=5 fo-=t<CR>3lA  spaced  out   words  <Esc>
+# a comment line that is long enough to wrap around	0,0	:set tw=20 fo=tq<CR>0Ca b c d e f g h i j k l m n<Esc>u
+foo bar baz qux	0,0	:set tw=40 fo=jcq<CR>$gR<CR>wrapped text goes here ok<Esc><C-r>
+# a comment line that is long enough to wrap around	0,0	:set tw=5 fo=tcqj<CR>0gRfoo bar baz qux quux<Esc>j.
+- list item text that is long enough to wrap	0,0	:set tw=40 fo=tcqj<CR>eihello world<Esc>gqq
+- list item text that is long enough to wrap	0,0	:set tw=5 fo=jcq<CR>0s<CR>wrapped text goes here ok<Esc>gqip
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=15 fo=t<CR>oend.<Esc>
+	0,0	:set tw=20 fo=jcq<CR>ws<CR>wrapped text goes here ok<Esc>
+- list item text that is long enough to wrap\n# a comment line that is long enough to wrap around\nfoo bar baz qux	0,0	:set tw=40 fo+=2<CR>ciwhello world<Esc>
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=30 <CR>03ix<Esc>A x y z w<Esc>
+foo bar baz qux	0,0	:set tw=15 fo=tq<CR>$cwend.<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog	0,0	:set tw=30 fo=tcqj<CR>Oaveryveryverylongwordwithoutblanks<Esc>u
+foo bar baz qux\nThe quick brown fox jumps over the lazy dog\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=40 <CR>0ciw(paren text) [and] {more}<Esc>.
+\nfoo bar baz qux	0,0	:set tw=30 fo=t<CR>3ifoo bar baz qux quux<Esc>gqq
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n\ttabbed words to wrap around the border\nword	1,0	:set tw=15 fo-=t<CR>3lciw<CR>wrapped text goes here ok<Esc>j.
+\ttabbed words to wrap around the border\nfoo bar baz qux\nword	1,0	:set tw=20 <CR>Sx<Esc>j.
+# a comment line that is long enough to wrap around\n# a comment line that is long enough to wrap around	1,0	:set tw=5 fo-=t<CR>e3iaveryveryverylongwordwithoutblanks<Esc>.
+  indented text here and there\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=30 fo=t<CR>$Sa b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+# a comment line that is long enough to wrap around\nfoo bar baz qux	1,0	:set tw=20 fo=jcq<CR>A(paren text) [and] {more}<Esc>j.
+foo bar baz qux	0,0	:set tw=15 fo=t<CR>$oaveryveryverylongwordwithoutblanks<Esc>.
+  indented text here and there\nfoo bar baz qux	0,0	:set tw=5 fo=t<CR>gRaveryveryverylongwordwithoutblanks<Esc>gqq
+\nword	1,0	:set tw=10 fo+=l<CR>3lIa b c d e f g h i j k l m n<Esc>.
+# a comment line that is long enough to wrap around\n# a comment line that is long enough to wrap around	0,0	:set tw=15 fo+=2<CR>Rhello world<Esc>gqq
+word\n\nword	0,0	:set tw=40 fo=jcq<CR>ciwx<Esc>gqq
+# a comment line that is long enough to wrap around\nlongwordwithoutanyblanksatallverylongword and more\n  indented text here and there	2,0	:set tw=40 fo+=2<CR>eRend.<Esc>u
+\nThe quick brown fox jumps over the lazy dog\nword	2,0	:set tw=10 fo+=2<CR>cchello world<Esc><C-r>
+word\nlongwordwithoutanyblanksatallverylongword and more\n\ttabbed words to wrap around the border	0,0	:set tw=5 fo=tcqj<CR>eR  spaced  out   words  <Esc>.
+\ttabbed words to wrap around the border	0,0	:set tw=10 fo=t<CR>0i<CR>wrapped text goes here ok<Esc>gqip
+The quick brown fox jumps over the lazy dog	0,0	:set tw=15 fo+=l<CR>eRaveryveryverylongwordwithoutblanks<Esc><C-r>
+word\n- list item text that is long enough to wrap	0,0	:set tw=20 fo=jcq<CR>$cw<CR>wrapped text goes here ok<Esc>gqip
+- list item text that is long enough to wrap\nfoo bar baz qux\n	0,0	:set tw=15 fo=jcq<CR>3lciwa b c d e f g h i j k l m n<Esc>
+  indented text here and there	0,0	:set tw=15 fo+=2<CR>$ihello world<Esc>u
+\ttabbed words to wrap around the border	0,0	:set tw=5 fo+=l<CR>3lcw  spaced  out   words  <Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n  indented text here and there	1,0	:set tw=5 fo=tq<CR>wsaveryveryverylongwordwithoutblanks<Esc>u
+  indented text here and there\n- list item text that is long enough to wrap\n	1,0	:set tw=20 fo+=l<CR>3laa b c d e f g h i j k l m n<Esc>u
+\ttabbed words to wrap around the border\n\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=15 fo+=l<CR>sfoo bar baz qux quux<Esc><C-r>
+The quick brown fox jumps over the lazy dog\nThe quick brown fox jumps over the lazy dog\n  indented text here and there	0,0	:set tw=40 fo=tq<CR>wgR<CR>wrapped text goes here ok<Esc><C-r>
+- list item text that is long enough to wrap\nfoo bar baz qux\nfoo bar baz qux	1,0	:set tw=5 fo=t<CR>$O<CR>wrapped text goes here ok<Esc>.
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=40 fo=jcq<CR>0cwa b c d e f g h i j k l m n<Esc>.
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n  indented text here and there	0,0	:set tw=40 fo+=l<CR>0Ofoo bar baz qux quux<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\nThe quick brown fox jumps over the lazy dog\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=10 <CR>3laend.<Esc><C-r>
+# a comment line that is long enough to wrap around\nThe quick brown fox jumps over the lazy dog\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=15 fo=jcq<CR>0sx<Esc>
+word	0,0	:set tw=5 fo=tcqj<CR>e3ix<Esc>A x y z w<Esc>
+word\n  indented text here and there	1,0	:set tw=30 fo+=2<CR>es(paren text) [and] {more}<Esc>gqq
+	0,0	:set tw=10 fo+=2<CR>$3iaveryveryverylongwordwithoutblanks<Esc>.
+\ttabbed words to wrap around the border\nThe quick brown fox jumps over the lazy dog\n	0,0	:set tw=15 fo=tcqj<CR>Oaveryveryverylongwordwithoutblanks<Esc>gqip
+The quick brown fox jumps over the lazy dog\nword	1,0	:set tw=5 <CR>$Afoo bar baz qux quux<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more\nword\n# a comment line that is long enough to wrap around	2,0	:set tw=30 fo=t<CR>wgRfoo bar baz qux quux<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=40 <CR>cw  spaced  out   words  <Esc>
+  indented text here and there	0,0	:set tw=10 <CR>3la<CR>wrapped text goes here ok<Esc>gqq
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=15 fo+=l<CR>0sx<Esc>gqq
+The quick brown fox jumps over the lazy dog	0,0	:set tw=20 <CR>egRaveryveryverylongwordwithoutblanks<Esc><C-r>
+word\n\ttabbed words to wrap around the border	0,0	:set tw=20 <CR>eihello world<Esc>gqip
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more\nword	1,0	:set tw=10 fo=t<CR>$ohello world<Esc>
+# a comment line that is long enough to wrap around\n- list item text that is long enough to wrap\nfoo bar baz qux	0,0	:set tw=15 fo+=2<CR>woend.<Esc>j.
+  indented text here and there	0,0	:set tw=40 fo=tcqj<CR>3lIhello world<Esc>.
+- list item text that is long enough to wrap\n- list item text that is long enough to wrap	1,0	:set tw=20 <CR>$ox<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n\ttabbed words to wrap around the border\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=10 fo+=2<CR>wSend.<Esc>
+	0,0	:set tw=10 <CR>3lcwaveryveryverylongwordwithoutblanks<Esc>A x y z w<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z\n\ttabbed words to wrap around the border	2,0	:set tw=40 fo=tq<CR>a  spaced  out   words  <Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nword\n  indented text here and there	2,0	:set tw=10 fo-=t<CR>0A<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+	0,0	:set tw=40 <CR>eccaveryveryverylongwordwithoutblanks<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=30 fo+=2<CR>3lgRa b c d e f g h i j k l m n<Esc>gqq
+  indented text here and there\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=30 fo=jcq<CR>3l3ix<Esc>.
+word\nword	0,0	:set tw=20 fo=tq<CR>$ix<Esc>gqq
+foo bar baz qux\n# a comment line that is long enough to wrap around\nword	2,0	:set tw=40 fo+=2<CR>eOa b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+- list item text that is long enough to wrap\n\nword	0,0	:set tw=30 <CR>Ia b c d e f g h i j k l m n<Esc>gqq
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=15 fo+=2<CR>3lS(paren text) [and] {more}<Esc>A x y z w<Esc>
+word\n\ttabbed words to wrap around the border	0,0	:set tw=15 fo+=2<CR>wR  spaced  out   words  <Esc>gqq
+foo bar baz qux	0,0	:set tw=30 fo+=l<CR>wS(paren text) [and] {more}<Esc>A x y z w<Esc>
+\n- list item text that is long enough to wrap	1,0	:set tw=30 fo+=2<CR>0o  spaced  out   words  <Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more\nlongwordwithoutanyblanksatallverylongword and more\n  indented text here and there	0,0	:set tw=20 fo+=l<CR>0iaveryveryverylongwordwithoutblanks<Esc><C-r>
+foo bar baz qux	0,0	:set tw=15 fo=tq<CR>$cc  spaced  out   words  <Esc>
+\n# a comment line that is long enough to wrap around	0,0	:set tw=30 fo+=l<CR>Cx<Esc>u
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=15 <CR>cwend.<Esc>gqip
+foo bar baz qux	0,0	:set tw=20 fo=tcqj<CR>$Afoo bar baz qux quux<Esc>u
+longwordwithoutanyblanksatallverylongword and more\n\ttabbed words to wrap around the border\n- list item text that is long enough to wrap	1,0	:set tw=15 fo+=2<CR>0ohello world<Esc>.
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n\ttabbed words to wrap around the border	1,0	:set tw=40 fo=tq<CR>eoaveryveryverylongwordwithoutblanks<Esc>j.
+word\n# a comment line that is long enough to wrap around	1,0	:set tw=15 fo=t<CR>sfoo bar baz qux quux<Esc><C-r>
+word\n- list item text that is long enough to wrap\nfoo bar baz qux	2,0	:set tw=30 fo+=2<CR>0ia b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nword\n  indented text here and there	2,0	:set tw=40 fo=t<CR>3ia b c d e f g h i j k l m n<Esc>gqq
+\ttabbed words to wrap around the border\n\ttabbed words to wrap around the border	1,0	:set tw=15 fo=tcqj<CR>s<CR>wrapped text goes here ok<Esc>u
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=15 fo+=l<CR>s<CR>wrapped text goes here ok<Esc>
+word\n	1,0	:set tw=30 fo+=l<CR>wcwa b c d e f g h i j k l m n<Esc>j.
+\n\ttabbed words to wrap around the border	1,0	:set tw=40 fo=jcq<CR>03ihello world<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=30 fo=jcq<CR>$ia b c d e f g h i j k l m n<Esc>gqip
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=30 fo=tcqj<CR>$ccend.<Esc>
+\ttabbed words to wrap around the border\n  indented text here and there	0,0	:set tw=15 fo=t<CR>wcca b c d e f g h i j k l m n<Esc>j.
+word\n\ttabbed words to wrap around the border	1,0	:set tw=20 fo+=l<CR>0cw  spaced  out   words  <Esc>.
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nword\nword	1,0	:set tw=20 fo+=l<CR>wihello world<Esc>j.
+foo bar baz qux\n# a comment line that is long enough to wrap around	0,0	:set tw=20 <CR>0s  spaced  out   words  <Esc><C-r>
+\ttabbed words to wrap around the border	0,0	:set tw=30 fo=tq<CR>3lR<CR>wrapped text goes here ok<Esc>.
+foo bar baz qux	0,0	:set tw=20 fo+=l<CR>03ix<Esc>j.
+\ttabbed words to wrap around the border	0,0	:set tw=5 fo-=t<CR>egR  spaced  out   words  <Esc>u
+- list item text that is long enough to wrap\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=10 <CR>0Cfoo bar baz qux quux<Esc>
+# a comment line that is long enough to wrap around\nfoo bar baz qux\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=10 fo=tq<CR>0oa b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+- list item text that is long enough to wrap	0,0	:set tw=15 fo-=t<CR>$Saveryveryverylongwordwithoutblanks<Esc>gqq
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=40 fo+=2<CR>$ciw<CR>wrapped text goes here ok<Esc>
+word\n# a comment line that is long enough to wrap around\n\ttabbed words to wrap around the border	1,0	:set tw=15 fo+=l<CR>$A<CR>wrapped text goes here ok<Esc><C-r>
+longwordwithoutanyblanksatallverylongword and more\n\ttabbed words to wrap around the border\n  indented text here and there	0,0	:set tw=30 fo=tcqj<CR>$Ohello world<Esc>gqip
+foo bar baz qux\n\ttabbed words to wrap around the border\nword	2,0	:set tw=40 fo+=l<CR>e3ix<Esc>gqq
+foo bar baz qux	0,0	:set tw=10 fo+=l<CR>eOend.<Esc>.
+# a comment line that is long enough to wrap around	0,0	:set tw=30 <CR>3lifoo bar baz qux quux<Esc>gqip
+\ttabbed words to wrap around the border\n  indented text here and there	0,0	:set tw=5 <CR>$C  spaced  out   words  <Esc>j.
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nThe quick brown fox jumps over the lazy dog\nword	0,0	:set tw=20 fo=tq<CR>eI<CR>wrapped text goes here ok<Esc><C-r>
+- list item text that is long enough to wrap\n\n  indented text here and there	1,0	:set tw=10 fo=jcq<CR>eOa b c d e f g h i j k l m n<Esc>gqq
+\ttabbed words to wrap around the border\n- list item text that is long enough to wrap\n	0,0	:set tw=15 fo=tcqj<CR>wi<CR>wrapped text goes here ok<Esc>gqq
+# a comment line that is long enough to wrap around\nfoo bar baz qux	0,0	:set tw=40 fo=t<CR>0Cx<Esc>A x y z w<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=10 <CR>0cwaveryveryverylongwordwithoutblanks<Esc>u
+foo bar baz qux\n# a comment line that is long enough to wrap around\n# a comment line that is long enough to wrap around	0,0	:set tw=15 fo-=t<CR>0Ohello world<Esc>gqq
+  indented text here and there	0,0	:set tw=40 fo+=l<CR>$Raveryveryverylongwordwithoutblanks<Esc>A x y z w<Esc>
+foo bar baz qux\n- list item text that is long enough to wrap	0,0	:set tw=30 fo+=l<CR>wIhello world<Esc>gqq
+foo bar baz qux	0,0	:set tw=20 fo=tcqj<CR>$gRend.<Esc>.
+The quick brown fox jumps over the lazy dog\nword	1,0	:set tw=10 fo=t<CR>eCfoo bar baz qux quux<Esc>.
+The quick brown fox jumps over the lazy dog\nword	0,0	:set tw=40 fo+=2<CR>3lciwa b c d e f g h i j k l m n<Esc><C-r>
+\nThe quick brown fox jumps over the lazy dog\nThe quick brown fox jumps over the lazy dog	2,0	:set tw=5 fo=tcqj<CR>3loend.<Esc>
+\ttabbed words to wrap around the border	0,0	:set tw=40 fo+=2<CR>s(paren text) [and] {more}<Esc>.
+foo bar baz qux\nlongwordwithoutanyblanksatallverylongword and more\n# a comment line that is long enough to wrap around	1,0	:set tw=40 fo=jcq<CR>eccfoo bar baz qux quux<Esc>gqq
+The quick brown fox jumps over the lazy dog\n  indented text here and there\n# a comment line that is long enough to wrap around	1,0	:set tw=20 fo=tcqj<CR>Shello world<Esc>
+	0,0	:set tw=5 fo+=l<CR>eCx<Esc>gqip
+foo bar baz qux\nword\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=15 fo=tcqj<CR>eR(paren text) [and] {more}<Esc>j.
+foo bar baz qux\nword\n\ttabbed words to wrap around the border	2,0	:set tw=20 fo+=l<CR>wSfoo bar baz qux quux<Esc>.
+The quick brown fox jumps over the lazy dog	0,0	:set tw=40 fo=t<CR>0cca b c d e f g h i j k l m n<Esc>gqip
+	0,0	:set tw=40 fo+=2<CR>$cc<CR>wrapped text goes here ok<Esc>.
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n- list item text that is long enough to wrap	0,0	:set tw=15 fo=tcqj<CR>i(paren text) [and] {more}<Esc>
+# a comment line that is long enough to wrap around\n\ttabbed words to wrap around the border\n	0,0	:set tw=30 fo=jcq<CR>$ciwhello world<Esc>A x y z w<Esc>
+word\n- list item text that is long enough to wrap\n  indented text here and there	2,0	:set tw=30 fo+=l<CR>0sa b c d e f g h i j k l m n<Esc><C-r>
+foo bar baz qux\n# a comment line that is long enough to wrap around\n  indented text here and there	0,0	:set tw=20 <CR>3lAend.<Esc>gqq
+# a comment line that is long enough to wrap around\na b c d e f g h i j k l m n o p q r s t u v w x y z\nlongwordwithoutanyblanksatallverylongword and more	2,0	:set tw=30 fo+=l<CR>iend.<Esc>gqip
+- list item text that is long enough to wrap\n\ttabbed words to wrap around the border\n# a comment line that is long enough to wrap around	0,0	:set tw=10 fo+=2<CR>ciwa b c d e f g h i j k l m n<Esc>j.
+  indented text here and there\n\ttabbed words to wrap around the border\n# a comment line that is long enough to wrap around	1,0	:set tw=5 fo+=2<CR>iaveryveryverylongwordwithoutblanks<Esc><C-r>
+longwordwithoutanyblanksatallverylongword and more\nword\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=20 fo=jcq<CR>0Oa b c d e f g h i j k l m n<Esc>u
+\nfoo bar baz qux	1,0	:set tw=20 fo+=2<CR>eAhello world<Esc>u
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=10 fo=t<CR>3lcwa b c d e f g h i j k l m n<Esc>j.
+- list item text that is long enough to wrap\n	0,0	:set tw=20 fo=jcq<CR>eR(paren text) [and] {more}<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z\n	0,0	:set tw=5 fo=tcqj<CR>0s  spaced  out   words  <Esc>gqq
+  indented text here and there	0,0	:set tw=30 fo=tq<CR>0Ox<Esc>gqq
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n  indented text here and there\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=30 fo=tq<CR>3lcc(paren text) [and] {more}<Esc><C-r>
+\n\ttabbed words to wrap around the border	1,0	:set tw=15 fo+=l<CR>0cca b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=20 fo-=t<CR>0aend.<Esc>u
+word	0,0	:set tw=15 fo=tcqj<CR>eOa b c d e f g h i j k l m n<Esc>gqq
+  indented text here and there\nThe quick brown fox jumps over the lazy dog\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=20 fo=t<CR>3lcwx<Esc>.
+# a comment line that is long enough to wrap around	0,0	:set tw=5 fo=tq<CR>3lcc(paren text) [and] {more}<Esc><C-r>
+# a comment line that is long enough to wrap around\nword\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=30 fo=tq<CR>0I(paren text) [and] {more}<Esc>A x y z w<Esc>
+\ttabbed words to wrap around the border\n	1,0	:set tw=10 fo=tq<CR>eciwend.<Esc>A x y z w<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z\nThe quick brown fox jumps over the lazy dog	2,0	:set tw=5 fo=t<CR>3lsa b c d e f g h i j k l m n<Esc>
+word\n\ttabbed words to wrap around the border	0,0	:set tw=20 fo=tcqj<CR>3lccx<Esc><C-r>
+\ttabbed words to wrap around the border\n  indented text here and there\nlongwordwithoutanyblanksatallverylongword and more	2,0	:set tw=5 fo+=l<CR>$Ca b c d e f g h i j k l m n<Esc>
+word\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=5 fo=tcqj<CR>wa<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+\n  indented text here and there\nlongwordwithoutanyblanksatallverylongword and more	2,0	:set tw=20 fo=tq<CR>0o  spaced  out   words  <Esc><C-r>
+\ttabbed words to wrap around the border\nword	0,0	:set tw=15 fo=jcq<CR>w3ihello world<Esc><C-r>
+# a comment line that is long enough to wrap around\n  indented text here and there\nlongwordwithoutanyblanksatallverylongword and more	2,0	:set tw=15 fo+=2<CR>eaa b c d e f g h i j k l m n<Esc>gqq
+	0,0	:set tw=15 fo-=t<CR>$o<CR>wrapped text goes here ok<Esc>.
+The quick brown fox jumps over the lazy dog	0,0	:set tw=30 fo=jcq<CR>e3ihello world<Esc><C-r>
+  indented text here and there	0,0	:set tw=20 fo+=2<CR>ciwend.<Esc><C-r>
+# a comment line that is long enough to wrap around\nword\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=5 fo+=l<CR>ecw(paren text) [and] {more}<Esc>u
+\nfoo bar baz qux\n  indented text here and there	1,0	:set tw=15 fo=tcqj<CR>0ciw<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+  indented text here and there\n# a comment line that is long enough to wrap around	0,0	:set tw=40 fo=jcq<CR>wi  spaced  out   words  <Esc>j.
+longwordwithoutanyblanksatallverylongword and more\na b c d e f g h i j k l m n o p q r s t u v w x y z\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=40 fo+=2<CR>wciwend.<Esc>j.
+# a comment line that is long enough to wrap around	0,0	:set tw=40 fo+=2<CR>3lA<CR>wrapped text goes here ok<Esc>j.
+foo bar baz qux	0,0	:set tw=20 fo-=t<CR>e3iaveryveryverylongwordwithoutblanks<Esc>
+  indented text here and there\nword	0,0	:set tw=10 fo=tcqj<CR>I<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=5 fo=jcq<CR>o<CR>wrapped text goes here ok<Esc>.
+\nfoo bar baz qux\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=30 fo=tq<CR>oaveryveryverylongwordwithoutblanks<Esc>.
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=10 fo=tq<CR>wafoo bar baz qux quux<Esc>u
+# a comment line that is long enough to wrap around\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=5 fo=jcq<CR>wOaveryveryverylongwordwithoutblanks<Esc><C-r>
+  indented text here and there	0,0	:set tw=20 fo+=2<CR>o<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=40 <CR>3lCfoo bar baz qux quux<Esc>gqq
+\ttabbed words to wrap around the border\n# a comment line that is long enough to wrap around	1,0	:set tw=20 fo-=t<CR>eaaveryveryverylongwordwithoutblanks<Esc>.
+word\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=40 <CR>eia b c d e f g h i j k l m n<Esc>A x y z w<Esc>
+# a comment line that is long enough to wrap around	0,0	:set tw=20 fo=jcq<CR>$a<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+# a comment line that is long enough to wrap around\n# a comment line that is long enough to wrap around	1,0	:set tw=40 <CR>eRfoo bar baz qux quux<Esc>
+  indented text here and there\nlongwordwithoutanyblanksatallverylongword and more\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=40 fo=t<CR>wA  spaced  out   words  <Esc>gqq
+\ttabbed words to wrap around the border\n\nfoo bar baz qux	0,0	:set tw=5 <CR>$Sa b c d e f g h i j k l m n<Esc>j.
+foo bar baz qux\n\ttabbed words to wrap around the border\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=10 fo=t<CR>ei  spaced  out   words  <Esc>
+- list item text that is long enough to wrap\nword	1,0	:set tw=15 fo=tcqj<CR>Rend.<Esc>gqip
+foo bar baz qux\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=15 fo=t<CR>$cwaveryveryverylongwordwithoutblanks<Esc>j.
+longwordwithoutanyblanksatallverylongword and more\nword\nlongwordwithoutanyblanksatallverylongword and more	0,0	:set tw=15 fo+=2<CR>3lcwfoo bar baz qux quux<Esc>gqq
+  indented text here and there\n- list item text that is long enough to wrap\n# a comment line that is long enough to wrap around	2,0	:set tw=30 fo=tcqj<CR>wgR(paren text) [and] {more}<Esc>u
+\ttabbed words to wrap around the border\n	1,0	:set tw=40 fo=tq<CR>es  spaced  out   words  <Esc>gqip
+- list item text that is long enough to wrap\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=30 fo=tcqj<CR>ciwaveryveryverylongwordwithoutblanks<Esc>gqip
+# a comment line that is long enough to wrap around\n\n	1,0	:set tw=30 <CR>0O(paren text) [and] {more}<Esc>.
+\ttabbed words to wrap around the border	0,0	:set tw=20 fo=tq<CR>3lia b c d e f g h i j k l m n<Esc>
+\n\ttabbed words to wrap around the border\n# a comment line that is long enough to wrap around	0,0	:set tw=20 <CR>3lohello world<Esc>.
+- list item text that is long enough to wrap	0,0	:set tw=15 fo+=2<CR>0Sx<Esc>gqip
+longwordwithoutanyblanksatallverylongword and more\n\ttabbed words to wrap around the border\n	1,0	:set tw=20 fo+=2<CR>wRa b c d e f g h i j k l m n<Esc>.
+word\n\ttabbed words to wrap around the border\nword	2,0	:set tw=15 fo+=l<CR>3lIend.<Esc><C-r>
+The quick brown fox jumps over the lazy dog\n  indented text here and there	0,0	:set tw=20 fo=tcqj<CR>eciwfoo bar baz qux quux<Esc>u
+word\nfoo bar baz qux\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=10 <CR>w3i<CR>wrapped text goes here ok<Esc><C-r>
+  indented text here and there\n	0,0	:set tw=15 fo+=l<CR>$Sfoo bar baz qux quux<Esc><C-r>
+	0,0	:set tw=30 fo+=l<CR>ciw  spaced  out   words  <Esc>
+The quick brown fox jumps over the lazy dog\n  indented text here and there	0,0	:set tw=40 fo+=2<CR>0C  spaced  out   words  <Esc>j.
+- list item text that is long enough to wrap\nword	1,0	:set tw=10 fo=jcq<CR>3lAhello world<Esc>gqip
+# a comment line that is long enough to wrap around\n\ttabbed words to wrap around the border	1,0	:set tw=10 fo=tcqj<CR>eRend.<Esc><C-r>
+- list item text that is long enough to wrap	0,0	:set tw=5 fo=tq<CR>3li<CR>wrapped text goes here ok<Esc>
+\nword\n# a comment line that is long enough to wrap around	2,0	:set tw=10 fo+=l<CR>eIa b c d e f g h i j k l m n<Esc>j.
+The quick brown fox jumps over the lazy dog\nfoo bar baz qux	1,0	:set tw=15 fo-=t<CR>3lR  spaced  out   words  <Esc>.
+- list item text that is long enough to wrap\n# a comment line that is long enough to wrap around	1,0	:set tw=20 fo=t<CR>aa b c d e f g h i j k l m n<Esc>j.
+- list item text that is long enough to wrap	0,0	:set tw=10 fo+=l<CR>3lRaveryveryverylongwordwithoutblanks<Esc><C-r>
+word	0,0	:set tw=15 fo=tcqj<CR>ecwend.<Esc><C-r>
+The quick brown fox jumps over the lazy dog\n\ttabbed words to wrap around the border	1,0	:set tw=15 fo+=l<CR>eAx<Esc>
+The quick brown fox jumps over the lazy dog\n\ttabbed words to wrap around the border	0,0	:set tw=5 fo=tq<CR>0ciwhello world<Esc>
+\n  indented text here and there\n	2,0	:set tw=5 fo=jcq<CR>egR(paren text) [and] {more}<Esc>
+# a comment line that is long enough to wrap around\nfoo bar baz qux	0,0	:set tw=40 <CR>cc  spaced  out   words  <Esc>gqip
+word\nThe quick brown fox jumps over the lazy dog	1,0	:set tw=5 fo=jcq<CR>$Rx<Esc>
+	0,0	:set tw=30 fo+=l<CR>wgRhello world<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nThe quick brown fox jumps over the lazy dog\nfoo bar baz qux	1,0	:set tw=10 fo=tq<CR>R(paren text) [and] {more}<Esc>A x y z w<Esc>
+\ttabbed words to wrap around the border\n  indented text here and there\n# a comment line that is long enough to wrap around	2,0	:set tw=20 fo=t<CR>$Ia b c d e f g h i j k l m n<Esc><C-r>
+a b c d e f g h i j k l m n o p q r s t u v w x y z\nfoo bar baz qux	1,0	:set tw=15 fo=tq<CR>3lahello world<Esc>.
+The quick brown fox jumps over the lazy dog\nword	1,0	:set tw=10 fo-=t<CR>3lahello world<Esc>A x y z w<Esc>
+\ttabbed words to wrap around the border\nlongwordwithoutanyblanksatallverylongword and more\n- list item text that is long enough to wrap	1,0	:set tw=40 fo+=l<CR>$ciwend.<Esc>.
+The quick brown fox jumps over the lazy dog\n- list item text that is long enough to wrap	0,0	:set tw=40 fo=tcqj<CR>eccaveryveryverylongwordwithoutblanks<Esc>j.
+- list item text that is long enough to wrap\n\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=10 fo+=l<CR>cw<CR>wrapped text goes here ok<Esc>.
+# a comment line that is long enough to wrap around	0,0	:set tw=40 fo=tcqj<CR>$Sfoo bar baz qux quux<Esc>gqip
+The quick brown fox jumps over the lazy dog\n\n- list item text that is long enough to wrap	0,0	:set tw=20 <CR>Oaveryveryverylongwordwithoutblanks<Esc>
+  indented text here and there\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=10 <CR>0Sfoo bar baz qux quux<Esc>gqq
+foo bar baz qux	0,0	:set tw=10 fo+=l<CR>cw(paren text) [and] {more}<Esc>gqq
+# a comment line that is long enough to wrap around	0,0	:set tw=40 fo+=2<CR>$Aa b c d e f g h i j k l m n<Esc>j.
+word\n- list item text that is long enough to wrap	1,0	:set tw=5 fo-=t<CR>wCend.<Esc>.
+word	0,0	:set tw=15 fo-=t<CR>iend.<Esc>gqip
+- list item text that is long enough to wrap\n- list item text that is long enough to wrap	1,0	:set tw=15 fo-=t<CR>wcwx<Esc>u
+word\nfoo bar baz qux\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=20 <CR>0sa b c d e f g h i j k l m n<Esc>j.
+\ttabbed words to wrap around the border\nfoo bar baz qux\nlongwordwithoutanyblanksatallverylongword and more	1,0	:set tw=10 fo+=l<CR>$ciwend.<Esc>.
+foo bar baz qux	0,0	:set tw=40 fo+=l<CR>0cc  spaced  out   words  <Esc>u
+word	0,0	:set tw=40 fo=tq<CR>woend.<Esc><C-r>
+The quick brown fox jumps over the lazy dog\n# a comment line that is long enough to wrap around	0,0	:set tw=10 fo=jcq<CR>3lI(paren text) [and] {more}<Esc>A x y z w<Esc>
+\ttabbed words to wrap around the border	0,0	:set tw=5 fo=tq<CR>3ifoo bar baz qux quux<Esc>.
+The quick brown fox jumps over the lazy dog\n  indented text here and there	1,0	:set tw=20 fo=jcq<CR>eo  spaced  out   words  <Esc>j.
+# a comment line that is long enough to wrap around	0,0	:set tw=30 fo+=2<CR>3lo<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+# a comment line that is long enough to wrap around	0,0	:set tw=30 fo+=l<CR>0cchello world<Esc>.
+word\n  indented text here and there	1,0	:set tw=10 fo+=l<CR>egR  spaced  out   words  <Esc>.
+longwordwithoutanyblanksatallverylongword and more\n- list item text that is long enough to wrap\n	0,0	:set tw=30 fo=tcqj<CR>wox<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=15 fo=tcqj<CR>0o  spaced  out   words  <Esc>gqip
+# a comment line that is long enough to wrap around	0,0	:set tw=5 fo+=l<CR>$ccaveryveryverylongwordwithoutblanks<Esc>j.
+  indented text here and there	0,0	:set tw=30 fo+=2<CR>wIfoo bar baz qux quux<Esc>gqip
+The quick brown fox jumps over the lazy dog	0,0	:set tw=20 fo=tq<CR>ecc<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+The quick brown fox jumps over the lazy dog\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=20 fo=jcq<CR>eaaveryveryverylongwordwithoutblanks<Esc>.
+foo bar baz qux	0,0	:set tw=30 <CR>$sa b c d e f g h i j k l m n<Esc>u
+# a comment line that is long enough to wrap around\n	1,0	:set tw=5 fo+=l<CR>waa b c d e f g h i j k l m n<Esc><C-r>
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=40 fo-=t<CR>ecw<CR>wrapped text goes here ok<Esc>gqip
+	0,0	:set tw=30 <CR>3lciw  spaced  out   words  <Esc>gqq
+foo bar baz qux\na b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=20 fo=jcq<CR>Rhello world<Esc><C-r>
+longwordwithoutanyblanksatallverylongword and more\n# a comment line that is long enough to wrap around	1,0	:set tw=30 <CR>3i<CR>wrapped text goes here ok<Esc>gqip
+- list item text that is long enough to wrap	0,0	:set tw=40 fo=tq<CR>3lcwaveryveryverylongwordwithoutblanks<Esc>gqq
+word\n  indented text here and there\n- list item text that is long enough to wrap	1,0	:set tw=30 <CR>3lgRa b c d e f g h i j k l m n<Esc>
+- list item text that is long enough to wrap	0,0	:set tw=10 fo=tq<CR>0Sfoo bar baz qux quux<Esc>
+longwordwithoutanyblanksatallverylongword and more\n# a comment line that is long enough to wrap around	0,0	:set tw=40 fo+=l<CR>0Iaveryveryverylongwordwithoutblanks<Esc>u
+The quick brown fox jumps over the lazy dog\n- list item text that is long enough to wrap\nword	2,0	:set tw=30 fo+=l<CR>3lgRa b c d e f g h i j k l m n<Esc>.
+# a comment line that is long enough to wrap around\nword\n  indented text here and there	0,0	:set tw=15 fo-=t<CR>eoa b c d e f g h i j k l m n<Esc>u
+\n\n\ttabbed words to wrap around the border	0,0	:set tw=20 fo=jcq<CR>3lO  spaced  out   words  <Esc>.
+  indented text here and there	0,0	:set tw=20 fo=tcqj<CR>eihello world<Esc>gqq
+# a comment line that is long enough to wrap around\n\n	0,0	:set tw=10 fo=jcq<CR>3lAfoo bar baz qux quux<Esc>j.
+longwordwithoutanyblanksatallverylongword and more\nfoo bar baz qux\nThe quick brown fox jumps over the lazy dog	2,0	:set tw=30 fo+=2<CR>0gR  spaced  out   words  <Esc>gqip
+longwordwithoutanyblanksatallverylongword and more	0,0	:set tw=5 fo+=2<CR>ia b c d e f g h i j k l m n<Esc>
+\nThe quick brown fox jumps over the lazy dog\n- list item text that is long enough to wrap	2,0	:set tw=15 fo=t<CR>3lOa b c d e f g h i j k l m n<Esc>.
+\ttabbed words to wrap around the border\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=10 fo=jcq<CR>3lIx<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n\n- list item text that is long enough to wrap	2,0	:set tw=15 fo+=l<CR>03i  spaced  out   words  <Esc><C-r>
+The quick brown fox jumps over the lazy dog	0,0	:set tw=20 fo=tq<CR>0Rx<Esc>A x y z w<Esc>
+foo bar baz qux	0,0	:set tw=10 fo+=2<CR>3lcwa b c d e f g h i j k l m n<Esc>j.
+\n\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=20 fo=tcqj<CR>ecwend.<Esc>gqq
+a b c d e f g h i j k l m n o p q r s t u v w x y z\n\ttabbed words to wrap around the border	1,0	:set tw=40 fo-=t<CR>3ix<Esc>A x y z w<Esc>
+foo bar baz qux\nword\nThe quick brown fox jumps over the lazy dog	2,0	:set tw=15 fo-=t<CR>03i  spaced  out   words  <Esc>
+foo bar baz qux	0,0	:set tw=5 fo=tq<CR>3lA  spaced  out   words  <Esc>u
+- list item text that is long enough to wrap\n	1,0	:set tw=15 <CR>$3ix<Esc>u
+The quick brown fox jumps over the lazy dog\n- list item text that is long enough to wrap\n- list item text that is long enough to wrap	1,0	:set tw=5 fo-=t<CR>wgRx<Esc>j.
+  indented text here and there	0,0	:set tw=20 fo+=2<CR>0Rx<Esc>
+word	0,0	:set tw=30 fo=tcqj<CR>wRa b c d e f g h i j k l m n<Esc><C-r>
+\ttabbed words to wrap around the border\nfoo bar baz qux\n# a comment line that is long enough to wrap around	2,0	:set tw=15 fo+=l<CR>$Oa b c d e f g h i j k l m n<Esc>u
+	0,0	:set tw=10 <CR>3lA  spaced  out   words  <Esc>j.
+- list item text that is long enough to wrap\na b c d e f g h i j k l m n o p q r s t u v w x y z\n- list item text that is long enough to wrap	0,0	:set tw=40 fo=tcqj<CR>eI<CR>wrapped text goes here ok<Esc><C-r>
+longwordwithoutanyblanksatallverylongword and more\na b c d e f g h i j k l m n o p q r s t u v w x y z\nlongwordwithoutanyblanksatallverylongword and more	2,0	:set tw=10 fo=t<CR>$ciwa b c d e f g h i j k l m n<Esc>.
+  indented text here and there\n# a comment line that is long enough to wrap around	1,0	:set tw=5 fo=tcqj<CR>w3ia b c d e f g h i j k l m n<Esc>
+word\n- list item text that is long enough to wrap	1,0	:set tw=20 fo=t<CR>eC<CR>wrapped text goes here ok<Esc><C-r>
+  indented text here and there	0,0	:set tw=10 fo+=2<CR>$s<CR>wrapped text goes here ok<Esc>gqq
+- list item text that is long enough to wrap	0,0	:set tw=40 fo=tcqj<CR>oaveryveryverylongwordwithoutblanks<Esc>
+\nThe quick brown fox jumps over the lazy dog\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=5 fo+=l<CR>wo(paren text) [and] {more}<Esc>gqq
+- list item text that is long enough to wrap\na b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=15 fo=t<CR>S<CR>wrapped text goes here ok<Esc><C-r>
+# a comment line that is long enough to wrap around\n\ttabbed words to wrap around the border	0,0	:set tw=20 fo=tq<CR>wRend.<Esc>j.
+foo bar baz qux	0,0	:set tw=20 fo+=2<CR>0I<CR>wrapped text goes here ok<Esc>A x y z w<Esc>
+longwordwithoutanyblanksatallverylongword and more\nfoo bar baz qux\nfoo bar baz qux	0,0	:set tw=20 fo=tcqj<CR>shello world<Esc>u
+The quick brown fox jumps over the lazy dog\nlongwordwithoutanyblanksatallverylongword and more\nfoo bar baz qux	0,0	:set tw=30 fo-=t<CR>eRa b c d e f g h i j k l m n<Esc>
+\ttabbed words to wrap around the border\n	1,0	:set tw=20 fo=jcq<CR>cc<CR>wrapped text goes here ok<Esc>gqip
+a b c d e f g h i j k l m n o p q r s t u v w x y z	0,0	:set tw=10 fo+=2<CR>eSaveryveryverylongwordwithoutblanks<Esc>
+\ttabbed words to wrap around the border\na b c d e f g h i j k l m n o p q r s t u v w x y z	1,0	:set tw=15 fo=jcq<CR>wi(paren text) [and] {more}<Esc>.
+\ttabbed words to wrap around the border\nfoo bar baz qux	1,0	:set tw=5 fo=tcqj<CR>wOa b c d e f g h i j k l m n<Esc>gqq
+The quick brown fox jumps over the lazy dog\na b c d e f g h i j k l m n o p q r s t u v w x y z\na b c d e f g h i j k l m n o p q r s t u v w x y z	2,0	:set tw=40 fo=tcqj<CR>0cw  spaced  out   words  <Esc>gqq
+word\nThe quick brown fox jumps over the lazy dog	0,0	:set tw=30 <CR>egRend.<Esc>gqip
+  indented text here and there	0,0	:set tw=30 fo=t<CR>3lR(paren text) [and] {more}<Esc>gqip
+\ttabbed words to wrap around the border	0,0	:set tw=10 fo+=2<CR>0Ox<Esc>.
+\ttabbed words to wrap around the border\nword\n# a comment line that is long enough to wrap around	0,0	:set tw=15 fo+=l<CR>$Iaveryveryverylongwordwithoutblanks<Esc>u
+foo bar baz qux	0,0	:set tw=40 fo=t<CR>Cend.<Esc>.
+  indented text here and there\n\n\ttabbed words to wrap around the border	0,0	:set tw=30 fo=jcq<CR>0gR<CR>wrapped text goes here ok<Esc>
+  indented text here and there\nfoo bar baz qux\nword	2,0	:set tw=5 fo=tcqj<CR>0O<CR>wrapped text goes here ok<Esc>gqip
+\ttabbed words to wrap around the border\n- list item text that is long enough to wrap	1,0	:set tw=10 fo=jcq<CR>wIaveryveryverylongwordwithoutblanks<Esc>gqip
+word	0,0	:set tw=30 fo=jcq<CR>0o<CR>wrapped text goes here ok<Esc>gqip
+# a comment line that is long enough to wrap around	0,0	:set tw=40 fo=jcq<CR>$a(paren text) [and] {more}<Esc>j.

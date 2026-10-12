@@ -699,21 +699,21 @@ pub Outcome search_command(MED_editor.Editor editor, int dirc_in, str typed, int
 
 /// The identifier (or, failing that, the non-blank text) at or after `col`:
 /// start and end byte columns, end exclusive; start -1 when there is none.
-pub List<int> ident_at(str line, int col) {
+pub List<int> ident_at(str line, int col, List<int> keywords) {
     List<int> none = [-1, -1];
     for (int i in 0 .. 2) {
         int char_code = col;
         while (char_code < line.size()) {
-            int cls = MED_text.class_at(line, char_code);
+            int cls = MED_text.class_at_in(line, char_code, keywords);
             if (cls != 0 && (i == 1 || cls != 1)) {
                 break;
             }
             char_code = MED_text.next_col(line, char_code);
         }
-        int this_class = MED_text.class_at(line, char_code);
+        int this_class = MED_text.class_at_in(line, char_code, keywords);
         while (char_code > 0 && this_class != 0) {
             int prevcol = MED_text.previous_col(line, char_code);
-            int previous_class = MED_text.class_at(line, prevcol);
+            int previous_class = MED_text.class_at_in(line, prevcol, keywords);
             if (this_class != previous_class) {
                 break;
             }
@@ -730,10 +730,10 @@ pub List<int> ident_at(str line, int col) {
                 continue;
             }
             // the end
-            int start_class = MED_text.class_at(line, char_code);
+            int start_class = MED_text.class_at_in(line, char_code, keywords);
             int stop = char_code;
             while (stop < line.size()) {
-                int cls = MED_text.class_at(line, stop);
+                int cls = MED_text.class_at_in(line, stop, keywords);
                 bool is_same = false;
                 if (i == 0) {
                     is_same = cls == start_class;
@@ -756,7 +756,7 @@ pub List<int> ident_at(str line, int col) {
 pub Outcome star(MED_editor.Editor editor, int key, bool is_whole_word, int count) {
     Outcome out = Outcome();
     str line = editor.buffer.line(editor.row);
-    List<int> span = ident_at(line, editor.col);
+    List<int> span = ident_at(line, editor.col, editor.buffer.keywords);
     if (span[0] < 0) {
         out.error = "E348: No string under cursor";
         return out;
@@ -767,7 +767,7 @@ pub Outcome star(MED_editor.Editor editor, int key, bool is_whole_word, int coun
         special = "/?.*~[^$\\";
     }
     List<int> pieces = [];
-    bool is_word_start = MED_text.class_at(line, span[0]) >= 2;
+    bool is_word_start = MED_text.class_at_in(line, span[0], editor.buffer.keywords) >= 2;
     if (is_whole_word && is_word_start) {
         pieces.push(92);
         pieces.push(60);
@@ -784,7 +784,7 @@ pub Outcome star(MED_editor.Editor editor, int key, bool is_whole_word, int coun
         last_start = offset;
         offset = MED_text.next_col(line, offset);
     }
-    if (is_whole_word && MED_text.class_at(line, last_start) >= 2) {
+    if (is_whole_word && MED_text.class_at_in(line, last_start, editor.buffer.keywords) >= 2) {
         pieces.push(92);
         pieces.push(62);
     }

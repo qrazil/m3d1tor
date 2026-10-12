@@ -132,7 +132,15 @@ pub type Editor {
     pub int sign_columns = 0;
     /// Screen rows of line `view_skip_line` that are scrolled off the top (nvim's
     /// 'smoothscroll' skipcol, left when CTRL-F stops in the last line).
+    /// The cursor row for which `view_top` is known to be right (Vim's
+    /// VALID_TOPLINE, set by cursor_correct); -1 when it must be checked.
+    pub int view_valid_row = -1;
+    pub int view_valid_text = 0;
+    pub int view_valid_height = 0;
+    pub int view_valid_width = 0;
     pub int view_skip = 0;
+    /// The first display column shown while lines do not wrap (Vim's leftcol).
+    pub int view_left = 0;
     pub int view_skip_line = -1;
     /// 'commentstring': `gc` wraps a line in this, `%s` standing for the text.
     pub str commentstring = "";
@@ -191,6 +199,8 @@ pub type Editor {
     pub bool did_ai = false;
     /// Vim's Insstart_orig: where backspacing with CTRL-W / CTRL-U stops.
     pub MED_buffer.Pos ins_start = MED_buffer.Pos(0, 0);
+    /// The display width of that line when the insert began (Insstart_textlen).
+    pub int ins_textlen = 0;
     /// Vim's Insstart, which becomes the '[ mark when the insert ends.
     pub MED_buffer.Pos ins_mark = MED_buffer.Pos(0, 0);
     /// The insert start an arrow key leaves pending (Vim's Insstart), taken
@@ -239,6 +249,16 @@ pub type Editor {
     /// Command-line histories (typed `:` lines, typed search patterns), oldest
     /// first, and the browsing state of the line being typed.
     pub List<str> hist_ex = [];
+    /// Command-line completion (Tab): the matches, the one shown (-1: the typed
+    /// text), where the word starts, what was typed there, and the buffer names
+    /// `:b` and the front end's own command names it may use.
+    pub List<str> comp_items = [];
+    pub int comp_index = -1;
+    pub int comp_start = 0;
+    pub str comp_typed = "";
+    pub str comp_tail = "";
+    pub List<str> buffer_names = [];
+    pub List<str> extra_commands = [];
     pub List<str> hist_search = [];
     pub int hist_at = -1;
     pub str hist_prefix = "";

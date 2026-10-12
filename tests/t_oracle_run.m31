@@ -138,6 +138,7 @@ str run_case(str line) {
     }
     out.push(regs_line(editor));
     out.push(editor.view_top.to_str());
+    out.push(editor.view_left.to_str());
     return out.join("\t");
 }
 

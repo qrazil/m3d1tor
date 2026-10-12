@@ -96,7 +96,7 @@ pub int Cur.cls(bool is_big) {
     if (code_point == 32 || code_point == 9) {
         return 0;
     }
-    int char_class = MED_text.class_of(code_point);
+    int char_class = MED_text.class_in(code_point, buffer.keywords);
     if (char_class != 0 && is_big) {
         return 1;
     }

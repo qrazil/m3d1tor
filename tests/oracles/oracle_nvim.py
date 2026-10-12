@@ -348,7 +348,8 @@ def describe(fields):
             regs[name] = (kind, unhexs(content))
     return {"text": text, "cursor": (int(fields[2]), int(fields[3])), "mode": fields[4],
             "anchor": (fields[5], fields[6]), "regs": regs,
-            "top": fields[8] if len(fields) > 8 else "0"}
+            "top": fields[8] if len(fields) > 8 else "0",
+            "left": fields[9] if len(fields) > 9 else "0"}
 
 
 def diff(want, got, case=None):
@@ -370,6 +371,8 @@ def diff(want, got, case=None):
         notes.append("mode: nvim=%s engine=%s" % (a["mode"], b["mode"]))
     if a["top"] != b["top"]:
         notes.append("top line: nvim=%s engine=%s" % (a["top"], b["top"]))
+    if a["left"] != b["left"]:
+        notes.append("left column: nvim=%s engine=%s" % (a["left"], b["left"]))
     if a["mode"] != "n" and a["anchor"] != b["anchor"]:
         notes.append("anchor: nvim=%s engine=%s" % (a["anchor"], b["anchor"]))
     for name in sorted(set(a["regs"]) | set(b["regs"])):

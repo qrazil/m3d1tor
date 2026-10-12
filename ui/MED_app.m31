@@ -203,6 +203,7 @@ void App.save_active() {
     slot.editor = editor;
     slot.path = path;
     slot.saved_current = saved_current;
+    left_column = editor.view_left;
     slot.left_column = left_column;
     int at_window = win_index(current_win);
     if (at_window >= 0) {
@@ -285,6 +286,7 @@ void App.activate(int id) {
     path = target.path;
     saved_current = target.saved_current;
     left_column = target.left_column;
+    editor.view_left = left_column;
     editor.view_height = current_text_rows();
 }
 
@@ -724,6 +726,7 @@ void App.focus_window(int id) {
     editor.col = target.col;
     editor.view_top = target.view_top;
     left_column = target.left_column;
+    editor.view_left = left_column;
     editor.clamp();
     editor.want_from_cursor();
     editor.view_height = current_text_rows();
@@ -2288,6 +2291,15 @@ pub TUI_app.Action App.handle(term.Event event) {
     }
     editor.view_height = current_text_rows();
     map_ms = 0;
+    if (editor.mode != MED_editor.CMDLINE || editor.comp_items.size() == 0) {
+        editor.buffer_names = [];
+        for (Slot known in slots) {
+            if (!known.is_listing && known.path.size() > 0) {
+                editor.buffer_names.push(known.path);
+            }
+        }
+        editor.extra_commands = ["Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Rename", "Delete", "Create", "Mkdir"];
+    }
     if (is_paste_in_insert(event)) {
         // typed literally: no autoindent, auto-pairs, mappings or jk, and one undo step
         bool is_quitting = did_quit_after_paste(keys);
@@ -2649,14 +2661,69 @@ List<int> App.search_spans(MED_editor.Editor subject, MED_regex.Regex regex, int
     return spans;
 }
 
-/// Draw the part [`from`, `to`) of a line of `subject` at screen row `y`:
-/// cells whose display column is in [`left`, `left` + `text_width`).
+/// The background of the cursor line, cursor column and 'colorcolumn' (dark
+/// or light by 'background').
+int App.highlight_background(MED_editor.Editor subject, int kind) {
+    bool is_dark = subject.opts.get("background").or("dark") != "light";
+    if (kind == 0) {
+        if (is_dark) {
+            return 236;
+        }
+        return 254;
+    }
+    if (is_dark) {
+        return 52;
+    }
+    return 224;
+}
+
 void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left, bool is_active, int row, int x_start, int y, int text_width, int from, int stop_at, List<int> spans) {
     str line = subject.buffer.line(row);
     TUI_style.Style plain = TUI_style.Style.plain;
     TUI_style.Style selected = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTION_COLOUR));
     TUI_style.Style found = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(3));
     bool is_list = subject.is_option_on("list", false);
+    ListChars list_chars = ListChars();
+    if (is_list) {
+        list_chars = parse_listchars(subject.opts.get("listchars").or("tab:> ,trail:-,nbsp:+"));
+    }
+    TUI_style.Style special = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
+    bool is_cursor_line = is_active && row == subject.row && subject.is_option_on("cursorline", false);
+    bool is_cursor_column = is_active && subject.is_option_on("cursorcolumn", false);
+    str color_columns = subject.opts.get("colorcolumn").or("");
+    int cursor_spot = -1;
+    if (is_cursor_column) {
+        cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
+    }
+    int line_background = highlight_background(subject, 0);
+    int column_background = highlight_background(subject, 1);
+    if (is_cursor_line) {
+        plain = TUI_style.Style(background: TUI_style.Colour.Indexed(line_background));
+        special = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4), background: TUI_style.Colour.Indexed(line_background));
+        for (int cell in 0 .. text_width) {
+            buffer.set_str(x_start + cell, y, " ", plain);
+        }
+    }
+    // the cursor column and the colour columns, where the line has no text
+    if (is_cursor_column || color_columns.size() > 0) {
+        for (int cell in 0 .. text_width) {
+            int cell_spot = left + cell;
+            bool is_column = cell_spot == cursor_spot;
+            bool is_colored = is_color_column(subject, color_columns, cell_spot);
+            if (is_column || is_colored) {
+                int background = line_background;
+                if (is_colored && !is_column) {
+                    background = column_background;
+                }
+                buffer.set_str(x_start + cell, y, " ", TUI_style.Style(background: TUI_style.Colour.Indexed(background)));
+            }
+        }
+    }
+    int trail_from = line.size();
+    while (trail_from > 0 && (line.byte_at(trail_from - 1) == 32 || line.byte_at(trail_from - 1) == 9)) {
+        trail_from = trail_from - 1;
+    }
+    int lead_to = MED_text.first_nonblank(line);
     int spot = 0;
     if (from > 0) {
         // a wrapped row: `left` is the display column of `from`
@@ -2668,6 +2735,11 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
         int next = MED_text.next_col(line, offset);
         if (spot >= left && spot + width <= left + text_width) {
             TUI_style.Style style = plain;
+            if (spot == cursor_spot) {
+                style = TUI_style.Style(background: TUI_style.Colour.Indexed(line_background));
+            } else if (is_color_column(subject, color_columns, spot)) {
+                style = TUI_style.Style(background: TUI_style.Colour.Indexed(column_background));
+            }
             if (is_in_spans(spans, offset)) {
                 style = found;
             }
@@ -2678,10 +2750,43 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
                 style = selected;
             }
             str text = shown(line, offset, next, width);
-            if (is_list && MED_text.cp_at(line, offset) == 9) {
-                text = "^I" + " ".repeat(width - 2);
-                if (width < 2) {
-                    text = "^";
+            int code_point = MED_text.cp_at(line, offset);
+            if (is_list) {
+                bool is_marked = false;
+                if (code_point == 9) {
+                    if (list_chars.tab_first.size() > 0) {
+                        text = list_chars.tab_first;
+                        if (width > 1) {
+                            if (list_chars.tab_last.size() > 0) {
+                                text = text + list_chars.tab_fill.repeat(width - 2) + list_chars.tab_last;
+                            } else {
+                                text = text + list_chars.tab_fill.repeat(width - 1);
+                            }
+                        }
+                        is_marked = true;
+                    } else {
+                        text = "^I" + " ".repeat(width - 2);
+                        if (width < 2) {
+                            text = "^";
+                        }
+                    }
+                } else if (code_point == 160 && list_chars.nbsp.size() > 0) {
+                    text = list_chars.nbsp;
+                    is_marked = true;
+                } else if (code_point == 32) {
+                    if (offset >= trail_from && list_chars.trail.size() > 0) {
+                        text = list_chars.trail;
+                        is_marked = true;
+                    } else if (offset < lead_to && list_chars.lead.size() > 0) {
+                        text = list_chars.lead;
+                        is_marked = true;
+                    } else if (list_chars.space.size() > 0) {
+                        text = list_chars.space;
+                        is_marked = true;
+                    }
+                }
+                if (is_marked && !is_selected(row, offset, spot) && !is_in_spans(spans, offset)) {
+                    style = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4), background: style.background);
                 }
             }
             buffer.set_str(x_start + spot - left, y, text, style);
@@ -2692,11 +2797,10 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
             break;
         }
     }
-    if (is_list && stop_at >= line.size()) {
-        // 'list' shows the end of the line as $
+    if (is_list && list_chars.eol.size() > 0 && stop_at >= line.size()) {
         int end_spot = MED_text.line_width(line, subject.tab);
         if (end_spot >= left && end_spot < left + text_width) {
-            buffer.set_str(x_start + end_spot - left, y, "$", TUI_style.Style(foreground: TUI_style.Colour.Indexed(4)));
+            buffer.set_str(x_start + end_spot - left, y, list_chars.eol, special);
         }
     }
 }
@@ -2816,6 +2920,7 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     int kept_col = subject.col;
     int kept_top = subject.view_top;
     int kept_height = subject.view_height;
+    int kept_left = subject.view_left;
     if (!is_active) {
         Slot slot = slots[index_of(win.buffer_id)];
         subject = slot.editor;
@@ -2825,6 +2930,8 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         }
         is_changed = is_slot_modified(slot);
         left = win.left_column;
+        kept_left = subject.view_left;
+        subject.view_left = win.left_column;
         kept_row = subject.row;
         kept_col = subject.col;
         kept_top = subject.view_top;
@@ -2881,16 +2988,7 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     MED_view.update(subject);
     bool is_wrap = subject.is_option_on("wrap", true);
     int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
-    if (is_wrap) {
-        left = 0;
-    } else {
-        if (cursor_spot < left) {
-            left = cursor_spot;
-        }
-        if (cursor_spot >= left + text_width) {
-            left = cursor_spot - text_width + 1;
-        }
-    }
+    left = subject.view_left;
     TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
     TUI_style.Style filler = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
     TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
@@ -3031,11 +3129,57 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         win.row = subject.row;
         win.col = subject.col;
         win.view_top = subject.view_top;
-        win.left_column = left;
+        win.left_column = subject.view_left;
+        subject.view_left = kept_left;
         subject.row = kept_row;
         subject.col = kept_col;
         subject.view_top = kept_top;
         subject.view_height = kept_height;
+    }
+}
+
+/// The matches of a Tab completion in the row above the command line (Vim's
+/// 'wildmenu'), the chosen one reversed.
+void App.draw_wildmenu(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
+    int y = area.y + area.height - 2;
+    if (y < area.y) {
+        return;
+    }
+    TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.REVERSE);
+    TUI_style.Style chosen = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(2));
+    for (int x in 0 .. area.width) {
+        buffer.set_str(area.x + x, y, " ", bar);
+    }
+    // start at the first item that lets the chosen one fit
+    int first = 0;
+    int used = 0;
+    int shown_index = editor.comp_index;
+    if (shown_index < 0) {
+        shown_index = 0;
+    }
+    for (int index in 0 .. editor.comp_items.size()) {
+        used = used + MED_text.line_width(editor.comp_items[index], 4) + 2;
+        if (index == shown_index) {
+            break;
+        }
+    }
+    while (used > area.width - 2 && first < shown_index) {
+        used = used - MED_text.line_width(editor.comp_items[first], 4) - 2;
+        first = first + 1;
+    }
+    int menu_x = 0;
+    for (int index in first .. editor.comp_items.size()) {
+        str item = editor.comp_items[index];
+        int width = MED_text.line_width(item, 4);
+        if (menu_x + width > area.width) {
+            break;
+        }
+        TUI_style.Style look = bar;
+        if (index == editor.comp_index) {
+            look = chosen;
+        }
+        buffer.set_str(area.x + menu_x, y, item, look);
+        menu_x = menu_x + width + 2;
     }
 }
 
@@ -3058,6 +3202,9 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     int rows = area.height - FOOTER_ROWS;
     if (rows < 1) {
         rows = 1;
+    }
+    if (editor.mode == MED_editor.CMDLINE && editor.comp_items.size() > 1) {
+        draw_wildmenu(buffer, area);
     }
     if (overlay.size() > 0) {
         draw_overlay(buffer, area, rows);
@@ -3212,6 +3359,84 @@ bool App.is_in_preview(int row, int offset, int size) {
         return false;
     }
     return true;
+}
+
+/// Draw the part [`from`, `to`) of a line of `subject` at screen row `y`:
+/// cells whose display column is in [`left`, `left` + `text_width`).
+/// What 'listchars' (default "tab:> ,trail:-,nbsp:+") draws.
+type ListChars {
+    pub str tab_first = "";
+    pub str tab_fill = "";
+    pub str tab_last = "";
+    pub str trail = "";
+    pub str lead = "";
+    pub str space = "";
+    pub str nbsp = "";
+    pub str eol = "";
+}
+
+ListChars parse_listchars(str value) {
+    ListChars out = ListChars();
+    for (str part in value.split(",")) {
+        int colon = part.index_of(":").or(-1);
+        if (colon < 0) {
+            continue;
+        }
+        str name = part.substr(0, colon);
+        List<str> chars = [];
+        for (int code_point in part.substr(colon + 1, part.size()).chars()) {
+            chars.push(str.from_chars([code_point]));
+        }
+        if (chars.size() == 0) {
+            continue;
+        }
+        if (name == "tab" && chars.size() >= 2) {
+            out.tab_first = chars[0];
+            out.tab_fill = chars[1];
+            if (chars.size() >= 3) {
+                out.tab_last = chars[2];
+            }
+        } else if (name == "trail") {
+            out.trail = chars[0];
+        } else if (name == "lead") {
+            out.lead = chars[0];
+        } else if (name == "space") {
+            out.space = chars[0];
+        } else if (name == "nbsp") {
+            out.nbsp = chars[0];
+        } else if (name == "eol") {
+            out.eol = chars[0];
+        }
+    }
+    return out;
+}
+
+/// Whether the display columns of colorcolumn include `spot` (a column list
+/// of numbers and +N / -N relative to 'textwidth').
+bool is_color_column(MED_editor.Editor subject, str columns, int spot) {
+    if (columns.size() == 0) {
+        return false;
+    }
+    for (str part in columns.split(",")) {
+        str item = part.trim();
+        int number = 0;
+        if (item.starts_with("+") || item.starts_with("-")) {
+            if (subject.textwidth <= 0) {
+                continue;
+            }
+            int delta = item.substr(1, item.size()).parse_int().or(0);
+            if (item.starts_with("-")) {
+                delta = 0 - delta;
+            }
+            number = subject.textwidth + delta;
+        } else {
+            number = item.parse_int().or(0);
+        }
+        if (number > 0 && number - 1 == spot) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // ------------------------------------------------------------------ file tree
@@ -3746,7 +3971,7 @@ int key_code(term.Code code) {
             return MED_key.TAB;
         }
         case BackTab: {
-            return -1;
+            return MED_key.MOD_SHIFT | MED_key.TAB;
         }
         case Backspace: {
             return MED_key.BACKSPACE;
