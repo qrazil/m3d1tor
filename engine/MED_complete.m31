@@ -102,6 +102,57 @@ bool is_after(str first, str second) {
     return first.size() > second.size();
 }
 
+// Whether `first` sorts after `second` ignoring ASCII case (file names on macOS).
+bool is_after_folded(str first, str second) {
+    int count = first.size();
+    if (second.size() < count) {
+        count = second.size();
+    }
+    for (int index in 0 .. count) {
+        int one = first.byte_at(index);
+        int two = second.byte_at(index);
+        if (one >= 65 && one <= 90) {
+            one = one + 32;
+        }
+        if (two >= 65 && two <= 90) {
+            two = two + 32;
+        }
+        if (one != two) {
+            return one > two;
+        }
+    }
+    if (first.size() != second.size()) {
+        return first.size() > second.size();
+    }
+    return is_after(first, second);
+}
+
+// File names are sorted without regard to case where the file system does not
+// tell the cases apart (macOS), as Vim does.
+bool is_case_blind_files() {
+    return fs.is_directory("/System/Library");
+}
+
+List<str> sorted_files(List<str> items) {
+    if (!is_case_blind_files()) {
+        return sorted(items);
+    }
+    List<str> copy = [];
+    for (str item in items) {
+        copy.push(item);
+    }
+    for (int index in 1 .. copy.size()) {
+        str held = copy[index];
+        int back = index - 1;
+        while (back >= 0 && is_after_folded(copy[back], held)) {
+            copy[back + 1] = copy[back];
+            back = back - 1;
+        }
+        copy[back + 1] = held;
+    }
+    return copy;
+}
+
 List<str> sorted(List<str> items) {
     List<str> copy = [];
     for (str item in items) {
@@ -235,7 +286,11 @@ List<str> path_matches(str given, bool is_directories_only) {
     match (fs.listdir(actual)) {
         case Ok(List<str> names): {
             for (str name in names) {
-                if (!name.starts_with(base)) {
+                bool is_prefix = name.starts_with(base);
+                if (!is_prefix && is_case_blind_files()) {
+                    is_prefix = name.to_lower().starts_with(base.to_lower());
+                }
+                if (!is_prefix) {
                     continue;
                 }
                 if (name.starts_with(".") && !base.starts_with(".")) {
@@ -265,7 +320,7 @@ List<str> path_matches(str given, bool is_directories_only) {
             names_only.push(item);
         }
     }
-    for (str item in sorted(names_only)) {
+    for (str item in sorted_files(names_only)) {
         specials.push(item);
     }
     return specials;
