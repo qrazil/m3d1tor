@@ -2063,6 +2063,12 @@ void share_state(MED_editor.Editor from, MED_editor.Editor into) {
     into.is_wrapscan = from.is_wrapscan;
     into.is_joinspaces = from.is_joinspaces;
     into.is_startofline = from.is_startofline;
+    into.softtabstop = from.softtabstop;
+    into.is_smarttab = from.is_smarttab;
+    into.is_shiftround = from.is_shiftround;
+    for (str name in from.opts.keys()) {
+        into.opts.set(name, from.opts.get(name).or(""));
+    }
     into.scroll_opt = from.scroll_opt;
     into.view_height = from.view_height;
     into.maps = from.maps;

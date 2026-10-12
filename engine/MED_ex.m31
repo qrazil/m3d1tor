@@ -32,6 +32,7 @@ import engine.MED_case;
 import engine.MED_view;
 import engine.MED_map;
 import engine.MED_expr;
+import engine.MED_option;
 
 // ------------------------------------------------------------------- driver
 
@@ -1473,71 +1474,6 @@ Step cmd_delmarks(MED_editor.Editor editor, Cmd cmd) {
 
 // ---------------------------------------------------------------------- :set
 
-str option_name(str word) {
-    List<str> table = ["ignorecase:ic", "smartcase:scs", "wrapscan:ws", "expandtab:et", "autoindent:ai", "joinspaces:js", "startofline:sol", "shiftwidth:sw", "tabstop:ts", "textwidth:tw", "commentstring:cms"];
-    for (str entry in table) {
-        int key = entry.index_of(":").or(0);
-        if (word == entry.substr(0, key) || word == entry.substr(key + 1, entry.size())) {
-            return entry.substr(0, key);
-        }
-    }
-    return "";
-}
-
-bool did_option_ignored(str word) {
-    List<str> names = ["number", "nu", "relativenumber", "rnu", "hlsearch", "hls", "incsearch", "is", "list", "wrap", "cursorline", "cul", "ruler", "ru", "showmode", "smd", "showcmd", "sc", "softtabstop", "sts", "scrolloff", "so", "hidden", "hid", "smartindent", "si", "cindent", "cin", "magic", "lazyredraw", "lz", "swapfile", "swf", "undofile", "udf", "backup", "bk", "writebackup", "wb", "mouse", "background", "bg", "termguicolors", "tgc", "laststatus", "ls", "signcolumn", "scl", "foldenable", "fen", "wildmenu", "wmnu", "cmdheight", "ch", "timeoutlen", "tm", "ttimeoutlen", "ttm", "updatetime", "ut", "splitright", "spr", "splitbelow", "sb", "linebreak", "lbr", "report", "shortmess", "shm", "whichwrap", "ww", "virtualedit", "ve", "selection", "sel", "nrformats", "nf", "matchpairs", "mps", "iskeyword", "isk", "tildeop", "top", "gdefault", "gd", "fileformat", "ff", "encoding", "enc", "clipboard", "cb", "backspace", "bs", "formatoptions", "fo", "comments", "com", "commentstring", "cms", "cpoptions", "cpo", "smarttab", "sta", "shiftround", "sr", "foldmethod", "fdm", "undolevels", "ul", "autoread", "ar", "modeline", "ml", "belloff", "bo", "display", "dy", "sidescroll", "ss", "sidescrolloff", "siso", "numberwidth", "nuw", "colorcolumn", "cc", "conceallevel", "cole"];
-    for (str name in names) {
-        if (name == word) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool is_bool_value(MED_editor.Editor editor, str key) {
-    if (key == "ignorecase") {
-        return editor.is_ignorecase;
-    }
-    if (key == "smartcase") {
-        return editor.is_smartcase;
-    }
-    if (key == "wrapscan") {
-        return editor.is_wrapscan;
-    }
-    if (key == "expandtab") {
-        return editor.is_expandtab;
-    }
-    if (key == "autoindent") {
-        return editor.is_autoindent;
-    }
-    if (key == "joinspaces") {
-        return editor.is_joinspaces;
-    }
-    return editor.is_startofline;
-}
-
-void bool_store(MED_editor.Editor editor, str key, bool is_value) {
-    if (key == "ignorecase") {
-        editor.is_ignorecase = is_value;
-    } else if (key == "smartcase") {
-        editor.is_smartcase = is_value;
-    } else if (key == "wrapscan") {
-        editor.is_wrapscan = is_value;
-    } else if (key == "expandtab") {
-        editor.is_expandtab = is_value;
-    } else if (key == "autoindent") {
-        editor.is_autoindent = is_value;
-    } else if (key == "joinspaces") {
-        editor.is_joinspaces = is_value;
-    } else {
-        editor.is_startofline = is_value;
-    }
-}
-
-bool is_bool_option(str key) {
-    return key != "shiftwidth" && key != "tabstop" && key != "textwidth" && key != "commentstring";
-}
-
 // `:set` words: separated by white space; a backslash keeps a space (or a
 // backslash) in the word.
 List<str> set_words(str arg) {
@@ -1564,24 +1500,205 @@ List<str> set_words(str arg) {
     return words;
 }
 
-// A string option's new value for `=`, `+=` (append), `^=` (prepend) and `-=`.
-str string_value(str current, str operator, str value) {
+str bool_text(bool is_value) {
+    if (is_value) {
+        return "true";
+    }
+    return "false";
+}
+
+// The value of an option as text ("true"/"false" for a boolean).
+str option_text(MED_editor.Editor editor, MED_option.Spec spec) {
+    str name = spec.name;
+    if (name == "tabstop") {
+        return editor.tab.to_str();
+    }
+    if (name == "shiftwidth") {
+        return editor.shiftwidth.to_str();
+    }
+    if (name == "softtabstop") {
+        return editor.softtabstop.to_str();
+    }
+    if (name == "textwidth") {
+        return editor.textwidth.to_str();
+    }
+    if (name == "commentstring") {
+        return editor.commentstring;
+    }
+    if (name == "expandtab") {
+        return bool_text(editor.is_expandtab);
+    }
+    if (name == "autoindent") {
+        return bool_text(editor.is_autoindent);
+    }
+    if (name == "ignorecase") {
+        return bool_text(editor.is_ignorecase);
+    }
+    if (name == "smartcase") {
+        return bool_text(editor.is_smartcase);
+    }
+    if (name == "wrapscan") {
+        return bool_text(editor.is_wrapscan);
+    }
+    if (name == "joinspaces") {
+        return bool_text(editor.is_joinspaces);
+    }
+    if (name == "startofline") {
+        return bool_text(editor.is_startofline);
+    }
+    if (name == "smarttab") {
+        return bool_text(editor.is_smarttab);
+    }
+    if (name == "shiftround") {
+        return bool_text(editor.is_shiftround);
+    }
+    return editor.opts.get(name).or(spec.default);
+}
+
+void option_store(MED_editor.Editor editor, MED_option.Spec spec, str text) {
+    str name = spec.name;
+    bool is_on = text == "true";
+    int count = text.parse_int().or(0);
+    if (name == "tabstop") {
+        editor.tab = count;
+        editor.want_from_cursor();
+    } else if (name == "shiftwidth") {
+        editor.shiftwidth = count;
+    } else if (name == "softtabstop") {
+        editor.softtabstop = count;
+    } else if (name == "textwidth") {
+        editor.textwidth = count;
+    } else if (name == "commentstring") {
+        editor.commentstring = text;
+    } else if (name == "expandtab") {
+        editor.is_expandtab = is_on;
+    } else if (name == "autoindent") {
+        editor.is_autoindent = is_on;
+    } else if (name == "ignorecase") {
+        editor.is_ignorecase = is_on;
+    } else if (name == "smartcase") {
+        editor.is_smartcase = is_on;
+    } else if (name == "wrapscan") {
+        editor.is_wrapscan = is_on;
+    } else if (name == "joinspaces") {
+        editor.is_joinspaces = is_on;
+    } else if (name == "startofline") {
+        editor.is_startofline = is_on;
+    } else if (name == "smarttab") {
+        editor.is_smarttab = is_on;
+    } else if (name == "shiftround") {
+        editor.is_shiftround = is_on;
+    } else {
+        editor.opts.set(name, text);
+    }
+}
+
+// What `:set name?` shows.
+str option_show(MED_editor.Editor editor, MED_option.Spec spec) {
+    str text = option_text(editor, spec);
+    if (spec.kind == "bool") {
+        if (text == "true") {
+            return "  " + spec.name;
+        }
+        return "no" + spec.name;
+    }
+    return "  " + spec.name + "=" + text;
+}
+
+const List<str> COMMA_OPTIONS = ["iskeyword", "isfname", "isident", "isprint", "matchpairs", "nrformats", "whichwrap", "backspace", "clipboard", "display", "virtualedit", "listchars", "fillchars", "wildmode", "completeopt", "switchbuf", "comments", "suffixesadd", "path", "tags", "errorformat", "jumpoptions", "cinoptions", "cinkeys", "indentkeys", "colorcolumn", "cursorlineopt", "spelllang", "wildignore", "belloff", "backupcopy", "diffopt", "foldopen", "foldclose", "sessionoptions", "viewoptions", "wildoptions", "tabclose", "keymodel", "mousemodel", "scrollopt", "selection"];
+const List<str> FLAG_OPTIONS = ["formatoptions", "shortmess", "cpoptions", "mouse", "guioptions", "matchpairs_flags"];
+
+bool is_listed(List<str> names, str name) {
+    for (str entry in names) {
+        if (entry == name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// A string option's new value for `=`, `+=` (append), `^=` (prepend) and `-=`;
+// comma-separated options add and remove items, flag options characters.
+str string_value(str name, str current, str operator, str value) {
+    if (operator == "=" || value == "") {
+        if (operator == "=") {
+            return value;
+        }
+        return current;
+    }
+    if (is_listed(COMMA_OPTIONS, name)) {
+        List<str> items = [];
+        if (current != "") {
+            items = current.split(",");
+        }
+        bool is_there = is_listed(items, value);
+        if (operator == "-") {
+            List<str> kept = [];
+            for (str item in items) {
+                if (item != value) {
+                    kept.push(item);
+                }
+            }
+            return kept.join(",");
+        }
+        if (is_there) {
+            return current;
+        }
+        if (current == "") {
+            return value;
+        }
+        if (operator == "^") {
+            return value + "," + current;
+        }
+        return current + "," + value;
+    }
+    if (is_listed(FLAG_OPTIONS, name)) {
+        str result = current;
+        if (operator == "-") {
+            for (int i in 0 .. value.size()) {
+                result = result.split(value.substr(i, i + 1)).join("");
+            }
+            return result;
+        }
+        str added = "";
+        for (int i in 0 .. value.size()) {
+            str one = value.substr(i, i + 1);
+            if (!result.contains(one) && !added.contains(one)) {
+                added = added + one;
+            }
+        }
+        if (operator == "^") {
+            return added + result;
+        }
+        return result + added;
+    }
     if (operator == "+") {
         return current + value;
     }
     if (operator == "^") {
         return value + current;
     }
-    if (operator == "-") {
-        if (value == "") {
-            return current;
-        }
-        return current.split(value).join("");
+    if (current == value) {
+        return "";
     }
-    return value;
+    return current.split(value).join("");
+}
+
+str number_error(str name, int count, str token) {
+    if (name == "tabstop" && count <= 0) {
+        return "E487: Argument must be positive: " + token;
+    }
+    if (name == "softtabstop" || name == "tabstop") {
+        return "";
+    }
+    if (count < 0 && name != "laststatus" && name != "foldlevel" && name != "undolevels") {
+        return "E487: Argument must be positive: " + token;
+    }
+    return "";
 }
 
 Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
+    str shown = "";
     for (str token in set_words(cmd.arg)) {
         if (token == "" || token == "all") {
             continue;
@@ -1609,6 +1726,7 @@ Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
         bool is_query = false;
         bool is_invert = false;
         bool is_negate = false;
+        bool is_reset = false;
         if (word.ends_with("?")) {
             is_query = true;
             word = word.substr(0, word.size() - 1);
@@ -1616,63 +1734,57 @@ Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
             is_invert = true;
             word = word.substr(0, word.size() - 1);
         } else if (word.ends_with("&")) {
+            is_reset = true;
             word = word.substr(0, word.size() - 1);
         }
-        str key = option_name(word);
-        if (key == "" && word.starts_with("no")) {
-            key = option_name(word.substr(2, word.size()));
-            is_negate = key != "";
-            if (key == "" && did_option_ignored(word.substr(2, word.size()))) {
-                continue;
-            }
+        MED_option.Spec spec = MED_option.find(word);
+        if (spec.name == "" && word.starts_with("no")) {
+            spec = MED_option.find(word.substr(2, word.size()));
+            is_negate = spec.name != "";
         }
-        if (key == "" && word.starts_with("inv")) {
-            key = option_name(word.substr(3, word.size()));
-            is_invert = key != "";
-            if (key == "" && did_option_ignored(word.substr(3, word.size()))) {
-                continue;
-            }
+        if (spec.name == "" && word.starts_with("inv")) {
+            spec = MED_option.find(word.substr(3, word.size()));
+            is_invert = spec.name != "";
         }
-        if (key == "") {
-            if (did_option_ignored(word)) {
-                continue;
-            }
+        if (spec.name == "") {
             return fail(editor, "E518: Unknown option: " + word);
         }
-        if (is_query) {
-            continue;
-        }
-        if (key == "commentstring") {
-            if (operator == "") {
-                continue;
-            }
-            editor.commentstring = string_value(editor.commentstring, operator, value);
-            continue;
-        }
-        if (is_bool_option(key)) {
-            if (operator != "") {
+        if (spec.kind == "bool") {
+            if (operator != "" || ((is_negate || is_invert) && is_query)) {
                 return fail(editor, "E474: Invalid argument: " + token);
             }
-            if (is_invert) {
-                bool_store(editor, key, !is_bool_value(editor, key));
+            if (is_query) {
+                shown = shown + option_show(editor, spec);
+            } else if (is_reset) {
+                option_store(editor, spec, spec.default);
+            } else if (is_invert) {
+                option_store(editor, spec, bool_text(option_text(editor, spec) != "true"));
             } else {
-                bool_store(editor, key, !is_negate);
+                option_store(editor, spec, bool_text(!is_negate));
             }
             continue;
         }
-        if (operator == "") {
+        if (is_negate || is_invert) {
+            return fail(editor, "E474: Invalid argument: " + token);
+        }
+        if (is_reset) {
+            option_store(editor, spec, spec.default);
             continue;
         }
-        if (value == "" || skip_digits(value, 0) != value.size()) {
+        if (is_query || operator == "") {
+            shown = shown + option_show(editor, spec);
+            continue;
+        }
+        if (spec.kind == "str") {
+            option_store(editor, spec, string_value(spec.name, option_text(editor, spec), operator, value));
+            continue;
+        }
+        bool is_signed = value.starts_with("-") && value.size() > 1 && skip_digits(value, 1) == value.size();
+        if (value == "" || (!is_signed && skip_digits(value, 0) != value.size())) {
             return fail(editor, "E521: Number required after =: " + token);
         }
-        int count = digits_value(value, 0, value.size());
-        int current = editor.tab;
-        if (key == "shiftwidth") {
-            current = editor.shiftwidth;
-        } else if (key == "textwidth") {
-            current = editor.textwidth;
-        }
+        int count = value.parse_int().or(0);
+        int current = option_text(editor, spec).parse_int().or(0);
         if (operator == "+") {
             count = current + count;
         } else if (operator == "-") {
@@ -1680,25 +1792,14 @@ Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
         } else if (operator == "^") {
             count = current * count;
         }
-        if (key == "tabstop") {
-            if (count <= 0) {
-                return fail(editor, "E487: Argument must be positive: " + token);
-            }
-            editor.tab = count;
-        } else if (key == "textwidth") {
-            if (count < 0) {
-                return fail(editor, "E487: Argument must be positive: " + token);
-            }
-            editor.textwidth = count;
-        } else {
-            if (count < 0) {
-                return fail(editor, "E487: Argument must be positive: " + token);
-            }
-            if (count == 0) {
-                count = editor.tab;
-            }
-            editor.shiftwidth = count;
+        str error = number_error(spec.name, count, token);
+        if (error != "") {
+            return fail(editor, error);
         }
+        option_store(editor, spec, count.to_str());
+    }
+    if (shown != "") {
+        editor.message = shown;
     }
     return done();
 }

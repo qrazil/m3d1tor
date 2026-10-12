@@ -133,6 +133,16 @@ pub type Editor {
     pub bool is_wrapscan = true;
     pub bool is_joinspaces = false;
     pub bool is_startofline = false;
+    /// 'softtabstop' (negative: the shiftwidth), 'smarttab' and 'shiftround'.
+    pub int softtabstop = 0;
+    pub bool is_smarttab = true;
+    pub bool is_shiftround = false;
+    /// A space was typed in this insert (<BS> then deletes one space, not a 'softtabstop').
+    pub bool did_space = false;
+    /// The key typed before the current one in this insert (for `0 CTRL-D`).
+    pub int ins_previous = 0;
+    /// Every other option that was set, by full name, as text (see MED_option).
+    pub Map<str, str> opts = {};
     pub List<int> pending = [];
     pub FindState find = FindState();
     pub Map<str, MED_buffer.Pos> marks = {};
@@ -331,6 +341,40 @@ pub type Editor {
     pub bool is_sub_has = false;
     /// Set while a caller adjusts the marks itself (`:s` line breaks).
     pub bool is_adjust_off = false;
+}
+
+/// The effective 'shiftwidth': 0 stands for 'tabstop'.
+pub int Editor.shift_size() {
+    if (shiftwidth <= 0) {
+        return tab;
+    }
+    return shiftwidth;
+}
+
+/// The effective 'softtabstop': negative stands for the shiftwidth.
+pub int Editor.soft_width() {
+    if (softtabstop < 0) {
+        return shift_size();
+    }
+    return softtabstop;
+}
+
+/// Whether the boolean option `name` is on (for options kept in `opts`).
+pub bool Editor.is_option_on(str name, bool is_default) {
+    str text = opts.get(name).or("");
+    if (text == "") {
+        return is_default;
+    }
+    return text == "true";
+}
+
+/// The number option `name` (for options kept in `opts`).
+pub int Editor.option_number(str name, int default_value) {
+    str text = opts.get(name).or("");
+    if (text == "") {
+        return default_value;
+    }
+    return text.parse_int().or(default_value);
 }
 
 pub bool Editor.did_in_visual() {

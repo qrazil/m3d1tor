@@ -1124,6 +1124,29 @@ pub str with_indent(MED_editor.Editor editor, str line, int width) {
     return "\t".repeat(width / editor.tab) + " ".repeat(width % editor.tab) + rest;
 }
 
+// Vim's shift_line(): the indent `width` becomes after shifting `amount`
+// 'shiftwidth's, rounded to a multiple with 'shiftround'.
+int shifted_width(MED_editor.Editor editor, int width, bool is_left, int amount, bool is_round) {
+    int unit = editor.shift_size();
+    if (!is_round) {
+        if (is_left) {
+            return MED_num.larger(width - unit * amount, 0);
+        }
+        return width + unit * amount;
+    }
+    int steps = width / unit;
+    int times = amount;
+    if (is_left) {
+        if (width % unit != 0) {
+            times = times - 1;
+        }
+        steps = MED_num.larger(steps - times, 0);
+    } else {
+        steps = steps + times;
+    }
+    return steps * unit;
+}
+
 // Vim's op_shift for `>` and `<` over whole lines.
 void op_shift(MED_editor.Editor editor, Oap oap) {
     touch(editor);
@@ -1136,13 +1159,7 @@ void op_shift(MED_editor.Editor editor, Oap oap) {
         if (line.size() == 0) {
             continue;
         }
-        int width = indent_width(editor, line);
-        int delta = editor.shiftwidth * oap.amount;
-        if (oap.operator == ">") {
-            width = width + delta;
-        } else {
-            width = MED_num.larger(width - delta, 0);
-        }
+        int width = shifted_width(editor, indent_width(editor, line), oap.operator == "<", oap.amount, editor.is_shiftround);
         str replaced = with_indent(editor, line, width);
         if (replaced != line) {
             editor.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, line.size()), replaced);
@@ -1202,7 +1219,7 @@ int reindent_width(MED_editor.Editor editor, int row) {
         last = last - 1;
     }
     if (last >= 0 && previous.byte_at(last) == 123) {
-        return width + editor.shiftwidth;
+        return width + editor.shift_size();
     }
     return width;
 }
@@ -1591,6 +1608,7 @@ pub bool did_do_join(MED_editor.Editor editor, int row, int count, bool is_inser
 const int PUT_LINE = 1;
 const int PUT_LINE_SPLIT = 2;
 const int PUT_LINE_FORWARD = 4;
+const int PUT_FIXINDENT = 8;
 
 // Vim's do_put. `directory` 1 for p / gp, -1 for P / gP; `is_cursor_end` for gp / gP.
 bool did_do_put(MED_editor.Editor editor, str regname, int directory, int count, bool is_cursor_end) {
@@ -1696,6 +1714,30 @@ bool did_put_block(MED_editor.Editor editor, MED_register.Reg reg, int directory
     return true;
 }
 
+// PUT_FIXINDENT: the put lines keep their relative indent, the first one
+// getting `orig_indent`; empty lines get none.
+void fix_put_indent(MED_editor.Editor editor, int first_row, int last_row, int orig_indent) {
+    int diff = 0;
+    bool is_first = true;
+    for (int row in first_row .. last_row + 1) {
+        str line = editor.buffer.line(row);
+        int width = 0;
+        if (line.size() == 0) {
+            width = 0;
+        } else if (is_first) {
+            diff = orig_indent - indent_width(editor, line);
+            width = orig_indent;
+            is_first = false;
+        } else {
+            width = MED_num.larger(indent_width(editor, line) + diff, 0);
+        }
+        str fixed = with_indent(editor, line, width);
+        if (fixed != line) {
+            editor.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, line.size()), fixed);
+        }
+    }
+}
+
 // Vim's do_put with its flags (PUT_LINE and friends, used by Visual `p`).
 // `vi_row` is the row the Visual end was on, for PUT_LINE_FORWARD.
 bool did_put_reg(MED_editor.Editor editor, MED_register.Reg reg0, int dir0, int count, bool is_cursor_end, int flags, int vi_row) {
@@ -1727,6 +1769,7 @@ bool did_put_reg(MED_editor.Editor editor, MED_register.Reg reg0, int dir0, int 
         reg = MED_register.Reg(reg.lines, MED_register.LINE);
     }
     if (reg.kind == MED_register.LINE) {
+        int orig_indent = indent_width(editor, buffer.line(editor.row));
         str body = reg.lines.join("\n");
         List<str> parts = [];
         for (int i in 0 .. amount) {
@@ -1743,6 +1786,9 @@ bool did_put_reg(MED_editor.Editor editor, MED_register.Reg reg0, int dir0, int 
         }
         int total = reg.lines.size() * amount;
         int last_put = first_row + total - 1;
+        if ((flags & PUT_FIXINDENT) != 0) {
+            fix_put_indent(editor, first_row, last_put, orig_indent);
+        }
         int last_length = buffer.line_size(last_put);
         if (last_length > 0) {
             last_length = last_length - 1;
@@ -2254,6 +2300,8 @@ void start_insert(MED_editor.Editor editor, int cmd, int count, bool is_replace)
     editor.ins_count = count1(count);
     editor.ins_keys = [];
     editor.ins_text = "";
+    editor.did_space = false;
+    editor.ins_previous = 0;
     editor.ins_start = MED_buffer.Pos(editor.row, editor.col);
     editor.ins_mark = editor.ins_start;
     editor.replaced = [];
@@ -2363,11 +2411,24 @@ bool did_ins_bs(MED_editor.Editor editor, int mode) {
     }
     int mincol = 0;
     str line = editor.buffer.line(editor.row);
-    if (mode == 0 && editor.mode == MED_editor.INSERT && is_in_indent_before(line, editor.col)) {
-        // 'smarttab' (on in nvim): <BS> in the indent steps back one 'shiftwidth'
+    int step = 0;
+    if (mode == 0 && editor.mode == MED_editor.INSERT) {
+        if (editor.is_smarttab && is_in_indent_before(line, editor.col)) {
+            step = editor.shift_size();
+        } else if (editor.soft_width() != 0 && editor.col > 0) {
+            int before_byte = line.byte_at(editor.col - 1);
+            if (before_byte == 9 || (before_byte == 32 && !editor.did_space)) {
+                step = editor.soft_width();
+            }
+        }
+    }
+    if (step > 0) {
+        // 'smarttab' in the indent and 'softtabstop' elsewhere: <BS> steps back one
+        // 'shiftwidth' or 'softtabstop' (Vim's ins_bs)
         int vcol = MED_text.display_col(line, editor.col, editor.tab);
-        int want = ((vcol - 1) / editor.shiftwidth) * editor.shiftwidth;
-        while (vcol > want && editor.col > 0) {
+        int start_vcol = vcol;
+        int want = ((vcol - 1) / step) * step;
+        while (vcol > want && editor.col > 0 && is_white_byte(line.byte_at(editor.col - 1))) {
             int previous = MED_text.previous_col(line, editor.col);
             editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), "");
             editor.col = previous;
@@ -2377,6 +2438,12 @@ bool did_ins_bs(MED_editor.Editor editor, int mode) {
         if (vcol < want) {
             editor.change(MED_buffer.Pos(editor.row, editor.col), MED_buffer.Pos(editor.row, editor.col), " ".repeat(want - vcol));
             editor.col = editor.col + want - vcol;
+            vcol = want;
+        }
+        if (vcol >= start_vcol && editor.col > 0) {
+            int previous = MED_text.previous_col(line, editor.col);
+            editor.change(MED_buffer.Pos(editor.row, previous), MED_buffer.Pos(editor.row, editor.col), "");
+            editor.col = previous;
         }
         if (editor.row == editor.ins_start.row && editor.col < editor.ins_start.col) {
             editor.ins_start = MED_buffer.Pos(editor.row, editor.col);
@@ -2521,6 +2588,11 @@ void finish_insert(MED_editor.Editor editor) {
         editor.is_ins_at_eol = editor.col >= line.size();
         editor.o_lnum = editor.row;
     }
+    bool is_eol_kept = editor.is_ins_ctrl_o && editor.col > 0 && editor.col >= line.size();
+    if (is_eol_kept) {
+        // CTRL-O past the end of the line: the wanted column stays that of the end
+        editor.want_from_cursor();
+    }
     if (editor.col > 0 && (!editor.is_ins_ctrl_o || editor.col >= line.size())) {
         editor.col = MED_text.previous_col(line, editor.col);
     }
@@ -2539,7 +2611,9 @@ void finish_insert(MED_editor.Editor editor) {
     editor.ins_keys = [];
     editor.end_block();
     editor.clamp();
-    editor.want_from_cursor();
+    if (!is_eol_kept) {
+        editor.want_from_cursor();
+    }
 }
 
 // `o` / `O` repeats start with a line break.
@@ -2561,21 +2635,139 @@ void insert_key_raw(MED_editor.Editor editor, int key) {
         did_ins_del(editor);
     } else if (key == 9) {
         ins_tab(editor);
+    } else if (key == 20 || key == 4) {
+        ins_shift(editor, key, editor.ins_previous);
     } else if (key >= 32 && key < 63232) {
+        if (key == 32) {
+            editor.did_space = true;
+        }
         ins_char(editor, key);
     }
+    editor.ins_previous = key;
 }
 
+// CTRL-T / CTRL-D in insert mode (Vim's ins_shift and change_indent): shift
+// the line's indent and keep the cursor on the same character.
+void ins_shift(MED_editor.Editor editor, int key, int last_key) {
+    stop_arrow(editor);
+    str line = editor.buffer.line(editor.row);
+    bool is_clear = key == 4 && (last_key == 48 || last_key == 94) && editor.col > 0;
+    if (is_clear) {
+        int before = editor.col - 1;
+        editor.change(MED_buffer.Pos(editor.row, before), MED_buffer.Pos(editor.row, editor.col), "");
+        editor.col = before;
+        line = editor.buffer.line(editor.row);
+    }
+    int old_indent = indent_width(editor, line);
+    int first = 0;
+    while (first < line.size() && is_white_byte(line.byte_at(first))) {
+        first = first + 1;
+    }
+    int offset = editor.col - first;
+    int cursor_vcol = MED_text.display_col(line, editor.col, editor.tab);
+    int new_indent = 0;
+    if (!is_clear) {
+        new_indent = shifted_width(editor, old_indent, key == 4, 1, true);
+    }
+    str fresh = make_indent(editor, new_indent);
+    editor.change(MED_buffer.Pos(editor.row, 0), MED_buffer.Pos(editor.row, first), fresh);
+    int new_first = fresh.size();
+    int insstart_less = first - new_first;
+    if (offset >= 0) {
+        if (offset == 0) {
+            insstart_less = 1000000000;
+        }
+        editor.col = new_first + offset;
+    } else {
+        // the cursor was inside the indent: keep its distance from the text
+        int target = new_indent - (old_indent - cursor_vcol);
+        if (target < 0) {
+            target = 0;
+        }
+        str now = editor.buffer.line(editor.row);
+        int spot = 0;
+        int walker = 0;
+        while (walker < new_first && spot < target) {
+            spot = spot + MED_text.cell_width(now, walker, spot, editor.tab);
+            walker = walker + 1;
+        }
+        editor.col = walker;
+        insstart_less = 1000000000;
+    }
+    if (editor.row == editor.ins_start.row && editor.ins_start.col != 0) {
+        if (editor.ins_start.col <= insstart_less) {
+            editor.ins_start = MED_buffer.Pos(editor.row, 0);
+        } else {
+            editor.ins_start = MED_buffer.Pos(editor.row, editor.ins_start.col - insstart_less);
+        }
+    }
+    if (editor.did_ai && !is_blank_line(editor.buffer.line(editor.row))) {
+        editor.did_ai = false;
+    }
+    editor.ins_text = editor.ins_text + str.from_chars([key]);
+}
+
+// The cursor is in the indent (Vim's inindent(0)): only blanks before it.
+bool is_cursor_in_indent(MED_editor.Editor editor) {
+    return is_in_indent_before(editor.buffer.line(editor.row), editor.col) || editor.col == 0;
+}
+
+// <Tab> in insert mode (Vim's ins_tab): a tab, or spaces to the next
+// 'shiftwidth' / 'softtabstop' / 'tabstop', turned into tabs when 'expandtab' is off.
 void ins_tab(MED_editor.Editor editor) {
-    if (!editor.is_expandtab) {
+    bool is_indent = is_cursor_in_indent(editor);
+    int soft = editor.soft_width();
+    bool is_special_sta = editor.is_smarttab && is_indent;
+    if (!editor.is_expandtab && !(is_special_sta && editor.tab != editor.shift_size()) && soft == 0) {
         ins_char(editor, 9);
         return;
     }
+    str typed = editor.ins_text;
+    editor.did_ai = false;
+    int width = editor.tab;
+    if (is_special_sta) {
+        width = editor.shift_size();
+    } else if (soft != 0) {
+        width = soft;
+    }
     str line = editor.buffer.line(editor.row);
-    int spot = MED_text.display_col(line, editor.col, editor.tab);
-    int count = editor.tab - (spot % editor.tab);
-    for (int i in 0 .. count) {
-        ins_char(editor, 32);
+    int cursor_vcol = MED_text.display_col(line, editor.col, editor.tab);
+    int count = width - (cursor_vcol % width);
+    bool is_replace = editor.mode == MED_editor.REPLACE;
+    ins_char(editor, 32);
+    for (int i in 1 .. count) {
+        MED_buffer.Pos here = MED_buffer.Pos(editor.row, editor.col);
+        editor.change(here, here, " ");
+        editor.col = editor.col + 1;
+        if (is_replace) {
+            editor.replaced.push("");
+        }
+    }
+    editor.ins_text = typed + "\t";
+    if (editor.is_expandtab || is_replace || !(soft > 0 || is_special_sta)) {
+        return;
+    }
+    // turn the blanks before the cursor into as many tabs as fit
+    line = editor.buffer.line(editor.row);
+    int first = editor.col;
+    while (first > 0 && is_white_byte(line.byte_at(first - 1))) {
+        first = first - 1;
+    }
+    int vcol = MED_text.display_col(line, first, editor.tab);
+    int want = MED_text.display_col(line, editor.col, editor.tab);
+    int tabs = 0;
+    while (vcol + editor.tab - (vcol % editor.tab) <= want) {
+        vcol = vcol + editor.tab - (vcol % editor.tab);
+        tabs = tabs + 1;
+    }
+    str run = "\t".repeat(tabs) + " ".repeat(want - vcol);
+    if (run == line.substr(first, editor.col)) {
+        return;
+    }
+    editor.change(MED_buffer.Pos(editor.row, first), MED_buffer.Pos(editor.row, editor.col), run);
+    editor.col = first + run.size();
+    if (editor.row == editor.ins_start.row && first < editor.ins_start.col) {
+        editor.ins_start = MED_buffer.Pos(editor.row, first);
     }
 }
 
@@ -2634,6 +2826,8 @@ void ins_move(MED_editor.Editor editor, int key) {
         editor.want = -1;
     }
     editor.did_ai = false;
+    editor.did_space = false;
+    editor.ins_previous = 0;
     editor.ins_keys = [];
     editor.ins_text = "";
     editor.is_ins_arrow = true;
@@ -2643,14 +2837,80 @@ void ins_move(MED_editor.Editor editor, int key) {
     editor.dot_count = 0;
 }
 
-// Type a register's text as if it were typed.
-void ins_register(MED_editor.Editor editor, str name) {
+// CTRL-R: type a register's text as if it were typed. `kind` 0 is CTRL-R,
+// 1 CTRL-R CTRL-R (literally), 2 CTRL-R CTRL-O (no auto-indent, a line-wise
+// register goes above the line), 3 CTRL-R CTRL-P (as 2, fixing the indent).
+void ins_register(MED_editor.Editor editor, str name, int kind) {
     Option<MED_register.Reg> found = editor.regs.get(name);
+    if (kind >= 2) {
+        editor.ins_text = editor.ins_text + "\x12" + str.from_chars([kind + 13]) + name;
+        editor.ins_keys.push(18);
+        editor.ins_keys.push(kind + 13);
+        editor.ins_keys.push(name.byte_at(0));
+        match (found) {
+            case None: {
+            }
+            case Some(MED_register.Reg reg): {
+                int flags = 0;
+                if (kind == 3) {
+                    flags = PUT_FIXINDENT;
+                }
+                did_put_reg(editor, reg, -1, 1, true, flags, 0);
+                if (reg.kind == MED_register.LINE) {
+                    editor.col = 0;
+                }
+            }
+        }
+        return;
+    }
     match (found) {
         case None: {
         }
         case Some(MED_register.Reg reg): {
-            ins_text(editor, reg.text());
+            int text_size = editor.ins_text.size();
+            int keys_size = editor.ins_keys.size();
+            if (kind == 1) {
+                ins_literal_text(editor, reg.text());
+            } else {
+                ins_text(editor, reg.text());
+            }
+            if (name == "-") {
+                // the small delete register is recorded by name, not by text
+                editor.ins_text = editor.ins_text.substr(0, text_size) + "\x12-";
+                while (editor.ins_keys.size() > keys_size) {
+                    editor.ins_keys.pop();
+                }
+                editor.ins_keys.push(18);
+                editor.ins_keys.push(45);
+            }
+        }
+    }
+}
+
+// Insert `text` without any typing logic (no auto-indent, no 'textwidth').
+void ins_literal_text(MED_editor.Editor editor, str text) {
+    MED_buffer.Pos position = MED_buffer.Pos(editor.row, editor.col);
+    if (editor.mode == MED_editor.REPLACE) {
+        for (int code_point in text.chars()) {
+            if (code_point == 10) {
+                ins_cr(editor);
+            } else {
+                ins_char(editor, code_point);
+            }
+        }
+        return;
+    }
+    editor.change(position, position, text);
+    MED_buffer.Pos end = MED_buffer.advance(position, text);
+    editor.row = end.row;
+    editor.col = end.col;
+    editor.did_ai = false;
+    editor.ins_text = editor.ins_text + text;
+    for (int code_point in text.chars()) {
+        if (code_point == 10) {
+            editor.ins_keys.push(13);
+        } else {
+            editor.ins_keys.push(code_point);
         }
     }
 }
@@ -2797,6 +3057,36 @@ void ins_literal_key(MED_editor.Editor editor, int next_col) {
     }
 }
 
+// CTRL-Y / CTRL-E: the character of the line above / below at the cursor's
+// screen column, or 0.
+int copy_char(MED_editor.Editor editor, int step) {
+    int target = editor.row + step;
+    if (target < 0 || target >= editor.buffer.line_count()) {
+        return 0;
+    }
+    str line = editor.buffer.line(target);
+    int want_col = editor.cursor_vcol();
+    int spot = 0;
+    int index = 0;
+    int previous = 0;
+    while (spot < want_col && index < line.size()) {
+        previous = index;
+        spot = spot + MED_text.cell_width(line, index, spot, editor.tab);
+        index = MED_text.next_col(line, index);
+    }
+    if (spot > want_col) {
+        index = previous;
+    }
+    if (index >= line.size()) {
+        return 0;
+    }
+    return MED_text.cp_at(line, index);
+}
+
+bool is_alnum_code(int code_point) {
+    return (code_point >= 48 && code_point <= 57) || (code_point >= 65 && code_point <= 90) || (code_point >= 97 && code_point <= 122);
+}
+
 void insert_key(MED_editor.Editor editor, int key) {
     if (editor.is_ins_next_set) {
         if (!editor.is_ins_hold) {
@@ -2818,7 +3108,9 @@ void insert_key(MED_editor.Editor editor, int key) {
         if (key != 27) {
             stop_arrow(editor);
             int made = digraph_of(editor.dig_first, key);
+            editor.ins_keys.push(22);
             editor.ins_keys.push(made);
+            editor.ins_text = editor.ins_text + "\x16";
             ins_char(editor, made);
         }
         return;
@@ -2829,8 +3121,28 @@ void insert_key(MED_editor.Editor editor, int key) {
             expr_open(editor, 2);
             return;
         }
+        if (key == 18 || key == 15 || key == 16) {
+            if (key == 18) {
+                editor.ins_wait = 19;
+            } else if (key == 15) {
+                editor.ins_wait = 20;
+            } else {
+                editor.ins_wait = 21;
+            }
+            return;
+        }
         stop_arrow(editor);
-        ins_register(editor, str.from_chars([key]));
+        ins_register(editor, str.from_chars([key]), 0);
+        return;
+    }
+    if (editor.ins_wait >= 19 && editor.ins_wait <= 21) {
+        int kind = editor.ins_wait - 18;
+        editor.ins_wait = 0;
+        if (key == 27) {
+            return;
+        }
+        stop_arrow(editor);
+        ins_register(editor, str.from_chars([key]), kind);
         return;
     }
     if (editor.ins_wait == 7) {
@@ -2890,6 +3202,25 @@ void insert_key(MED_editor.Editor editor, int key) {
         ins_move(editor, key);
         return;
     }
+    if (key == 5 || key == 25) {
+        int copied = 0;
+        if (key == 5) {
+            copied = copy_char(editor, 1);
+        } else {
+            copied = copy_char(editor, -1);
+        }
+        if (copied > 0) {
+            stop_arrow(editor);
+            if (copied < 256 && !is_alnum_code(copied)) {
+                editor.ins_keys.push(22);
+                editor.ins_text = editor.ins_text + "\x16";
+            }
+            editor.ins_keys.push(copied);
+            ins_char(editor, copied);
+            editor.ins_previous = key;
+        }
+        return;
+    }
     stop_arrow(editor);
     editor.ins_keys.push(key);
     if (key == 13 || key == 10) {
@@ -2914,11 +3245,17 @@ void insert_key(MED_editor.Editor editor, int key) {
         did_ins_del(editor);
     } else if (key == 9) {
         ins_tab(editor);
+    } else if (key == 20 || key == 4) {
+        ins_shift(editor, key, editor.ins_previous);
     } else if (key >= 32 && key < 63232) {
+        if (key == 32) {
+            editor.did_space = true;
+        }
         ins_char(editor, key);
     } else {
         editor.ins_keys.pop();
     }
+    editor.ins_previous = key;
     if (editor.ins_count <= 1) {
         editor.want_from_cursor();
     }
@@ -4149,7 +4486,7 @@ void block_shift_line(MED_editor.Editor editor, Oap oap, int row, bool is_left) 
     if (block_cut_value.is_too_short || (!is_left && false)) {
         return;
     }
-    int total = oap.amount * editor.shiftwidth;
+    int total = oap.amount * editor.shift_size();
     int from = block_cut_value.from;
     if (block_cut_value.pre > 0) {
         // the block starts inside a character: continue after it
@@ -5602,7 +5939,7 @@ pub void ex_shift(MED_editor.Editor editor, int first, int last, bool is_left, i
             continue;
         }
         int width = indent_width(editor, line);
-        int delta = editor.shiftwidth * amount;
+        int delta = editor.shift_size() * amount;
         if (!is_left) {
             width = width + delta;
         } else {
