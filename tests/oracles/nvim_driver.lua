@@ -3,7 +3,7 @@
 -- and it writes one result line to the file OUT, in the format that
 -- tests/t_oracle_run.m31 prints (see its header).
 
-local out_path, text_hex, row, col, keys_csv = unpack(arg)
+local out_path, text_hex, row, col, keys_csv, plugins = unpack(arg)
 
 local function unhex(s)
   return (s:gsub('..', function(c) return string.char(tonumber(c, 16)) end))
@@ -37,6 +37,17 @@ local function key_string(csv)
     end
   end
   return table.concat(parts)
+end
+
+-- vim plugins the case wants (the engine has them built in)
+local PLUGIN_DIRS = { surround = 'vim-surround', repeat_ = 'vim-repeat', ['auto-pairs'] = 'auto-pairs' }
+local plugin_root = os.getenv('M3D_PLUGINS') or (os.getenv('HOME') .. '/.vim/plugged')
+for name in string.gmatch(plugins or '', '%S+') do
+  local dir = PLUGIN_DIRS[name == 'repeat' and 'repeat_' or name]
+  vim.opt.runtimepath:append(plugin_root .. '/' .. dir)
+  if name ~= 'repeat' then
+    vim.cmd('runtime plugin/' .. name .. '.vim')
+  end
 end
 
 local text = unhex(text_hex)

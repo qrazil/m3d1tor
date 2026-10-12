@@ -1,0 +1,81 @@
+# gc: nvim's built-in comment operator (vim._comment); the cases set 'commentstring'
+a\n  b\nc\nd	0,0	:set cms=//\ %s<CR>gcc
+a\n  b\nc\nd	1,2	:set cms=//\ %s<CR>gcc
+a\n  b\nc\nd	1,2	:set cms=//\ %s<CR>gccgcc
+a\n  b\nc\nd	0,0	:set cms=//\ %s<CR>gcj
+a\n  b\nc\nd	1,0	:set cms=//\ %s<CR>gcjgcj
+a\n  b\n\nd	0,0	:set cms=//\ %s<CR>gcG
+a\n  b\n\nd	0,0	:set cms=//\ %s<CR>gcGgcG
+a\n  b\nc	0,0	:set cms=//\ %s<CR>Vjgc
+a\n  b\nc	1,1	:set cms=//\ %s<CR>vjgc
+a\n  b\nc	1,1	:set cms=//\ %s<CR>2gcc
+a\n  b\nc	1,1	:set cms=//\ %s<CR>gccj.
+a\n  b\nc	1,1	:set cms=/*%s*/<CR>gcc
+a\n  b\nc	1,1	:set cms=/*\ %s\ */<CR>gcjgcj
+a\n  b\nc	1,1	:set cms=<CR>gcc
+a\n  b\nc	1,1	gcc
+a\n  b\nc	1,1	:set cms=#\ %s<CR>gcckgcc
+a\n  b\nc	1,1	:set cms=#\ %s<CR>gcc:set cms=#%s<CR>gcc
+a\n  b\nc	1,1	:set cms=#%s<CR>gcc:set cms=#\ %s<CR>gcc
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gc2j
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gcGu
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gcGuu
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gcG<C-r>
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gcG`[x
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gcG`]x
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>gcG'[x
+a\n\tb\n  c	1,0	:set cms=#\ %s<CR>gcj`[x
+a\n\tb\n  c	1,1	:set cms=#\ %s<CR>gck
+a\n\tb\n  c	2,2	:set cms=#\ %s<CR>gcgg
+a\n\tb\n  c	2,2	:set cms=#\ %s<CR>gcgg.
+a\n\tb\n  c	2,2	:set cms=#\ %s<CR>gck.
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>3gcc
+a\n\tb\n  c	0,0	:set cms=#\ %s<CR>5gcc
+a\n\tb\n  c	2,0	:set cms=#\ %s<CR>2gcc
+a\n\n\n  c	0,0	:set cms=#\ %s<CR>gc}
+a\n\n\n  c	0,0	:set cms=#\ %s<CR>gc}.
+a\n\n\n  c	0,0	:set cms=#\ %s<CR>gcip
+a\n\n\n  c	3,0	:set cms=#\ %s<CR>gcap
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR>gcl
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR>gcw
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR>gce
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR>gcfd
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR>vgc
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR>vjgcu
+a b\nc d\ne f	0,2	:set cms=#\ %s<CR><C-v>jgc
+a b\nc d\ne f	1,2	:set cms=#\ %s<CR>vkgc
+a b\nc d\ne f	1,2	:set cms=#\ %s<CR>Vkgcgv
+a b\nc d\ne f	1,2	:set cms=#\ %s<CR>Vjgc.
+a b\nc d\ne f	0,0	:set cms=#\ %s<CR>Vjgcj.
+a b\nc d\ne f	0,0	:set cms=#\ %s<CR>qaggcjqj@a
+a b\nc d\ne f	0,0	:set cms=%s\ ;<CR>gcj
+a b\nc d\ne f	0,0	:set cms=%s\ ;<CR>gcjgcj
+a b\nc d\ne f	0,0	:set cms=(*\ %s\ *)<CR>gc2j
+  \n a \n	0,0	:set cms=#\ %s<CR>gc2j
+  \n a \n	0,0	:set cms=#\ %s<CR>gc2jgc2j
+  \n  \n	0,0	:set cms=#\ %s<CR>gcj
+  \n  \n	0,0	:set cms=#\ %s<CR>gcjgcj
+#a\n#b\n#c	0,0	:set cms=#\ %s<CR>gcG
+#a\n# b\n#c	0,0	:set cms=#\ %s<CR>gcG
+#a\n# b\n#c	0,0	:set cms=#%s<CR>gcG
+#a\n# b\n#c	0,0	:set cms=#%s<CR>gcGgcG
+#a\n# b\n c	0,0	:set cms=#%s<CR>gcG
+x # y\n# b\n#	0,0	:set cms=#%s<CR>gcG
+x\n\n#	0,0	:set cms=#\ %s<CR>gcG
+a\nb	0,0	:set cms=nopercent<CR>gcc
+a\nb	0,0	:set cms=nopercent<CR>gccx
+a\nb	0,0	:set cms=#\ %s<CR>:set\ cms=<CR>gcc
+a\nb	0,0	:set cms=#\ %s<CR>:set\ cms+=x<CR>gcc
+a\nb	0,0	:set cms=#\ %s<CR>:set\ cms-=\ %s<CR>gcc
+a\nb	0,0	:set cms=#\ %s<CR>ifoo<Esc>gcc
+a\nb	0,0	:set cms=#\ %s<CR>ddgcc
+a\nb	0,0	:set cms=#\ %s<CR>gcc:s/a/z/<CR>
+a\nb	0,0	:set cms=#\ %s<CR>"ayygccu"ap
+a\nb	0,0	:set cms=#\ %s<CR>gccp
+a\nb	0,0	:set cms=#\ %s<CR>gcc:undo<CR>
+a\nb	0,0	:set cms=#\ %s<CR>gcc:normal gcc<CR>
+a\nb	0,0	:set cms=#\ %s<CR>:%normal gcc<CR>
+a\nb	0,0	:set cms=#\ %s<CR>:g/./normal gcc<CR>
+a\nb\nc	0,0	:set cms=#\ %s<CR>:2<CR>gcc:1<CR>.
+a\nb	0,0	:set cms=#\ %s<CR>gcc\tgcc
+a\n\tb\n  c	1,0	:set cms=#\ %s<CR>gcj`]x

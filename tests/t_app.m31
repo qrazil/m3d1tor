@@ -496,4 +496,10 @@ match (MED_app.open_all([map_text])) {
 }
 remove_file(map_text);
 remove_file(map_file);
+// 'commentstring' by file name
+check.eq_str("cms m31", MED_app.comment_for("src/a.m31"), "// %s");
+check.eq_str("cms py", MED_app.comment_for("x.PY"), "# %s");
+check.eq_str("cms Makefile", MED_app.comment_for("dir/Makefile"), "# %s");
+check.eq_str("cms html", MED_app.comment_for("a.html"), "<!-- %s -->");
+check.eq_str("cms unknown", MED_app.comment_for("README"), "");
 check.finish("t_app");

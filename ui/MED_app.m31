@@ -2052,6 +2052,7 @@ void share_state(MED_editor.Editor from, MED_editor.Editor into) {
     into.is_hexupper = from.is_hexupper;
     into.tab = from.tab;
     into.shiftwidth = from.shiftwidth;
+    into.commentstring = from.commentstring;
     into.is_expandtab = from.is_expandtab;
     into.is_autoindent = from.is_autoindent;
     into.is_ignorecase = from.is_ignorecase;
@@ -2096,7 +2097,49 @@ Result<Slot, str> read_slot(int id, str name) {
     }
     MED_editor.Editor loaded = MED_editor.new(text);
     loaded.buffer.path = name;
+    loaded.commentstring = comment_for(name);
     return Result<Slot, str>.Ok(Slot(id, loaded, name));
+}
+
+const List<str> HASH_TYPES = ["py", "sh", "bash", "zsh", "rb", "pl", "toml", "yaml", "yml", "conf", "mk", "cfg", "ini", "r", "jl", "nix", "dockerfile"];
+const List<str> SLASH_TYPES = ["m31", "oro", "c", "h", "cpp", "hpp", "cc", "cxx", "rs", "go", "java", "js", "mjs", "ts", "jsx", "tsx", "swift", "kt", "zig", "cs", "scala", "dart", "php", "proto"];
+const List<str> DASH_TYPES = ["lua", "sql", "hs", "elm", "ada"];
+const List<str> MARKUP_TYPES = ["html", "htm", "xml", "svg", "md", "markdown"];
+
+/// The 'commentstring' for a file name, from its extension ("" when unknown).
+pub str comment_for(str name) {
+    List<str> parts = name.split("/");
+    str base = parts[parts.size() - 1];
+    if (base == "Makefile" || base == "makefile" || base == "Dockerfile" || base == "CMakeLists.txt") {
+        return "# %s";
+    }
+    List<str> pieces = base.split(".");
+    if (pieces.size() < 2) {
+        return "";
+    }
+    str ext = pieces[pieces.size() - 1].to_lower();
+    if (HASH_TYPES.contains(ext)) {
+        return "# %s";
+    }
+    if (SLASH_TYPES.contains(ext)) {
+        return "// %s";
+    }
+    if (DASH_TYPES.contains(ext)) {
+        return "-- %s";
+    }
+    if (MARKUP_TYPES.contains(ext)) {
+        return "<!-- %s -->";
+    }
+    if (ext == "css" || ext == "scss") {
+        return "/* %s */";
+    }
+    if (ext == "vim") {
+        return "\" %s";
+    }
+    if (ext == "tex") {
+        return "% %s";
+    }
+    return "";
 }
 
 // -------------------------------------------------------------- keymap file

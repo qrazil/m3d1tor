@@ -1427,7 +1427,7 @@ Step cmd_delmarks(MED_editor.Editor editor, Cmd cmd) {
 // ---------------------------------------------------------------------- :set
 
 str option_name(str word) {
-    List<str> table = ["ignorecase:ic", "smartcase:scs", "wrapscan:ws", "expandtab:et", "autoindent:ai", "joinspaces:js", "startofline:sol", "shiftwidth:sw", "tabstop:ts"];
+    List<str> table = ["ignorecase:ic", "smartcase:scs", "wrapscan:ws", "expandtab:et", "autoindent:ai", "joinspaces:js", "startofline:sol", "shiftwidth:sw", "tabstop:ts", "commentstring:cms"];
     for (str entry in table) {
         int key = entry.index_of(":").or(0);
         if (word == entry.substr(0, key) || word == entry.substr(key + 1, entry.size())) {
@@ -1488,11 +1488,54 @@ void bool_store(MED_editor.Editor editor, str key, bool is_value) {
 }
 
 bool is_bool_option(str key) {
-    return key != "shiftwidth" && key != "tabstop";
+    return key != "shiftwidth" && key != "tabstop" && key != "commentstring";
+}
+
+// `:set` words: separated by white space; a backslash keeps a space (or a
+// backslash) in the word.
+List<str> set_words(str arg) {
+    List<str> words = [];
+    str word = "";
+    List<int> chars = arg.chars();
+    int index = 0;
+    while (index < chars.size()) {
+        int char_code = chars[index];
+        if (char_code == 92 && index + 1 < chars.size() && (chars[index + 1] == 32 || chars[index + 1] == 92)) {
+            word = word + str.from_chars([chars[index + 1]]);
+            index = index + 2;
+            continue;
+        }
+        if (char_code == 32 || char_code == 9) {
+            words.push(word);
+            word = "";
+        } else {
+            word = word + str.from_chars([char_code]);
+        }
+        index = index + 1;
+    }
+    words.push(word);
+    return words;
+}
+
+// A string option's new value for `=`, `+=` (append), `^=` (prepend) and `-=`.
+str string_value(str current, str operator, str value) {
+    if (operator == "+") {
+        return current + value;
+    }
+    if (operator == "^") {
+        return value + current;
+    }
+    if (operator == "-") {
+        if (value == "") {
+            return current;
+        }
+        return current.split(value).join("");
+    }
+    return value;
 }
 
 Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
-    for (str token in cmd.arg.split(" ")) {
+    for (str token in set_words(cmd.arg)) {
         if (token == "" || token == "all") {
             continue;
         }
@@ -1550,6 +1593,13 @@ Step cmd_set(MED_editor.Editor editor, Cmd cmd) {
             return fail(editor, "E518: Unknown option: " + word);
         }
         if (is_query) {
+            continue;
+        }
+        if (key == "commentstring") {
+            if (operator == "") {
+                continue;
+            }
+            editor.commentstring = string_value(editor.commentstring, operator, value);
             continue;
         }
         if (is_bool_option(key)) {

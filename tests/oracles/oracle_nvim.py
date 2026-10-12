@@ -15,7 +15,11 @@ Corpus files (tests/oracles/corpus/*.txt) hold one case per line:
     TEXT<TAB>CURSOR<TAB>KEYS
 
 TEXT uses \\n \\t \\\\ escapes; CURSOR is "row,col" (0-based) or empty; KEYS is
-Vim key notation (<Esc>, <C-v>, <CR> ...). Lines starting with # are comments.
+Vim key notation (<Esc>, <C-v>, <CR> ...). Lines starting with # are comments,
+except `#plugins: NAME...`, which loads those vim plugins (surround, repeat,
+auto-pairs) in nvim for the cases that follow in the file (the engine has them
+built in). They are looked for in $M3D_PLUGINS (default ~/.vim/plugged); a file
+whose plugins are missing is skipped with a note.
 
 known_divergences.txt holds cases the engine knowingly does not match, each
 preceded by a `# reason` comment. A known case that starts to match is
@@ -39,6 +43,9 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 NVIM = os.environ.get("NVIM", "nvim")
 DRIVER = os.path.join(HERE, "nvim_driver.lua")
+
+PLUGIN_ROOT = os.environ.get("M3D_PLUGINS", os.path.expanduser("~/.vim/plugged"))
+PLUGIN_DIRS = {"surround": "vim-surround", "repeat": "vim-repeat", "auto-pairs": "auto-pairs"}
 
 NAMED = {
     "esc": 27, "cr": 13, "enter": 13, "return": 13, "nl": 10, "tab": 9,
@@ -102,6 +109,7 @@ def escape_text(text):
 
 class Case:
     def __init__(self, text, row, col, notation, source=""):
+        self.plugins = ""
         self.text = text
         self.row = row
         self.col = col
@@ -134,7 +142,15 @@ def load_cases_file(path):
     reasons = []
     with open(path, encoding="utf-8") as f:
         pending = ""
+        plugins = ""
         for n, line in enumerate(f, 1):
+            if line.startswith("#plugins:"):
+                plugins = line[len("#plugins:"):].strip()
+                missing = [p for p in plugins.split() if not os.path.isdir(os.path.join(PLUGIN_ROOT, PLUGIN_DIRS[p]))]
+                if missing:
+                    print("skip %s: plugin(s) not found in %s: %s" % (os.path.basename(path), PLUGIN_ROOT, " ".join(missing)), file=sys.stderr)
+                    return [], []
+                continue
             if line.startswith("#"):
                 pending = line[1:].strip()
                 continue
@@ -142,6 +158,7 @@ def load_cases_file(path):
                 continue
             case = parse_case_line(line, "%s:%d" % (os.path.basename(path), n))
             if case:
+                case.plugins = plugins
                 cases.append(case)
                 reasons.append(pending)
     return cases, reasons
@@ -163,7 +180,8 @@ def case_hex_line(index, case):
 def run_nvim_case(case, tmp):
     out = os.path.join(tmp, "n%d_%d.txt" % (os.getpid(), random.getrandbits(32)))
     cmd = [NVIM, "--headless", "-u", "NONE", "-i", "NONE", "-n", "-l", DRIVER, out,
-           hexs(case.text), str(case.row), str(case.col), ",".join(str(k) for k in case.keys)]
+           hexs(case.text), str(case.row), str(case.col), ",".join(str(k) for k in case.keys),
+           case.plugins]
     try:
         subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20,
                        stdin=subprocess.DEVNULL)

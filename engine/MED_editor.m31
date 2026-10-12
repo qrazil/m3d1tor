@@ -77,6 +77,8 @@ pub type Editor {
     /// CTRL-D / CTRL-U distance; 0 means half the window.
     pub int scroll_opt = 0;
     pub int shiftwidth = 8;
+    /// 'commentstring': `gc` wraps a line in this, `%s` standing for the text.
+    pub str commentstring = "";
     pub bool is_expandtab = false;
     pub bool is_autoindent = true;
     pub bool is_ignorecase = false;

@@ -1,0 +1,2 @@
+# nvim_buf_set_lines shifts the '] mark when gc adds a tab the old line lacked (mark byte-diff quirk)
+a\n\tb\n  c	1,0	:set cms=#\ %s<CR>gcj`]x

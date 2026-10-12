@@ -24,6 +24,8 @@ until it is. The `version` in `deps` is not bumped by the reorganisation.
   `<C-w>` commands, mouse click, drag and wheel.
 - Pickers: files, buffers, live grep, commands, keymap help, explorer; `.gitignore` aware.
 - Which-key popup for the leader sequences.
+- Comment toggle `gc` / `gcc` / visual `gc`, with the comment string chosen by file type
+  (`:set commentstring=`), matching Neovim 0.11's built-in `gc`.
 - A keymap file in Vim syntax: `:map` / `:noremap` for n, x, o, i, c modes, `:unmap`,
   `:mapclear`, `let mapleader`, `:source` (see below).
 

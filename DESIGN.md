@@ -210,6 +210,10 @@ motion types `dv` `dV` `d<C-v>` are parsed there.
   and registers. The special cases (`cw` acts like `ce`, `dw` at end of line, the
   `d` linewise-promotion rule for multi-line exclusive motions) are implemented
   where Vim implements them and are what the oracle exists to check.
+* **Comment toggle** `gc` is an ordinary operator (`gcc`, `gcip`, visual `gc`) that
+  follows Neovim 0.11's `vim._comment`: the leader goes at the minimum indent, blank
+  lines get the bare leader, and a range is uncommented only if every non-blank line
+  is commented. `commentstring` is a string option, set per file type by the app.
 * **Count** is carried as `Option<int>`; `.` substitutes a new count for the
   original one as Vim does.
 * **Dot repeat**: the editor records the full key list of the last *change*
