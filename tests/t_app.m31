@@ -441,4 +441,59 @@ remove_directory(tree + "/alpha");
 remove_file(tree + "/beta.txt");
 remove_file(tree + "/zeta.txt");
 remove_directory(tree);
+// the keymap file, :source, mappings against the front end's own keys
+str map_text = "/tmp/m3d1tor_t_app_map.txt";
+str map_file = "/tmp/m3d1tor_t_app_keymap.vim";
+write_file(map_text, "one two\nthree\n");
+write_file(map_file, "\" a comment\nlet mapleader = \" \"\nnnoremap <leader>d dd\n:inoremap jj <Esc>\nnnoremap Q x\n");
+match (MED_app.open_all([map_text])) {
+    case Err(str message): {
+        check.ok("open for the keymap tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        app.load_keymap(map_file, true);
+        check.eq_str("the keymap file loaded without a message", app.notice, "");
+        check.eq_int("three maps", app.editor.maps.normal.size() + app.editor.maps.insert.size(), 3);
+        type_text(app, "Q");
+        check.eq_str("a mapping runs", app.editor.buffer.line(0), "ne two");
+        type_text(app, " d");
+        check.ok("a user map on space takes over from the leader menu", !app.is_leader);
+        check.eq_int("space d deleted the line", app.editor.buffer.line_count(), 1);
+        type_text(app, "ixjj");
+        check.eq_int("jj leaves insert mode", app.editor.mode, MED_editor.NORMAL);
+        check.eq_str("and keeps only the x", app.editor.buffer.line(0), "xthree");
+        type_text(app, "ixj");
+        check.eq_int("j waits for a mapping", app.editor.ta_keys.size(), 1);
+        app.tick(500);
+        check.eq_int("still waiting at 500ms", app.editor.ta_keys.size(), 1);
+        app.tick(600);
+        check.eq_int("typed after the timeout", app.editor.ta_keys.size(), 0);
+        check.eq_str("the key is inserted as it is", app.editor.buffer.line(0), "xjxthree");
+        type_text(app, "\x1b:set nonumber\n");
+        type_text(app, ":source " + map_file + "\n");
+        check.eq_str(":source reads the file again", app.notice, "");
+        type_text(app, ":source /tmp/m3d1tor_no_such_file.vim\n");
+        check.ok("a missing file is reported", app.notice.starts_with("E484"));
+        write_file(map_file, "nnoremap a b\nfrobnicate\n");
+        type_text(app, ":source " + map_file + "\n");
+        check.ok("a failing line is named", app.notice.contains("line 2"));
+        type_text(app, ":new\n");
+        check.ok("the maps follow into a new window", app.editor.maps.normal.size() > 0);
+    }
+}
+match (MED_app.open_all([map_text])) {
+    case Err(str message): {
+        check.ok("open for the missing keymap test: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        app.load_keymap("/tmp/m3d1tor_no_such_keymap.vim", false);
+        app.notice = "";
+        app.load_keymap("/tmp/m3d1tor_no_such_keymap.vim", false);
+        check.eq_str("a default keymap that is not there is no error", app.notice, "");
+        app.load_keymap("/tmp/m3d1tor_no_such_keymap.vim", true);
+        check.ok("a named one is", app.notice.starts_with("E484"));
+    }
+}
+remove_file(map_text);
+remove_file(map_file);
 check.finish("t_app");

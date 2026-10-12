@@ -102,6 +102,7 @@ str run_case(str line) {
     editor.want_from_cursor();
     MED_view.update(editor);
     MED_ex.feed_keys(editor, keys);
+    MED_ex.flush_maps(editor);
     if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) {
         MED_ex.feed(editor, 27);
     }

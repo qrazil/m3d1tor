@@ -1,0 +1,353 @@
+// Key mappings: the tables behind `:map`, `:noremap` and friends.
+//
+// API
+// ---
+//   MED_map.Maps                     one table per mode, shared by every buffer
+//   MED_map.Mapping                      one mapping (lhs, rhs, flags)
+//   MED_map.kind_of(name)            what an ex command name does: "map", "unmap", "clear" or ""
+//   MED_map.modes_of(name, is_bang)  the mode letters a command name acts on ("nxo", "i", ...)
+//   MED_map.is_remapping(name)       false for the `noremap` family
+//   MED_map.split_arguments(text)         the flags, lhs and rhs of a `:map` line
+//   MED_map.resolve(table, keys, is_flush)   index of the map `keys` starts with, NONE or WAIT
+//   MED_map.add / did_remove / clear     edit a mode's table
+//
+// This module knows no editor: MED_ex feeds typed keys through `resolve` and
+// pushes the right-hand sides back as typeahead. Modes are one letter each:
+// n (Normal), x (Visual), o (operator-pending), i (Insert and Replace) and
+// c (command line); `:map` stands for n x o and `:map!` for i c.
+
+import engine.MED_key;
+
+/// `resolve` found no mapping that starts the keys.
+pub const int NONE = -1;
+/// `resolve`: the keys are the start of a longer mapping, wait for more.
+pub const int WAIT = -2;
+
+pub type Mapping {
+    pub List<int> lhs;
+    pub List<int> rhs;
+    /// The right-hand side is not mapped again (`:noremap`).
+    pub bool is_noremap = false;
+    /// `<nowait>`: do not wait for a longer mapping.
+    pub bool is_nowait = false;
+    /// The text as typed, for listings.
+    pub str lhs_text = "";
+    pub str rhs_text = "";
+}
+
+pub type Maps {
+    pub List<Mapping> normal = [];
+    pub List<Mapping> visual = [];
+    pub List<Mapping> operator = [];
+    pub List<Mapping> insert = [];
+    pub List<Mapping> command = [];
+    /// What `<leader>` stands for when a mapping is defined.
+    pub str leader = "\\";
+}
+
+/// The table of one mode letter.
+pub List<Mapping> Maps.table(str mode) {
+    if (mode == "x") {
+        return visual;
+    }
+    if (mode == "o") {
+        return operator;
+    }
+    if (mode == "i") {
+        return insert;
+    }
+    if (mode == "c") {
+        return command;
+    }
+    return normal;
+}
+
+/// Whether any mapping of `mode` is defined.
+pub bool Maps.has_any(str mode) {
+    return table(mode).size() > 0;
+}
+
+/// Whether any mode has a mapping.
+pub bool Maps.has_any_mapping() {
+    return normal.size() + visual.size() + operator.size() + insert.size() + command.size() > 0;
+}
+
+/// Whether a mapping of `mode` has a left-hand side that begins with `key`.
+pub bool Maps.has_prefix(str mode, int key) {
+    for (Mapping candidate in table(mode)) {
+        if (candidate.lhs.size() > 0 && candidate.lhs[0] == key) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Command names are the full names; MED_ex resolves abbreviations.
+// The mode prefix is "", "n", "v", "x", "o", "i" or "c".
+const List<str> PREFIXES = ["n", "v", "x", "o", "i", "c", ""];
+
+// The mode prefix of `name` when it is `{prefix}{stem}`, or "?" when it is not.
+str prefix_of(str name, str stem) {
+    for (str prefix in PREFIXES) {
+        if (name == prefix + stem) {
+            return prefix;
+        }
+    }
+    return "?";
+}
+
+/// "map" for `map` and `noremap` families, "unmap" for `unmap`, "clear" for `mapclear`, "" otherwise.
+pub str kind_of(str name) {
+    if (prefix_of(name, "map") != "?" || prefix_of(name, "noremap") != "?") {
+        return "map";
+    }
+    if (prefix_of(name, "unmap") != "?") {
+        return "unmap";
+    }
+    if (prefix_of(name, "mapclear") != "?") {
+        return "clear";
+    }
+    return "";
+}
+
+pub bool is_remapping(str name) {
+    return prefix_of(name, "noremap") == "?";
+}
+
+/// The mode letters a command acts on: `map` is "nxo", `map!` is "ic", `vmap` is "x".
+pub str modes_of(str name, bool is_bang) {
+    str prefix = prefix_of(name, "map");
+    if (prefix == "?") {
+        prefix = prefix_of(name, "noremap");
+    }
+    if (prefix == "?") {
+        prefix = prefix_of(name, "unmap");
+    }
+    if (prefix == "?") {
+        prefix = prefix_of(name, "mapclear");
+    }
+    if (prefix == "") {
+        if (is_bang) {
+            return "ic";
+        }
+        return "nxo";
+    }
+    if (prefix == "v") {
+        return "x";
+    }
+    return prefix;
+}
+
+/// The longest mapping of `table` that `keys` begins with; WAIT when `keys`
+/// is also the start of a longer one (unless `is_flush`, or the match is
+/// `<nowait>`), NONE when no mapping matches.
+pub int resolve(List<Mapping> table, List<int> keys, bool is_flush) {
+    int best = NONE;
+    int best_length = 0;
+    int index = 0;
+    for (Mapping candidate in table) {
+        int length = candidate.lhs.size();
+        int shared = length;
+        if (keys.size() < shared) {
+            shared = keys.size();
+        }
+        bool is_match = true;
+        int offset = 0;
+        while (offset < shared) {
+            if (candidate.lhs[offset] != keys[offset]) {
+                is_match = false;
+                break;
+            }
+            offset = offset + 1;
+        }
+        if (is_match) {
+            if (length > keys.size()) {
+                bool is_nowait = best != NONE && table[best].is_nowait;
+                if (!is_flush && !is_nowait) {
+                    return WAIT;
+                }
+            } else if (length > best_length) {
+                best = index;
+                best_length = length;
+            }
+        }
+        index = index + 1;
+    }
+    return best;
+}
+
+/// Define `added`, replacing a mapping with the same left-hand side. A new
+/// mapping goes first: Vim tries the newest mappings first.
+pub void add(List<Mapping> table, Mapping added) {
+    int index = find(table, added.lhs);
+    if (index >= 0) {
+        table[index] = added;
+        return;
+    }
+    table.insert(0, added);
+}
+
+bool is_same(List<int> first, List<int> second) {
+    if (first.size() != second.size()) {
+        return false;
+    }
+    int offset = 0;
+    while (offset < first.size()) {
+        if (first[offset] != second[offset]) {
+            return false;
+        }
+        offset = offset + 1;
+    }
+    return true;
+}
+
+bool is_prefixed(List<int> keys, List<int> prefix) {
+    if (keys.size() < prefix.size()) {
+        return false;
+    }
+    int offset = 0;
+    while (offset < prefix.size()) {
+        if (keys[offset] != prefix[offset]) {
+            return false;
+        }
+        offset = offset + 1;
+    }
+    return true;
+}
+
+/// The index of the mapping whose left-hand side is `lhs`, or -1.
+pub int find(List<Mapping> table, List<int> lhs) {
+    int index = 0;
+    for (Mapping candidate in table) {
+        if (is_same(candidate.lhs, lhs)) {
+            return index;
+        }
+        index = index + 1;
+    }
+    return -1;
+}
+
+/// Remove the mapping for `lhs`; false when there is none.
+pub bool did_remove(List<Mapping> table, List<int> lhs) {
+    int index = find(table, lhs);
+    if (index < 0) {
+        return false;
+    }
+    table.remove_at(index);
+    return true;
+}
+
+pub void clear(List<Mapping> table) {
+    while (table.size() > 0) {
+        table.pop();
+    }
+}
+
+/// What `:map` was given, split: the flags (`<nowait>`...), the left- and the
+/// right-hand side as text. `error` is set for a flag that is not supported.
+pub type Args {
+    pub str lhs = "";
+    pub str rhs = "";
+    pub bool is_nowait = false;
+    pub str error = "";
+}
+
+const List<str> IGNORED_FLAGS = ["<silent>", "<special>", "<script>", "<unique>"];
+
+// The text after `\` or CTRL-V is literal: a `<` must not start a key name.
+str literal(List<int> chars, int index) {
+    int char_code = chars[index];
+    if (char_code == 60) {
+        return "<lt>";
+    }
+    return str.from_chars([char_code]);
+}
+
+/// Split the argument of a map command. The left-hand side ends at the first
+/// white space; `\` and CTRL-V make the next character literal; the
+/// right-hand side is the rest, without leading white space.
+pub Args split_arguments(str text) {
+    Args parsed = Args();
+    List<int> chars = text.chars();
+    int index = 0;
+    while (true) {
+        while (index < chars.size() && (chars[index] == 32 || chars[index] == 9)) {
+            index = index + 1;
+        }
+        bool is_flag = false;
+        if (index < chars.size() && chars[index] == 60) {
+            str rest = str.from_chars(chars.slice(index, chars.size()));
+            for (str flag in IGNORED_FLAGS) {
+                if (rest.starts_with(flag)) {
+                    index = index + flag.size();
+                    is_flag = true;
+                }
+            }
+            if (!is_flag && rest.starts_with("<nowait>")) {
+                parsed.is_nowait = true;
+                index = index + 8;
+                is_flag = true;
+            }
+            if (!is_flag && (rest.starts_with("<buffer>") || rest.starts_with("<expr>"))) {
+                parsed.error = "E474: Invalid argument: only global, non-expression mappings are supported";
+                return parsed;
+            }
+        }
+        if (!is_flag) {
+            break;
+        }
+    }
+    str lhs = "";
+    while (index < chars.size() && chars[index] != 32 && chars[index] != 9) {
+        if ((chars[index] == 92 || chars[index] == 22) && index + 1 < chars.size()) {
+            index = index + 1;
+            lhs = lhs + literal(chars, index);
+        } else {
+            lhs = lhs + str.from_chars([chars[index]]);
+        }
+        index = index + 1;
+    }
+    while (index < chars.size() && (chars[index] == 32 || chars[index] == 9)) {
+        index = index + 1;
+    }
+    str rhs = "";
+    while (index < chars.size()) {
+        if ((chars[index] == 92 || chars[index] == 22) && index + 1 < chars.size()) {
+            index = index + 1;
+            rhs = rhs + literal(chars, index);
+        } else {
+            rhs = rhs + str.from_chars([chars[index]]);
+        }
+        index = index + 1;
+    }
+    parsed.lhs = lhs;
+    parsed.rhs = rhs;
+    return parsed;
+}
+
+/// Build the mapping `lhs` -> `rhs` (notation), with `<leader>` as in `leader`.
+pub Mapping make(Args parsed, bool is_noremap, str leader) {
+    Mapping made = Mapping(MED_key.parse(parsed.lhs, leader: leader), MED_key.parse(parsed.rhs, leader: leader));
+    made.is_noremap = is_noremap;
+    made.is_nowait = parsed.is_nowait;
+    made.lhs_text = parsed.lhs;
+    made.rhs_text = parsed.rhs;
+    return made;
+}
+
+/// The lines `:map` lists for one mode letter; with `prefix` only the
+/// mappings whose left-hand side begins with it.
+pub List<str> describe(List<Mapping> table, str mode, List<int> prefix) {
+    List<str> lines = [];
+    for (Mapping candidate in table) {
+        if (prefix.size() > 0 && !is_prefixed(candidate.lhs, prefix)) {
+            continue;
+        }
+        str flag = " ";
+        if (candidate.is_noremap) {
+            flag = "*";
+        }
+        lines.push(mode + "  " + MED_key.show(candidate.lhs) + "  " + flag + " " + MED_key.show(candidate.rhs));
+    }
+    return lines;
+}

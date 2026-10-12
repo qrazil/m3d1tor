@@ -167,9 +167,16 @@ Keymaps are **data**: `MED_defaults` is a list of
 `("n", "gg", "move.file_start", "", "go to first line")`,
 `("n", "<leader>ff", "picker.files", "", "find files")`. At start they are
 compiled into one trie per mode. `description` feeds which-key and `?`. A user
-keymap file (`~/.config/medit/keymap`, same row syntax) can override rows; v0.1
-ships the file reader because the `jk` escape and leader mappings are on the
-user's critical path.
+keymap file can override rows. As built, the user layer is Vim's own: the file
+is a list of ex lines (`~/.config/m3d1tor/keymap.vim`, or `$M3D1TOR_KEYMAP`, or
+`-u FILE`) using the `:map` / `:noremap` family for n, x, o, i and c modes,
+`:unmap`, `:mapclear`, `let mapleader`, `<nowait>` and `:source`. The engine
+resolves them (`MED_map`, `MED_ex.pump`) and the mapping behaviour is checked
+against nvim (corpus 60 and 61). Limits: no `<buffer>` or `<expr>` maps
+(E474), no select mode, mappings do not apply inside macros, dot repeat or
+`:normal`, and a macro register holds the keys after mapping (nvim records the
+typed keys). A user map starting with `<Space>` (or with `j` in Insert mode)
+takes over from the front end's built-in leader menu (or `jk`).
 
 Modes: `Normal`, `OperatorPending`, `Visual` (kind Char/Line/Block), `Insert`,
 `Replace`, `Cmdline` (`:` `/` `?`), `Picker`, `Help`. Insert mode keymaps resolve
@@ -438,7 +445,7 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Persistent undo, session restore | Later | |
 | Increment/decrement (`<C-a>`/`<C-x>`) | Yes | Engine feature, oracle-tested |
 | Search (`/`, `?`, `*`, `#`), `:s`, `:g` | Yes | Vim regex subset; no backreferences or lookaround in the regex engine (G6) |
-| Config file | Yes (minimal) | `~/.config/medit/keymap` + options; no scripting |
+| Config file | Yes (minimal) | `~/.config/m3d1tor/keymap.vim`: `:map` family, `let mapleader`, `:set`; no scripting |
 
 Honest summary: with Vim bindings, medit can match or exceed Helix on
 editing, navigation, picker and window features. It cannot match Helix on the
@@ -464,8 +471,9 @@ as Helix without its language intelligence", and the tag description must say so
   manual runs only.
 * M4 (in progress): splits are done (`:split :vsplit :new :vnew :close :only :wincmd`, `<C-w>` s v n c q o w W p t b h j k l, `<Space>sv/sh/se/sc/o/n`, mouse click focuses a window). Windows split the space equally (no `:resize` or `<C-w>+-<>|`, `<C-w>=` is a no-op); each has its own status line and shows its own cursor and view of a shared buffer; closing a window keeps its buffer loaded (hidden), so `:q` of a modified buffer in a window never prompts, and E162 reports it at the final quit. Edits made through one window do not move the cursor of another window on the same buffer (it is only clamped). Not done: `<C-w>HJKLrRx` (move/rotate/exchange windows), counts for `<C-w>`.
 * M4 explorer: done. `<Space>e` / `<Space>fe` is the picker explorer (`-` up on an empty prompt). `:Explore [dir]`, `:Sexplore`, `:Vexplore` and `:e dir` open a read-only directory buffer (`../`, folders, files; cursor on the file we came from): Enter opens the entry (the listing buffer is dropped when a file replaces it), `-` goes up, and any edit is undone at once by re-reading the directory with Vim's E21; `:w` gives E382. Not done: netrw's rename/delete/create keys, `gh` hidden toggle (dotfiles are always shown, `.git` never). In every picker CTRL-S / CTRL-V accept a file, buffer or grep hit into a new window below / beside.
+* M4 keymap file: done. `:map` family (see 2.3), `:source`, startup file, `-u`.
 * M4 (before the tag): git gutter, surround/comment/autopairs,
-  marks UI, keymap file, benchmarks run and recorded.
+  marks UI, benchmarks run and recorded.
 
 ## 11. m31 gaps (stop-and-report items, not worked around)
 

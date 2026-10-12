@@ -12,6 +12,7 @@
 
 import fs;
 import io;
+import os;
 import term;
 import tui.app.TUI_app;
 import tui.core.TUI_buffer;
@@ -42,6 +43,8 @@ const int SELECTION_COLOUR = 240;
 const int WHEEL_LINES = 3;
 /// Quiet time (ms) after typing in the grep prompt before the search runs.
 const int GREP_DEBOUNCE_MS = 120;
+/// How long (ms) a typed prefix of a longer mapping waits ('timeoutlen').
+const int MAP_TIMEOUT_MS = 1000;
 const int PREVIEW_LINES = 3000;
 /// The smallest a window may get, status line included.
 const int MIN_WINDOW_HEIGHT = 2;
@@ -100,6 +103,8 @@ pub type App {
     pub bool is_which_key = false;
     /// The previous key fed to the engine (for the `jk` mapping).
     pub int last_key = 0;
+    /// How long (ms) typed keys have waited for a longer mapping.
+    pub int map_ms = 0;
     /// The windows and how they are laid out; `current_win` is the active one,
     /// whose cursor and view live in `editor` and `left_column`.
     pub List<MED_window.Win> wins = [];
@@ -535,6 +540,8 @@ void App.run_request(str request) {
         } else {
             window_command(arg.trim().byte_at(0));
         }
+    } else if (name == "source") {
+        source_file(arg.trim());
     } else if (name == "Files") {
         open_picker("files", arg);
     } else if (name == "Buffers") {
@@ -1256,6 +1263,15 @@ pub TUI_app.Action App.tick(int elapsed_ms) {
             return TUI_app.Action.Redraw;
         }
     }
+    if (editor.ta_keys.size() > 0 && !has_picker) {
+        map_ms = map_ms + elapsed_ms;
+        if (map_ms >= MAP_TIMEOUT_MS) {
+            map_ms = 0;
+            MED_ex.flush_maps(editor);
+            did_finish();
+            return TUI_app.Action.Redraw;
+        }
+    }
     if (has_picker && is_grep_due) {
         idle_ms = idle_ms + elapsed_ms;
         if (idle_ms >= GREP_DEBOUNCE_MS) {
@@ -1284,7 +1300,7 @@ bool App.should_quit_after(int key) {
         is_window_key = true;
         return false;
     }
-    if (editor.mode == MED_editor.NORMAL && key == MED_key.SPACE && editor.pending.size() == 0) {
+    if (editor.mode == MED_editor.NORMAL && key == MED_key.SPACE && editor.pending.size() == 0 && editor.ta_keys.size() == 0 && !editor.maps.has_prefix("n", MED_key.SPACE)) {
         is_leader = true;
         is_which_key = false;
         leader = "";
@@ -1292,7 +1308,7 @@ bool App.should_quit_after(int key) {
         return false;
     }
     int sent = key;
-    if (editor.mode == MED_editor.INSERT && key == 107 && last_key == 106) {
+    if (editor.mode == MED_editor.INSERT && key == 107 && last_key == 106 && !editor.maps.has_prefix("i", 106)) {
         // jk: take back the j and leave Insert mode
         MED_ex.feed(editor, MED_key.BACKSPACE);
         sent = MED_key.ESC;
@@ -1342,6 +1358,7 @@ pub TUI_app.Action App.handle(term.Event event) {
         }
     }
     editor.view_height = current_text_rows();
+    map_ms = 0;
     for (int key in keys) {
         if (has_picker) {
             // a request opened a picker; the rest of the keys are its
@@ -1824,6 +1841,76 @@ TUI_app.Action App.handle_picker_wheel(TUI_mouse.Gesture gesture) {
     return TUI_app.Action.Redraw;
 }
 
+/// Run ex lines from `text` (a keymap file or `:source`): blank lines and `"`
+/// comments are skipped, a leading `:` is dropped. The first failure stops the
+/// run; the result is its message, or "" when every line ran.
+pub str App.run_script(str text, str label) {
+    int number = 0;
+    for (str raw in text.split("\n")) {
+        number = number + 1;
+        str line = raw.trim();
+        if (line.size() == 0 || line.starts_with("\"")) {
+            continue;
+        }
+        while (line.starts_with(":")) {
+            line = line.substr(1, line.size()).trim();
+        }
+        if (line.size() == 0) {
+            continue;
+        }
+        if (!MED_ex.did_run_line(editor, line)) {
+            return label + " line " + number.to_str() + ": " + editor.message;
+        }
+    }
+    return "";
+}
+
+/// `:source FILE`: run the file's ex lines.
+void App.source_file(str name) {
+    if (name.size() == 0) {
+        notice = "E471: Argument required";
+        return;
+    }
+    str file = expand_home(name);
+    if (!fs.is_present(file) || fs.is_directory(file)) {
+        notice = "E484: Can't open file " + name;
+        return;
+    }
+    match (io.read(file)) {
+        case Ok(str content): {
+            str failure = run_script(content, name);
+            editor.message = "";
+            notice = failure;
+        }
+        case Err(io.Error error): {
+            notice = "E484: Can't open file " + name;
+        }
+    }
+}
+
+/// Load the keymap file into the active buffer's editor (the maps follow to
+/// the others). A missing file is not an error unless it was asked for by name.
+pub void App.load_keymap(str file, bool is_required) {
+    if (file.size() == 0) {
+        return;
+    }
+    if (!fs.is_present(file)) {
+        if (is_required) {
+            notice = "E484: Can't open file " + file;
+        }
+        return;
+    }
+    match (io.read(file)) {
+        case Ok(str content): {
+            notice = run_script(content, file);
+            editor.message = "";
+        }
+        case Err(io.Error error): {
+            notice = "E484: Can't open file " + file;
+        }
+    }
+}
+
 int gutter_of(MED_editor.Editor shown) {
     int digits = shown.buffer.line_count().to_str().size();
     if (digits < MIN_DIGITS) {
@@ -1974,6 +2061,7 @@ void share_state(MED_editor.Editor from, MED_editor.Editor into) {
     into.is_startofline = from.is_startofline;
     into.scroll_opt = from.scroll_opt;
     into.view_height = from.view_height;
+    into.maps = from.maps;
 }
 
 /// Vim's "file info" message for a buffer just read.
@@ -2009,6 +2097,51 @@ Result<Slot, str> read_slot(int id, str name) {
     MED_editor.Editor loaded = MED_editor.new(text);
     loaded.buffer.path = name;
     return Result<Slot, str>.Ok(Slot(id, loaded, name));
+}
+
+// -------------------------------------------------------------- keymap file
+
+str expand_home(str path) {
+    if (path == "~" || path.starts_with("~/")) {
+        match (os.env("HOME")) {
+            case Some(str home): {
+                return home + path.substr(1, path.size());
+            }
+            case None: {
+                return path;
+            }
+        }
+    }
+    return path;
+}
+
+/// Where the keymap file is: $M3D1TOR_KEYMAP, else $XDG_CONFIG_HOME/m3d1tor/keymap.vim,
+/// else ~/.config/m3d1tor/keymap.vim.
+pub str keymap_path() {
+    match (os.env("M3D1TOR_KEYMAP")) {
+        case Some(str given): {
+            return given;
+        }
+        case None: {
+        }
+    }
+    match (os.env("XDG_CONFIG_HOME")) {
+        case Some(str base): {
+            if (base.size() > 0) {
+                return base + "/m3d1tor/keymap.vim";
+            }
+        }
+        case None: {
+        }
+    }
+    match (os.env("HOME")) {
+        case Some(str home): {
+            return home + "/.config/m3d1tor/keymap.vim";
+        }
+        case None: {
+            return "";
+        }
+    }
 }
 
 /// Split "name arg" into its two parts.

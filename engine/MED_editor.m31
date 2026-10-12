@@ -19,6 +19,7 @@ import engine.MED_register;
 import engine.MED_text;
 import engine.MED_num;
 import engine.MED_motion;
+import engine.MED_map;
 
 pub const int NORMAL = 0;
 pub const int INSERT = 1;
@@ -213,6 +214,14 @@ pub type Editor {
     pub int blk_ind_col = 0;
     pub int blk_ind_vcol = 0;
     pub int blk_current_col = 0;
+    /// The `:map` tables (the UI shares one set between buffers).
+    pub MED_map.Maps maps = MED_map.Maps();
+    /// Keys waiting to be resolved against the maps, and where each came from
+    /// (see MED_ex: 0 typed, 1 mapped, 2 mapped without remapping).
+    pub List<int> ta_keys = [];
+    pub List<int> ta_flags = [];
+    /// The key being fed came out of a mapping (it is not typed).
+    pub bool is_map_key = false;
     /// Ex command lines typed (or replayed) and not yet run: MED_ex runs them,
     /// because only it can call into the ex executor.
     pub List<str> ex_queue = [];

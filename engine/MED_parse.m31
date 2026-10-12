@@ -142,7 +142,7 @@ pub type OpAt {
     pub int length = -1;
 }
 
-OpAt op_at(List<int> keys, int other_index) {
+pub OpAt op_at(List<int> keys, int other_index) {
     OpAt op_at_value = OpAt();
     int count = keys.size();
     if (other_index >= count) {

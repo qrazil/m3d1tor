@@ -2843,6 +2843,72 @@ bool did_run_g(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> type
     return true;
 }
 
+// ------------------------------------------------------------------ mapping
+
+/// The table the next key is looked up in when mappings apply: "n", "x", "o"
+/// (an operator waits for its motion), "i" (Insert and Replace) or "c" (command
+/// line). "" when the next key is an argument of a command (`r`, `f`, `m`, `q`,
+/// the key after `g` or `z`, a text-object kind, CTRL-V in Insert...), which
+/// Vim never maps.
+pub str map_mode(MED_editor.Editor editor) {
+    if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) {
+        if (editor.ins_wait != 0) {
+            return "";
+        }
+        return "i";
+    }
+    if (editor.mode == MED_editor.CMDLINE) {
+        return "c";
+    }
+    bool has_selection = editor.mode == MED_editor.VISUAL;
+    str base = "n";
+    if (has_selection) {
+        base = "x";
+    }
+    List<int> keys = editor.pending;
+    int amount = keys.size();
+    int index = 0;
+    while (index < amount) {
+        int key = keys[index];
+        if (key == 34) {
+            if (index + 1 >= amount) {
+                return "";
+            }
+            index = index + 2;
+        } else if (key >= 49 && key <= 57) {
+            index = index + 1;
+            while (index < amount && keys[index] >= 48 && keys[index] <= 57) {
+                index = index + 1;
+            }
+        } else {
+            break;
+        }
+    }
+    if (index >= amount) {
+        return base;
+    }
+    if (has_selection) {
+        return "";
+    }
+    MED_parse.OpAt found = MED_parse.op_at(keys, index);
+    if (found.length <= 0) {
+        return "";
+    }
+    index = index + found.length;
+    while (index < amount) {
+        int key = keys[index];
+        if (key == 118 || key == 86 || key == 22 || (key >= 48 && key <= 57)) {
+            index = index + 1;
+        } else {
+            break;
+        }
+    }
+    if (index >= amount) {
+        return "o";
+    }
+    return "";
+}
+
 // ---------------------------------------------------------------------- feed
 
 /// Process one key in whatever mode `editor` is in.
@@ -4427,7 +4493,12 @@ void cmdline_key(MED_editor.Editor editor, int key) {
         hist_add(editor, line);
         cmdline_leave(editor);
         if (kind == 58) {
-            editor.ex_queue.push(str.from_chars([1]) + line);
+            // 1: typed (remembered in the `:` register), 2: from a mapping
+            int origin = 1;
+            if (editor.is_map_key) {
+                origin = 2;
+            }
+            editor.ex_queue.push(str.from_chars([origin]) + line);
         } else {
             editor.search_typed = line;
             editor.is_search_ready = true;

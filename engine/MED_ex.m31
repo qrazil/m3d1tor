@@ -30,15 +30,20 @@ import engine.MED_register;
 import engine.MED_key;
 import engine.MED_case;
 import engine.MED_view;
+import engine.MED_map;
 
 // ------------------------------------------------------------------- driver
 
-/// Process one key, then run the ex lines it queued.
+/// Process one key, then run the ex lines it queued. Mappings apply: the key
+/// joins the typeahead and is resolved against the `:map` tables.
 pub void feed(MED_editor.Editor editor, int key) {
-    MED_vim.feed(editor, key);
-    drain(editor);
-    // Vim's update_topline() runs after the command, ex lines included
-    MED_view.update(editor);
+    if (editor.ta_keys.size() == 0 && !editor.maps.has_any_mapping()) {
+        feed_plain(editor, key);
+        return;
+    }
+    editor.ta_keys.push(key);
+    editor.ta_flags.push(TYPED);
+    pump(editor, false);
 }
 
 pub void feed_keys(MED_editor.Editor editor, List<int> keys) {
@@ -47,19 +52,213 @@ pub void feed_keys(MED_editor.Editor editor, List<int> keys) {
     }
 }
 
+// The key goes to the editor as it is: no mapping.
+void feed_plain(MED_editor.Editor editor, int key) {
+    MED_vim.feed(editor, key);
+    drain(editor);
+    // Vim's update_topline() runs after the command, ex lines included
+    MED_view.update(editor);
+}
+
+/// Where a typeahead key came from: typed, or expanded from a mapping (which
+/// may be mapped again, or not for `:noremap`).
+const int TYPED = 0;
+const int MAPPED = 1;
+const int NOREMAP = 2;
+const int MAX_EXPANSIONS = 1000;
+
+/// Resolve the typeahead: expand mappings and feed what is left to the editor.
+/// A key that begins a longer mapping stays queued until the next key, or
+/// until `flush_maps`.
+pub void pump(MED_editor.Editor editor, bool is_flush) {
+    int expansions = 0;
+    while (editor.ta_keys.size() > 0) {
+        if (editor.ta_flags[0] != NOREMAP) {
+            str mode = MED_vim.map_mode(editor);
+            if (mode != "") {
+                List<MED_map.Mapping> table = editor.maps.table(mode);
+                int found = MED_map.resolve(table, editor.ta_keys, is_flush);
+                if (found == MED_map.WAIT) {
+                    return;
+                }
+                if (found >= 0) {
+                    expansions = expansions + 1;
+                    if (expansions > MAX_EXPANSIONS) {
+                        editor.message = "E223: Recursive mapping";
+                        editor.is_failed = true;
+                        editor.ta_keys = [];
+                        editor.ta_flags = [];
+                        return;
+                    }
+                    expand(editor, table[found]);
+                    continue;
+                }
+            }
+        }
+        int key = editor.ta_keys[0];
+        int origin = editor.ta_flags[0];
+        editor.ta_keys.remove_at(0);
+        editor.ta_flags.remove_at(0);
+        if (origin != TYPED && key == MED_key.NOP) {
+            continue;
+        }
+        bool was_failed = editor.is_failed;
+        editor.is_failed = false;
+        editor.is_map_key = origin != TYPED;
+        if (origin == TYPED) {
+            if (editor.pending.size() == 0 && (editor.mode == MED_editor.NORMAL || editor.mode == MED_editor.VISUAL)) {
+                // a typed key ends the undo block that mapped keys left open
+                editor.end_block();
+            }
+        } else {
+            editor.block_hold = editor.block_hold + 1;
+        }
+        feed_plain(editor, key);
+        if (origin != TYPED) {
+            editor.block_hold = editor.block_hold - 1;
+        }
+        editor.is_map_key = false;
+        bool is_bad = editor.is_failed;
+        editor.is_failed = was_failed || is_bad;
+        if (is_bad) {
+            // an error flushes what mappings still have queued
+            while (editor.ta_keys.size() > 0 && editor.ta_flags[0] != TYPED) {
+                editor.ta_keys.remove_at(0);
+                editor.ta_flags.remove_at(0);
+            }
+        }
+    }
+}
+
+// Replace the keys of `hit`'s left-hand side at the front of the typeahead by its right-hand side.
+void expand(MED_editor.Editor editor, MED_map.Mapping hit) {
+    int origin = MAPPED;
+    if (hit.is_noremap) {
+        origin = NOREMAP;
+    }
+    List<int> keys = [];
+    List<int> flags = [];
+    for (int key in hit.rhs) {
+        keys.push(key);
+        flags.push(origin);
+    }
+    int offset = hit.lhs.size();
+    while (offset < editor.ta_keys.size()) {
+        keys.push(editor.ta_keys[offset]);
+        flags.push(editor.ta_flags[offset]);
+        offset = offset + 1;
+    }
+    editor.ta_keys = keys;
+    editor.ta_flags = flags;
+}
+
+/// No more keys are coming (end of input, or 'timeoutlen' passed): a pending
+/// prefix of a longer mapping is taken for what it is.
+pub void flush_maps(MED_editor.Editor editor) {
+    pump(editor, true);
+}
+
+// -------------------------------------------------------------------- :map
+
+Step run_map(MED_editor.Editor editor, Cmd cmd) {
+    str kind = MED_map.kind_of(cmd.name);
+    str modes = MED_map.modes_of(cmd.name, cmd.is_bang);
+    if (kind == "clear") {
+        for (int letter in modes.chars()) {
+            MED_map.clear(editor.maps.table(str.from_chars([letter])));
+        }
+        return done();
+    }
+    MED_map.Args parsed = MED_map.split_arguments(cmd.arg);
+    if (parsed.error != "") {
+        return fail(editor, parsed.error);
+    }
+    if (kind == "unmap") {
+        if (parsed.lhs == "") {
+            return fail(editor, "E474: Invalid argument");
+        }
+        List<int> lhs = MED_key.parse(parsed.lhs, leader: editor.maps.leader);
+        bool is_removed = false;
+        for (int letter in modes.chars()) {
+            if (MED_map.did_remove(editor.maps.table(str.from_chars([letter])), lhs)) {
+                is_removed = true;
+            }
+        }
+        if (!is_removed) {
+            return fail(editor, "E31: No such mapping");
+        }
+        return done();
+    }
+    if (parsed.lhs == "" || parsed.rhs == "") {
+        // a listing
+        List<str> lines = [];
+        List<int> prefix = MED_key.parse(parsed.lhs, leader: editor.maps.leader);
+        for (int letter in modes.chars()) {
+            str mode = str.from_chars([letter]);
+            for (str line in MED_map.describe(editor.maps.table(mode), mode, prefix)) {
+                lines.push(line);
+            }
+        }
+        if (lines.size() == 0) {
+            editor.message = "No mapping found";
+        } else {
+            editor.message = lines.join("\n");
+        }
+        return done();
+    }
+    MED_map.Mapping made = MED_map.make(parsed, !MED_map.is_remapping(cmd.name), editor.maps.leader);
+    for (int letter in modes.chars()) {
+        MED_map.add(editor.maps.table(str.from_chars([letter])), made);
+    }
+    return done();
+}
+
+// `:let mapleader = " "`; other variables are accepted and ignored.
+Step run_let(MED_editor.Editor editor, Cmd cmd) {
+    str text = cmd.arg;
+    int equals = text.index_of("=").or(-1);
+    if (equals < 0) {
+        return done();
+    }
+    str name = text.substr(0, equals).trim();
+    if (name.starts_with("g:")) {
+        name = name.substr(2, name.size());
+    }
+    if (name != "mapleader") {
+        return done();
+    }
+    str value = text.substr(equals + 1, text.size()).trim();
+    if (value.size() < 2) {
+        return fail(editor, "E15: Invalid expression: " + value);
+    }
+    int quote = value.byte_at(0);
+    if ((quote != 34 && quote != 39) || value.byte_at(value.size() - 1) != quote) {
+        return fail(editor, "E15: Invalid expression: " + value);
+    }
+    str inner = value.substr(1, value.size() - 1);
+    if (quote == 34) {
+        // "\<Space>" and friends
+        List<int> keys = MED_key.parse(inner.split("\\<").join("<"), leader: "");
+        inner = str.from_chars(keys);
+    }
+    editor.maps.leader = inner;
+    return done();
+}
+
 /// Run queued ex lines; continue macros that were stopped for one.
 pub void drain(MED_editor.Editor editor) {
     while (true) {
         if (editor.ex_queue.size() > 0) {
             str line = editor.ex_queue[0];
             editor.ex_queue.remove_at(0);
-            bool is_typed = line.size() > 0 && line.byte_at(0) == 1;
+            bool is_typed = line.size() > 0 && (line.byte_at(0) == 1 || line.byte_at(0) == 2);
+            bool is_remembered = line.size() > 0 && line.byte_at(0) == 1;
             if (is_typed) {
                 line = line.substr(1, line.size());
             }
             editor.is_colon_skip = false;
             bool is_ok = did_run_isolated(editor, line);
-            if (is_typed && !editor.is_colon_skip) {
+            if (is_remembered && !editor.is_colon_skip) {
                 // remembered only after it ran, so that `:@:` inside it sees the line before
                 editor.regs.set_special(":", line);
             }
@@ -457,7 +656,7 @@ Cmd parse_range(MED_editor.Editor editor, str text, int start) {
 
 /// The commands the UI layer carries out (they need files, buffers or windows).
 bool is_ui_command(str name) {
-    List<str> names = ["edit", "enew", "bnext", "bprevious", "bNext", "buffer", "bdelete", "bwipeout", "bunload", "bfirst", "brewind", "blast", "ls", "buffers", "files", "close", "only", "split", "vsplit", "new", "vnew", "wincmd", "Files", "Buffers", "Grep", "Commands", "help", "Explore", "Sexplore", "Vexplore"];
+    List<str> names = ["edit", "enew", "bnext", "bprevious", "bNext", "buffer", "bdelete", "bwipeout", "bunload", "bfirst", "brewind", "blast", "ls", "buffers", "files", "close", "only", "split", "vsplit", "new", "vnew", "wincmd", "Files", "Buffers", "Grep", "Commands", "help", "Explore", "Sexplore", "Vexplore", "source"];
     for (str known in names) {
         if (known == name) {
             return true;
@@ -471,7 +670,7 @@ bool is_ui_command(str name) {
 // "full:shortest": a word names the first command whose full name it starts
 // and whose shortest form it reaches (Vim's order matters for ambiguity).
 List<str> command_table() {
-    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "bNext:2", "buffer:1", "bdelete:2", "bwipeout:2", "bunload:3", "bfirst:2", "brewind:2", "blast:2", "ls:2", "buffers:7", "files:5", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "wincmd:4", "Files:1", "Buffers:2", "Grep:1", "Commands:3", "help:1", "Explore:2", "Sexplore:3", "Vexplore:3", "write!:99"];
+    return ["substitute:1", "delete:1", "move:1", "t:1", "copy:2", "join:1", "global:1", "vglobal:1", "yank:1", "undo:1", "print:1", "put:2", "normal:4", "execute:3", "k:1", "mark:2", "nohlsearch:3", "set:2", "echo:2", "echomsg:5", "redraw:4", "messages:3", "highlight:2", "syntax:2", "filetype:5", "version:2", "history:3", "pwd:2", "setlocal:4", "setglobal:4", "undojoin:5", "redo:3", "sort:3", "number:2", "quit:1", "write:1", "wq:2", "delmarks:4", "earlier:2", "later:3", "list:1", "z:1", "update:2", "xit:1", "wall:2", "qall:2", "wqall:3", "xall:2", "registers:3", "display:2", "marks:5", "jumps:2", "changes:7", "startinsert:4", "stopinsert:5", "retab:3", "left:2", "right:2", "center:2", "noautocmd:3", "edit:1", "enew:3", "bnext:2", "bprevious:2", "bNext:2", "buffer:1", "bdelete:2", "bwipeout:2", "bunload:3", "bfirst:2", "brewind:2", "blast:2", "ls:2", "buffers:7", "files:5", "close:3", "only:2", "split:2", "vsplit:2", "new:3", "vnew:3", "wincmd:4", "Files:1", "Buffers:2", "Grep:1", "Commands:3", "help:1", "Explore:2", "Sexplore:3", "Vexplore:3", "map:3", "nmap:2", "vmap:2", "xmap:2", "omap:2", "imap:2", "cmap:2", "noremap:2", "nnoremap:2", "vnoremap:2", "xnoremap:2", "onoremap:3", "inoremap:3", "cnoremap:3", "unmap:3", "nunmap:3", "vunmap:2", "xunmap:2", "ounmap:2", "iunmap:2", "cunmap:2", "mapclear:4", "nmapclear:5", "vmapclear:5", "xmapclear:5", "omapclear:5", "imapclear:5", "cmapclear:5", "let:3", "source:2", "write!:99"];
 }
 
 str resolve(str word) {
@@ -690,7 +889,7 @@ Step run_one(MED_editor.Editor editor, str text) {
         }
     }
     bool is_bang = false;
-    if (at(text, argstart) == 33 && (is_ui_command(name) || name == "global" || name == "join" || name == "put" || name == "z" || name == "normal" || name == "write" || name == "quit" || name == "sort" || name == "delmarks" || name == "wq" || name == "xit" || name == "update" || name == "qall" || name == "wall")) {
+    if (at(text, argstart) == 33 && (is_ui_command(name) || name == "global" || name == "join" || name == "put" || name == "z" || name == "normal" || name == "write" || name == "quit" || name == "sort" || name == "delmarks" || name == "wq" || name == "xit" || name == "update" || name == "qall" || name == "wall" || MED_map.kind_of(name) != "")) {
         is_bang = true;
         argstart = argstart + 1;
     }
@@ -701,6 +900,9 @@ Step run_one(MED_editor.Editor editor, str text) {
         // the pattern and flags are parsed by the command itself
         cmd.arg = arg;
     } else if (name == "normal") {
+        cmd.arg = skip_one_white(arg);
+    } else if (MED_map.kind_of(name) != "" || name == "let") {
+        // a `|` belongs to the right-hand side
         cmd.arg = skip_one_white(arg);
     } else {
         Split split = split_bar(arg, true);
@@ -832,6 +1034,12 @@ str reg_count(MED_editor.Editor editor, Cmd cmd, bool needs_reg, bool needs_coun
 
 Step exec_cmd(MED_editor.Editor editor, Cmd cmd) {
     str name = cmd.name;
+    if (MED_map.kind_of(name) != "") {
+        return run_map(editor, cmd);
+    }
+    if (name == "let") {
+        return run_let(editor, cmd);
+    }
     if (name == "delete" || name == "yank") {
         str error = reg_count(editor, cmd, true, true);
         if (error != "") {

@@ -2,6 +2,10 @@
 //
 //   m3d1tor FILE...   open the files as buffers (a new buffer when one does not exist yet)
 //   m3d1tor           an empty buffer with no name
+//   m3d1tor -u FILE   read FILE as the keymap file (-u NONE reads none)
+//
+// The keymap file holds ex lines (`nnoremap`, `let mapleader`, `set` ...); by
+// default it is $XDG_CONFIG_HOME/m3d1tor/keymap.vim (~/.config/...).
 //
 // Vim keys (the engine is checked against nvim, see DESIGN.md), `:w` writes,
 // `:q` quits (`:q!` discards, `:wq` / `ZZ` write and quit).
@@ -21,14 +25,29 @@ if (!term.is_terminal(0) || !term.is_terminal(1)) {
     os.exit(1);
 }
 List<str> files = [];
-for (int arg_index in 1 .. arguments.size()) {
-    files.push(arguments[arg_index]);
+// -u FILE reads that keymap file, -u NONE reads none
+str keymap = MED_app.keymap_path();
+bool is_keymap_required = false;
+int arg_index = 1;
+while (arg_index < arguments.size()) {
+    if (arguments[arg_index] == "-u" && arg_index + 1 < arguments.size()) {
+        keymap = arguments[arg_index + 1];
+        is_keymap_required = true;
+        if (keymap == "NONE") {
+            keymap = "";
+        }
+        arg_index = arg_index + 2;
+    } else {
+        files.push(arguments[arg_index]);
+        arg_index = arg_index + 1;
+    }
 }
 if (files.size() == 0) {
     files.push("");
 }
 match (MED_app.open_all(files)) {
     case Ok(MED_app.App app): {
+        app.load_keymap(keymap, is_keymap_required);
         TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: true, animate_ms: 50);
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {

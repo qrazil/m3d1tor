@@ -1,0 +1,94 @@
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q dd<lt>CR><CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap x dw<CR>x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nmap a b<CR>:nnoremap b x<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nmap a x<CR>:nmap x j<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap a x<CR>:nmap x j<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nmap a x<CR>:nnoremap x j<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:inoremap jk <lt>Esc><CR>ifoojkbar
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:inoremap jk X<CR>ijk
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:inoremap jk X<CR>ijx
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:inoremap jk X<CR>ij
+one two three\nfour five six\nseven eight nine\nten eleven twelve	1,1	:inoremap jk X<CR>ijjk
+one two three\nfour five six\nseven eight nine\nten eleven twelve	1,0	:let mapleader=","<CR>:nnoremap <lt>leader>x dd<CR>,x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	1,0	:nnoremap <lt>leader>x dd<CR>\x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	1,0	:let mapleader=" "<CR>:nnoremap <lt>leader>x dd<CR> x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:onoremap w e<CR>dw
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,5	:onoremap Q iw<CR>dQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,5	:onoremap Q iw<CR>cQXY
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:xnoremap x d<CR>vlx
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:noremap! X Y<CR>iaXb
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:noremap! X Y<CR>:s/o/X/<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap x dd<CR>:nunmap x<CR>x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap x dd<CR>:nmapclear<CR>x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap x dd<CR>:unmap x<CR>x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap x dd<CR>:nunmap y<CR>x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap gx dd<CR>gj
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap xy dd<CR>x
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap xy dd<CR>xz
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap xy dd<CR>xy
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap a x<CR>:nnoremap ab dd<CR>ab
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap a x<CR>:nnoremap ab dd<CR>aw
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap a x<CR>:nnoremap ab dd<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q 3x<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q 3x<CR>2Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q "ayy<CR>Q"ap
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q fzx<CR>Qx
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q fzx<CR>jQx
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap x <lt>Nop><CR>xx
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap <lt>nowait> a x<CR>:nnoremap ab dd<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap <lt>nowait> a x<CR>:nnoremap ab dd<CR>ab
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:vnoremap Q d<CR>vlQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:vnoremap Q d<CR>VjQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:cnoremap Q 2<CR>:Qd<CR>
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:noremap l j<CR>fl
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:noremap l j<CR>dfl
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:noremap l j<CR>rl
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:noremap l j<CR>ml:2<CR>'l
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:inoremap a b<CR>i<C-v>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:inoremap a b<CR>iaa
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap <lt>Space> dd<CR><Space>
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q dw<CR>Q.
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q xx<CR>Qu
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q xx<CR>Quu
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nmap a a<CR>a
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q :s/o/0/<lt>CR><CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q x\|x<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q x<lt>Bar>x<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q ix<lt>Esc><CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q ix<lt>Esc><CR>3Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q ix<lt>Esc><CR>Q.
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q A!<lt>Esc>j<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q A!<lt>Esc>j<CR>QQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q A!<lt>Esc>j<CR>QQ.
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nmap Q wD<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	2,0	:nnoremap j gg<CR>j
+one two three\nfour five six\nseven eight nine\nten eleven twelve	1,0	:nnoremap J G<CR>dJ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap <lt>C-a> x<CR><C-a>
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap <lt>C-j> dd<CR><C-j>
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap K dd<CR>K
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q <lt>lt>lt>CR><CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q xu<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q xu<CR>QQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q @a<CR>qaxq@aQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q vj<CR>Qd
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q vjd<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q gUiw<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q gU<CR>Qiw
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q i<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q /two<lt>CR><CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q /tw<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q yiw<CR>Q$p
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q 2dd<CR>3Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q dd<CR>:nnoremap W Q<CR>W
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q dd<CR>:nnoremap W Q<CR>:nnoremap Q x<CR>W
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:map Q dd<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:map Q dd<CR>vQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:map Q w<CR>dQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q w<CR>dQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:vmap Q d<CR>vQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:imap Q x<CR>iQ
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nmap Q ix<lt>Esc><CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nunmap Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q x<CR>:nnoremap Q<CR>Q
+one two three\nfour five six\nseven eight nine\nten eleven twelve	0,0	:nnoremap Q x<CR>:nnoremap Q dd<CR>Q

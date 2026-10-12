@@ -8,7 +8,7 @@ design codename that `DESIGN.md` still uses.)
 
 **Status: 0.0.x, pre-release.** The v0.1.0 acceptance bar (DESIGN section 9:
 "at least as capable as Helix, with Vim bindings") is not met yet: the git
-gutter, surround, comment toggle, auto pairs, marks UI, the keymap file and the
+gutter, surround, comment toggle, auto pairs, marks UI and the
 recorded benchmarks are still to do. No release has been tagged and none will be
 until it is. The `version` in `deps` is not bumped by the reorganisation.
 
@@ -24,6 +24,8 @@ until it is. The `version` in `deps` is not bumped by the reorganisation.
   `<C-w>` commands, mouse click, drag and wheel.
 - Pickers: files, buffers, live grep, commands, keymap help, explorer; `.gitignore` aware.
 - Which-key popup for the leader sequences.
+- A keymap file in Vim syntax: `:map` / `:noremap` for n, x, o, i, c modes, `:unmap`,
+  `:mapclear`, `let mapleader`, `:source` (see below).
 
 The editing engine is tested differentially against `nvim --headless` (15k+ cases).
 
@@ -48,6 +50,21 @@ Normal-mode `<Space>` is the leader; a pending sequence shows which-key after a 
 | `:w` `:q` `:q!` `:wq` `ZZ` | write and quit |
 
 In a picker, `<C-s>` / `<C-v>` open the hit in a split below / beside.
+
+## Keymap file
+
+`~/.config/m3d1tor/keymap.vim` (or `$XDG_CONFIG_HOME/m3d1tor/keymap.vim`, or the file
+named by `$M3D1TOR_KEYMAP`, or `m3d1tor -u FILE`; `-u NONE` reads none) is a list of ex lines:
+
+    let mapleader = " "
+    nnoremap <leader>w :w<CR>
+    inoremap jj <Esc>
+    xnoremap < <gv
+
+`"` starts a comment line. A map on `<Space>` replaces the built-in leader menu, and a
+map starting with `j` in Insert mode replaces the built-in `jk`. Behaviour follows nvim
+(checked in the oracle corpus); `<buffer>` and `<expr>` maps are refused (E474), and maps do
+not apply inside macros, `.` or `:normal`.
 
 ## Build
 

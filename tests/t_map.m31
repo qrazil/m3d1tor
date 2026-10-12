@@ -1,0 +1,92 @@
+// Unit checks for MED_map and the mapping layer of MED_ex.
+
+import tests.MED_check;
+import engine.MED_map;
+import engine.MED_ex;
+import engine.MED_key;
+import engine.MED_editor;
+
+MED_editor.Editor fresh(str text) {
+    MED_editor.Editor editor = MED_editor.new("");
+    editor.buffer.lines = text.split("\n");
+    editor.init_marks();
+    return editor;
+}
+
+void press(MED_editor.Editor editor, str notation) {
+    MED_ex.feed_keys(editor, MED_key.parse(notation));
+}
+
+MED_check.Check check = MED_check.Check();
+// argument splitting
+MED_map.Args parsed = MED_map.split_arguments("<nowait> <silent> ab  dd<CR>");
+check.eq_str("lhs", parsed.lhs, "ab");
+check.eq_str("rhs", parsed.rhs, "dd<CR>");
+check.ok("nowait", parsed.is_nowait);
+check.eq_str("escaped bar", MED_map.split_arguments("x a\\|b").rhs, "a|b");
+check.eq_str("escaped lt", MED_map.split_arguments("x \\<Esc>").rhs, "<lt>Esc>");
+check.eq_str("buffer refused", MED_map.split_arguments("<buffer> a b").error.substr(0, 4), "E474");
+// names
+check.eq_str("kind map", MED_map.kind_of("nnoremap"), "map");
+check.eq_str("kind unmap", MED_map.kind_of("iunmap"), "unmap");
+check.eq_str("kind clear", MED_map.kind_of("mapclear"), "clear");
+check.eq_str("kind other", MED_map.kind_of("normal"), "");
+check.eq_str("modes map", MED_map.modes_of("map", false), "nxo");
+check.eq_str("modes map bang", MED_map.modes_of("map", true), "ic");
+check.eq_str("modes vmap", MED_map.modes_of("vnoremap", false), "x");
+check.ok("noremap", !MED_map.is_remapping("onoremap"));
+check.ok("remap", MED_map.is_remapping("omap"));
+// resolution
+MED_editor.Editor editor = fresh("one two\nthree four\nfive");
+check.ok("run map", MED_ex.did_run_line(editor, "nnoremap Q dd"));
+check.ok("no map yet for other mode", !editor.maps.has_any("i"));
+press(editor, "Q");
+check.eq_int("Q deleted a line", editor.buffer.lines.size(), 2);
+// a prefix waits until the next key or a flush
+editor = fresh("abc def");
+check.ok("run prefix", MED_ex.did_run_line(editor, "nnoremap xy ix<Esc>"));
+press(editor, "x");
+check.eq_str("x waits", editor.buffer.lines[0], "abc def");
+check.eq_int("typeahead holds x", editor.ta_keys.size(), 1);
+press(editor, "y");
+check.eq_str("xy runs", editor.buffer.lines[0], "xabc def");
+check.eq_int("typeahead empty", editor.ta_keys.size(), 0);
+press(editor, "x");
+MED_ex.flush_maps(editor);
+check.eq_str("flush: x deletes", editor.buffer.lines[0], "abc def");
+// noremap versus remap
+editor = fresh("abc");
+check.ok("m1", MED_ex.did_run_line(editor, "nmap a b"));
+check.ok("m2", MED_ex.did_run_line(editor, "nnoremap b x"));
+press(editor, "a");
+check.eq_str("a -> b -> x", editor.buffer.lines[0], "bc");
+// recursion is cut off
+editor = fresh("abc");
+check.ok("rec", MED_ex.did_run_line(editor, "nmap a a"));
+press(editor, "a");
+check.eq_str("E223", editor.message, "E223: Recursive mapping");
+check.eq_int("typeahead dropped", editor.ta_keys.size(), 0);
+// unmap, mapclear
+editor = fresh("abc");
+check.ok("u1", MED_ex.did_run_line(editor, "nnoremap a x"));
+check.ok("u2", MED_ex.did_run_line(editor, "inoremap a y"));
+check.ok("unmap n", MED_ex.did_run_line(editor, "nunmap a"));
+check.ok("insert map kept", editor.maps.has_any("i"));
+check.ok("normal map gone", !editor.maps.has_any("n"));
+check.ok("E31", !MED_ex.did_run_line(editor, "nunmap a"));
+check.eq_str("E31 text", editor.message, "E31: No such mapping");
+check.ok("clear", MED_ex.did_run_line(editor, "imapclear"));
+check.ok("all gone", !editor.maps.has_any_mapping());
+// <leader> uses the leader of the time
+editor = fresh("abc");
+check.ok("let", MED_ex.did_run_line(editor, "let mapleader = \",\""));
+check.ok("leader map", MED_ex.did_run_line(editor, "nnoremap <leader>x dd"));
+check.eq_int("leader key", editor.maps.normal[0].lhs[0], 44);
+check.ok("let space", MED_ex.did_run_line(editor, "let g:mapleader = \"\\<Space>\""));
+check.eq_str("space leader", editor.maps.leader, " ");
+// the listing
+editor = fresh("abc");
+check.ok("list1", MED_ex.did_run_line(editor, "nnoremap a x"));
+check.ok("list2", MED_ex.did_run_line(editor, "nmap"));
+check.ok("listing names the map", editor.message.contains("a"));
+check.finish("t_map");
