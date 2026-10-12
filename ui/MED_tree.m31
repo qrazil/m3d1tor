@@ -1,0 +1,551 @@
+// The file tree sidebar (neo-tree's filesystem source, in a terminal).
+//
+// This module is the model: the folders shown open, the rows they make, git
+// status for every row, and the file operations (add, delete, rename, copy,
+// move, paste). It never draws and never reads a key; MED_app does both.
+//
+// API
+// ---
+//   Tree.refresh()           rebuild `entries` from the disk (keeps the selection by path)
+//   Tree.refresh_status()    read git status again
+//   Tree.current()           the entry under the cursor row, if any
+//   Tree.toggle(path)        open or close a folder
+//   Tree.did_reveal(file)        open every folder above `file` and select it
+//   Tree.collapse_all()      close every folder
+//   add / remove_path / rename_path / copy_path / paste_into   file operations;
+//                            each returns "" or the error text
+//
+// Paths are spelled as the rest of the editor spells them: relative to the
+// working directory ("." is the root of a project), joined with `/`.
+
+import fs;
+import io;
+import ui.MED_files;
+import ui.MED_git;
+
+/// The most rows a tree (or a filtered tree) builds.
+const int MAX_ROWS = 20000;
+
+pub type Entry {
+    /// The path as the editor opens it.
+    pub str path;
+    pub str name;
+    /// The path below the tree's root, the key of the git status.
+    pub str relative;
+    pub int depth;
+    pub bool is_directory;
+    pub bool is_open;
+    /// M, A, D, R, ? or ! (conflict); "" when clean.
+    pub str status = "";
+}
+
+/// The text of one row, without its status letter.
+pub str Entry.label(bool has_glyphs) {
+    str indent = "";
+    for (int level in 0 .. depth) {
+        indent = indent + "  ";
+    }
+    if (is_directory) {
+        str arrow = "> ";
+        if (is_open) {
+            arrow = "v ";
+        }
+        if (has_glyphs) {
+            if (is_open) {
+                return indent + str.from_chars([61564]) + " " + name + "/";
+            }
+            return indent + str.from_chars([61563]) + " " + name + "/";
+        }
+        return indent + arrow + name + "/";
+    }
+    if (has_glyphs) {
+        return indent + str.from_chars([61787]) + " " + name;
+    }
+    return indent + "  " + name;
+}
+
+pub type Tree {
+    pub bool is_open = false;
+    pub bool is_focused = false;
+    pub int width = 32;
+    pub str root = ".";
+    pub List<str> expanded = [];
+    pub bool is_hidden_shown = false;
+    pub bool has_glyphs = false;
+    /// Only rows that fuzzy-match this text (and the folders above them).
+    pub str filter = "";
+    pub List<Entry> entries = [];
+    pub int row = 0;
+    pub int top = 0;
+    /// y / x put a path here; p pastes it.
+    pub str clipboard = "";
+    pub bool is_cut = false;
+    pub Map<str, str> status = {};
+    pub int status_ms = 0;
+    /// The file the tree last followed (so a switch of buffer is noticed once).
+    pub str followed = "";
+    /// The path a pending rename, move or copy prompt started from.
+    pub str rename_from = "";
+}
+
+bool Tree.is_expanded(str path) {
+    for (str known in expanded) {
+        if (known == path) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Rows of the folder `directory` (its path relative to the root is `relative`),
+// appended to `out`. With a filter, every folder is searched and a folder shows
+// only when something inside it matches. True when anything was added.
+bool Tree.did_collect(str directory, str relative, int depth, List<Entry> out) {
+    bool did_add = false;
+    for (str listed in MED_files.list_directory(directory, is_hidden_shown)) {
+        if (out.size() >= MAX_ROWS) {
+            break;
+        }
+        bool is_directory = listed.ends_with("/");
+        str name = listed;
+        if (is_directory) {
+            name = listed.substr(0, listed.size() - 1);
+        }
+        str path = joined(directory, name);
+        str below = name;
+        if (relative.size() > 0) {
+            below = relative + "/" + name;
+        }
+        Entry entry = Entry(path, name, below, depth, is_directory, false);
+        entry.status = status.get(below).or("");
+        if (!is_directory) {
+            if (filter.size() == 0 || is_fuzzy(filter, name)) {
+                out.push(entry);
+                did_add = true;
+            }
+            continue;
+        }
+        if (filter.size() > 0) {
+            List<Entry> inner = [];
+            bool has_match = did_collect(path, below, depth + 1, inner);
+            if (has_match || is_fuzzy(filter, name)) {
+                entry.is_open = true;
+                out.push(entry);
+                for (Entry kid in inner) {
+                    out.push(kid);
+                }
+                did_add = true;
+            }
+            continue;
+        }
+        entry.is_open = is_expanded(path);
+        out.push(entry);
+        did_add = true;
+        if (entry.is_open) {
+            did_collect(path, below, depth + 1, out);
+        }
+    }
+    return did_add;
+}
+
+/// The entry under the cursor row.
+pub Option<Entry> Tree.current() {
+    if (row >= 0 && row < entries.size()) {
+        return Option<Entry>.Some(entries[row]);
+    }
+    return Option<Entry>.None;
+}
+
+/// The row of `path`, or -1.
+pub int Tree.index_of(str path) {
+    for (int index in 0 .. entries.size()) {
+        if (entries[index].path == path) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+/// Rebuild the rows; the selection stays on the same path when it still exists.
+pub void Tree.refresh() {
+    str selected = "";
+    match (current()) {
+        case Some(Entry here): {
+            selected = here.path;
+        }
+        case None: {
+        }
+    }
+    List<Entry> fresh = [];
+    did_collect(root, "", 0, fresh);
+    entries = fresh;
+    int found = index_of(selected);
+    if (found >= 0) {
+        row = found;
+    }
+    if (row >= entries.size()) {
+        row = entries.size() - 1;
+    }
+    if (row < 0) {
+        row = 0;
+    }
+}
+
+/// Read git status again and refresh the rows.
+pub void Tree.refresh_status() {
+    status = MED_git.status_map(root);
+    refresh();
+}
+
+/// Open or close the folder `path`.
+pub void Tree.toggle(str path) {
+    List<str> kept = [];
+    bool did_remove = false;
+    for (str known in expanded) {
+        if (known == path) {
+            did_remove = true;
+        } else {
+            kept.push(known);
+        }
+    }
+    if (!did_remove) {
+        kept.push(path);
+    }
+    expanded = kept;
+    refresh();
+}
+
+/// Close every folder.
+pub void Tree.collapse_all() {
+    expanded = [];
+    row = 0;
+    refresh();
+}
+
+/// Whether `file` is a path below the tree's root.
+pub bool Tree.is_below(str file) {
+    if (file.size() == 0) {
+        return false;
+    }
+    if (root == ".") {
+        return !file.starts_with("/") && !file.starts_with("../") && file != "..";
+    }
+    return file.starts_with(root + "/");
+}
+
+/// Open every folder above `file` and put the cursor on it. False when the
+/// file is not below the root or is hidden by the filter.
+pub bool Tree.did_reveal(str file) {
+    if (!is_below(file)) {
+        return false;
+    }
+    str relative = file;
+    if (root != ".") {
+        relative = file.substr(root.size() + 1, file.size());
+    }
+    List<str> parts = relative.split("/");
+    str walked = root;
+    for (int index in 0 .. parts.size() - 1) {
+        walked = joined(walked, parts[index]);
+        if (!is_expanded(walked)) {
+            expanded.push(walked);
+        }
+    }
+    refresh();
+    int found = index_of(file);
+    if (found < 0) {
+        return false;
+    }
+    row = found;
+    return true;
+}
+
+/// Keep the cursor row inside `height` rows by moving `top`.
+pub void Tree.scroll_to(int height) {
+    if (height < 1) {
+        return;
+    }
+    if (row < top) {
+        top = row;
+    }
+    if (row >= top + height) {
+        top = row - height + 1;
+    }
+    int most = entries.size() - height;
+    if (most < 0) {
+        most = 0;
+    }
+    if (top > most) {
+        top = most;
+    }
+    if (top < 0) {
+        top = 0;
+    }
+}
+
+/// Paste the clipboard path into the folder `directory` (a move when it was
+/// cut). Returns "" or the error text; `made` gets the new path.
+pub str Tree.paste_into(str directory, List<str> made) {
+    if (clipboard.size() == 0) {
+        return "Nothing to paste";
+    }
+    if (!fs.is_present(clipboard)) {
+        clipboard = "";
+        return "E484: Can't open file " + name_of(clipboard);
+    }
+    str target = joined(directory, free_name(directory, name_of(clipboard)));
+    if (fs.is_directory(clipboard) && (target == clipboard || target.starts_with(clipboard + "/"))) {
+        return "E474: Cannot paste a folder into itself";
+    }
+    str failure = "";
+    if (is_cut) {
+        failure = rename_path(clipboard, target);
+        if (failure.size() == 0) {
+            clipboard = "";
+            is_cut = false;
+        }
+    } else {
+        failure = copy_path(clipboard, target);
+    }
+    if (failure.size() == 0) {
+        made.push(target);
+    }
+    return failure;
+}
+
+/// `name` below `directory`.
+pub str joined(str directory, str name) {
+    if (directory == ".") {
+        return name;
+    }
+    if (directory.ends_with("/")) {
+        return directory + name;
+    }
+    return directory + "/" + name;
+}
+
+/// The folder holding `path`.
+pub str parent_of(str path) {
+    int spot = -1;
+    for (int offset in 0 .. path.size()) {
+        if (path.byte_at(offset) == 47) {
+            spot = offset;
+        }
+    }
+    if (spot < 0) {
+        return ".";
+    }
+    if (spot == 0) {
+        return "/";
+    }
+    return path.substr(0, spot);
+}
+
+/// The last part of `path`.
+pub str name_of(str path) {
+    str plain = path;
+    while (plain.size() > 1 && plain.ends_with("/")) {
+        plain = plain.substr(0, plain.size() - 1);
+    }
+    int spot = -1;
+    for (int offset in 0 .. plain.size()) {
+        if (plain.byte_at(offset) == 47) {
+            spot = offset;
+        }
+    }
+    if (spot < 0) {
+        return plain;
+    }
+    return plain.substr(spot + 1, plain.size());
+}
+
+/// Whether the letters of `needle` appear in `text` in order, ignoring case.
+pub bool is_fuzzy(str needle, str text) {
+    str lowered = text.to_lower();
+    int cursor = 0;
+    for (int code in needle.to_lower().chars()) {
+        bool is_found = false;
+        while (cursor < lowered.size()) {
+            int here = lowered.byte_at(cursor);
+            cursor = cursor + 1;
+            if (here == code) {
+                is_found = true;
+                break;
+            }
+        }
+        if (!is_found) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// ------------------------------------------------------------ file operations
+
+/// Create `name` below the folder `directory`: a trailing `/` makes a folder
+/// (with its parents), anything else an empty file (with its folders).
+/// Returns "" or the error text; `made` is the path created.
+pub str add(str directory, str name, List<str> made) {
+    str given = name.trim();
+    if (given.size() == 0) {
+        return "E471: Argument required";
+    }
+    bool is_directory = given.ends_with("/");
+    str target = joined(directory, given);
+    while (target.size() > 1 && target.ends_with("/")) {
+        target = target.substr(0, target.size() - 1);
+    }
+    if (fs.is_present(target)) {
+        return "E13: File exists: " + target;
+    }
+    if (is_directory) {
+        match (fs.makedirs(target)) {
+            case Ok(bool did_make): {
+                made.push(target);
+                return "";
+            }
+            case Err(io.Error error): {
+                return "E739: Cannot create directory: " + error.to_str();
+            }
+        }
+    }
+    str folder = parent_of(target);
+    if (folder != "." && !fs.is_directory(folder)) {
+        match (fs.makedirs(folder)) {
+            case Ok(bool did_make): {
+            }
+            case Err(io.Error error): {
+                return "E739: Cannot create directory: " + error.to_str();
+            }
+        }
+    }
+    match (io.write(target, "")) {
+        case Ok(int count): {
+            made.push(target);
+            return "";
+        }
+        case Err(io.Error error): {
+            return "E212: Can't open file for writing: " + error.to_str();
+        }
+    }
+}
+
+/// Delete a file, or a folder with everything in it.
+pub str remove_path(str path) {
+    if (path.size() == 0 || path == "." || path == "/" || path == "..") {
+        return "E474: Invalid argument";
+    }
+    if (fs.is_directory(path) && !fs.is_link(path)) {
+        str within = parent_of(path);
+        match (fs.rmtree(path, within)) {
+            case Ok(bool did_remove): {
+                return "";
+            }
+            case Err(io.Error error): {
+                return "E668: Could not remove directory: " + error.to_str();
+            }
+        }
+    }
+    match (fs.remove(path)) {
+        case Ok(bool did_remove): {
+            return "";
+        }
+        case Err(io.Error error): {
+            return "E141: Could not delete: " + error.to_str();
+        }
+    }
+}
+
+/// Move or rename `from` to `to_path` (folders above it are made).
+pub str rename_path(str from, str to_path) {
+    if (to_path.size() == 0 || from == to_path) {
+        return "";
+    }
+    if (fs.is_present(to_path)) {
+        return "E13: File exists: " + to_path;
+    }
+    str folder = parent_of(to_path);
+    if (folder != "." && !fs.is_directory(folder)) {
+        match (fs.makedirs(folder)) {
+            case Ok(bool did_make): {
+            }
+            case Err(io.Error error): {
+                return "E739: Cannot create directory: " + error.to_str();
+            }
+        }
+    }
+    match (fs.rename(from, to_path)) {
+        case Ok(bool did_rename): {
+            return "";
+        }
+        case Err(io.Error error): {
+            return "E141: Could not rename: " + error.to_str();
+        }
+    }
+}
+
+/// Copy a file or a whole folder.
+pub str copy_path(str from, str to_path) {
+    if (fs.is_directory(from)) {
+        match (fs.makedirs(to_path)) {
+            case Ok(bool did_make): {
+            }
+            case Err(io.Error error): {
+                return "E739: Cannot create directory: " + error.to_str();
+            }
+        }
+        match (fs.listdir(from)) {
+            case Ok(List<str> names): {
+                for (str name in names) {
+                    str failure = copy_path(joined(from, name), joined(to_path, name));
+                    if (failure.size() > 0) {
+                        return failure;
+                    }
+                }
+            }
+            case Err(io.Error error): {
+                return "E484: Can't open file " + from;
+            }
+        }
+        return "";
+    }
+    match (fs.copy(from, to_path)) {
+        case Ok(int count): {
+            return "";
+        }
+        case Err(io.Error error): {
+            return "E482: Can't create file " + to_path + ": " + error.to_str();
+        }
+    }
+}
+
+/// A name for `name` in `directory` that does not exist yet (`a_copy.txt`).
+pub str free_name(str directory, str name) {
+    if (!fs.is_present(joined(directory, name))) {
+        return name;
+    }
+    int dot = -1;
+    for (int offset in 1 .. name.size()) {
+        if (name.byte_at(offset) == 46) {
+            dot = offset;
+        }
+    }
+    str stem = name;
+    str suffix = "";
+    if (dot > 0) {
+        stem = name.substr(0, dot);
+        suffix = name.substr(dot, name.size());
+    }
+    int attempt = 1;
+    while (attempt < 1000) {
+        str candidate = stem + "_copy" + suffix;
+        if (attempt > 1) {
+            candidate = stem + "_copy" + attempt.to_str() + suffix;
+        }
+        if (!fs.is_present(joined(directory, candidate))) {
+            return candidate;
+        }
+        attempt = attempt + 1;
+    }
+    return name;
+}

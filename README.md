@@ -6,11 +6,15 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: 0.0.x, pre-release.** The features of the v0.1.0 acceptance bar (DESIGN
-section 9: "at least as capable as Helix, with Vim bindings") are in: git gutter,
-surround, comment toggle, auto pairs, marks UI, splits, pickers, clipboard. The
-benchmark harness is in `bench/`. The editing engine still has known divergences
-from nvim (below); no release has been tagged. The `version` in `deps` is not bumped.
+**Status: v0.0.1, the first release (a pre-release).** What works: the Vim
+engine, checked against `nvim --headless` on more than 34,000 generated and
+hand-written cases (21 known divergences, listed in `tests/oracles/known_divergences.txt`),
+windows, pickers, the file tree sidebar, git gutter, surround, auto pairs, marks
+UI, comment toggle and the clipboard. Known limits: no syntax highlighting yet,
+no manual folds, no command-line window, a reduced `=` indent, many options are
+stored but do not change behaviour yet, and LSP / tree-sitter / plugins are out
+of scope. The acceptance bar for v0.1.0 is DESIGN section 9. `m3d1tor --version`
+prints the version.
 
 ## Features
 
@@ -23,6 +27,11 @@ from nvim (below); no release has been tagged. The `version` in `deps` is not bu
 - Buffers and windows: `:e :ls :b :bn :bp :bd`, `:split :vsplit :close :only`,
   `<C-w>` commands, mouse click, drag and wheel.
 - Pickers: files, buffers, live grep, commands, keymap help, explorer; `.gitignore` aware.
+- File tree sidebar (neo-tree style): `<Space>e` toggles it, `<Space>E` reveals the
+  current file, `:Neotree [toggle|show|focus|close|reveal|refresh|DIR]`. Rows are
+  folders first, git status letters (M A D R ? !) sit at the right and folders
+  carry the worst status of what is inside; the tree follows the buffer.
+  `:Explore` and `:e DIR` still open the netrw-style listing in a window.
 - Which-key popup for the leader sequences.
 - Comment toggle `gc` / `gcc` / visual `gc`, with the comment string chosen by file type
   (`:set commentstring=`), matching Neovim 0.11's built-in `gc`.
@@ -117,6 +126,33 @@ the unit programs (`tests/test_units.sh`) and the nvim oracles
 need `nvim` 0.11 and `python3`. `bash scripts/oracle.sh --fuzz --seed 7 --cases 500`
 runs the engine oracle on its own.
 
+## File tree keys
+
+With the tree focused (`<C-w>h` from the leftmost window, `<Space>e`, a click):
+
+| keys | action |
+|---|---|
+| `j k gg G <C-d> <C-u> <C-f> <C-b>` | move |
+| `l` `<CR>` `o` | open the file / expand the folder |
+| `h` | collapse the folder, or go to the parent |
+| `s` `v` `t` | open in a split / vertical split / vertical split (there are no tab pages) |
+| `a` | add: `:Neotree add DIR/` is typed for you, a trailing `/` makes a folder |
+| `d` | delete: `:Neotree delete PATH` is shown, Enter confirms, Esc cancels |
+| `r` `m` `c` | rename / move / copy to: the command line holds the old path |
+| `y` `x` `p` | copy, cut, paste into the folder under the cursor |
+| `H` | toggle hidden files |
+| `/` | filter (fuzzy; Esc clears it) |
+| `z` | collapse all |
+| `R` | refresh git status |
+| `P` `i` | preview / info |
+| `.` `u` `<BS>` | make the folder the root / go up a folder |
+| `?` | help |
+| `q` | close the tree |
+| `<C-w>l` `<C-w>w` `<Esc>` | back to the editor window |
+| `:` `<Space>` | the command line and leader keys work as everywhere |
+
+Options: `:set treeglyphs` (Nerd Font icons), `:set treewidth=40`, `:set treehidden`.
+
 ## Layout
 
     m3d1tor.m31        entry point: arguments, terminal check, tui loop
@@ -124,7 +160,7 @@ runs the engine oracle on its own.
                        buffer text charclass case key parse num nrfmt motion textobj
                        register regex search editor ex vim view
     ui/                drawing, input and navigation
-                       app keymap window picker picker_view fuzzy files grep ignore
+                       app keymap window picker picker_view fuzzy files grep ignore tree git clip
     tests/             test.sh (entry), t_*.m31 unit programs, MED_check.m31, oracles/
     scripts/           build.sh, oracle.sh
     DESIGN.md          plan, plugin audit, architecture, oracle plan, v0.1.0 acceptance
@@ -141,5 +177,5 @@ aarch64 and macOS arm64 for every push to master. Pushing a `v*` tag runs
 `.github/workflows/release.yml`: the test workflow is a hard precondition, then
 it builds `m3d1tor` on the same three platforms and attaches
 `m3d1tor-linux-x86_64`, `m3d1tor-linux-aarch64` and `m3d1tor-macos-arm64`
-tarballs to the GitHub Release. Tagging is a human step and waits for v0.1.0
-acceptance (Status above).
+tarballs to the GitHub Release. The release is marked a pre-release; v0.0.1 is tagged on the
+user's instruction. v0.1.0 waits for DESIGN section 9 acceptance.

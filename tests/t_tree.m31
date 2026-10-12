@@ -1,0 +1,122 @@
+// Unit checks for MED_tree (the file tree model) against a temporary folder.
+
+import fs;
+import io;
+import os;
+import ui.MED_tree;
+import ui.MED_git;
+import tests.MED_check;
+
+MED_check.Check check = MED_check.Check();
+
+void put(str path, str text) {
+    match (io.write(path, text)) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
+
+void make_folder(str path) {
+    match (fs.makedirs(path)) {
+        case Ok(bool did_make): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
+
+str base = "/tmp/m3d1tor_t_tree";
+match (os.run(["rm", "-rf", base])) {
+    case Ok(os.ExitStatus gone): {
+    }
+    case Err(io.Error error): {
+    }
+}
+make_folder(base + "/src/deep");
+put(base + "/readme.md", "hi\n");
+put(base + "/src/main.m31", "x\n");
+put(base + "/src/deep/inner.txt", "y\n");
+put(base + "/.hidden", "h\n");
+put(base + "/zeta.txt", "z\n");
+MED_tree.Tree tree = MED_tree.Tree(root: base);
+tree.refresh();
+check.eq_int("top level: folder then files, no dotfiles", tree.entries.size(), 3);
+check.eq_str("folder first", tree.entries[0].name, "src");
+check.eq_str("then a file", tree.entries[1].name, "readme.md");
+tree.is_hidden_shown = true;
+tree.refresh();
+check.eq_int("hidden shown", tree.entries.size(), 4);
+tree.is_hidden_shown = false;
+tree.refresh();
+tree.toggle(base + "/src");
+check.eq_int("opening a folder shows its rows", tree.entries.size(), 5);
+check.eq_int("children are deeper", tree.entries[1].depth, 1);
+check.eq_str("the nested folder", tree.entries[1].name, "deep");
+check.ok("label of an open folder", tree.entries[0].label(false).starts_with("v "));
+check.ok("label of a nested folder", tree.entries[1].label(false).starts_with("  > "));
+tree.toggle(base + "/src");
+check.eq_int("closing it", tree.entries.size(), 3);
+tree.collapse_all();
+check.ok("did_reveal opens the ancestors", tree.did_reveal(base + "/src/deep/inner.txt"));
+check.eq_str("and selects the file", tree.entries[tree.row].name, "inner.txt");
+tree.collapse_all();
+tree.filter = "mai";
+tree.refresh();
+check.eq_int("filter keeps the folder and the match", tree.entries.size(), 2);
+check.eq_str("the match", tree.entries[1].name, "main.m31");
+tree.filter = "";
+tree.refresh();
+List<str> made = [];
+check.eq_str("add a file with new folders", MED_tree.add(base, "a/b/new.txt", made), "");
+check.ok("it exists", fs.is_file(base + "/a/b/new.txt"));
+check.eq_str("add a folder", MED_tree.add(base, "docs/", made), "");
+check.ok("folder exists", fs.is_directory(base + "/docs"));
+check.ok("adding twice is refused", MED_tree.add(base, "docs/", made).starts_with("E13"));
+check.eq_str("rename", MED_tree.rename_path(base + "/zeta.txt", base + "/omega.txt"), "");
+check.ok("renamed", fs.is_file(base + "/omega.txt") && !fs.is_present(base + "/zeta.txt"));
+check.ok("rename onto an existing file is refused", MED_tree.rename_path(base + "/omega.txt", base + "/readme.md").starts_with("E13"));
+tree.clipboard = base + "/src";
+tree.is_cut = false;
+List<str> pasted = [];
+check.eq_str("copy a folder", tree.paste_into(base + "/docs", pasted), "");
+check.ok("deep file copied", fs.is_file(base + "/docs/src/deep/inner.txt"));
+check.eq_str("pasting again gets a new name", tree.paste_into(base + "/docs", pasted), "");
+check.ok("renamed copy", fs.is_directory(base + "/docs/src_copy"));
+check.ok("a folder cannot go into itself", tree.paste_into(base + "/src/deep", pasted).starts_with("E474"));
+tree.clipboard = base + "/omega.txt";
+tree.is_cut = true;
+check.eq_str("move", tree.paste_into(base + "/docs", pasted), "");
+check.ok("moved", fs.is_file(base + "/docs/omega.txt") && !fs.is_present(base + "/omega.txt"));
+check.eq_str("delete a folder with content", MED_tree.remove_path(base + "/docs"), "");
+check.ok("gone", !fs.is_present(base + "/docs"));
+check.eq_str("delete a file", MED_tree.remove_path(base + "/readme.md"), "");
+check.ok("refuses the root", MED_tree.remove_path(".").starts_with("E474"));
+check.ok("fuzzy", MED_tree.is_fuzzy("mmx", "main.m31") == false && MED_tree.is_fuzzy("mnm", "main.m31"));
+// git status
+match (os.run(["sh", "-c", "cd " + base + " && git init -q && git add -A && git -c user.email=a@b -c user.name=n commit -q -m i"])) {
+    case Ok(os.ExitStatus done): {
+    }
+    case Err(io.Error error): {
+    }
+}
+put(base + "/src/main.m31", "changed\n");
+put(base + "/src/deep/fresh.txt", "new\n");
+Map<str, str> status = MED_git.status_map(base);
+check.eq_str("modified file", status.get("src/main.m31").or(""), "M");
+check.eq_str("untracked file", status.get("src/deep/fresh.txt").or(""), "?");
+check.eq_str("folder takes the worst", status.get("src").or(""), "M");
+check.eq_str("clean file has none", status.get("a/b/new.txt").or(""), "");
+check.eq_int("outside a repo is empty", MED_git.status_map("/tmp/m3d1tor_no_repo_here").size(), 0);
+tree.status = status;
+tree.expanded = [];
+tree.refresh();
+check.eq_str("rows carry the status", tree.entries[tree.index_of(base + "/src")].status, "M");
+match (os.run(["rm", "-rf", base])) {
+    case Ok(os.ExitStatus gone): {
+    }
+    case Err(io.Error error): {
+    }
+}
+check.finish("t_tree");

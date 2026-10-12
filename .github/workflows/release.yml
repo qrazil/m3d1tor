@@ -5,8 +5,10 @@ name: Release
 # qrazil/tui-markdown's release.yml, against a pinned release of qrazil/m31
 # (compiler + runtime SDK) and the qrazil/tui commit named in `deps`.
 #
-#   git tag vX.Y.Z && git push origin vX.Y.Z   # a human does this, not CI or an agent;
-#                                               # not before v0.1.0 acceptance (DESIGN section 9)
+#   git tag vX.Y.Z && git push origin vX.Y.Z   # pushed on the user's explicit instruction
+#                                               # (v0.0.1 is the first release); every release
+#                                               # is marked a pre-release until v0.1.0 acceptance
+#                                               # (DESIGN section 9)
 #
 # test.yml is a hard precondition, exactly as qrazil/m31's own release.yml
 # treats its gates job: a broken build must never produce a release.
@@ -175,3 +177,4 @@ jobs:
           files: dist/*.tar.gz
           fail_on_unmatched_files: true
           generate_release_notes: true
+          prerelease: true

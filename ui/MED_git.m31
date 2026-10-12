@@ -85,6 +85,118 @@ pub Option<List<str>> head_lines(str path) {
     }
 }
 
+/// How much a status letter matters when a folder shows the worst of its files.
+pub int status_rank(str letter) {
+    if (letter == "!") {
+        return 5;
+    }
+    if (letter == "D") {
+        return 4;
+    }
+    if (letter == "M" || letter == "R") {
+        return 3;
+    }
+    if (letter == "A") {
+        return 2;
+    }
+    if (letter == "?") {
+        return 1;
+    }
+    return 0;
+}
+
+/// The status of every changed path below `directory`, keyed by the path
+/// relative to it (`git status --porcelain`): M modified, A added, D deleted,
+/// R renamed, ? untracked, ! conflicted. Folders carry the worst status of
+/// what is inside them. Empty outside a repository.
+pub Map<str, str> status_map(str directory) {
+    Map<str, str> found = {};
+    str base = os.env("TMPDIR").or("/tmp");
+    if (base.ends_with("/")) {
+        base = base.substr(0, base.size() - 1);
+    }
+    str scratch = base + "/m3d1tor-status-" + random.system().hex(6);
+    str command = "{ git -C " + quote(directory) + " rev-parse --show-prefix && git -C " + quote(directory) + " status --porcelain=v1 --untracked-files=all; } > " + quote(scratch) + " 2>/dev/null";
+    bool is_ok = false;
+    match (os.run(["sh", "-c", command])) {
+        case Ok(os.ExitStatus status): {
+            is_ok = status.is_success();
+        }
+        case Err(io.Error error): {
+            is_ok = false;
+        }
+    }
+    if (!is_ok) {
+        remove_scratch(scratch);
+        return found;
+    }
+    str text = "";
+    match (io.read(scratch)) {
+        case Ok(str content): {
+            text = content;
+        }
+        case Err(io.Error error): {
+        }
+    }
+    remove_scratch(scratch);
+    List<str> lines = text.split("\n");
+    if (lines.size() < 1) {
+        return found;
+    }
+    str prefix = lines[0];
+    for (int index in 1 .. lines.size()) {
+        str line = lines[index];
+        if (line.size() < 4) {
+            continue;
+        }
+        str index_letter = line.substr(0, 1);
+        str tree_letter = line.substr(1, 2);
+        str name = line.substr(3, line.size());
+        int arrow = name.index_of(" -> ").or(-1);
+        if (arrow >= 0) {
+            name = name.substr(arrow + 4, name.size());
+        }
+        if (name.starts_with("\"") && name.ends_with("\"") && name.size() >= 2) {
+            name = name.substr(1, name.size() - 1);
+        }
+        str letter = tree_letter;
+        if (letter == " ") {
+            letter = index_letter;
+        }
+        if (index_letter == "U" || tree_letter == "U" || (index_letter == "A" && tree_letter == "A") || (index_letter == "D" && tree_letter == "D")) {
+            letter = "!";
+        }
+        if (letter == "C" || letter == "T") {
+            letter = "M";
+        }
+        if (prefix.size() > 0) {
+            if (!name.starts_with(prefix)) {
+                continue;
+            }
+            name = name.substr(prefix.size(), name.size());
+        }
+        // the file and every folder above it
+        str walked = name;
+        while (true) {
+            str old = found.get(walked).or("");
+            if (status_rank(letter) > status_rank(old)) {
+                found.set(walked, letter);
+            }
+            int slash = -1;
+            for (int offset in 0 .. walked.size()) {
+                if (walked.byte_at(offset) == 47) {
+                    slash = offset;
+                }
+            }
+            if (slash < 0) {
+                break;
+            }
+            walked = walked.substr(0, slash);
+        }
+    }
+    return found;
+}
+
 void remove_scratch(str scratch) {
     match (fs.remove(scratch)) {
         case Ok(bool is_removed): {

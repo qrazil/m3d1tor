@@ -4,6 +4,7 @@
 //   m3d1tor           an empty buffer with no name
 //   m3d1tor -u FILE   read FILE as the keymap file (-u NONE reads none)
 //   m3d1tor --no-mouse  do not ask the terminal for mouse reports
+//   m3d1tor --version   print the version and exit
 //
 // The keymap file holds ex lines (`nnoremap`, `let mapleader`, `set` ...); by
 // default it is $XDG_CONFIG_HOME/m3d1tor/keymap.vim (~/.config/...).
@@ -44,7 +45,19 @@ TUI_style.Depth colour_depth() {
     return TUI_style.Depth.Ansi16;
 }
 
+const str VERSION = "0.0.1";
+
 List<str> arguments = os.arguments();
+for (str argument in arguments) {
+    if (argument == "--version" || argument == "-v") {
+        io.print("m3d1tor " + VERSION + "\n");
+        os.exit(0);
+    }
+    if (argument == "--help" || argument == "-h") {
+        io.print("m3d1tor " + VERSION + "\nusage: m3d1tor [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>e file tree, <Space>? keymap help, :q quits\n");
+        os.exit(0);
+    }
+}
 if (!term.is_terminal(0) || !term.is_terminal(1)) {
     io.eprint("m3d1tor: needs a terminal on standard input and output\n");
     os.exit(1);

@@ -185,9 +185,33 @@ def case_hex_line(index, case):
 
 
 CHILDREN = set()
+CASE_TIMEOUT = float(os.environ.get("ORACLE_NVIM_TIMEOUT", "20"))
 
 
-def kill_child(proc):
+def kill_marked(marker):
+    """Kill, by pid, any process still holding `marker` on its command line.
+
+    An AppImage nvim runs a FUSE helper in its own session; killing the nvim
+    process group leaves the helper behind, and only the case's unique output
+    path names it. Linux only (needs /proc)."""
+    if not marker or not os.path.isdir("/proc"):
+        return
+    for entry in os.listdir("/proc"):
+        if not entry.isdigit() or int(entry) == os.getpid():
+            continue
+        try:
+            with open("/proc/%s/cmdline" % entry, "rb") as f:
+                text = f.read()
+        except OSError:
+            continue
+        if marker.encode() in text:
+            try:
+                os.kill(int(entry), signal.SIGKILL)
+            except OSError:
+                pass
+
+
+def kill_child(proc, marker=None):
     """Kill a spawned nvim (and its process group) by pid, then reap it."""
     try:
         if proc.poll() is None:
@@ -198,6 +222,7 @@ def kill_child(proc):
         proc.wait(timeout=5)
     except Exception:  # noqa
         pass
+    kill_marked(marker)
 
 
 def kill_all_children(*_args):
@@ -216,15 +241,17 @@ def run_nvim_case(case, tmp):
            hexs(case.text), str(case.row), str(case.col), ",".join(str(k) for k in case.keys),
            case.plugins]
     proc = None
+    did_time_out = False
     try:
         # own session so the whole process group can be killed; always reaped in finally
         proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                 stdin=subprocess.DEVNULL, start_new_session=True)
         CHILDREN.add(proc)
         try:
-            proc.wait(timeout=20)
+            proc.wait(timeout=CASE_TIMEOUT)
         except subprocess.TimeoutExpired:
-            kill_child(proc)
+            did_time_out = True
+            kill_child(proc, out)
         with open(out, encoding="utf-8") as f:
             line = f.read().rstrip("\n")
         os.unlink(out)
@@ -232,7 +259,7 @@ def run_nvim_case(case, tmp):
         return None
     finally:
         if proc is not None:
-            kill_child(proc)
+            kill_child(proc, out if did_time_out else None)
             CHILDREN.discard(proc)
     return line.split("\t")
 
