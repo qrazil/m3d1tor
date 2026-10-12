@@ -15,12 +15,12 @@
 // for the registers the oracle also reports. The nvim driver prints the same
 // line, so the comparison is a text diff.
 
-import MED_editor;
-import MED_vim;
-import MED_ex;
-import MED_view;
-import MED_register;
-import MED_buffer;
+import engine.MED_editor;
+import engine.MED_vim;
+import engine.MED_ex;
+import engine.MED_view;
+import engine.MED_register;
+import engine.MED_buffer;
 import encoding.hexcodec;
 import io;
 import os;

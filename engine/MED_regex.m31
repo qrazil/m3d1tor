@@ -27,9 +27,9 @@
 // a match of `.` or a collection and a literal does not match a base character
 // that is followed by a mark the pattern does not name (as Vim does).
 
-import MED_buffer;
-import MED_case;
-import MED_text;
+import engine.MED_buffer;
+import engine.MED_case;
+import engine.MED_text;
 
 const int OP_CHAR = 1;
 const int OP_ANY = 2;

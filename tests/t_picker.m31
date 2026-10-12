@@ -2,10 +2,10 @@
 // toggles and the leader table.
 
 import tests.MED_check;
-import tui.TUI_menu;
-import MED_key;
-import MED_keymap;
-import MED_picker;
+import tui.widgets.TUI_menu;
+import engine.MED_key;
+import ui.MED_keymap;
+import ui.MED_picker;
 
 MED_check.Check check = MED_check.Check();
 

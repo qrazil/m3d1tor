@@ -9,11 +9,11 @@
 import io;
 import os;
 import term;
-import tui.TUI_app;
-import tui.TUI_buffer;
-import tui.TUI_geometry;
-import tui.TUI_mouse;
-import MED_app;
+import tui.app.TUI_app;
+import tui.core.TUI_buffer;
+import tui.core.TUI_geometry;
+import tui.core.TUI_mouse;
+import ui.MED_app;
 
 List<str> arguments = os.arguments();
 if (!term.is_terminal(0) || !term.is_terminal(1)) {

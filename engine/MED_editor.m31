@@ -14,11 +14,11 @@
 // Undo is a tree: each node holds the edits of one block and the cursor Vim
 // would restore. `redo_child` of a node is the branch redo follows.
 
-import MED_buffer;
-import MED_register;
-import MED_text;
-import MED_num;
-import MED_motion;
+import engine.MED_buffer;
+import engine.MED_register;
+import engine.MED_text;
+import engine.MED_num;
+import engine.MED_motion;
 
 pub const int NORMAL = 0;
 pub const int INSERT = 1;

@@ -16,8 +16,8 @@
 import fs;
 import io;
 import text.regex;
-import MED_case;
-import MED_files;
+import engine.MED_case;
+import ui.MED_files;
 
 /// Files bigger than this are not searched.
 pub const int MAX_BYTES = 1000000;

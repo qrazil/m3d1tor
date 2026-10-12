@@ -8,7 +8,7 @@
 
 import fs;
 import io;
-import MED_ignore;
+import ui.MED_ignore;
 
 /// The most files a walk returns (a guard for a walk started at `/`).
 pub const int MAX_FILES = 100000;

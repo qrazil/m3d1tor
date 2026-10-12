@@ -1,6 +1,6 @@
 // Unit checks for MED_buffer: splice, text, advance, load and dump.
 
-import MED_buffer;
+import engine.MED_buffer;
 import tests.MED_check;
 
 MED_check.Check check = MED_check.Check();

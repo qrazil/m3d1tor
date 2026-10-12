@@ -16,8 +16,8 @@
 // step stayed in the line (0), reached the NUL (2) or crossed a line (1), or
 // failed at the buffer's edge (-1). Word motions are built on those.
 
-import MED_buffer;
-import MED_text;
+import engine.MED_buffer;
+import engine.MED_text;
 
 /// The result of a motion. `want` is the desired display column for later
 /// vertical moves: -2 means "the column the cursor landed on", -3 "unchanged",

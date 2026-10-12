@@ -1,6 +1,6 @@
 // Unit checks for MED_register: which register a yank or delete writes.
 
-import MED_register;
+import engine.MED_register;
 import tests.MED_check;
 
 MED_check.Check check = MED_check.Check();

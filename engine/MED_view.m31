@@ -6,11 +6,11 @@
 // 'scrolloff' 0. The editor keeps `view_top` and `view_height`; the UI sets
 // the height and calls `update` after each key so the cursor stays visible.
 
-import MED_editor;
-import MED_motion;
-import MED_num;
-import MED_text;
-import MED_buffer;
+import engine.MED_editor;
+import engine.MED_motion;
+import engine.MED_num;
+import engine.MED_text;
+import engine.MED_buffer;
 
 // The rows the window shows: [view_top, bottom).
 pub int bottom(MED_editor.Editor editor) {

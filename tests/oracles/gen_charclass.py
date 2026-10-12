@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate MED_charclass.m31: nvim's word-motion character classes for
+"""Generate engine/MED_charclass.m31: nvim's word-motion character classes for
 code points >= 0x100, by probing `w` in a real nvim (the oracle), not from
 memory of mbyte.c.
 
-    python3 tests/oracles/gen_charclass.py > MED_charclass.m31
+    python3 tests/oracles/gen_charclass.py > engine/MED_charclass.m31
 
 Class ids: 0 blank, 1 punctuation, 2 word, 3 emoji, 4.. script classes in
 order of first discovery. Code points below 0x100 are handled by hand in

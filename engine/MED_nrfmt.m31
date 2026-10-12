@@ -8,7 +8,7 @@
 // Numbers are 64-bit signed here, Vim's are unsigned 64-bit: a decimal number of
 // 2^63 or more is treated as too large and left alone (DESIGN.md section 7).
 
-import MED_text;
+import engine.MED_text;
 
 pub type NrResult {
     /// The line changed.

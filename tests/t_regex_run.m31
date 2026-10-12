@@ -8,8 +8,8 @@
 // match in row 0 (byte offsets, `\zs`/`\ze` applied), `index none` for no match and
 // `index err` when the pattern does not compile. nvim_regex.lua prints the same.
 
-import MED_regex;
-import MED_buffer;
+import engine.MED_regex;
+import engine.MED_buffer;
 import encoding.hexcodec;
 import io;
 import os;

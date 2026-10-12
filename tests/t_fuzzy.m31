@@ -2,7 +2,7 @@
 // highlight positions.
 
 import tests.MED_check;
-import MED_fuzzy;
+import ui.MED_fuzzy;
 
 MED_check.Check check = MED_check.Check();
 

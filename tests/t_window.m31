@@ -2,7 +2,7 @@
 // and directional neighbours.
 
 import tests.MED_check;
-import MED_window;
+import ui.MED_window;
 
 MED_check.Check check = MED_check.Check();
 

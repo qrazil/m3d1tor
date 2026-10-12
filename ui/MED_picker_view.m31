@@ -2,13 +2,13 @@
 // ranked list under it (matched characters highlighted) and, when the box is
 // wide enough, a preview of the selected file on the right.
 
-import tui.TUI_buffer;
-import tui.TUI_geometry;
-import tui.TUI_style;
-import tui.TUI_text;
-import tui.TUI_widget;
-import MED_fuzzy;
-import MED_picker;
+import tui.core.TUI_buffer;
+import tui.core.TUI_geometry;
+import tui.core.TUI_style;
+import tui.core.TUI_text;
+import tui.core.TUI_widget;
+import ui.MED_fuzzy;
+import ui.MED_picker;
 
 /// The box needs this much width for a preview pane beside the list.
 const int PREVIEW_MIN_WIDTH = 100;

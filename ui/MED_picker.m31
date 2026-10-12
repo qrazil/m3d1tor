@@ -13,8 +13,8 @@
 // below / beside (files, buffers, grep). In the explorer `-` on an empty prompt goes
 // up a directory.
 
-import MED_fuzzy;
-import MED_key;
+import ui.MED_fuzzy;
+import engine.MED_key;
 
 pub const int KIND_FILES = 0;
 pub const int KIND_BUFFERS = 1;

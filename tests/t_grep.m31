@@ -1,8 +1,8 @@
 // Unit checks for MED_grep and MED_files: the corpus, smart-case, regex and the walk.
 
 import tests.MED_check;
-import MED_files;
-import MED_grep;
+import ui.MED_files;
+import ui.MED_grep;
 
 MED_check.Check check = MED_check.Check();
 MED_grep.Corpus corpus = MED_grep.Corpus();
@@ -25,8 +25,8 @@ check.eq_int("regex column is in bytes", MED_grep.search(corpus, "au lait", fals
 check.eq_int("empty query", MED_grep.search(corpus, "", false).size(), 0);
 check.eq_int("no match", MED_grep.search(corpus, "zzz", false).size(), 0);
 List<str> tree = MED_files.list_files(".", false, true);
-check.ok("walk finds a source file", tree.contains("MED_fuzzy.m31"));
-check.ok("walk finds a nested file", tree.contains("tests/t_grep.m31"));
+check.ok("walk finds a nested source file", tree.contains("ui/MED_fuzzy.m31"));
+check.ok("walk finds a test file", tree.contains("tests/t_grep.m31"));
 check.ok("walk skips .git", !tree.contains(".git/config"));
 check.ok("walk skips dot files", !tree.contains(".gitignore"));
 check.ok("hidden files on request", MED_files.list_files(".", true, true).contains(".gitignore"));

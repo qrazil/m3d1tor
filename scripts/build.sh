@@ -4,7 +4,7 @@
 #   M31_ROOT=/path/to/m31 bash scripts/build.sh            -> ./m3d1tor
 #   M31_ROOT=/path/to/m31 bash scripts/build.sh -o name    -> ./name
 #
-# `m3d1tor.m31` and `MED_app.m31` import github.com/qrazil/tui as `import tui.TUI_app;`. The
+# `m3d1tor.m31` and `ui/MED_app.m31` import github.com/qrazil/tui as `import tui.app.TUI_app;`. The
 # `deps` file names the exact commit; the first compile fetches it into
 # `.m31-deps/` and records it in `deps.lock`.
 #

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate MED_case.m31: nvim's upper/lower case mapping for code points
+"""Generate engine/MED_case.m31: nvim's upper/lower case mapping for code points
 >= 0x80 by probing `toupper()` / `tolower()` in a real nvim (the oracle).
 
-    python3 tests/oracles/gen_case.py > MED_case.m31
+    python3 tests/oracles/gen_case.py > engine/MED_case.m31
 """
 import subprocess, tempfile, os, json
 

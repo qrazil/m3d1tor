@@ -13,7 +13,7 @@
 // so `d3w`, `3dw`, `"a2d2w` and `dd` / `g~~` all parse here, with the two
 // counts multiplied as Vim does.
 
-import MED_key;
+import engine.MED_key;
 
 pub const int INVALID = 0;
 pub const int NEED_MORE = 1;

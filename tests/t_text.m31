@@ -1,6 +1,6 @@
 // Unit checks for MED_text: cluster boundaries, widths and word classes.
 
-import MED_text;
+import engine.MED_text;
 import tests.MED_check;
 
 MED_check.Check check = MED_check.Check();

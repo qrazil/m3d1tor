@@ -20,7 +20,7 @@
 // `rank` orders candidates by score (high first), then the shorter candidate,
 // then the original order. Positions are code point indices, for highlighting.
 
-import MED_case;
+import engine.MED_case;
 
 const int MATCH_SCORE = 16;
 const int CONSECUTIVE_BONUS = 4;

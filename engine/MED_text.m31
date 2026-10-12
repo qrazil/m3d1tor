@@ -22,7 +22,7 @@
 // Offsets are bytes, always on a cluster boundary. Lines are all-ASCII most of
 // the time, and then none of this touches the Unicode tables.
 
-import MED_charclass;
+import engine.MED_charclass;
 import text.unicode;
 
 /// Whether every byte of `line` is below 0x80.

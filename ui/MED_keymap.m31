@@ -12,7 +12,7 @@
 // leaf. `lookup` says whether what was typed is a leaf, a prefix of more keys,
 // or nothing.
 
-import tui.TUI_menu;
+import tui.widgets.TUI_menu;
 
 pub type Binding {
     pub str keys;

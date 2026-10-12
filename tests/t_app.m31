@@ -5,13 +5,13 @@ import fs;
 import io;
 import term;
 import tests.MED_check;
-import tui.TUI_app;
-import tui.TUI_buffer;
-import tui.TUI_geometry;
-import tui.TUI_mouse;
-import MED_app;
-import MED_editor;
-import MED_key;
+import tui.app.TUI_app;
+import tui.core.TUI_buffer;
+import tui.core.TUI_geometry;
+import tui.core.TUI_mouse;
+import ui.MED_app;
+import engine.MED_editor;
+import engine.MED_key;
 
 term.Event press(int code_point) {
     return term.Event.Key(term.Key(term.Code.Char(code_point), 0));

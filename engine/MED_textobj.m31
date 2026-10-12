@@ -11,9 +11,9 @@
 // Visual anchor, `end` the new cursor, and `vmode` the mode the selection
 // must switch to (-1 keeps the current one).
 
-import MED_buffer;
-import MED_motion;
-import MED_text;
+import engine.MED_buffer;
+import engine.MED_motion;
+import engine.MED_text;
 
 pub type Sel {
     pub bool is_ok = true;

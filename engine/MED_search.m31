@@ -13,10 +13,10 @@
 //   MED_search.findmatch(buf, row, col, initc, dir) -> MED_buffer.Pos (row -1: none)
 //   MED_search.set_last_pattern(ed, pat, is_sub)  make `pat` the pattern `n` and `//` use
 
-import MED_editor;
-import MED_regex;
-import MED_buffer;
-import MED_text;
+import engine.MED_editor;
+import engine.MED_regex;
+import engine.MED_buffer;
+import engine.MED_text;
 
 pub type Hit {
     pub bool is_ok = false;

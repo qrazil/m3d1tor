@@ -1,7 +1,7 @@
 // Unit checks for MED_ignore: gitignore rules.
 
 import tests.MED_check;
-import MED_ignore;
+import ui.MED_ignore;
 
 MED_check.Check check = MED_check.Check();
 

@@ -1,7 +1,7 @@
 // Unit checks for MED_key: notation in both directions.
 
 import tests.MED_check;
-import MED_key;
+import engine.MED_key;
 
 MED_check.Check check = MED_check.Check();
 check.eq_str("plain", MED_key.show(MED_key.parse("dd")), "dd");
