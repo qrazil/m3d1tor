@@ -69,6 +69,11 @@ pub type Slot {
 
 pub type App {
     pub MED_editor.Editor editor;
+    /// The match 'incsearch' shows while a pattern is typed (row -1: none).
+    int inc_row = -1;
+    int inc_col = 0;
+    int inc_end_row = 0;
+    int inc_end_col = 0;
     /// The system clipboard tools, when `m3d1tor` found a pair (see MED_clip).
     pub MED_clip.Provider clipboard = MED_clip.Provider();
     /// The file `:w` writes; empty for a buffer with no name yet.
@@ -1437,11 +1442,39 @@ bool App.did_place_cursor(int screen_x, int screen_y) {
     if (y_cell < 0 || y_cell >= rows || x_cell < 0) {
         return false;
     }
-    int row = editor.view_top + y_cell;
-    if (row >= editor.buffer.line_count()) {
-        row = editor.buffer.line_count() - 1;
+    int row = editor.view_top;
+    int remaining = y_cell;
+    int part = 0;
+    int text_width = here.width - gutter_width();
+    bool is_wrap = editor.is_option_on("wrap", true);
+    while (true) {
+        int parts = 1;
+        if (is_wrap && text_width > 0) {
+            parts = MED_text.wrap_breaks(editor.buffer.line(row), text_width, editor.tab).size();
+        }
+        int skipped = 0;
+        if (row == editor.view_top && is_wrap) {
+            skipped = MED_view.top_skip(editor);
+        }
+        int visible = parts - skipped;
+        if (visible < 1) {
+            visible = 1;
+        }
+        if (remaining < visible || row + 1 >= editor.buffer.line_count()) {
+            part = remaining + skipped;
+            if (part > parts - 1) {
+                part = parts - 1;
+            }
+            break;
+        }
+        remaining = remaining - visible;
+        row = row + 1;
     }
     int spot = left_column;
+    if (is_wrap && text_width > 0) {
+        List<int> breaks = MED_text.wrap_breaks(editor.buffer.line(row), text_width, editor.tab);
+        spot = MED_text.display_col(editor.buffer.line(row), breaks[part], editor.tab);
+    }
     if (x_cell > gutter_width()) {
         spot = spot + x_cell - gutter_width();
     }
@@ -1631,6 +1664,9 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
             if (is_in_spans(spans, offset)) {
                 style = found;
             }
+            if (inc_row >= 0 && is_in_preview(row, offset, line.size())) {
+                style = TUI_style.Style(attrs: TUI_style.REVERSE);
+            }
             if (is_active && is_selected(row, offset, spot)) {
                 style = selected;
             }
@@ -1798,6 +1834,37 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     }
     subject.view_width = text_width;
     subject.view_gutter = gutter;
+    // 'incsearch': while a / or ? is typed the window shows the first match
+    int preview_row = -1;
+    int preview_col = 0;
+    int preview_end_row = 0;
+    int preview_end_col = 0;
+    str preview_pattern = "";
+    int saved_row = subject.row;
+    int saved_col = subject.col;
+    int saved_top = subject.view_top;
+    if (is_active && editor.mode == MED_editor.CMDLINE && (editor.cmd_type == 47 || editor.cmd_type == 63) && subject.is_option_on("incsearch", true) && editor.cmdline.size() > 0) {
+        int stop = MED_search.skip_regexp(editor.cmdline, editor.cmd_type);
+        preview_pattern = editor.cmdline.substr(0, stop);
+        if (preview_pattern.size() > 0) {
+            MED_regex.Regex typed_regex = MED_search.compile_with(subject, preview_pattern, false);
+            if (typed_regex.is_ok) {
+                int direction = 1;
+                if (editor.cmd_type == 63) {
+                    direction = -1;
+                }
+                MED_search.Hit hit = MED_search.searchit(subject, typed_regex, subject.row, subject.col, direction, 1, false, false, false);
+                if (hit.is_ok) {
+                    preview_row = hit.srow;
+                    preview_col = hit.scol;
+                    preview_end_row = hit.erow;
+                    preview_end_col = hit.ecol;
+                    subject.row = hit.srow;
+                    subject.col = hit.scol;
+                }
+            }
+        }
+    }
     MED_view.update(subject);
     bool is_wrap = subject.is_option_on("wrap", true);
     int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
@@ -1816,13 +1883,20 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
     MED_regex.Regex regex = MED_regex.compile("", false, false, "");
     bool is_highlight = false;
-    if (subject.is_option_on("hlsearch", true) && !subject.is_no_hl) {
+    if (preview_pattern.size() > 0) {
+        regex = MED_search.compile_with(subject, preview_pattern, false);
+        is_highlight = regex.is_ok;
+    } else if (subject.is_option_on("hlsearch", true) && !subject.is_no_hl) {
         str pattern = MED_search.last_pattern(subject);
         if (pattern.size() > 0) {
             regex = MED_search.compile_with(subject, pattern, subject.is_search_no_scs);
             is_highlight = regex.is_ok;
         }
     }
+    inc_row = preview_row;
+    inc_col = preview_col;
+    inc_end_row = preview_end_row;
+    inc_end_col = preview_end_col;
     int screen_row = 0;
     int row = subject.view_top;
     int cursor_screen_row = 0;
@@ -1916,6 +1990,13 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         }
         screen_row = screen_row + visible;
         row = row + 1;
+    }
+    inc_row = -1;
+    if (preview_row >= 0) {
+        // the preview was only a look: the cursor and the view stay put
+        subject.row = saved_row;
+        subject.col = saved_col;
+        subject.view_top = saved_top;
     }
     draw_status(buffer, frame, subject, file, is_changed, is_active);
     if (is_active) {
@@ -2090,6 +2171,20 @@ pub void App.load_keymap(str file, bool is_required) {
             notice = "E484: Can't open file " + file;
         }
     }
+}
+
+/// Whether (row, offset) is inside the match 'incsearch' shows.
+bool App.is_in_preview(int row, int offset, int size) {
+    if (row < inc_row || row > inc_end_row) {
+        return false;
+    }
+    if (row == inc_row && offset < inc_col) {
+        return false;
+    }
+    if (row == inc_end_row && offset >= inc_end_col) {
+        return false;
+    }
+    return true;
 }
 
 bool is_in_spans(List<int> spans, int offset) {
