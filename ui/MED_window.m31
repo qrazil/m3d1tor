@@ -26,6 +26,9 @@ pub type Node {
     pub int win_id = 0;
     pub bool is_vertical = false;
     pub List<Node> kids = [];
+    /// A fixed height (in a branch of stacked windows) or width (in one of
+    /// side by side windows), set by `:resize`; 0 shares the space equally.
+    pub int size = 0;
 }
 
 /// A rectangle of the screen for window `win_id` (0 for a separator).
@@ -78,6 +81,60 @@ pub Layout place(Node root, int x, int y, int width, int height) {
     return out;
 }
 
+// The share of `space` cells each kid of `node` gets: fixed sizes first, the
+// rest equally (a branch with only fixed kids gives its last kid the rest).
+List<int> shares_of(Node node, int space) {
+    int count = node.kids.size();
+    List<int> shares = [];
+    int fixed_total = 0;
+    int autos = 0;
+    for (Node kid in node.kids) {
+        if (kid.size > 0) {
+            shares.push(kid.size);
+            fixed_total = fixed_total + kid.size;
+        } else {
+            shares.push(0);
+            autos = autos + 1;
+        }
+    }
+    int remaining = space - fixed_total;
+    if (autos == 0) {
+        shares[count - 1] = shares[count - 1] + remaining;
+        return shares;
+    }
+    if (remaining < autos) {
+        // not enough room for the fixed ones: take it from them, last first
+        int missing = autos - remaining;
+        int position = count - 1;
+        while (missing > 0 && position >= 0) {
+            if (node.kids[position].size > 0) {
+                int give = shares[position] - 1;
+                if (give > missing) {
+                    give = missing;
+                }
+                if (give > 0) {
+                    shares[position] = shares[position] - give;
+                    missing = missing - give;
+                }
+            }
+            position = position - 1;
+        }
+        remaining = autos;
+    }
+    int given = 0;
+    for (int position in 0 .. count) {
+        if (node.kids[position].size == 0) {
+            int share = remaining / autos;
+            if (given < remaining % autos) {
+                share = share + 1;
+            }
+            given = given + 1;
+            shares[position] = share;
+        }
+    }
+    return shares;
+}
+
 void place_into(Node node, int x, int y, int width, int height, Layout out) {
     if (is_leaf(node)) {
         out.windows.push(Placed(node.win_id, x, y, width, height));
@@ -85,29 +142,22 @@ void place_into(Node node, int x, int y, int width, int height, Layout out) {
     }
     int count = node.kids.size();
     if (node.is_vertical) {
-        int space = width - (count - 1);
+        List<int> shares = shares_of(node, width - (count - 1));
         int used = 0;
         for (int position in 0 .. count) {
-            int share = space / count;
-            if (position < space % count) {
-                share = share + 1;
-            }
-            place_into(node.kids[position], x + used, y, share, height, out);
-            used = used + share;
+            place_into(node.kids[position], x + used, y, shares[position], height, out);
+            used = used + shares[position];
             if (position < count - 1) {
                 out.separators.push(Placed(0, x + used, y, 1, height));
                 used = used + 1;
             }
         }
     } else {
+        List<int> shares = shares_of(node, height);
         int used = 0;
         for (int position in 0 .. count) {
-            int share = height / count;
-            if (position < height % count) {
-                share = share + 1;
-            }
-            place_into(node.kids[position], x, y + used, width, share, out);
-            used = used + share;
+            place_into(node.kids[position], x, y + used, width, shares[position], out);
+            used = used + shares[position];
         }
     }
 }
@@ -277,4 +327,148 @@ pub int neighbor(Layout layout, int active, int direction, int ref_x, int ref_y)
         }
     }
     return 0;
+}
+
+// Whether the subtree under `node` holds window `id`.
+bool is_holding(Node node, int id) {
+    if (is_leaf(node)) {
+        return node.win_id == id;
+    }
+    for (Node kid in node.kids) {
+        if (is_holding(kid, id)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool did_size_in(Node node, int id, int size, bool is_vertical) {
+    for (int position in 0 .. node.kids.size()) {
+        Node kid = node.kids[position];
+        if (!is_holding(kid, id)) {
+            continue;
+        }
+        if (!is_leaf(kid) && did_size_in(kid, id, size, is_vertical)) {
+            return true;
+        }
+        if (node.is_vertical == is_vertical) {
+            node.kids[position].size = size;
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+/// Give window `id` the height (or, `is_vertical`, the width) `size` cells.
+/// False when no branch arranges it that way (a single window).
+pub bool did_set_size(Node root, int id, int size, bool is_vertical) {
+    if (is_leaf(root)) {
+        return false;
+    }
+    return did_size_in(root, id, size, is_vertical);
+}
+
+/// `CTRL-W =`: every window shares the space equally again.
+pub void equalize(Node node) {
+    node.size = 0;
+    for (Node kid in node.kids) {
+        equalize(kid);
+    }
+}
+
+/// The branch whose kid is window `id` (a leaf), or an empty branch.
+Node parent_of(Node node, int id) {
+    for (Node kid in node.kids) {
+        if (is_leaf(kid) && kid.win_id == id) {
+            return node;
+        }
+        if (!is_leaf(kid)) {
+            Node found = parent_of(kid, id);
+            if (found.kids.size() > 0) {
+                return found;
+            }
+        }
+    }
+    return Node();
+}
+
+/// `CTRL-W x`: swap window `id` with the next one in its branch (the previous
+/// one when it is the last). Returns the id of the other window, or 0.
+pub int exchange(Node root, int id) {
+    Node parent = parent_of(root, id);
+    if (parent.kids.size() < 2) {
+        return 0;
+    }
+    int position = 0;
+    for (int index in 0 .. parent.kids.size()) {
+        if (is_leaf(parent.kids[index]) && parent.kids[index].win_id == id) {
+            position = index;
+        }
+    }
+    int other = position + 1;
+    if (other >= parent.kids.size()) {
+        other = position - 1;
+    }
+    Node moved = parent.kids[position];
+    Node partner = parent.kids[other];
+    if (!is_leaf(partner)) {
+        return 0;
+    }
+    parent.kids[position] = partner;
+    parent.kids[other] = moved;
+    return partner.win_id;
+}
+
+/// `CTRL-W r` (`is_down`) and `CTRL-W R`: rotate the windows of the branch
+/// that holds `id`. False when a kid is not a plain window.
+pub bool did_rotate(Node root, int id, bool is_down) {
+    Node parent = parent_of(root, id);
+    if (parent.kids.size() < 2) {
+        return false;
+    }
+    for (Node kid in parent.kids) {
+        if (!is_leaf(kid)) {
+            return false;
+        }
+    }
+    List<Node> turned = [];
+    int count = parent.kids.size();
+    for (int position in 0 .. count) {
+        if (is_down) {
+            turned.push(parent.kids[(position + count - 1) % count]);
+        } else {
+            turned.push(parent.kids[(position + 1) % count]);
+        }
+    }
+    parent.kids = turned;
+    return true;
+}
+
+/// `CTRL-W H J K L`: window `id` becomes a full height / width window at an
+/// edge. Returns the new root.
+pub Node moved_to_edge(Node root, int id, int direction) {
+    if (is_leaf(root)) {
+        return root;
+    }
+    Node rest = without(root, id);
+    bool is_vertical = direction == GO_LEFT || direction == GO_RIGHT;
+    bool is_first = direction == GO_LEFT || direction == GO_UP;
+    List<Node> kids = [];
+    if (is_first) {
+        kids = [leaf(id), rest];
+    } else {
+        kids = [rest, leaf(id)];
+    }
+    if (!is_leaf(rest) && rest.is_vertical == is_vertical) {
+        // join the existing branch instead of nesting
+        if (is_first) {
+            rest.kids.insert(0, leaf(id));
+        } else {
+            rest.kids.push(leaf(id));
+        }
+        rest.size = 0;
+        return rest;
+    }
+    return Node(is_vertical: is_vertical, kids: kids);
 }

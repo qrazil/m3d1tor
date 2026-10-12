@@ -86,6 +86,9 @@ pub type App {
     /// The git gutter of each file path, and how long since HEAD was last read.
     pub Map<str, GitInfo> git = {};
     pub int git_ms = 0;
+    /// Directory listings show dotfiles (`gh` in a listing toggles it).
+    pub bool is_dotfiles_listed = true;
+    bool is_pending_g = false;
     /// The match 'incsearch' shows while a pattern is typed (row -1: none).
     int inc_row = -1;
     int inc_col = 0;
@@ -556,9 +559,27 @@ void App.run_request(str request) {
     } else if (name == "split" || name == "vsplit" || name == "new" || name == "vnew") {
         run_split(name, arg);
     } else if (name == "close") {
-        close_window(current_win);
+        if (is_forced || is_close_allowed()) {
+            close_window(current_win);
+        }
     } else if (name == "only") {
         only_window();
+    } else if (name == "Rename" || name == "Delete" || name == "Create" || name == "Mkdir") {
+        listing_file_command(name, arg);
+    } else if (name == "resize" || name == "vresize") {
+        str amount = arg.trim();
+        bool is_vertical = name == "vresize";
+        if (amount.size() == 0) {
+            resize_window(1000, is_vertical, true);
+        } else if (amount.byte_at(0) == 43 || amount.byte_at(0) == 45) {
+            int delta = amount.substr(1, amount.size()).parse_int().or(1);
+            if (amount.byte_at(0) == 45) {
+                delta = 0 - delta;
+            }
+            resize_window(delta, is_vertical, false);
+        } else {
+            resize_window(amount.parse_int().or(1), is_vertical, true);
+        }
     } else if (name == "wincmd") {
         if (arg.trim().size() == 0) {
             notice = "E471: Argument required";
@@ -611,6 +632,9 @@ bool App.did_finish() {
     bool is_one = editor.is_quit_one;
     editor.is_quit_one = false;
     if (is_one && wins.size() > 1) {
+        if (!is_forced && !is_close_allowed()) {
+            return false;
+        }
         close_window(current_win);
         return false;
     }
@@ -716,6 +740,25 @@ bool App.did_split(bool is_vertical) {
 
 /// Close window `id`; the one before it in reading order (or after, for the
 /// first) gets the focus when it was the active one. The buffer stays loaded.
+/// Whether the active window may close: a modified buffer that no other
+/// window shows is E37 (the window's buffer would be hidden).
+bool App.is_close_allowed() {
+    if (!is_modified()) {
+        return true;
+    }
+    int showing = 0;
+    for (MED_window.Win one in wins) {
+        if (one.buffer_id == current_id) {
+            showing = showing + 1;
+        }
+    }
+    if (showing > 1) {
+        return true;
+    }
+    notice = "E37: No write since last change (add ! to override)";
+    return false;
+}
+
 void App.close_window(int id) {
     if (wins.size() < 2 || win_index(id) < 0) {
         notice = "E444: Cannot close last window";
@@ -785,7 +828,9 @@ void App.window_command(int key) {
             new_buffer();
         }
     } else if (key == 99) {
-        close_window(current_win);
+        if (is_close_allowed()) {
+            close_window(current_win);
+        }
     } else if (key == 113 || key == 17) {
         editor.is_quit = true;
         editor.is_quit_one = true;
@@ -811,7 +856,68 @@ void App.window_command(int key) {
         move_window(MED_window.GO_UP);
     } else if (key == 108 || key == 12) {
         move_window(MED_window.GO_RIGHT);
+    } else if (key == 43) {
+        resize_window(1, false, false);
+    } else if (key == 45) {
+        resize_window(-1, false, false);
+    } else if (key == 62) {
+        resize_window(1, true, false);
+    } else if (key == 60) {
+        resize_window(-1, true, false);
+    } else if (key == 95) {
+        resize_window(1000, false, true);
+    } else if (key == 124) {
+        resize_window(1000, true, true);
+    } else if (key == 61) {
+        MED_window.equalize(layout);
+    } else if (key == 72 || key == 74 || key == 75 || key == 76) {
+        int direction = MED_window.GO_LEFT;
+        if (key == 74) {
+            direction = MED_window.GO_DOWN;
+        } else if (key == 75) {
+            direction = MED_window.GO_UP;
+        } else if (key == 76) {
+            direction = MED_window.GO_RIGHT;
+        }
+        layout = MED_window.moved_to_edge(layout, current_win, direction);
+    } else if (key == 114 || key == 82) {
+        if (!MED_window.did_rotate(layout, current_win, key == 114)) {
+            notice = "E443: Cannot rotate when another window is split";
+        }
+    } else if (key == 120 || key == 24) {
+        int other = MED_window.exchange(layout, current_win);
+        if (other > 0) {
+            focus_window(other);
+        }
     }
+}
+
+/// `:resize`, `CTRL-W + - < > _ |`: `amount` more (or fewer) rows, or columns
+/// when `is_vertical`; with `is_absolute` exactly that many.
+void App.resize_window(int amount, bool is_vertical, bool is_absolute) {
+    MED_window.Placed here = MED_window.placed_of(layout_in(screen_rect()), current_win);
+    int size = 0;
+    if (is_vertical) {
+        size = here.width;
+    } else {
+        size = here.height;
+    }
+    int wanted = size + amount;
+    if (is_absolute) {
+        wanted = amount;
+        if (!is_vertical) {
+            // the height Vim counts leaves out the status line
+            wanted = amount + 1;
+        }
+    }
+    int least = MIN_WINDOW_HEIGHT;
+    if (is_vertical) {
+        least = MIN_WINDOW_WIDTH;
+    }
+    if (wanted < least) {
+        wanted = least;
+    }
+    MED_window.did_set_size(layout, current_win, wanted, is_vertical);
 }
 
 /// `:split`, `:vsplit`, `:new`, `:vnew` with an optional file.
@@ -874,12 +980,12 @@ void App.open_listing(str directory, str focus) {
             return;
         }
     }
-    adopt(listing_slot(next_id, target, focus));
+    adopt(listing_slot(next_id, target, focus, is_dotfiles_listed));
 }
 
 /// Re-read the listing in the active buffer, now for `directory`.
 void App.reload_listing(str directory, str focus) {
-    Slot fresh = listing_slot(current_id, directory, focus);
+    Slot fresh = listing_slot(current_id, directory, focus, is_dotfiles_listed);
     share_state(editor, fresh.editor);
     fresh.editor.view_height = current_text_rows();
     editor = fresh.editor;
@@ -922,6 +1028,93 @@ void App.open_listing_entry() {
         }
     }
     delete_buffer(listing_id.to_str(), true);
+}
+
+/// Open the command line with `text` typed already.
+void App.begin_command(str text) {
+    MED_ex.feed(editor, 58);
+    for (int code_point in text.chars()) {
+        MED_ex.feed(editor, code_point);
+    }
+}
+
+/// Rename, delete, create in the listing's directory (`:Rename old new`,
+/// `:Delete name`, `:Create name`, `:Mkdir name`).
+void App.listing_file_command(str name, str arg) {
+    if (!is_in_listing()) {
+        notice = "E492: Not an editor command: " + name;
+        return;
+    }
+    str given = arg.trim();
+    if (given.size() == 0) {
+        notice = "E471: Argument required";
+        return;
+    }
+    int row = editor.row;
+    if (name == "Rename") {
+        int space = given.index_of(" ").or(-1);
+        if (space < 0) {
+            notice = "E471: Argument required";
+            return;
+        }
+        str old_name = given.substr(0, space);
+        str new_name = given.substr(space + 1, given.size()).trim();
+        match (fs.rename(child_path(path, old_name), child_path(path, new_name))) {
+            case Ok(bool is_renamed): {
+                reload_listing(path, new_name);
+            }
+            case Err(io.Error error): {
+                notice = "E141: Could not rename: " + error.to_str();
+            }
+        }
+    } else if (name == "Delete") {
+        str target = child_path(path, given.split("/").join(""));
+        bool is_directory = fs.is_directory(target);
+        if (is_directory) {
+            match (fs.rmdir(target)) {
+                case Ok(bool is_removed): {
+                    reload_listing(path, "");
+                }
+                case Err(io.Error error): {
+                    notice = "E668: Could not remove directory: " + error.to_str();
+                }
+            }
+        } else {
+            match (fs.remove(target)) {
+                case Ok(bool is_removed): {
+                    reload_listing(path, "");
+                }
+                case Err(io.Error error): {
+                    notice = "E141: Could not delete: " + error.to_str();
+                }
+            }
+        }
+        editor.row = row;
+        editor.clamp();
+        editor.want_from_cursor();
+    } else if (name == "Mkdir") {
+        match (fs.mkdir(child_path(path, given))) {
+            case Ok(bool is_made): {
+                reload_listing(path, given + "/");
+            }
+            case Err(io.Error error): {
+                notice = "E739: Cannot create directory: " + error.to_str();
+            }
+        }
+    } else if (name == "Create") {
+        str target = child_path(path, given);
+        if (!fs.is_present(target)) {
+            match (io.write(target, "")) {
+                case Ok(int count): {
+                }
+                case Err(io.Error error): {
+                    notice = "E212: Can't open file for writing: " + error.to_str();
+                    return;
+                }
+            }
+        }
+        edit(target, false);
+    }
 }
 
 /// The text of a listing cannot change: undo whatever the last key did by
@@ -1412,6 +1605,37 @@ bool App.should_quit_after(int key) {
             go_up_listing();
             return did_finish();
         }
+        str entry_name = editor.buffer.line(editor.row);
+        if (sent == 82 && entry_name != "../" && entry_name.size() > 0) {
+            // netrw R: rename (the command line comes with the old name)
+            begin_command("Rename " + entry_name.split("/").join("") + " ");
+            return false;
+        }
+        if (sent == 68 && entry_name != "../" && entry_name.size() > 0) {
+            begin_command("Delete " + entry_name);
+            return false;
+        }
+        if (sent == 37) {
+            begin_command("Create ");
+            return false;
+        }
+        if (sent == 100) {
+            begin_command("Mkdir ");
+            return false;
+        }
+        if (sent == 103) {
+            is_pending_g = true;
+            return false;
+        }
+    }
+    if (is_pending_g) {
+        is_pending_g = false;
+        if (sent == 104 && editor.mode == MED_editor.NORMAL && is_in_listing()) {
+            is_dotfiles_listed = !is_dotfiles_listed;
+            reload_listing(path, "");
+            return false;
+        }
+        MED_ex.feed(editor, 103);
     }
     MED_ex.feed(editor, sent);
     if (is_in_listing()) {
@@ -1691,7 +1915,7 @@ bool App.is_selected(int row, int col, int spot) {
 /// date (HEAD is read once, the diff again when the text changed).
 GitInfo App.git_info(str file, MED_editor.Editor subject) {
     GitInfo info = GitInfo();
-    if (file.size() == 0 || !subject.is_option_on("gitsigns", true)) {
+    if (file.size() == 0 || !subject.is_option_on("gitsigns", true) || fs.is_directory(file)) {
         return info;
     }
     match (git.get(file)) {
@@ -2475,9 +2699,9 @@ str base_name(str file) {
 }
 
 /// The text of a directory listing: `../`, then folders, then files.
-str listing_text(str directory) {
+str listing_text(str directory, bool is_hidden_shown) {
     List<str> lines = ["../"];
-    for (str name in MED_files.list_directory(directory, true)) {
+    for (str name in MED_files.list_directory(directory, is_hidden_shown)) {
         lines.push(name);
     }
     return lines.join("\n") + "\n";
@@ -2485,8 +2709,8 @@ str listing_text(str directory) {
 
 /// A listing slot for `directory`, the cursor on the line `focus` (the first
 /// entry when there is no such line).
-Slot listing_slot(int id, str directory, str focus) {
-    MED_editor.Editor loaded = MED_editor.new(listing_text(directory));
+Slot listing_slot(int id, str directory, str focus, bool is_hidden_shown) {
+    MED_editor.Editor loaded = MED_editor.new(listing_text(directory, is_hidden_shown));
     loaded.buffer.path = directory;
     int row = 0;
     if (loaded.buffer.line_count() > 1) {
