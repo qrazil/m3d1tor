@@ -1,0 +1,74 @@
+// Unit checks for MED_fuzzy: matching, smart-case, extended syntax, ranking,
+// highlight positions.
+
+import tests.MED_check;
+import MED_fuzzy;
+
+MED_check.Check check = MED_check.Check();
+
+bool is_match(str query, str candidate) {
+    return MED_fuzzy.parse(query).score(candidate) >= 0;
+}
+
+int score_of(str query, str candidate) {
+    return MED_fuzzy.parse(query).score(candidate);
+}
+
+str joined(List<int> numbers) {
+    List<str> parts = [];
+    for (int number in numbers) {
+        parts.push(number.to_str());
+    }
+    return parts.join(",");
+}
+
+str best_of(str query, List<str> candidates) {
+    List<MED_fuzzy.Ranked> ranked = MED_fuzzy.rank(MED_fuzzy.parse(query), candidates, -1);
+    if (ranked.size() == 0) {
+        return "";
+    }
+    return candidates[ranked[0].item_index];
+}
+
+check.ok("subsequence matches", is_match("abc", "a_b_c"));
+check.ok("order matters", !is_match("cba", "abc"));
+check.ok("missing char", !is_match("abz", "abc"));
+check.ok("empty query matches all", is_match("", "anything"));
+check.ok("smart-case: lower matches upper", is_match("readme", "README.md"));
+check.ok("smart-case: capital is exact", !is_match("Readme", "readme.md"));
+check.ok("capital matches itself", is_match("Readme", "Readme.md"));
+check.ok("exact term", is_match("'ead", "readme"));
+check.ok("exact term needs contiguity", !is_match("'rdm", "readme"));
+check.ok("prefix", is_match("^rea", "readme"));
+check.ok("prefix fails inside", !is_match("^eadm", "readme"));
+check.ok("suffix", is_match("me$", "readme"));
+check.ok("suffix fails inside", !is_match("ead$", "readme"));
+check.ok("negation excludes", !is_match("read !me", "readme"));
+check.ok("negation keeps others", is_match("read !xyz", "readme"));
+check.ok("terms are ANDed", is_match("src app", "src/MED_app.m31"));
+check.ok("one term missing", !is_match("src zzz", "src/MED_app.m31"));
+check.ok("non-ASCII", is_match("caf", "Café"));
+// ranking prefers boundaries, consecutive runs and shorter names
+check.eq_str("consecutive run wins", best_of("app", ["axxpxxp", "MED_app.m31", "xaxpxp"]), "MED_app.m31");
+check.eq_str("boundary wins", best_of("fb", ["foobar", "foo_bar", "fxxbxx"]), "foo_bar");
+check.eq_str("shorter wins a tie", best_of("a", ["abc", "a"]), "a");
+check.eq_str("camel case boundary", best_of("fb", ["fooBar", "foobar"]), "fooBar");
+check.ok("score is positive", score_of("a", "a") > 0);
+check.ok("gap costs", score_of("ab", "ab") > score_of("ab", "axxxb"));
+List<MED_fuzzy.Ranked> everything = MED_fuzzy.rank(MED_fuzzy.parse(""), ["b", "a"], -1);
+check.eq_int("empty query keeps all", everything.size(), 2);
+check.eq_int("empty query keeps the order", everything[0].item_index, 0);
+check.eq_int("limit", MED_fuzzy.rank(MED_fuzzy.parse("a"), ["a", "aa", "aaa"], 2).size(), 2);
+// highlight positions
+check.eq_str("consecutive positions", joined(MED_fuzzy.parse("app").positions("MED_app.m31")), "4,5,6");
+check.eq_str("boundary positions", joined(MED_fuzzy.parse("fb").positions("foo_bar")), "0,4");
+check.eq_str("exact positions", joined(MED_fuzzy.parse("'ead").positions("readme")), "1,2,3");
+check.eq_str("prefix positions", joined(MED_fuzzy.parse("^re").positions("readme")), "0,1");
+check.eq_str("suffix positions", joined(MED_fuzzy.parse("me$").positions("readme")), "4,5");
+check.eq_str("no match, no positions", joined(MED_fuzzy.parse("zz").positions("readme")), "");
+check.eq_str("two terms merge", joined(MED_fuzzy.parse("sr ap").positions("src/app")), "0,1,4,5");
+// a very long candidate takes the greedy path and still matches
+str long_text = "x".repeat(300) + "needle";
+check.ok("long candidate", is_match("needle", long_text));
+check.ok("long candidate, no match", !is_match("needlz", long_text));
+check.finish("t_fuzzy");

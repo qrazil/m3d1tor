@@ -1,0 +1,487 @@
+// The fuzzy scorer behind every picker: a pure module, no I/O.
+//
+// A pattern matches a candidate when its characters appear in order (a
+// subsequence). Among the ways to place them the scorer takes the best one, by
+// a small dynamic program in the style of fzf v2:
+//
+//   match            +16 per matched character
+//   consecutive      +4 when a match directly follows the previous one
+//   boundary bonus   +8 after `/` and at the start, +7 after `_ - . space` and
+//                    at a lower-to-upper (camelCase) step; the first pattern
+//                    character counts double
+//   gaps             -3 to open, -1 per further skipped character
+//
+// Smart-case: the comparison ignores case unless the pattern has a capital.
+//
+// A query is space-separated terms, all of which must match (AND):
+//   abc    fuzzy        'abc   exact substring       ^abc   prefix
+//   abc$   suffix       !abc   the term must NOT match
+//
+// `rank` orders candidates by score (high first), then the shorter candidate,
+// then the original order. Positions are code point indices, for highlighting.
+
+import MED_case;
+
+const int MATCH_SCORE = 16;
+const int CONSECUTIVE_BONUS = 4;
+const int BOUNDARY_SLASH = 8;
+const int BOUNDARY_WORD = 7;
+const int BOUNDARY_CAMEL = 7;
+const int BOUNDARY_START = 8;
+const int GAP_OPEN = 3;
+const int GAP_EXTEND = 1;
+const int NO_SCORE = -1000000;
+/// Pattern length times candidate length above which the scorer places the
+/// characters greedily instead of running the dynamic program.
+const int MAX_CELLS = 40000;
+const int KIND_FUZZY = 0;
+const int KIND_EXACT = 1;
+const int KIND_PREFIX = 2;
+const int KIND_SUFFIX = 3;
+
+pub type Term {
+    pub int kind = 0;
+    pub bool is_negated = false;
+    pub List<int> pattern = [];
+    pub bool is_sensitive = false;
+}
+
+pub type Query {
+    pub List<Term> terms = [];
+}
+
+/// The score of `candidate` for the whole query, or -1 when it does not match.
+pub int Query.score(str candidate) {
+    List<int> text = candidate.chars();
+    int total = 0;
+    for (Term term in terms) {
+        if (term.is_negated) {
+            if (term_score(term, text) > NO_SCORE) {
+                return -1;
+            }
+            continue;
+        }
+        int value = term_score(term, text);
+        if (value <= NO_SCORE) {
+            return -1;
+        }
+        total = total + value;
+    }
+    return total;
+}
+
+/// The code point indices of `candidate` the query matched, ascending.
+pub List<int> Query.positions(str candidate) {
+    List<int> text = candidate.chars();
+    List<int> seen = [];
+    for (Term term in terms) {
+        if (term.is_negated) {
+            continue;
+        }
+        List<int> found = [];
+        if (term.kind == KIND_FUZZY) {
+            found = fuzzy_positions(term, text);
+        } else {
+            int start = term_start(term, text);
+            if (start >= 0) {
+                for (int step in 0 .. term.pattern.size()) {
+                    found.push(start + step);
+                }
+            }
+        }
+        for (int position in found) {
+            if (!seen.contains(position)) {
+                seen.push(position);
+            }
+        }
+    }
+    seen.sort();
+    return seen;
+}
+
+/// Whether the query has nothing to match (every candidate passes).
+pub bool Query.is_empty() {
+    return terms.size() == 0;
+}
+
+/// A candidate that matched: where it was in the input and how well.
+pub type Ranked {
+    pub int item_index;
+    pub int score;
+    pub int length;
+}
+
+pub int Ranked.cmp(Ranked other) {
+    if (score != other.score) {
+        if (score > other.score) {
+            return -1;
+        }
+        return 1;
+    }
+    if (length != other.length) {
+        if (length < other.length) {
+            return -1;
+        }
+        return 1;
+    }
+    if (item_index < other.item_index) {
+        return -1;
+    }
+    if (item_index > other.item_index) {
+        return 1;
+    }
+    return 0;
+}
+
+/// The two score tables of the dynamic program, row-major (pattern x text).
+type Table {
+    List<int> matched;
+    List<int> gap;
+    int columns;
+}
+
+bool is_lower_cp(int code_point) {
+    return code_point >= 97 && code_point <= 122;
+}
+
+bool is_upper_cp(int code_point) {
+    return code_point >= 65 && code_point <= 90;
+}
+
+bool has_upper(List<int> text) {
+    for (int code_point in text) {
+        if (MED_case.lower_cp(code_point) != code_point) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int larger(int first, int second) {
+    if (first > second) {
+        return first;
+    }
+    return second;
+}
+
+/// The bonus for a match at `spot`, from the character before it.
+int bonus_at(List<int> text, int spot) {
+    if (spot == 0) {
+        return BOUNDARY_START;
+    }
+    int before = text[spot - 1];
+    int here = text[spot];
+    if (before == 47) {
+        return BOUNDARY_SLASH;
+    }
+    if (before == 95 || before == 45 || before == 46 || before == 32) {
+        return BOUNDARY_WORD;
+    }
+    if (is_lower_cp(before) && is_upper_cp(here)) {
+        return BOUNDARY_CAMEL;
+    }
+    return 0;
+}
+
+/// The text as compared: lower-cased unless the term is case-sensitive.
+List<int> compared(List<int> text, bool is_sensitive) {
+    if (is_sensitive) {
+        return text;
+    }
+    List<int> out = [];
+    for (int code_point in text) {
+        out.push(MED_case.lower_cp(code_point));
+    }
+    return out;
+}
+
+/// Whether `pattern` is a subsequence of `compare`.
+bool is_subsequence(List<int> pattern, List<int> compare) {
+    int next = 0;
+    for (int code_point in compare) {
+        if (next < pattern.size() && code_point == pattern[next]) {
+            next = next + 1;
+        }
+    }
+    return next == pattern.size();
+}
+
+Table build_table(List<int> pattern, List<int> text, List<int> compare) {
+    int rows = pattern.size();
+    int columns = text.size();
+    List<int> matched = [NO_SCORE; rows * columns];
+    List<int> gap = [NO_SCORE; rows * columns];
+    for (int row in 0 .. rows) {
+        for (int col in 0 .. columns) {
+            int cell = row * columns + col;
+            if (pattern[row] == compare[col]) {
+                int bonus = bonus_at(text, col);
+                int best = NO_SCORE;
+                if (row == 0) {
+                    best = MATCH_SCORE + bonus * 2;
+                } else if (col > 0) {
+                    int previous = matched[cell - columns - 1];
+                    if (previous > NO_SCORE) {
+                        best = previous + MATCH_SCORE + larger(bonus, CONSECUTIVE_BONUS);
+                    }
+                    if (col > 1) {
+                        int skipped = gap[cell - columns - 1];
+                        if (skipped > NO_SCORE && skipped + MATCH_SCORE + bonus > best) {
+                            best = skipped + MATCH_SCORE + bonus;
+                        }
+                    }
+                }
+                matched[cell] = best;
+            }
+            if (col > 0) {
+                int slack = NO_SCORE;
+                if (matched[cell - 1] > NO_SCORE) {
+                    slack = matched[cell - 1] - GAP_OPEN;
+                }
+                if (gap[cell - 1] > NO_SCORE && gap[cell - 1] - GAP_EXTEND > slack) {
+                    slack = gap[cell - 1] - GAP_EXTEND;
+                }
+                gap[cell] = slack;
+            }
+        }
+    }
+    return Table(matched, gap, columns);
+}
+
+/// The leftmost placement of `pattern` in `compare` (it must be a subsequence).
+List<int> greedy_positions(List<int> pattern, List<int> compare) {
+    List<int> out = [];
+    int next = 0;
+    for (int col in 0 .. compare.size()) {
+        if (next < pattern.size() && compare[col] == pattern[next]) {
+            out.push(col);
+            next = next + 1;
+        }
+    }
+    return out;
+}
+
+int greedy_score(List<int> positions, List<int> text) {
+    int total = 0;
+    for (int position in positions) {
+        total = total + MATCH_SCORE + bonus_at(text, position);
+    }
+    return total;
+}
+
+/// The score of a fuzzy term, or NO_SCORE when it does not match.
+int fuzzy_score(Term term, List<int> text) {
+    int rows = term.pattern.size();
+    if (rows == 0) {
+        return 0;
+    }
+    List<int> compare = compared(text, term.is_sensitive);
+    if (!is_subsequence(term.pattern, compare)) {
+        return NO_SCORE;
+    }
+    if (rows * text.size() > MAX_CELLS) {
+        return greedy_score(greedy_positions(term.pattern, compare), text);
+    }
+    Table table = build_table(term.pattern, text, compare);
+    int best = NO_SCORE;
+    int columns = text.size();
+    for (int col in 0 .. columns) {
+        int value = table.matched[(rows - 1) * columns + col];
+        if (value > best) {
+            best = value;
+        }
+    }
+    return best;
+}
+
+/// Where the best placement puts each pattern character.
+List<int> fuzzy_positions(Term term, List<int> text) {
+    int rows = term.pattern.size();
+    if (rows == 0) {
+        return [];
+    }
+    List<int> compare = compared(text, term.is_sensitive);
+    if (!is_subsequence(term.pattern, compare)) {
+        return [];
+    }
+    if (rows * text.size() > MAX_CELLS) {
+        return greedy_positions(term.pattern, compare);
+    }
+    Table table = build_table(term.pattern, text, compare);
+    int columns = text.size();
+    int best = NO_SCORE;
+    int col = 0;
+    for (int candidate in 0 .. columns) {
+        int value = table.matched[(rows - 1) * columns + candidate];
+        if (value > best) {
+            best = value;
+            col = candidate;
+        }
+    }
+    List<int> out = [col];
+    int row = rows - 1;
+    while (row > 0) {
+        int current = table.matched[row * columns + col];
+        int bonus = bonus_at(text, col);
+        int previous = table.matched[(row - 1) * columns + col - 1];
+        if (col > 0 && previous > NO_SCORE && previous + MATCH_SCORE + larger(bonus, CONSECUTIVE_BONUS) == current) {
+            col = col - 1;
+        } else {
+            int want = current - MATCH_SCORE - bonus;
+            int found = -1;
+            int skip = col - 2;
+            while (skip >= 0 && found < 0) {
+                int value = table.matched[(row - 1) * columns + skip];
+                if (value > NO_SCORE && value - GAP_OPEN - (col - 2 - skip) * GAP_EXTEND == want) {
+                    found = skip;
+                }
+                skip = skip - 1;
+            }
+            if (found < 0) {
+                return out;
+            }
+            col = found;
+        }
+        out.insert(0, col);
+        row = row - 1;
+    }
+    return out;
+}
+
+/// Where `needle` first occurs in `haystack` at or after `from`, or -1.
+int find_from(List<int> haystack, List<int> needle, int from) {
+    int last = haystack.size() - needle.size();
+    int start = from;
+    while (start <= last) {
+        bool is_here = true;
+        for (int step in 0 .. needle.size()) {
+            if (haystack[start + step] != needle[step]) {
+                is_here = false;
+                break;
+            }
+        }
+        if (is_here) {
+            return start;
+        }
+        start = start + 1;
+    }
+    return -1;
+}
+
+/// The placement of an exact term: the occurrence with the best boundary bonus.
+int exact_start(Term term, List<int> text, List<int> compare) {
+    int best_start = -1;
+    int best_bonus = -1;
+    int start = find_from(compare, term.pattern, 0);
+    while (start >= 0) {
+        int bonus = bonus_at(text, start);
+        if (bonus > best_bonus) {
+            best_bonus = bonus;
+            best_start = start;
+        }
+        start = find_from(compare, term.pattern, start + 1);
+    }
+    return best_start;
+}
+
+/// The score of a non-fuzzy term at its placement, or NO_SCORE.
+int anchored_score(Term term, List<int> text, int start) {
+    if (start < 0) {
+        return NO_SCORE;
+    }
+    return term.pattern.size() * (MATCH_SCORE + CONSECUTIVE_BONUS) + bonus_at(text, start);
+}
+
+/// The start of a term's placement in `text`, or -1 when it does not match
+/// (for fuzzy terms, the first matched position).
+int term_start(Term term, List<int> text) {
+    List<int> compare = compared(text, term.is_sensitive);
+    int size = term.pattern.size();
+    if (term.kind == KIND_EXACT) {
+        return exact_start(term, text, compare);
+    }
+    if (term.kind == KIND_PREFIX) {
+        if (size <= compare.size() && find_from(compare.slice(0, size), term.pattern, 0) == 0) {
+            return 0;
+        }
+        return -1;
+    }
+    if (term.kind == KIND_SUFFIX) {
+        int from = compare.size() - size;
+        if (from >= 0 && find_from(compare.slice(from, compare.size()), term.pattern, 0) == 0) {
+            return from;
+        }
+        return -1;
+    }
+    if (is_subsequence(term.pattern, compare)) {
+        return 0;
+    }
+    return -1;
+}
+
+int term_score(Term term, List<int> text) {
+    if (term.pattern.size() == 0) {
+        return 0;
+    }
+    if (term.kind == KIND_FUZZY) {
+        return fuzzy_score(term, text);
+    }
+    return anchored_score(term, text, term_start(term, text));
+}
+
+/// Parse a query line into terms.
+pub Query parse(str line) {
+    Query query = Query();
+    for (str word in line.split(" ")) {
+        if (word.size() == 0) {
+            continue;
+        }
+        Term term = Term();
+        List<int> chars = word.chars();
+        int from = 0;
+        int stop = chars.size();
+        if (chars[from] == 33) {
+            term.is_negated = true;
+            from = from + 1;
+        }
+        if (from < stop && chars[from] == 39) {
+            term.kind = KIND_EXACT;
+            from = from + 1;
+        } else if (from < stop && chars[from] == 94) {
+            term.kind = KIND_PREFIX;
+            from = from + 1;
+        }
+        if (from < stop && chars[stop - 1] == 36 && term.kind != KIND_EXACT) {
+            if (term.kind == KIND_FUZZY) {
+                term.kind = KIND_SUFFIX;
+            }
+            stop = stop - 1;
+        }
+        if (from >= stop) {
+            continue;
+        }
+        term.pattern = chars.slice(from, stop);
+        term.is_sensitive = has_upper(term.pattern);
+        if (!term.is_sensitive) {
+            term.pattern = compared(term.pattern, false);
+        }
+        query.terms.push(term);
+    }
+    return query;
+}
+
+/// The candidates that match, best first, at most `limit` of them.
+pub List<Ranked> rank(Query query, List<str> candidates, int limit) {
+    List<Ranked> found = [];
+    for (int item_index in 0 .. candidates.size()) {
+        int value = query.score(candidates[item_index]);
+        if (value >= 0) {
+            found.push(Ranked(item_index, value, candidates[item_index].chars().size()));
+        }
+    }
+    found.sort();
+    if (limit >= 0 && found.size() > limit) {
+        return found.slice(0, limit);
+    }
+    return found;
+}
