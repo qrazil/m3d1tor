@@ -27,137 +27,16 @@ pub type Evaluated {
 }
 
 type Value {
-    bool is_num = false;
-    int num = 0;
+    bool is_integer = false;
+    int integer = 0;
     str text = "";
 }
 
 type Parser {
     List<int> chars = [];
-    int pos = 0;
+    int position = 0;
     str error = "";
     Context context = Context();
-}
-
-const int INT_MAX = 9223372036854775807;
-
-Value number_value(int number) {
-    Value made = Value();
-    made.is_num = true;
-    made.num = number;
-    return made;
-}
-
-Value text_value(str text) {
-    Value made = Value();
-    made.text = text;
-    return made;
-}
-
-bool is_digit(int code) {
-    return code >= 48 && code <= 57;
-}
-
-bool is_word(int code) {
-    return is_digit(code) || (code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code == 95;
-}
-
-// A string used as a number: the leading digits (with a sign), else 0.
-int text_number(str text) {
-    List<int> codes = text.chars();
-    int pos = 0;
-    while (pos < codes.size() && (codes[pos] == 32 || codes[pos] == 9)) {
-        pos = pos + 1;
-    }
-    bool is_negative = false;
-    if (pos < codes.size() && (codes[pos] == 45 || codes[pos] == 43)) {
-        is_negative = codes[pos] == 45;
-        pos = pos + 1;
-    }
-    int total = 0;
-    if (pos + 1 < codes.size() && codes[pos] == 48 && (codes[pos + 1] == 120 || codes[pos + 1] == 88)) {
-        pos = pos + 2;
-        while (pos < codes.size()) {
-            int digit = hex_digit(codes[pos]);
-            if (digit < 0) {
-                break;
-            }
-            total = total * 16 + digit;
-            pos = pos + 1;
-        }
-    } else {
-        while (pos < codes.size() && is_digit(codes[pos])) {
-            total = total * 10 + codes[pos] - 48;
-            pos = pos + 1;
-        }
-    }
-    if (is_negative) {
-        return 0 - total;
-    }
-    return total;
-}
-
-int hex_digit(int code) {
-    if (code >= 48 && code <= 57) {
-        return code - 48;
-    }
-    if (code >= 97 && code <= 102) {
-        return code - 87;
-    }
-    if (code >= 65 && code <= 70) {
-        return code - 55;
-    }
-    return -1;
-}
-
-int as_number(Value value) {
-    if (value.is_num) {
-        return value.num;
-    }
-    return text_number(value.text);
-}
-
-str as_text(Value value) {
-    if (value.is_num) {
-        return value.num.to_str();
-    }
-    return value.text;
-}
-
-// Integer division and remainder that truncate toward zero, as Vim's do.
-int divide(int left, int right) {
-    if (right == 0) {
-        if (left == 0) {
-            return 0 - INT_MAX;
-        }
-        if (left > 0) {
-            return INT_MAX;
-        }
-        return 0 - INT_MAX;
-    }
-    int magnitude = abs_int(left) / abs_int(right);
-    if ((left < 0) != (right < 0)) {
-        return 0 - magnitude;
-    }
-    return magnitude;
-}
-
-int remainder(int left, int right) {
-    if (right == 0) {
-        return 0;
-    }
-    int magnitude = abs_int(left) % abs_int(right);
-    if (left < 0) {
-        return 0 - magnitude;
-    }
-    return magnitude;
-}
-
-int abs_int(int number) {
-    if (number < 0) {
-        return 0 - number;
-    }
-    return number;
 }
 
 void Parser.fail(str message) {
@@ -167,22 +46,22 @@ void Parser.fail(str message) {
 }
 
 int Parser.peek() {
-    if (pos < chars.size()) {
-        return chars[pos];
+    if (position < chars.size()) {
+        return chars[position];
     }
     return -1;
 }
 
 int Parser.peek_at(int offset) {
-    if (pos + offset < chars.size()) {
-        return chars[pos + offset];
+    if (position + offset < chars.size()) {
+        return chars[position + offset];
     }
     return -1;
 }
 
 void Parser.skip_white() {
-    while (pos < chars.size() && (chars[pos] == 32 || chars[pos] == 9)) {
-        pos = pos + 1;
+    while (position < chars.size() && (chars[position] == 32 || chars[position] == 9)) {
+        position = position + 1;
     }
 }
 
@@ -194,7 +73,7 @@ bool Parser.did_take(str token) {
             return false;
         }
     }
-    pos = pos + codes.size();
+    position = position + codes.size();
     return true;
 }
 
@@ -203,17 +82,17 @@ Value Parser.ternary() {
     if (error == "") {
         skip_white();
         if (peek() == 63) {
-            pos = pos + 1;
+            position = position + 1;
             Value yes = ternary();
             if (!did_take(":")) {
                 fail("E109: Missing ':' after '?'");
                 return condition;
             }
-            Value no = ternary();
+            Value otherwise = ternary();
             if (as_number(condition) != 0) {
                 return yes;
             }
-            return no;
+            return otherwise;
         }
     }
     return condition;
@@ -251,37 +130,14 @@ str Parser.compare_operator() {
     int first = peek();
     int second = peek_at(1);
     if (second == 61 && (first == 61 || first == 33 || first == 62 || first == 60)) {
-        pos = pos + 2;
+        position = position + 2;
         return str.from_chars([first, second]);
     }
     if ((first == 62 || first == 60) && second != 61) {
-        pos = pos + 1;
+        position = position + 1;
         return str.from_chars([first]);
     }
     return "";
-}
-
-// -1, 0 or 1 by the bytes of the two texts.
-int compare_text(str left, str right) {
-    List<int> left_codes = left.chars();
-    List<int> right_codes = right.chars();
-    int index = 0;
-    while (index < left_codes.size() && index < right_codes.size()) {
-        if (left_codes[index] < right_codes[index]) {
-            return -1;
-        }
-        if (left_codes[index] > right_codes[index]) {
-            return 1;
-        }
-        index = index + 1;
-    }
-    if (left_codes.size() < right_codes.size()) {
-        return -1;
-    }
-    if (left_codes.size() > right_codes.size()) {
-        return 1;
-    }
-    return 0;
 }
 
 Value Parser.compare() {
@@ -295,7 +151,7 @@ Value Parser.compare() {
     }
     Value right = additive();
     int order = 0;
-    if (left.is_num || right.is_num) {
+    if (left.is_integer || right.is_integer) {
         int left_number = as_number(left);
         int right_number = as_number(right);
         if (left_number < right_number) {
@@ -332,17 +188,17 @@ Value Parser.additive() {
         skip_white();
         int code = peek();
         if (code == 43) {
-            pos = pos + 1;
+            position = position + 1;
             Value right = multiplicative();
             left = number_value(as_number(left) + as_number(right));
         } else if (code == 45) {
-            pos = pos + 1;
+            position = position + 1;
             Value right = multiplicative();
             left = number_value(as_number(left) - as_number(right));
         } else if (code == 46) {
-            pos = pos + 1;
+            position = position + 1;
             if (peek() == 46) {
-                pos = pos + 1;
+                position = position + 1;
             }
             Value right = multiplicative();
             left = text_value(as_text(left) + as_text(right));
@@ -359,15 +215,15 @@ Value Parser.multiplicative() {
         skip_white();
         int code = peek();
         if (code == 42) {
-            pos = pos + 1;
+            position = position + 1;
             Value right = unary();
             left = number_value(as_number(left) * as_number(right));
         } else if (code == 47) {
-            pos = pos + 1;
+            position = position + 1;
             Value right = unary();
             left = number_value(divide(as_number(left), as_number(right)));
         } else if (code == 37) {
-            pos = pos + 1;
+            position = position + 1;
             Value right = unary();
             left = number_value(remainder(as_number(left), as_number(right)));
         } else {
@@ -381,17 +237,17 @@ Value Parser.unary() {
     skip_white();
     int code = peek();
     if (code == 45) {
-        pos = pos + 1;
+        position = position + 1;
         Value operand = unary();
         return number_value(0 - as_number(operand));
     }
     if (code == 43) {
-        pos = pos + 1;
+        position = position + 1;
         Value operand = unary();
         return number_value(as_number(operand));
     }
     if (code == 33) {
-        pos = pos + 1;
+        position = position + 1;
         Value operand = unary();
         if (as_number(operand) == 0) {
             return number_value(1);
@@ -408,7 +264,7 @@ Value Parser.postfix() {
         if (peek() != 91) {
             break;
         }
-        pos = pos + 1;
+        position = position + 1;
         skip_white();
         bool is_slice = false;
         Value from_value = number_value(0);
@@ -419,7 +275,7 @@ Value Parser.postfix() {
         skip_white();
         if (peek() == 58) {
             is_slice = true;
-            pos = pos + 1;
+            position = position + 1;
             skip_white();
             if (peek() != 93) {
                 to_value = ternary();
@@ -476,7 +332,7 @@ Value Parser.primary() {
         return double_quoted();
     }
     if (code == 40) {
-        pos = pos + 1;
+        position = position + 1;
         Value inner = ternary();
         if (!did_take(")")) {
             fail("E110: Missing ')'");
@@ -491,22 +347,22 @@ Value Parser.primary() {
 }
 
 Value Parser.number_literal() {
-    int start = pos;
+    int start = position;
     if (peek() == 48 && (peek_at(1) == 120 || peek_at(1) == 88)) {
-        pos = pos + 2;
+        position = position + 2;
         while (hex_digit(peek()) >= 0) {
-            pos = pos + 1;
+            position = position + 1;
         }
     } else {
         while (is_digit(peek())) {
-            pos = pos + 1;
+            position = position + 1;
         }
     }
-    return number_value(text_number(str.from_chars(chars.slice(start, pos))));
+    return number_value(text_number(str.from_chars(chars.slice(start, position))));
 }
 
 Value Parser.single_quoted() {
-    pos = pos + 1;
+    position = position + 1;
     List<int> out = [];
     while (true) {
         int code = peek();
@@ -514,11 +370,11 @@ Value Parser.single_quoted() {
             fail("E115: Missing quote");
             break;
         }
-        pos = pos + 1;
+        position = position + 1;
         if (code == 39) {
             if (peek() == 39) {
                 out.push(39);
-                pos = pos + 1;
+                position = position + 1;
             } else {
                 break;
             }
@@ -530,7 +386,7 @@ Value Parser.single_quoted() {
 }
 
 Value Parser.double_quoted() {
-    pos = pos + 1;
+    position = position + 1;
     List<int> out = [];
     while (true) {
         int code = peek();
@@ -538,7 +394,7 @@ Value Parser.double_quoted() {
             fail("E114: Missing quote");
             break;
         }
-        pos = pos + 1;
+        position = position + 1;
         if (code == 34) {
             break;
         }
@@ -547,7 +403,7 @@ Value Parser.double_quoted() {
             continue;
         }
         int next = peek();
-        pos = pos + 1;
+        position = position + 1;
         if (next == 110) {
             out.push(10);
         } else if (next == 116) {
@@ -562,10 +418,10 @@ Value Parser.double_quoted() {
             out.push(0);
         } else if (next == 120 && hex_digit(peek()) >= 0) {
             int value = hex_digit(peek());
-            pos = pos + 1;
+            position = position + 1;
             if (hex_digit(peek()) >= 0) {
                 value = value * 16 + hex_digit(peek());
-                pos = pos + 1;
+                position = position + 1;
             }
             out.push(value);
         } else if (next >= 0) {
@@ -576,24 +432,24 @@ Value Parser.double_quoted() {
 }
 
 Value Parser.function_call() {
-    int start = pos;
+    int start = position;
     while (is_word(peek())) {
-        pos = pos + 1;
+        position = position + 1;
     }
-    str name = str.from_chars(chars.slice(start, pos));
+    str name = str.from_chars(chars.slice(start, position));
     skip_white();
     if (peek() != 40) {
         fail("E121: Undefined variable: " + name);
         return number_value(0);
     }
-    pos = pos + 1;
-    List<Value> args = [];
+    position = position + 1;
+    List<Value> arguments = [];
     skip_white();
     if (peek() == 41) {
-        pos = pos + 1;
+        position = position + 1;
     } else {
         while (error == "") {
-            args.push(ternary());
+            arguments.push(ternary());
             if (did_take(",")) {
                 continue;
             }
@@ -606,62 +462,11 @@ Value Parser.function_call() {
     if (error != "") {
         return number_value(0);
     }
-    return call(name, args);
+    return call(name, arguments);
 }
 
-str upper_text(str text) {
-    List<int> out = [];
-    for (int code in text.chars()) {
-        out.push(MED_case.upper_cp(code));
-    }
-    return str.from_chars(out);
-}
-
-str lower_text(str text) {
-    List<int> out = [];
-    for (int code in text.chars()) {
-        out.push(MED_case.lower_cp(code));
-    }
-    return str.from_chars(out);
-}
-
-str pad_text(str text, int width, bool is_left, str filler) {
-    str result = text;
-    int length = text.chars().size();
-    while (length < width) {
-        if (is_left) {
-            result = result + " ";
-        } else {
-            result = filler + result;
-        }
-        length = length + 1;
-    }
-    return result;
-}
-
-str number_in_base(int number, int base, bool is_upper) {
-    if (number == 0) {
-        return "0";
-    }
-    str digits = "0123456789abcdef";
-    if (is_upper) {
-        digits = "0123456789ABCDEF";
-    }
-    int rest = abs_int(number);
-    str out = "";
-    while (rest > 0) {
-        int digit = rest % base;
-        out = digits.substr(digit, digit + 1) + out;
-        rest = rest / base;
-    }
-    if (number < 0) {
-        out = "-" + out;
-    }
-    return out;
-}
-
-Value Parser.printf(List<Value> args) {
-    List<int> format = as_text(args[0]).chars();
+Value Parser.printf(List<Value> arguments) {
+    List<int> format = as_text(arguments[0]).chars();
     List<int> out = [];
     int next_arg = 1;
     int index = 0;
@@ -715,11 +520,11 @@ Value Parser.printf(List<Value> args) {
             out.push(37);
             continue;
         }
-        if (next_arg >= args.size()) {
+        if (next_arg >= arguments.size()) {
             fail("E766: Insufficient arguments for printf()");
             return number_value(0);
         }
-        Value arg = args[next_arg];
+        Value arg = arguments[next_arg];
         next_arg = next_arg + 1;
         str body = "";
         bool is_numeric = false;
@@ -779,16 +584,16 @@ Value Parser.printf(List<Value> args) {
     return text_value(str.from_chars(out));
 }
 
-Value Parser.call(str name, List<Value> args) {
-    if (name == "submatch" && args.size() >= 1) {
-        int which = as_number(args[0]);
+Value Parser.call(str name, List<Value> arguments) {
+    if (name == "submatch" && arguments.size() >= 1) {
+        int which = as_number(arguments[0]);
         if (which >= 0 && which < context.groups.size()) {
             return text_value(context.groups[which]);
         }
         return text_value("");
     }
-    if (name == "line" && args.size() == 1) {
-        str what = as_text(args[0]);
+    if (name == "line" && arguments.size() == 1) {
+        str what = as_text(arguments[0]);
         if (what == ".") {
             return number_value(context.line_now);
         }
@@ -797,11 +602,11 @@ Value Parser.call(str name, List<Value> args) {
         }
         return number_value(0);
     }
-    if (name == "printf" && args.size() >= 1) {
-        return printf(args);
+    if (name == "printf" && arguments.size() >= 1) {
+        return printf(arguments);
     }
-    if (args.size() == 1) {
-        Value only = args[0];
+    if (arguments.size() == 1) {
+        Value only = arguments[0];
         if (name == "toupper") {
             return text_value(upper_text(as_text(only)));
         }
@@ -837,19 +642,19 @@ Value Parser.call(str name, List<Value> args) {
             return number_value(codes[0]);
         }
     }
-    if (name == "repeat" && args.size() == 2) {
+    if (name == "repeat" && arguments.size() == 2) {
         str out = "";
-        for (int i in 0 .. as_number(args[1])) {
-            out = out + as_text(args[0]);
+        for (int i in 0 .. as_number(arguments[1])) {
+            out = out + as_text(arguments[0]);
         }
         return text_value(out);
     }
-    if (name == "strpart" && args.size() >= 2) {
-        str text = as_text(args[0]);
-        int begin = as_number(args[1]);
+    if (name == "strpart" && arguments.size() >= 2) {
+        str text = as_text(arguments[0]);
+        int begin = as_number(arguments[1]);
         int length = text.size();
-        if (args.size() >= 3) {
-            length = as_number(args[2]);
+        if (arguments.size() >= 3) {
+            length = as_number(arguments[2]);
         }
         if (begin < 0) {
             length = length + begin;
@@ -866,6 +671,201 @@ Value Parser.call(str name, List<Value> args) {
     }
     fail("E117: Unknown function: " + name);
     return number_value(0);
+}
+
+const int INT_MAX = 9223372036854775807;
+
+Value number_value(int number) {
+    Value made = Value();
+    made.is_integer = true;
+    made.integer = number;
+    return made;
+}
+
+Value text_value(str text) {
+    Value made = Value();
+    made.text = text;
+    return made;
+}
+
+bool is_digit(int code) {
+    return code >= 48 && code <= 57;
+}
+
+bool is_word(int code) {
+    return is_digit(code) || (code >= 97 && code <= 122) || (code >= 65 && code <= 90) || code == 95;
+}
+
+// A string used as a number: the leading digits (with a sign), else 0.
+int text_number(str text) {
+    List<int> codes = text.chars();
+    int position = 0;
+    while (position < codes.size() && (codes[position] == 32 || codes[position] == 9)) {
+        position = position + 1;
+    }
+    bool is_negative = false;
+    if (position < codes.size() && (codes[position] == 45 || codes[position] == 43)) {
+        is_negative = codes[position] == 45;
+        position = position + 1;
+    }
+    int total = 0;
+    if (position + 1 < codes.size() && codes[position] == 48 && (codes[position + 1] == 120 || codes[position + 1] == 88)) {
+        position = position + 2;
+        while (position < codes.size()) {
+            int digit = hex_digit(codes[position]);
+            if (digit < 0) {
+                break;
+            }
+            total = total * 16 + digit;
+            position = position + 1;
+        }
+    } else {
+        while (position < codes.size() && is_digit(codes[position])) {
+            total = total * 10 + codes[position] - 48;
+            position = position + 1;
+        }
+    }
+    if (is_negative) {
+        return 0 - total;
+    }
+    return total;
+}
+
+int hex_digit(int code) {
+    if (code >= 48 && code <= 57) {
+        return code - 48;
+    }
+    if (code >= 97 && code <= 102) {
+        return code - 87;
+    }
+    if (code >= 65 && code <= 70) {
+        return code - 55;
+    }
+    return -1;
+}
+
+int as_number(Value value) {
+    if (value.is_integer) {
+        return value.integer;
+    }
+    return text_number(value.text);
+}
+
+str as_text(Value value) {
+    if (value.is_integer) {
+        return value.integer.to_str();
+    }
+    return value.text;
+}
+
+// Integer division and remainder that truncate toward zero, as Vim's do.
+int divide(int left, int right) {
+    if (right == 0) {
+        if (left == 0) {
+            return 0 - INT_MAX;
+        }
+        if (left > 0) {
+            return INT_MAX;
+        }
+        return 0 - INT_MAX;
+    }
+    int magnitude = abs_int(left) / abs_int(right);
+    if ((left < 0) != (right < 0)) {
+        return 0 - magnitude;
+    }
+    return magnitude;
+}
+
+int remainder(int left, int right) {
+    if (right == 0) {
+        return 0;
+    }
+    int magnitude = abs_int(left) % abs_int(right);
+    if (left < 0) {
+        return 0 - magnitude;
+    }
+    return magnitude;
+}
+
+int abs_int(int number) {
+    if (number < 0) {
+        return 0 - number;
+    }
+    return number;
+}
+
+// -1, 0 or 1 by the bytes of the two texts.
+int compare_text(str left, str right) {
+    List<int> left_codes = left.chars();
+    List<int> right_codes = right.chars();
+    int index = 0;
+    while (index < left_codes.size() && index < right_codes.size()) {
+        if (left_codes[index] < right_codes[index]) {
+            return -1;
+        }
+        if (left_codes[index] > right_codes[index]) {
+            return 1;
+        }
+        index = index + 1;
+    }
+    if (left_codes.size() < right_codes.size()) {
+        return -1;
+    }
+    if (left_codes.size() > right_codes.size()) {
+        return 1;
+    }
+    return 0;
+}
+
+str upper_text(str text) {
+    List<int> out = [];
+    for (int code in text.chars()) {
+        out.push(MED_case.upper_cp(code));
+    }
+    return str.from_chars(out);
+}
+
+str lower_text(str text) {
+    List<int> out = [];
+    for (int code in text.chars()) {
+        out.push(MED_case.lower_cp(code));
+    }
+    return str.from_chars(out);
+}
+
+str pad_text(str text, int width, bool is_left, str filler) {
+    str result = text;
+    int length = text.chars().size();
+    while (length < width) {
+        if (is_left) {
+            result = result + " ";
+        } else {
+            result = filler + result;
+        }
+        length = length + 1;
+    }
+    return result;
+}
+
+str number_in_base(int number, int base, bool is_upper) {
+    if (number == 0) {
+        return "0";
+    }
+    str digits = "0123456789abcdef";
+    if (is_upper) {
+        digits = "0123456789ABCDEF";
+    }
+    int rest = abs_int(number);
+    str out = "";
+    while (rest > 0) {
+        int digit = rest % base;
+        out = digits.substr(digit, digit + 1) + out;
+        rest = rest / base;
+    }
+    if (number < 0) {
+        out = "-" + out;
+    }
+    return out;
 }
 
 str trim_text(str text) {
@@ -889,7 +889,7 @@ pub Evaluated eval(str text, Context context) {
     Value value = parser.ternary();
     parser.skip_white();
     Evaluated result = Evaluated();
-    if (parser.error == "" && parser.pos < parser.chars.size()) {
+    if (parser.error == "" && parser.position < parser.chars.size()) {
         parser.fail("E15: Invalid expression: " + text);
     }
     if (parser.error != "") {

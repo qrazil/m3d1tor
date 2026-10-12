@@ -35,7 +35,6 @@ alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<S-Left>X<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iab cd ef<S-Left>X<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <C-v>065<Esc>ix
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><Left><C-u><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ixx <BS><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Iα β γ<Home>Z<C-c>ix
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ifoo.bar baz<Home>Z<CR>
@@ -902,57 +901,46 @@ alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><Up><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><Down><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<C-p><C-p><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<C-p><C-p><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<C-p><C-p><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<C-p><C-p><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<C-p><C-p><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<C-p><C-n><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<C-p><C-n><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<C-p><C-n><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<C-p><C-n><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<C-p><C-n><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Down><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Down><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<S-Up><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<S-Up><S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<S-Up><S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<S-Up><S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<S-Up><S-Up><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<S-Up><S-Up><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<PageUp><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<PageUp><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<PageUp><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<PageUp><CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<PageUp><CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up>X<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up>X<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up>X<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up>X<CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up>X<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:s/a/b/<CR>:s/l/L/<CR>:<Up><C-u>y<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/foo<CR>/bar<CR>:<Up><C-u>y<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:norm Ia<CR>:norm Ib<CR>:norm I<Up><C-u>y<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	/ba<CR>:s/a/Q/<CR>/<Up><C-u>y<CR>
-alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><C-u>y<CR>
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<BS>ix
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:x<BS><BS>ix
 alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	:<C-w>ix

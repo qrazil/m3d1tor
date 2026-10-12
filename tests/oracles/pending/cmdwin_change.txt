@@ -1,0 +1,12 @@
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<C-p><C-p><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<C-p><C-n><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Down><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<S-Up><S-Up><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<PageUp><CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up>X<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	0,0	q:<Up><C-u>y<CR>
+alpha beta gamma\nfoo.bar baz_qux\n  indented  line\nlast	1,2	ywj"ayiw:norm Ia  b   c<Left><Left><Left><C-u><CR>

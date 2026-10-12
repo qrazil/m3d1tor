@@ -22,6 +22,8 @@ import engine.MED_case;
 import engine.MED_view;
 import engine.MED_search;
 import engine.MED_nrfmt;
+import engine.MED_expr;
+import engine.MED_digraph;
 
 void fail(MED_editor.Editor editor) {
     editor.is_failed = true;
@@ -516,14 +518,14 @@ void gn_command(MED_editor.Editor editor, int count, bool is_forward, bool is_vi
 List<str> visual_chunks(MED_editor.Editor editor) {
     List<str> chunks = [];
     MED_buffer.Pos from = MED_buffer.Pos(editor.vrow, editor.vcol);
-    MED_buffer.Pos to = MED_buffer.Pos(editor.row, editor.col);
-    if (is_position_before(to, from)) {
+    MED_buffer.Pos finish = MED_buffer.Pos(editor.row, editor.col);
+    if (is_position_before(finish, from)) {
         MED_buffer.Pos swap = from;
-        from = to;
-        to = swap;
+        from = finish;
+        finish = swap;
     }
     if (editor.vkind == 86) {
-        for (int row in from.row .. to.row + 1) {
+        for (int row in from.row .. finish.row + 1) {
             chunks.push(editor.buffer.line(row));
         }
     } else if (editor.vkind == 22) {
@@ -535,7 +537,7 @@ List<str> visual_chunks(MED_editor.Editor editor) {
     } else {
         Oap area = Oap();
         area.start = from;
-        area.end = to;
+        area.end = finish;
         area.is_inclusive = true;
         str text = editor.buffer.text(from, exclusive_end(editor, area));
         chunks = text.split("\n");
@@ -1266,26 +1268,26 @@ List<str> wrap_line(MED_editor.Editor editor, str text, int width, str indent) {
             return out;
         }
         int wantcol = MED_motion.col_for_want(line, width, editor.tab, true);
-        int pos = end_col;
+        int cursor_col = end_col;
         int found = 0;
         while (true) {
-            if (is_white_byte(line.byte_at(pos))) {
-                while (pos > 0 && is_white_byte(line.byte_at(pos))) {
-                    pos = MED_text.previous_col(line, pos);
+            if (is_white_byte(line.byte_at(cursor_col))) {
+                while (cursor_col > 0 && is_white_byte(line.byte_at(cursor_col))) {
+                    cursor_col = MED_text.previous_col(line, cursor_col);
                 }
-                if (pos == 0 && is_white_byte(line.byte_at(pos))) {
+                if (cursor_col == 0 && is_white_byte(line.byte_at(cursor_col))) {
                     break;
                 }
-                pos = MED_text.next_col(line, pos);
-                found = pos;
+                cursor_col = MED_text.next_col(line, cursor_col);
+                found = cursor_col;
                 if (found <= wantcol) {
                     break;
                 }
             }
-            if (pos == 0) {
+            if (cursor_col == 0) {
                 break;
             }
-            pos = MED_text.previous_col(line, pos);
+            cursor_col = MED_text.previous_col(line, cursor_col);
         }
         if (found == 0) {
             out.push(line);
@@ -1331,12 +1333,12 @@ int nonblank_before(MED_editor.Editor editor, int from, int row, int col) {
         if (index == row) {
             stop = MED_num.smaller(col, line.size());
         }
-        int at = 0;
-        while (at < stop) {
-            if (!is_white_byte(line.byte_at(at))) {
+        int scan = 0;
+        while (scan < stop) {
+            if (!is_white_byte(line.byte_at(scan))) {
                 total = total + 1;
             }
-            at = MED_text.next_col(line, at);
+            scan = MED_text.next_col(line, scan);
         }
     }
     return total;
@@ -1411,17 +1413,17 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
         } else {
             while (row < stop_row && !is_found) {
                 str line = editor.buffer.line(row);
-                int at = 0;
-                while (at < line.size()) {
-                    if (!is_white_byte(line.byte_at(at))) {
+                int scan = 0;
+                while (scan < line.size()) {
+                    if (!is_white_byte(line.byte_at(scan))) {
                         if (seen == keep_count) {
                             is_found = true;
-                            target_col = at;
+                            target_col = scan;
                             break;
                         }
                         seen = seen + 1;
                     }
-                    at = MED_text.next_col(line, at);
+                    scan = MED_text.next_col(line, scan);
                 }
                 if (!is_found) {
                     row = row + 1;
@@ -2648,16 +2650,20 @@ void ins_register(MED_editor.Editor editor, str name) {
         case None: {
         }
         case Some(MED_register.Reg reg): {
-            str text = reg.text();
-            for (int code_point in text.chars()) {
-                if (code_point == 10) {
-                    editor.ins_keys.push(13);
-                    ins_cr(editor);
-                } else {
-                    editor.ins_keys.push(code_point);
-                    ins_char(editor, code_point);
-                }
-            }
+            ins_text(editor, reg.text());
+        }
+    }
+}
+
+// Insert `text` as if typed (a newline starts a line).
+void ins_text(MED_editor.Editor editor, str text) {
+    for (int code_point in text.chars()) {
+        if (code_point == 10) {
+            editor.ins_keys.push(13);
+            ins_cr(editor);
+        } else {
+            editor.ins_keys.push(code_point);
+            ins_char(editor, code_point);
         }
     }
 }
@@ -2799,8 +2805,30 @@ void insert_key(MED_editor.Editor editor, int key) {
         }
         editor.is_ins_next_set = false;
     }
+    if (editor.ins_wait == 11) {
+        editor.dig_first = key;
+        editor.ins_wait = 12;
+        if (key == 27) {
+            editor.ins_wait = 0;
+        }
+        return;
+    }
+    if (editor.ins_wait == 12) {
+        editor.ins_wait = 0;
+        if (key != 27) {
+            stop_arrow(editor);
+            int made = digraph_of(editor.dig_first, key);
+            editor.ins_keys.push(made);
+            ins_char(editor, made);
+        }
+        return;
+    }
     if (editor.ins_wait == 18) {
         editor.ins_wait = 0;
+        if (key == 61) {
+            expr_open(editor, 2);
+            return;
+        }
         stop_arrow(editor);
         ins_register(editor, str.from_chars([key]));
         return;
@@ -2847,6 +2875,10 @@ void insert_key(MED_editor.Editor editor, int key) {
     }
     if (key == 18) {
         editor.ins_wait = 18;
+        return;
+    }
+    if (key == 11) {
+        editor.ins_wait = 11;
         return;
     }
     if (key == 22 || key == 17) {
@@ -5098,15 +5130,81 @@ void visual_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typ
 // ------------------------------------------------------------- command line
 
 void cmdline_leave(MED_editor.Editor editor) {
+    if (editor.cmd_type == 61 && editor.expr_from != 0) {
+        expr_restore(editor);
+        return;
+    }
     editor.mode = editor.mode_before_cmd;
     set_cmdline(editor, "");
     editor.cmd_wait = 0;
 }
 
+// Leave the `=` prompt: back to the line (or Insert mode) CTRL-R = was typed in.
+void expr_restore(MED_editor.Editor editor) {
+    int from = editor.expr_from;
+    editor.expr_from = 0;
+    editor.cmd_wait = 0;
+    editor.cmd_type = editor.expr_type;
+    editor.hist_at = editor.expr_hist_at;
+    editor.hist_prefix = editor.expr_hist_prefix;
+    if (from == 1) {
+        editor.cmdline = editor.expr_line;
+        editor.cmd_position = editor.expr_position;
+        return;
+    }
+    set_cmdline(editor, "");
+    editor.mode = editor.mode_before_cmd;
+}
+
+// CTRL-R = : ask for an expression on a line of its own.
+void expr_open(MED_editor.Editor editor, int from) {
+    editor.expr_from = from;
+    editor.expr_line = editor.cmdline;
+    editor.expr_position = editor.cmd_position;
+    editor.expr_type = editor.cmd_type;
+    editor.expr_hist_at = editor.hist_at;
+    editor.expr_hist_prefix = editor.hist_prefix;
+    editor.hist_at = -1;
+    editor.hist_prefix = "";
+    editor.cmd_type = 61;
+    editor.cmd_wait = 0;
+    set_cmdline(editor, "");
+    if (from == 2) {
+        editor.mode_before_cmd = editor.mode;
+        editor.mode = MED_editor.CMDLINE;
+    }
+}
+
+// The value of the expression typed at the `=` prompt.
+str expr_value(MED_editor.Editor editor, str text) {
+    MED_expr.Context context = MED_expr.Context();
+    context.line_now = editor.row + 1;
+    context.line_last = editor.buffer.line_count();
+    MED_expr.Evaluated evaluated = MED_expr.eval(text, context);
+    if (!evaluated.is_ok) {
+        editor.message = evaluated.error;
+        return "";
+    }
+    return evaluated.text;
+}
+
+// Enter at the `=` prompt: the value goes where CTRL-R = was typed.
+void expr_finish(MED_editor.Editor editor) {
+    int from = editor.expr_from;
+    str value = expr_value(editor, editor.cmdline);
+    expr_restore(editor);
+    if (from == 1) {
+        cmd_insert(editor, value.split("\n").join("\r"));
+        return;
+    }
+    stop_arrow(editor);
+    ins_text(editor, value);
+}
+
 // The command line becomes `text` with the cursor at its end.
 void set_cmdline(MED_editor.Editor editor, str text) {
     editor.cmdline = text;
-    editor.cmd_pos = text.size();
+    editor.cmd_position = text.size();
 }
 
 List<str> hist_for(MED_editor.Editor editor) {
@@ -5144,6 +5242,7 @@ void hist_browse(MED_editor.Editor editor, bool is_older, bool is_prefix) {
             return;
         }
         editor.hist_prefix = "";
+        editor.hist_typed = editor.cmdline;
         if (is_prefix) {
             editor.hist_prefix = editor.cmdline;
         }
@@ -5161,7 +5260,7 @@ void hist_browse(MED_editor.Editor editor, bool is_older, bool is_prefix) {
         }
         if (index >= history.size()) {
             editor.hist_at = -1;
-            set_cmdline(editor, editor.hist_prefix);
+            set_cmdline(editor, editor.hist_typed);
             return;
         }
         if (history[index].starts_with(editor.hist_prefix)) {
@@ -5175,16 +5274,16 @@ void hist_browse(MED_editor.Editor editor, bool is_older, bool is_prefix) {
 // Put `text` into the command line at the cursor.
 void cmd_insert(MED_editor.Editor editor, str text) {
     str line = editor.cmdline;
-    editor.cmdline = line.substr(0, editor.cmd_pos) + text + line.substr(editor.cmd_pos, line.size());
-    editor.cmd_pos = editor.cmd_pos + text.size();
+    editor.cmdline = line.substr(0, editor.cmd_position) + text + line.substr(editor.cmd_position, line.size());
+    editor.cmd_position = editor.cmd_position + text.size();
 }
 
 // Delete the bytes `from` .. `to` (exclusive) of the command line.
-void cmd_delete(MED_editor.Editor editor, int from, int to) {
+void cmd_delete(MED_editor.Editor editor, int from, int finish) {
     str line = editor.cmdline;
-    editor.cmdline = line.substr(0, from) + line.substr(to, line.size());
-    if (editor.cmd_pos > from) {
-        editor.cmd_pos = from;
+    editor.cmdline = line.substr(0, from) + line.substr(finish, line.size());
+    if (editor.cmd_position > from) {
+        editor.cmd_position = from;
     }
 }
 
@@ -5245,13 +5344,13 @@ str cmd_paste_text(MED_editor.Editor editor, int key) {
 // CTRL-W: the word before the cursor, as Vim's cmdline_erase_chars() takes it.
 void cmd_delete_word(MED_editor.Editor editor) {
     str line = editor.cmdline;
-    int at_col = editor.cmd_pos;
+    int at_col = editor.cmd_position;
     while (at_col > 0 && is_cmd_space(line, at_col - 1)) {
         at_col = at_col - 1;
     }
     if (at_col > 0) {
-        int prev = MED_text.previous_col(line, at_col);
-        bool is_word = MED_text.class_at(line, prev) >= 2;
+        int previous = MED_text.previous_col(line, at_col);
+        bool is_word = MED_text.class_at(line, previous) >= 2;
         while (at_col > 0 && !is_cmd_space(line, at_col - 1)) {
             int before = MED_text.previous_col(line, at_col);
             if ((MED_text.class_at(line, before) >= 2) != is_word) {
@@ -5260,13 +5359,13 @@ void cmd_delete_word(MED_editor.Editor editor) {
             at_col = before;
         }
     }
-    cmd_delete(editor, at_col, editor.cmd_pos);
+    cmd_delete(editor, at_col, editor.cmd_position);
 }
 
 // <S-Left> / <S-Right> and the Ctrl forms: one WORD.
 void cmd_word_move(MED_editor.Editor editor, bool is_left) {
     str line = editor.cmdline;
-    int at_col = editor.cmd_pos;
+    int at_col = editor.cmd_position;
     if (is_left) {
         while (at_col > 0 && is_cmd_space(line, at_col - 1)) {
             at_col = at_col - 1;
@@ -5282,10 +5381,38 @@ void cmd_word_move(MED_editor.Editor editor, bool is_left) {
             at_col = at_col + 1;
         }
     }
-    editor.cmd_pos = at_col;
+    editor.cmd_position = at_col;
+}
+
+// The character CTRL-K `first` `second` gives: the digraph, or `second` when there is none.
+int digraph_of(int first, int second) {
+    int found = MED_digraph.lookup(first, second);
+    if (found < 0) {
+        return second;
+    }
+    return found;
 }
 
 void cmdline_key(MED_editor.Editor editor, int key) {
+    if (editor.cmd_wait == 11) {
+        editor.dig_first = key;
+        editor.cmd_wait = 12;
+        if (key == 27) {
+            editor.cmd_wait = 0;
+        }
+        return;
+    }
+    if (editor.cmd_wait == 12) {
+        editor.cmd_wait = 0;
+        if (key != 27) {
+            cmd_insert(editor, str.from_chars([digraph_of(editor.dig_first, key)]));
+        }
+        return;
+    }
+    if (key == 11 && editor.cmd_wait == 0) {
+        editor.cmd_wait = 11;
+        return;
+    }
     if (editor.cmd_wait == 22) {
         editor.cmd_wait = 0;
         if (key >= 63232 && key <= 63400 && editor.lit_i == 0 && !editor.is_lit_hex && !editor.is_lit_octal && editor.lit_uni == 0) {
@@ -5304,12 +5431,16 @@ void cmdline_key(MED_editor.Editor editor, int key) {
         return;
     }
     if (editor.cmd_wait == 18 || editor.cmd_wait == 19) {
-        if (editor.cmd_wait == 18 && (key == 18 || key == 15 || key == 16)) {
+        if (editor.cmd_wait == 18 && (key == 18 || key == 15)) {
             editor.cmd_wait = 19;
             return;
         }
         editor.cmd_wait = 0;
         if (key == 27 || key == 3) {
+            return;
+        }
+        if (key == 61 && editor.expr_from == 0) {
+            expr_open(editor, 1);
             return;
         }
         cmd_insert(editor, cmd_paste_text(editor, key));
@@ -5330,6 +5461,10 @@ void cmdline_key(MED_editor.Editor editor, int key) {
         return;
     }
     if (key == 13 || key == 10) {
+        if (editor.cmd_type == 61 && editor.expr_from != 0) {
+            expr_finish(editor);
+            return;
+        }
         str line = editor.cmdline;
         int kind = editor.cmd_type;
         List<int> saved = editor.cmd_saved;
@@ -5352,48 +5487,48 @@ void cmdline_key(MED_editor.Editor editor, int key) {
         return;
     }
     if (key == 127 || key == 8 || key == 63240) {
-        int stop = editor.cmd_pos;
+        int stop = editor.cmd_position;
         if (key == 63240 && stop < editor.cmdline.size()) {
             stop = MED_text.next_col(editor.cmdline, stop);
-            editor.cmd_pos = stop;
+            editor.cmd_position = stop;
         }
-        if (editor.cmd_pos == 0) {
+        if (editor.cmd_position == 0) {
             if (editor.cmdline.size() == 0) {
                 cmdline_leave(editor);
             }
             return;
         }
-        cmd_delete(editor, MED_text.previous_col(editor.cmdline, editor.cmd_pos), editor.cmd_pos);
+        cmd_delete(editor, MED_text.previous_col(editor.cmdline, editor.cmd_position), editor.cmd_position);
         return;
     }
     if (key == 23) {
-        if (editor.cmd_pos == 0) {
+        if (editor.cmd_position == 0) {
             return;
         }
         cmd_delete_word(editor);
         return;
     }
     if (key == 21) {
-        cmd_delete(editor, 0, editor.cmd_pos);
+        cmd_delete(editor, 0, editor.cmd_position);
         return;
     }
     if (key == 2 || key == 63236) {
-        editor.cmd_pos = 0;
+        editor.cmd_position = 0;
         return;
     }
     if (key == 5 || key == 63237) {
-        editor.cmd_pos = editor.cmdline.size();
+        editor.cmd_position = editor.cmdline.size();
         return;
     }
     if (base == 63234 || base == 63235) {
         if (is_modified) {
             cmd_word_move(editor, base == 63234);
         } else if (base == 63234) {
-            if (editor.cmd_pos > 0) {
-                editor.cmd_pos = MED_text.previous_col(editor.cmdline, editor.cmd_pos);
+            if (editor.cmd_position > 0) {
+                editor.cmd_position = MED_text.previous_col(editor.cmdline, editor.cmd_position);
             }
-        } else if (editor.cmd_pos < editor.cmdline.size()) {
-            editor.cmd_pos = MED_text.next_col(editor.cmdline, editor.cmd_pos);
+        } else if (editor.cmd_position < editor.cmdline.size()) {
+            editor.cmd_position = MED_text.next_col(editor.cmdline, editor.cmd_position);
         }
         return;
     }

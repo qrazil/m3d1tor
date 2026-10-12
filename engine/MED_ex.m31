@@ -264,7 +264,7 @@ pub void drain(MED_editor.Editor editor) {
             }
             editor.is_colon_skip = false;
             bool is_ok = did_run_isolated(editor, line);
-            if (is_remembered && !editor.is_colon_skip) {
+            if (is_remembered && line != "" && !editor.is_colon_skip) {
                 // remembered only after it ran, so that `:@:` inside it sees the line before
                 editor.regs.set_special(":", line);
             }
@@ -2143,6 +2143,7 @@ Step cmd_global(MED_editor.Editor editor, Cmd cmd_value) {
         str rest = first_text.substr(1, first_text.size());
         int end = MED_search.skip_regexp(rest, delta);
         pattern = rest.substr(0, end);
+        note_search_history(editor, pattern);
         if (end < rest.size()) {
             cmd = rest.substr(end + 1, rest.size());
         }
@@ -2384,6 +2385,21 @@ str expr_replacement(str text) {
         index = index + 1;
     }
     return str.from_chars(out);
+}
+
+// A pattern given to :s, :g or :v goes into the search history.
+void note_search_history(MED_editor.Editor editor, str pattern) {
+    if (pattern == "") {
+        return;
+    }
+    List<str> kept = [];
+    for (str piece in editor.hist_search) {
+        if (piece != pattern) {
+            kept.push(piece);
+        }
+    }
+    kept.push(pattern);
+    editor.hist_search = kept;
 }
 
 bool is_pattern_multiline(str pattern) {
@@ -2776,6 +2792,7 @@ Step cmd_sub(MED_editor.Editor editor, Cmd cmd_value) {
             rest = first_text.substr(1, first_text.size());
             int end = MED_search.skip_regexp(rest, delta);
             pattern = rest.substr(0, end);
+            note_search_history(editor, pattern);
             if (end < rest.size()) {
                 rest = rest.substr(end + 1, rest.size());
             } else {

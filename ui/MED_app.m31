@@ -1795,7 +1795,7 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
         return;
     }
     if (editor.mode == MED_editor.CMDLINE) {
-        int command_x = area.x + 1 + MED_text.line_width(editor.cmdline.substr(0, editor.cmd_pos), editor.tab);
+        int command_x = area.x + 1 + MED_text.line_width(editor.cmdline.substr(0, editor.cmd_position), editor.tab);
         if (command_x < area.x + area.width) {
             buffer.set_style(command_x, message_y, cursor_style);
         }
