@@ -169,7 +169,12 @@ def hexs(text):
 
 
 def unhexs(digits):
-    return binascii.unhexlify(digits).decode("utf-8", "replace")
+    # nvim keeps a key with no character in a register as the bytes 0x80 0xXX
+    # 0xYY (K_SPECIAL); the engine's text is UTF-8, so it writes U+0080 and
+    # U+00FD there. Compare both the same way.
+    text = binascii.unhexlify(digits).decode("utf-8", "surrogateescape")
+    text = text.replace("\udc80", "\u0080").replace("\udcfd", "\u00fd")
+    return text.encode("utf-8", "replace").decode("utf-8")
 
 
 def case_hex_line(index, case):

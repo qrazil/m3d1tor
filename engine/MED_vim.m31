@@ -2297,6 +2297,8 @@ void start_insert(MED_editor.Editor editor, int cmd, int count, bool is_replace)
         editor.mode = MED_editor.REPLACE;
     }
     editor.ins_cmd = cmd;
+    editor.is_completing = false;
+    editor.is_virtual = false;
     editor.ins_count = count1(count);
     editor.ins_keys = [];
     editor.ins_text = "";
@@ -2323,6 +2325,35 @@ void ins_char(MED_editor.Editor editor, int code_point) {
     str text = str.from_chars([code_point]);
     str line = editor.buffer.line(editor.row);
     MED_buffer.Pos position = MED_buffer.Pos(editor.row, editor.col);
+    if (editor.mode == MED_editor.REPLACE && editor.is_virtual) {
+        // Virtual Replace: the new character covers screen cells; whole
+        // characters under them go (a TAB that reaches further stays)
+        int vcol = MED_text.display_col(line, editor.col, editor.tab);
+        int width = MED_text.cell_width(text, 0, vcol, editor.tab);
+        if (code_point == 9) {
+            width = editor.tab - (vcol % editor.tab);
+        }
+        int new_vcol = vcol + width;
+        int spot = vcol;
+        int stop = editor.col;
+        int extra = 0;
+        while (stop < line.size() && spot < new_vcol) {
+            spot = spot + MED_text.cell_width(line, stop, spot, editor.tab);
+            if (spot > new_vcol && line.byte_at(stop) == 9) {
+                break;
+            }
+            stop = MED_text.next_col(line, stop);
+            if (spot > new_vcol) {
+                extra = spot - new_vcol;
+            }
+        }
+        editor.replaced.push(line.substr(editor.col, stop));
+        editor.change(position, MED_buffer.Pos(editor.row, stop), text + " ".repeat(extra));
+        editor.col = editor.col + text.size();
+        editor.did_ai = false;
+        editor.ins_text = editor.ins_text + text;
+        return;
+    }
     if (editor.mode == MED_editor.REPLACE && editor.col < line.size()) {
         int next = MED_text.next_col(line, editor.col);
         editor.replaced.push(line.substr(editor.col, next));
@@ -2362,6 +2393,25 @@ void ins_cr(MED_editor.Editor editor) {
             }
         }
     }
+    if (editor.mode == MED_editor.REPLACE && editor.is_virtual) {
+        // Virtual Replace: the rest of the line goes and replacing goes on
+        // at the start of the next line
+        int size = line.size();
+        editor.replaced.push("\x01" + line.substr(cut, size));
+        editor.change(MED_buffer.Pos(editor.row, cut), MED_buffer.Pos(editor.row, size), "");
+        if (editor.row + 1 >= editor.buffer.line_count()) {
+            editor.change(MED_buffer.Pos(editor.row, cut), MED_buffer.Pos(editor.row, cut), "\n");
+        }
+        editor.row = editor.row + 1;
+        editor.col = 0;
+        str typed = editor.ins_text;
+        for (int code_point in indent.chars()) {
+            ins_char(editor, code_point);
+        }
+        editor.did_ai = editor.is_autoindent;
+        editor.ins_text = typed + "\n";
+        return;
+    }
     editor.change(MED_buffer.Pos(editor.row, cut), MED_buffer.Pos(editor.row, skip), "\n" + indent);
     editor.row = editor.row + 1;
     editor.col = indent.size();
@@ -2395,6 +2445,30 @@ bool is_in_indent_before(str line, int col) {
 bool did_ins_bs(MED_editor.Editor editor, int mode) {
     if (editor.row == 0 && editor.col == 0) {
         return false;
+    }
+    if (editor.col == 0 && editor.mode == MED_editor.REPLACE && editor.row <= editor.ins_start.row) {
+        // Replace mode on the line the replacing started on: only move
+        int back = editor.buffer.line_size(editor.row - 1);
+        if (editor.ins_start.row == editor.row) {
+            editor.ins_start = MED_buffer.Pos(editor.row - 1, back);
+        }
+        editor.row = editor.row - 1;
+        editor.col = back;
+        return true;
+    }
+    if (editor.col == 0 && editor.mode == MED_editor.REPLACE && editor.is_virtual && editor.replaced.size() > 0) {
+        str marker = editor.replaced.pop();
+        int back = editor.buffer.line_size(editor.row - 1);
+        if (editor.row >= editor.virtual_lines) {
+            editor.change(MED_buffer.Pos(editor.row - 1, back), MED_buffer.Pos(editor.row, editor.buffer.line_size(editor.row)), "");
+        }
+        editor.row = editor.row - 1;
+        editor.col = back;
+        if (marker.starts_with("\x01")) {
+            MED_buffer.Pos here = MED_buffer.Pos(editor.row, back);
+            editor.change(here, here, marker.substr(1, marker.size()));
+        }
+        return true;
     }
     if (editor.col == 0) {
         int size = editor.buffer.line_size(editor.row - 1);
@@ -2588,9 +2662,10 @@ void finish_insert(MED_editor.Editor editor) {
         editor.is_ins_at_eol = editor.col >= line.size();
         editor.o_lnum = editor.row;
     }
-    bool is_eol_kept = editor.is_ins_ctrl_o && editor.col > 0 && editor.col >= line.size();
+    // CTRL-O at the end of the line before anything was typed: the wanted
+    // column stays that of the end of the line
+    bool is_eol_kept = editor.is_ins_ctrl_o && !editor.is_ins_dirty && !editor.is_ins_restart && editor.col > 0 && editor.col >= line.size();
     if (is_eol_kept) {
-        // CTRL-O past the end of the line: the wanted column stays that of the end
         editor.want_from_cursor();
     }
     if (editor.col > 0 && (!editor.is_ins_ctrl_o || editor.col >= line.size())) {
@@ -2818,8 +2893,17 @@ void ins_move(MED_editor.Editor editor, int key) {
         editor.col = 0;
     } else if (key == 63237) {
         editor.col = line.size();
+    } else if (key == 63238 || key == 63239) {
+        int wanted = editor.want;
+        MED_view.did_page(editor, key == 63239, 1, false);
+        editor.want = wanted;
+        if (wanted < 0) {
+            editor.col = editor.buffer.line_size(editor.row);
+        } else {
+            editor.col = MED_motion.col_for_want(editor.buffer.line(editor.row), wanted, editor.tab, true);
+        }
     }
-    if (key != 63232 && key != 63233) {
+    if (key != 63232 && key != 63233 && key != 63238 && key != 63239) {
         editor.want_from_cursor();
     }
     if (key == 63237) {
@@ -2869,11 +2953,7 @@ void ins_register(MED_editor.Editor editor, str name, int kind) {
         case Some(MED_register.Reg reg): {
             int text_size = editor.ins_text.size();
             int keys_size = editor.ins_keys.size();
-            if (kind == 1) {
-                ins_literal_text(editor, reg.text());
-            } else {
-                ins_text(editor, reg.text());
-            }
+            ins_text_typed(editor, reg.text(), kind == 1);
             if (name == "-") {
                 // the small delete register is recorded by name, not by text
                 editor.ins_text = editor.ins_text.substr(0, text_size) + "\x12-";
@@ -2887,45 +2967,28 @@ void ins_register(MED_editor.Editor editor, str name, int kind) {
     }
 }
 
-// Insert `text` without any typing logic (no auto-indent, no 'textwidth').
-void ins_literal_text(MED_editor.Editor editor, str text) {
-    MED_buffer.Pos position = MED_buffer.Pos(editor.row, editor.col);
-    if (editor.mode == MED_editor.REPLACE) {
-        for (int code_point in text.chars()) {
-            if (code_point == 10) {
-                ins_cr(editor);
-            } else {
-                ins_char(editor, code_point);
-            }
-        }
-        return;
-    }
-    editor.change(position, position, text);
-    MED_buffer.Pos end = MED_buffer.advance(position, text);
-    editor.row = end.row;
-    editor.col = end.col;
-    editor.did_ai = false;
-    editor.ins_text = editor.ins_text + text;
+// Insert `text` as if typed (a newline starts a line, <Esc> leaves Insert
+// mode and what follows is typed in Normal mode). With `is_literal` control
+// characters other than <Tab> are inserted as themselves.
+void ins_text_typed(MED_editor.Editor editor, str text, bool is_literal) {
     for (int code_point in text.chars()) {
-        if (code_point == 10) {
-            editor.ins_keys.push(13);
-        } else {
+        bool is_insert = editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE;
+        if (!is_insert) {
+            feed_key(editor, code_point);
+        } else if (code_point == 10) {
+            insert_key(editor, 13);
+        } else if (is_literal && ((code_point < 32 && code_point != 9) || code_point == 127)) {
             editor.ins_keys.push(code_point);
+            ins_char(editor, code_point);
+        } else {
+            insert_key(editor, code_point);
         }
     }
 }
 
-// Insert `text` as if typed (a newline starts a line).
+// Insert `text` as if typed.
 void ins_text(MED_editor.Editor editor, str text) {
-    for (int code_point in text.chars()) {
-        if (code_point == 10) {
-            editor.ins_keys.push(13);
-            ins_cr(editor);
-        } else {
-            editor.ins_keys.push(code_point);
-            ins_char(editor, code_point);
-        }
-    }
+    ins_text_typed(editor, text, false);
 }
 
 // Typing after an arrow key starts a fresh insert (Vim's stop_arrow): only
@@ -3057,6 +3120,165 @@ void ins_literal_key(MED_editor.Editor editor, int next_col) {
     }
 }
 
+// ------------------------------------------------- keyword completion
+
+// Every keyword (at least two characters) in the buffer: rows, columns, words.
+type Occurrence {
+    pub int row = 0;
+    pub int col = 0;
+    pub str word = "";
+}
+
+List<Occurrence> keyword_occurrences(MED_editor.Editor editor) {
+    List<Occurrence> found = [];
+    for (int row in 0 .. editor.buffer.line_count()) {
+        str line = editor.buffer.line(row);
+        int index = 0;
+        while (index < line.size()) {
+            int code_point = MED_text.cp_at(line, index);
+            if (!is_wordc(code_point)) {
+                index = MED_text.next_col(line, index);
+                continue;
+            }
+            int start = index;
+            int length = 0;
+            while (index < line.size() && is_wordc(MED_text.cp_at(line, index))) {
+                index = MED_text.next_col(line, index);
+                length = length + 1;
+            }
+            if (length >= 2) {
+                Occurrence item = Occurrence();
+                item.row = row;
+                item.col = start;
+                item.word = line.substr(start, index);
+                found.push(item);
+            }
+        }
+    }
+    return found;
+}
+
+bool is_occurrence_before(Occurrence item, int row, int col) {
+    return item.row < row || (item.row == row && item.col < col);
+}
+
+// Begin CTRL-N / CTRL-P completion at the cursor; false when there is
+// nothing to complete with.
+bool did_start_completion(MED_editor.Editor editor, bool is_forward) {
+    str line = editor.buffer.line(editor.row);
+    int start = editor.col;
+    while (start > 0) {
+        int before = MED_text.previous_col(line, start);
+        if (!is_wordc(MED_text.cp_at(line, before))) {
+            break;
+        }
+        start = before;
+    }
+    str base = line.substr(start, editor.col);
+    List<Occurrence> all = keyword_occurrences(editor);
+    List<Occurrence> ordered = [];
+    List<Occurrence> after = [];
+    List<Occurrence> earlier = [];
+    for (Occurrence item in all) {
+        if (is_occurrence_before(item, editor.row, start)) {
+            earlier.push(item);
+        } else if (!is_occurrence_before(item, editor.row, editor.col)) {
+            after.push(item);
+        }
+    }
+    if (is_forward) {
+        for (Occurrence item in after) {
+            ordered.push(item);
+        }
+        for (Occurrence item in earlier) {
+            ordered.push(item);
+        }
+    } else {
+        int index = earlier.size();
+        while (index > 0) {
+            index = index - 1;
+            ordered.push(earlier[index]);
+        }
+        index = after.size();
+        while (index > 0) {
+            index = index - 1;
+            ordered.push(after[index]);
+        }
+    }
+    List<str> items = [base];
+    List<str> seen = [];
+    for (Occurrence item in ordered) {
+        if (!item.word.starts_with(base)) {
+            continue;
+        }
+        bool is_seen = false;
+        for (str known in seen) {
+            if (known == item.word) {
+                is_seen = true;
+                break;
+            }
+        }
+        if (is_seen) {
+            continue;
+        }
+        seen.push(item.word);
+        items.push(item.word);
+    }
+    if (items.size() == 1) {
+        return false;
+    }
+    if (!is_forward) {
+        // the list is kept in forward order: the nearest match before the
+        // cursor is the last item
+        List<str> reversed = [base];
+        int index = items.size();
+        while (index > 1) {
+            index = index - 1;
+            reversed.push(items[index]);
+        }
+        items = reversed;
+    }
+    editor.is_completing = true;
+    editor.completion_items = items;
+    editor.completion_index = 0;
+    editor.completion_col = start;
+    editor.completion_text = editor.ins_text;
+    editor.completion_keys = editor.ins_keys.size();
+    return true;
+}
+
+// Show the next (`step` 1) or previous (-1) item.
+void cycle_completion(MED_editor.Editor editor, int step) {
+    int count = editor.completion_items.size();
+    int index = (editor.completion_index + step + count) % count;
+    editor.completion_index = index;
+    str word = editor.completion_items[index];
+    editor.change(MED_buffer.Pos(editor.row, editor.completion_col), MED_buffer.Pos(editor.row, editor.col), word);
+    editor.col = editor.completion_col + word.size();
+    editor.did_ai = false;
+}
+
+// Leave completion keeping what is shown (`is_keep`) or the typed text.
+void end_completion(MED_editor.Editor editor, bool is_keep) {
+    if (!editor.is_completing) {
+        return;
+    }
+    if (!is_keep && editor.completion_index != 0) {
+        editor.completion_index = 0;
+        str word = editor.completion_items[0];
+        editor.change(MED_buffer.Pos(editor.row, editor.completion_col), MED_buffer.Pos(editor.row, editor.col), word);
+        editor.col = editor.completion_col + word.size();
+    }
+    editor.is_completing = false;
+    str base = editor.completion_items[0];
+    str word = editor.completion_items[editor.completion_index];
+    str added = word.substr(base.size(), word.size());
+    editor.ins_text = editor.completion_text + added;
+    for (int code_point in added.chars()) {
+        editor.ins_keys.push(code_point);
+    }
+}
+
 // CTRL-Y / CTRL-E: the character of the line above / below at the cursor's
 // screen column, or 0.
 int copy_char(MED_editor.Editor editor, int step) {
@@ -3163,6 +3385,61 @@ void insert_key(MED_editor.Editor editor, int key) {
         ins_literal_key(editor, key);
         return;
     }
+    if (editor.is_completing) {
+        if (key == 14 || key == 16) {
+            if (key == 14) {
+                cycle_completion(editor, 1);
+            } else {
+                cycle_completion(editor, -1);
+            }
+            return;
+        }
+        if (key == 25) {
+            end_completion(editor, true);
+            return;
+        }
+        if (key == 5) {
+            end_completion(editor, false);
+            return;
+        }
+        end_completion(editor, true);
+    }
+    if (editor.ins_wait == 24) {
+        editor.ins_wait = 0;
+        if (key == 14 || key == 16) {
+            stop_arrow(editor);
+            if (did_start_completion(editor, key == 14)) {
+                if (key == 14) {
+                    cycle_completion(editor, 1);
+                } else {
+                    cycle_completion(editor, -1);
+                }
+            } else {
+                editor.ins_wait = 24;
+            }
+            return;
+        }
+        if (key == 5 || key == 25) {
+            return;
+        }
+    }
+    if (key == 24) {
+        editor.ins_wait = 24;
+        return;
+    }
+    if (key == 14 || key == 16) {
+        stop_arrow(editor);
+        if (did_start_completion(editor, key == 14)) {
+            if (key == 14) {
+                cycle_completion(editor, 1);
+            } else {
+                cycle_completion(editor, -1);
+            }
+        } else {
+            editor.ins_wait = 24;
+        }
+        return;
+    }
     if (key == 27 || key == 3) {
         finish_insert(editor);
         return;
@@ -3198,8 +3475,23 @@ void insert_key(MED_editor.Editor editor, int key) {
         editor.ins_keys.push(22);
         return;
     }
-    if (key >= 63232 && key <= 63237) {
+    if (key >= 63232 && key <= 63239) {
         ins_move(editor, key);
+        return;
+    }
+    if (key == 1 || key == 0) {
+        stop_arrow(editor);
+        Option<MED_register.Reg> last = editor.regs.get(".");
+        match (last) {
+            case None: {
+            }
+            case Some(MED_register.Reg reg): {
+                ins_text(editor, reg.text());
+            }
+        }
+        if (key == 0) {
+            finish_insert(editor);
+        }
         return;
     }
     if (key == 5 || key == 25) {
@@ -3507,7 +3799,9 @@ bool did_cmd_tilde(MED_editor.Editor editor, int count) {
         editor.noop_node();
     }
     editor.col = end;
-    editor.clamp();
+    if (editor.restart_edit == 0) {
+        editor.clamp();
+    }
     editor.want_from_cursor();
     return true;
 }
@@ -3832,6 +4126,14 @@ bool did_run_g(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> type
         editor.want_from_cursor();
         return is_ok;
     }
+    if (second == 82) {
+        // gR: Virtual Replace mode, handled like Replace mode
+        record_dot(editor, parsed);
+        start_insert(editor, 82, count, true);
+        editor.is_virtual = true;
+        editor.virtual_lines = editor.buffer.line_count();
+        return true;
+    }
     if (second == 73) {
         record_dot(editor, parsed);
         editor.col = 0;
@@ -3984,8 +4286,14 @@ void feed_key(MED_editor.Editor editor, int key) {
         editor.want_from_cursor();
     }
     if (editor.macro_reg != "" && !editor.is_replaying) {
+        bool is_stop = key == 113 && editor.pending.size() == 0 && (editor.mode == MED_editor.NORMAL || editor.mode == MED_editor.VISUAL);
+        if (editor.is_char_done && !is_stop) {
+            // nvim records K_IGNORE after the character of f, t, r ... once more keys follow
+            editor.macro_keys.push(MED_key.IGNORE);
+        }
         editor.macro_keys.push(key);
     }
+    editor.is_char_done = false;
     if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) {
         insert_key(editor, key);
         return;
@@ -4025,6 +4333,12 @@ void feed_pending(MED_editor.Editor editor) {
     }
     List<int> typed = editor.pending;
     editor.pending = [];
+    if (parsed.keys.size() == 2 && (parsed.keys[0] == 102 || parsed.keys[0] == 116 || parsed.keys[0] == 70 || parsed.keys[0] == 84 || parsed.keys[0] == 114)) {
+        editor.is_char_done = true;
+    }
+    if (parsed.keys.size() == 3 && parsed.keys[0] == 103 && parsed.keys[1] == 114) {
+        editor.is_char_done = true;
+    }
     if (parsed.status == MED_parse.INVALID) {
         if (!(typed.size() > 0 && typed[typed.size() - 1] == 27)) {
             editor.is_failed = true;
@@ -4651,6 +4965,8 @@ bool did_cmd_addsub(MED_editor.Editor editor, bool is_sub, int count) {
     editor.col = nr_result.endcol;
     editor.marks.set("[", MED_buffer.Pos(editor.row, nr_result.startcol));
     editor.marks.set("]", MED_buffer.Pos(editor.row, nr_result.endcol));
+    // nvim reports the whole line as changed: the `.` mark is at its start
+    editor.note_change(MED_buffer.Pos(editor.row, 0));
     editor.clamp();
     editor.want_from_cursor();
     return true;
@@ -4725,6 +5041,7 @@ bool did_visual_addsub(MED_editor.Editor editor, Oap oap, bool is_sub, bool is_p
     if (changes > 0) {
         editor.marks.set("[", first);
         editor.marks.set("]", last);
+        editor.note_change(MED_buffer.Pos(oap.start.row, 0));
     } else {
         editor.noop_node();
     }

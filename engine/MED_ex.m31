@@ -222,7 +222,13 @@ Step run_map(MED_editor.Editor editor, Cmd cmd) {
 
 // `:let mapleader = " "`; other variables are accepted and ignored.
 Step run_let(MED_editor.Editor editor, Cmd cmd) {
-    str text = cmd.arg;
+    str text = cmd.arg.trim();
+    if (text.starts_with("@")) {
+        return let_register(editor, text);
+    }
+    if (text.starts_with("&")) {
+        return let_option(editor, text);
+    }
     int equals = text.index_of("=").or(-1);
     if (equals < 0) {
         return done();
@@ -249,6 +255,115 @@ Step run_let(MED_editor.Editor editor, Cmd cmd) {
         inner = str.from_chars(keys);
     }
     editor.maps.leader = inner;
+    return done();
+}
+
+// Every register's text, for `@x` in an expression.
+MED_expr.Context expression_context(MED_editor.Editor editor) {
+    MED_expr.Context context = MED_expr.Context();
+    context.line_now = editor.row + 1;
+    context.line_last = editor.buffer.line_count();
+    for (int code in 0 .. 128) {
+        str name = str.from_chars([code]);
+        if (!MED_register.is_valid(name)) {
+            continue;
+        }
+        match (editor.regs.get(name)) {
+            case None: {
+            }
+            case Some(MED_register.Reg reg): {
+                str body = reg.text();
+                if (reg.kind == MED_register.LINE) {
+                    body = body + "\n";
+                }
+                context.registers.set(name, body);
+            }
+        }
+    }
+    return context;
+}
+
+// `:let @a = expr`, `:let @a .= expr`
+Step let_register(MED_editor.Editor editor, str text) {
+    if (text.size() < 3) {
+        return fail(editor, "E15: Invalid expression: " + text);
+    }
+    str name = text.substr(1, 2);
+    str rest = text.substr(2, text.size()).trim();
+    bool is_append = false;
+    if (rest.starts_with(".=")) {
+        is_append = true;
+        rest = rest.substr(2, rest.size());
+    } else if (rest.starts_with("=")) {
+        rest = rest.substr(1, rest.size());
+    } else {
+        return fail(editor, "E15: Invalid expression: " + text);
+    }
+    MED_expr.Evaluated value = MED_expr.eval(rest.trim(), expression_context(editor));
+    if (!value.is_ok) {
+        return fail(editor, value.error);
+    }
+    str body = value.text;
+    if (name == "/") {
+        if (is_append) {
+            body = editor.regs.last_search + body;
+        }
+        editor.regs.set_special("/", body);
+        editor.search_pattern = body;
+        editor.is_last_is_sub = false;
+        return done();
+    }
+    if (!MED_register.is_valid(name) || name == "\"" || name == "_" || name == "." || name == ":" || name == "%" || name == "#" || name == "=") {
+        return done();
+    }
+    int kind = MED_register.CHAR;
+    List<str> lines = body.split("\n");
+    if (body.ends_with("\n")) {
+        kind = MED_register.LINE;
+        lines.pop();
+    }
+    if (is_append) {
+        editor.regs.set_named(MED_case.upper(name), MED_register.Reg(lines, kind));
+    } else {
+        editor.regs.set_named(MED_case.lower(name), MED_register.Reg(lines, kind));
+    }
+    return done();
+}
+
+// `:let &tabstop = 4` and friends: the same as `:set`
+Step let_option(MED_editor.Editor editor, str text) {
+    int equals = text.index_of("=").or(-1);
+    if (equals < 0) {
+        return fail(editor, "E15: Invalid expression: " + text);
+    }
+    str name = text.substr(1, equals).trim();
+    str operator = "=";
+    if (name.ends_with("+") || name.ends_with("-") || name.ends_with("^")) {
+        operator = name.substr(name.size() - 1, name.size()) + "=";
+        name = name.substr(0, name.size() - 1).trim();
+    }
+    MED_expr.Evaluated value = MED_expr.eval(text.substr(equals + 1, text.size()).trim(), expression_context(editor));
+    if (!value.is_ok) {
+        return fail(editor, value.error);
+    }
+    if (name.starts_with("l:") || name.starts_with("g:")) {
+        name = name.substr(2, name.size());
+    }
+    MED_option.Spec spec = MED_option.find(name);
+    if (spec.name == "") {
+        return fail(editor, "E355: Unknown option: " + name);
+    }
+    List<str> command = [];
+    command.push("set " + name + operator + value.text.split(" ").join("\\ "));
+    if (spec.kind == "bool") {
+        command = [];
+        if (value.text == "0" || value.text == "") {
+            command.push("set no" + name);
+        } else {
+            command.push("set " + name);
+        }
+    }
+    editor.ex_queue.push(command[0]);
     return done();
 }
 

@@ -11,6 +11,7 @@
 // abs, trim, strpart, nr2char, char2nr. Anything else is an error.
 
 import engine.MED_case;
+import engine.MED_key;
 
 pub type Context {
     /// The whole match, then \1 .. \9.
@@ -18,6 +19,8 @@ pub type Context {
     /// `line(".")` and `line("$")`, 1-based.
     pub int line_now = 1;
     pub int line_last = 1;
+    /// What `@x` reads: register name -> text.
+    pub Map<str, str> registers = {};
 }
 
 pub type Evaluated {
@@ -331,6 +334,16 @@ Value Parser.primary() {
     if (code == 34) {
         return double_quoted();
     }
+    if (code == 64) {
+        position = position + 1;
+        int name_code = peek();
+        if (name_code < 0) {
+            fail("E15: Invalid expression");
+            return number_value(0);
+        }
+        position = position + 1;
+        return text_value(context.registers.get(str.from_chars([name_code])).or(""));
+    }
     if (code == 40) {
         position = position + 1;
         Value inner = ternary();
@@ -424,6 +437,22 @@ Value Parser.double_quoted() {
                 position = position + 1;
             }
             out.push(value);
+        } else if (next == 60) {
+            // "\<Esc>": the key as a register holds it
+            int stop = position;
+            while (stop < chars.size() && chars[stop] != 62 && chars[stop] != 34 && stop - position < 20) {
+                stop = stop + 1;
+            }
+            if (stop < chars.size() && chars[stop] == 62) {
+                str notation = "<" + str.from_chars(chars.slice(position, stop)) + ">";
+                List<int> keys = MED_key.parse(notation, leader: " ");
+                for (int made in MED_key.encode(keys).chars()) {
+                    out.push(made);
+                }
+                position = stop + 1;
+            } else {
+                out.push(next);
+            }
         } else if (next >= 0) {
             out.push(next);
         }

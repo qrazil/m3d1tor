@@ -170,6 +170,8 @@ pub type Editor {
     pub bool is_replaying = false;
     pub str macro_reg = "";
     pub List<int> macro_keys = [];
+    /// The last command took a character argument (f, t, r ...): see `feed_key`.
+    pub bool is_char_done = false;
     pub str last_macro = "";
     /// Insert session.
     pub int ins_cmd = 0;
@@ -253,6 +255,19 @@ pub type Editor {
     pub int mode_before_cmd = 0;
     /// Insert mode waiting for the key after CTRL-R / CTRL-V.
     pub int ins_wait = 0;
+    /// Keyword completion (CTRL-N / CTRL-P) in progress: the items (the first
+    /// is the typed text), the shown one, where the word starts, and what
+    /// `ins_text` / `ins_keys` held when it began.
+    pub bool is_completing = false;
+    /// Virtual Replace mode (gR): replaces screen cells, and the number of
+    /// lines the buffer had when it began.
+    pub bool is_virtual = false;
+    pub int virtual_lines = 0;
+    pub List<str> completion_items = [];
+    pub int completion_index = 0;
+    pub int completion_col = 0;
+    pub str completion_text = "";
+    pub int completion_keys = 0;
     /// State of a CTRL-V number being typed (Vim's get_literal).
     pub bool is_lit_hex = false;
     pub bool is_lit_octal = false;

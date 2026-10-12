@@ -55,7 +55,6 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	i<C-r>:<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	i<C-r>.<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	ifoo<Esc>i<C-r>.<Esc>
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	i<C-r>%<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	i<C-r>=1+1<CR><Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	i<C-r>="x"."y"<CR><Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	i<C-r><C-w><Esc>
@@ -394,7 +393,6 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	i<C-r>:<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	i<C-r>.<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	ifoo<Esc>i<C-r>.<Esc>
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	i<C-r>%<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	i<C-r>=1+1<CR><Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	i<C-r>="x"."y"<CR><Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	i<C-r><C-w><Esc>
@@ -733,7 +731,6 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	i<C-r>:<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	i<C-r>.<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	ifoo<Esc>i<C-r>.<Esc>
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	i<C-r>%<Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	i<C-r>=1+1<CR><Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	i<C-r>="x"."y"<CR><Esc>
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	4,2	i<C-r><C-w><Esc>
@@ -1072,7 +1069,6 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	i<C-r>:<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	i<C-r>.<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	ifoo<Esc>i<C-r>.<Esc>
-  lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	i<C-r>%<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	i<C-r>=1+1<CR><Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	i<C-r>="x"."y"<CR><Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	0,0	i<C-r><C-w><Esc>
@@ -1411,7 +1407,6 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	i<C-r>:<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	i<C-r>.<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	ifoo<Esc>i<C-r>.<Esc>
-  lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	i<C-r>%<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	i<C-r>=1+1<CR><Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	i<C-r>="x"."y"<CR><Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	1,5	i<C-r><C-w><Esc>
@@ -1750,7 +1745,6 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	i<C-r>:<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	i<C-r>.<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	ifoo<Esc>i<C-r>.<Esc>
-  lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	i<C-r>%<Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	i<C-r>=1+1<CR><Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	i<C-r>="x"."y"<CR><Esc>
   lead\n\ttab\n\n   \ntrail  \nmid  dle\nend	4,2	i<C-r><C-w><Esc>

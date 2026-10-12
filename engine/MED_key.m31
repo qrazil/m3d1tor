@@ -303,18 +303,122 @@ pub str show(List<int> keys) {
     return parts.join("");
 }
 
-/// Keys as plain text, for a macro register: each key is one scalar value,
-/// special keys as their private-use code. Modified keys lose their modifier
-/// bits to a private-use escape (rare in macros), see `decode`.
-pub str encode(List<int> keys) {
-    List<int> chars = [];
-    for (int key in keys) {
-        chars.push(key & CODE_MASK);
+/// Nvim keeps a key with no character in a register as K_SPECIAL (0x80) and
+/// two more bytes. A `str` is UTF-8, so the first byte is U+0080 here.
+pub const int SPECIAL = 128;
+/// What nvim records after the character of `f`, `t`, `r` ... when more keys
+/// follow: K_IGNORE, nothing when replayed.
+pub const int IGNORE = 63301;
+
+// The two characters after K_SPECIAL for a key, or "".
+str special_tail(int key) {
+    if (key == UP_KEY) {
+        return "ku";
     }
-    return str.from_chars(chars);
+    if (key == DOWN) {
+        return "kd";
+    }
+    if (key == LEFT) {
+        return "kl";
+    }
+    if (key == RIGHT) {
+        return "kr";
+    }
+    if (key == HOME) {
+        return "kh";
+    }
+    if (key == END) {
+        return "@7";
+    }
+    if (key == PAGE_UP) {
+        return "kP";
+    }
+    if (key == PAGE_DOWN) {
+        return "kN";
+    }
+    if (key == DEL) {
+        return "kD";
+    }
+    if (key == INSERT) {
+        return "kI";
+    }
+    if (key == BACKSPACE) {
+        return "kb";
+    }
+    if (key > FKEY_BASE && key <= FKEY_BASE + 9) {
+        return "k" + (key - FKEY_BASE).to_str();
+    }
+    if (key == FKEY_BASE + 10) {
+        return "k;";
+    }
+    if (key == FKEY_BASE + 11) {
+        return "F1";
+    }
+    if (key == FKEY_BASE + 12) {
+        return "F2";
+    }
+    return "";
 }
 
-/// The keys a macro register holds.
+/// Keys as plain text, for a macro register. Keys with no character of their
+/// own are written the way nvim does, with U+0080 for its K_SPECIAL byte.
+pub str encode(List<int> keys) {
+    str out = "";
+    List<int> chars = [];
+    for (int key in keys) {
+        int code = key & CODE_MASK;
+        str tail = special_tail(code);
+        if (code == IGNORE) {
+            out = out + str.from_chars(chars) + str.from_chars([SPECIAL, 253]) + "5";
+            chars = [];
+        } else if (tail != "") {
+            out = out + str.from_chars(chars) + str.from_chars([SPECIAL]) + tail;
+            chars = [];
+        } else {
+            chars.push(code);
+        }
+    }
+    return out + str.from_chars(chars);
+}
+
+/// The keys a register holds when it is replayed.
 pub List<int> decode(str text) {
-    return text.chars();
+    List<int> chars = text.chars();
+    List<int> keys = [];
+    int index = 0;
+    while (index < chars.size()) {
+        int code = chars[index];
+        if (code == SPECIAL && index + 2 < chars.size()) {
+            int first = chars[index + 1];
+            int second = chars[index + 2];
+            if (first == 253 && second == 53) {
+                index = index + 3;
+                continue;
+            }
+            int found = 0;
+            for (int candidate in special_keys()) {
+                str tail = special_tail(candidate);
+                if (tail.byte_at(0) == first && tail.byte_at(1) == second) {
+                    found = candidate;
+                    break;
+                }
+            }
+            if (found != 0) {
+                keys.push(found);
+                index = index + 3;
+                continue;
+            }
+        }
+        keys.push(code);
+        index = index + 1;
+    }
+    return keys;
+}
+
+List<int> special_keys() {
+    List<int> found = [UP_KEY, DOWN, LEFT, RIGHT, HOME, END, PAGE_UP, PAGE_DOWN, DEL, INSERT, BACKSPACE];
+    for (int number in 1 .. 13) {
+        found.push(FKEY_BASE + number);
+    }
+    return found;
 }

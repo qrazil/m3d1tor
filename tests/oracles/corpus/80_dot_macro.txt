@@ -287,10 +287,9 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaIX<Esc>q"aP
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaA<Esc>q"ap
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaiab<Esc>q"ap
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaiab<BS>c<Esc>q"ap
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaiab<Left>c<Esc>q"ap
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaiab<BS>c<Esc>q"ap0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaiab<Left>c<Esc>q"ap0
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qa<Esc>q"ap
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qa<C-w>q"ap
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaq
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaqq@a
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	0,0	qaxq"aY
@@ -602,10 +601,9 @@ The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaIX<Esc>q"aP
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaA<Esc>q"ap
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaiab<Esc>q"ap
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaiab<BS>c<Esc>q"ap
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaiab<Left>c<Esc>q"ap
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaiab<BS>c<Esc>q"ap0
+The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaiab<Left>c<Esc>q"ap0
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qa<Esc>q"ap
-The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qa<C-w>q"ap
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaq
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaqq@a
 The quick brown fox jumps over the lazy dog.\nPack my box with five dozen liquor jugs!\n\nHow vexingly quick daft zebras jump?\nSphinx of black quartz, judge my vow.	1,5	qaxq"aY
@@ -917,10 +915,9 @@ alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaIX<Esc>q"aP
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaA<Esc>q"ap
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaiab<Esc>q"ap
-alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaiab<BS>c<Esc>q"ap
-alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaiab<Left>c<Esc>q"ap
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaiab<BS>c<Esc>q"ap0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaiab<Left>c<Esc>q"ap0
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qa<Esc>q"ap
-alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qa<C-w>q"ap
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaq
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaqq@a
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	0,0	qaxq"aY
@@ -1232,10 +1229,9 @@ alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaIX<Esc>q"aP
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaA<Esc>q"ap
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaiab<Esc>q"ap
-alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaiab<BS>c<Esc>q"ap
-alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaiab<Left>c<Esc>q"ap
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaiab<BS>c<Esc>q"ap0
+alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaiab<Left>c<Esc>q"ap0
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qa<Esc>q"ap
-alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qa<C-w>q"ap
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaq
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaqq@a
 alpha 1\nbeta 22\ngamma 333\ndelta 4444\nepsilon 55555\nzeta 6\neta 77\ntheta 8\niota 9\nkappa 10\nlambda 11\nmu 12\nnu 13\nxi 14	1,5	qaxq"aY

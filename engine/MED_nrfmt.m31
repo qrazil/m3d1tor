@@ -5,8 +5,9 @@
 // decimal, 0x hex and 0b binary numbers, a '-' directly before a decimal number
 // makes it negative, leading zeros keep the width.
 //
-// Numbers are 64-bit signed here, Vim's are unsigned 64-bit: a decimal number of
-// 2^63 or more is treated as too large and left alone (DESIGN.md section 7).
+// Numbers are unsigned 64-bit like Vim's, kept as two 32-bit halves because an
+// m31 `int` is signed. A number that does not fit becomes the largest one and
+// is not changed further.
 
 import engine.MED_text;
 
@@ -67,39 +68,154 @@ int back_one(str text, int index) {
     return offset;
 }
 
-str hex_digits(int n_in, bool is_upper) {
-    int count = n_in;
+const int HALF = 4294967296;
+const int HALF_MASK = 4294967295;
+
+// An unsigned 64-bit number.
+type Wide {
+    int high = 0;
+    int low = 0;
+}
+
+bool Wide.is_zero() {
+    return high == 0 && low == 0;
+}
+
+// Add `other`; true when the sum wrapped around.
+bool Wide.did_wrap_add(Wide other) {
+    int sum_low = low + other.low;
+    int carry = sum_low / HALF;
+    int sum_high = high + other.high + carry;
+    low = sum_low % HALF;
+    high = sum_high % HALF;
+    return sum_high >= HALF;
+}
+
+// Subtract `other`; true when the result wrapped below zero.
+bool Wide.did_wrap_sub(Wide other) {
+    int diff_low = low - other.low;
+    int borrow = 0;
+    if (diff_low < 0) {
+        diff_low = diff_low + HALF;
+        borrow = 1;
+    }
+    int diff_high = high - other.high - borrow;
+    bool is_wrapped = false;
+    if (diff_high < 0) {
+        diff_high = diff_high + HALF;
+        is_wrapped = true;
+    }
+    low = diff_low;
+    high = diff_high;
+    return is_wrapped;
+}
+
+// Vim's `n = 1 + (n ^ -1)`: negate a wrapped number.
+void Wide.negate_wrapped() {
+    high = high ^ HALF_MASK;
+    low = low ^ HALF_MASK;
+    did_wrap_add(wide_of(1));
+}
+
+// The wrapped sum's complement: `n ^ -1`.
+void Wide.flip_bits() {
+    high = high ^ HALF_MASK;
+    low = low ^ HALF_MASK;
+}
+
+str Wide.decimal() {
+    int top = high;
+    int bottom = low;
     List<str> out = [];
-    for (int i in 0 .. 16) {
-        int delta = count & 15;
-        count = (count >> 4) & 1152921504606846975;
-        if (delta < 10) {
-            out.push(str.from_chars([48 + delta]));
-        } else if (is_upper) {
-            out.push(str.from_chars([55 + delta]));
-        } else {
-            out.push(str.from_chars([87 + delta]));
-        }
-        if (count == 0) {
-            break;
-        }
+    while (top > 0 || bottom > 0) {
+        int rest = top % 10;
+        top = top / 10;
+        int joined = rest * HALF + bottom;
+        bottom = joined / 10;
+        out.push(str.from_chars([48 + joined % 10]));
+    }
+    if (out.size() == 0) {
+        return "0";
     }
     out.reverse();
     return out.join("");
 }
 
-str bin_digits(int n_in) {
-    int count = n_in;
+str Wide.hex(bool is_upper) {
     List<str> out = [];
-    for (int i in 0 .. 64) {
-        out.push(str.from_chars([48 + (count & 1)]));
-        count = (count >> 1) & 9223372036854775807;
-        if (count == 0) {
-            break;
+    bool is_started = false;
+    for (int shift in 0 .. 16) {
+        int value = 0;
+        int index = 15 - shift;
+        if (index >= 8) {
+            value = (high >> ((index - 8) * 4)) & 15;
+        } else {
+            value = (low >> (index * 4)) & 15;
+        }
+        if (value != 0) {
+            is_started = true;
+        }
+        if (!is_started && index > 0) {
+            continue;
+        }
+        if (value < 10) {
+            out.push(str.from_chars([48 + value]));
+        } else if (is_upper) {
+            out.push(str.from_chars([55 + value]));
+        } else {
+            out.push(str.from_chars([87 + value]));
         }
     }
-    out.reverse();
     return out.join("");
+}
+
+str Wide.binary() {
+    List<str> out = [];
+    bool is_started = false;
+    for (int shift in 0 .. 64) {
+        int index = 63 - shift;
+        int bit = 0;
+        if (index >= 32) {
+            bit = (high >> (index - 32)) & 1;
+        } else {
+            bit = (low >> index) & 1;
+        }
+        if (bit != 0) {
+            is_started = true;
+        }
+        if (!is_started && index > 0) {
+            continue;
+        }
+        out.push(str.from_chars([48 + bit]));
+    }
+    return out.join("");
+}
+
+Wide wide_of(int value) {
+    Wide made = Wide();
+    made.high = value / HALF;
+    made.low = value % HALF;
+    return made;
+}
+
+Wide wide_max() {
+    Wide made = Wide();
+    made.high = HALF_MASK;
+    made.low = HALF_MASK;
+    return made;
+}
+
+// `number * factor + digit`; false when it does not fit 64 bits.
+bool did_scale(Wide number, int factor, int digit) {
+    int low = number.low * factor + digit;
+    int carry = low / HALF;
+    int high = number.high * factor + carry;
+    if (high >= HALF) {
+        return false;
+    }
+    number.low = low % HALF;
+    number.high = high;
+    return true;
 }
 
 /// Add (or subtract) `amount` to the number at or after byte `col` of `line`.
@@ -190,30 +306,34 @@ pub NrResult addsub(str line, int col_in, int length_in, bool is_sub, int amount
             pre = x;
         }
     }
-    int count = 0;
+    Wide number = Wide();
     bool is_overflow = false;
     if (pre == 120 || pre == 88) {
         index = index + 2;
         while (index < limit && is_xdigit(at(pointer, index))) {
-            count = (count << 4) | xval(at(pointer, index));
+            if (!did_scale(number, 16, xval(at(pointer, index)))) {
+                is_overflow = true;
+            }
             index = index + 1;
         }
     } else if (pre == 98 || pre == 66) {
         index = index + 2;
         while (index < limit && is_bdigit(at(pointer, index))) {
-            count = (count << 1) | (at(pointer, index) - 48);
+            if (!did_scale(number, 2, at(pointer, index) - 48)) {
+                is_overflow = true;
+            }
             index = index + 1;
         }
     } else {
         while (index < limit && is_digit(at(pointer, index))) {
-            int delta = at(pointer, index) - 48;
-            if (count > (9223372036854775807 - delta) / 10) {
+            if (!did_scale(number, 10, at(pointer, index) - 48)) {
                 is_overflow = true;
-            } else {
-                count = count * 10 + delta;
             }
             index = index + 1;
         }
+    }
+    if (is_overflow) {
+        number = wide_max();
     }
     int numlen = index - digit_start;
     int current_length = numlen;
@@ -230,27 +350,25 @@ pub NrResult addsub(str line, int col_in, int length_in, bool is_sub, int amount
     if (is_negative) {
         is_subtract = !is_subtract;
     }
-    if (is_overflow) {
-        return nr_result;
-    }
-    if (pre == 0) {
-        // `is_subtract` already accounts for the sign: work on the magnitude
-        int mag = count + amount;
+    if (!is_overflow) {
+        Wide step = wide_of(amount);
+        bool is_wrapped = false;
         if (is_subtract) {
-            mag = count - amount;
+            is_wrapped = number.did_wrap_sub(step);
+            if (pre == 0 && is_wrapped) {
+                number.negate_wrapped();
+                is_negative = !is_negative;
+            }
+        } else {
+            is_wrapped = number.did_wrap_add(step);
+            if (pre == 0 && is_wrapped) {
+                number.flip_bits();
+                is_negative = !is_negative;
+            }
         }
-        if (mag < 0) {
-            mag = 0 - mag;
-            is_negative = !is_negative;
-        }
-        count = mag;
-        if (count == 0) {
+        if (pre == 0 && number.is_zero()) {
             is_negative = false;
         }
-    } else if (is_subtract) {
-        count = count - amount;
-    } else {
-        count = count + amount;
     }
     if (is_visual && !was_positive && !is_negative && col > 0) {
         // the '-' goes
@@ -285,11 +403,11 @@ pub NrResult addsub(str line, int col_in, int length_in, bool is_sub, int amount
     }
     str digits = "";
     if (pre == 98 || pre == 66) {
-        digits = bin_digits(count);
+        digits = number.binary();
     } else if (pre == 0) {
-        digits = count.to_str();
+        digits = number.decimal();
     } else {
-        digits = hex_digits(count, is_upper);
+        digits = number.hex(is_upper);
     }
     length2 = length2 - digits.size();
     if (firstdigit == 48) {
