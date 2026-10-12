@@ -78,6 +78,24 @@ def drain(master, quiet=QUIET, limit=120.0, first_byte=False):
     return last - start, got
 
 
+def send(master, data, chunk=4096):
+    """Write `data` to the pty without deadlocking: output is read while input is written."""
+    view = memoryview(data)
+    while len(view):
+        ready_read, ready_write, _ = select.select([master], [master], [], 1.0)
+        if ready_read:
+            try:
+                os.read(master, 65536)
+            except OSError:
+                return
+        if ready_write:
+            try:
+                written = os.write(master, view[:chunk])
+            except OSError:
+                return
+            view = view[written:]
+
+
 def hwm_kb(pid):
     try:
         with open("/proc/%d/status" % pid) as f:
@@ -120,7 +138,7 @@ def session(name, binary, path, steps, cwd):
     result["open"] = open_seconds
     for label, keys in steps:
         began = time.time()
-        os.write(master, keys)
+        send(master, keys)
         quiet_seconds, _ = drain(master)
         result[label] = time.time() - began - QUIET
     peak = hwm_kb(proc.pid)
@@ -186,6 +204,10 @@ def main():
                 steps.append(("page down x200", b"\x06" * 200 if name != "hx" else b"\x06" * 200))
             if want("typing"):
                 steps.append(("type 2000 chars", b"i" + b"x" * 2000 + b"\x1b" if name != "hx" else b"i" + b"x" * 2000 + b"\x1b"))
+            if want("typing"):
+                # a bracketed paste of 1 MB of text in Insert mode: one edit, one frame
+                text = (b"the quick brown fox jumps over the lazy dog\n" * 24000)[:1000000]
+                steps.append(("paste 1MB (bracketed)", b"gg" + b"i" + b"\x1b[200~" + text + b"\x1b[201~" + b"\x1b"))
             if want("replace") and name != "hx":
                 steps.append(("replace-all :%s", b":%s/alpha/omega/g\r"))
             result, peak = session(name, binary, big, steps, work)

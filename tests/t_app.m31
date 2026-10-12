@@ -107,6 +107,16 @@ match (MED_app.open(path)) {
         check.eq_str("filler", screen.row_text(2).trim(), "~");
         check.ok("status shows the mode", screen.row_text(6).contains(" NORMAL "));
         check.ok("status shows the flag", screen.row_text(6).contains("[+]"));
+        // a bracketed paste is plain text: no autoindent, no jk, no auto-pairs, one undo step
+        type_text(app, "ccindented\n");
+        type_text(app, "    ");
+        app.handle(term.Event.Paste("a(b\n    jk\n"));
+        app.handle(named(term.Code.Escape));
+        check.eq_str("paste keeps its lines", app.editor.buffer.line(2), "    a(b");
+        check.eq_str("paste does not autoindent or pair", app.editor.buffer.line(3), "    jk");
+        check.eq_int("paste stays one undo step", app.editor.mode, MED_editor.NORMAL);
+        type_text(app, "u");
+        check.eq_str("undo removes the whole insert", app.editor.buffer.line(1), "world");
         check.ok(":q is refused", !is_quit(type_text(app, ":q\n")));
         check.ok("E37 shown", app.notice.starts_with("E37"));
         check.ok(":w does not quit", !is_quit(type_text(app, ":w\n")));

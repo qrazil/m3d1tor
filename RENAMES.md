@@ -37,7 +37,7 @@ v0.1.0 acceptance, DESIGN section 9, is not met).
 
 ## tui 0.5.0
 
-`deps` now pins `tui` 1609d91 (v0.5.0), which moved its modules into folders, so
+`deps` now pins `tui` 5327361 (v0.5.0 plus drain_events), which moved its modules into folders, so
 the tui imports changed with it (same modules, see tui's RENAMES.md):
 
 | old | new |

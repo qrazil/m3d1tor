@@ -31,11 +31,13 @@ seed (--seed), so a failure reproduces. A failing fuzz case is shrunk and
 printed as a corpus line.
 """
 import argparse
+import atexit
 import binascii
 import concurrent.futures
 import glob
 import os
 import random
+import signal
 import subprocess
 import sys
 import tempfile
@@ -182,19 +184,56 @@ def case_hex_line(index, case):
                       ",".join(str(k) for k in case.keys), ",".join(case.plugins.split())])
 
 
+CHILDREN = set()
+
+
+def kill_child(proc):
+    """Kill a spawned nvim (and its process group) by pid, then reap it."""
+    try:
+        if proc.poll() is None:
+            os.killpg(proc.pid, signal.SIGKILL)
+    except (ProcessLookupError, PermissionError):
+        pass
+    try:
+        proc.wait(timeout=5)
+    except Exception:  # noqa
+        pass
+
+
+def kill_all_children(*_args):
+    for proc in list(CHILDREN):
+        kill_child(proc)
+
+
+atexit.register(kill_all_children)
+for _sig in (signal.SIGTERM, signal.SIGINT, signal.SIGHUP):
+    signal.signal(_sig, lambda num, frame: (kill_all_children(), os._exit(128 + num)))
+
+
 def run_nvim_case(case, tmp):
     out = os.path.join(tmp, "n%d_%d.txt" % (os.getpid(), random.getrandbits(32)))
     cmd = [NVIM, "--headless", "-u", "NONE", "-i", "NONE", "-n", "-l", DRIVER, out,
            hexs(case.text), str(case.row), str(case.col), ",".join(str(k) for k in case.keys),
            case.plugins]
+    proc = None
     try:
-        subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20,
-                       stdin=subprocess.DEVNULL)
+        # own session so the whole process group can be killed; always reaped in finally
+        proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                stdin=subprocess.DEVNULL, start_new_session=True)
+        CHILDREN.add(proc)
+        try:
+            proc.wait(timeout=20)
+        except subprocess.TimeoutExpired:
+            kill_child(proc)
         with open(out, encoding="utf-8") as f:
             line = f.read().rstrip("\n")
         os.unlink(out)
     except Exception as e:  # noqa
         return None
+    finally:
+        if proc is not None:
+            kill_child(proc)
+            CHILDREN.discard(proc)
     return line.split("\t")
 
 

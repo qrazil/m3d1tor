@@ -29,6 +29,7 @@ import ui.MED_git;
 import ui.MED_grep;
 import engine.MED_key;
 import engine.MED_listing;
+import engine.MED_map;
 import ui.MED_keymap;
 import ui.MED_picker;
 import ui.MED_picker_view;
@@ -1689,6 +1690,46 @@ void App.flush_clipboard() {
     }
 }
 
+/// Whether `event` is a bracketed paste arriving in Insert or Replace mode.
+bool App.is_paste_in_insert(term.Event event) {
+    if (editor.mode != MED_editor.INSERT && editor.mode != MED_editor.REPLACE) {
+        return false;
+    }
+    match (event) {
+        case Paste(str text): {
+            return true;
+        }
+        case Key(term.Key key): {
+        }
+        case Mouse(term.Mouse mouse): {
+        }
+        case Unknown(bytes data): {
+        }
+    }
+    return false;
+}
+
+/// Insert pasted keys as plain typed text, as Vim's bracketed paste does.
+bool App.did_quit_after_paste(List<int> keys) {
+    bool was_autoindent = editor.is_autoindent;
+    str was_pairs = editor.opts.get("autopairs").or("");
+    MED_map.Maps was_maps = editor.maps;
+    editor.is_autoindent = false;
+    editor.opts.set("autopairs", "false");
+    editor.maps = MED_map.Maps();
+    for (int key in keys) {
+        MED_ex.feed(editor, key);
+    }
+    editor.is_autoindent = was_autoindent;
+    editor.maps = was_maps;
+    if (was_pairs == "") {
+        editor.opts.remove("autopairs");
+    } else {
+        editor.opts.set("autopairs", was_pairs);
+    }
+    return did_finish();
+}
+
 /// One event: feed its keys to the engine, then the UI requests.
 pub TUI_app.Action App.handle(term.Event event) {
     if (has_picker) {
@@ -1708,6 +1749,15 @@ pub TUI_app.Action App.handle(term.Event event) {
     }
     editor.view_height = current_text_rows();
     map_ms = 0;
+    if (is_paste_in_insert(event)) {
+        // typed literally: no autoindent, auto-pairs, mappings or jk, and one undo step
+        bool is_quitting = did_quit_after_paste(keys);
+        flush_clipboard();
+        if (is_quitting) {
+            return TUI_app.Action.Quit;
+        }
+        return TUI_app.Action.Redraw;
+    }
     refresh_clipboard(keys);
     for (int key in keys) {
         if (has_picker) {
