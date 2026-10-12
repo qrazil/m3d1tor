@@ -409,6 +409,15 @@ pub type Editor {
     pub List<int> gmarks = [];
     pub bool is_gmarks_on = false;
     pub bool is_global_busy = false;
+    /// 'smartindent': the line just opened got an extra level (Vim's did_si), and
+    /// the indent a `#` line left (it goes back after the next <CR>).
+    pub bool did_si = false;
+    pub bool can_si = false;
+    pub bool is_no_si = false;
+    pub bool can_si_back = false;
+    /// `O` above a line starting with `}` gave the new line one level more.
+    pub bool has_si_extra = false;
+    pub int si_hash_indent = 0;
     /// Manual folds, and whether folding is on at all (zn / zN / zi).
     pub List<Fold> folds = [];
     pub bool is_fold_off = false;

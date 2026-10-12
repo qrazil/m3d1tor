@@ -16,9 +16,9 @@ behaviour are checked against nvim one by one: `scrolloff`, `sidescroll`,
 `sidescrolloff`, `wrap`/`nowrap` scrolling, `whichwrap`, `iskeyword`, `textwidth`
 with `formatoptions` (auto-wrap, `gq`, comment leaders), `tabstop`, `shiftwidth`,
 `softtabstop`, `expandtab`, `smarttab`, `autoindent`, `ignorecase`, `smartcase`,
-`wrapscan`, `startofline`, `list`/`listchars`, `cursorline`, `cursorcolumn`,
-`colorcolumn`. Known limits: no command-line window, no fold methods besides manual,
-a reduced `=` indent, `formatoptions` `a` and `n`, `linebreak`, `smartindent`, many
+`wrapscan`, `startofline`, `smartindent`, `list`/`listchars`, `cursorline`,
+`cursorcolumn`, `colorcolumn`. Known limits: no command-line window, no fold methods besides manual,
+a reduced `=` indent (`cindent` is not implemented; `smartindent` is), `formatoptions` `a` and `n`, `linebreak`, many
 options are stored but do not change behaviour yet, and LSP / tree-sitter /
 plugins are out of scope. The acceptance bar for v0.1.0 is DESIGN section 9.
 `m3d1tor --version` prints the version.

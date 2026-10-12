@@ -23,6 +23,7 @@ import tui.core.TUI_style;
 import engine.MED_buffer;
 import engine.MED_editor;
 import engine.MED_ex;
+import engine.MED_vim;
 import engine.MED_fold;
 import engine.MED_syntax;
 import ui.MED_clip;
@@ -2264,8 +2265,17 @@ bool App.did_quit_after_paste(List<int> keys) {
     editor.is_autoindent = false;
     editor.opts.set("autopairs", "false");
     editor.maps = MED_map.Maps();
-    for (int key in keys) {
-        MED_ex.feed(editor, key);
+    if (editor.mode == MED_editor.INSERT && editor.textwidth == 0 && keys.size() > 64) {
+        // a big paste goes in as one piece
+        List<int> body = [];
+        for (int key in keys) {
+            body.push(key);
+        }
+        MED_vim.paste_plain(editor, paste_text(body));
+    } else {
+        for (int key in keys) {
+            MED_ex.feed(editor, key);
+        }
     }
     editor.is_autoindent = was_autoindent;
     editor.maps = was_maps;
@@ -3410,6 +3420,19 @@ bool App.is_in_preview(int row, int offset, int size) {
         return false;
     }
     return true;
+}
+
+/// The text of engine keys that are characters (13 is a line break).
+str paste_text(List<int> keys) {
+    List<int> codes = [];
+    for (int key in keys) {
+        if (key == 13) {
+            codes.push(10);
+        } else {
+            codes.push(key);
+        }
+    }
+    return str.from_chars(codes);
 }
 
 /// The colour of a syntax class, by 16-colour index (the terminal's own

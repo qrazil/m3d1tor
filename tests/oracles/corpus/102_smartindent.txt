@@ -1,0 +1,298 @@
+x	0,0	:set si sw=4 et sts=4<CR>oif (a)<CR>b;<CR>do<CR>w;<CR>while (1);<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>I(a,<CR>b)<Esc>u
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+int main() {\n    return 0;\n}	0,0	:set si sw=3 et<CR>afoo(<CR>x<CR>)<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=4 noai<CR>o}<CR>{<Esc>u
+x	0,0	:set si sw=3 et<CR>afoo(<CR>x<CR>)<CR>#if X<CR>y<Esc>
+x	0,0	:set si sw=3 et<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+x	0,0	:set si sw=2<CR>O  <CR>x<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=2<CR>Ifoo {<CR>bar;<CR>}<CR>else<CR>z;<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=2<CR>O{<CR>foo(<CR>x<CR>)<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>ofoo(<CR>x<CR>)<Esc>.
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>ofoo(<CR>x<CR>)<Esc>
+foo\n  bar\n\tbaz	1,0	:set si sw=2<CR>o  <CR>x<CR>(a,<CR>b)<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=3 et<CR>Ofoo {<CR>bar;<CR>}<CR>(a,<CR>b)<Esc>.
+foo\n  bar\n\tbaz	0,0	:set si ts=4 sw=4<CR>Ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=4 et sts=4<CR>oelse<CR>z;<CR>  <CR>x<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>o}<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=8 sr<CR>Ofoo {<CR>bar;<CR>}<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=4 noai<CR>a}<CR>  <CR>x<Esc>u
+int main() {\n    return 0;\n}	1,0	:set si ts=4 sw=4<CR>A}<CR>foo {<CR>bar;<CR>}<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=4 noai<CR>afoo {<CR>bar;<CR>}<Esc>
+x	0,0	:set si sw=2<CR>O  <CR>x<Esc>u
+x	0,0	:set si sw=4 et sts=4<CR>Iswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=8 sr<CR>O  <CR>x<CR>}<Esc>.
+x	0,0	:set si sw=4 et<CR>o(a,<CR>b)<CR>else<CR>z;<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=8 sr<CR>A(a,<CR>b)<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=3 et<CR>I(a,<CR>b)<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 et<CR>A(a,<CR>b)<Esc>
+foo\n  bar\n\tbaz	1,0	:set si ts=4 sw=4<CR>Ielse<CR>z;<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=2<CR>Afor (;;) {<CR>a;<CR>b;<CR>}<CR>for (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+x	0,0	:set si sw=2<CR>Ifoo(<CR>x<CR>)<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 et<CR>Aelse<CR>z;<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=2<CR>Aif (a)<CR>b;<Esc>u
+foo\n  bar\n\tbaz	2,0	:set si sw=8 sr<CR>o{<Esc>.
+if (a) {\n  b;\n}	1,0	:set si sw=8 sr<CR>Odo<CR>w;<CR>while (1);<Esc>u
+int main() {\n    return 0;\n}	1,0	:set si sw=8 sr<CR>o{<CR>  <CR>x<Esc>u
+int main() {\n    return 0;\n}	1,0	:set si ts=4 sw=4<CR>Ofoo {<CR>bar;<CR>}<Esc>.
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>Ifoo {<CR>bar;<CR>}<Esc>
+x	0,0	:set si sw=8 sr<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+x	0,0	:set si sw=2<CR>afoo(<CR>x<CR>)<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=3 et<CR>Ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>odo<CR>w;<CR>while (1);<Esc>
+x	0,0	:set si sw=3 et<CR>Ifoo {<CR>bar;<CR>}<CR>(a,<CR>b)<Esc>u
+int main() {\n    return 0;\n}	0,0	:set si sw=4 noai<CR>ofoo {<CR>bar;<CR>}<CR>  <CR>x<Esc>
+  #define A 1\n  int x;	1,0	:set si sw=4 et sts=4<CR>Aelse<CR>z;<Esc>
+x	0,0	:set si sw=3 et<CR>Afoo {<CR>bar;<CR>}<Esc>u
+int main() {\n    return 0;\n}	0,0	:set si sw=4 et<CR>A{<CR>for (;;) {<CR>a;<CR>b;<CR>}<Esc>.
+if (a) {\n  b;\n}	1,0	:set si ts=4 sw=4<CR>ado<CR>w;<CR>while (1);<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=2<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>do<CR>w;<CR>while (1);<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=4 et sts=4<CR>Oelse<CR>z;<Esc>.
+if (a) {\n  b;\n}	2,0	:set si sw=3 et<CR>A#if X<CR>y<Esc>u
+int main() {\n    return 0;\n}	2,0	:set si sw=3 et<CR>Aelse<CR>z;<Esc>
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>}<Esc>u
+foo\n  bar\n\tbaz	2,0	:set si sw=4 et sts=4<CR>afoo(<CR>x<CR>)<CR>foo(<CR>x<CR>)<Esc>.
+if (a) {\n  b;\n}	0,0	:set si ts=4 sw=4<CR>O  <CR>x<Esc>u
+int main() {\n    return 0;\n}	2,0	:set si sw=2<CR>aif (a)<CR>b;<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=4 et<CR>a#if X<CR>y<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>ofoo {<CR>bar;<CR>}<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=4 noai<CR>o#if X<CR>y<CR>  <CR>x<Esc>.
+if (a) {\n  b;\n}	1,0	:set si sw=8 sr<CR>aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+int main() {\n    return 0;\n}	0,0	:set si sw=4 et<CR>a(a,<CR>b)<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=8 sr<CR>Afoo(<CR>x<CR>)<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=4 noai<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>do<CR>w;<CR>while (1);<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=4 et<CR>a#if X<CR>y<Esc>
+x	0,0	:set si sw=2<CR>Ofoo(<CR>x<CR>)<CR>}<Esc>u
+foo\n  bar\n\tbaz	0,0	:set si ts=4 sw=4<CR>O}<CR>{<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=4 noai<CR>aswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>{<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=4 noai<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>{<Esc>.
+int main() {\n    return 0;\n}	2,0	:set si sw=8 sr<CR>oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>Ielse<CR>z;<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=3 et<CR>I{<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=3 et<CR>a  <CR>x<Esc>
+if (a) {\n  b;\n}	1,0	:set si sw=2<CR>Iif (a)<CR>b;<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=8 sr<CR>odo<CR>w;<CR>while (1);<CR>(a,<CR>b)<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=3 et<CR>o#if X<CR>y<Esc>.
+if (a) {\n  b;\n}	1,0	:set si sw=2<CR>oelse<CR>z;<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=2<CR>a}<CR>#if X<CR>y<Esc>.
+int main() {\n    return 0;\n}	1,0	:set si sw=3 et<CR>Ifoo(<CR>x<CR>)<Esc>u
+x	0,0	:set si sw=3 et<CR>O#if X<CR>y<Esc>.
+foo\n  bar\n\tbaz	2,0	:set si sw=4 noai<CR>Aelse<CR>z;<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et<CR>Oelse<CR>z;<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=4 et sts=4<CR>Oif (a)<CR>b;<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=4 et sts=4<CR>ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=4 et<CR>oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>Ifoo(<CR>x<CR>)<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=2<CR>afor (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	0,0	:set si ts=4 sw=4<CR>Ofoo {<CR>bar;<CR>}<CR>else<CR>z;<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=3 et<CR>I  <CR>x<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=2<CR>Ielse<CR>z;<CR>foo {<CR>bar;<CR>}<Esc>
+int main() {\n    return 0;\n}	0,0	:set si ts=4 sw=4<CR>o#if X<CR>y<CR>do<CR>w;<CR>while (1);<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=8 sr<CR>aif (a)<CR>b;<Esc>.
+foo\n  bar\n\tbaz	1,0	:set si ts=4 sw=4<CR>Ielse<CR>z;<CR>for (;;) {<CR>a;<CR>b;<CR>}<Esc>.
+if (a) {\n  b;\n}	1,0	:set si ts=4 sw=4<CR>O  <CR>x<CR>{<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=4 et<CR>a  <CR>x<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 et sts=4<CR>Afoo {<CR>bar;<CR>}<Esc>
+x	0,0	:set si sw=8 sr<CR>Ifoo {<CR>bar;<CR>}<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=8 sr<CR>ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	0,0	:set si sw=2<CR>O(a,<CR>b)<CR>for (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=4 et<CR>I  <CR>x<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=4 et sts=4<CR>A}<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=3 et<CR>oif (a)<CR>b;<CR>{<Esc>u
+x	0,0	:set si sw=4 noai<CR>Aelse<CR>z;<CR>else<CR>z;<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=2<CR>A  <CR>x<Esc>.
+if (a) {\n  b;\n}	1,0	:set si sw=4 noai<CR>a  <CR>x<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=2<CR>O}<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=3 et<CR>A{<Esc>u
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>aelse<CR>z;<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=2<CR>oelse<CR>z;<CR>  <CR>x<Esc>
+if (a) {\n  b;\n}	0,0	:set si ts=4 sw=4<CR>A#if X<CR>y<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=4 et<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>foo {<CR>bar;<CR>}<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=4 noai<CR>Iif (a)<CR>b;<Esc>.
+if (a) {\n  b;\n}	1,0	:set si sw=8 sr<CR>o{<CR>#if X<CR>y<Esc>u
+foo\n  bar\n\tbaz	2,0	:set si sw=4 noai<CR>afoo {<CR>bar;<CR>}<Esc>u
+int main() {\n    return 0;\n}	1,0	:set si sw=3 et<CR>afoo(<CR>x<CR>)<CR>{<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 noai<CR>oif (a)<CR>b;<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>oelse<CR>z;<Esc>u
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et<CR>Afoo(<CR>x<CR>)<CR>{<Esc>.
+x	0,0	:set si sw=4 noai<CR>Ofoo {<CR>bar;<CR>}<Esc>.
+x	0,0	:set si sw=3 et<CR>Ofoo(<CR>x<CR>)<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et sts=4<CR>aelse<CR>z;<Esc>
+foo\n  bar\n\tbaz	1,0	:set si sw=4 noai<CR>aelse<CR>z;<Esc>
+x	0,0	:set si sw=3 et<CR>O}<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=2<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et sts=4<CR>o  <CR>x<Esc>
+x	0,0	:set si ts=4 sw=4<CR>Ifoo(<CR>x<CR>)<Esc>.
+x	0,0	:set si ts=4 sw=4<CR>O(a,<CR>b)<Esc>.
+x	0,0	:set si sw=4 et<CR>A  <CR>x<CR>{<Esc>.
+int main() {\n    return 0;\n}	1,0	:set si sw=4 noai<CR>Ofoo(<CR>x<CR>)<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=2<CR>I(a,<CR>b)<CR>}<Esc>u
+if (a) {\n  b;\n}	0,0	:set si sw=8 sr<CR>a#if X<CR>y<Esc>
+x	0,0	:set si sw=4 noai<CR>aelse<CR>z;<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+x	0,0	:set si sw=4 et<CR>oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+x	0,0	:set si sw=4 et sts=4<CR>odo<CR>w;<CR>while (1);<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=4 noai<CR>Iif (a)<CR>b;<Esc>.
+int main() {\n    return 0;\n}	2,0	:set si sw=3 et<CR>Aif (a)<CR>b;<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 et<CR>Oif (a)<CR>b;<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=4 noai<CR>Ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>a(a,<CR>b)<Esc>.
+x	0,0	:set si sw=4 et sts=4<CR>oif (a)<CR>b;<Esc>
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>aelse<CR>z;<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>a{<Esc>u
+foo\n  bar\n\tbaz	0,0	:set si sw=3 et<CR>afoo {<CR>bar;<CR>}<Esc>.
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>O{<Esc>
+x	0,0	:set si sw=4 noai<CR>oswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>foo(<CR>x<CR>)<Esc>.
+if (a) {\n  b;\n}	2,0	:set si ts=4 sw=4<CR>o  <CR>x<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>#if X<CR>y<Esc>
+x	0,0	:set si ts=4 sw=4<CR>o  <CR>x<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=4 et<CR>ofoo(<CR>x<CR>)<CR>do<CR>w;<CR>while (1);<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=2<CR>A  <CR>x<Esc>u
+int main() {\n    return 0;\n}	0,0	:set si sw=8 sr<CR>Ofoo(<CR>x<CR>)<Esc>
+x	0,0	:set si sw=3 et<CR>A  <CR>x<Esc>.
+int main() {\n    return 0;\n}	0,0	:set si sw=4 noai<CR>O}<CR>{<Esc>.
+foo\n  bar\n\tbaz	0,0	:set si sw=3 et<CR>o{<Esc>
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>Ado<CR>w;<CR>while (1);<CR>  <CR>x<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=3 et<CR>I{<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+foo\n  bar\n\tbaz	0,0	:set si sw=2<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+if (a) {\n  b;\n}	2,0	:set si ts=4 sw=4<CR>Afoo {<CR>bar;<CR>}<CR>if (a)<CR>b;<Esc>.
+if (a) {\n  b;\n}	2,0	:set si sw=4 et<CR>Oif (a)<CR>b;<CR>foo {<CR>bar;<CR>}<Esc>.
+x	0,0	:set si ts=4 sw=4<CR>O  <CR>x<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>afoo(<CR>x<CR>)<Esc>
+x	0,0	:set si sw=4 et sts=4<CR>a(a,<CR>b)<CR>  <CR>x<Esc>
+foo\n  bar\n\tbaz	0,0	:set si ts=4 sw=4<CR>oelse<CR>z;<Esc>.
+int main() {\n    return 0;\n}	2,0	:set si sw=4 noai<CR>O{<CR>{<Esc>
+foo\n  bar\n\tbaz	0,0	:set si ts=4 sw=4<CR>A}<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=8 sr<CR>Aif (a)<CR>b;<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>Aelse<CR>z;<Esc>u
+int main() {\n    return 0;\n}	0,0	:set si sw=8 sr<CR>Ifoo {<CR>bar;<CR>}<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=2<CR>odo<CR>w;<CR>while (1);<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=3 et<CR>Iswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>else<CR>z;<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=3 et<CR>A#if X<CR>y<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=4 et<CR>a{<CR>#if X<CR>y<Esc>.
+x	0,0	:set si sw=4 et<CR>I(a,<CR>b)<Esc>.
+x	0,0	:set si sw=4 et<CR>Iswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+if (a) {\n  b;\n}	1,0	:set si sw=4 noai<CR>A  <CR>x<Esc>
+if (a) {\n  b;\n}	1,0	:set si ts=4 sw=4<CR>Ifoo {<CR>bar;<CR>}<Esc>.
+if (a) {\n  b;\n}	2,0	:set si sw=4 noai<CR>O(a,<CR>b)<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=4 et sts=4<CR>O{<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=3 et<CR>o{<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=4 et<CR>A  <CR>x<Esc>
+  #define A 1\n  int x;	1,0	:set si sw=4 et sts=4<CR>I(a,<CR>b)<CR>else<CR>z;<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=3 et<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+foo\n  bar\n\tbaz	1,0	:set si sw=4 et sts=4<CR>oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+x	0,0	:set si sw=4 et<CR>Afoo {<CR>bar;<CR>}<CR>foo {<CR>bar;<CR>}<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=2<CR>Ofoo {<CR>bar;<CR>}<Esc>u
+x	0,0	:set si ts=4 sw=4<CR>Aif (a)<CR>b;<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=3 et<CR>Ido<CR>w;<CR>while (1);<Esc>u
+if (a) {\n  b;\n}	0,0	:set si sw=2<CR>Iswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>}<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>Ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+x	0,0	:set si sw=3 et<CR>Ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>
+x	0,0	:set si sw=4 noai<CR>ofoo {<CR>bar;<CR>}<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=8 sr<CR>Iif (a)<CR>b;<CR>(a,<CR>b)<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=2<CR>O(a,<CR>b)<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 et<CR>Aelse<CR>z;<Esc>
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>ofoo {<CR>bar;<CR>}<CR>do<CR>w;<CR>while (1);<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=4 noai<CR>a}<Esc>
+x	0,0	:set si sw=4 noai<CR>o{<CR>{<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et sts=4<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+  #define A 1\n  int x;	1,0	:set si sw=4 noai<CR>I  <CR>x<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et<CR>Ofoo {<CR>bar;<CR>}<Esc>u
+x	0,0	:set si sw=4 et<CR>ado<CR>w;<CR>while (1);<Esc>.
+foo\n  bar\n\tbaz	0,0	:set si sw=4 noai<CR>I{<CR>do<CR>w;<CR>while (1);<Esc>
+x	0,0	:set si sw=4 noai<CR>O{<CR>do<CR>w;<CR>while (1);<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=2<CR>aswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>{<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 et sts=4<CR>Ofoo(<CR>x<CR>)<Esc>.
+foo\n  bar\n\tbaz	1,0	:set si sw=4 noai<CR>Ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>.
+foo\n  bar\n\tbaz	1,0	:set si sw=2<CR>oelse<CR>z;<CR>(a,<CR>b)<Esc>.
+int main() {\n    return 0;\n}	0,0	:set si sw=4 noai<CR>Ifoo {<CR>bar;<CR>}<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=3 et<CR>Ofoo(<CR>x<CR>)<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>a{<Esc>u
+x	0,0	:set si sw=2<CR>Ifor (;;) {<CR>a;<CR>b;<CR>}<Esc>.
+if (a) {\n  b;\n}	2,0	:set si sw=4 noai<CR>Ofoo {<CR>bar;<CR>}<CR>foo(<CR>x<CR>)<Esc>u
+int main() {\n    return 0;\n}	0,0	:set si sw=2<CR>Afor (;;) {<CR>a;<CR>b;<CR>}<CR>foo(<CR>x<CR>)<Esc>
+  #define A 1\n  int x;	0,0	:set si ts=4 sw=4<CR>Oif (a)<CR>b;<Esc>
+x	0,0	:set si sw=4 et sts=4<CR>ofoo(<CR>x<CR>)<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=4 et<CR>ofoo {<CR>bar;<CR>}<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=4 noai<CR>I  <CR>x<CR>(a,<CR>b)<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>aif (a)<CR>b;<CR>#if X<CR>y<Esc>
+foo\n  bar\n\tbaz	1,0	:set si ts=4 sw=4<CR>I#if X<CR>y<CR>else<CR>z;<Esc>u
+x	0,0	:set si sw=4 noai<CR>Ifoo {<CR>bar;<CR>}<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>I#if X<CR>y<Esc>.
+x	0,0	:set si ts=4 sw=4<CR>O#if X<CR>y<Esc>.
+foo\n  bar\n\tbaz	2,0	:set si sw=8 sr<CR>afoo(<CR>x<CR>)<Esc>
+foo\n  bar\n\tbaz	2,0	:set si ts=4 sw=4<CR>o{<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=8 sr<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+if (a) {\n  b;\n}	2,0	:set si ts=4 sw=4<CR>A  <CR>x<Esc>.
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>odo<CR>w;<CR>while (1);<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=4 noai<CR>A}<Esc>u
+foo\n  bar\n\tbaz	1,0	:set si ts=4 sw=4<CR>Odo<CR>w;<CR>while (1);<Esc>.
+int main() {\n    return 0;\n}	1,0	:set si ts=4 sw=4<CR>A}<CR>foo(<CR>x<CR>)<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>Ofoo {<CR>bar;<CR>}<Esc>u
+foo\n  bar\n\tbaz	2,0	:set si sw=3 et<CR>Oif (a)<CR>b;<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=4 noai<CR>a(a,<CR>b)<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 et sts=4<CR>Odo<CR>w;<CR>while (1);<Esc>
+x	0,0	:set si sw=4 et sts=4<CR>I  <CR>x<Esc>.
+foo\n  bar\n\tbaz	2,0	:set si sw=4 et<CR>I#if X<CR>y<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=4 noai<CR>Ido<CR>w;<CR>while (1);<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<CR>for (;;) {<CR>a;<CR>b;<CR>}<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=4 et<CR>o(a,<CR>b)<CR>foo(<CR>x<CR>)<Esc>u
+x	0,0	:set si sw=4 et sts=4<CR>Ado<CR>w;<CR>while (1);<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 noai<CR>oif (a)<CR>b;<Esc>.
+if (a) {\n  b;\n}	1,0	:set si sw=4 et<CR>ofor (;;) {<CR>a;<CR>b;<CR>}<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+x	0,0	:set si sw=3 et<CR>A}<Esc>.
+x	0,0	:set si sw=8 sr<CR>I{<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+if (a) {\n  b;\n}	1,0	:set si sw=8 sr<CR>I}<Esc>u
+x	0,0	:set si sw=4 noai<CR>Afoo {<CR>bar;<CR>}<CR>do<CR>w;<CR>while (1);<Esc>.
+foo\n  bar\n\tbaz	1,0	:set si ts=4 sw=4<CR>oif (a)<CR>b;<CR>}<Esc>.
+  #define A 1\n  int x;	0,0	:set si sw=2<CR>aif (a)<CR>b;<Esc>.
+  #define A 1\n  int x;	1,0	:set si sw=2<CR>A#if X<CR>y<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=3 et<CR>Aif (a)<CR>b;<Esc>u
+foo\n  bar\n\tbaz	2,0	:set si sw=2<CR>I#if X<CR>y<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 noai<CR>Ifoo {<CR>bar;<CR>}<Esc>u
+foo\n  bar\n\tbaz	1,0	:set si ts=4 sw=4<CR>Aswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+int main() {\n    return 0;\n}	1,0	:set si sw=4 et<CR>A(a,<CR>b)<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=4 et<CR>I#if X<CR>y<Esc>u
+  #define A 1\n  int x;	0,0	:set si sw=4 noai<CR>Iswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=4 et sts=4<CR>ofor (;;) {<CR>a;<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	2,0	:set si sw=4 noai<CR>Ofoo {<CR>bar;<CR>}<CR>(a,<CR>b)<Esc>
+x	0,0	:set si sw=4 noai<CR>oif (a)<CR>b;<CR>else<CR>z;<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=2<CR>aif (a)<CR>b;<Esc>u
+x	0,0	:set si ts=4 sw=4<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+x	0,0	:set si sw=3 et<CR>O#if X<CR>y<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=2<CR>ado<CR>w;<CR>while (1);<Esc>u
+foo\n  bar\n\tbaz	2,0	:set si sw=4 et<CR>ofor (;;) {<CR>a;<CR>b;<CR>}<CR>(a,<CR>b)<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>Aelse<CR>z;<CR>#if X<CR>y<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=4 noai<CR>o#if X<CR>y<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=8 sr<CR>o}<Esc>
+x	0,0	:set si sw=4 et<CR>oif (a)<CR>b;<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>aelse<CR>z;<CR>#if X<CR>y<Esc>u
+foo\n  bar\n\tbaz	1,0	:set si sw=3 et<CR>o{<Esc>.
+x	0,0	:set si sw=3 et<CR>Ifoo {<CR>bar;<CR>}<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=4 et sts=4<CR>oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>.
+int main() {\n    return 0;\n}	1,0	:set si sw=4 et sts=4<CR>Ado<CR>w;<CR>while (1);<Esc>
+  #define A 1\n  int x;	1,0	:set si sw=4 et sts=4<CR>I#if X<CR>y<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 et sts=4<CR>Oswitch (a) {<CR>case 1:<CR>b;<CR>}<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=4 et<CR>Ofoo {<CR>bar;<CR>}<Esc>u
+foo\n  bar\n\tbaz	0,0	:set si sw=8 sr<CR>A{<CR>{<Esc>u
+if (a) {\n  b;\n}	0,0	:set si sw=3 et<CR>ofoo(<CR>x<CR>)<Esc>
+if (a) {\n  b;\n}	0,0	:set si sw=4 et<CR>I  <CR>x<CR>switch (a) {<CR>case 1:<CR>b;<CR>}<Esc>
+x	0,0	:set si sw=2<CR>O{<Esc>
+int main() {\n    return 0;\n}	1,0	:set si sw=3 et<CR>Oelse<CR>z;<Esc>u
+x	0,0	:set si sw=3 et<CR>Ielse<CR>z;<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=4 et<CR>a#if X<CR>y<CR>if (a)<CR>b;<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=2<CR>a(a,<CR>b)<Esc>u
+foo\n  bar\n\tbaz	1,0	:set si sw=4 noai<CR>Ofoo {<CR>bar;<CR>}<Esc>u
+  #define A 1\n  int x;	1,0	:set si sw=4 noai<CR>Ofoo {<CR>bar;<CR>}<CR>  <CR>x<Esc>u
+if (a) {\n  b;\n}	1,0	:set si sw=3 et<CR>ofoo {<CR>bar;<CR>}<CR>if (a)<CR>b;<Esc>
+foo\n  bar\n\tbaz	2,0	:set si sw=3 et<CR>Ido<CR>w;<CR>while (1);<Esc>
+if (a) {\n  b;\n}	2,0	:set si sw=4 et<CR>Ado<CR>w;<CR>while (1);<Esc>.
+if (a) {\n  b;\n}	0,0	:set si sw=8 sr<CR>afoo(<CR>x<CR>)<CR>foo(<CR>x<CR>)<Esc>
+foo\n  bar\n\tbaz	0,0	:set si sw=4 noai<CR>a  <CR>x<Esc>
+  #define A 1\n  int x;	0,0	:set si sw=4 et sts=4<CR>I{<Esc>
+int main() {\n    return 0;\n}	0,0	:set si sw=3 et<CR>a}<CR>  <CR>x<Esc>
+int main() {\n    return 0;\n}	2,0	:set si sw=2<CR>a#if X<CR>y<CR>do<CR>w;<CR>while (1);<Esc>.
+x	0,0	:set si sw=3 et<CR>afoo {<CR>bar;<CR>}<Esc>u
+x	0,0	:set si sw=4 et sts=4<CR>a{<Esc>u
+int main() {\n    return 0;\n}	1,0	:set si sw=3 et<CR>I  <CR>x<Esc>u

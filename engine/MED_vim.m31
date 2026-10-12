@@ -2959,6 +2959,123 @@ int split_indent(MED_editor.Editor editor, str line, int col) {
     return width;
 }
 
+// Whether 'smartindent' is on (and no C indenting is).
+bool is_smartindent(MED_editor.Editor editor) {
+    return editor.is_option_on("smartindent", false) && !editor.is_option_on("cindent", false);
+}
+
+// Whether `text` starts with one of 'cinwords' (if, else, while, do, for, switch).
+bool is_starting_with_cinword(MED_editor.Editor editor, str text) {
+    str words = "if,else,while,do,for,switch";
+    match (editor.opts.get("cinwords")) {
+        case Some(str value): {
+            words = value;
+        }
+        case None: {
+        }
+    }
+    int start = MED_text.first_nonblank(text);
+    for (str word in words.split(",")) {
+        if (word.size() == 0 || !text.substr(start, text.size()).starts_with(word)) {
+            continue;
+        }
+        int after = start + word.size();
+        if (after >= text.size()) {
+            return true;
+        }
+        int next = text.byte_at(after);
+        bool is_word_char = (next >= 48 && next <= 57) || (next >= 65 && next <= 90) || (next >= 97 && next <= 122) || next == 95;
+        if (!is_word_char) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// The row of the `(` that matches the `)` at (row, col), or -1.
+int matching_open_row(MED_editor.Editor editor, int row, int col, int open_char, int close_char) {
+    int depth = 1;
+    int scan_row = row;
+    int scan_col = col - 1;
+    while (scan_row >= 0) {
+        str line = editor.buffer.line(scan_row);
+        if (scan_col >= line.size()) {
+            scan_col = line.size() - 1;
+        }
+        while (scan_col >= 0) {
+            int code_point = line.byte_at(scan_col);
+            if (code_point == close_char) {
+                depth = depth + 1;
+            } else if (code_point == open_char) {
+                depth = depth - 1;
+                if (depth == 0) {
+                    return scan_row;
+                }
+            }
+            scan_col = scan_col - 1;
+        }
+        scan_row = scan_row - 1;
+        if (scan_row >= 0) {
+            scan_col = editor.buffer.line_size(scan_row) - 1;
+        }
+    }
+    return -1;
+}
+
+// 'smartindent' for a line opened after the text `before` (what precedes the
+// cursor): the indent width it gets, from `base` (the autoindent). Sets
+// `did_si` when a level was added.
+int smart_width(MED_editor.Editor editor, str before, int base, int row, str after) {
+    editor.did_si = false;
+    editor.can_si = false;
+    editor.is_no_si = false;
+    editor.can_si_back = false;
+    if (!is_smartindent(editor)) {
+        return base;
+    }
+    editor.can_si = true;
+    int last = before.size() - 1;
+    while (last > 0 && is_white_byte(before.byte_at(last))) {
+        last = last - 1;
+    }
+    if (last < 0 || before.size() == 0) {
+        return base;
+    }
+    int last_char = before.byte_at(last);
+    int width = base;
+    int look = last;
+    if (last_char == 123 || last_char == 59) {
+        if (look > 0) {
+            look = look - 1;
+        }
+        while (look > 0 && is_white_byte(before.byte_at(look))) {
+            look = look - 1;
+        }
+    }
+    if (before.byte_at(look) == 41) {
+        int open_row = matching_open_row(editor, row, look, 40, 41);
+        if (open_row >= 0) {
+            width = indent_width(editor, editor.buffer.line(open_row));
+        }
+    }
+    bool is_more = false;
+    if (last_char == 123) {
+        is_more = true;
+        editor.is_no_si = true;
+    } else if (last_char != 59 && last_char != 125 && is_starting_with_cinword(editor, before)) {
+        is_more = true;
+    }
+    if (is_more) {
+        int step = editor.shift_size();
+        if (editor.is_shiftround && step > 0) {
+            width = width - width % step;
+        }
+        width = width + step;
+        editor.did_si = true;
+    }
+    return width;
+}
+
 str make_indent(MED_editor.Editor editor, int width) {
     if (editor.is_expandtab) {
         return " ".repeat(width);
@@ -3107,7 +3224,70 @@ void ins_auto_wrap(MED_editor.Editor editor, int code_point) {
     }
 }
 
+// Vim's ins_try_si: smart indenting when `{`, `}` or `#` is typed.
+void si_before_char(MED_editor.Editor editor, int code_point) {
+    str line = editor.buffer.line(editor.row);
+    bool is_at_indent = editor.col > 0 && is_in_indent_before(line, editor.col);
+    bool is_back = code_point == 123 && editor.can_si_back && editor.has_si_extra && editor.col > 0;
+    if (code_point == 123 && ((editor.did_si && !editor.is_no_si) || is_back) && editor.col > 0) {
+        // `{` after a line that asked for an extra level: back one level
+        int width = indent_width(editor, line);
+        int step = editor.shift_size();
+        if (width >= step) {
+            str rest = line.substr(editor.col, line.size());
+            int cursor_at = editor.col;
+            str fresh = make_indent(editor, width - step);
+            editor.change(MED_buffer.Pos(editor.row, 0), MED_buffer.Pos(editor.row, cursor_at), fresh);
+            editor.col = fresh.size();
+        }
+    } else if (code_point == 125 && is_at_indent && editor.can_si) {
+        int open_row = matching_open_row(editor, editor.row, editor.col, 123, 125);
+        if (open_row >= 0) {
+            str open_line = editor.buffer.line(open_row);
+            int brace = open_line.index_of("{").or(-1);
+            int width = indent_width(editor, open_line);
+            if (brace > 0) {
+                int look = brace - 1;
+                while (look > 0 && is_white_byte(open_line.byte_at(look))) {
+                    look = look - 1;
+                }
+                if (open_line.byte_at(look) == 41) {
+                    int paren_row = matching_open_row(editor, open_row, look, 40, 41);
+                    if (paren_row >= 0) {
+                        width = indent_width(editor, editor.buffer.line(paren_row));
+                    }
+                }
+            }
+            str fresh = make_indent(editor, width);
+            editor.change(MED_buffer.Pos(editor.row, 0), MED_buffer.Pos(editor.row, editor.col), fresh);
+            editor.col = fresh.size();
+        } else {
+            // no `{` to line up with: one level back
+            int width = indent_width(editor, line) - editor.shift_size();
+            if (width < 0) {
+                width = 0;
+            }
+            str fresh = make_indent(editor, width);
+            editor.change(MED_buffer.Pos(editor.row, 0), MED_buffer.Pos(editor.row, editor.col), fresh);
+            editor.col = fresh.size();
+        }
+    } else if (code_point == 35 && is_at_indent && editor.can_si) {
+        // a `#` goes to column 0 and the next line comes back to this indent
+        editor.si_hash_indent = indent_width(editor, line);
+        editor.change(MED_buffer.Pos(editor.row, 0), MED_buffer.Pos(editor.row, editor.col), "");
+        editor.col = 0;
+    }
+}
+
 void ins_char(MED_editor.Editor editor, int code_point) {
+    if (is_smartindent(editor) && editor.mode == MED_editor.INSERT) {
+        si_before_char(editor, code_point);
+        editor.did_si = false;
+        editor.can_si = false;
+        editor.is_no_si = false;
+        editor.can_si_back = false;
+        editor.has_si_extra = false;
+    }
     if ((editor.mode == MED_editor.INSERT || (editor.mode == MED_editor.REPLACE && editor.col >= editor.buffer.line_size(editor.row))) && editor.textwidth > 0 && code_point != 32 && code_point != 9 && (has_format_flag(editor, "t") || has_format_flag(editor, "c"))) {
         ins_auto_wrap(editor, code_point);
     }
@@ -3168,12 +3348,19 @@ void ins_cr(MED_editor.Editor editor) {
     int skip = editor.col;
     str indent = "";
     bool is_trunc = false;
-    if (editor.is_autoindent) {
-        indent = make_indent(editor, split_indent(editor, line, editor.col));
+    if (editor.is_autoindent || is_smartindent(editor)) {
+        int base_width = split_indent(editor, line, editor.col);
+        if (editor.si_hash_indent > 0) {
+            // a `#` line was put at column 0: the next line goes back to its indent
+            base_width = editor.si_hash_indent;
+            editor.si_hash_indent = 0;
+        }
+        base_width = smart_width(editor, line.substr(0, editor.col), base_width, editor.row, line.substr(editor.col, line.size()));
+        indent = make_indent(editor, base_width);
         if (editor.did_ai) {
             is_trunc = true;
         }
-        while (skip < line.size() && is_white_byte(line.byte_at(skip))) {
+        while (editor.is_autoindent && skip < line.size() && is_white_byte(line.byte_at(skip))) {
             skip = skip + 1;
         }
         if (is_trunc) {
@@ -3204,7 +3391,7 @@ void ins_cr(MED_editor.Editor editor) {
     editor.change(MED_buffer.Pos(editor.row, cut), MED_buffer.Pos(editor.row, skip), "\n" + indent);
     editor.row = editor.row + 1;
     editor.col = indent.size();
-    editor.did_ai = editor.is_autoindent;
+    editor.did_ai = editor.is_autoindent || is_smartindent(editor);
     editor.ins_text = editor.ins_text + "\n";
     if (editor.mode == MED_editor.REPLACE) {
         editor.replaced.push("\n");
@@ -3825,6 +4012,43 @@ void ins_text_typed(MED_editor.Editor editor, str text, bool is_literal) {
 // Insert `text` as if typed.
 void ins_text(MED_editor.Editor editor, str text) {
     ins_text_typed(editor, text, false);
+}
+
+/// A pasted text typed in one go (Insert mode, 'textwidth' 0): no autoindent,
+/// no pairs, tabs as they are; `.` repeats it. The text uses "\n" for line
+/// breaks. The same as typing every character, only faster.
+pub void paste_plain(MED_editor.Editor editor, str body) {
+    stop_arrow(editor);
+    if (body.size() == 0) {
+        return;
+    }
+    MED_buffer.Pos at_cursor = MED_buffer.Pos(editor.row, editor.col);
+    editor.change(at_cursor, at_cursor, body);
+    int breaks = 0;
+    int last_break = -1;
+    for (int index in 0 .. body.size()) {
+        if (body.byte_at(index) == 10) {
+            breaks = breaks + 1;
+            last_break = index;
+        }
+    }
+    if (breaks > 0) {
+        editor.row = editor.row + breaks;
+        editor.col = body.size() - last_break - 1;
+    } else {
+        editor.col = editor.col + body.size();
+    }
+    editor.did_ai = false;
+    editor.did_space = false;
+    editor.ins_previous = 0;
+    editor.ins_text = editor.ins_text + body;
+    for (int code_point in body.chars()) {
+        if (code_point == 10) {
+            editor.ins_keys.push(13);
+        } else {
+            editor.ins_keys.push(code_point);
+        }
+    }
 }
 
 // Typing after an arrow key starts a fresh insert (Vim's stop_arrow): only
@@ -4913,8 +5137,26 @@ void cmd_open(MED_editor.Editor editor, bool is_below, int count) {
     }
     str line = editor.buffer.line(editor.row);
     str indent = "";
-    if (editor.is_autoindent) {
-        indent = make_indent(editor, indent_width(editor, line));
+    if (editor.is_autoindent || is_smartindent(editor)) {
+        int base_width = indent_width(editor, line);
+        if (editor.si_hash_indent > 0) {
+            base_width = editor.si_hash_indent;
+            editor.si_hash_indent = 0;
+        }
+        if (is_below) {
+            base_width = smart_width(editor, line, base_width, editor.row, "");
+        } else if (is_smartindent(editor)) {
+            // above a line that starts with `}`: one level in
+            int first = MED_text.first_nonblank(line);
+            editor.has_si_extra = false;
+            if (first < line.size() && line.byte_at(first) == 125) {
+                base_width = base_width + editor.shift_size();
+                editor.has_si_extra = true;
+            }
+            editor.can_si_back = true;
+            editor.can_si = true;
+        }
+        indent = make_indent(editor, base_width);
     }
     if (is_below) {
         MED_buffer.Pos position = MED_buffer.Pos(editor.row, line.size());
@@ -4934,7 +5176,7 @@ void cmd_open(MED_editor.Editor editor, bool is_below, int count) {
     editor.ins_start = MED_buffer.Pos(editor.row, 0);
     editor.ins_textlen = MED_text.line_width(editor.buffer.line(editor.row), editor.tab);
     editor.ins_mark = editor.ins_start;
-    editor.did_ai = editor.is_autoindent;
+    editor.did_ai = editor.is_autoindent || is_smartindent(editor);
 }
 
 bool did_cmd_join(MED_editor.Editor editor, int count, bool is_spaces) {
