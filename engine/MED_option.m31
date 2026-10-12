@@ -18,7 +18,7 @@ pub type Spec {
 
 // name:short:kind:default, split on the first three colons.
 const List<str> SPECS = [
-    "number:nu:bool:false",
+    "number:nu:bool:true",
     "relativenumber:rnu:bool:false",
     "hlsearch:hls:bool:true",
     "incsearch:is:bool:true",

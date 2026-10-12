@@ -1,0 +1,122 @@
+// Screen-line motions for wrapped lines: `gj`, `gk` and the cursor move of
+// CTRL-D / CTRL-U. A port of nvim's nv_screengo(), with the text width the
+// editor was told (`view_width`) for the first and the following rows.
+//
+// API
+// ---
+//   MED_screen.is_wrapping(ed)              'wrap' is on and the width is known
+//   MED_screen.move(ed, is_forward, dist, is_end_forced)   Outcome: where `dist` screen rows away is
+
+import engine.MED_editor;
+import engine.MED_motion;
+import engine.MED_text;
+
+pub type Outcome {
+    pub bool is_ok = true;
+    pub int row = 0;
+    pub int col = 0;
+    /// The wanted column to keep: -1 sticks to the end of the line.
+    pub int want = 0;
+}
+
+pub bool is_wrapping(MED_editor.Editor editor) {
+    return editor.is_option_on("wrap", true) && editor.view_width > 0;
+}
+
+// The screen columns a line takes, rounded up to whole rows (`n` in nvim).
+int rounded_width(int length, int width) {
+    if (length > width) {
+        return ((length - width - 1) / width + 1) * width + width;
+    }
+    return width;
+}
+
+/// The position `dist` screen rows forward or backward of the cursor, keeping
+/// the wanted column. `is_ok` is false when the buffer ended first (the
+/// position is where it got to).
+pub Outcome move(MED_editor.Editor editor, bool is_forward, int dist, bool is_end_forced) {
+    Outcome outcome = Outcome();
+    int width = editor.view_width;
+    if (width < 1) {
+        width = 1;
+    }
+    int row = editor.row;
+    int last = editor.buffer.line_count() - 1;
+    str line = editor.buffer.line(row);
+    int length = MED_text.line_width(line, editor.tab);
+    int want = editor.want;
+    if (is_end_forced) {
+        want = -1;
+    }
+    bool is_at_end = false;
+    int vcol = editor.cursor_vcol();
+    if (want < 0) {
+        is_at_end = true;
+        want = width - 1;
+        if (vcol > want) {
+            want = want + ((vcol - want - 1) / width + 1) * width;
+        }
+    } else {
+        int span = rounded_width(length, width);
+        if (want >= span) {
+            want = span - 1;
+        }
+    }
+    for (int step in 0 .. dist) {
+        if (!is_forward) {
+            if (want >= width) {
+                want = want - width;
+            } else {
+                if (row <= 0) {
+                    outcome.is_ok = false;
+                    break;
+                }
+                row = row - 1;
+                line = editor.buffer.line(row);
+                length = MED_text.line_width(line, editor.tab);
+                if (length > width) {
+                    want = want + (((length - width - 1) / width) + 1) * width;
+                }
+            }
+        } else {
+            int span = rounded_width(length, width);
+            if (want + width < span) {
+                want = want + width;
+            } else {
+                if (row >= last) {
+                    outcome.is_ok = false;
+                    break;
+                }
+                row = row + 1;
+                want = want % width;
+                line = editor.buffer.line(row);
+                length = MED_text.line_width(line, editor.tab);
+            }
+        }
+    }
+    bool is_one_more = editor.mode == MED_editor.VISUAL || editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE;
+    int col = MED_motion.col_for_want(line, want, editor.tab, is_one_more);
+    if (col > 0) {
+        // landing on a character that got split at the end of the row: move
+        // one back when most of it is on the previous row
+        int landed = MED_text.display_col(line, col, editor.tab);
+        if (landed > want) {
+            bool is_far = false;
+            if (want < width) {
+                is_far = want > width / 2;
+            } else {
+                is_far = (want - width) % width > width / 2;
+            }
+            if (is_far) {
+                col = MED_text.previous_col(line, col);
+            }
+        }
+    }
+    outcome.row = row;
+    outcome.col = col;
+    outcome.want = want;
+    if (is_at_end) {
+        outcome.want = -1;
+    }
+    return outcome;
+}

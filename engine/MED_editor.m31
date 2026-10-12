@@ -120,10 +120,18 @@ pub type Editor {
     pub int view_height = 22;
     /// CTRL-D / CTRL-U distance; 0 means half the window.
     pub int scroll_opt = 0;
+    /// Screen rows the cursor follows after CTRL-D / CTRL-U scrolled (curscount).
+    pub int page_rows = 0;
     pub int shiftwidth = 8;
     /// 'textwidth' (0: the window width, at most 79, for `gq`) and the window's width.
     pub int textwidth = 0;
     pub int view_width = 80;
+    /// Columns taken by the line-number column (0 without one).
+    pub int view_gutter = 0;
+    /// Screen rows of line `view_skip_line` that are scrolled off the top (nvim's
+    /// 'smoothscroll' skipcol, left when CTRL-F stops in the last line).
+    pub int view_skip = 0;
+    pub int view_skip_line = -1;
     /// 'commentstring': `gc` wraps a line in this, `%s` standing for the text.
     pub str commentstring = "";
     pub bool is_expandtab = false;

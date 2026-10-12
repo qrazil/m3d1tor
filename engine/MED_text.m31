@@ -266,6 +266,31 @@ pub int line_width(str line, int tab) {
     return display_col(line, line.size(), tab);
 }
 
+/// The byte offsets where each screen row of `line` starts when it wraps at
+/// `width` cells (the first is 0). A character that does not fit starts the
+/// next row.
+pub List<int> wrap_breaks(str line, int width, int tab) {
+    List<int> breaks = [0];
+    if (width <= 0) {
+        return breaks;
+    }
+    int spot = 0;
+    int room = 0;
+    for (int offset in starts(line)) {
+        if (offset >= line.size()) {
+            break;
+        }
+        int cells = cell_width(line, offset, spot, tab);
+        if (room + cells > width && room > 0) {
+            breaks.push(offset);
+            room = 0;
+        }
+        room = room + cells;
+        spot = spot + cells;
+    }
+    return breaks;
+}
+
 /// The cluster start whose cells cover screen column `want`; the last
 /// cluster when `want` is past the end (callers decide whether that is
 /// allowed), 0 for the empty line.

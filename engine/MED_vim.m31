@@ -24,6 +24,7 @@ import engine.MED_search;
 import engine.MED_nrfmt;
 import engine.MED_expr;
 import engine.MED_digraph;
+import engine.MED_screen;
 
 void fail(MED_editor.Editor editor) {
     editor.is_failed = true;
@@ -246,17 +247,92 @@ MED_motion.Motion goto_line(MED_editor.Editor editor, int count, int default_row
     return motion;
 }
 
+// g0 g^ g$ gm on a wrapped line: the screen row the cursor is on.
+MED_motion.Motion screen_line_motion(MED_editor.Editor editor, int second, int count) {
+    MED_motion.Motion motion = motion_at(editor);
+    str line = editor.buffer.line(editor.row);
+    int width = editor.view_width;
+    int vcol = editor.cursor_vcol();
+    if (second == 36) {
+        motion.is_inclusive = true;
+        motion.want = -1;
+        if (count1(count) > 1) {
+            MED_screen.Outcome moved = MED_screen.move(editor, true, count1(count) - 1, true);
+            motion.row = moved.row;
+            motion.col = moved.col;
+            if (!moved.is_ok) {
+                motion.is_ok = false;
+                motion.is_moved = true;
+            }
+            return motion;
+        }
+        int target = width - 1;
+        if (vcol >= width) {
+            target = target + ((vcol - width) / width + 1) * width;
+        }
+        int col = MED_motion.col_for_want(line, target, editor.tab, is_visual(editor));
+        if (col > 0 && MED_text.display_col(line, col, editor.tab) > target) {
+            col = MED_text.previous_col(line, col);
+        }
+        motion.col = col;
+        return motion;
+    }
+    int start = 0;
+    if (vcol >= width) {
+        start = vcol / width * width;
+    }
+    if (second == 109) {
+        start = start + width / 2;
+    }
+    int col = MED_motion.col_for_want(line, start, editor.tab, is_visual(editor));
+    if (second == 94) {
+        while (col < line.size() && (line.byte_at(col) == 32 || line.byte_at(col) == 9) && MED_text.next_col(line, col) < line.size()) {
+            col = MED_text.next_col(line, col);
+        }
+    }
+    motion.col = col;
+    motion.want = -2;
+    return motion;
+}
+
 // H, M and L: a line of the window.
 MED_motion.Motion view_motion(MED_editor.Editor editor, int key, int count) {
-    int last = MED_num.smaller(editor.buffer.line_count(), editor.view_top + editor.view_height) - 1;
+    int total = editor.buffer.line_count();
+    int bottom_row = MED_view.bottom(editor);
     int row = editor.view_top;
-    if (key == 72) {
-        row = editor.view_top + count1(count) - 1;
-        row = MED_num.smaller(row, last);
-    } else if (key == 76) {
-        row = MED_num.larger(last - (count1(count) - 1), editor.view_top);
+    if (key == 76) {
+        // the last line shown, `count` - 1 lines up
+        row = bottom_row - 1;
+        if (count1(count) - 1 >= bottom_row) {
+            row = 0;
+        } else {
+            row = row - (count1(count) - 1);
+        }
+    } else if (key == 77) {
+        int half = (editor.view_height - MED_view.empty_rows(editor) + 1) / 2;
+        int used = 0;
+        int step = 0;
+        while (editor.view_top + step + 1 < total) {
+            used = used + MED_view.rows_of(editor, editor.view_top + step);
+            if (used >= half) {
+                break;
+            }
+            step = step + 1;
+        }
+        if (step > 0 && used > editor.view_height) {
+            step = step - 1;
+        }
+        row = editor.view_top + step;
     } else {
-        row = editor.view_top + (last - editor.view_top) / 2;
+        row = editor.view_top + count1(count) - 1;
+    }
+    row = MED_num.smaller(row, total - 1);
+    // cursor_correct(): stay inside the window
+    if (row < editor.view_top) {
+        row = editor.view_top;
+    }
+    if (row > bottom_row - 1 && bottom_row > editor.view_top) {
+        row = bottom_row - 1;
     }
     return goto_line(editor, row + 1, 0);
 }
@@ -399,8 +475,13 @@ MED_motion.Motion percent_motion(MED_editor.Editor editor, int count) {
             lnum = total;
         }
         motion.row = lnum - 1;
-        motion.col = first_nonblank_fix(editor.buffer.line(motion.row));
         motion.is_inclusive = false;
+        if (editor.is_startofline) {
+            motion.col = first_nonblank_fix(editor.buffer.line(motion.row));
+        } else {
+            motion.col = col_by_want(editor, motion.row, editor.want);
+            motion.want = -3;
+        }
         return motion;
     }
     MED_buffer.Pos position = MED_search.findmatch(editor.buffer, editor.row, editor.col, 0, 0);
@@ -829,23 +910,42 @@ MED_motion.Motion run_motion_raw(MED_editor.Editor editor, List<int> keys, int c
             return motion_other;
         }
         if (second == 106 || second == 107) {
-            // a screen-line move: charwise (lines here never wrap)
+            // a screen-line move: charwise
             int delta = count1(count);
-            if (second == 107) {
-                delta = 0 - delta;
+            if (!MED_screen.is_wrapping(editor)) {
+                if (second == 107) {
+                    delta = 0 - delta;
+                }
+                MED_motion.Motion motion_value = move_vertical(editor, delta);
+                motion_value.is_linewise = false;
+                return motion_value;
             }
-            MED_motion.Motion motion_value = move_vertical(editor, delta);
-            motion_value.is_linewise = false;
-            return motion_value;
+            MED_screen.Outcome moved = MED_screen.move(editor, second == 106, delta, false);
+            motion.row = moved.row;
+            motion.col = moved.col;
+            motion.want = moved.want;
+            motion.is_inclusive = editor.want < 0;
+            if (!moved.is_ok) {
+                if (operator == "") {
+                    motion.is_beep = true;
+                } else {
+                    motion.is_ok = false;
+                    motion.is_moved = true;
+                }
+            }
+            return motion;
+        }
+        if (MED_screen.is_wrapping(editor) && (second == 48 || second == 94 || second == 36 || second == 109)) {
+            return screen_line_motion(editor, second, count);
         }
         if (second == 48 || second == 94 || second == 36) {
             List<int> single = [second];
             return run_motion(editor, single, 0, operator);
         }
         if (second == 109 || second == 77) {
-            // gm: half a screen (80 columns) in; gM: `count` percent of the line's width
+            // gm: half a screen in; gM: `count` percent of the line's width
             str line = editor.buffer.line(editor.row);
-            int target = 40;
+            int target = editor.view_width / 2;
             if (second == 77) {
                 int total = MED_text.line_width(line, editor.tab);
                 if (count > 0 && count <= 100) {

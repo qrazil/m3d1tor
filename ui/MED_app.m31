@@ -30,13 +30,13 @@ import ui.MED_keymap;
 import ui.MED_picker;
 import ui.MED_picker_view;
 import engine.MED_text;
+import engine.MED_regex;
+import engine.MED_search;
 import ui.MED_window;
 import engine.MED_view;
 
 /// Rows below the text: the status line and the command line.
 const int FOOTER_ROWS = 2;
-/// The fewest digits the line-number gutter shows.
-const int MIN_DIGITS = 3;
 /// Visual selection background (a palette grey).
 const int SELECTION_COLOUR = 240;
 /// Lines the mouse wheel scrolls per notch.
@@ -1545,28 +1545,77 @@ bool App.is_selected(int row, int col, int spot) {
     return spot >= low && spot <= high;
 }
 
-/// Draw one line of `subject` at screen row `y`, from display column `left`.
-void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left, bool is_active, int row, int x_start, int y, int text_width) {
+/// The matches of the last search pattern in `row`: start and end byte offsets.
+List<int> App.search_spans(MED_editor.Editor subject, MED_regex.Regex regex, int row) {
+    List<int> spans = [];
+    str line = subject.buffer.line(row);
+    int from = 0;
+    int guard = 0;
+    while (from <= line.size() && guard < 500) {
+        guard = guard + 1;
+        MED_regex.Match found = regex.search_line(subject.buffer, row, from);
+        if (!found.is_ok || found.srow != row) {
+            break;
+        }
+        int stop = line.size();
+        if (found.erow == row) {
+            stop = found.ecol;
+        }
+        spans.push(found.scol);
+        spans.push(stop);
+        if (stop > found.scol) {
+            from = stop;
+        } else if (found.scol < line.size()) {
+            from = MED_text.next_col(line, found.scol);
+        } else {
+            break;
+        }
+    }
+    return spans;
+}
+
+/// Draw the part [`from`, `to`) of a line of `subject` at screen row `y`:
+/// cells whose display column is in [`left`, `left` + `text_width`).
+void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left, bool is_active, int row, int x_start, int y, int text_width, int from, int stop_at, List<int> spans) {
     str line = subject.buffer.line(row);
     TUI_style.Style plain = TUI_style.Style.plain;
     TUI_style.Style selected = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTION_COLOUR));
+    TUI_style.Style found = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(3));
+    bool is_list = subject.is_option_on("list", false);
     int spot = 0;
     for (int offset in MED_text.starts(line)) {
-        if (offset >= line.size()) {
+        if (offset >= line.size() || offset >= stop_at) {
             break;
         }
         int width = MED_text.cell_width(line, offset, spot, subject.tab);
         int next = MED_text.next_col(line, offset);
-        if (spot >= left && spot + width <= left + text_width) {
+        if (offset >= from && spot >= left && spot + width <= left + text_width) {
             TUI_style.Style style = plain;
+            if (is_in_spans(spans, offset)) {
+                style = found;
+            }
             if (is_active && is_selected(row, offset, spot)) {
                 style = selected;
             }
-            buffer.set_str(x_start + spot - left, y, shown(line, offset, next, width), style);
+            str text = shown(line, offset, next, width);
+            if (is_list && MED_text.cp_at(line, offset) == 9) {
+                text = "^I" + " ".repeat(width - 2);
+                if (width < 2) {
+                    text = "^";
+                }
+            }
+            buffer.set_str(x_start + spot - left, y, text, style);
         }
         spot = spot + width;
-        if (spot >= left + text_width) {
+        if (spot >= left + text_width && !subject.is_option_on("wrap", true)) {
             break;
+        }
+    }
+    if (is_list && stop_at >= line.size()) {
+        // 'list' shows the end of the line as $
+        int end_spot = MED_text.line_width(line, subject.tab);
+        if (end_spot >= left && end_spot < left + text_width) {
+            buffer.set_str(x_start + end_spot - left, y, "$", TUI_style.Style(foreground: TUI_style.Colour.Indexed(4)));
         }
     }
 }
@@ -1705,43 +1754,137 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         subject.clamp();
     }
     subject.view_height = rows;
-    MED_view.update(subject);
     int gutter = gutter_of(subject);
     int text_width = frame.width - gutter;
     if (text_width < 1) {
         text_width = 1;
     }
     subject.view_width = text_width;
+    subject.view_gutter = gutter;
+    MED_view.update(subject);
+    bool is_wrap = subject.is_option_on("wrap", true);
     int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
-    if (cursor_spot < left) {
-        left = cursor_spot;
-    }
-    if (cursor_spot >= left + text_width) {
-        left = cursor_spot - text_width + 1;
+    if (is_wrap) {
+        left = 0;
+    } else {
+        if (cursor_spot < left) {
+            left = cursor_spot;
+        }
+        if (cursor_spot >= left + text_width) {
+            left = cursor_spot - text_width + 1;
+        }
     }
     TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
     TUI_style.Style filler = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
     TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
-    for (int screen_row in 0 .. rows) {
-        int row = subject.view_top + screen_row;
+    MED_regex.Regex regex = MED_regex.compile("", false, false, "");
+    bool is_highlight = false;
+    if (subject.is_option_on("hlsearch", true) && !subject.is_no_hl) {
+        str pattern = MED_search.last_pattern(subject);
+        if (pattern.size() > 0) {
+            regex = MED_search.compile_with(subject, pattern, subject.is_search_no_scs);
+            is_highlight = regex.is_ok;
+        }
+    }
+    int screen_row = 0;
+    int row = subject.view_top;
+    int cursor_screen_row = 0;
+    int cursor_screen_x = 0;
+    while (screen_row < rows) {
         int y = frame.y + screen_row;
         if (row >= subject.buffer.line_count()) {
             buffer.set_str(frame.x, y, "~", filler);
-        } else {
-            str number = (row + 1).to_str();
-            TUI_style.Style number_style = dim;
-            if (row == subject.row) {
-                number_style = current;
-            }
-            buffer.set_str(frame.x + gutter - 1 - number.size(), y, number, number_style);
-            draw_line(buffer, subject, left, is_active, row, frame.x + gutter, y, text_width);
+            screen_row = screen_row + 1;
+            continue;
         }
+        str line = subject.buffer.line(row);
+        List<int> breaks = [0];
+        if (is_wrap) {
+            breaks = MED_text.wrap_breaks(line, text_width, subject.tab);
+        }
+        List<int> spans = [];
+        if (is_highlight) {
+            spans = search_spans(subject, regex, row);
+        }
+        int total = breaks.size();
+        if (is_wrap && subject.row == row && subject.col >= line.size() && subject.mode != MED_editor.NORMAL && subject.mode != MED_editor.VISUAL) {
+            // the cursor after the last character may need a row of its own
+            int last_start = MED_text.display_col(line, breaks[total - 1], subject.tab);
+            if (MED_text.line_width(line, subject.tab) - last_start >= text_width) {
+                total = total + 1;
+            }
+        }
+        int first_part = 0;
+        if (is_wrap && row == subject.view_top) {
+            first_part = MED_view.top_skip(subject);
+            if (first_part > total - 1) {
+                first_part = total - 1;
+            }
+        }
+        int visible = total - first_part;
+        if (row == subject.row) {
+            int cursor_part = 0;
+            for (int part in 0 .. breaks.size()) {
+                if (breaks[part] <= subject.col) {
+                    cursor_part = part;
+                }
+            }
+            int base = left;
+            if (is_wrap) {
+                base = MED_text.display_col(line, breaks[cursor_part], subject.tab);
+                if (total > breaks.size() && subject.col >= line.size()) {
+                    cursor_part = breaks.size();
+                    base = MED_text.line_width(line, subject.tab);
+                }
+            }
+            cursor_screen_row = screen_row + cursor_part - first_part;
+            cursor_screen_x = cursor_spot - base;
+        }
+        for (int part in first_part .. total) {
+            int shown_part = part - first_part;
+            if (screen_row + shown_part >= rows) {
+                break;
+            }
+            int part_y = y + shown_part;
+            if (part == 0) {
+                buffer.set_str(frame.x, part_y, number_text(subject, row, gutter), dim);
+                if (row == subject.row) {
+                    buffer.set_str(frame.x, part_y, number_text(subject, row, gutter), current);
+                }
+            }
+            int from = 0;
+            int stop_at = line.size();
+            int base = left;
+            if (is_wrap) {
+                if (part < breaks.size()) {
+                    from = breaks[part];
+                    base = MED_text.display_col(line, from, subject.tab);
+                }
+                if (part + 1 < breaks.size()) {
+                    stop_at = breaks[part + 1];
+                }
+                if (part >= breaks.size()) {
+                    from = line.size();
+                    base = MED_text.line_width(line, subject.tab);
+                }
+            }
+            draw_line(buffer, subject, base, is_active, row, frame.x + gutter, part_y, text_width, from, stop_at, spans);
+            if (shown_part == 0 && first_part > 0) {
+                buffer.set_str(frame.x + gutter, part_y, "<<<", filler);
+            }
+        }
+        if (screen_row > 0 && screen_row + visible > rows && is_wrap) {
+            // a last line that does not fit: what fits, then "@@@" (display=lastline)
+            buffer.set_str(frame.x + gutter, frame.y + rows - 1, "@@@", filler);
+        }
+        screen_row = screen_row + visible;
+        row = row + 1;
     }
     draw_status(buffer, frame, subject, file, is_changed, is_active);
     if (is_active) {
         left_column = left;
-        cursor_x = frame.x + gutter + cursor_spot - left;
-        cursor_y = frame.y + subject.row - subject.view_top;
+        cursor_x = frame.x + gutter + cursor_screen_x;
+        cursor_y = frame.y + cursor_screen_row;
     } else {
         win.row = subject.row;
         win.col = subject.col;
@@ -1912,12 +2055,63 @@ pub void App.load_keymap(str file, bool is_required) {
     }
 }
 
+bool is_in_spans(List<int> spans, int offset) {
+    int index = 0;
+    while (index + 1 < spans.size()) {
+        if (offset >= spans[index] && offset < spans[index + 1]) {
+            return true;
+        }
+        index = index + 2;
+    }
+    return false;
+}
+
 int gutter_of(MED_editor.Editor shown) {
-    int digits = shown.buffer.line_count().to_str().size();
-    if (digits < MIN_DIGITS) {
-        digits = MIN_DIGITS;
+    bool is_number = shown.is_option_on("number", true);
+    bool is_relative = shown.is_option_on("relativenumber", false);
+    if (!is_number && !is_relative) {
+        return 0;
+    }
+    int lines = shown.buffer.line_count();
+    if (is_relative && !is_number) {
+        lines = shown.view_height;
+    }
+    int digits = lines.to_str().size();
+    int least = shown.option_number("numberwidth", 4) - 1;
+    if (least < 1) {
+        least = 1;
+    }
+    if (digits < least) {
+        digits = least;
     }
     return digits + 1;
+}
+
+/// The line-number column for buffer line `row`, as wide as `gutter`.
+str number_text(MED_editor.Editor shown, int row, int gutter) {
+    bool is_number = shown.is_option_on("number", true);
+    bool is_relative = shown.is_option_on("relativenumber", false);
+    if (gutter == 0) {
+        return "";
+    }
+    int shown_number = row + 1;
+    bool is_left = false;
+    if (is_relative) {
+        int distance = row - shown.row;
+        if (distance < 0) {
+            distance = 0 - distance;
+        }
+        if (is_number && distance == 0) {
+            is_left = true;
+        } else {
+            shown_number = distance;
+        }
+    }
+    str digits = shown_number.to_str();
+    if (is_left) {
+        return digits + " ".repeat(gutter - digits.size());
+    }
+    return " ".repeat(gutter - 1 - digits.size()) + digits + " ";
 }
 
 /// Write `slot`'s text to `target` (its own file when `target` is empty) and
