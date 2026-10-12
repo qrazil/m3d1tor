@@ -9,7 +9,8 @@
 // CTRL-U (clear) and CTRL-W (word) delete; Down/CTRL-N/CTRL-J and Up/CTRL-P/
 // CTRL-K move; PageUp/PageDown jump a page; Enter accepts; Esc/CTRL-C/CTRL-G
 // cancel; CTRL-H toggles hidden files, Tab (CTRL-I) toggles the ignore rules,
-// CTRL-F toggles fixed-string grep. In the explorer `-` on an empty prompt goes
+// CTRL-F toggles fixed-string grep; CTRL-S / CTRL-V accept into a new window
+// below / beside (files, buffers, grep). In the explorer `-` on an empty prompt goes
 // up a directory.
 
 import MED_fuzzy;
@@ -49,6 +50,9 @@ pub enum Outcome {
     Reload;
     /// The explorer goes up one directory.
     Up;
+    /// Accept, opening the entry in a new window below (CTRL-S) or right (CTRL-V).
+    AcceptSplit;
+    AcceptVsplit;
 }
 
 pub int Outcome.code() {
@@ -70,6 +74,12 @@ pub int Outcome.code() {
         }
         case Up: {
             return 5;
+        }
+        case AcceptSplit: {
+            return 6;
+        }
+        case AcceptVsplit: {
+            return 7;
         }
     }
 }
@@ -190,6 +200,12 @@ pub Outcome Picker.feed(int key) {
     }
     if (key == MED_key.CARRIAGE_RETURN) {
         return Outcome.Accept;
+    }
+    if (key == 19) {
+        return Outcome.AcceptSplit;
+    }
+    if (key == 22) {
+        return Outcome.AcceptVsplit;
     }
     if (key == MED_key.DOWN || key == 14 || key == 10) {
         move(1);

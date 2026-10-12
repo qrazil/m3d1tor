@@ -58,6 +58,9 @@ pub type Slot {
     pub str path;
     pub int saved_current = 0;
     pub int left_column = 0;
+    /// A directory listing (`:Explore`): `path` is the directory, the text is
+    /// read-only and Enter opens the entry under the cursor.
+    pub bool is_listing = false;
 }
 
 pub type App {
@@ -257,6 +260,14 @@ void App.edit(str target, bool is_forced) {
     str name = target.trim();
     if (name == "#") {
         switch_alternate();
+        return;
+    }
+    if (name.size() == 0 && is_in_listing()) {
+        reload_listing(path, editor.buffer.line(editor.row));
+        return;
+    }
+    if (name.size() > 0 && fs.is_directory(name)) {
+        open_listing(name, "");
         return;
     }
     if (name.size() == 0) {
@@ -535,7 +546,13 @@ void App.run_request(str request) {
     } else if (name == "help") {
         open_picker("help", arg);
     } else if (name == "Explore") {
-        open_picker("explore", arg);
+        open_listing(explore_directory(arg), current_file_name());
+    } else if (name == "Sexplore" || name == "Vexplore") {
+        str directory = explore_directory(arg);
+        str focus = current_file_name();
+        if (did_split(name == "Vexplore")) {
+            open_listing(directory, focus);
+        }
     } else {
         notice = "Not supported yet: :" + request.trim();
     }
@@ -778,6 +795,118 @@ void App.run_split(str name, str arg) {
     }
 }
 
+// ------------------------------------------------------------------ listings
+
+/// Whether the active buffer is a directory listing.
+bool App.is_in_listing() {
+    int position = index_of(current_id);
+    return position >= 0 && slots[position].is_listing;
+}
+
+/// The directory `:Explore [dir]` shows: `arg`, else the directory of the file.
+str App.explore_directory(str arg) {
+    if (arg.trim().size() > 0) {
+        return arg.trim();
+    }
+    if (is_in_listing()) {
+        return path;
+    }
+    return parent_directory(path);
+}
+
+/// The name the listing cursor should rest on: the file being edited.
+str App.current_file_name() {
+    if (is_in_listing() || path.size() == 0) {
+        return "";
+    }
+    return base_name(path);
+}
+
+/// Show the listing of `directory` (in this window), with the cursor on the
+/// line `focus`. The buffer it came from stays loaded, as the alternate.
+void App.open_listing(str directory, str focus) {
+    str target = plain_directory(directory);
+    if (!fs.is_directory(target)) {
+        notice = "E344: Can't find directory \"" + target + "\" in cdpath";
+        return;
+    }
+    save_active();
+    if (is_in_listing()) {
+        reload_listing(target, focus);
+        return;
+    }
+    for (Slot known in slots) {
+        if (known.is_listing && known.path == target) {
+            activate(known.id);
+            reload_listing(target, focus);
+            return;
+        }
+    }
+    adopt(listing_slot(next_id, target, focus));
+}
+
+/// Re-read the listing in the active buffer, now for `directory`.
+void App.reload_listing(str directory, str focus) {
+    Slot fresh = listing_slot(current_id, directory, focus);
+    share_state(editor, fresh.editor);
+    fresh.editor.view_height = current_text_rows();
+    editor = fresh.editor;
+    path = directory;
+    saved_current = fresh.saved_current;
+    left_column = 0;
+    save_active();
+}
+
+/// `-` in a listing: the directory above, the cursor on where we came from.
+void App.go_up_listing() {
+    str here = path;
+    open_listing(up_directory(here), base_name(here) + "/");
+}
+
+/// Enter in a listing: descend into the directory or edit the file.
+void App.open_listing_entry() {
+    str entry = editor.buffer.line(editor.row);
+    if (entry.size() == 0) {
+        return;
+    }
+    if (entry == "../") {
+        go_up_listing();
+        return;
+    }
+    str target = child_path(path, entry);
+    if (entry.ends_with("/")) {
+        open_listing(target, "");
+        return;
+    }
+    int listing_id = current_id;
+    edit(target, false);
+    if (current_id == listing_id) {
+        return;
+    }
+    save_active();
+    for (MED_window.Win win in wins) {
+        if (win.buffer_id == listing_id) {
+            return;
+        }
+    }
+    delete_buffer(listing_id.to_str(), true);
+}
+
+/// The text of a listing cannot change: undo whatever the last key did by
+/// reading the directory again, as Vim refuses with E21 on a non-modifiable buffer.
+void App.keep_listing_read_only() {
+    bool is_typing = editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE;
+    if (editor.current == saved_current && !is_typing) {
+        return;
+    }
+    int row = editor.row;
+    reload_listing(path, "");
+    editor.row = row;
+    editor.clamp();
+    editor.want_from_cursor();
+    notice = "E21: Cannot make changes, 'modifiable' is off";
+}
+
 // ------------------------------------------------------------------ pickers
 
 /// Open the picker `name` (files, buffers, grep, commands, help, explore);
@@ -1002,6 +1131,28 @@ bool App.should_quit_after_accept() {
     return false;
 }
 
+/// CTRL-S / CTRL-V in a picker: a file, buffer or grep hit opens in a new
+/// window; the other pickers (and directories) take the key as plain Enter.
+bool App.should_quit_after_accept_in_split(bool is_vertical) {
+    bool is_target = false;
+    match (picker.current()) {
+        case Some(MED_picker.Entry entry): {
+            int kind = picker.kind;
+            is_target = kind == MED_picker.KIND_FILES || kind == MED_picker.KIND_BUFFERS || kind == MED_picker.KIND_GREP || (kind == MED_picker.KIND_EXPLORE && !entry.text.ends_with("/"));
+        }
+        case None: {
+        }
+    }
+    if (is_target) {
+        has_picker = false;
+        if (!did_split(is_vertical)) {
+            return false;
+        }
+        has_picker = true;
+    }
+    return should_quit_after_accept();
+}
+
 /// One event while a picker is open.
 TUI_app.Action App.handle_picker(term.Event event) {
     List<int> keys = [];
@@ -1043,6 +1194,16 @@ TUI_app.Action App.handle_picker(term.Event event) {
             case Up: {
                 picker.directory = up_directory(picker.directory);
                 load_directory();
+            }
+            case AcceptSplit: {
+                if (should_quit_after_accept_in_split(false)) {
+                    return TUI_app.Action.Quit;
+                }
+            }
+            case AcceptVsplit: {
+                if (should_quit_after_accept_in_split(true)) {
+                    return TUI_app.Action.Quit;
+                }
             }
         }
         if (!has_picker) {
@@ -1146,7 +1307,20 @@ bool App.should_quit_after(int key) {
     if (sent == MED_key.ESC) {
         last_key = 0;
     }
+    if (editor.mode == MED_editor.NORMAL && editor.pending.size() == 0 && is_in_listing()) {
+        if (sent == MED_key.CARRIAGE_RETURN) {
+            open_listing_entry();
+            return did_finish();
+        }
+        if (sent == 45) {
+            go_up_listing();
+            return did_finish();
+        }
+    }
     MED_ex.feed(editor, sent);
+    if (is_in_listing()) {
+        keep_listing_read_only();
+    }
     return did_finish();
 }
 
@@ -1485,6 +1659,9 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     }
     MED_editor.Editor subject = editor;
     str file = path;
+    if (is_in_listing()) {
+        file = slot_name(slots[index_of(current_id)]);
+    }
     bool is_changed = is_modified();
     int left = left_column;
     MED_window.Win win = wins[win_index(frame.win_id)];
@@ -1496,6 +1673,9 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         Slot slot = slots[index_of(win.buffer_id)];
         subject = slot.editor;
         file = slot.path;
+        if (slot.is_listing) {
+            file = slot_name(slot);
+        }
         is_changed = is_slot_modified(slot);
         left = win.left_column;
         kept_row = subject.row;
@@ -1655,6 +1835,9 @@ int gutter_of(MED_editor.Editor shown) {
 /// Write `slot`'s text to `target` (its own file when `target` is empty) and
 /// say what happened, in Vim's words.
 str write_slot(Slot slot, str target) {
+    if (slot.is_listing) {
+        return "E382: Cannot write, 'buftype' option is set";
+    }
     str name = target.trim();
     if (name.size() == 0) {
         name = slot.path;
@@ -1684,6 +1867,9 @@ str write_slot(Slot slot, str target) {
 
 /// Whether the buffer of `slot` differs from its file.
 bool is_slot_modified(Slot slot) {
+    if (slot.is_listing) {
+        return false;
+    }
     return slot.editor.current != slot.saved_current;
 }
 
@@ -1692,7 +1878,57 @@ str slot_name(Slot slot) {
     if (slot.path.size() == 0) {
         return "[No Name]";
     }
+    if (slot.is_listing && !slot.path.ends_with("/")) {
+        return slot.path + "/";
+    }
     return slot.path;
+}
+
+/// `directory` without a trailing slash (the root keeps its own).
+str plain_directory(str directory) {
+    str plain = directory;
+    while (plain.size() > 1 && plain.ends_with("/")) {
+        plain = plain.substr(0, plain.size() - 1);
+    }
+    return plain;
+}
+
+/// The last part of a path.
+str base_name(str file) {
+    int spot = last_slash(file);
+    if (spot < 0) {
+        return file;
+    }
+    return file.substr(spot + 1, file.size());
+}
+
+/// The text of a directory listing: `../`, then folders, then files.
+str listing_text(str directory) {
+    List<str> lines = ["../"];
+    for (str name in MED_files.list_directory(directory, true)) {
+        lines.push(name);
+    }
+    return lines.join("\n") + "\n";
+}
+
+/// A listing slot for `directory`, the cursor on the line `focus` (the first
+/// entry when there is no such line).
+Slot listing_slot(int id, str directory, str focus) {
+    MED_editor.Editor loaded = MED_editor.new(listing_text(directory));
+    loaded.buffer.path = directory;
+    int row = 0;
+    if (loaded.buffer.line_count() > 1) {
+        row = 1;
+    }
+    for (int index in 0 .. loaded.buffer.line_count()) {
+        if (focus.size() > 0 && loaded.buffer.line(index) == focus) {
+            row = index;
+        }
+    }
+    loaded.row = row;
+    loaded.clamp();
+    loaded.want_from_cursor();
+    return Slot(id, loaded, directory, is_listing: true);
 }
 
 /// What the engine keeps across buffers: registers, search and substitute

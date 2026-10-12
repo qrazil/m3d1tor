@@ -60,6 +60,8 @@ type_text(picker, "zzzz");
 check.eq_int("no match", picker.count(), 0);
 check.ok("no current entry", current_text(picker) == "");
 check.ok("accept with nothing still reports", picker.feed(MED_key.CARRIAGE_RETURN) == MED_picker.Outcome.Accept);
+check.ok("ctrl-s accepts in a split below", picker.feed(19) == MED_picker.Outcome.AcceptSplit);
+check.ok("ctrl-v accepts in a split beside", picker.feed(22) == MED_picker.Outcome.AcceptVsplit);
 check.ok("esc cancels", picker.feed(MED_key.ESC) == MED_picker.Outcome.Cancel);
 check.ok("ctrl-c cancels", picker.feed(3) == MED_picker.Outcome.Cancel);
 check.ok("tab toggles ignore and reloads", picker.feed(MED_key.TAB) == MED_picker.Outcome.Reload);

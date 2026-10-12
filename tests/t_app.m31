@@ -30,6 +30,15 @@ void remove_file(str path) {
     }
 }
 
+void remove_directory(str path) {
+    match (fs.rmdir(path)) {
+        case Ok(bool did_remove): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
+
 void write_file(str path, str text) {
     match (io.write(path, text)) {
         case Ok(int count): {
@@ -341,6 +350,13 @@ match (MED_app.open_all([lead_path])) {
         check.ok("space b b opens the buffers picker", app.has_picker);
         type_text(app, "\n");
         check.ok("enter accepts and closes", !app.has_picker);
+        type_text(app, " bb\x16");
+        check.ok("ctrl-v in the buffers picker closes it", !app.has_picker);
+        check.eq_int("and opens a window beside", app.wins.size(), 2);
+        type_text(app, " bb\x13");
+        check.eq_int("ctrl-s opens another below", app.wins.size(), 3);
+        type_text(app, "\x17c\x17c");
+        check.eq_int("closed again", app.wins.size(), 1);
         type_text(app, " z");
         check.ok("an unmapped leader is reported", app.notice.starts_with("No mapping"));
         check.ok("and the leader ends", !app.is_leader);
@@ -365,4 +381,64 @@ match (MED_app.open_all([lead_path])) {
     }
 }
 remove_file(lead_path);
+// the directory listing (:Explore)
+str tree = "/tmp/m3d1tor_t_app_tree";
+remove_file(tree + "/alpha/inner.txt");
+remove_directory(tree + "/alpha");
+remove_file(tree + "/beta.txt");
+remove_file(tree + "/zeta.txt");
+remove_directory(tree);
+match (fs.makedirs(tree + "/alpha")) {
+    case Ok(bool did_make): {
+    }
+    case Err(io.Error error): {
+        print("cannot make " + tree);
+    }
+}
+write_file(tree + "/alpha/inner.txt", "inner\n");
+write_file(tree + "/beta.txt", "beta\n");
+write_file(tree + "/zeta.txt", "zeta\n");
+match (MED_app.open_all([tree + "/beta.txt"])) {
+    case Err(str message): {
+        check.ok("open for the listing tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, ":Explore\n");
+        check.eq_str("explore shows the directory", app.path, tree);
+        check.eq_str("the first line goes up", app.editor.buffer.line(0), "../");
+        check.eq_str("folders come first", app.editor.buffer.line(1), "alpha/");
+        check.eq_str("then the files", app.editor.buffer.line(2), "beta.txt");
+        check.eq_int("the cursor rests on the file we came from", app.editor.row, 2);
+        type_text(app, "ix");
+        check.ok("typing is refused with E21", app.notice.starts_with("E21"));
+        check.eq_str("the text is intact", app.editor.buffer.line(2), "beta.txt");
+        check.eq_int("and stays in Normal mode", app.editor.mode, MED_editor.NORMAL);
+        type_text(app, "dd");
+        check.eq_int("deleting is refused too", app.editor.buffer.line_count(), 4);
+        type_text(app, ":w\n");
+        check.ok("a listing cannot be written", app.notice.starts_with("E382"));
+        type_text(app, "gg");
+        type_text(app, "j\n");
+        check.eq_str("enter descends", app.path, tree + "/alpha");
+        check.eq_str("the folder's files", app.editor.buffer.line(1), "inner.txt");
+        type_text(app, "-");
+        check.eq_str("minus goes up", app.path, tree);
+        check.eq_str("the cursor rests on the folder we left", app.editor.buffer.line(app.editor.row), "alpha/");
+        type_text(app, "jj\n");
+        check.eq_str("enter edits a file", app.path, tree + "/zeta.txt");
+        check.eq_str("with its text", app.editor.buffer.line(0), "zeta");
+        check.eq_int("the listing is gone with it", app.slots.size(), 2);
+        type_text(app, ":e " + tree + "\n");
+        check.eq_str(":e on a directory lists it", app.path, tree);
+        type_text(app, ":Vexplore\n");
+        check.eq_int("Vexplore splits", app.wins.size(), 2);
+        type_text(app, "\x17c");
+        type_text(app, ":q\n");
+    }
+}
+remove_file(tree + "/alpha/inner.txt");
+remove_directory(tree + "/alpha");
+remove_file(tree + "/beta.txt");
+remove_file(tree + "/zeta.txt");
+remove_directory(tree);
 check.finish("t_app");
