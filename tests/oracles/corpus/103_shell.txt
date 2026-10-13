@@ -1,0 +1,45 @@
+# :! filters, :r !cmd, :r file and the ! operator (the shell is sh; commands are portable)
+c\nb\na	0,0	:%!sort<CR>
+x\n  ab\ncd\ny	0,0	:2,3!tr a-z A-Z<CR>
+x\n  ab\ncd\ny	2,0	:.!echo hi<CR>
+x\ny	0,0	:r !echo hi<CR>
+x\ny	1,0	:0r !echo hi<CR>
+x\ny	0,0	:$r !echo hi<CR>
+x\ny	1,0	:!echo hi<CR>
+x\ny	0,0	:%!false<CR>
+x\ny	0,0	:%!true<CR>
+x\ny	0,0	:r!echo hi<CR>
+x\ny	0,0	:r !printf "a\n  b\n"<CR>
+x\ny	0,0	:r !printf "  a\n  b\n"<CR>
+x\ny	1,0	:2,2!printf "  a\n  b\n"<CR>
+a\nb\nc\nd	1,0	:2,3!sort -r<CR>
+a\nb\nc\nd	1,0	:2,3!sort -r<CR>`[x`]x
+a\nb\nc\nd	0,0	:%!sort -r<CR>u
+a\nb\nc\nd	0,0	:%!sort -r<CR>uu
+a\nb\nc\nd	1,0	:2,3!sort -r<CR>ix<Esc>
+a\nb\nc\nd	1,0	mx:2,3!sort -r<CR>'x
+a\nb\nc\nd	2,0	mx:1,2!sort -r<CR>'x
+b\na	0,0	!!sort<CR>
+b\na\nd\nc	0,0	!jsort<CR>
+b\na\nd\nc	0,0	!Gsort<CR>
+d\nc\nb\na	0,0	2!!sort<CR>
+d\nc\nb\na	0,0	!2jsort<CR>
+d\nc\nb\na	1,0	!ipsort<CR>
+d\nc\n\nb\na	0,0	!ipsort<CR>
+d\nc\nb\na	0,0	Vj!sort<CR>
+d\nc\nb\na	1,0	Vjj!sort<CR>
+d\nc\nb\na	0,0	:%!sort<CR>:%!sort -r<CR>
+d\nc\nb\na	0,0	:%!sort<CR>:%!!<CR>
+x\ny	0,0	:r !echo a|tr a b<CR>
+x\ny	0,0	:.!cat<CR>
+x\ny	0,0	:.!cat -<CR>
+x\ny\nz	0,0	:1,2!cat<CR>Gdd
+x\ny\nz	1,0	:.,$!tac<CR>
+x\ny\nz	1,0	:2!rev<CR>
+abc\nxyz	0,0	:%!rev<CR>
+
+x\ny\nz	0,0	:2r !echo q<CR>
+x\ny\nz	0,0	:r /nonexistent/file<CR>x
+x\ny\nz	1,0	:r !echo a; echo b<CR>
+x\ny\nz	1,0	:2,3!sed s/./Q/<CR>.
+x\ny\nz	1,0	:2,3!sed s/./Q/<CR>uU

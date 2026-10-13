@@ -121,7 +121,7 @@ match (MED_app.open_all(files)) {
         app.load_keymap(keymap, is_keymap_required);
         if (keymap != "") {
             // -u NONE is a clean run: no state files either
-            app.state_dir = MED_state.default_dir();
+            app.state_directory = MED_state.default_directory();
             app.restore_position();
         }
         TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, animate_ms: 50, depth: colour_depth());

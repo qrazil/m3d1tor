@@ -8,7 +8,7 @@
 // and searcher (MED_grep).
 
 import ui.MED_picker;
-import ui.MED_shell;
+import engine.MED_shell;
 
 /// The command that lists the files below the current directory, one relative
 /// path a line; empty when no tool is installed (use the built-in walker).
@@ -169,19 +169,19 @@ const List<str> TODO_WORDS = ["TODO", "FIXME", "HACK", "XXX", "NOTE", "WARN", "P
 /// the word is "" when there is none.
 pub MED_picker.Entry todo_in(str line) {
     for (str word in TODO_WORDS) {
-        int at = line.index_of(word).or(-1);
-        while (at >= 0) {
-            bool is_start = at == 0 || !is_word_byte(line.byte_at(at - 1));
-            int after = at + word.size();
+        int position = line.index_of(word).or(-1);
+        while (position >= 0) {
+            bool is_start = position == 0 || !is_word_byte(line.byte_at(position - 1));
+            int after = position + word.size();
             bool is_end = after >= line.size() || !is_word_byte(line.byte_at(after));
             if (is_start && is_end) {
-                return MED_picker.Entry(word, column: at);
+                return MED_picker.Entry(word, column: position);
             }
-            int next = line.substr(at + 1, line.size()).index_of(word).or(-1);
+            int next = line.substr(position + 1, line.size()).index_of(word).or(-1);
             if (next < 0) {
                 break;
             }
-            at = at + 1 + next;
+            position = position + 1 + next;
         }
     }
     return MED_picker.Entry("");
@@ -245,9 +245,9 @@ str symbol_kind(str line, str trimmed, str lang) {
 }
 
 int indent_of(str line) {
-    int at = 0;
-    while (at < line.size() && (line.byte_at(at) == 32 || line.byte_at(at) == 9)) {
-        at = at + 1;
+    int position = 0;
+    while (position < line.size() && (line.byte_at(position) == 32 || line.byte_at(position) == 9)) {
+        position = position + 1;
     }
-    return at;
+    return position;
 }
