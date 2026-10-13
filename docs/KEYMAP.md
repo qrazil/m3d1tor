@@ -282,6 +282,11 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `>>` | Normal | indent line | core | vim |
 | `==` | Normal | reindent line | core | vim |
 | `!!` | Normal | filter line through a command | core | vim |
+| `K` | Normal | hover documentation (language server) | lsp | m3d1tor |
+| `gd` | Normal | go to definition (language server) | lsp | m3d1tor |
+| `grr` | Normal | references (language server) | lsp | m3d1tor |
+| `grn` | Normal | rename symbol (language server) | lsp | m3d1tor |
+| `gra` | Normal | code action (language server) | lsp | m3d1tor |
 | `ys` | Normal | +surround add (ys{motion}{char}) | surround | vim |
 | `yss` | Normal | surround the line | surround | vim |
 | `ds` | Normal | surround delete (ds{char}) | surround | vim |
@@ -316,9 +321,9 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | bracketed | [b ]b [q ]q [d ]d [h ]h [t ]t [c ]c |
 | harpoon | pinned files per project, <Space>1..9 |
 | move | move a line or selection with Alt-h/j/k/l |
-| jump | label jump: s and <Space><Space> |
+| jump | label jump: <Space>j, then a character, then a label |
 | guides | indent guides |
 | todo | highlight TODO FIXME HACK NOTE WARN |
 | terminal | :terminal, <Space>t, :! :r! filters |
 | session | remember the cursor position of each file |
-| lsp | language server client (see DESIGN.md section 12) |
+| lsp | language server client: diagnostics, K, gd, grr, grn, gra, :Lsp (DESIGN.md section 13) |

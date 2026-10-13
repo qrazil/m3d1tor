@@ -6,22 +6,26 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.0.3 and after (pre-release; 0.0.1 was never published, its release
-build failed).** What works: the Vim engine, checked against `nvim --headless` on
-more than 37,000 generated and hand-written cases (20 known divergences, listed in
-`tests/oracles/known_divergences.txt`), windows, pickers, the file tree sidebar,
-syntax highlighting, command-line completion, git gutter, surround, auto pairs,
-marks UI, comment toggle, manual folds and the clipboard. Options that change
-behaviour are checked against nvim one by one: `scrolloff`, `sidescroll`,
+**Status: v0.1.0 (default plugins).** The Vim engine is checked against `nvim --headless` on
+more than 38,500 generated and hand-written cases (20 known divergences, listed in
+`tests/oracles/known_divergences.txt`); on top of it sit the built-in plugins that make it a daily editor:
+a fuzzy finder with async sources (rg / fd / git when installed, a built-in walker and grep when not), which-key for
+every prefix, a keymap table that mirrors the owner's Neovim leader keys, git signs with hunk stage / reset /
+preview / blame, a statusline and bufferline, harpoon-style pinned files, quickfix, a terminal pane, `:!` `:r !` and
+`!{motion}` filters, label jump, line move, indent guides, TODO highlighting, last-position restore and a minimal
+language server client. Every built-in can be switched off (`:PluginDisable NAME`, `:Plugins`). See
+[docs/KEYMAP.md](docs/KEYMAP.md) for every default key (generated from the same table the editor uses) and DESIGN
+section 12 and 13 for the plugin framework and the LSP client.
+
+Options that change behaviour are checked against nvim one by one: `scrolloff`, `sidescroll`,
 `sidescrolloff`, `wrap`/`nowrap` scrolling, `whichwrap`, `iskeyword`, `textwidth`
 with `formatoptions` (auto-wrap, `gq`, comment leaders), `tabstop`, `shiftwidth`,
 `softtabstop`, `expandtab`, `smarttab`, `autoindent`, `ignorecase`, `smartcase`,
 `wrapscan`, `startofline`, `smartindent`, `list`/`listchars`, `cursorline`,
 `cursorcolumn`, `colorcolumn`. Known limits: no command-line window, no fold methods besides manual,
 a reduced `=` indent (`cindent` is not implemented; `smartindent` is), `formatoptions` `a` and `n`, `linebreak`, many
-options are stored but do not change behaviour yet, and LSP / tree-sitter /
-plugins are out of scope. The acceptance bar for v0.1.0 is DESIGN section 9.
-`m3d1tor --version` prints the version.
+options are stored but do not change behaviour yet, no tree-sitter, no undo files, and the terminal pane is
+line oriented (no full-screen programs). `m3d1tor --version` prints the version.
 
 ## Install
 
@@ -90,19 +94,54 @@ Normal-mode `<Space>` is the leader; a pending sequence shows which-key after a 
 |---|---|
 | `jk` | Insert mode: back to Normal |
 | `<Space>ff` / `<Space><Space>` | find files |
+| `<Space>fr` `fd` `fq` | recent files, lines of the buffer, quickfix |
 | `<Space>fb` / `<Space>,` | buffers |
 | `<Space>fg` / `<Space>/` | live grep |
 | `<Space>fc` / `<Space>:` | command palette |
 | `<Space>?` / `<Space>fh` | keymap help |
 | `<Space>e` / `<Space>fe` | file explorer (`-` goes up) |
 | `<Space>bn` `bp` `ba` `bd` `bl` | next, previous, alternate, delete, list buffers |
-| `<Space>sv` `sh` `se` `sc` `o` | split right, split below, equalise, close, only this window |
+| `<Space>sv` `sh` `se` `sc` `z` `o` | split right, split below, equalise, close, close, only this window |
+| `<Space>n` | new buffer |
 | `<Space>w` / `<Space>qq` / `<Space>qa` | write, quit, quit all |
 | `<C-w>` `s v n c q o w W p t h j k l` | window commands |
 | `<C-^>` | alternate buffer |
 | `:w` `:q` `:q!` `:wq` `ZZ` | write and quit |
 
 In a picker, `<C-s>` / `<C-v>` open the hit in a split below / beside.
+
+## Built-in plugins
+
+| plugin | default keys | what it does |
+|---|---|---|
+| finder | `<Space>ff fg fr fb fd fq fh fc fk fo fm fx fs ft fw` | files, live grep, recent, buffers, lines of the buffer, quickfix, keys, commands, options, marks, diagnostics, symbols, TODOs, word under cursor; `<C-t>` marks, `<C-q>` sends to quickfix |
+| whichkey | after 400 ms of any pending prefix | `<Space>`, `g`, `z`, `[`, `]`, `<C-w>`, `"`, `'`, operators |
+| explorer | `<Space>e` | file tree sidebar (see below) |
+| git | `<Space>gg gf gb gc gC gs gr gp gB gt`, `]c [c ]h [h` | changed files, branch checkout, remote branches, commit log with preview, hunk stage / reset / preview, blame line, signs |
+| surround | `ys ds cs`, Visual `S`, `<Space>sa sd sr` | vim-surround |
+| comment | `gc` `gcc` | language-aware toggle |
+| autopairs | insert mode | bracket and quote pairing |
+| statusline | | mode, file, git branch and hunk counts, E/W counts, filetype, position; bufferline with two or more buffers |
+| bracketed | `[b ]b [q ]q [d ]d [h ]h [t ]t` | buffers, quickfix, diagnostics, hunks, TODO comments |
+| harpoon | `<Space>ha he hn hp hd`, `<Space>1`..`9` | pinned files per project (`~/.local/state/m3d1tor`) |
+| move | `<A-j> <A-k> <A-h> <A-l>` | move or shift the line or the Visual selection |
+| jump | `<Space>j` | type a character, then a label |
+| guides | | indent guides (`:set noindentguides`) |
+| todo | `<Space>ft`, `]t` | highlight and list TODO FIXME HACK XXX NOTE WARN PERF BUG |
+| terminal | `<Space>t`, `:terminal [cmd]` | a shell on a pty; `<C-\><C-n>` leaves to Normal mode, `i` goes back |
+| session | | last cursor position of each file, recent files |
+| lsp | `K gd grr grn gra`, `<Space>cr ca cf ll xx`, `:Lsp ...` | diagnostics, hover, definition, references, rename, code action, format |
+
+`:Plugins` lists them, `:PluginDisable NAME` / `:PluginEnable NAME` switch one (put the lines in the keymap file).
+`:Keys` or `<Space>?` browses every key. `:set nojk_escape` turns the Insert-mode `jk` off.
+
+Shell: `:!cmd` shows the output, `:{range}!cmd` filters lines, `:r !cmd` and `:r file` read, `!{motion}` and
+Visual `!` start the filter command line; `%` is the file name and `!` the previous command. They match nvim
+(corpus 103) for commands that do not need a terminal; use `:terminal` for interactive programs.
+
+LSP: servers are found on `$PATH` by file type (rust-analyzer, gopls, pyright-langserver or pylsp, clangd,
+typescript-language-server, lua-language-server, marksman, bash-language-server) and started on demand;
+`:Lsp server LANGUAGE COMMAND...` sets one, `:Lsp info|start|stop|hover|definition|references|rename NAME|format|action`.
 
 ## Keymap file
 
@@ -121,7 +160,7 @@ not apply inside macros, `.` or `:normal`.
 
 ## macOS (Apple silicon) in three lines
 
-    curl -fsSL https://github.com/qrazil/m31/releases/download/v0.4.0/m31-macos-arm64.tar.gz | tar -xz -C /tmp && export M31_ROOT=/tmp LANGC=/tmp/m31c   # the m31 compiler and runtime
+    curl -fsSL https://github.com/qrazil/m31/releases/download/v0.4.3/m31-macos-arm64.tar.gz | tar -xz -C /tmp && export M31_ROOT=/tmp LANGC=/tmp/m31c   # the m31 compiler and runtime
     git clone https://github.com/qrazil/m3d1tor && cd m3d1tor && bash scripts/build.sh      # needs Xcode command line tools (cc); first run fetches tui
     ./m3d1tor FILE   # Terminal.app (256 colours) and iTerm2 / kitty / WezTerm (truecolor) work; --no-mouse turns mouse reports off
 
@@ -134,7 +173,7 @@ Colour depth follows `COLORTERM` / `TERM`; `--no-mouse` (or `M3D1TOR_NO_MOUSE=1`
     bash scripts/build.sh                 # -> ./m3d1tor   (bash scripts/build.sh -o NAME to rename)
     ./m3d1tor FILE...
 
-Needs m31 v0.4.0 or later; the first compile fetches the pinned `tui` into
+Needs m31 v0.4.3 or later (the `proc` module); the first compile fetches the pinned `tui` into
 `.m31-deps/` (the commit is in `deps`, recorded in `deps.lock`).
 
 ## Test
@@ -142,9 +181,10 @@ Needs m31 v0.4.0 or later; the first compile fetches the pinned `tui` into
     M31_ROOT=... LANGC=... bash tests/test.sh
 
 `tests/test.sh` is the single entry point: `m31c fmt --check -r .`, `m31c lint .`,
-the unit programs (`tests/test_units.sh`) and the nvim oracles
-(`tests/test_engine.sh`, skipped with a note when `nvim` is missing). The oracles
-need `nvim` 0.11 and `python3`. `bash scripts/oracle.sh --fuzz --seed 7 --cases 500`
+the unit programs (`tests/test_units.sh`), the nvim oracles
+(`tests/test_engine.sh`, skipped with a note when `nvim` is missing) and pty end-to-end
+runs of the real binary (`tests/e2e.py`, which needs `pyte`: `pip install pyte`; skipped with a note
+otherwise). The oracles need `nvim` 0.11 and `python3`. `bash scripts/oracle.sh --fuzz --seed 7 --cases 500`
 runs the engine oracle on its own.
 
 ## File tree keys
@@ -181,9 +221,11 @@ Options: `:set treeglyphs` (Nerd Font icons), `:set treewidth=40`, `:set treehid
                        buffer text charclass case key parse num nrfmt motion textobj
                        register regex search editor ex vim view
     ui/                drawing, input and navigation
-                       app keymap window picker picker_view fuzzy files grep ignore tree git clip
+                       app keymap plugin window picker picker_view fuzzy files grep ignore tree git clip
+                       sources state vt lsp shell
     tests/             test.sh (entry), t_*.m31 unit programs, MED_check.m31, oracles/
-    scripts/           build.sh, oracle.sh
+    scripts/           build.sh, oracle.sh, gen_keymap.sh (docs/KEYMAP.md from the keymap table)
+    docs/              KEYMAP.md (generated)
     DESIGN.md          plan, plugin audit, architecture, oracle plan, v0.1.0 acceptance
     RENAMES.md         old-to-new import and file table for the grouped layout
 
@@ -199,4 +241,4 @@ aarch64 and macOS arm64 for every push to master. Pushing a `v*` tag runs
 it builds `m3d1tor` on the same three platforms and attaches
 `m3d1tor-linux-x86_64`, `m3d1tor-linux-aarch64` and `m3d1tor-macos-arm64`
 tarballs to the GitHub Release. The release is marked a pre-release; v0.0.2 is tagged on the
-user's instruction. v0.1.0 waits for DESIGN section 9 acceptance.
+user's instruction. Version 0.1.0 is not tagged by the branch that introduced the default plugins; the lead tags after review.

@@ -1,0 +1,718 @@
+// A minimal Language Server Protocol client: JSON-RPC over a child process's
+// pipes (stdlib `proc`), no threads. The front end calls `Server.poll` from
+// its tick and `Server.request` / `Server.notify` from its commands.
+//
+// API
+// ---
+//   MED_lsp.Server                    one running language server
+//   MED_lsp.start(name, argv, root)   Server (is_dead when it cannot start)
+//   server.request(method, parameters)    id of the request sent
+//   server.notify(method, parameters)     a notification
+//   server.poll()                     List<Message> that arrived (never blocks)
+//   server.stop()                     shutdown, exit, kill
+//   MED_lsp.uri_of(path), path_of(uri)         file:// URIs
+//   MED_lsp.byte_of(line, units)      a UTF-16 column to a byte offset
+//   MED_lsp.units_of(line, byte)      a byte offset to a UTF-16 column
+//   MED_lsp.diagnostics_of(parameters)    the diagnostics of a publishDiagnostics
+//   MED_lsp.edits_of(value)           TextEdits from a result
+//
+// What is deliberately not here: incremental sync (the whole text is sent),
+// semantic tokens, completion, workspace folders, dynamic registration. The
+// servers a user is likely to run (rust-analyzer, gopls, pyright, clangd,
+// typescript-language-server, lua-language-server, marksman) all work with
+// full-document sync and the requests below.
+
+import encoding.json;
+import io;
+import os;
+import proc;
+import timer;
+
+pub type Diagnostic {
+    pub int row;
+    pub int col;
+    pub int end_row;
+    pub int end_col;
+    /// 1 error, 2 warning, 3 information, 4 hint
+    pub int severity;
+    pub str message;
+}
+
+/// One message from the server.
+pub type Message {
+    /// "response", "notification" or "request"
+    pub str kind;
+    pub int id = 0;
+    pub str method = "";
+    /// `result` of a response, `parameters` of the others.
+    pub json.Value body = json.Value.Null;
+    pub bool is_error = false;
+    pub str error_text = "";
+}
+
+// ---------------------------------------------------------------- JSON helpers
+
+/// An object from parallel key and value lists.
+pub json.Value object(List<str> keys, List<json.Value> values) {
+    Map<str, json.Value> members = {};
+    for (int index in 0 .. keys.size()) {
+        members.set(keys[index], values[index]);
+    }
+    return json.Value.Object(members);
+}
+
+pub json.Value text(str value) {
+    return json.Value.Str(value);
+}
+
+pub json.Value number(int value) {
+    return json.Value.Int(value);
+}
+
+pub json.Value position_value(int line, int character) {
+    return object(["line", "character"], [number(line), number(character)]);
+}
+
+/// The member `key` of an object; Null when it is not one or has no such key.
+pub json.Value member(json.Value value, str key) {
+    match (value) {
+        case Object(Map<str, json.Value> members): {
+            return members.get(key).or(json.Value.Null);
+        }
+        case Null: {
+            return json.Value.Null;
+        }
+        case Bool(bool flag): {
+            return json.Value.Null;
+        }
+        case Int(int whole): {
+            return json.Value.Null;
+        }
+        case Float(float real): {
+            return json.Value.Null;
+        }
+        case Str(str words): {
+            return json.Value.Null;
+        }
+        case Array(List<json.Value> items): {
+            return json.Value.Null;
+        }
+    }
+}
+
+/// The text of a string value, "" for anything else.
+pub str text_of(json.Value value) {
+    match (value) {
+        case Str(str words): {
+            return words;
+        }
+        case Null: {
+            return "";
+        }
+        case Bool(bool flag): {
+            return "";
+        }
+        case Int(int whole): {
+            return "";
+        }
+        case Float(float real): {
+            return "";
+        }
+        case Array(List<json.Value> items): {
+            return "";
+        }
+        case Object(Map<str, json.Value> members): {
+            return "";
+        }
+    }
+}
+
+pub int int_of(json.Value value, int fallback) {
+    match (value) {
+        case Int(int whole): {
+            return whole;
+        }
+        case Null: {
+            return fallback;
+        }
+        case Bool(bool flag): {
+            return fallback;
+        }
+        case Float(float real): {
+            return fallback;
+        }
+        case Str(str words): {
+            return fallback;
+        }
+        case Array(List<json.Value> items): {
+            return fallback;
+        }
+        case Object(Map<str, json.Value> members): {
+            return fallback;
+        }
+    }
+}
+
+/// The elements of an array value; empty for anything else.
+pub List<json.Value> items_of(json.Value value) {
+    match (value) {
+        case Array(List<json.Value> items): {
+            return items;
+        }
+        case Null: {
+            return [];
+        }
+        case Bool(bool flag): {
+            return [];
+        }
+        case Int(int whole): {
+            return [];
+        }
+        case Float(float real): {
+            return [];
+        }
+        case Str(str words): {
+            return [];
+        }
+        case Object(Map<str, json.Value> members): {
+            return [];
+        }
+    }
+}
+
+pub bool is_null(json.Value value) {
+    match (value) {
+        case Null: {
+            return true;
+        }
+        case Bool(bool flag): {
+            return false;
+        }
+        case Int(int whole): {
+            return false;
+        }
+        case Float(float real): {
+            return false;
+        }
+        case Str(str words): {
+            return false;
+        }
+        case Array(List<json.Value> items): {
+            return false;
+        }
+        case Object(Map<str, json.Value> members): {
+            return false;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- framing
+
+/// `body` with its Content-Length header.
+pub str frame(str body) {
+    return "Content-Length: " + body.size().to_str() + "\r\n\r\n" + body;
+}
+
+/// Collects the bytes a server writes and hands out complete message bodies.
+pub type Reader {
+    bytes buffer = [];
+}
+
+/// Add `data`; the complete bodies now available.
+pub List<str> Reader.feed(bytes data) {
+    buffer.extend(data);
+    List<str> bodies = [];
+    while (true) {
+        match (buffer.index_of("\r\n\r\n".to_bytes())) {
+            case Some(int header_end): {
+                bytes header = buffer.substr(0, header_end);
+                int length = -1;
+                match (header.utf8()) {
+                    case Some(str header_text): {
+                        for (str line in header_text.split("\r\n")) {
+                            str lower = line.to_lower();
+                            if (lower.starts_with("content-length:")) {
+                                length = line.substr(15, line.size()).trim().parse_int().or(-1);
+                            }
+                        }
+                    }
+                    case None: {
+                    }
+                }
+                if (length < 0) {
+                    // a header we cannot use: drop it and look for the next
+                    buffer.drop_front(header_end + 4);
+                    continue;
+                }
+                int total = header_end + 4 + length;
+                if (buffer.size() < total) {
+                    return bodies;
+                }
+                bytes body = buffer.substr(header_end + 4, total);
+                buffer.drop_front(total);
+                match (body.utf8()) {
+                    case Some(str body_text): {
+                        bodies.push(body_text);
+                    }
+                    case None: {
+                    }
+                }
+            }
+            case None: {
+                return bodies;
+            }
+        }
+    }
+}
+
+/// A decoded message; `kind` is "" when the body is not JSON-RPC.
+pub Message decode(str body) {
+    match (json.parse(body)) {
+        case Ok(json.Value value): {
+            json.Value method = member(value, "method");
+            json.Value id = member(value, "id");
+            if (!is_null(method)) {
+                Message message = Message("notification");
+                message.method = text_of(method);
+                message.body = member(value, "params");
+                if (!is_null(id)) {
+                    message.kind = "request";
+                    message.id = int_of(id, 0);
+                }
+                return message;
+            }
+            if (!is_null(id)) {
+                Message message = Message("response");
+                message.id = int_of(id, 0);
+                json.Value problem = member(value, "error");
+                if (!is_null(problem)) {
+                    message.is_error = true;
+                    message.error_text = text_of(member(problem, "message"));
+                }
+                message.body = member(value, "result");
+                return message;
+            }
+            return Message("");
+        }
+        case Err(json.Error error): {
+            return Message("");
+        }
+    }
+}
+
+// ---------------------------------------------------------------- positions, URIs
+
+/// `path` as a file:// URI (the characters a URI cannot hold are %-escaped).
+pub str uri_of(str path) {
+    str absolute = path;
+    str out = "file://";
+    for (int byte in absolute.to_bytes()) {
+        bool is_plain = (byte >= 48 && byte <= 57) || (byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122) || byte == 47 || byte == 45 || byte == 46 || byte == 95 || byte == 126 || byte == 58;
+        if (is_plain) {
+            out = out + str.from_chars([byte]);
+        } else {
+            out = out + "%" + hex_digit(byte / 16) + hex_digit(byte % 16);
+        }
+    }
+    return out;
+}
+
+str hex_digit(int value) {
+    return "0123456789ABCDEF".substr(value, value + 1);
+}
+
+/// The path a file:// URI names ("" for any other kind of URI).
+pub str path_of(str uri) {
+    if (!uri.starts_with("file://")) {
+        return "";
+    }
+    bytes raw = uri.substr(7, uri.size()).to_bytes();
+    bytes out = [];
+    int index = 0;
+    while (index < raw.size()) {
+        if (raw[index] == 37 && index + 2 < raw.size()) {
+            int high = hex_value(raw[index + 1]);
+            int low = hex_value(raw[index + 2]);
+            if (high >= 0 && low >= 0) {
+                out.push(high * 16 + low);
+                index = index + 3;
+                continue;
+            }
+        }
+        out.push(raw[index]);
+        index = index + 1;
+    }
+    return out.utf8().or("");
+}
+
+int hex_value(int byte) {
+    if (byte >= 48 && byte <= 57) {
+        return byte - 48;
+    }
+    if (byte >= 65 && byte <= 70) {
+        return byte - 55;
+    }
+    if (byte >= 97 && byte <= 102) {
+        return byte - 87;
+    }
+    return -1;
+}
+
+/// The byte offset of UTF-16 column `units` in `line` (clamped to the line).
+pub int byte_of(str line, int units) {
+    int used = 0;
+    int offset = 0;
+    for (int code_point in line.chars()) {
+        if (used >= units) {
+            return offset;
+        }
+        offset = offset + str.from_chars([code_point]).size();
+        used = used + 1;
+        if (code_point > 65535) {
+            used = used + 1;
+        }
+    }
+    return offset;
+}
+
+/// The UTF-16 column of byte offset `byte` in `line`.
+pub int units_of(str line, int byte) {
+    int units = 0;
+    int offset = 0;
+    for (int code_point in line.chars()) {
+        if (offset >= byte) {
+            return units;
+        }
+        offset = offset + str.from_chars([code_point]).size();
+        units = units + 1;
+        if (code_point > 65535) {
+            units = units + 1;
+        }
+    }
+    return units;
+}
+
+// ---------------------------------------------------------------- results
+
+/// The diagnostics of a `textDocument/publishDiagnostics` notification, with
+/// positions as (line, UTF-16 column): the caller converts to bytes with the
+/// buffer text it has.
+pub List<Diagnostic> diagnostics_of(json.Value parameters) {
+    List<Diagnostic> out = [];
+    for (json.Value item in items_of(member(parameters, "diagnostics"))) {
+        json.Value range = member(item, "range");
+        json.Value from_value = member(range, "start");
+        json.Value to_value = member(range, "end");
+        int severity = int_of(member(item, "severity"), 1);
+        out.push(Diagnostic(int_of(member(from_value, "line"), 0), int_of(member(from_value, "character"), 0), int_of(member(to_value, "line"), 0), int_of(member(to_value, "character"), 0), severity, text_of(member(item, "message"))));
+    }
+    return out;
+}
+
+/// A text edit: a range in (line, UTF-16 column) and the replacement.
+pub type TextEdit {
+    pub int line;
+    pub int character;
+    pub int end_line;
+    pub int end_character;
+    pub str new_text;
+}
+
+/// TextEdits of an array value (a `textDocument/formatting` result, or the
+/// edits of one file in a WorkspaceEdit).
+pub List<TextEdit> edits_of(json.Value value) {
+    List<TextEdit> out = [];
+    for (json.Value item in items_of(value)) {
+        json.Value range = member(item, "range");
+        json.Value from_value = member(range, "start");
+        json.Value to_value = member(range, "end");
+        out.push(TextEdit(int_of(member(from_value, "line"), 0), int_of(member(from_value, "character"), 0), int_of(member(to_value, "line"), 0), int_of(member(to_value, "character"), 0), text_of(member(item, "newText"))));
+    }
+    return out;
+}
+
+/// A location: file path, line and UTF-16 column (path "" when the value is
+/// not one). Accepts Location and LocationLink.
+pub type Place {
+    pub str path;
+    pub int line;
+    pub int character;
+}
+
+pub Place place_of(json.Value value) {
+    json.Value uri = member(value, "uri");
+    json.Value range = member(value, "range");
+    if (is_null(uri)) {
+        uri = member(value, "targetUri");
+        range = member(value, "targetSelectionRange");
+    }
+    json.Value from_value = member(range, "start");
+    return Place(path_of(text_of(uri)), int_of(member(from_value, "line"), 0), int_of(member(from_value, "character"), 0));
+}
+
+/// Locations of a result (one Location, an array, or null).
+pub List<Place> places_of(json.Value value) {
+    List<Place> out = [];
+    List<json.Value> items = items_of(value);
+    if (items.size() == 0 && !is_null(value)) {
+        Place single = place_of(value);
+        if (single.path.size() > 0) {
+            out.push(single);
+        }
+        return out;
+    }
+    for (json.Value item in items) {
+        Place one = place_of(item);
+        if (one.path.size() > 0) {
+            out.push(one);
+        }
+    }
+    return out;
+}
+
+/// The text of a hover result: a string, MarkedString(s) or MarkupContent.
+pub str hover_text(json.Value value) {
+    json.Value contents = member(value, "contents");
+    if (is_null(contents)) {
+        return "";
+    }
+    List<json.Value> items = items_of(contents);
+    if (items.size() > 0) {
+        List<str> parts = [];
+        for (json.Value item in items) {
+            str piece = text_of(item);
+            if (piece.size() == 0) {
+                piece = text_of(member(item, "value"));
+            }
+            if (piece.size() > 0) {
+                parts.push(piece);
+            }
+        }
+        return parts.join("\n\n");
+    }
+    str plain = text_of(contents);
+    if (plain.size() > 0) {
+        return plain;
+    }
+    return text_of(member(contents, "value"));
+}
+
+/// The edits of a WorkspaceEdit as (path, edits) pairs.
+pub type FileEdits {
+    pub str path;
+    pub List<TextEdit> edits;
+}
+
+pub List<FileEdits> workspace_edits(json.Value edit) {
+    List<FileEdits> out = [];
+    json.Value changes = member(edit, "changes");
+    match (changes) {
+        case Object(Map<str, json.Value> members): {
+            for (str uri in members.keys()) {
+                out.push(FileEdits(path_of(uri), edits_of(members.get(uri).or(json.Value.Null))));
+            }
+        }
+        case Null: {
+        }
+        case Bool(bool flag): {
+        }
+        case Int(int whole): {
+        }
+        case Float(float real): {
+        }
+        case Str(str words): {
+        }
+        case Array(List<json.Value> items): {
+        }
+    }
+    for (json.Value document in items_of(member(edit, "documentChanges"))) {
+        json.Value uri = member(member(document, "textDocument"), "uri");
+        if (!is_null(uri)) {
+            out.push(FileEdits(path_of(text_of(uri)), edits_of(member(document, "edits"))));
+        }
+    }
+    return out;
+}
+
+/// `new_text` applied to `lines` by `edits` (any order; later ranges first so
+/// earlier positions stay valid). Positions are UTF-16 columns.
+pub List<str> apply_edits(List<str> lines, List<TextEdit> edits) {
+    List<TextEdit> ordered = [];
+    for (TextEdit one in edits) {
+        int place = ordered.size();
+        for (int index in 0 .. ordered.size()) {
+            TextEdit other = ordered[index];
+            if (one.line > other.line || (one.line == other.line && one.character > other.character)) {
+                place = index;
+                break;
+            }
+        }
+        ordered.insert(place, one);
+    }
+    List<str> result = lines.slice(0, lines.size());
+    if (result.size() == 0) {
+        result.push("");
+    }
+    for (TextEdit one in ordered) {
+        int first = one.line;
+        int last = one.end_line;
+        if (first >= result.size()) {
+            first = result.size() - 1;
+            last = first;
+        }
+        if (last >= result.size()) {
+            last = result.size() - 1;
+        }
+        str head = result[first];
+        str tail = result[last];
+        int start_byte = byte_of(head, one.character);
+        int end_byte = byte_of(tail, one.end_character);
+        if (one.end_line >= lines.size()) {
+            end_byte = tail.size();
+        }
+        str inserted = one.new_text;
+        if (one.end_line >= lines.size() && inserted.ends_with("\n")) {
+            // the edit runs to the end of the document, whose last line break
+            // is not a line of its own here
+            inserted = inserted.substr(0, inserted.size() - 1);
+        }
+        str replaced = head.substr(0, start_byte) + inserted + tail.substr(end_byte, tail.size());
+        List<str> pieces = replaced.split("\n");
+        List<str> next = result.slice(0, first);
+        for (str piece in pieces) {
+            next.push(piece);
+        }
+        for (int index in last + 1 .. result.size()) {
+            next.push(result[index]);
+        }
+        result = next;
+    }
+    return result;
+}
+
+// ---------------------------------------------------------------- the process
+
+pub type Server {
+    pub str name;
+    pub List<str> argv;
+    pub str root;
+    List<proc.Proc> children = [];
+    Reader reader = Reader();
+    pub bool is_dead = true;
+    /// The `initialize` answer arrived.
+    pub bool is_ready = false;
+    pub int next_id = 1;
+    pub int initialize_id = 0;
+    /// Documents opened (path -> version).
+    pub Map<str, int> versions = {};
+    /// Stderr is closed: a server that logs there gets EPIPE and carries on.
+}
+
+void Server.transmit(str body) {
+    if (is_dead || children.size() == 0) {
+        return;
+    }
+    children[0].stdin.set_deadline_ns(timer.monotonic_ns() + 1000000000);
+    match (children[0].stdin.write(frame(body).to_bytes())) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+            is_dead = true;
+        }
+    }
+}
+
+/// Send a request; its id.
+pub int Server.request(str method, json.Value parameters) {
+    int id = next_id;
+    next_id = next_id + 1;
+    json.Value message = object(["jsonrpc", "id", "method", "params"], [text("2.0"), number(id), text(method), parameters]);
+    transmit(encode(message));
+    return id;
+}
+
+pub void Server.notify(str method, json.Value parameters) {
+    json.Value message = object(["jsonrpc", "method", "params"], [text("2.0"), text(method), parameters]);
+    transmit(encode(message));
+}
+
+/// An answer to a request the server made (`workspace/applyEdit` ...).
+pub void Server.respond(int id, json.Value result) {
+    json.Value message = object(["jsonrpc", "id", "result"], [text("2.0"), number(id), result]);
+    transmit(encode(message));
+}
+
+/// The messages that have arrived.
+pub List<Message> Server.poll() {
+    List<Message> out = [];
+    if (is_dead || children.size() == 0) {
+        return out;
+    }
+    int rounds = 0;
+    while (rounds < 16) {
+        rounds = rounds + 1;
+        children[0].stdout.set_deadline_ns(timer.monotonic_ns() + 20000);
+        match (children[0].stdout.read(65536)) {
+            case Ok(bytes data): {
+                if (data.size() == 0) {
+                    is_dead = true;
+                    break;
+                }
+                for (str body in reader.feed(data)) {
+                    Message message = decode(body);
+                    if (message.kind.size() > 0) {
+                        out.push(message);
+                    }
+                }
+            }
+            case Err(io.Error error): {
+                break;
+            }
+        }
+    }
+    return out;
+}
+
+/// Ask the server to shut down, then kill it.
+pub void Server.stop() {
+    if (!is_dead && children.size() > 0) {
+        int id = request("shutdown", json.Value.Null);
+        notify("exit", json.Value.Null);
+    }
+    if (children.size() > 0) {
+        Result<bool, proc.Error> killed = children[0].kill(proc.SIGKILL);
+        Result<os.ExitStatus, proc.Error> waited = children[0].wait();
+        children = [];
+    }
+    is_dead = true;
+}
+
+/// Start `argv` as language server `name` for `root`, and send `initialize`.
+pub Server start(str name, List<str> argv, str root) {
+    Server server = Server(name, argv, root);
+    match (proc.start(argv, cwd: root)) {
+        case Ok(proc.Proc child): {
+            Result<bool, io.Error> closed = child.stderr.close();
+            server.children.push(child);
+            server.is_dead = false;
+        }
+        case Err(proc.Error error): {
+            return server;
+        }
+    }
+    json.Value capabilities = object(["textDocument", "workspace"], [object(["synchronization", "hover", "definition", "references", "rename", "codeAction", "formatting", "publishDiagnostics"], [object(["didSave", "dynamicRegistration"], [json.Value.Bool(true), json.Value.Bool(false)]), object(["contentFormat"], [json.Value.Array([text("plaintext"), text("markdown")])]), object(["linkSupport"], [json.Value.Bool(false)]), object([], []), object(["prepareSupport"], [json.Value.Bool(false)]), object(["isPreferredSupport"], [json.Value.Bool(false)]), object([], []), object(["relatedInformation"], [json.Value.Bool(false)])]), object(["applyEdit", "workspaceEdit"], [json.Value.Bool(true), object(["documentChanges"], [json.Value.Bool(false)])])]);
+    json.Value parameters = object(["processId", "rootUri", "rootPath", "capabilities", "clientInfo"], [number(0), text(uri_of(root)), text(root), capabilities, object(["name"], [text("m3d1tor")])]);
+    server.initialize_id = server.request("initialize", parameters);
+    return server;
+}
+
+str encode(json.Value message) {
+    match (json.stringify(message)) {
+        case Ok(str text_value): {
+            return text_value;
+        }
+        case Err(json.Error error): {
+            return "{}";
+        }
+    }
+}

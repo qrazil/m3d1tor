@@ -1,0 +1,75 @@
+// Unit checks for MED_lsp: framing, JSON-RPC decoding, URIs, UTF-16 columns,
+// text edits, and a round trip with a scripted server (python3).
+
+import encoding.json;
+import tests.MED_check;
+import ui.MED_lsp;
+
+MED_check.Check check = MED_check.Check();
+// framing
+check.eq_str("frame", MED_lsp.frame("{}"), "Content-Length: 2\r\n\r\n{}");
+MED_lsp.Reader reader = MED_lsp.Reader();
+List<str> none = reader.feed("Content-Length: 7\r\n\r\n{\"a\"".to_bytes());
+check.eq_int("partial body waits", none.size(), 0);
+List<str> two = reader.feed(":1}Content-Length: 2\r\n\r\n{}".to_bytes());
+check.eq_int("two bodies", two.size(), 2);
+check.eq_str("first body", two[0], "{\"a\":1}");
+check.eq_str("second body", two[1], "{}");
+// decoding
+MED_lsp.Message response = MED_lsp.decode("{\"jsonrpc\":\"2.0\",\"id\":7,\"result\":{\"x\":1}}");
+check.eq_str("response", response.kind, "response");
+check.eq_int("response id", response.id, 7);
+MED_lsp.Message notification = MED_lsp.decode("{\"jsonrpc\":\"2.0\",\"method\":\"textDocument/publishDiagnostics\",\"params\":{\"uri\":\"file:///tmp/a.txt\",\"diagnostics\":[{\"range\":{\"start\":{\"line\":1,\"character\":2},\"end\":{\"line\":1,\"character\":5}},\"severity\":2,\"message\":\"bad\"}]}}");
+check.eq_str("notification", notification.kind, "notification");
+List<MED_lsp.Diagnostic> found = MED_lsp.diagnostics_of(notification.body);
+check.eq_int("one diagnostic", found.size(), 1);
+check.eq_int("diagnostic line", found[0].row, 1);
+check.eq_int("diagnostic severity", found[0].severity, 2);
+check.eq_str("diagnostic message", found[0].message, "bad");
+MED_lsp.Message problem = MED_lsp.decode("{\"id\":1,\"error\":{\"code\":-1,\"message\":\"no\"}}");
+check.ok("error response", problem.is_error);
+check.eq_str("error text", problem.error_text, "no");
+check.eq_str("garbage is not a message", MED_lsp.decode("nope").kind, "");
+// URIs and columns
+check.eq_str("uri", MED_lsp.uri_of("/tmp/my file.txt"), "file:///tmp/my%20file.txt");
+check.eq_str("path", MED_lsp.path_of("file:///tmp/my%20file.txt"), "/tmp/my file.txt");
+check.eq_str("not a file uri", MED_lsp.path_of("http://x"), "");
+check.eq_int("ascii column", MED_lsp.byte_of("hello", 3), 3);
+check.eq_int("two-byte char", MED_lsp.byte_of("h\u{e9}llo", 2), 3);
+check.eq_int("astral char is two units", MED_lsp.byte_of("a\u{1f600}b", 3), 5);
+check.eq_int("units of bytes", MED_lsp.units_of("a\u{1f600}b", 5), 3);
+// edits
+List<MED_lsp.TextEdit> edits = [MED_lsp.TextEdit(0, 0, 0, 5, "HELLO"), MED_lsp.TextEdit(1, 0, 1, 0, "new\n")];
+List<str> edited = MED_lsp.apply_edits(["hello world", "second"], edits);
+check.eq_str("replace", edited[0], "HELLO world");
+check.eq_str("insert a line", edited[1], "new");
+check.eq_str("rest follows", edited[2], "second");
+List<str> joined = MED_lsp.apply_edits(["a", "b", "c"], [MED_lsp.TextEdit(0, 1, 2, 0, "-")]);
+check.eq_int("multi-line replace", joined.size(), 1);
+check.eq_str("multi-line result", joined[0], "a-c");
+// a scripted server: answers initialize, then hover with "hi from server"
+str script = "import sys, json\n" + "def read():\n" + "    h = sys.stdin.buffer.readline()\n" + "    if not h: return None\n" + "    n = int(h.split(b':')[1])\n" + "    sys.stdin.buffer.readline()\n" + "    return json.loads(sys.stdin.buffer.read(n))\n" + "def send(o):\n" + "    b = json.dumps(o).encode()\n" + "    sys.stdout.buffer.write(b'Content-Length: %d\\r\\n\\r\\n' % len(b) + b); sys.stdout.buffer.flush()\n" + "while True:\n" + "    m = read()\n" + "    if m is None: break\n" + "    if m.get('method') == 'initialize': send({'jsonrpc':'2.0','id':m['id'],'result':{'capabilities':{}}})\n" + "    elif m.get('method') == 'textDocument/hover': send({'jsonrpc':'2.0','id':m['id'],'result':{'contents':{'kind':'plaintext','value':'hi from server'}}})\n" + "    elif m.get('method') == 'shutdown': send({'jsonrpc':'2.0','id':m['id'],'result':None})\n" + "    elif m.get('method') == 'exit': break\n";
+MED_lsp.Server server = MED_lsp.start("fake", ["python3", "-c", script], "/tmp");
+check.ok("server started", !server.is_dead);
+int hover_id = 0;
+str answer = "";
+bool is_ready = false;
+for (int round in 0 .. 3000) {
+    for (MED_lsp.Message message in server.poll()) {
+        if (message.kind == "response" && message.id == server.initialize_id) {
+            is_ready = true;
+            server.notify("initialized", json.Value.Object({}));
+            hover_id = server.request("textDocument/hover", MED_lsp.object(["textDocument"], [MED_lsp.object(["uri"], [MED_lsp.text("file:///tmp/a")])]));
+        } else if (message.kind == "response" && message.id == hover_id) {
+            answer = MED_lsp.hover_text(message.body);
+        }
+    }
+    if (answer.size() > 0) {
+        break;
+    }
+}
+check.ok("initialize answered", is_ready);
+check.eq_str("hover text", answer, "hi from server");
+server.stop();
+check.ok("stopped", server.is_dead);
+check.finish("t_lsp");

@@ -439,14 +439,14 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Themes | Partial | The terminal's own 16-colour palette (works at 16, 256 and truecolor); dark and light by `COLORFGBG` or `:set background=`; no per-language scopes, no user schemes |
 | Syntax highlighting | **Partial** | A lexical highlighter (`MED_syntax`, no parse tree) for c, cpp, go, javascript/typescript, json, m31, markdown, python, rust, sh, toml and yaml; `:syntax on/off`, `:set syntax=`. Multi-line comments, strings and code fences carry across lines |
 | Tree-sitter textobjects (`maf`, `mic`), indentation, selection expansion | **Impossible** (G3) | No tree-sitter runtime in m31 and the rule forbids Rust/FFI work |
-| LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Impossible today** (G1) | Needs piped child stdio |
-| Formatting via external formatter, shell pipe (`!`, `\|`, `:pipe`), `:sh`-capture, `:r !cmd` | **Impossible today** (G1) | Same gap; `:!cmd` with inherited terminal works |
-| Debug adapter (DAP) | **Impossible today** (G1) | |
-| Embedded terminal | **Impossible** (G4) | No pty |
-| Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list` + `listchars`, `number`, `relativenumber`, `colorcolumn`, `cursorline`, `cursorcolumn`, `scrolloff`, `sidescroll(off)` and `nowrap` scrolling done; indent guides and `linebreak` later |
+| LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Partial** (0.1.0) | Section 13: diagnostics, hover, definition, references, rename, code action, format over `proc` pipes. No completion, signature help or inlay hints |
+| Formatting via external formatter, shell pipe (`!`, `\|`, `:pipe`), `:sh`-capture, `:r !cmd` | **Yes** (0.1.0) | `:!cmd`, `:{range}!cmd`, `:r !cmd`, `!{motion}` through `proc.run`; nvim oracle corpus 103. `:!cmd` captures output (no tty): use `:terminal` for interactive programs |
+| Debug adapter (DAP) | **Later** | The pipes exist now; the UI does not |
+| Embedded terminal | **Partial** (0.1.0) | `:terminal` over `proc.start_pty`; a line-oriented screen model (`ui/MED_vt.m31`), not a full VT emulator |
+| Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list` + `listchars`, `number`, `relativenumber`, `colorcolumn`, `cursorline`, `cursorcolumn`, `scrolloff`, `sidescroll(off)` and `nowrap` scrolling, indent guides (0.1.0, `:set noindentguides`) done; `linebreak` later |
 | Snippets | Later | |
 | Auto-reload on external change, auto-save | Partial | Poll `fs.stat` mtimes on idle tick; auto-save later |
-| Persistent undo, session restore | Later | |
+| Persistent undo, session restore | Partial | Last cursor position and recent files are restored (0.1.0, `~/.local/state/m3d1tor`); `undofile` is stored but undo trees are not written to disk |
 | Increment/decrement (`<C-a>`/`<C-x>`) | Yes | Engine feature, oracle-tested |
 | Search (`/`, `?`, `*`, `#`), `:s`, `:g` | Yes | Vim regex subset; no backreferences or lookaround in the regex engine (G6) |
 | Config file | Yes (minimal) | `~/.config/m3d1tor/keymap.vim`: `:map` family, `let mapleader`, `:set`; no scripting |
@@ -493,14 +493,23 @@ as Helix without its language intelligence", and the tag description must say so
   completion is keyword completion (`CTRL-N`, `CTRL-P`, `CTRL-X CTRL-N`, `CTRL-X CTRL-P`) only;
   options that only store a value ('foldmethod', 'spell', 'smoothscroll', 'cindent' ...).
 
+* 0.1.0 (default plugins, this branch): the plugin framework and keymap table (section 12), fuzzy finder sources over
+  `proc` streams (files, grep, recent, lines, quickfix, options, symbols, todos, git branches / commits / changed),
+  git hunk stage / reset / preview / blame, statusline and bufferline, harpoon, bracketed pairs, Alt-hjkl move, label
+  jump, indent guides, TODO highlighting, position restore, `:!` / `:r !` / `!` filters (oracle corpus 103), terminal
+  pane and a minimal LSP client (section 13). Skipped on purpose: undo files, a full terminal emulator, LSP completion,
+  third-party plugins (no process boundary yet), `<Space><Space>` as jump (it stays find-files; jump is `<Space>j`).
+  Deviations from section 4: picker sources run on the tick (a child process read with an expired deadline), not on
+  spawned green threads, because m31 has no non-blocking channel receive; scoring is still the section 4 scorer.
+
 ## 11. m31 gaps (stop-and-report items, not worked around)
 
 | # | Gap | Effect |
 |---|---|---|
-| G1 | `os.run` inherits stdio; no way to pipe a child's stdin/stdout | No LSP, DAP, filters, `:r !cmd`, formatter via stdin/stdout. Needs a runtime change |
+| G1 | **Resolved in m31 0.4.3** (`proc`: pipes, `run`, `start`). Was: `os.run` inherits stdio | LSP, filters, `:r !cmd` and the finder's rg / fd / git streams are built on it (0.1.0) |
 | G2 | No SIGWINCH / signals | Resize is polled each tick (works; slightly delayed) |
 | G3 | No tree-sitter or foreign-library binding | No parse-tree features |
-| G4 | No pty | No embedded terminal |
+| G4 | **Resolved in m31 0.4.3** (`proc.start_pty`) | `:terminal` (0.1.0) |
 | G5 | No clipboard read, no process pipe to `wl-copy`/`xclip` | OSC 52 yank only |
 | G6 | `regex` has no backreferences/lookaround, `\d \w \s` ASCII-only | Vim `\1`, `\@=` etc. unsupported in `:s`/search |
 | G7 | `str` immutable, no function values, `match` only on enums | Design choices above (line array, enum dispatch); not blockers |
@@ -561,3 +570,26 @@ and a prefix (a test enforces it). The owner's nvim config used `<Space>s` both
 for splits (`sv sh se sc`) and for mini.surround (`sa sd sf sF sh sr`), where
 `sh` meant two things. The built-in surround is `ys ds cs` and Visual `S`;
 `<Space>sa/sd/sr` are aliases for those, and `sf sF sh` are not mapped.
+
+## 13. Language server client
+
+`ui/MED_lsp.m31` is the protocol (framing, JSON-RPC over the child's pipes with `encoding.json`, URIs, UTF-16
+columns, text edits, a `Server` that is polled); `ui/MED_app.m31` holds the editor side. No threads: the tick reads
+whatever a server wrote (a read with a deadline that has already passed fails at once when the pipe is empty).
+
+* Servers by language, first one on `$PATH` wins: rust-analyzer; gopls; pyright-langserver --stdio, pylsp,
+  jedi-language-server; clangd; typescript-language-server --stdio; lua-language-server; marksman server;
+  bash-language-server start. `:Lsp server LANGUAGE COMMAND...` overrides one (a keymap file line).
+* Started on demand when the active buffer's language has one, never at launch. Root is the project root.
+* Sync: full document, `didOpen` when the server is ready, `didChange` on the next tick after a change while the
+  buffer is not in Insert mode (so diagnostics refresh when Insert mode ends), `didSave` on `:w`. Positions are converted between UTF-16 columns and bytes with the buffer text.
+* Features: `publishDiagnostics` (signs `E W I`, `E:n W:n` in the statusline, `]d [d`, `<Space>ll`, `<Space>]]`
+  `<Space>[[`, the diagnostics picker `<Space>xx fx`), `K` hover, `gd` definition, `grr` references (picker),
+  `grn` / `:Lsp rename NAME`, `gra` / `:Lsp action` (picker of edit-carrying actions), `:Lsp format`. WorkspaceEdits
+  from the server (`workspace/applyEdit`) are applied. Edits go in as one undoable change per file.
+* Not done: completion, signature help, inlay hints, semantic tokens, code actions that only carry a command,
+  incremental sync, workspace folders, dynamic registration (requests from the server are answered with null),
+  formatting on save.
+* Tests: `tests/t_lsp.m31` (framing, decoding, URIs, columns, edits and a round trip with a scripted server) and
+  the `lsp_client` pty scenario of `tests/e2e.py` against `tests/fake_lsp.py`. Real servers were not available in
+  the build environment; the protocol subset is the common one but a real server is untested.
