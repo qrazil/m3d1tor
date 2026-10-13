@@ -1,0 +1,86 @@
+// Unit checks for MED_keymap and MED_plugin: the leader tree, prefix help,
+// plugin filtering, and that docs/KEYMAP.md is the generated table.
+
+import io;
+import tests.MED_check;
+import tui.widgets.TUI_menu;
+import ui.MED_keymap;
+import ui.MED_plugin;
+
+MED_check.Check check = MED_check.Check();
+List<MED_keymap.Binding> table = MED_keymap.defaults();
+// the owner's maps
+check.eq_str("w", MED_keymap.leaf(table, "w").action, "ex:write");
+check.eq_str("z", MED_keymap.leaf(table, "z").action, "ex:close");
+check.eq_str("o", MED_keymap.leaf(table, "o").action, "ex:only");
+check.eq_str("n", MED_keymap.leaf(table, "n").action, "ex:enew");
+check.eq_str("sv", MED_keymap.leaf(table, "sv").action, "ex:vsplit");
+check.eq_str("sh", MED_keymap.leaf(table, "sh").action, "ex:split");
+check.eq_str("sc", MED_keymap.leaf(table, "sc").action, "ex:close");
+check.eq_str("ll", MED_keymap.leaf(table, "ll").action, "app:diag_float");
+check.eq_str("]]", MED_keymap.leaf(table, "]]").action, "app:diag_next");
+check.eq_str("gb", MED_keymap.leaf(table, "gb").action, "picker:branches");
+check.eq_str("gC", MED_keymap.leaf(table, "gC").action, "picker:commits");
+check.eq_str("ff", MED_keymap.leaf(table, "ff").action, "picker:files");
+check.eq_str("fr", MED_keymap.leaf(table, "fr").action, "picker:recent");
+check.eq_str("harpoon 3", MED_keymap.leaf(table, "3").action, "app:harpoon 3");
+// the surround aliases do not collide with the split keys
+check.eq_str("sa is surround", MED_keymap.leaf(table, "sa").plugin, "surround");
+check.eq_str("sa visual", MED_keymap.leaf(table, "sa", mode: "x").action, "keys:S");
+check.eq_int("s is a prefix", MED_keymap.lookup(table, "s"), MED_keymap.IS_PREFIX);
+check.eq_int("sv is a leaf", MED_keymap.lookup(table, "sv"), MED_keymap.IS_LEAF);
+check.eq_int("nothing", MED_keymap.lookup(table, "Z"), MED_keymap.NO_BINDING);
+// no two normal-mode rows have the same keys
+for (int one in 0 .. table.size()) {
+    for (int other in one + 1 .. table.size()) {
+        if (table[one].mode == table[other].mode && table[one].keys == table[other].keys) {
+            check.ok("duplicate key " + table[one].keys, false);
+        }
+    }
+}
+// a leaf never is also the prefix of another row
+for (MED_keymap.Binding row in table) {
+    if (row.action.size() > 0 && MED_keymap.lookup(table, row.keys, mode: row.mode) == MED_keymap.IS_LEAF) {
+        bool is_longer = false;
+        for (MED_keymap.Binding other in table) {
+            if (other.mode == row.mode && other.keys.size() > row.keys.size() && other.keys.starts_with(row.keys)) {
+                is_longer = true;
+            }
+        }
+        check.ok("leaf " + row.keys + " is not a prefix", !is_longer);
+    }
+}
+// which-key items
+List<TUI_menu.Item> items = MED_keymap.next_items(table, "s");
+bool is_v = false;
+for (TUI_menu.Item item in items) {
+    if (item.key == "v") {
+        is_v = true;
+    }
+}
+check.ok("s lists v", is_v);
+// plugin switch
+List<MED_keymap.Binding> without = MED_keymap.enabled(table, ["finder"]);
+check.eq_int("lookup after disabling finder", MED_keymap.lookup(without, "ff"), MED_keymap.NO_BINDING);
+check.eq_int("core stays", MED_keymap.lookup(without, "w"), MED_keymap.IS_LEAF);
+check.ok("known plugin", MED_plugin.is_known("finder"));
+check.ok("unknown plugin", !MED_plugin.is_known("nope"));
+check.ok("core is core", MED_plugin.is_core("core"));
+// prefix help
+List<MED_keymap.Binding> prefixes = MED_keymap.prefixes();
+List<TUI_menu.Item> g_items = MED_keymap.next_items(prefixes, "g");
+check.ok("g has items", g_items.size() > 10);
+List<TUI_menu.Item> w_items = MED_keymap.next_items(prefixes, str.from_chars([23]));
+check.ok("ctrl-w has items", w_items.size() > 10);
+check.eq_str("shown ctrl-w", MED_keymap.shown_key(str.from_chars([23])), "<C-w>");
+check.eq_str("full keys", MED_keymap.full_keys(MED_keymap.leaf(table, "ff")), "<Space>ff");
+// the document is the generated table
+match (io.read("docs/KEYMAP.md")) {
+    case Ok(str text): {
+        check.ok("docs/KEYMAP.md is current (run scripts/gen_keymap.sh)", text == MED_keymap.markdown() + "\n");
+    }
+    case Err(io.Error error): {
+        check.ok("docs/KEYMAP.md exists", false);
+    }
+}
+check.finish("t_keymap");

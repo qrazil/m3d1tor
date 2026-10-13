@@ -1,0 +1,4 @@
+// Prints docs/KEYMAP.md from the keymap table (see scripts/gen_keymap.sh).
+import ui.MED_keymap;
+
+print(MED_keymap.markdown());

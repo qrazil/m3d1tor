@@ -389,7 +389,7 @@ match (MED_app.open_all([lead_path])) {
         check.eq_int("ctrl-s opens another below", app.wins.size(), 3);
         type_text(app, "\x17c\x17c");
         check.eq_int("closed again", app.wins.size(), 1);
-        type_text(app, " z");
+        type_text(app, " Z");
         check.ok("an unmapped leader is reported", app.notice.starts_with("No mapping"));
         check.ok("and the leader ends", !app.is_leader);
         type_text(app, "ixjk");
@@ -698,6 +698,55 @@ match (MED_app.open_all([map_text])) {
 }
 remove_file(map_text);
 remove_file(map_file);
+// built-in plugins: the leader tree, user maps under <Space>, jk, switches
+str plug_path = "/tmp/m3d1tor_t_app_plugins.txt";
+write_file(plug_path, "one\ntwo\nthree\n");
+match (MED_app.open_all([plug_path])) {
+    case Err(str message): {
+        check.ok("open for the plugin tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        type_text(app, ":set whichkey?\n");
+        // <Space>sa is the surround alias: ys{motion}{char}
+        type_text(app, " saiw\"");
+        check.eq_str("<Space>sa then a motion surrounds", app.editor.buffer.line(0), "\"one\"");
+        type_text(app, "u");
+        // jk leaves Insert mode; :set nojk_escape turns that off
+        type_text(app, "Ajk");
+        check.eq_int("jk leaves insert", app.editor.mode, MED_editor.NORMAL);
+        check.eq_str("and takes the j back", app.editor.buffer.line(0), "one");
+        type_text(app, ":set nojk_escape\n");
+        type_text(app, "Ajk\x1b");
+        check.eq_str("no jk escape: both typed", app.editor.buffer.line(0), "onejk");
+        type_text(app, "u:set jk_escape\n");
+        // a user map under <Space> beats the built-in row and merges with the tree
+        type_text(app, ":nnoremap <Space>w dd\n");
+        type_text(app, " w");
+        check.eq_str("the user's <Space>w runs", app.editor.buffer.line(0), "two");
+        check.ok("and the file was not written", app.is_modified());
+        // plugins
+        type_text(app, ":PluginDisable finder\n");
+        check.ok("finder is off", !app.is_plugin_on("finder"));
+        type_text(app, " ff");
+        check.ok("<Space>ff no longer opens a picker", !app.has_picker);
+        type_text(app, "\x1b\x1b");
+        type_text(app, ":PluginEnable finder\n");
+        type_text(app, " ff");
+        check.ok("<Space>ff opens it again", app.has_picker);
+        app.has_picker = false;
+        type_text(app, ":PluginDisable core\n");
+        check.ok("core cannot be disabled", app.is_plugin_on("core"));
+        type_text(app, ":PluginDisable nope\n");
+        check.ok("unknown plugin is E474", app.notice.starts_with("E474"));
+        type_text(app, ":PluginDisable surround\n");
+        check.eq_str("surround switch is its option", app.editor.opts.get("surround").or(""), "false");
+        // <Space> in Visual mode runs the Visual row
+        type_text(app, ":PluginEnable surround\n");
+        type_text(app, "ggVj sa(");
+        check.eq_str("visual <Space>sa surrounds the lines", app.editor.buffer.line(0), "(");
+    }
+}
+remove_file(plug_path);
 // 'commentstring' by file name
 check.eq_str("cms m31", MED_app.comment_for("src/a.m31"), "// %s");
 check.eq_str("cms py", MED_app.comment_for("x.PY"), "# %s");

@@ -1,50 +1,243 @@
-// The front end's keymap as data: leader sequences, the command palette and
-// the `?` help are all built from the same rows.
+// The front end's keymap as data: leader sequences, the prefix help of g z [ ]
+// and CTRL-W, the command palette and the `?` help are all built from the same
+// rows, and docs/KEYMAP.md is generated from them (scripts/gen_keymap.sh), so
+// the documentation cannot drift from what the keys do.
 //
-// A row is `(keys, label, action)`:
-//   keys     the keys after <leader> (Space) in Normal mode; "" for a command
-//            that has no key
+// A row is a `Binding`:
+//   keys     the keys after <Space> for a leader row, the whole sequence for a
+//            prefix row ("" for a palette command that has no key)
 //   label    what which-key, the palette and the help show
-//   action   `picker:NAME` opens a picker, `ex:LINE` runs an ex line, `""` marks
-//            a group (a prefix such as `f`) or a plain note
+//   action   `picker:NAME` opens a picker, `ex:LINE` runs an ex line,
+//            `keys:NOTATION` feeds keys to the editor, `app:NAME` is a front-end
+//            action, `""` marks a group (a prefix such as `f`) or a note
+//   plugin   the built-in plugin that owns the row (MED_plugin); rows of a
+//            disabled plugin are not shown or run
+//   mode     "n" Normal, "x" Visual, "i" Insert
+//   source   "vim" a Vim/nvim default (the engine is checked against nvim),
+//            "config" mirrors the owner's nvim config, "m3d1tor" a built-in extra
 //
 // A group row only names a prefix: `("f", "+find", "")`. Everything else is a
 // leaf. `lookup` says whether what was typed is a leaf, a prefix of more keys,
 // or nothing.
 
 import tui.widgets.TUI_menu;
+import ui.MED_plugin;
 
 pub type Binding {
     pub str keys;
     pub str label;
     pub str action;
+    pub str plugin = "core";
+    pub str mode = "n";
+    pub str source = "m3d1tor";
+    /// `keys` is the whole sequence, not relative to <Space>.
+    pub bool is_full = false;
 }
 
-/// How long (ms) a pending leader sequence waits before which-key shows.
+/// How long (ms) a pending sequence waits before which-key shows.
 pub const int WHICH_KEY_MS = 400;
 pub const int NO_BINDING = 0;
 pub const int IS_PREFIX = 1;
 pub const int IS_LEAF = 2;
 
+Binding leaf_row(str source, str plugin, str keys, str label, str action) {
+    return Binding(keys, label, action, plugin: plugin, source: source);
+}
+
+Binding visual_row(str source, str plugin, str keys, str label, str action) {
+    return Binding(keys, label, action, plugin: plugin, mode: "x", source: source);
+}
+
+/// The leader tree (keys after <Space>).
 pub List<Binding> defaults() {
-    return [Binding("f", "+find", ""), Binding("ff", "Find files", "picker:files"), Binding("fb", "Buffers", "picker:buffers"), Binding("fg", "Live grep", "picker:grep"), Binding("fc", "Commands", "picker:commands"), Binding("fh", "Keymap help", "picker:help"), Binding("fe", "File explorer", "picker:explore"), Binding("fm", "Marks", "picker:marks"), Binding("b", "+buffer", ""), Binding("bb", "Switch buffer", "picker:buffers"), Binding("bn", "Next buffer", "ex:bnext"), Binding("bp", "Previous buffer", "ex:bprevious"), Binding("ba", "Alternate buffer", "ex:buffer #"), Binding("bd", "Delete buffer", "ex:bdelete"), Binding("bl", "List buffers", "ex:ls"), Binding("s", "+split/search", ""), Binding("sv", "Split right", "ex:vsplit"), Binding("sh", "Split below", "ex:split"), Binding("se", "Equalize windows", "ex:wincmd ="), Binding("sc", "Close window", "ex:close"), Binding("sg", "Live grep", "picker:grep"), Binding("sn", "Clear search highlight", "ex:nohlsearch"), Binding("q", "+quit", ""), Binding("qq", "Quit", "ex:quit"), Binding("qa", "Quit all", "ex:qall"), Binding("w", "Write file", "ex:write"), Binding("e", "File tree", "ex:Neotree toggle"), Binding("E", "Reveal file in the tree", "ex:Neotree reveal"), Binding("o", "Only this window", "ex:only"), Binding("n", "New buffer", "ex:enew"), Binding(" ", "Find files", "picker:files"), Binding(",", "Switch buffer", "picker:buffers"), Binding("/", "Live grep", "picker:grep"), Binding(":", "Commands", "picker:commands"), Binding("?", "Keymap help", "picker:help")];
+    List<Binding> rows = [];
+    // the owner's nvim keymaps.lua
+    rows.push(leaf_row("config", "core", "w", "Write file", "ex:write"));
+    rows.push(leaf_row("config", "core", "z", "Close window", "ex:close"));
+    rows.push(leaf_row("config", "core", "o", "Only this window", "ex:only"));
+    rows.push(leaf_row("config", "core", "n", "New buffer", "ex:enew"));
+    rows.push(leaf_row("config", "core", "R", "Reload the file from disk", "ex:edit!"));
+    rows.push(leaf_row("config", "core", "s", "+split/surround", ""));
+    rows.push(leaf_row("config", "core", "sv", "Split right", "ex:vsplit"));
+    rows.push(leaf_row("config", "core", "sh", "Split below", "ex:split"));
+    rows.push(leaf_row("config", "core", "se", "Equalize windows", "ex:wincmd ="));
+    rows.push(leaf_row("config", "core", "sc", "Close window", "ex:close"));
+    rows.push(leaf_row("m3d1tor", "core", "sn", "Clear search highlight", "ex:nohlsearch"));
+    rows.push(leaf_row("config", "surround", "sa", "Surround add (ys{motion}{char})", "keys:ys"));
+    rows.push(visual_row("config", "surround", "sa", "Surround selection (S{char})", "keys:S"));
+    rows.push(leaf_row("config", "surround", "sd", "Surround delete (ds{char})", "keys:ds"));
+    rows.push(leaf_row("config", "surround", "sr", "Surround replace (cs{old}{new})", "keys:cs"));
+    // quit and buffers
+    rows.push(leaf_row("m3d1tor", "core", "q", "+quit", ""));
+    rows.push(leaf_row("m3d1tor", "core", "qq", "Quit", "ex:quit"));
+    rows.push(leaf_row("m3d1tor", "core", "qa", "Quit all", "ex:qall"));
+    rows.push(leaf_row("m3d1tor", "core", "b", "+buffer", ""));
+    rows.push(leaf_row("m3d1tor", "finder", "bb", "Switch buffer", "picker:buffers"));
+    rows.push(leaf_row("m3d1tor", "core", "bn", "Next buffer", "ex:bnext"));
+    rows.push(leaf_row("m3d1tor", "core", "bp", "Previous buffer", "ex:bprevious"));
+    rows.push(leaf_row("m3d1tor", "core", "ba", "Alternate buffer", "ex:buffer #"));
+    rows.push(leaf_row("m3d1tor", "core", "bd", "Delete buffer", "ex:bdelete"));
+    rows.push(leaf_row("m3d1tor", "core", "bl", "List buffers", "ex:ls"));
+    // explorer
+    rows.push(leaf_row("config", "explorer", "e", "File tree", "ex:Neotree toggle"));
+    rows.push(leaf_row("m3d1tor", "explorer", "E", "Reveal file in the tree", "ex:Neotree reveal"));
+    // finder (the owner's mini.pick / fzf-lua maps)
+    rows.push(leaf_row("config", "finder", "f", "+find", ""));
+    rows.push(leaf_row("config", "finder", "ff", "Find files", "picker:files"));
+    rows.push(leaf_row("config", "finder", "fg", "Live grep", "picker:grep"));
+    rows.push(leaf_row("config", "finder", "fr", "Recent files", "picker:recent"));
+    rows.push(leaf_row("config", "finder", "fb", "Buffers", "picker:buffers"));
+    rows.push(leaf_row("config", "finder", "fe", "File explorer (picker)", "picker:explore"));
+    rows.push(leaf_row("config", "finder", "fq", "Quickfix list", "picker:quickfix"));
+    rows.push(leaf_row("config", "finder", "fd", "Lines of this buffer", "picker:lines"));
+    rows.push(leaf_row("m3d1tor", "finder", "fw", "Grep the word under the cursor", "picker:word"));
+    rows.push(leaf_row("m3d1tor", "finder", "fh", "Help: all keys", "picker:help"));
+    rows.push(leaf_row("m3d1tor", "finder", "fc", "Commands", "picker:commands"));
+    rows.push(leaf_row("m3d1tor", "finder", "fk", "Keymaps", "picker:help"));
+    rows.push(leaf_row("m3d1tor", "finder", "fo", "Options", "picker:options"));
+    rows.push(leaf_row("m3d1tor", "finder", "fm", "Marks", "picker:marks"));
+    rows.push(leaf_row("m3d1tor", "finder", "fx", "Diagnostics", "picker:diagnostics"));
+    rows.push(leaf_row("m3d1tor", "finder", "fs", "Symbols in this file", "picker:symbols"));
+    rows.push(leaf_row("m3d1tor", "finder", "ft", "TODO comments", "picker:todos"));
+    rows.push(leaf_row("m3d1tor", "finder", "fl", "Plugins", "picker:plugins"));
+    rows.push(leaf_row("m3d1tor", "finder", " ", "Find files", "picker:files"));
+    rows.push(leaf_row("m3d1tor", "finder", ",", "Switch buffer", "picker:buffers"));
+    rows.push(leaf_row("m3d1tor", "finder", "/", "Live grep", "picker:grep"));
+    rows.push(leaf_row("m3d1tor", "finder", ":", "Commands", "picker:commands"));
+    rows.push(leaf_row("m3d1tor", "core", "?", "All keys", "picker:help"));
+    rows.push(leaf_row("m3d1tor", "jump", "j", "Jump to a label", "app:jump"));
+    // git (gitsigns, mini.pick git pickers)
+    rows.push(leaf_row("config", "git", "g", "+git", ""));
+    rows.push(leaf_row("config", "git", "gg", "Changed files (status)", "picker:changed"));
+    rows.push(leaf_row("config", "git", "gf", "Changed files", "picker:changed"));
+    rows.push(leaf_row("config", "git", "gb", "Branches (checkout)", "picker:branches"));
+    rows.push(leaf_row("config", "git", "gc", "Remote branches (checkout as local)", "picker:remotes"));
+    rows.push(leaf_row("config", "git", "gC", "Commit history", "picker:commits"));
+    rows.push(leaf_row("m3d1tor", "git", "gs", "Stage hunk", "app:hunk_stage"));
+    rows.push(leaf_row("m3d1tor", "git", "gr", "Reset hunk", "app:hunk_reset"));
+    rows.push(leaf_row("m3d1tor", "git", "gp", "Preview hunk", "app:hunk_preview"));
+    rows.push(leaf_row("m3d1tor", "git", "gB", "Blame line", "app:blame"));
+    rows.push(leaf_row("m3d1tor", "git", "gt", "Toggle git signs", "app:signs"));
+    // harpoon
+    rows.push(leaf_row("config", "harpoon", "h", "+harpoon", ""));
+    rows.push(leaf_row("config", "harpoon", "ha", "Harpoon: add this file", "app:harpoon_add"));
+    rows.push(leaf_row("config", "harpoon", "he", "Harpoon: menu", "picker:harpoon"));
+    rows.push(leaf_row("config", "harpoon", "hn", "Harpoon: next", "app:harpoon_next"));
+    rows.push(leaf_row("config", "harpoon", "hp", "Harpoon: previous", "app:harpoon_prev"));
+    rows.push(leaf_row("m3d1tor", "harpoon", "hd", "Harpoon: remove this file", "app:harpoon_remove"));
+    for (int slot in 1 .. 10) {
+        rows.push(leaf_row("config", "harpoon", slot.to_str(), "Harpoon: file " + slot.to_str(), "app:harpoon " + slot.to_str()));
+    }
+    // diagnostics (the owner's ll ]] [[ and trouble)
+    rows.push(leaf_row("config", "lsp", "l", "+diagnostics", ""));
+    rows.push(leaf_row("config", "lsp", "ll", "Show diagnostics at the cursor", "app:diag_float"));
+    rows.push(leaf_row("config", "lsp", "]]", "Next diagnostic", "app:diag_next"));
+    rows.push(leaf_row("config", "lsp", "[[", "Previous diagnostic", "app:diag_prev"));
+    rows.push(leaf_row("config", "lsp", "x", "+trouble", ""));
+    rows.push(leaf_row("config", "lsp", "xx", "Diagnostics", "picker:diagnostics"));
+    rows.push(leaf_row("config", "lsp", "xX", "Diagnostics of this buffer", "picker:buffer_diagnostics"));
+    rows.push(leaf_row("config", "finder", "xQ", "Quickfix list", "picker:quickfix"));
+    rows.push(leaf_row("config", "finder", "xL", "Location list", "picker:quickfix"));
+    rows.push(leaf_row("config", "finder", "cs", "Symbols", "picker:symbols"));
+    rows.push(leaf_row("m3d1tor", "lsp", "c", "+code", ""));
+    rows.push(leaf_row("m3d1tor", "lsp", "cr", "Rename symbol", "app:lsp_rename"));
+    rows.push(leaf_row("m3d1tor", "lsp", "ca", "Code action", "app:lsp_action"));
+    rows.push(leaf_row("m3d1tor", "lsp", "cf", "Format buffer", "app:lsp_format"));
+    // terminal
+    rows.push(leaf_row("config", "terminal", "t", "Terminal", "ex:terminal"));
+    return rows;
 }
 
 /// Commands the palette lists besides the leader rows.
 pub List<Binding> commands() {
-    return [Binding("", "Write file", "ex:write"), Binding("", "Write all buffers", "ex:wall"), Binding("", "Write and quit", "ex:wq"), Binding("", "Quit without saving", "ex:quit!"), Binding("", "New empty buffer", "ex:enew"), Binding("", "Undo", "ex:undo"), Binding("", "Redo", "ex:redo"), Binding("", "Show line numbers", "ex:set number"), Binding("", "Hide line numbers", "ex:set nonumber"), Binding("", "Clear search highlight", "ex:nohlsearch"), Binding("", "Reload the file", "ex:edit!"), Binding("", "Sort lines", "ex:sort"), Binding("", "First buffer", "ex:bfirst"), Binding("", "Last buffer", "ex:blast"), Binding("", "New window", "ex:new"), Binding("", "New window on the right", "ex:vnew")];
+    return [Binding("", "Write file", "ex:write"), Binding("", "Write all buffers", "ex:wall"), Binding("", "Write and quit", "ex:wq"), Binding("", "Quit without saving", "ex:quit!"), Binding("", "New empty buffer", "ex:enew"), Binding("", "Undo", "ex:undo"), Binding("", "Redo", "ex:redo"), Binding("", "Show line numbers", "ex:set number"), Binding("", "Hide line numbers", "ex:set nonumber"), Binding("", "Clear search highlight", "ex:nohlsearch"), Binding("", "Reload the file", "ex:edit!"), Binding("", "Sort lines", "ex:sort"), Binding("", "First buffer", "ex:bfirst"), Binding("", "Last buffer", "ex:blast"), Binding("", "New window", "ex:new"), Binding("", "New window on the right", "ex:vnew"), Binding("", "List the built-in plugins", "ex:Plugins"), Binding("", "Browse every key", "ex:Keys"), Binding("", "Open the quickfix list", "picker:quickfix"), Binding("", "Open a terminal", "ex:terminal")];
+}
+
+// One prefix row as text: "SEQUENCE|label". A control key is spelled `^W` and
+// is a single character in the sequence.
+List<Binding> prefix_data(str plugin, str source, List<str> specs) {
+    List<Binding> rows = [];
+    for (str spec in specs) {
+        int bar = spec.index_of(" :: ").or(spec.size());
+        str keys = spec.substr(0, bar).split("^W").join(str.from_chars([23]));
+        str label = spec.substr(bar + 4, spec.size());
+        rows.push(Binding(keys, label, "", plugin: plugin, source: source, is_full: true));
+    }
+    return rows;
+}
+
+/// The help of the multi-key prefixes of Normal mode: g, z, [, ], CTRL-W and
+/// the register / mark prefixes. The engine does the work; these rows only say
+/// what each next key is, for which-key and `:Keys`.
+pub List<Binding> prefixes() {
+    List<Binding> rows = [];
+    for (Binding row in prefix_data("core", "vim", ["g :: +goto", "gg :: first line", "ge :: back to end of word", "gE :: back to end of WORD", "gi :: insert where insert stopped", "gI :: insert at column 1", "gJ :: join lines without a space", "gj :: down a screen line", "gk :: up a screen line", "g0 :: start of screen line", "g^ :: first non-blank of screen line", "g$ :: end of screen line", "gm :: middle of screen line", "gM :: middle of the text line", "go :: go to byte", "gp :: put after, cursor after", "gP :: put before, cursor after", "gq :: format lines", "gw :: format, keep cursor", "gu :: lowercase", "gU :: uppercase", "g~ :: swap case", "g? :: rot13", "gv :: reselect visual", "g; :: older change position", "g, :: newer change position", "ga :: ascii of character", "g8 :: utf-8 bytes of character", "gf :: edit file under cursor", "gn :: search match as selection", "gN :: previous match as selection", "g& :: repeat :s on all lines", "g_ :: last non-blank", "g- :: older text state", "g+ :: newer text state", "g* :: search word, no boundaries", "g# :: search word backwards, no boundaries", "gR :: virtual replace mode", "gs :: sleep"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("comment", "vim", ["gc :: +comment (gc{motion}, gcc)", "gcc :: toggle comment on the line"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("core", "vim", ["z :: +view and folds", "zt :: cursor line at top", "zz :: cursor line at middle", "zb :: cursor line at bottom", "z<CR> :: top, first non-blank", "z. :: middle, first non-blank", "z- :: bottom, first non-blank", "zh :: scroll right", "zl :: scroll left", "zH :: scroll half screen right", "zL :: scroll half screen left", "zs :: cursor to left edge", "ze :: cursor to right edge", "zf :: create fold", "zF :: fold lines", "zo :: open fold", "zO :: open folds recursively", "zc :: close fold", "zC :: close folds recursively", "za :: toggle fold", "zA :: toggle fold recursively", "zv :: open folds at cursor", "zR :: open all folds", "zM :: close all folds", "zd :: delete fold", "zD :: delete folds recursively", "zE :: eliminate all folds", "zj :: next fold", "zk :: previous fold end", "zn :: folds off", "zN :: folds on", "zi :: toggle fold enable"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("core", "vim", ["[ :: +previous", "] :: +next", "[[ :: previous section start", "]] :: next section start", "[] :: previous section end", "][ :: next section end", "[{ :: previous unmatched {", "]} :: next unmatched }", "[( :: previous unmatched (", "]) :: next unmatched )", "[' :: previous mark line", "]' :: next mark line", "[` :: previous mark", "]` :: next mark", "[<Space> :: add blank line above", "]<Space> :: add blank line below"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("bracketed", "m3d1tor", ["[b :: previous buffer", "]b :: next buffer", "[B :: first buffer", "]B :: last buffer", "[q :: previous quickfix entry", "]q :: next quickfix entry", "[Q :: first quickfix entry", "]Q :: last quickfix entry", "[t :: previous TODO comment", "]t :: next TODO comment", "[h :: previous git hunk", "]h :: next git hunk", "[c :: previous git change", "]c :: next git change", "[d :: previous diagnostic", "]d :: next diagnostic"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("core", "vim", ["^W :: +windows", "^Ws :: split below", "^Wv :: split right", "^Wn :: new window", "^Wc :: close window", "^Wq :: quit window", "^Wo :: only this window", "^Ww :: next window", "^WW :: previous window", "^Wp :: last window", "^Wt :: top-left window", "^Wb :: bottom-right window", "^Wh :: window left", "^Wj :: window below", "^Wk :: window above", "^Wl :: window right", "^WH :: move window far left", "^WJ :: move window to the bottom", "^WK :: move window to the top", "^WL :: move window far right", "^Wr :: rotate windows", "^WR :: rotate windows up", "^Wx :: exchange window", "^W= :: equalize sizes", "^W+ :: taller", "^W- :: shorter", "^W< :: narrower", "^W> :: wider", "^W_ :: maximize height", "^W| :: maximize width"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("core", "vim", ["\" :: +register", "\"\" :: unnamed register", "\"+ :: system clipboard", "\"* :: selection clipboard", "\"_ :: black hole", "\"0 :: last yank", "\"1 :: last delete", "\"a :: named register a (a-z)", "\". :: last inserted text", "\": :: last command line", "\"/ :: last search", "\"% :: file name", "' :: +jump to mark line", "` :: +jump to mark", "m :: +set mark", "q :: +record macro", "@ :: +run macro", "'a :: mark a (a-z, A-Z)", "'' :: previous position", "'[ :: start of changed text", "'] :: end of changed text", "'< :: start of selection", "'> :: end of selection", "'. :: last change", "'^ :: last insert"])) {
+        rows.push(row);
+    }
+    // operators wait for a motion or text object
+    for (Binding row in prefix_data("core", "vim", ["d :: +delete", "c :: +change", "y :: +yank", "< :: +dedent", "> :: +indent", "= :: +reindent", "! :: +filter through a command", "dd :: delete line", "cc :: change line", "yy :: yank line", "<< :: dedent line", ">> :: indent line", "== :: reindent line", "!! :: filter line through a command"])) {
+        rows.push(row);
+    }
+    for (Binding row in prefix_data("surround", "vim", ["ys :: +surround add (ys{motion}{char})", "yss :: surround the line", "ds :: surround delete (ds{char})", "cs :: surround change (cs{old}{new})", "yS :: surround add, on own lines"])) {
+        rows.push(row);
+    }
+    return rows;
+}
+
+/// The motions that follow an operator, for which-key after `d`, `c`, `y` ...
+pub List<Binding> motion_rows(str operator) {
+    List<Binding> rows = [];
+    List<str> motions = ["w :: word", "W :: WORD", "e :: end of word", "E :: end of WORD", "b :: word back", "B :: WORD back", "$ :: end of line", "0 :: start of line", "^ :: first non-blank", "gg :: first line", "G :: last line", "ip :: paragraph", "ap :: paragraph and blank", "iw :: inner word", "aw :: a word", "i\" :: inside quotes", "a\" :: with quotes", "i( :: inside ( )", "a( :: with ( )", "i{ :: inside { }", "a{ :: with { }", "i[ :: inside [ ]", "it :: inside tag", "at :: with tag", "f :: to character", "t :: until character", "F :: to character back", "T :: until character back", "% :: matching bracket", "{ :: paragraph back", "} :: paragraph forward", "/ :: search forward", "? :: search backward", "n :: next match", "j :: line down", "k :: line up"];
+    for (str spec in motions) {
+        int bar = spec.index_of(" :: ").or(spec.size());
+        rows.push(Binding(operator + spec.substr(0, bar), spec.substr(bar + 4, spec.size()), "", is_full: true));
+    }
+    return rows;
+}
+
+/// The rows that apply with `disabled` plugins left out.
+pub List<Binding> enabled(List<Binding> table, List<str> disabled) {
+    List<Binding> kept = [];
+    for (Binding row in table) {
+        if (!disabled.contains(row.plugin)) {
+            kept.push(row);
+        }
+    }
+    return kept;
 }
 
 /// Notes that the help lists but nothing runs.
 pub List<Binding> notes() {
-    return [Binding("jk", "Insert mode: leave to Normal mode", ""), Binding("<Space>", "Normal mode: leader key", ""), Binding("<C-^>", "Normal mode: alternate buffer", ""), Binding("<C-w>s", "Normal mode: split window below (v: right)", ""), Binding("<C-w>hjkl", "Normal mode: go to the window left, below, above, right", ""), Binding("<C-w>wWpt", "Normal mode: next, previous, last-used, top-left window", ""), Binding("<C-w>cqo", "Normal mode: close, quit, keep only this window", "")];
+    return [Binding("jk", "Insert mode: leave to Normal mode (:set nojk_escape turns it off)", "", plugin: "core", mode: "i", source: "config", is_full: true), Binding("<Space>", "Normal mode: leader key", "", source: "config", is_full: true), Binding("<C-^>", "Normal mode: alternate buffer", "", source: "vim", is_full: true), Binding("<A-j>/<A-k>", "Normal and Visual: move the line or selection down / up", "", plugin: "move", is_full: true), Binding("<A-h>/<A-l>", "Normal and Visual: shift the line or selection left / right", "", plugin: "move", is_full: true), Binding("<C-q>", "Picker: send the marked (or all) entries to the quickfix list", "", plugin: "finder", is_full: true), Binding("<C-t>", "Picker: mark or unmark the entry", "", plugin: "finder", is_full: true)];
 }
 
 /// Whether `typed` names a leaf, a prefix of longer sequences, or nothing.
-/// A sequence that is both a leaf and a prefix counts as a leaf.
-pub int lookup(List<Binding> table, str typed) {
+/// A sequence that is both a leaf and a prefix counts as a leaf. Rows whose
+/// mode is not `mode` are not considered.
+pub int lookup(List<Binding> table, str typed, str mode = "n") {
     int found = NO_BINDING;
     for (Binding row in table) {
+        if (row.mode != mode) {
+            continue;
+        }
         if (row.keys == typed && row.action.size() > 0) {
             return IS_LEAF;
         }
@@ -56,30 +249,45 @@ pub int lookup(List<Binding> table, str typed) {
 }
 
 /// The row of the leaf `typed`.
-pub Binding leaf(List<Binding> table, str typed) {
+pub Binding leaf(List<Binding> table, str typed, str mode = "n") {
     for (Binding row in table) {
-        if (row.keys == typed && row.action.size() > 0) {
+        if (row.mode == mode && row.keys == typed && row.action.size() > 0) {
             return row;
         }
     }
     return Binding(typed, "", "");
 }
 
-/// The key notation for display: Space is `<Space>`.
+/// The key notation for display: Space is `<Space>`, a control key `<C-x>`.
 pub str shown_key(str key) {
     if (key == " ") {
         return "<Space>";
     }
+    if (key.size() == 1 && key.byte_at(0) < 32) {
+        if (key.byte_at(0) == 13) {
+            return "<CR>";
+        }
+        return "<C-" + str.from_chars([key.byte_at(0) + 96]) + ">";
+    }
     return key;
+}
+
+/// A whole sequence for display.
+pub str shown_keys(str keys) {
+    str out = "";
+    for (int code in keys.chars()) {
+        out = out + shown_key(str.from_chars([code]));
+    }
+    return out;
 }
 
 /// What each key that can follow `typed` does, for which-key: a leaf shows its
 /// label, a group its `+name` (or `+more`).
-pub List<TUI_menu.Item> next_items(List<Binding> table, str typed) {
+pub List<TUI_menu.Item> next_items(List<Binding> table, str typed, str mode = "n") {
     List<str> keys = [];
     List<str> labels = [];
     for (Binding row in table) {
-        if (row.keys.size() <= typed.size() || !row.keys.starts_with(typed)) {
+        if (row.mode != mode || row.keys.size() <= typed.size() || !row.keys.starts_with(typed)) {
             continue;
         }
         str next = row.keys.substr(typed.size(), typed.size() + 1);
@@ -91,7 +299,7 @@ pub List<TUI_menu.Item> next_items(List<Binding> table, str typed) {
         if (position < 0) {
             keys.push(next);
             labels.push(label);
-        } else if (row.keys.size() == typed.size() + 1 && (row.action.size() > 0 || labels[position] == "+more")) {
+        } else if (row.keys.size() == typed.size() + 1 && (row.action.size() > 0 || labels[position] == "+more" || row.label.starts_with("+"))) {
             labels[position] = label;
         }
     }
@@ -104,14 +312,7 @@ pub List<TUI_menu.Item> next_items(List<Binding> table, str typed) {
 
 /// One line of the palette or help: label and the keys that run it.
 pub str entry_text(Binding row, bool is_keys_first) {
-    str keys = "";
-    if (row.keys.size() > 0) {
-        if (row.keys.starts_with("<") || row.keys == "jk") {
-            keys = row.keys;
-        } else {
-            keys = "<Space>" + row.keys.split(" ").join("<Space>");
-        }
-    }
+    str keys = full_keys(row);
     if (is_keys_first) {
         return keys + "  " + row.label;
     }
@@ -119,4 +320,88 @@ pub str entry_text(Binding row, bool is_keys_first) {
         return row.label;
     }
     return row.label + "  (" + keys + ")";
+}
+
+/// The keys of a row as a user types them: a leader row starts with <Space>.
+pub str full_keys(Binding row) {
+    if (row.keys.size() == 0) {
+        return "";
+    }
+    if (row.is_full) {
+        return shown_keys(row.keys);
+    }
+    return "<Space>" + shown_keys(row.keys);
+}
+
+/// Every key of a mode, one text line each, for `:Keys` and the help picker.
+pub List<Binding> all_rows(List<str> disabled) {
+    List<Binding> rows = [];
+    for (Binding row in enabled(defaults(), disabled)) {
+        rows.push(row);
+    }
+    for (Binding row in enabled(prefixes(), disabled)) {
+        rows.push(row);
+    }
+    for (Binding row in enabled(notes(), disabled)) {
+        rows.push(row);
+    }
+    return rows;
+}
+
+/// docs/KEYMAP.md, generated from the tables above.
+pub str markdown() {
+    List<str> lines = [];
+    lines.push("# Keymap");
+    lines.push("");
+    lines.push("Generated from `ui/MED_keymap.m31` by `scripts/gen_keymap.sh`; do not edit by hand.");
+    lines.push("The in-editor listing (`<Space>?`, `:Keys`) is built from the same table.");
+    lines.push("");
+    lines.push("Source column: `vim` is a Vim / Neovim default that the engine is checked against (nvim parity),");
+    lines.push("`config` mirrors the owner's Neovim config, `m3d1tor` is specific to this editor.");
+    lines.push("A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear everywhere.");
+    lines.push("");
+    lines.push("## Leader (`<Space>`)");
+    lines.push("");
+    lines.push("| keys | mode | action | plugin | source |");
+    lines.push("|---|---|---|---|---|");
+    for (Binding row in defaults()) {
+        lines.push(table_line(row));
+    }
+    lines.push("");
+    lines.push("## Prefixes (g, z, [, ], CTRL-W, registers, marks, operators)");
+    lines.push("");
+    lines.push("| keys | mode | action | plugin | source |");
+    lines.push("|---|---|---|---|---|");
+    for (Binding row in prefixes()) {
+        lines.push(table_line(row));
+    }
+    lines.push("");
+    lines.push("## Other");
+    lines.push("");
+    lines.push("| keys | mode | action | plugin | source |");
+    lines.push("|---|---|---|---|---|");
+    for (Binding row in notes()) {
+        lines.push(table_line(row));
+    }
+    lines.push("");
+    lines.push("## Built-in plugins");
+    lines.push("");
+    lines.push("| plugin | what it does |");
+    lines.push("|---|---|");
+    for (MED_plugin.Plugin one in MED_plugin.all()) {
+        lines.push("| " + one.name + " | " + one.summary + " |");
+    }
+    return lines.join("\n");
+}
+
+str table_line(Binding row) {
+    str keys = full_keys(row).split("|").join("\\|");
+    str mode = "Normal";
+    if (row.mode == "x") {
+        mode = "Visual";
+    } else if (row.mode == "i") {
+        mode = "Insert";
+    }
+    str action = row.label.split("|").join("\\|");
+    return "| `" + keys + "` | " + mode + " | " + action + " | " + row.plugin + " | " + row.source + " |";
 }

@@ -1,0 +1,53 @@
+// Built-in plugins: the registry.
+//
+// A built-in plugin is an ordinary module of this program behind one small
+// interface: a name, a one-line summary, and what it contributes -- keymap
+// rows (MED_keymap rows carry the plugin's name), ex commands and UI. This
+// module holds the names and the switch; the behaviour lives in the modules
+// the front end calls when the plugin is on.
+//
+//   MED_plugin.all()              every plugin, in the order `:Plugins` lists them
+//   MED_plugin.find(name)         the Plugin, or one with an empty name when unknown
+//   MED_plugin.is_core(name)      core cannot be switched off
+//
+// Switching is by name (`:PluginDisable NAME`, `:PluginEnable NAME`, or the same
+// lines in the keymap file): a disabled plugin's keymap rows leave the leader
+// tree, which-key, the palette and `:Keys`, and its UI (statusline extras,
+// signs, guides ...) is not drawn. A plugin that is an engine feature (surround,
+// autopairs, comment, git signs) is switched through its option, so `:set
+// nosurround` and `:PluginDisable surround` are one switch.
+
+pub type Plugin {
+    pub str name;
+    pub str summary;
+    /// The engine option that holds the switch ("" when the front end holds it).
+    pub str option = "";
+}
+
+/// Every built-in plugin.
+pub List<Plugin> all() {
+    return [Plugin("core", "keymap tree, which-key engine, :Plugins and :Keys"), Plugin("finder", "fuzzy pickers: files, grep, buffers, recent, git, symbols"), Plugin("whichkey", "popup of the keys that can follow a pending prefix"), Plugin("explorer", "file tree sidebar and directory pickers"), Plugin("git", "gutter signs, hunk keys, branches, commits, blame", option: "gitsigns"), Plugin("surround", "ys ds cs and visual S", option: "surround"), Plugin("comment", "gc and gcc, language aware", option: "comment"), Plugin("autopairs", "insert-mode bracket and quote pairing", option: "autopairs"), Plugin("statusline", "mode, file, branch, diagnostics, filetype, position; tabline"), Plugin("bracketed", "[b ]b [q ]q [d ]d [h ]h [t ]t [c ]c"), Plugin("harpoon", "pinned files per project, <Space>1..9"), Plugin("move", "move a line or selection with Alt-h/j/k/l"), Plugin("jump", "label jump: s and <Space><Space>"), Plugin("guides", "indent guides"), Plugin("todo", "highlight TODO FIXME HACK NOTE WARN"), Plugin("terminal", ":terminal, <Space>t, :! :r! filters"), Plugin("session", "remember the cursor position of each file"), Plugin("lsp", "language server client (see DESIGN.md section 12)")];
+}
+
+/// The plugin called `name`; its `name` is empty when there is none.
+pub Plugin find(str name) {
+    for (Plugin one in all()) {
+        if (one.name == name) {
+            return one;
+        }
+    }
+    return Plugin("", "");
+}
+
+pub bool is_known(str name) {
+    return find(name).name.size() > 0;
+}
+
+pub bool is_core(str name) {
+    return name == "core";
+}
+
+/// Whether `name` is not in `disabled`.
+pub bool is_on(List<str> disabled, str name) {
+    return !disabled.contains(name);
+}
