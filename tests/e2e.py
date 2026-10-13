@@ -10,6 +10,7 @@ keys and waits for text on the screen.
 import fcntl
 import os
 import pty
+import re
 import select
 import shutil
 import struct
@@ -29,7 +30,7 @@ ROWS, COLS = 30, 100
 
 
 class Session:
-    def __init__(self, binary, cwd, args=(), rows=ROWS, cols=COLS, env=None):
+    def __init__(self, binary, cwd, args=(), rows=ROWS, cols=COLS, env=None, keymap="NONE"):
         master, slave = pty.openpty()
         fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", rows, cols, 0, 0))
         full = dict(os.environ, TERM="xterm-256color", COLORTERM="truecolor", LANG="C.UTF-8",
@@ -38,7 +39,7 @@ class Session:
         full.pop("M3D1TOR_KEYMAP", None)
         if env:
             full.update(env)
-        self.proc = subprocess.Popen([binary, "-u", "NONE"] + list(args), stdin=slave, stdout=slave,
+        self.proc = subprocess.Popen([binary, "-u", keymap] + list(args), stdin=slave, stdout=slave,
                                      stderr=slave, cwd=cwd, env=full, start_new_session=True,
                                      close_fds=True)
         os.close(slave)
@@ -163,6 +164,103 @@ def plugins_command(binary, root):
         s.send(":PluginDisable finder\r")
         s.send(" f", settle=0.8)
         assert "Find files" not in s.text(), "finder rows should be gone:\n" + s.text()
+    finally:
+        s.close()
+
+
+def have(tool):
+    return shutil.which(tool) is not None
+
+
+def git(root, *args):
+    subprocess.run(["git", "-C", root] + list(args), check=True, stdout=subprocess.DEVNULL,
+                   stderr=subprocess.DEVNULL,
+                   env=dict(os.environ, GIT_CONFIG_GLOBAL="/dev/null", GIT_AUTHOR_NAME="t",
+                            GIT_AUTHOR_EMAIL="t@t", GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@t"))
+
+
+@scenario
+def finder_files(binary, root):
+    s = Session(binary, root, ["hello.txt"], cols=130)
+    try:
+        assert s.wait_for("hello world")
+        s.send(" ff", settle=0.6)
+        assert s.wait_for("src/main.py"), "files picker:\n" + s.text()
+        s.send("main")
+        assert s.wait_for("def main"), "preview missing:\n" + s.text()
+        s.send("\r", settle=0.5)
+        assert s.wait_for("return 42"), s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def finder_grep_and_quickfix(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send(" fg", settle=0.4)
+        s.send("line", settle=0.8)
+        assert s.wait_for("hello.txt:3"), "grep hit:\n" + s.text()
+        s.send("\x11", settle=0.5)  # ctrl-q: to the quickfix list
+        assert s.wait_for("Quickfix"), s.text()
+        s.send("\x1b", settle=0.2)
+        s.send("]q", settle=0.3)
+        s.send(":cnext\r", settle=0.3)
+        assert s.wait_for("of 2") or s.wait_for("of 3"), s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def finder_lines_and_marks(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send(" fd", settle=0.4)
+        s.send("third", settle=0.4)
+        s.send("\r", settle=0.4)
+        assert "NORMAL" in s.text() and re.search(r" 3:\d+ ", s.text()), s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def bracketed_and_move(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send("\x1bj", settle=0.3)  # Alt-j: move the line down
+        lines = s.text().split("\n")
+        assert "second line" in lines[0] and "hello world" in lines[1], "\n".join(lines[:4])
+        s.send("\x1bk", settle=0.3)
+        lines = s.text().split("\n")
+        assert "hello world" in lines[0], "\n".join(lines[:4])
+    finally:
+        s.close()
+
+
+@scenario
+def git_signs_and_pickers(binary, root):
+    if not have("git"):
+        return
+    git(root, "init", "-q", "-b", "main")
+    git(root, "add", ".")
+    git(root, "commit", "-q", "-m", "first")
+    git(root, "checkout", "-q", "-b", "feature")
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send("ggOnew line\x1b", settle=0.3)
+        s.send(" gs", settle=0.5)   # stage hunk
+        assert s.wait_for("Hunk staged"), s.text()
+        out = subprocess.run(["git", "-C", root, "diff", "--cached", "--stat"], capture_output=True, text=True).stdout
+        assert "hello.txt" in out, out
+        s.send(" gb", settle=0.6)
+        assert s.wait_for("main") and s.wait_for("feature"), s.text()
+        s.send("\x1b", settle=0.2)
+        s.send(" gC", settle=0.6)
+        assert s.wait_for("first"), s.text()
     finally:
         s.close()
 

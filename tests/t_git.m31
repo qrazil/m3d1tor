@@ -24,4 +24,15 @@ MED_git.Hunks cleared = MED_git.diff(["a", "b"], []);
 check.eq_int("everything removed", cleared.starts.size(), 1);
 check.eq_int("next", MED_git.next_start(mixed, 0, true), 1);
 check.eq_int("previous", MED_git.next_start(mixed, 5, false), mixed.starts[1]);
+// hunk details and patches
+MED_git.Hunks pc = MED_git.diff(["a", "b", "c"], ["a", "x", "c"]);
+check.eq_int("hunk_at", MED_git.hunk_at(pc, 1), 0);
+check.eq_int("hunk_at outside", MED_git.hunk_at(pc, 0), -1);
+check.eq_str("change patch", MED_git.hunk_patch(pc, 0, ["a", "b", "c"], ["a", "x", "c"], "f.txt"), "--- a/f.txt\n+++ b/f.txt\n@@ -2,1 +2,1 @@\n-b\n+x\n");
+MED_git.Hunks pa = MED_git.diff(["a", "c"], ["a", "b", "c"]);
+check.eq_str("add patch", MED_git.hunk_patch(pa, 0, ["a", "c"], ["a", "b", "c"], "f.txt"), "--- a/f.txt\n+++ b/f.txt\n@@ -1,0 +2,1 @@\n+b\n");
+MED_git.Hunks pr = MED_git.diff(["a", "b", "c"], ["a", "c"]);
+check.eq_str("remove patch", MED_git.hunk_patch(pr, 0, ["a", "b", "c"], ["a", "c"], "f.txt"), "--- a/f.txt\n+++ b/f.txt\n@@ -2,1 +1,0 @@\n-b\n");
+check.eq_int("removal hunk found from the row below", MED_git.hunk_at(pr, 1), 0);
+check.eq_str("preview header", MED_git.hunk_preview(pc, 0, ["a", "b", "c"], ["a", "x", "c"])[0], "@@ -2,1 +2,1 @@");
 check.finish("t_git");

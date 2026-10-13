@@ -82,9 +82,15 @@ void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Pick
         int y = rect.y + row;
         TUI_style.Style style = plain;
         str marker = "  ";
+        if (picker.marked.contains(picker.shown[rank])) {
+            marker = "* ";
+        }
         if (rank == picker.selected) {
             style = chosen;
             marker = "> ";
+            if (picker.marked.contains(picker.shown[rank])) {
+                marker = ">*";
+            }
             buffer.fill(TUI_geometry.Rect(rect.x, y, rect.width, 1), " ", chosen);
         }
         buffer.set_str(rect.x, y, marker, style, max: rect.width);
@@ -129,6 +135,12 @@ pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Pic
     TUI_style.Style plain = TUI_style.Style.plain;
     buffer.fill(box, " ", plain);
     str title = " " + picker.title + " " + picker.shown.size().to_str() + "/" + picker.entries.size().to_str() + " ";
+    if (picker.is_loading) {
+        title = " " + picker.title + " " + picker.shown.size().to_str() + "/" + picker.entries.size().to_str() + " ... ";
+    }
+    if (picker.marked.size() > 0) {
+        title = title + "[" + picker.marked.size().to_str() + " marked] ";
+    }
     TUI_widget.Block block = TUI_widget.Block(title: title, borders: TUI_widget.Borders.Rounded, style: plain, title_style: TUI_style.Style(attrs: TUI_style.BOLD), pad_x: 1);
     block.render(buffer, box);
     TUI_geometry.Rect inner = block.inner(box);
@@ -141,6 +153,9 @@ pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Pic
         buffer.set_style(cursor_x, inner.y, TUI_style.Style(attrs: TUI_style.REVERSE));
     }
     str hints = "";
+    if (picker.kind == MED_picker.KIND_LIST) {
+        hints = "^T mark ^Q quickfix";
+    }
     if (picker.kind == MED_picker.KIND_FILES || picker.kind == MED_picker.KIND_GREP) {
         hints = "^H hidden:" + flag(picker.is_hidden_shown) + " Tab ignore:" + flag(picker.is_ignore_used);
         if (picker.kind == MED_picker.KIND_GREP) {

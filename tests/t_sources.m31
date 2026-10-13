@@ -1,0 +1,72 @@
+// Unit checks for MED_sources (parsers of what the pickers list) and
+// MED_shell (the child-process helpers).
+
+import tests.MED_check;
+import ui.MED_picker;
+import ui.MED_shell;
+import ui.MED_sources;
+
+MED_check.Check check = MED_check.Check();
+// rg --column output
+MED_picker.Entry hit = MED_sources.parse_grep_line("./src/main.py:12:5:    return 42  # TODO: later");
+check.eq_str("grep path", hit.path, "src/main.py");
+check.eq_int("grep line", hit.line, 11);
+check.eq_int("grep column", hit.column, 4);
+check.eq_str("grep text", hit.text, "src/main.py:12: return 42  # TODO: later");
+MED_picker.Entry colon = MED_sources.parse_grep_line("a.txt:1:1:x:y:z");
+check.eq_str("colons in the text stay", colon.text, "a.txt:1: x:y:z");
+check.eq_str("junk is empty", MED_sources.parse_grep_line("nonsense").text, "");
+// git branches
+List<MED_picker.Entry> branches = MED_sources.parse_branches(["*main", " feat/x", " origin/HEAD", ""], false);
+check.eq_int("two branches", branches.size(), 2);
+check.eq_str("current marked", branches[0].text, "main  (current)");
+check.eq_str("checkout action", branches[1].action, "git:checkout feat/x");
+List<MED_picker.Entry> remotes = MED_sources.parse_branches([" origin/main", " origin/HEAD"], true);
+check.eq_int("HEAD alias skipped", remotes.size(), 1);
+check.eq_str("remote action", remotes[0].action, "git:checkout_remote origin/main");
+// commits
+List<MED_picker.Entry> commits = MED_sources.parse_commits(["abc1234\tFix the thing\tAda\t2 days ago"]);
+check.eq_str("commit text", commits[0].text, "abc1234 Fix the thing  (Ada, 2 days ago)");
+check.eq_str("commit detail", commits[0].detail, "abc1234");
+// status -z
+List<MED_picker.Entry> changed = MED_sources.parse_status(" M a.txt\u{0}?? b.txt\u{0}R  new.txt\u{0}old.txt\u{0}", "/repo");
+check.eq_int("three changed", changed.size(), 3);
+check.eq_str("changed text", changed[0].text, " M a.txt");
+check.eq_str("changed path", changed[1].path, "/repo/b.txt");
+check.eq_str("rename takes the new name", changed[2].path, "/repo/new.txt");
+// todos and symbols
+List<MED_picker.Entry> todos = MED_sources.todo_entries(["a", "x = 1  # TODO: later", "NOTETAKER", "// FIXME(x) no"], "f.py");
+check.eq_int("two todos", todos.size(), 2);
+check.eq_int("todo line", todos[0].line, 1);
+check.eq_int("todo column", todos[0].column, 9);
+List<MED_picker.Entry> symbols = MED_sources.symbol_entries(["import os", "def main():", "    return 1", "class A:", "    def m(self):"], "f.py", "python");
+check.eq_int("three symbols", symbols.size(), 3);
+check.eq_int("symbol row", symbols[1].line, 3);
+List<MED_picker.Entry> headings = MED_sources.symbol_entries(["# Title", "text", "## Sub"], "r.md", "markdown");
+check.eq_int("headings", headings.size(), 2);
+List<MED_picker.Entry> rows = MED_sources.line_entries(["a", "", "b"], "f");
+check.eq_int("blank lines skipped", rows.size(), 2);
+check.eq_str("line text", rows[1].text, "3  b");
+// shell
+check.ok("sh is on PATH", MED_shell.which("sh").is_some());
+check.ok("no such program", MED_shell.which("m3d1tor-no-such-program").is_none());
+check.eq_str("output", MED_shell.output(["echo", "hi"], "").or("fail"), "hi\n");
+check.ok("failure is None", MED_shell.output(["false"], "").is_none());
+check.eq_int("lines", MED_shell.lines(["printf", "a\\nb\\n"], "").or([]).size(), 2);
+MED_shell.Ran ran = MED_shell.run(["sh", "-c", "cat; echo e >&2; exit 3"], "", "in");
+check.eq_int("exit code", ran.code, 3);
+check.eq_str("stdin reached the child", ran.text, "in");
+check.eq_str("stderr kept", ran.errors, "e\n");
+MED_shell.Stream stream = MED_shell.start(["sh", "-c", "echo a; echo b; sleep 0.1; printf c"], "");
+List<str> got = [];
+int rounds = 0;
+while (!stream.is_done && rounds < 2000000) {
+    for (str line in stream.poll(10)) {
+        got.push(line);
+    }
+    rounds = rounds + 1;
+}
+check.eq_str("stream lines, last one unterminated", got.join(","), "a,b,c");
+MED_shell.Stream missing = MED_shell.start(["m3d1tor-no-such-program"], "");
+check.ok("a program that is not there is a finished stream", missing.is_done);
+check.finish("t_sources");
