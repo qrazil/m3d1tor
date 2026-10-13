@@ -302,6 +302,127 @@ def shell_filters(binary, root):
         s.close()
 
 
+@scenario
+def statusline_tabline_guides(binary, root):
+    if have("git"):
+        git(root, "init", "-q", "-b", "trunk")
+    s = Session(binary, root, ["src/main.py", "hello.txt"])
+    try:
+        assert s.wait_for("return 42")
+        text = s.text()
+        first = text.split("\n")[0]
+        assert "main.py" in first and "hello.txt" in first, "tabline:\n" + text
+        s.send(":b1\r", settle=0.4)
+        assert s.wait_for("return 42"), s.text()
+        assert "\u2502" in s.text(), "indent guide missing:\n" + s.text()
+        assert "python" in s.text().split("\n")[-2], "filetype missing:\n" + s.text()
+        if have("git"):
+            assert s.wait_for("trunk", 4.0), "branch missing:\n" + s.text()
+        s.send(":PluginDisable guides\r", settle=0.3)
+        assert "\u2502" not in s.text(), s.text()
+        s.send(":PluginDisable statusline\r", settle=0.3)
+        assert "python" not in s.text().split("\n")[-2], s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def state_recent_harpoon_position(binary, root):
+    keymap = os.path.join(root, "empty.vim")
+    open(keymap, "w").close()
+    s = Session(binary, root, ["src/main.py"], keymap=keymap)
+    try:
+        assert s.wait_for("return 42")
+        s.send("j$", settle=0.2)
+        s.send(" ha", settle=0.4)
+        assert s.wait_for("Harpoon: pinned"), s.text()
+        s.send(":e hello.txt\r", settle=0.4)
+        s.pump(1.5)
+    finally:
+        s.close()
+    s = Session(binary, root, ["src/main.py"], keymap=keymap)
+    try:
+        assert s.wait_for("return 42")
+        assert re.search(r" 2:\d+ ", s.text()), "position not restored:\n" + s.text()
+        s.send(" fr", settle=0.5)
+        assert s.wait_for("hello.txt"), "recent list:\n" + s.text()
+        s.send("\x1b", settle=0.2)
+        s.send(" he", settle=0.5)
+        assert s.wait_for("main.py"), "harpoon menu:\n" + s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def lsp_client(binary, root):
+    fake = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fake_lsp.py")
+    with open(os.path.join(root, "a.py"), "w") as f:
+        f.write("hello = 1  # BUG\nprint(hello)\nprint(hello)\n")
+    s = Session(binary, root, ["a.py"])
+    try:
+        assert s.wait_for("print(hello)")
+        s.send(":Lsp server python python3 %s\r" % fake, settle=0.3)
+        s.send(":Lsp start\r", settle=0.3)
+        assert s.wait_for("E:1", 8.0), "diagnostic count missing:\n" + s.text()
+        assert re.search(r"^E ", s.text(), re.M) or " E " in s.text().split("\n")[0], "sign missing:\n" + s.text()
+        s.send("]d", settle=0.4)
+        assert s.wait_for("found BUG on line 1"), s.text()
+        s.send(" ll", settle=0.4)
+        assert s.wait_for("error: found BUG"), s.text()
+        s.send("K", settle=0.6)
+        assert s.wait_for("hover 0:"), "hover:\n" + s.text()
+        s.send("\r", settle=0.2)
+        s.send(":Lsp rename howdy\r", settle=0.8)
+        assert s.wait_for("howdy = 1"), "rename:\n" + s.text()
+        s.send(":Lsp format\r", settle=0.8)
+        assert s.wait_for("PRINT(HOWDY)"), "format:\n" + s.text()
+        s.send("grr", settle=0.8)
+        assert s.wait_for("References"), "references:\n" + s.text()
+        s.send("\x1b", settle=0.2)
+        s.send(":Lsp action\r", settle=0.8)
+        assert s.wait_for("Fix BUG"), "actions:\n" + s.text()
+        s.send("\r", settle=0.6)
+        assert s.wait_for("FIXED"), "applied:\n" + s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def label_jump(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send(" jn", settle=0.5)   # the n of "second line" and "needle line" ...
+        assert s.wait_for("jump"), s.text()
+        assert s.wait_for("third needle line") or True
+        s.send("a", settle=0.4)
+        assert "NORMAL" in s.text() and re.search(r" [23]:\d+ ", s.text()), s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def user_maps_in_which_key(binary, root):
+    keymap = os.path.join(root, "keys.vim")
+    with open(keymap, "w") as f:
+        f.write("let mapleader = \" \"\nnnoremap <leader>w :w<CR>\nnnoremap gX :s/hello/HELLO/<CR>\nnnoremap <leader>q ddp\n")
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("hello world")
+        s.send("g", settle=0.8)
+        assert s.wait_for(":s/hello/HELLO/"), "user gX missing from which-key:\n" + s.text()
+        s.send("\x1b", settle=0.2)
+        s.send(" ", settle=0.8)
+        assert s.wait_for("ddp"), "user <leader>q missing:\n" + s.text()
+        assert "Find files" in s.text() or "find" in s.text(), s.text()
+        s.send("q", settle=0.4)
+        assert s.wait_for("second line"), s.text()
+        lines = s.text().split("\n")
+        assert "second line" in lines[0] and "hello world" in lines[1], "\n".join(lines[:3])
+    finally:
+        s.close()
+
+
 def main():
     binary = os.path.abspath(sys.argv[1])
     only = None

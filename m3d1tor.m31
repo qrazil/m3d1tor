@@ -46,7 +46,7 @@ TUI_style.Depth colour_depth() {
     return TUI_style.Depth.Ansi16;
 }
 
-const str VERSION = "0.0.3";
+const str VERSION = "0.1.0";
 
 // Standard output, for the options that print and exit.
 void say(str text) {
@@ -66,7 +66,7 @@ for (str argument in arguments) {
         os.exit(0);
     }
     if (argument == "--help" || argument == "-h") {
-        say("m3d1tor " + VERSION + "\nusage: m3d1tor [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>e file tree, <Space>? keymap help, :q quits\n");
+        say("m3d1tor " + VERSION + "\nusage: m3d1tor [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\n");
         os.exit(0);
     }
 }

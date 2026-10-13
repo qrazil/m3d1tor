@@ -5,7 +5,7 @@ name: Test
 # The oracle tests need neovim 0.11, installed from its release tarball (the
 # nvim-linux-arm64 and nvim-macos-arm64 assets for the other two jobs).
 env:
-  M31_REF: v0.4.0
+  M31_REF: v0.4.3
   NVIM_REF: v0.11.5
 
 on:
@@ -43,7 +43,9 @@ jobs:
           echo "$RUNNER_TEMP/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
 
       - name: Test
-        run: bash tests/test.sh
+        run: |
+          python3 -m pip install --user --quiet pyte || true
+          bash tests/test.sh
 
   test-linux-aarch64:
     name: Test — Linux aarch64
@@ -71,7 +73,9 @@ jobs:
           echo "$RUNNER_TEMP/nvim-linux-arm64/bin" >> "$GITHUB_PATH"
 
       - name: Test
-        run: bash tests/test.sh
+        run: |
+          python3 -m pip install --user --quiet pyte || true
+          bash tests/test.sh
 
   test-macos-arm64:
     name: Test — macOS (arm64)
@@ -99,4 +103,6 @@ jobs:
           echo "$RUNNER_TEMP/nvim-macos-arm64/bin" >> "$GITHUB_PATH"
 
       - name: Test
-        run: bash tests/test.sh
+        run: |
+          python3 -m pip install --user --quiet pyte || true
+          bash tests/test.sh

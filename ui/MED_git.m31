@@ -92,6 +92,14 @@ pub str branch_of(str directory) {
     if (current.size() == 0) {
         current = ".";
     }
+    match (fs.realpath(current)) {
+        case Ok(str real): {
+            current = real;
+        }
+        case Err(io.Error error): {
+            return "";
+        }
+    }
     int guard = 0;
     while (guard < 64) {
         guard = guard + 1;
@@ -146,18 +154,7 @@ pub str branch_of(str directory) {
             }
             return "";
         }
-        if (current == "/" || current == ".") {
-            if (current == ".") {
-                match (fs.realpath(".")) {
-                    case Ok(str real): {
-                        current = real;
-                        continue;
-                    }
-                    case Err(io.Error error): {
-                        return "";
-                    }
-                }
-            }
+        if (current == "/") {
             return "";
         }
         int slash = -1;

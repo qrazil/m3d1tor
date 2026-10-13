@@ -8,7 +8,7 @@
 # `deps` file names the exact commit; the first compile fetches it into
 # `.m31-deps/` and records it in `deps.lock`.
 #
-# Needs LANGC (the m31c compiler binary, v0.4.0 or later) and M31_ROOT (a
+# Needs LANGC (the m31c compiler binary, v0.4.3 or later (the proc module)) and M31_ROOT (a
 # checkout of github.com/qrazil/m31, or an extracted release's runtime SDK
 # containing config.sh and runtime/). There is no pre-built runtime library.
 set -euo pipefail

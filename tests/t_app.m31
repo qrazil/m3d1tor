@@ -312,8 +312,10 @@ match (MED_app.open_all([win_a, win_b])) {
         check.eq_int("ctrl-w p goes to the previous window", app.current_win, 3);
         TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(80, 24);
         app.render(screen, screen.area());
-        check.ok("the left window draws its text", screen.row_text(0).contains("one"));
-        check.ok("the right windows are parted by a separator", screen.row_text(0).contains("|"));
+        // two buffers: the first row is the tabline
+        check.ok("the tabline lists the buffers", screen.row_text(0).contains(" 1 ") && screen.row_text(0).contains(" 2 "));
+        check.ok("the left window draws its text", screen.row_text(1).contains("one"));
+        check.ok("the right windows are parted by a separator", screen.row_text(1).contains("|"));
         check.ok("the other buffer is drawn too", screen.to_str().contains("bravo"));
         type_text(app, "ihello");
         type_text(app, "\x1b");
