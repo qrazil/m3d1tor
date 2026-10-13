@@ -205,8 +205,8 @@ pub Stream start(List<str> argv, str cwd) {
     Stream stream = Stream();
     match (proc.start(argv, cwd: cwd)) {
         case Ok(proc.Proc child): {
-            Result<bool, io.Error> closed_in = child.stdin.close();
-            Result<bool, io.Error> closed_err = child.stderr.close();
+            Result<bool, io.Error> closed_input = child.stdin.close();
+            Result<bool, io.Error> closed_error = child.stderr.close();
             stream.children.push(child);
             stream.is_done = false;
         }

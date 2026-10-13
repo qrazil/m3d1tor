@@ -9,7 +9,7 @@ import io;
 import os;
 
 /// The directory state is kept in, "" when HOME is not set.
-pub str default_dir() {
+pub str default_directory() {
     str base = os.env("XDG_STATE_HOME").or("");
     if (base.size() > 0) {
         return base + "/m3d1tor";

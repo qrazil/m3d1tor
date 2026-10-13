@@ -1,0 +1,225 @@
+// A small terminal screen model for the built-in terminal pane: the text a
+// program prints, kept as lines, with the control characters and escape
+// sequences that line-oriented programs use (shells, build tools, `git`, `ls`):
+// carriage return, line feed, backspace, tab, erase in line, clear screen,
+// cursor left/right/up/down and column, and the colour and mode sequences,
+// which are read and dropped. Full-screen programs (editors, pagers, htop)
+// need a real emulator and are out of scope; see DESIGN.md.
+//
+//   MED_vt.Screen screen = MED_vt.Screen();
+//   screen.feed(text)        process printed text
+//   screen.lines             the lines so far (scrollback is capped)
+
+/// Lines kept; older ones are dropped.
+const int MAX_LINES = 5000;
+
+pub type Screen {
+    pub List<str> lines = [""];
+    pub int row = 0;
+    pub int col = 0;
+    /// 0 text, 1 after ESC, 2 inside CSI, 3 inside OSC, 4 after ESC ( or similar
+    int state = 0;
+    str params = "";
+    bool is_osc_escape = false;
+    /// A partial UTF-8 sequence is not possible: `feed` takes whole text.
+    pub int dropped = 0;
+}
+
+// The code points of line `row`, padded to at least `col` columns.
+List<int> Screen.cells(int at_row) {
+    return lines[at_row].chars();
+}
+
+void Screen.ensure_row() {
+    while (row >= lines.size()) {
+        lines.push("");
+    }
+    if (lines.size() > MAX_LINES) {
+        int extra = lines.size() - MAX_LINES;
+        lines = lines.slice(extra, lines.size());
+        row = row - extra;
+        if (row < 0) {
+            row = 0;
+        }
+        dropped = dropped + extra;
+    }
+}
+
+void Screen.put(int code_point) {
+    ensure_row();
+    List<int> cells = lines[row].chars();
+    while (cells.size() < col) {
+        cells.push(32);
+    }
+    if (col < cells.size()) {
+        cells[col] = code_point;
+    } else {
+        cells.push(code_point);
+    }
+    lines[row] = str.from_chars(cells);
+    col = col + 1;
+}
+
+void Screen.erase_in_line(int how) {
+    ensure_row();
+    List<int> cells = lines[row].chars();
+    if (how == 0) {
+        if (col < cells.size()) {
+            lines[row] = str.from_chars(cells.slice(0, col));
+        }
+    } else if (how == 1) {
+        for (int index in 0 .. cells.size()) {
+            if (index <= col) {
+                cells[index] = 32;
+            }
+        }
+        lines[row] = str.from_chars(cells);
+    } else {
+        lines[row] = "";
+    }
+}
+
+void Screen.clear() {
+    lines = [""];
+    row = 0;
+    col = 0;
+}
+
+// A complete CSI sequence: `params` and the final byte.
+void Screen.run_csi(int final_byte) {
+    List<str> parts = params.split(";");
+    int first = param_at(parts, 0, -1);
+    if (final_byte == 75) {
+        erase_in_line(MED_vt_max(first, 0));
+    } else if (final_byte == 74) {
+        if (first == 2 || first == 3) {
+            clear();
+        } else if (first == 0 || first == -1) {
+            ensure_row();
+            erase_in_line(0);
+            lines = lines.slice(0, row + 1);
+        }
+    } else if (final_byte == 72 || final_byte == 102) {
+        // cursor position: rows are relative to the top of what was printed
+        // since the last clear; without a real screen model, home is "here"
+        col = param_at(parts, 1, 1) - 1;
+        if (col < 0) {
+            col = 0;
+        }
+        if (first <= 1 && parts.size() <= 1) {
+            col = 0;
+        }
+    } else if (final_byte == 67) {
+        col = col + MED_vt_max(first, 1);
+    } else if (final_byte == 68) {
+        col = col - MED_vt_max(first, 1);
+        if (col < 0) {
+            col = 0;
+        }
+    } else if (final_byte == 65) {
+        row = row - MED_vt_max(first, 1);
+        if (row < 0) {
+            row = 0;
+        }
+    } else if (final_byte == 66) {
+        row = row + MED_vt_max(first, 1);
+        ensure_row();
+    } else if (final_byte == 71) {
+        col = MED_vt_max(first, 1) - 1;
+    } else if (final_byte == 80) {
+        // delete characters
+        ensure_row();
+        List<int> cells = lines[row].chars();
+        int count = MED_vt_max(first, 1);
+        if (col < cells.size()) {
+            int stop = col + count;
+            if (stop > cells.size()) {
+                stop = cells.size();
+            }
+            lines[row] = str.from_chars(cells.slice(0, col)) + str.from_chars(cells.slice(stop, cells.size()));
+        }
+    }
+    // everything else (SGR colours, modes, scrolling regions) is dropped
+}
+
+/// Process printed text.
+pub void Screen.feed(str text) {
+    for (int code_point in text.chars()) {
+        if (state == 1) {
+            if (code_point == 91) {
+                state = 2;
+                params = "";
+            } else if (code_point == 93) {
+                state = 3;
+                is_osc_escape = false;
+            } else if (code_point == 40 || code_point == 41 || code_point == 35) {
+                state = 4;
+            } else {
+                state = 0;
+            }
+            continue;
+        }
+        if (state == 2) {
+            if (code_point >= 64 && code_point <= 126) {
+                run_csi(code_point);
+                state = 0;
+            } else if (params.size() < 64) {
+                params = params + str.from_chars([code_point]);
+            }
+            continue;
+        }
+        if (state == 3) {
+            // OSC runs to BEL or ST (ESC \)
+            if (code_point == 7) {
+                state = 0;
+            } else if (code_point == 27) {
+                is_osc_escape = true;
+            } else if (is_osc_escape && code_point == 92) {
+                state = 0;
+                is_osc_escape = false;
+            } else {
+                is_osc_escape = false;
+            }
+            continue;
+        }
+        if (state == 4) {
+            state = 0;
+            continue;
+        }
+        if (code_point == 27) {
+            state = 1;
+        } else if (code_point == 13) {
+            col = 0;
+        } else if (code_point == 10) {
+            row = row + 1;
+            ensure_row();
+        } else if (code_point == 8) {
+            if (col > 0) {
+                col = col - 1;
+            }
+        } else if (code_point == 9) {
+            int next = (col / 8 + 1) * 8;
+            while (col < next) {
+                put(32);
+            }
+        } else if (code_point == 7 || code_point < 32) {
+            // bell and other controls
+        } else {
+            put(code_point);
+        }
+    }
+}
+
+int param_at(List<str> parts, int index, int fallback) {
+    if (index >= parts.size() || parts[index].size() == 0) {
+        return fallback;
+    }
+    return parts[index].parse_int().or(fallback);
+}
+
+int MED_vt_max(int value, int least) {
+    if (value < least) {
+        return least;
+    }
+    return value;
+}

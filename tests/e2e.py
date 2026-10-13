@@ -265,6 +265,43 @@ def git_signs_and_pickers(binary, root):
         s.close()
 
 
+@scenario
+def terminal_pane(binary, root):
+    s = Session(binary, root, ["hello.txt"], env={"SHELL": "/bin/sh", "PS1": "$ "})
+    try:
+        assert s.wait_for("hello world")
+        s.send(":terminal\r", settle=0.8)
+        assert s.wait_for("TERMINAL"), s.text()
+        s.send("echo from_the_pane_$((6*7))\r", settle=0.8)
+        assert s.wait_for("from_the_pane_42"), s.text()
+        s.send("\x1c\x0e", settle=0.3)  # CTRL-\ CTRL-N
+        assert s.wait_for("NORMAL"), s.text()
+        s.send("i", settle=0.3)
+        assert s.wait_for("TERMINAL"), s.text()
+        s.send("exit\r", settle=0.8)
+        assert s.wait_for("Process exited 0"), s.text()
+    finally:
+        s.close()
+
+
+@scenario
+def shell_filters(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send(":%!sort\r", settle=0.5)
+        lines = s.text().split("\n")
+        assert "hello world" in lines[0], "\n".join(lines[:4])
+        s.send(":r !echo from_read\r", settle=0.5)
+        assert s.wait_for("from_read"), s.text()
+        s.send("!!tr a-z A-Z\r", settle=0.5)
+        assert s.wait_for("FROM_READ"), s.text()
+        s.send(":!echo bang_output\r", settle=0.5)
+        assert s.wait_for("bang_output"), s.text()
+    finally:
+        s.close()
+
+
 def main():
     binary = os.path.abspath(sys.argv[1])
     only = None

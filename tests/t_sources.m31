@@ -3,7 +3,7 @@
 
 import tests.MED_check;
 import ui.MED_picker;
-import ui.MED_shell;
+import engine.MED_shell;
 import ui.MED_sources;
 
 MED_check.Check check = MED_check.Check();

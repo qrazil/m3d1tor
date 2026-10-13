@@ -2692,6 +2692,19 @@ bool did_run_op(MED_editor.Editor editor, Oap oap) {
         editor.col = oap.start.col;
         editor.clamp();
         editor.want_from_cursor();
+    } else if (operator == "!") {
+        // op_colon: the command line is typed for the user, `:.,.+N!`
+        str range = ".";
+        if (oap.end.row != oap.start.row) {
+            if (oap.end.row == editor.buffer.line_count() - 1) {
+                range = ".,$";
+            } else {
+                range = ".,.+" + (oap.line_count - 1).to_str();
+            }
+        }
+        enter_cmdline(editor, 58, []);
+        set_cmdline(editor, range + "!");
+        return true;
     } else if (operator == "gc") {
         return did_op_comment(editor, oap);
     } else if (operator == "ys" || operator == "yS") {
@@ -7213,14 +7226,19 @@ void visual_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typ
         } else {
             run_macro(editor, str.from_chars([parsed.keys[1]]), parsed.count);
         }
-    } else if (key == 58) {
+    } else if (key == 58 || key == 33) {
         // `:` is an operator in Visual mode: the cursor goes to the start of the area
+        // (`!` is the same with the command line ending in the filter bang)
         Oap area = visual_oap(editor, ":", "");
         leave_visual(editor);
         editor.row = area.start.row;
         editor.col = area.start.col;
         enter_cmdline(editor, 58, typed);
-        set_cmdline(editor, "'<,'>");
+        if (key == 33) {
+            set_cmdline(editor, "'<,'>!");
+        } else {
+            set_cmdline(editor, "'<,'>");
+        }
     } else if (key == 112 || key == 80) {
         visual_put(editor, parsed, key == 80, key == 80, false);
     } else {
@@ -7811,6 +7829,32 @@ pub bool did_ex_put(MED_editor.Editor editor, str regname, int row, bool is_abov
             return is_ok;
         }
     }
+}
+
+// `:r` and `:{range}!`: put `lines` below `row` (above row 0 when `is_above`) as
+// whole lines. The cursor is left on the last new line (first non-blank) and
+// the `[` and `]` marks cover the new lines.
+pub bool did_ex_put_lines(MED_editor.Editor editor, List<str> lines, int row, bool is_above) {
+    if (lines.size() == 0) {
+        return true;
+    }
+    int directory = 1;
+    editor.row = row;
+    if (row < 0) {
+        editor.row = 0;
+    }
+    if (is_above) {
+        directory = -1;
+    }
+    editor.clamp();
+    int want = editor.want;
+    MED_register.Reg reg = MED_register.Reg(lines, MED_register.LINE);
+    bool is_ok = did_put_reg(editor, reg, directory, 1, false, PUT_LINE, 0);
+    editor.row = editor.marks.get("]").or(MED_buffer.Pos(editor.row, 0)).row;
+    editor.col = first_nonblank_fix(editor.buffer.line(editor.row));
+    editor.want = want;
+    editor.needs_stale = true;
+    return is_ok;
 }
 
 // :join, `count` lines from `row`.

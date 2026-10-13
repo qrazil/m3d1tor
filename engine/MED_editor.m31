@@ -158,6 +158,10 @@ pub type Editor {
     /// The first display column shown while lines do not wrap (Vim's leftcol).
     pub int view_left = 0;
     pub int view_skip_line = -1;
+    /// The file name of the buffer (for `%` in `:!`, `:r`; kept by the front end).
+    pub str file_name = "";
+    /// The last `:!` command, for `!` in the next one.
+    pub str last_shell = "";
     /// 'commentstring': `gc` wraps a line in this, `%s` standing for the text.
     pub str commentstring = "";
     pub bool is_expandtab = false;
