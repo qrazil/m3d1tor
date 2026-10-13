@@ -6,7 +6,7 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.0.2 and after (pre-release; 0.0.1 was never published, its release
+**Status: v0.0.3 and after (pre-release; 0.0.1 was never published, its release
 build failed).** What works: the Vim engine, checked against `nvim --headless` on
 more than 37,000 generated and hand-written cases (20 known divergences, listed in
 `tests/oracles/known_divergences.txt`), windows, pickers, the file tree sidebar,
