@@ -2576,6 +2576,9 @@ str uncomment_line(str line, str left, str right) {
 
 // The rows first..last toggled; false when 'commentstring' cannot be used.
 bool did_toggle_comment(MED_editor.Editor editor, int first, int last) {
+    if (!editor.is_option_on("comment", true)) {
+        return false;
+    }
     str spec = editor.commentstring;
     if (spec == "") {
         editor.message = "Option 'commentstring' is empty.";

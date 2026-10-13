@@ -36,6 +36,7 @@ import engine.MED_hl;
 import engine.MED_map;
 import ui.MED_keymap;
 import ui.MED_picker;
+import ui.MED_plugin;
 import ui.MED_picker_view;
 import engine.MED_text;
 import engine.MED_regex;
@@ -137,6 +138,13 @@ pub type App {
     pub str leader = "";
     pub int leader_ms = 0;
     pub bool is_which_key = false;
+    /// The mode the pending leader sequence started in ("n" or "x").
+    pub str leader_mode = "n";
+    /// Built-in plugins switched off (`:PluginDisable`).
+    pub List<str> disabled_plugins = [];
+    /// How long (ms) a pending prefix (g, z, [, CTRL-W, an operator) has waited.
+    pub int prefix_ms = 0;
+    pub bool is_prefix_help = false;
     /// The previous key fed to the engine (for the `jk` mapping).
     pub int last_key = 0;
     /// How long (ms) typed keys have waited for a longer mapping.
@@ -613,6 +621,10 @@ void App.run_request(str request) {
         open_picker("commands", arg);
     } else if (name == "help") {
         open_picker("help", arg);
+    } else if (name == "Keys") {
+        open_picker("help", "");
+    } else if (name == "Plugins" || name == "PluginEnable" || name == "PluginDisable") {
+        run_plugin_command(name, arg.trim());
     } else if (name == "Neotree" || name == "NeoTree") {
         run_tree(arg.trim());
     } else if (name == "Explore") {
@@ -625,6 +637,86 @@ void App.run_request(str request) {
         }
     } else {
         notice = "Not supported yet: :" + request.trim();
+    }
+}
+
+/// `:Plugins` lists the built-in plugins; `:PluginDisable NAME` and
+/// `:PluginEnable NAME` switch one.
+void App.run_plugin_command(str name, str arg) {
+    if (name == "Plugins") {
+        List<str> lines = ["Built-in plugins (:PluginDisable NAME / :PluginEnable NAME):"];
+        for (MED_plugin.Plugin one in MED_plugin.all()) {
+            str state = "on ";
+            if (disabled_plugins.contains(one.name)) {
+                state = "off";
+            }
+            lines.push("  " + state + "  " + one.name + "  " + one.summary);
+        }
+        overlay = lines;
+        return;
+    }
+    if (arg.size() == 0) {
+        notice = "E471: Argument required";
+        return;
+    }
+    if (!MED_plugin.is_known(arg)) {
+        notice = "E474: No such plugin: " + arg;
+        return;
+    }
+    bool is_disable = name == "PluginDisable";
+    if (is_disable && MED_plugin.is_core(arg)) {
+        notice = "The core plugin cannot be disabled";
+        return;
+    }
+    if (is_disable) {
+        if (!disabled_plugins.contains(arg)) {
+            disabled_plugins.push(arg);
+        }
+    } else {
+        List<str> kept = [];
+        for (str one in disabled_plugins) {
+            if (one != arg) {
+                kept.push(one);
+            }
+        }
+        disabled_plugins = kept;
+    }
+    str option = MED_plugin.find(arg).option;
+    if (option.size() > 0) {
+        for (int position in 0 .. slots.size()) {
+            Slot slot = slots[position];
+            if (is_disable) {
+                slot.editor.opts.set(option, "false");
+            } else {
+                slot.editor.opts.set(option, "true");
+            }
+        }
+        if (is_disable) {
+            editor.opts.set(option, "false");
+        } else {
+            editor.opts.set(option, "true");
+        }
+    }
+}
+
+/// Whether the built-in plugin `name` is on.
+pub bool App.is_plugin_on(str name) {
+    return MED_plugin.is_on(disabled_plugins, name);
+}
+
+/// A front-end action of a keymap row (`app:NAME ARG`).
+void App.run_app_action(str spec) {
+    str action = spec;
+    str arg = "";
+    int space = spec.index_of(" ").or(-1);
+    if (space >= 0) {
+        action = spec.substr(0, space);
+        arg = spec.substr(space + 1, spec.size()).trim();
+    }
+    if (action.starts_with("lsp_")) {
+        notice = "LSP: no language server is running (see DESIGN.md, section 12)";
+    } else {
+        notice = "Not supported yet: " + action;
     }
 }
 
@@ -1769,7 +1861,7 @@ void App.load_commands(bool is_help) {
     List<MED_picker.Entry> entries = [];
     List<str> seen = [];
     List<MED_keymap.Binding> rows = [];
-    for (MED_keymap.Binding row in MED_keymap.defaults()) {
+    for (MED_keymap.Binding row in MED_keymap.enabled(MED_keymap.defaults(), disabled_plugins)) {
         if (row.action.size() > 0) {
             rows.push(row);
         }
@@ -1785,7 +1877,10 @@ void App.load_commands(bool is_help) {
         entries.push(MED_picker.Entry(MED_keymap.entry_text(row, is_help), action: row.action));
     }
     if (is_help) {
-        for (MED_keymap.Binding row in MED_keymap.notes()) {
+        for (MED_keymap.Binding row in MED_keymap.enabled(MED_keymap.prefixes(), disabled_plugins)) {
+            entries.push(MED_picker.Entry(MED_keymap.entry_text(row, true)));
+        }
+        for (MED_keymap.Binding row in MED_keymap.enabled(MED_keymap.notes(), disabled_plugins)) {
             entries.push(MED_picker.Entry(MED_keymap.entry_text(row, true)));
         }
     }
@@ -1872,6 +1967,14 @@ bool App.should_quit_after_action(str action) {
     if (action.starts_with("picker:")) {
         open_picker(action.substr(7, action.size()), "");
         return false;
+    }
+    if (action.starts_with("keys:")) {
+        MED_ex.feed_keys(editor, MED_key.parse(action.substr(5, action.size())));
+        return did_finish();
+    }
+    if (action.starts_with("app:")) {
+        run_app_action(action.substr(4, action.size()));
+        return did_finish();
     }
     if (action.starts_with("ex:")) {
         MED_ex.feed(editor, 58);
@@ -2012,6 +2115,27 @@ void App.cancel_leader() {
     leader = "";
 }
 
+/// The leader tree with the plugins that are off left out, and the user's own
+/// maps under <Space> added (their right-hand side is the label).
+List<MED_keymap.Binding> App.leader_table() {
+    List<MED_keymap.Binding> table = MED_keymap.enabled(MED_keymap.defaults(), disabled_plugins);
+    for (MED_map.Mapping one in editor.maps.table(leader_mode)) {
+        if (one.lhs.size() > 1 && one.lhs[0] == MED_key.SPACE) {
+            bool is_plain = true;
+            for (int key in one.lhs) {
+                if (key < 32 || key > 126) {
+                    is_plain = false;
+                }
+            }
+            if (is_plain) {
+                List<int> rest = one.lhs.slice(1, one.lhs.size());
+                table.insert(0, MED_keymap.Binding(str.from_chars(rest), one.rhs_text, "usermap", mode: leader_mode));
+            }
+        }
+    }
+    return table;
+}
+
 /// One key after <Space>. True when the editor should quit.
 bool App.should_quit_after_leader(int key) {
     if (key < 32 || key > 126) {
@@ -2019,11 +2143,20 @@ bool App.should_quit_after_leader(int key) {
         return false;
     }
     leader = leader + str.from_chars([key]);
-    List<MED_keymap.Binding> table = MED_keymap.defaults();
-    int found = MED_keymap.lookup(table, leader);
+    List<MED_keymap.Binding> table = leader_table();
+    int found = MED_keymap.lookup(table, leader, mode: leader_mode);
     if (found == MED_keymap.IS_LEAF) {
-        MED_keymap.Binding row = MED_keymap.leaf(table, leader);
+        MED_keymap.Binding row = MED_keymap.leaf(table, leader, mode: leader_mode);
+        str typed = leader;
         cancel_leader();
+        if (row.action == "usermap") {
+            // the engine resolves its own mapping
+            MED_ex.feed(editor, MED_key.SPACE);
+            for (int code in typed.chars()) {
+                MED_ex.feed(editor, code);
+            }
+            return did_finish();
+        }
         return should_quit_after_action(row.action);
     }
     if (found == MED_keymap.IS_PREFIX) {
@@ -2035,6 +2168,50 @@ bool App.should_quit_after_leader(int key) {
     return false;
 }
 
+/// The pending keys of an unfinished Normal or Visual command as text, with a
+/// count in front dropped: `2d` is "d", CTRL-W is its control character.
+str App.prefix_typed() {
+    if (editor.mode != MED_editor.NORMAL && editor.mode != MED_editor.VISUAL) {
+        return "";
+    }
+    str out = "";
+    bool has_count = false;
+    if (is_window_key) {
+        return str.from_chars([23]);
+    }
+    for (int key in editor.pending) {
+        if (key >= 32 && key < 127) {
+            if (out.size() == 0 && key >= 49 && key <= 57) {
+                has_count = true;
+                continue;
+            }
+            if (out.size() == 0 && has_count && key == 48) {
+                continue;
+            }
+            out = out + str.from_chars([key]);
+        } else if (key == 23) {
+            out = out + str.from_chars([23]);
+        }
+    }
+    return out;
+}
+
+/// The rows which-key looks the pending prefix `typed` up in.
+List<MED_keymap.Binding> App.prefix_table(str typed) {
+    List<MED_keymap.Binding> table = MED_keymap.enabled(MED_keymap.prefixes(), disabled_plugins);
+    if (typed.size() > 0) {
+        List<str> operators = ["d", "c", "y", "<", ">", "=", "!", "gu", "gU", "g~", "gq", "gw", "g?", "zf"];
+        for (str operator in operators) {
+            if (typed == operator) {
+                for (MED_keymap.Binding row in MED_keymap.motion_rows(operator)) {
+                    table.push(row);
+                }
+            }
+        }
+    }
+    return table;
+}
+
 /// The timer: which-key after a pending leader waits, and the grep debounce.
 pub TUI_app.Action App.tick(int elapsed_ms) {
     if (is_leader && !is_which_key) {
@@ -2043,6 +2220,19 @@ pub TUI_app.Action App.tick(int elapsed_ms) {
             is_which_key = true;
             return TUI_app.Action.Redraw;
         }
+    }
+    if (!has_picker && !is_leader && editor.is_option_on("whichkey", true) && MED_plugin.is_on(disabled_plugins, "whichkey") && prefix_typed().size() > 0) {
+        if (!is_prefix_help) {
+            prefix_ms = prefix_ms + elapsed_ms;
+            if (prefix_ms >= MED_keymap.WHICH_KEY_MS && MED_keymap.next_items(prefix_table(prefix_typed()), prefix_typed()).size() > 0) {
+                is_prefix_help = true;
+                return TUI_app.Action.Redraw;
+            }
+        }
+    } else if (is_prefix_help || prefix_ms > 0) {
+        is_prefix_help = false;
+        prefix_ms = 0;
+        return TUI_app.Action.Redraw;
     }
     if (editor.ta_keys.size() > 0 && !has_picker) {
         map_ms = map_ms + elapsed_ms;
@@ -2136,15 +2326,19 @@ bool App.should_quit_after(int key) {
         }
         return did_finish();
     }
-    if (editor.mode == MED_editor.NORMAL && key == MED_key.SPACE && editor.pending.size() == 0 && editor.ta_keys.size() == 0 && !editor.maps.has_prefix("n", MED_key.SPACE)) {
+    if ((editor.mode == MED_editor.NORMAL || editor.mode == MED_editor.VISUAL) && key == MED_key.SPACE && editor.pending.size() == 0 && editor.ta_keys.size() == 0) {
         is_leader = true;
         is_which_key = false;
         leader = "";
         leader_ms = 0;
+        leader_mode = "n";
+        if (editor.mode == MED_editor.VISUAL) {
+            leader_mode = "x";
+        }
         return false;
     }
     int sent = key;
-    if (editor.mode == MED_editor.INSERT && key == 107 && last_key == 106 && !editor.maps.has_prefix("i", 106)) {
+    if (editor.mode == MED_editor.INSERT && key == 107 && last_key == 106 && !editor.maps.has_prefix("i", 106) && editor.is_option_on("jk_escape", true)) {
         // jk: take back the j and leave Insert mode
         MED_ex.feed(editor, MED_key.BACKSPACE);
         sent = MED_key.ESC;
@@ -2306,6 +2500,8 @@ pub TUI_app.Action App.handle(term.Event event) {
     }
     editor.view_height = current_text_rows();
     map_ms = 0;
+    prefix_ms = 0;
+    is_prefix_help = false;
     if (editor.mode != MED_editor.CMDLINE || editor.comp_items.size() == 0) {
         editor.buffer_names = [];
         for (Slot known in slots) {
@@ -2313,7 +2509,7 @@ pub TUI_app.Action App.handle(term.Event event) {
                 editor.buffer_names.push(known.path);
             }
         }
-        editor.extra_commands = ["Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Rename", "Delete", "Create", "Mkdir"];
+        editor.extra_commands = ["Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Keys", "Plugins", "PluginEnable", "PluginDisable", "Rename", "Delete", "Create", "Mkdir"];
     }
     if (is_paste_in_insert(event)) {
         // typed literally: no autoindent, auto-pairs, mappings or jk, and one undo step
@@ -3271,8 +3467,15 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
         draw_overlay(buffer, area, rows);
     }
     if (is_leader && is_which_key) {
-        TUI_menu.WhichKey menu = TUI_menu.WhichKey("<Space>" + leader, MED_keymap.next_items(MED_keymap.defaults(), leader));
+        TUI_menu.WhichKey menu = TUI_menu.WhichKey("<Space>" + leader, MED_keymap.next_items(leader_table(), leader, mode: leader_mode));
         menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
+    } else if (is_prefix_help && !is_leader) {
+        str typed = prefix_typed();
+        List<TUI_menu.Item> items = MED_keymap.next_items(prefix_table(typed), typed);
+        if (items.size() > 0) {
+            TUI_menu.WhichKey menu = TUI_menu.WhichKey(MED_keymap.shown_keys(typed), items);
+            menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
+        }
     }
     if (has_picker) {
         picker.scroll_to(MED_picker_view.list_rows(area));

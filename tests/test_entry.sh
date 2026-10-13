@@ -60,4 +60,9 @@ PY
     else
         bad "m3d1tor pty smoke" "$out"
     fi
+    if out=$(python3 tests/e2e.py "$WORK/m3d1tor" 2>&1); then
+        note "m3d1tor pty e2e: $(printf '%s\n' "$out" | tail -1)"
+    else
+        bad "m3d1tor pty e2e" "$(printf '%s\n' "$out" | tail -15)"
+    fi
 fi
