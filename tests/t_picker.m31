@@ -110,4 +110,27 @@ for (TUI_menu.Item item in top_items) {
 check.ok("which-key names a group", is_group_named);
 check.eq_str("entry text with keys last", MED_keymap.entry_text(MED_keymap.leaf(table, "ff"), false), "Find files  (<Space>ff)");
 check.eq_str("entry text with keys first", MED_keymap.entry_text(MED_keymap.leaf(table, "ff"), true), "<Space>ff  Find files");
+// streaming, marks and the quickfix key
+MED_picker.Picker live = MED_picker.make(MED_picker.KIND_LIST, "Live");
+live.set_entries([]);
+live.append([MED_picker.Entry("alpha.txt"), MED_picker.Entry("beta.txt")]);
+check.eq_int("appended entries are shown", live.shown.size(), 2);
+live.feed(20);
+check.eq_int("ctrl-t marks", live.marked.size(), 1);
+check.eq_int("and moves on", live.selected, 1);
+live.feed(20);
+check.eq_int("two marked", live.marked.size(), 2);
+live.selected = 0;
+live.feed(20);
+check.eq_int("ctrl-t again unmarks", live.marked.size(), 1);
+check.eq_int("chosen is the marked one", live.chosen().size(), 1);
+check.eq_str("marked entry", live.chosen()[0].text, "beta.txt");
+check.ok("ctrl-q asks for the quickfix list", live.feed(17).eq(MED_picker.Outcome.Quickfix));
+live.query = "bet";
+live.refilter();
+live.append([MED_picker.Entry("bet_more.txt")]);
+check.ok("a prompt makes the ranking stale", live.is_dirty);
+live.refilter();
+check.ok("and ranking again fixes it", !live.is_dirty);
+check.eq_int("both match", live.shown.size(), 2);
 check.finish("t_picker");

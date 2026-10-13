@@ -1,0 +1,217 @@
+// Child processes for the front end, over the stdlib `proc` module (pipes, no
+// shell, no temp files).
+//
+// API
+// ---
+//   MED_shell.which(program)               Option<str>: the first PATH entry that has it
+//   MED_shell.output(argv, cwd, input)     Option<str>: standard output of a run that exited 0
+//   MED_shell.lines(argv, cwd)             Option<List<str>>: the same, as lines
+//   MED_shell.Stream                       a running child whose output is read a little each tick
+//   MED_shell.start(argv, cwd)             a Stream (finished at once when it cannot start)
+//   stream.poll(max_lines)                 the lines that have arrived (never blocks)
+//   stream.stop()                          kill the child
+//
+// A Stream is how the pickers stay responsive on a big tree: the tick reads
+// whatever the pipe has (a read with a deadline that has already passed fails
+// at once when nothing is there) and hands the lines to the list.
+
+import fs;
+import io;
+import os;
+import proc;
+import timer;
+
+/// The first directory of $PATH that holds `program`.
+pub Option<str> which(str program) {
+    if (program.contains("/")) {
+        if (fs.is_file(program)) {
+            return Option<str>.Some(program);
+        }
+        return Option<str>.None;
+    }
+    str path = os.env("PATH").or("/usr/local/bin:/usr/bin:/bin");
+    for (str directory in path.split(":")) {
+        if (directory.size() == 0) {
+            continue;
+        }
+        str candidate = directory + "/" + program;
+        if (fs.is_file(candidate)) {
+            return Option<str>.Some(candidate);
+        }
+    }
+    return Option<str>.None;
+}
+
+/// Standard output of `argv` run to its end, when it exited 0 within `timeout_ms`.
+pub Option<str> output(List<str> argv, str cwd, str input = "", int timeout_ms = 10000) {
+    match (proc.run(argv, input: input.to_bytes(), cwd: cwd, timeout_ms: timeout_ms, is_quiet: true)) {
+        case Ok(proc.Completed done): {
+            if (!done.is_success()) {
+                return Option<str>.None;
+            }
+            match (done.stdout.utf8()) {
+                case Some(str text): {
+                    return Option<str>.Some(text);
+                }
+                case None: {
+                    return Option<str>.None;
+                }
+            }
+        }
+        case Err(proc.Error error): {
+            return Option<str>.None;
+        }
+    }
+}
+
+/// What a run printed and whether it exited 0, for commands whose failure
+/// message matters (`:!`, filters). `code` is -1 when it did not start.
+pub type Ran {
+    pub int code = -1;
+    pub str text = "";
+    pub str errors = "";
+}
+
+/// Run `argv` with `input`, keeping standard output and error (lossy UTF-8:
+/// invalid bytes are dropped by `utf8()` failing, so those give an empty text).
+pub Ran run(List<str> argv, str cwd, str input, int timeout_ms = 30000) {
+    Ran answer = Ran();
+    match (proc.run(argv, input: input.to_bytes(), cwd: cwd, timeout_ms: timeout_ms, should_check: false, is_quiet: true)) {
+        case Ok(proc.Completed done): {
+            answer.code = done.returncode;
+            answer.text = done.stdout.utf8().or("");
+            answer.errors = done.stderr.utf8().or("");
+        }
+        case Err(proc.Error error): {
+            answer.errors = error.to_str();
+        }
+    }
+    return answer;
+}
+
+/// `output`, split into lines (a final newline does not add an empty line).
+pub Option<List<str>> lines(List<str> argv, str cwd) {
+    match (output(argv, cwd)) {
+        case Some(str text): {
+            return Option<List<str>>.Some(split_lines(text));
+        }
+        case None: {
+            return Option<List<str>>.None;
+        }
+    }
+}
+
+/// `text` as lines, without the empty line a trailing newline leaves.
+pub List<str> split_lines(str text) {
+    if (text.size() == 0) {
+        return [];
+    }
+    List<str> parts = text.split("\n");
+    if (parts.size() > 0 && parts[parts.size() - 1] == "") {
+        parts.pop();
+    }
+    return parts;
+}
+
+/// A running child, read a little at a time.
+pub type Stream {
+    List<proc.Proc> children = [];
+    bytes partial = [];
+    pub bool is_done = true;
+    /// Lines handed out so far.
+    pub int total = 0;
+}
+
+/// The complete lines that have arrived, at most `max_lines`; never waits for
+/// more than a moment.
+pub List<str> Stream.poll(int max_lines) {
+    List<str> out = [];
+    if (is_done || children.size() == 0) {
+        return out;
+    }
+    int rounds = 0;
+    while (out.size() < max_lines && rounds < 64) {
+        rounds = rounds + 1;
+        children[0].stdout.set_deadline_ns(timer.monotonic_ns() + 20000);
+        match (children[0].stdout.read(65536)) {
+            case Ok(bytes data): {
+                if (data.size() == 0) {
+                    is_done = true;
+                    break;
+                }
+                partial.extend(data);
+            }
+            case Err(io.Error error): {
+                break;
+            }
+        }
+        take_lines(out);
+    }
+    if (is_done && partial.size() > 0) {
+        match (partial.utf8()) {
+            case Some(str text): {
+                out.push(text);
+            }
+            case None: {
+            }
+        }
+        partial = [];
+    }
+    if (is_done) {
+        Result<os.ExitStatus, proc.Error> waited = children[0].wait();
+        children = [];
+    }
+    total = total + out.size();
+    return out;
+}
+
+// Move the complete lines of `partial` to `out`.
+void Stream.take_lines(List<str> out) {
+    int line_start = 0;
+    int stop = partial.size();
+    int offset = 0;
+    while (offset < stop) {
+        if (partial[offset] == 10) {
+            bytes line = partial.substr(line_start, offset);
+            match (line.utf8()) {
+                case Some(str text): {
+                    out.push(text);
+                }
+                case None: {
+                }
+            }
+            line_start = offset + 1;
+        }
+        offset = offset + 1;
+    }
+    if (line_start > 0) {
+        partial.drop_front(line_start);
+    }
+}
+
+/// Kill the child (a new query replaces a running search).
+pub void Stream.stop() {
+    if (children.size() > 0) {
+        Result<bool, proc.Error> killed = children[0].kill(proc.SIGKILL);
+        Result<os.ExitStatus, proc.Error> waited = children[0].wait();
+        children = [];
+    }
+    is_done = true;
+    partial = [];
+}
+
+/// Start `argv` in `cwd`; a Stream that is done at once when it cannot start.
+pub Stream start(List<str> argv, str cwd) {
+    Stream stream = Stream();
+    match (proc.start(argv, cwd: cwd)) {
+        case Ok(proc.Proc child): {
+            Result<bool, io.Error> closed_in = child.stdin.close();
+            Result<bool, io.Error> closed_err = child.stderr.close();
+            stream.children.push(child);
+            stream.is_done = false;
+        }
+        case Err(proc.Error error): {
+        }
+    }
+    return stream;
+}

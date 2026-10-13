@@ -13,8 +13,7 @@
 
 import fs;
 import io;
-import os;
-import random;
+import ui.MED_shell;
 
 pub const int NONE = 0;
 pub const int ADDED = 1;
@@ -27,62 +26,156 @@ pub type Hunks {
     pub List<int> kinds = [];
     /// The first row of every hunk, ascending.
     pub List<int> starts = [];
+    /// Per hunk: where its new lines start in the buffer, how many there are,
+    /// and where its old lines start in the base and how many there are.
+    pub List<int> froms = [];
+    pub List<int> counts = [];
+    pub List<int> base_froms = [];
+    pub List<int> base_counts = [];
 }
 
-str quote(str text) {
-    return "'" + text.split("'").join("'\\''") + "'";
-}
-
-/// The file as the last commit has it.
-pub Option<List<str>> head_lines(str path) {
+/// The directory and the file name of `path`.
+pub str directory_of(str path) {
     int slash = -1;
     for (int index in 0 .. path.size()) {
         if (path.byte_at(index) == 47) {
             slash = index;
         }
     }
-    str directory = ".";
-    str name = path;
-    if (slash >= 0) {
-        directory = path.substr(0, slash);
-        if (directory == "") {
-            directory = "/";
-        }
-        name = path.substr(slash + 1, path.size());
+    if (slash < 0) {
+        return ".";
     }
-    str base = os.env("TMPDIR").or("/tmp");
-    if (base.ends_with("/")) {
-        base = base.substr(0, base.size() - 1);
+    if (slash == 0) {
+        return "/";
     }
-    str scratch = base + "/m3d1tor-git-" + random.system().hex(6);
-    str command = "git -C " + quote(directory) + " show " + quote("HEAD:./" + name) + " > " + quote(scratch) + " 2>/dev/null";
-    bool is_ok = false;
-    match (os.run(["sh", "-c", command])) {
-        case Ok(os.ExitStatus status): {
-            is_ok = status.is_success();
-        }
-        case Err(io.Error error): {
-            is_ok = false;
+    return path.substr(0, slash);
+}
+
+pub str name_of(str path) {
+    int slash = -1;
+    for (int index in 0 .. path.size()) {
+        if (path.byte_at(index) == 47) {
+            slash = index;
         }
     }
-    if (!is_ok) {
-        remove_scratch(scratch);
-        return Option<List<str>>.None;
-    }
-    match (io.read(scratch)) {
-        case Ok(str text): {
-            remove_scratch(scratch);
-            List<str> lines = text.split("\n");
-            if (lines.size() > 0 && lines[lines.size() - 1] == "") {
-                lines.pop();
-            }
-            return Option<List<str>>.Some(lines);
+    return path.substr(slash + 1, path.size());
+}
+
+/// The file as the index has it (what the working tree is compared with), or
+/// as the last commit has it when the index has no entry. None when git is
+/// missing, the directory is no repository or the file is untracked.
+pub Option<List<str>> head_lines(str path) {
+    str directory = directory_of(path);
+    str name = name_of(path);
+    match (MED_shell.output(["git", "-C", directory, "show", ":./" + name], "")) {
+        case Some(str text): {
+            return Option<List<str>>.Some(MED_shell.split_lines(text));
         }
-        case Err(io.Error error): {
-            remove_scratch(scratch);
+        case None: {
+        }
+    }
+    match (MED_shell.output(["git", "-C", directory, "show", "HEAD:./" + name], "")) {
+        case Some(str text): {
+            return Option<List<str>>.Some(MED_shell.split_lines(text));
+        }
+        case None: {
             return Option<List<str>>.None;
         }
     }
+}
+
+/// The branch HEAD names, read from `.git/HEAD` (no process), looking in
+/// `directory` and its parents; "" outside a repository. A detached HEAD is
+/// the first eight characters of the commit.
+pub str branch_of(str directory) {
+    str current = directory;
+    if (current.size() == 0) {
+        current = ".";
+    }
+    int guard = 0;
+    while (guard < 64) {
+        guard = guard + 1;
+        str head = current + "/.git/HEAD";
+        if (fs.is_file(head)) {
+            match (io.read(head)) {
+                case Ok(str text): {
+                    str line = text.trim();
+                    if (line.starts_with("ref: refs/heads/")) {
+                        return line.substr(16, line.size());
+                    }
+                    if (line.starts_with("ref: ")) {
+                        return line.substr(5, line.size());
+                    }
+                    if (line.size() >= 8) {
+                        return line.substr(0, 8);
+                    }
+                    return "";
+                }
+                case Err(io.Error error): {
+                    return "";
+                }
+            }
+        }
+        if (fs.is_file(current + "/.git")) {
+            // a worktree or submodule: `gitdir: PATH`
+            match (io.read(current + "/.git")) {
+                case Ok(str text): {
+                    str line = text.trim();
+                    if (line.starts_with("gitdir: ")) {
+                        str gitdir = line.substr(8, line.size());
+                        if (!gitdir.starts_with("/")) {
+                            gitdir = current + "/" + gitdir;
+                        }
+                        match (io.read(gitdir + "/HEAD")) {
+                            case Ok(str inner): {
+                                str ref = inner.trim();
+                                if (ref.starts_with("ref: refs/heads/")) {
+                                    return ref.substr(16, ref.size());
+                                }
+                                if (ref.size() >= 8) {
+                                    return ref.substr(0, 8);
+                                }
+                            }
+                            case Err(io.Error error): {
+                            }
+                        }
+                    }
+                }
+                case Err(io.Error error): {
+                }
+            }
+            return "";
+        }
+        if (current == "/" || current == ".") {
+            if (current == ".") {
+                match (fs.realpath(".")) {
+                    case Ok(str real): {
+                        current = real;
+                        continue;
+                    }
+                    case Err(io.Error error): {
+                        return "";
+                    }
+                }
+            }
+            return "";
+        }
+        int slash = -1;
+        for (int index in 0 .. current.size()) {
+            if (current.byte_at(index) == 47) {
+                slash = index;
+            }
+        }
+        if (slash < 0) {
+            return "";
+        }
+        if (slash == 0) {
+            current = "/";
+        } else {
+            current = current.substr(0, slash);
+        }
+    }
+    return "";
 }
 
 /// How much a status letter matters when a folder shows the worst of its files.
@@ -111,34 +204,15 @@ pub int status_rank(str letter) {
 /// what is inside them. Empty outside a repository.
 pub Map<str, str> status_map(str directory) {
     Map<str, str> found = {};
-    str base = os.env("TMPDIR").or("/tmp");
-    if (base.ends_with("/")) {
-        base = base.substr(0, base.size() - 1);
-    }
-    str scratch = base + "/m3d1tor-status-" + random.system().hex(6);
-    str command = "{ git -C " + quote(directory) + " rev-parse --show-prefix && git -C " + quote(directory) + " status --porcelain=v1 --untracked-files=all; } > " + quote(scratch) + " 2>/dev/null";
-    bool is_ok = false;
-    match (os.run(["sh", "-c", command])) {
-        case Ok(os.ExitStatus status): {
-            is_ok = status.is_success();
-        }
-        case Err(io.Error error): {
-            is_ok = false;
-        }
-    }
-    if (!is_ok) {
-        remove_scratch(scratch);
-        return found;
-    }
     str text = "";
-    match (io.read(scratch)) {
-        case Ok(str content): {
+    match (MED_shell.output(["sh", "-c", "git rev-parse --show-prefix && git status --porcelain=v1 --untracked-files=all"], directory)) {
+        case Some(str content): {
             text = content;
         }
-        case Err(io.Error error): {
+        case None: {
+            return found;
         }
     }
-    remove_scratch(scratch);
     List<str> lines = text.split("\n");
     if (lines.size() < 1) {
         return found;
@@ -197,17 +271,12 @@ pub Map<str, str> status_map(str directory) {
     return found;
 }
 
-void remove_scratch(str scratch) {
-    match (fs.remove(scratch)) {
-        case Ok(bool is_removed): {
-        }
-        case Err(io.Error error): {
-        }
-    }
-}
-
 // Mark the rows [from, to) of `kinds` and say where the hunk starts.
-void note_hunk(Hunks hunks, int from, int removed, int added) {
+void note_hunk(Hunks hunks, int from, int removed, int added, int base_from) {
+    hunks.froms.push(from);
+    hunks.counts.push(added);
+    hunks.base_froms.push(base_from);
+    hunks.base_counts.push(removed);
     if (added == 0) {
         // lines went away: the sign sits on the row above the gap
         int row = from - 1;
@@ -253,7 +322,7 @@ pub Hunks diff(List<str> base, List<str> current) {
         return hunks;
     }
     if (base_count == 0 || current_count == 0 || base_count * current_count > CELL_LIMIT) {
-        note_hunk(hunks, head, base_count, current_count);
+        note_hunk(hunks, head, base_count, current_count, head);
         return hunks;
     }
     // lengths[row_at][col_at]: the longest common subsequence of base[head+row_at ..] and current[head+col_at ..]
@@ -285,11 +354,12 @@ pub Hunks diff(List<str> base, List<str> current) {
     int removed = 0;
     int added = 0;
     int hunk_row = head;
+    int hunk_base = head;
     while (base_at < base_count || current_at < current_count) {
         bool is_same = base_at < base_count && current_at < current_count && base[head + base_at] == current[head + current_at];
         if (is_same) {
             if (removed > 0 || added > 0) {
-                note_hunk(hunks, hunk_row, removed, added);
+                note_hunk(hunks, hunk_row, removed, added, hunk_base);
                 removed = 0;
                 added = 0;
             }
@@ -301,19 +371,21 @@ pub Hunks diff(List<str> base, List<str> current) {
         if (current_at < current_count && (base_at >= base_count || lengths[base_at][current_at + 1] >= lengths[base_at + 1][current_at])) {
             if (removed == 0 && added == 0) {
                 hunk_row = head + current_at;
+                hunk_base = head + base_at;
             }
             added = added + 1;
             current_at = current_at + 1;
         } else {
             if (removed == 0 && added == 0) {
                 hunk_row = head + current_at;
+                hunk_base = head + base_at;
             }
             removed = removed + 1;
             base_at = base_at + 1;
         }
     }
     if (removed > 0 || added > 0) {
-        note_hunk(hunks, hunk_row, removed, added);
+        note_hunk(hunks, hunk_row, removed, added, hunk_base);
     }
     return hunks;
 }
@@ -336,4 +408,63 @@ pub int next_start(Hunks hunks, int row, bool is_forward) {
         }
     }
     return found;
+}
+
+/// The index of the hunk that contains buffer `row` (a removal hunk is the row
+/// above the gap and the row below it), or -1.
+pub int hunk_at(Hunks hunks, int row) {
+    for (int index in 0 .. hunks.froms.size()) {
+        int from = hunks.froms[index];
+        int count = hunks.counts[index];
+        if (count == 0) {
+            if (row == from || row == from - 1) {
+                return index;
+            }
+        } else if (row >= from && row < from + count) {
+            return index;
+        }
+    }
+    return -1;
+}
+
+/// A zero-context unified diff of hunk `index` against `base`, for `git apply
+/// --cached --unidiff-zero` (stage) with `relative` the path from the
+/// repository root. `current` is the buffer.
+pub str hunk_patch(Hunks hunks, int index, List<str> base, List<str> current, str relative) {
+    int base_from = hunks.base_froms[index];
+    int base_count = hunks.base_counts[index];
+    int from = hunks.froms[index];
+    int count = hunks.counts[index];
+    str old_start = (base_from + 1).to_str();
+    if (base_count == 0) {
+        old_start = base_from.to_str();
+    }
+    str new_start = (from + 1).to_str();
+    if (count == 0) {
+        new_start = from.to_str();
+    }
+    List<str> out = ["--- a/" + relative, "+++ b/" + relative, "@@ -" + old_start + "," + base_count.to_str() + " +" + new_start + "," + count.to_str() + " @@"];
+    for (int offset in 0 .. base_count) {
+        out.push("-" + base[base_from + offset]);
+    }
+    for (int offset in 0 .. count) {
+        out.push("+" + current[from + offset]);
+    }
+    return out.join("\n") + "\n";
+}
+
+/// The hunk as diff lines for a preview.
+pub List<str> hunk_preview(Hunks hunks, int index, List<str> base, List<str> current) {
+    int base_from = hunks.base_froms[index];
+    int base_count = hunks.base_counts[index];
+    int from = hunks.froms[index];
+    int count = hunks.counts[index];
+    List<str> out = ["@@ -" + (base_from + 1).to_str() + "," + base_count.to_str() + " +" + (from + 1).to_str() + "," + count.to_str() + " @@"];
+    for (int offset in 0 .. base_count) {
+        out.push("-" + base[base_from + offset]);
+    }
+    for (int offset in 0 .. count) {
+        out.push("+" + current[from + offset]);
+    }
+    return out;
 }

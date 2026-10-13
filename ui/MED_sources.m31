@@ -1,0 +1,253 @@
+// What the pickers list: the command lines that produce it and the parsers of
+// what those commands print. No terminal and no editor state here, so the
+// parsers have unit tests (tests/t_sources.m31).
+//
+// A source is an external command when one is installed (`rg`, `fd`, `git`),
+// run through MED_shell as a stream so a large tree does not block typing;
+// when none is, the front end falls back to the built-in walker (MED_files)
+// and searcher (MED_grep).
+
+import ui.MED_picker;
+import ui.MED_shell;
+
+/// The command that lists the files below the current directory, one relative
+/// path a line; empty when no tool is installed (use the built-in walker).
+pub List<str> files_command(bool is_hidden_shown, bool is_ignore_used, bool is_git_repository) {
+    if (MED_shell.which("rg").is_some()) {
+        List<str> argv = ["rg", "--files", "--color", "never", "--glob", "!.git"];
+        if (is_hidden_shown) {
+            argv.push("--hidden");
+        }
+        if (!is_ignore_used) {
+            argv.push("--no-ignore");
+        }
+        return argv;
+    }
+    if (MED_shell.which("fd").is_some()) {
+        List<str> argv = ["fd", "--type", "f", "--color", "never", "--exclude", ".git"];
+        if (is_hidden_shown) {
+            argv.push("--hidden");
+        }
+        if (!is_ignore_used) {
+            argv.push("--no-ignore");
+        }
+        return argv;
+    }
+    if (is_git_repository && MED_shell.which("git").is_some() && is_ignore_used && !is_hidden_shown) {
+        return ["git", "ls-files", "--cached", "--others", "--exclude-standard"];
+    }
+    return [];
+}
+
+/// The command that searches the files below the current directory for
+/// `query` (smart case); output lines are `path:line:column:text`. Empty when
+/// `rg` is not installed.
+pub List<str> grep_command(str query, bool is_fixed, bool is_hidden_shown, bool is_ignore_used) {
+    if (MED_shell.which("rg").is_none()) {
+        return [];
+    }
+    List<str> argv = ["rg", "--line-number", "--column", "--no-heading", "--color", "never", "--smart-case", "--max-columns", "300", "--max-count", "200", "--glob", "!.git"];
+    if (is_fixed) {
+        argv.push("--fixed-strings");
+    }
+    if (is_hidden_shown) {
+        argv.push("--hidden");
+    }
+    if (!is_ignore_used) {
+        argv.push("--no-ignore");
+    }
+    argv.push("-e");
+    argv.push(query);
+    argv.push("--");
+    argv.push(".");
+    return argv;
+}
+
+/// One `path:line:column:text` line of `rg --column`; the entry's `path` is
+/// relative to the search directory, `line` and `column` are 0-based.
+pub MED_picker.Entry parse_grep_line(str line) {
+    List<str> parts = line.split(":");
+    if (parts.size() < 4) {
+        return MED_picker.Entry("", path: "");
+    }
+    str path = parts[0];
+    if (path.starts_with("./")) {
+        path = path.substr(2, path.size());
+    }
+    int number = parts[1].parse_int().or(1) - 1;
+    int column = parts[2].parse_int().or(1) - 1;
+    str text = parts.slice(3, parts.size()).join(":").trim().split("\t").join(" ");
+    MED_picker.Entry entry = MED_picker.Entry(path + ":" + (number + 1).to_str() + ": " + text, path: path, line: number, column: column);
+    return entry;
+}
+
+/// `git branch --format=%(HEAD)%(refname:short)` lines as entries; the current
+/// branch is marked and its action is empty.
+pub List<MED_picker.Entry> parse_branches(List<str> lines, bool is_remote) {
+    List<MED_picker.Entry> out = [];
+    for (str line in lines) {
+        str name = line;
+        bool is_current = false;
+        if (name.starts_with("*")) {
+            is_current = true;
+            name = name.substr(1, name.size());
+        } else if (name.starts_with(" ")) {
+            name = name.substr(1, name.size());
+        }
+        name = name.trim();
+        if (name.size() == 0 || name.ends_with("/HEAD") || name.contains(" -> ")) {
+            continue;
+        }
+        str text = name;
+        if (is_current) {
+            text = name + "  (current)";
+        }
+        if (is_remote) {
+            out.push(MED_picker.Entry(text, action: "git:checkout_remote " + name));
+        } else {
+            out.push(MED_picker.Entry(text, action: "git:checkout " + name));
+        }
+    }
+    return out;
+}
+
+/// `git log --pretty=format:%h%x09%s%x09%an%x09%ar` lines as entries; the hash
+/// is in `detail` for the preview.
+pub List<MED_picker.Entry> parse_commits(List<str> lines) {
+    List<MED_picker.Entry> out = [];
+    for (str line in lines) {
+        List<str> parts = line.split("\t");
+        if (parts.size() < 4) {
+            continue;
+        }
+        MED_picker.Entry entry = MED_picker.Entry(parts[0] + " " + parts[1] + "  (" + parts[2] + ", " + parts[3] + ")", detail: parts[0], action: "git:show " + parts[0]);
+        out.push(entry);
+    }
+    return out;
+}
+
+/// `git status --porcelain=v1 -z` output as entries (`XY path`); `root` is the
+/// repository's top-level directory.
+pub List<MED_picker.Entry> parse_status(str text, str root) {
+    List<MED_picker.Entry> out = [];
+    List<str> fields = text.split("\u{0}");
+    int index = 0;
+    while (index < fields.size()) {
+        str field = fields[index];
+        index = index + 1;
+        if (field.size() < 4) {
+            continue;
+        }
+        str code = field.substr(0, 2);
+        str path = field.substr(3, field.size());
+        if (code.starts_with("R") || code.starts_with("C")) {
+            // the next field is the original name
+            index = index + 1;
+        }
+        out.push(MED_picker.Entry(code + " " + path, path: root + "/" + path));
+    }
+    return out;
+}
+
+/// Lines of a buffer as entries: `LINE  text`.
+pub List<MED_picker.Entry> line_entries(List<str> lines, str path) {
+    List<MED_picker.Entry> out = [];
+    for (int row in 0 .. lines.size()) {
+        if (lines[row].trim().size() == 0) {
+            continue;
+        }
+        out.push(MED_picker.Entry((row + 1).to_str() + "  " + lines[row].trim().split("\t").join(" "), path: path, line: row, column: 0));
+    }
+    return out;
+}
+
+/// Comment markers a TODO may follow.
+const List<str> TODO_WORDS = ["TODO", "FIXME", "HACK", "XXX", "NOTE", "WARN", "PERF", "BUG"];
+
+/// The first TODO-style word of `line` that stands as a word (an upper-case
+/// keyword followed by `:` or `(` or a blank or the end), with its byte offset;
+/// the word is "" when there is none.
+pub MED_picker.Entry todo_in(str line) {
+    for (str word in TODO_WORDS) {
+        int at = line.index_of(word).or(-1);
+        while (at >= 0) {
+            bool is_start = at == 0 || !is_word_byte(line.byte_at(at - 1));
+            int after = at + word.size();
+            bool is_end = after >= line.size() || !is_word_byte(line.byte_at(after));
+            if (is_start && is_end) {
+                return MED_picker.Entry(word, column: at);
+            }
+            int next = line.substr(at + 1, line.size()).index_of(word).or(-1);
+            if (next < 0) {
+                break;
+            }
+            at = at + 1 + next;
+        }
+    }
+    return MED_picker.Entry("");
+}
+
+bool is_word_byte(int byte) {
+    return (byte >= 48 && byte <= 57) || (byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122) || byte == 95;
+}
+
+/// The TODO-style comments of `lines` as entries.
+pub List<MED_picker.Entry> todo_entries(List<str> lines, str path) {
+    List<MED_picker.Entry> out = [];
+    for (int row in 0 .. lines.size()) {
+        MED_picker.Entry found = todo_in(lines[row]);
+        if (found.text.size() > 0) {
+            out.push(MED_picker.Entry((row + 1).to_str() + "  " + lines[row].trim().split("\t").join(" "), path: path, line: row, column: found.column));
+        }
+    }
+    return out;
+}
+
+/// Declarations of a file by simple line patterns (no parser): functions,
+/// types, classes, headings. `lang` is the syntax name ("" when unknown).
+pub List<MED_picker.Entry> symbol_entries(List<str> lines, str path, str lang) {
+    List<MED_picker.Entry> out = [];
+    for (int row in 0 .. lines.size()) {
+        str line = lines[row];
+        str trimmed = line.trim();
+        if (trimmed.size() == 0) {
+            continue;
+        }
+        str kind = symbol_kind(line, trimmed, lang);
+        if (kind.size() > 0) {
+            out.push(MED_picker.Entry((row + 1).to_str() + "  " + kind + "  " + trimmed.split("\t").join(" "), path: path, line: row, column: indent_of(line)));
+        }
+    }
+    return out;
+}
+
+str symbol_kind(str line, str trimmed, str lang) {
+    if (lang == "markdown") {
+        if (trimmed.starts_with("#")) {
+            return "heading";
+        }
+        return "";
+    }
+    List<str> prefixes = ["fn ", "pub fn ", "def ", "class ", "func ", "function ", "export function ", "export default function ", "struct ", "enum ", "trait ", "impl ", "interface ", "type ", "pub type ", "pub enum ", "pub struct ", "async def ", "async function ", "const fn ", "pub const fn ", "pub async fn ", "async fn ", "mod ", "pub mod ", "package "];
+    for (str prefix in prefixes) {
+        if (trimmed.starts_with(prefix)) {
+            return "decl";
+        }
+    }
+    if (lang == "m31" || lang == "c" || lang == "cpp" || lang == "go" || lang == "java") {
+        // `Type name(args) {` at the start of a line
+        bool is_unindented = line.size() > 0 && line.byte_at(0) != 32 && line.byte_at(0) != 9;
+        if (is_unindented && trimmed.contains("(") && trimmed.ends_with("{") && !trimmed.starts_with("if") && !trimmed.starts_with("for") && !trimmed.starts_with("while") && !trimmed.starts_with("switch") && !trimmed.starts_with("//") && !trimmed.starts_with("}")) {
+            return "decl";
+        }
+    }
+    return "";
+}
+
+int indent_of(str line) {
+    int at = 0;
+    while (at < line.size() && (line.byte_at(at) == 32 || line.byte_at(at) == 9)) {
+        at = at + 1;
+    }
+    return at;
+}

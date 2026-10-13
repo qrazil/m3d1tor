@@ -1,0 +1,103 @@
+// Per-user state files: the recent-files list, last cursor positions and the
+// per-project harpoon lists. One small text file each under
+// $XDG_STATE_HOME/m3d1tor (default ~/.local/state/m3d1tor); nothing here runs
+// unless the front end was given a state directory, so tests and `-u NONE`
+// stay hermetic.
+
+import fs;
+import io;
+import os;
+
+/// The directory state is kept in, "" when HOME is not set.
+pub str default_dir() {
+    str base = os.env("XDG_STATE_HOME").or("");
+    if (base.size() > 0) {
+        return base + "/m3d1tor";
+    }
+    str home = os.env("HOME").or("");
+    if (home.size() == 0) {
+        return "";
+    }
+    return home + "/.local/state/m3d1tor";
+}
+
+/// The lines of state file `name` (empty when it is not there).
+pub List<str> read_lines(str directory, str name) {
+    if (directory.size() == 0) {
+        return [];
+    }
+    match (io.read(directory + "/" + name)) {
+        case Ok(str text): {
+            List<str> out = [];
+            for (str line in text.split("\n")) {
+                if (line.size() > 0) {
+                    out.push(line);
+                }
+            }
+            return out;
+        }
+        case Err(io.Error error): {
+            return [];
+        }
+    }
+}
+
+/// Write state file `name`; failures are silent (state is a convenience).
+pub void write_lines(str directory, str name, List<str> lines) {
+    if (directory.size() == 0) {
+        return;
+    }
+    match (fs.makedirs(directory)) {
+        case Ok(bool did_make): {
+        }
+        case Err(io.Error error): {
+            return;
+        }
+    }
+    match (io.write(directory + "/" + name, lines.join("\n") + "\n")) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
+
+/// `list` with `item` first and without its earlier copy, at most `limit` long.
+pub List<str> mru_add(List<str> list, str item, int limit) {
+    List<str> out = [item];
+    for (str one in list) {
+        if (one != item && out.size() < limit) {
+            out.push(one);
+        }
+    }
+    return out;
+}
+
+/// A file name for a project root: its slashes replaced.
+pub str project_key(str root) {
+    return root.split("/").join("%");
+}
+
+/// `row` and `col` of `path` in a positions list ("PATH\tROW\tCOL" lines), or
+/// (-1, 0) when it is not there.
+pub List<int> position_of(List<str> positions, str path) {
+    for (str line in positions) {
+        List<str> parts = line.split("\t");
+        if (parts.size() == 3 && parts[0] == path) {
+            return [parts[1].parse_int().or(0), parts[2].parse_int().or(0)];
+        }
+    }
+    return [-1, 0];
+}
+
+/// `positions` with `path` at `row`, `col` first (at most 200 kept).
+pub List<str> position_set(List<str> positions, str path, int row, int col) {
+    List<str> out = [path + "\t" + row.to_str() + "\t" + col.to_str()];
+    for (str line in positions) {
+        List<str> parts = line.split("\t");
+        if (parts.size() == 3 && parts[0] != path && out.size() < 200) {
+            out.push(line);
+        }
+    }
+    return out;
+}

@@ -213,6 +213,15 @@ const List<str> SPECS = [
     "warn::bool:true"
 ];
 
+/// Every option name, in table order.
+pub List<str> names() {
+    List<str> out = [];
+    for (str entry in SPECS) {
+        out.push(entry.split(":")[0]);
+    }
+    return out;
+}
+
 /// The option that `word` names (full or short name); Spec.name is "" when there is none.
 pub Spec find(str word) {
     for (str entry in SPECS) {

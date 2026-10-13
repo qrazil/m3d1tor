@@ -3,13 +3,17 @@
 // out the result.
 //
 // Kinds: files, buffers, grep (the prompt is the search, not a filter),
-// commands (the palette), help (the keymap), explore (one directory).
+// commands (the palette), help (the keymap), explore (one directory), marks,
+// and list (everything else: recent files, lines, quickfix, git branches and
+// commits, symbols ... an entry has a file position or an action).
 //
 // Keys (engine key codes): printable characters edit the prompt; Backspace,
 // CTRL-U (clear) and CTRL-W (word) delete; Down/CTRL-N/CTRL-J and Up/CTRL-P/
 // CTRL-K move; PageUp/PageDown jump a page; Enter accepts; Esc/CTRL-C/CTRL-G
 // cancel; CTRL-H toggles hidden files, Tab (CTRL-I) toggles the ignore rules,
-// CTRL-F toggles fixed-string grep; CTRL-S / CTRL-V accept into a new window
+// CTRL-F toggles fixed-string grep; CTRL-T marks or unmarks the entry (and moves
+// on), CTRL-Q sends the marked entries (all shown ones when none is marked) to
+// the quickfix list; CTRL-S / CTRL-V accept into a new window
 // below / beside (files, buffers, grep). In the explorer `-` on an empty prompt goes
 // up a directory.
 
@@ -23,6 +27,7 @@ pub const int KIND_COMMANDS = 3;
 pub const int KIND_HELP = 4;
 pub const int KIND_EXPLORE = 5;
 pub const int KIND_MARKS = 6;
+pub const int KIND_LIST = 7;
 /// Most rows ranked and kept (the list shows a window of them).
 const int MAX_SHOWN = 5000;
 const int PAGE = 10;
@@ -39,6 +44,8 @@ pub type Entry {
     pub int id = 0;
     /// The action of a palette or help entry.
     pub str action = "";
+    /// What the preview asks for when it is not a file (a commit hash).
+    pub str detail = "";
 }
 
 pub enum Outcome {
@@ -54,6 +61,8 @@ pub enum Outcome {
     /// Accept, opening the entry in a new window below (CTRL-S) or right (CTRL-V).
     AcceptSplit;
     AcceptVsplit;
+    /// CTRL-Q: the marked entries go to the quickfix list.
+    Quickfix;
 }
 
 pub int Outcome.code() {
@@ -82,6 +91,9 @@ pub int Outcome.code() {
         case AcceptVsplit: {
             return 7;
         }
+        case Quickfix: {
+            return 8;
+        }
     }
 }
 
@@ -103,6 +115,29 @@ pub type Picker {
     pub bool is_fixed = false;
     /// The explorer's directory ("" for the others).
     pub str directory = "";
+    /// Indices into `entries` marked with CTRL-T.
+    pub List<int> marked = [];
+    /// A source is still delivering entries.
+    pub bool is_loading = false;
+    /// Entries arrived that the ranking does not include yet.
+    pub bool is_dirty = false;
+}
+
+/// The entries CTRL-Q sends: the marked ones, or every shown one.
+pub List<Entry> Picker.chosen() {
+    List<Entry> out = [];
+    if (marked.size() > 0) {
+        for (int index in marked) {
+            if (index < entries.size()) {
+                out.push(entries[index]);
+            }
+        }
+        return out;
+    }
+    for (int index in shown) {
+        out.push(entries[index]);
+    }
+    return out;
 }
 
 /// Whether the prompt is a filter over `entries` (every kind but grep).
@@ -113,11 +148,13 @@ pub bool Picker.is_filter() {
 /// Replace the entries and rank them again.
 pub void Picker.set_entries(List<Entry> fresh) {
     entries = fresh;
+    marked = [];
     refilter();
 }
 
 /// Rank the entries by the prompt, keeping the selection on the first row.
 pub void Picker.refilter() {
+    is_dirty = false;
     shown = [];
     selected = 0;
     top = 0;
@@ -146,6 +183,22 @@ pub void Picker.refilter() {
     }
     for (MED_fuzzy.Ranked ranked in MED_fuzzy.rank(parsed, texts, MAX_SHOWN)) {
         shown.push(ranked.item_index);
+    }
+}
+
+/// Add entries from a source that is still delivering. With an empty prompt
+/// they are listed at once and the selection stays; with a prompt `is_dirty`
+/// says the ranking is stale (the front end ranks again at a calm moment).
+pub void Picker.append(List<Entry> batch) {
+    bool is_listed_directly = !is_filter() || MED_fuzzy.parse(query).is_empty();
+    for (Entry entry in batch) {
+        entries.push(entry);
+        if (is_listed_directly && shown.size() < MAX_SHOWN) {
+            shown.push(entries.size() - 1);
+        }
+    }
+    if (!is_listed_directly && batch.size() > 0) {
+        is_dirty = true;
     }
 }
 
@@ -254,6 +307,27 @@ pub Outcome Picker.feed(int key) {
     if (key == MED_key.TAB) {
         is_ignore_used = !is_ignore_used;
         return Outcome.Reload;
+    }
+    if (key == 20) {
+        if (selected >= 0 && selected < shown.size()) {
+            int index = shown[selected];
+            if (marked.contains(index)) {
+                List<int> kept = [];
+                for (int one in marked) {
+                    if (one != index) {
+                        kept.push(one);
+                    }
+                }
+                marked = kept;
+            } else {
+                marked.push(index);
+            }
+            move(1);
+        }
+        return Outcome.Stay;
+    }
+    if (key == 17) {
+        return Outcome.Quickfix;
     }
     if (key == 6) {
         is_fixed = !is_fixed;
