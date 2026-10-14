@@ -4,12 +4,18 @@
 Full-document sync. Every line containing BUG is a diagnostic. hover answers
 "hover L:C", definition points at line 0, references at lines 0 and 2, rename
 replaces every `hello` with the new name, formatting upper-cases the document,
-code actions offer to delete the word BUG.
+code actions offer to delete the word BUG (plus one that needs
+codeAction/resolve and one that is a command). After `initialized` it also
+sends the requests real servers send (string ids, workDoneProgress/create,
+workspace/configuration, client/registerCapability), floods stderr, and
+puts the verdict into its hover text once every one of them was answered.
 """
 import json
 import sys
 
 docs = {}
+awaiting = {}
+state = {"replies": "missing"}
 
 
 def read():
@@ -25,6 +31,13 @@ def send(obj):
     data = json.dumps(obj).encode()
     sys.stdout.buffer.write(b"Content-Length: %d\r\n\r\n" % len(data) + data)
     sys.stdout.buffer.flush()
+
+
+def log_flood():
+    sys.stderr.write("x" * 100 + "\n" * 1)
+    for _ in range(3000):
+        sys.stderr.write("log line " + "y" * 90 + "\n")
+    sys.stderr.flush()
 
 
 def reply(message, result):
@@ -60,7 +73,40 @@ while True:
         reply(message, {"capabilities": {"hoverProvider": True, "definitionProvider": True,
                                          "referencesProvider": True, "renameProvider": True,
                                          "documentFormattingProvider": True,
-                                         "codeActionProvider": True, "textDocumentSync": 1}})
+                                         "codeActionProvider": True, "textDocumentSync": 1,
+                                         "completionProvider": {"triggerCharacters": ["."]}}})
+    elif method == "initialized":
+        log_flood()
+        send({"jsonrpc": "2.0", "id": "s1", "method": "window/workDoneProgress/create",
+              "params": {"token": "t1"}})
+        send({"jsonrpc": "2.0", "id": 77, "method": "workspace/configuration",
+              "params": {"items": [{"section": "a"}, {"section": "b"}]}})
+        send({"jsonrpc": "2.0", "id": "s3", "method": "client/registerCapability",
+              "params": {"registrations": []}})
+        awaiting.update({"s1": 0, 77: 0, "s3": 0})
+        send({"jsonrpc": "2.0", "method": "$/progress",
+              "params": {"token": "t1", "value": {"kind": "begin", "title": "Indexing", "percentage": 10}}})
+        send({"jsonrpc": "2.0", "method": "$/progress",
+              "params": {"token": "t1", "value": {"kind": "end"}}})
+    elif method is None and "id" in message and message["id"] in awaiting:
+        awaiting[message["id"]] = 1
+        if message["id"] == 77:
+            awaiting["cfg"] = len(message.get("result") or [])
+        if all(awaiting[k] for k in ("s1", 77, "s3")):
+            state["replies"] = "ok cfg=%d" % awaiting.get("cfg", -1)
+            awaiting.clear()
+    elif method == "codeAction/resolve":
+        uri = params["data"]["uri"]
+        params["edit"] = {"changes": {uri: [{"range": {"start": {"line": 0, "character": 0},
+                                                       "end": {"line": 0, "character": 0}},
+                                             "newText": "LAZY "}]}}
+        reply(message, params)
+    elif method == "workspace/executeCommand":
+        send({"jsonrpc": "2.0", "id": "ap1", "method": "workspace/applyEdit",
+              "params": {"edit": {"changes": {params["arguments"][0]: [
+                  {"range": {"start": {"line": 0, "character": 0}, "end": {"line": 0, "character": 0}},
+                   "newText": "CMD "}]}}}})
+        reply(message, None)
     elif method == "textDocument/didOpen":
         document = params["textDocument"]
         docs[document["uri"]] = document["text"]
@@ -71,7 +117,12 @@ while True:
     elif method == "textDocument/hover":
         position = params["position"]
         reply(message, {"contents": {"kind": "plaintext",
-                                     "value": "hover %d:%d" % (position["line"], position["character"])}})
+                                     "value": "hover %d:%d replies=%s" % (
+                                         position["line"], position["character"], state["replies"])}})
+    elif method == "textDocument/completion":
+        reply(message, {"isIncomplete": False, "items": [
+            {"label": "hello_world", "detail": "fn", "insertText": "hello_world"},
+            {"label": "snip", "insertText": "snip(${1:arg}, $2)$0", "insertTextFormat": 2}]})
     elif method == "textDocument/definition":
         uri = params["textDocument"]["uri"]
         reply(message, [{"uri": uri, "range": {"start": {"line": 0, "character": 0},
@@ -106,10 +157,13 @@ while True:
                 edits.append({"range": {"start": {"line": number, "character": column},
                                         "end": {"line": number, "character": column + 3}},
                               "newText": "FIXED"})
-        reply(message, [{"title": "Fix BUG", "kind": "quickfix", "edit": {"changes": {uri: edits}}}])
+        reply(message, [{"title": "Fix BUG", "kind": "quickfix", "edit": {"changes": {uri: edits}}},
+                        {"title": "Lazy fix", "kind": "quickfix", "data": {"uri": uri}},
+                        {"title": "Run command", "command": {"title": "Run command",
+                                                              "command": "fake.run", "arguments": [uri]}}])
     elif method == "shutdown":
         reply(message, None)
     elif method == "exit":
         break
-    elif "id" in message and method is not None:
+    elif "id" in message and method is not None and method != "initialized":
         reply(message, None)

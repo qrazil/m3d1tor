@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""End-to-end checks of the real m3d1tor binary in a pty.
+"""End-to-end checks of the real m3 binary in a pty.
 
-    python3 tests/e2e.py ./m3d1tor [--only NAME]
+    python3 tests/e2e.py ./m3 [--only NAME]
 
 The screen is rebuilt with pyte (skipped with a note when pyte is missing).
 Each scenario starts a fresh editor in a temporary project directory, types
@@ -36,7 +36,7 @@ class Session:
         full = dict(os.environ, TERM="xterm-256color", COLORTERM="truecolor", LANG="C.UTF-8",
                     HOME=cwd, XDG_CONFIG_HOME=os.path.join(cwd, ".config"),
                     XDG_STATE_HOME=os.path.join(cwd, ".state"))
-        full.pop("M3D1TOR_KEYMAP", None)
+        full.pop("M3_KEYMAP", None)
         if env:
             full.update(env)
         self.proc = subprocess.Popen([binary, "-u", keymap] + list(args), stdin=slave, stdout=slave,
@@ -371,6 +371,7 @@ def lsp_client(binary, root):
         assert s.wait_for("error: found BUG"), s.text()
         s.send("K", settle=0.6)
         assert s.wait_for("hover 0:"), "hover:\n" + s.text()
+        assert "replies=ok cfg=2" in s.text(), "server requests were not answered:\n" + s.text()
         s.send("\r", settle=0.2)
         s.send(":Lsp rename howdy\r", settle=0.8)
         assert s.wait_for("howdy = 1"), "rename:\n" + s.text()
@@ -383,8 +384,187 @@ def lsp_client(binary, root):
         assert s.wait_for("Fix BUG"), "actions:\n" + s.text()
         s.send("\r", settle=0.6)
         assert s.wait_for("FIXED"), "applied:\n" + s.text()
+        # completion: CTRL-Space in Insert mode, accept with Enter; snippets lose their placeholders
+        s.send(":$\r", settle=0.2)
+        s.send("o", settle=0.2)
+        s.send("xx.hel", settle=0.2)
+        s.send("\x00", settle=1.0)
+        assert s.wait_for("Completion"), "completion popup:\n" + s.text()
+        s.send("\r", settle=0.6)
+        assert s.wait_for("xx.hello_world"), "completion accepted:\n" + s.text()
+        s.send("\x1b", settle=0.2)
+        s.send("o", settle=0.2)
+        s.send("sn", settle=0.2)
+        s.send("\x00", settle=1.0)
+        s.send("\r", settle=0.6)
+        assert s.wait_for("snip(arg, )"), "snippet accepted:\n" + s.text()
+        s.send("\x1b", settle=0.2)
+        s.send("u", settle=0.2)
+        s.send("u", settle=0.2)
+        # an action that carries only `data` is resolved first, a command is executed
+        s.send(":Lsp action\r", settle=0.8)
+        assert s.wait_for("Lazy fix"), "actions:\n" + s.text()
+        s.send("Lazy", settle=0.3)
+        s.send("\r", settle=0.8)
+        assert s.wait_for("LAZY "), "resolved action:\n" + s.text()
+        s.send(":Lsp action\r", settle=0.8)
+        s.send("Run comm", settle=0.3)
+        s.send("\r", settle=0.8)
+        assert s.wait_for("CMD "), "executed command:\n" + s.text()
     finally:
         s.close()
+
+
+class Skip(Exception):
+    pass
+
+
+MASON = os.path.expanduser("~/.local/share/nvim/mason/bin")
+
+
+def find_server(*names):
+    """The first of `names` found on PATH or in nvim's mason bin directory, else skip."""
+    for name in names:
+        found = shutil.which(name)
+        if found:
+            return found
+        candidate = os.path.join(MASON, name)
+        if os.path.exists(candidate):
+            return candidate
+    raise Skip("%s not installed" % names[0])
+
+
+def descendants(pid):
+    """Every live descendant pid of `pid` (from /proc)."""
+    parents = {}
+    for entry in os.listdir("/proc"):
+        if entry.isdigit():
+            try:
+                with open("/proc/%s/stat" % entry) as f:
+                    fields = f.read().rsplit(")", 1)[1].split()
+                parents[int(entry)] = int(fields[1])
+            except (OSError, IndexError, ValueError):
+                pass
+    out, frontier = set(), {pid}
+    while frontier:
+        frontier = {p for p, q in parents.items() if q in frontier and p not in out}
+        out |= frontier
+    return out
+
+
+def real_server(binary, root, lang, command, files, open_file, wanted, probe_line, probe_char,
+                rename_to, wait=60.0, env=None, check_quit=True):
+    """Drive a real language server: diagnostics arrive, hover, definition,
+    references, rename; then quit and require no process of the server is left."""
+    for path, text in files.items():
+        full = os.path.join(root, path)
+        os.makedirs(os.path.dirname(full), exist_ok=True)
+        with open(full, "w") as f:
+            f.write(text)
+    s = Session(binary, root, [open_file], env=env)
+    started = []
+    try:
+        s.pump(0.5)
+        s.send(":Lsp server %s %s\r" % (lang, command), settle=0.3)
+        s.send(":Lsp start\r", settle=0.3)
+        assert s.wait_for(wanted, wait), "diagnostics (%s) missing:\n%s" % (wanted, s.text())
+        started = sorted(descendants(s.proc.pid))
+        assert started, "no server process was started"
+        # a server that reports progress (indexing) is busy: wait until it is idle
+        end = time.time() + wait
+        while time.time() < end and "LSP:" in s.text().split("\n")[-2]:
+            s.pump(0.5)
+        s.send(":%d\r" % probe_line, settle=0.2)
+        s.send("0" + "l" * probe_char, settle=0.2)
+        s.send("K", settle=2.0)
+        assert "Press ENTER" in s.text(), "hover shows nothing:\n" + s.text()
+        s.send("\r", settle=0.2)
+        s.send("gd", settle=2.0)
+        assert "NORMAL" in s.text()
+        s.send(":%d\r" % probe_line, settle=0.2)
+        s.send("0" + "l" * probe_char, settle=0.2)
+        s.send("grr", settle=2.0)
+        assert "References" in s.text(), "references:\n" + s.text()
+        s.send("\x1b", settle=0.3)
+        s.send(":%d\r" % probe_line, settle=0.2)
+        s.send("0" + "l" * probe_char, settle=0.2)
+        s.send(":Lsp rename %s\r" % rename_to, settle=2.5)
+        assert s.wait_for(rename_to, 5.0), "rename:\n" + s.text()
+        s.send(":Lsp info\r", settle=0.5)
+        assert "(ready" in s.text(), "info:\n" + s.text()
+        s.send("\r", settle=0.2)
+    finally:
+        s.close()
+    if check_quit:
+        time.sleep(0.5)
+        left = [p for p in started if os.path.exists("/proc/%d" % p)]
+        # a reaped or zombie process is fine; a running one is an orphan
+        alive = []
+        for p in left:
+            try:
+                with open("/proc/%d/stat" % p) as f:
+                    if f.read().rsplit(")", 1)[1].split()[0] != "Z":
+                        alive.append(p)
+            except OSError:
+                pass
+        for p in alive:
+            try:
+                os.kill(p, 9)
+            except OSError:
+                pass
+        assert not alive, "server processes left after quit: %r" % alive
+
+
+@scenario
+def lsp_real_pyright(binary, root):
+    cmd = find_server("pyright-langserver")
+    real_server(binary, root, "python", cmd + " --stdio",
+                {"a.py": 'def greet(name):\n    return "hi " + name\n\nx = greet("a")\ny = undefined_name\nz = greet("b")\n'},
+                "a.py", "E:1", 6, 6, "hello")
+
+
+@scenario
+def lsp_real_clangd(binary, root):
+    cmd = find_server("clangd")
+    real_server(binary, root, "c", cmd,
+                {"a.c": 'int add(int a, int b) {\n    return a + b;\n}\n\nint main(void) {\n    int y = add(1, 2);\n    return undefined_thing + y;\n}\n'},
+                "a.c", "E:1", 6, 12, "plus", wait=30.0)
+
+
+@scenario
+def lsp_real_typescript(binary, root):
+    cmd = find_server("typescript-language-server")
+    real_server(binary, root, "javascript", cmd + " --stdio",
+                {"a.ts": 'function add(a: number, b: number): number {\n  return a + b;\n}\n\nconst x: number = "no";\nconst y = add(1, 2);\n',
+                 "tsconfig.json": '{"compilerOptions":{"strict":true}}\n'},
+                "a.ts", "E:1", 6, 12, "plus", wait=30.0)
+
+
+@scenario
+def lsp_real_lua(binary, root):
+    cmd = find_server("lua-language-server")
+    real_server(binary, root, "lua", cmd,
+                {"a.lua": 'local function add(a, b)\n  return a + b\nend\n\nlocal y = add(1, 2)\nprint(y, undefined_global)\n'},
+                "a.lua", "W:1", 5, 12, "plus", wait=30.0)
+
+
+@scenario
+def lsp_real_rust_analyzer(binary, root):
+    cmd = None
+    # a rustup proxy without the component fails --version: try nvim's mason build too
+    for candidate in (shutil.which("rust-analyzer"), os.path.join(MASON, "rust-analyzer")):
+        if candidate and os.path.exists(candidate) and subprocess.run(
+                [candidate, "--version"], capture_output=True).returncode == 0:
+            cmd = candidate
+            break
+    if not cmd or not shutil.which("cargo"):
+        raise Skip("no working rust-analyzer (and cargo)")
+    env = {"RUSTUP_HOME": os.environ.get("RUSTUP_HOME", os.path.expanduser("~/.rustup")),
+           "CARGO_HOME": os.environ.get("CARGO_HOME", os.path.expanduser("~/.cargo"))}
+    real_server(binary, root, "rust", cmd,
+                {"Cargo.toml": '[package]\nname = "fx"\nversion = "0.1.0"\nedition = "2021"\n',
+                 "src/main.rs": 'fn add(a: i32, b: i32) -> i32 {\n    a + b\n}\n\nfn main() {\n    let x: i32 = "no";\n    let y = add(1, 2);\n    println!("{}", y);\n}\n'},
+                "src/main.rs", "E:1", 7, 12, "plus", wait=180.0, env=env)
 
 
 @scenario
@@ -429,6 +609,7 @@ def main():
     if "--only" in sys.argv:
         only = sys.argv[sys.argv.index("--only") + 1]
     failed = 0
+    skipped = 0
     for name, fn in SCENARIOS.items():
         if only and name != only:
             continue
@@ -436,6 +617,9 @@ def main():
         try:
             fn(binary, root)
             print("ok   %s" % name)
+        except Skip as error:
+            skipped += 1
+            print("skip %s: %s" % (name, error))
         except AssertionError as error:
             failed += 1
             print("FAIL %s: %s" % (name, error))
@@ -444,7 +628,7 @@ def main():
             print("FAIL %s: %r" % (name, error))
         finally:
             shutil.rmtree(root, ignore_errors=True)
-    print("e2e: %d scenarios, %d failed" % (len(SCENARIOS) if not only else 1, failed))
+    print("e2e: %d scenarios, %d failed, %d skipped" % (len(SCENARIOS) if not only else 1, failed, skipped))
     sys.exit(1 if failed else 0)
 
 

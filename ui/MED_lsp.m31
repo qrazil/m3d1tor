@@ -43,11 +43,14 @@ pub type Message {
     /// "response", "notification" or "request"
     pub str kind;
     pub int id = 0;
+    /// The id exactly as the server wrote it (a number or a string), for the reply.
+    pub json.Value id_value = json.Value.Null;
     pub str method = "";
     /// `result` of a response, `parameters` of the others.
     pub json.Value body = json.Value.Null;
     pub bool is_error = false;
     pub str error_text = "";
+    pub int error_code = 0;
 }
 
 // ---------------------------------------------------------------- JSON helpers
@@ -278,6 +281,7 @@ pub Message decode(str body) {
                 if (!is_null(id)) {
                     message.kind = "request";
                     message.id = int_of(id, 0);
+                    message.id_value = id;
                 }
                 return message;
             }
@@ -288,6 +292,7 @@ pub Message decode(str body) {
                 if (!is_null(problem)) {
                     message.is_error = true;
                     message.error_text = text_of(member(problem, "message"));
+                    message.error_code = int_of(member(problem, "code"), 0);
                 }
                 message.body = member(value, "result");
                 return message;
@@ -605,7 +610,17 @@ pub type Server {
     pub int initialize_id = 0;
     /// Documents opened (path -> version).
     pub Map<str, int> versions = {};
-    /// Stderr is closed: a server that logs there gets EPIPE and carries on.
+    /// The `capabilities` of the initialize answer (Null until it arrives).
+    pub json.Value capabilities = json.Value.Null;
+    /// The last bytes the server wrote to standard error (it is drained, never
+    /// closed: a closed stderr kills servers that log, clangd among them).
+    pub str log = "";
+    /// What the server says it is busy with ($/progress), "" when idle.
+    pub str progress = "";
+    /// Progress tokens in flight (token text -> title).
+    pub Map<str, str> tokens = {};
+    /// Why the server stopped, when it did by itself.
+    pub str exit_note = "";
 }
 
 void Server.transmit(str body) {
@@ -642,12 +657,76 @@ pub void Server.respond(int id, json.Value result) {
     transmit(encode(message));
 }
 
+/// An answer to a request, with the id as the server wrote it.
+pub void Server.respond_to(Message request, json.Value result) {
+    json.Value message = object(["jsonrpc", "id", "result"], [text("2.0"), request.id_value, result]);
+    transmit(encode(message));
+}
+
+/// Whether the server announced support for `feature` (a capability key such
+/// as "renameProvider"); true when the capabilities are not known yet.
+pub bool Server.can_do(str feature) {
+    if (is_null(capabilities)) {
+        return true;
+    }
+    json.Value value = member(capabilities, feature);
+    match (value) {
+        case Null: {
+            return false;
+        }
+        case Bool(bool flag): {
+            return flag;
+        }
+        case Int(int whole): {
+            return true;
+        }
+        case Float(float real): {
+            return true;
+        }
+        case Str(str words): {
+            return true;
+        }
+        case Array(List<json.Value> items): {
+            return true;
+        }
+        case Object(Map<str, json.Value> members): {
+            return true;
+        }
+    }
+}
+
+// Read and keep the tail of what the server wrote to standard error.
+void Server.drain_log() {
+    if (children.size() == 0) {
+        return;
+    }
+    for (int round in 0 .. 4) {
+        children[0].stderr.set_deadline_ns(timer.monotonic_ns() + 1000);
+        match (children[0].stderr.read(65536)) {
+            case Ok(bytes data): {
+                if (data.size() == 0) {
+                    return;
+                }
+                str piece = data.utf8().or("");
+                log = log + piece;
+                if (log.size() > 4000) {
+                    log = log.substr(log.size() - 4000, log.size());
+                }
+            }
+            case Err(io.Error error): {
+                return;
+            }
+        }
+    }
+}
+
 /// The messages that have arrived.
 pub List<Message> Server.poll() {
     List<Message> out = [];
     if (is_dead || children.size() == 0) {
         return out;
     }
+    drain_log();
     int rounds = 0;
     while (rounds < 16) {
         rounds = rounds + 1;
@@ -656,6 +735,8 @@ pub List<Message> Server.poll() {
             case Ok(bytes data): {
                 if (data.size() == 0) {
                     is_dead = true;
+                    drain_log();
+                    exit_note = "the server exited";
                     break;
                 }
                 for (str body in reader.feed(data)) {
@@ -679,6 +760,22 @@ pub void Server.stop() {
         int id = request("shutdown", json.Value.Null);
         notify("exit", json.Value.Null);
     }
+    if (!is_dead && children.size() > 0) {
+        // give the server a moment to exit on its own, so the processes it
+        // started (proc-macro servers, tsserver) go with it
+        for (int round in 0 .. 12) {
+            children[0].stdout.set_deadline_ns(timer.monotonic_ns() + 25000000);
+            match (children[0].stdout.read(65536)) {
+                case Ok(bytes data): {
+                    if (data.size() == 0) {
+                        break;
+                    }
+                }
+                case Err(io.Error error): {
+                }
+            }
+        }
+    }
     if (children.size() > 0) {
         Result<bool, proc.Error> killed = children[0].kill(proc.SIGKILL);
         Result<os.ExitStatus, proc.Error> waited = children[0].wait();
@@ -692,7 +789,6 @@ pub Server start(str name, List<str> argv, str root) {
     Server server = Server(name, argv, root);
     match (proc.start(argv, cwd: root)) {
         case Ok(proc.Proc child): {
-            Result<bool, io.Error> closed = child.stderr.close();
             server.children.push(child);
             server.is_dead = false;
         }
@@ -700,10 +796,159 @@ pub Server start(str name, List<str> argv, str root) {
             return server;
         }
     }
-    json.Value capabilities = object(["textDocument", "workspace"], [object(["synchronization", "hover", "definition", "references", "rename", "codeAction", "formatting", "publishDiagnostics"], [object(["didSave", "dynamicRegistration"], [json.Value.Bool(true), json.Value.Bool(false)]), object(["contentFormat"], [json.Value.Array([text("plaintext"), text("markdown")])]), object(["linkSupport"], [json.Value.Bool(false)]), object([], []), object(["prepareSupport"], [json.Value.Bool(false)]), object(["isPreferredSupport"], [json.Value.Bool(false)]), object([], []), object(["relatedInformation"], [json.Value.Bool(false)])]), object(["applyEdit", "workspaceEdit"], [json.Value.Bool(true), object(["documentChanges"], [json.Value.Bool(false)])])]);
-    json.Value parameters = object(["processId", "rootUri", "rootPath", "capabilities", "clientInfo"], [number(0), text(uri_of(root)), text(root), capabilities, object(["name"], [text("m3d1tor")])]);
+    json.Value synchronization = object(["didSave", "dynamicRegistration"], [json.Value.Bool(true), json.Value.Bool(false)]);
+    json.Value markup = object(["contentFormat"], [json.Value.Array([text("markdown"), text("plaintext")])]);
+    json.Value diagnostics = object(["relatedInformation", "versionSupport"], [json.Value.Bool(false), json.Value.Bool(true)]);
+    json.Value document_capabilities = object(["synchronization", "hover", "definition", "references", "rename", "codeAction", "formatting", "publishDiagnostics"], [synchronization, markup, object(["linkSupport"], [json.Value.Bool(false)]), object([], []), object(["prepareSupport"], [json.Value.Bool(false)]), object(["isPreferredSupport", "dataSupport", "resolveSupport"], [json.Value.Bool(false), json.Value.Bool(true), object(["properties"], [json.Value.Array([text("edit")])])]), object([], []), diagnostics]);
+    // workspaceFolders is deliberately not declared: pyright then never starts
+    // analysing (the root is passed as rootUri and as one workspace folder)
+    json.Value workspace_capabilities = object(["applyEdit", "workspaceEdit"], [json.Value.Bool(true), object(["documentChanges"], [json.Value.Bool(false)])]);
+    json.Value window_capabilities = object(["workDoneProgress"], [json.Value.Bool(true)]);
+    json.Value general = object(["positionEncodings"], [json.Value.Array([text("utf-16")])]);
+    json.Value capabilities = object(["textDocument", "workspace", "window", "general"], [document_capabilities, workspace_capabilities, window_capabilities, general]);
+    json.Value folder = object(["uri", "name"], [text(uri_of(root)), text(base_name(root))]);
+    json.Value parameters = object(["processId", "rootUri", "rootPath", "capabilities", "clientInfo", "workspaceFolders", "trace"], [json.Value.Null, text(uri_of(root)), text(root), capabilities, object(["name", "version"], [text("m3"), text("0.1.0")]), json.Value.Array([folder]), text("off")]);
     server.initialize_id = server.request("initialize", parameters);
     return server;
+}
+
+/// A completion snippet as plain text: placeholders `${1:name}` become their
+/// default, `$1` / `${1}` / `$0` vanish, `\$` is a dollar sign.
+pub str plain_snippet(str snippet) {
+    bytes raw = snippet.to_bytes();
+    bytes out = [];
+    int index = 0;
+    while (index < raw.size()) {
+        int byte = raw[index];
+        if (byte == 92 && index + 1 < raw.size()) {
+            out.push(raw[index + 1]);
+            index = index + 2;
+            continue;
+        }
+        if (byte == 36 && index + 1 < raw.size()) {
+            int next = raw[index + 1];
+            if (next >= 48 && next <= 57) {
+                index = index + 2;
+                while (index < raw.size() && raw[index] >= 48 && raw[index] <= 57) {
+                    index = index + 1;
+                }
+                continue;
+            }
+            if (next == 123) {
+                // ${N}, ${N:default}, ${N|a,b|}: find the matching brace
+                int depth = 1;
+                int scan = index + 2;
+                while (scan < raw.size() && depth > 0) {
+                    if (raw[scan] == 92) {
+                        scan = scan + 2;
+                        continue;
+                    }
+                    if (raw[scan] == 123) {
+                        depth = depth + 1;
+                    } else if (raw[scan] == 125) {
+                        depth = depth - 1;
+                    }
+                    scan = scan + 1;
+                }
+                bytes inner = raw.substr(index + 2, scan - 1);
+                str inner_text = inner.utf8().or("");
+                int colon = inner_text.index_of(":").or(-1);
+                int bar = inner_text.index_of("|").or(-1);
+                if (colon >= 0) {
+                    inner_text = plain_snippet(inner_text.substr(colon + 1, inner_text.size()));
+                } else if (bar >= 0) {
+                    str choices = inner_text.substr(bar + 1, inner_text.size());
+                    int comma = choices.index_of(",").or(choices.size());
+                    int stop = choices.index_of("|").or(choices.size());
+                    if (comma < stop) {
+                        stop = comma;
+                    }
+                    inner_text = choices.substr(0, stop);
+                } else {
+                    inner_text = "";
+                }
+                out.extend(inner_text.to_bytes());
+                index = scan;
+                continue;
+            }
+        }
+        out.push(byte);
+        index = index + 1;
+    }
+    return out.utf8().or(snippet);
+}
+
+/// Whether `left` sorts before `right` (byte order).
+pub bool is_before(str left, str right) {
+    int length = left.size();
+    if (right.size() < length) {
+        length = right.size();
+    }
+    for (int index in 0 .. length) {
+        int one = left.byte_at(index);
+        int other = right.byte_at(index);
+        if (one != other) {
+            return one < other;
+        }
+    }
+    return left.size() < right.size();
+}
+
+int last_byte(str text_value, int byte) {
+    int found = -1;
+    for (int index in 0 .. text_value.size()) {
+        if (text_value.byte_at(index) == byte) {
+            found = index;
+        }
+    }
+    return found;
+}
+
+str base_name(str path) {
+    return path.substr(last_byte(path, 47) + 1, path.size());
+}
+
+/// The LSP `languageId` of file `path` whose highlighter language is `lang`.
+pub str language_id_of(str path, str lang) {
+    str base = base_name(path);
+    int dot = last_byte(base, 46);
+    str extension = "";
+    if (dot >= 0) {
+        extension = base.substr(dot + 1, base.size()).to_lower();
+    }
+    if (extension == "ts" || extension == "mts" || extension == "cts") {
+        return "typescript";
+    }
+    if (extension == "tsx") {
+        return "typescriptreact";
+    }
+    if (extension == "jsx") {
+        return "javascriptreact";
+    }
+    if (extension == "lua") {
+        return "lua";
+    }
+    if (lang == "sh") {
+        return "shellscript";
+    }
+    if (lang == "m31") {
+        return "m31";
+    }
+    return lang;
+}
+
+/// The language a file is served as when the highlighter does not know it.
+pub str language_of_extension(str path) {
+    str base = base_name(path);
+    int dot = last_byte(base, 46);
+    if (dot < 0) {
+        return "";
+    }
+    str extension = base.substr(dot + 1, base.size()).to_lower();
+    if (extension == "lua") {
+        return "lua";
+    }
+    return "";
 }
 
 str encode(json.Value message) {

@@ -128,7 +128,7 @@ pub type App {
     int inc_col = 0;
     int inc_end_row = 0;
     int inc_end_col = 0;
-    /// The system clipboard tools, when `m3d1tor` found a pair (see MED_clip).
+    /// The system clipboard tools, when `m3` found a pair (see MED_clip).
     pub MED_clip.Provider clipboard = MED_clip.Provider();
     /// The file `:w` writes; empty for a buffer with no name yet.
     pub str path;
@@ -182,7 +182,11 @@ pub type App {
     /// Requests in flight: "SERVER#ID" -> "purpose|path".
     Map<str, str> lsp_pending = {};
     /// The edits of the code actions last offered.
-    List<List<MED_lsp.FileEdits>> lsp_actions = [];
+    List<json.Value> lsp_actions = [];
+    /// The completion items offered, and where the word being completed began.
+    List<json.Value> lsp_completions = [];
+    int lsp_completion_row = 0;
+    int lsp_completion_byte = 0;
     /// Per document: the buffer tick last sent and the document version.
     Map<str, int> lsp_ticks = {};
     int lsp_quiet_ms = 0;
@@ -2656,6 +2660,11 @@ bool App.should_quit_after(int key) {
         is_window_key = true;
         return false;
     }
+    if (editor.mode == MED_editor.INSERT && (key == MED_key.NUL || key == (MED_key.MOD_CTRL | 32)) && has_server_here()) {
+        // CTRL-Space: language server completion
+        run_lsp_command("complete", "");
+        return did_finish();
+    }
     if (editor.mode == MED_editor.NORMAL && editor.ta_keys.size() == 0 && has_server_here() && is_lsp_key(key)) {
         if (key == 75 && editor.pending.size() == 0) {
             run_lsp_command("hover", "");
@@ -3560,6 +3569,12 @@ void App.draw_status(TUI_buffer.Buffer buffer, MED_window.Placed frame, MED_edit
             List<int> counts = diagnostic_counts();
             if (counts[0] + counts[1] > 0) {
                 middle = middle + "  E:" + counts[0].to_str() + " W:" + counts[1].to_str();
+            }
+        }
+        if (is_active && servers.size() > 0) {
+            str busy = lsp_status_text();
+            if (busy.size() > 0) {
+                middle = middle + "  " + busy;
             }
         }
         int middle_x = frame.x + used + name.size() + 2;
@@ -5051,6 +5066,18 @@ List<str> App.server_command(str lang) {
         if (MED_shell.which(candidate[0]).is_some()) {
             return candidate;
         }
+        // not on PATH: Neovim's mason keeps its servers in one directory
+        str home = os.env("HOME").or("");
+        if (home.size() > 0) {
+            str mason = home + "/.local/share/nvim/mason/bin/" + candidate[0];
+            if (fs.is_file(mason)) {
+                List<str> resolved = [mason];
+                for (int index in 1 .. candidate.size()) {
+                    resolved.push(candidate[index]);
+                }
+                return resolved;
+            }
+        }
     }
     return [];
 }
@@ -5061,6 +5088,39 @@ str App.language_here() {
         return "";
     }
     return MED_syntax.language_of(path, editor.buffer.line(0));
+}
+
+/// The language the language server of the active buffer serves: the
+/// highlighter's, else one the LSP layer knows by extension (lua).
+str App.lsp_language_here() {
+    str lang = language_here();
+    if (lang.size() > 0) {
+        return lang;
+    }
+    if (path.size() == 0 || is_in_listing() || terminal_of(current_id) >= 0) {
+        return "";
+    }
+    return MED_lsp.language_of_extension(path);
+}
+
+/// "LSP: ..." for the status line while the server of this buffer reports
+/// progress ("" when idle or there is none).
+str App.lsp_status_text() {
+    int found = server_for(lsp_language_here());
+    if (found < 0 || servers[found].is_dead) {
+        return "";
+    }
+    if (!servers[found].is_ready) {
+        return "LSP: starting";
+    }
+    str busy = servers[found].progress;
+    if (busy.size() == 0) {
+        return "";
+    }
+    if (busy.size() > 28) {
+        busy = busy.substr(0, 28);
+    }
+    return "LSP: " + busy;
 }
 
 /// Where the server of `lang` is in `servers`, or -1.
@@ -5078,7 +5138,7 @@ bool App.has_server_here() {
     if (servers.size() == 0 || !is_plugin_on("lsp")) {
         return false;
     }
-    int found = server_for(language_here());
+    int found = server_for(lsp_language_here());
     return found >= 0 && !servers[found].is_dead;
 }
 
@@ -5087,7 +5147,7 @@ bool App.is_lsp_wanted() {
     if (!is_plugin_on("lsp") || !editor.is_option_on("lsp", true)) {
         return false;
     }
-    str lang = language_here();
+    str lang = lsp_language_here();
     if (lang.size() == 0 || server_for(lang) >= 0 || lsp_failed_for == lang) {
         return false;
     }
@@ -5111,6 +5171,13 @@ void App.start_server(str lang) {
     if (fresh.is_dead) {
         lsp_failed_for = lang;
         notice = "LSP: could not start " + argv[0];
+        return;
+    }
+    int dead = server_for(lang);
+    if (dead >= 0) {
+        // a stopped server of this language is replaced, not listed twice
+        servers[dead].stop();
+        servers[dead] = fresh;
         return;
     }
     servers.push(fresh);
@@ -5143,7 +5210,7 @@ str App.text_of_slot(Slot slot) {
 /// changed.
 bool App.did_tick_lsp(int elapsed_ms) {
     bool is_changed = false;
-    str lang_here = language_here();
+    str lang_here = lsp_language_here();
     if (lang_here.size() > 0 && server_for(lang_here) < 0 && is_lsp_wanted()) {
         start_server(lang_here);
     }
@@ -5166,7 +5233,14 @@ bool App.did_tick_lsp(int elapsed_ms) {
         for (int index in 0 .. slots.size()) {
             Slot slot = slots[index];
             str key = slot_key(slot);
-            if (key.size() == 0 || MED_syntax.language_of(slot.path, slot.editor.buffer.line(0)) != lang) {
+            if (key.size() == 0) {
+                continue;
+            }
+            str slot_lang = MED_syntax.language_of(slot.path, slot.editor.buffer.line(0));
+            if (slot_lang.size() == 0) {
+                slot_lang = MED_lsp.language_of_extension(slot.path);
+            }
+            if (slot_lang != lang) {
                 continue;
             }
             int stamp = slot.editor.buffer.tick;
@@ -5174,7 +5248,7 @@ bool App.did_tick_lsp(int elapsed_ms) {
             if (!server.versions.contains(key)) {
                 server.versions.set(key, 1);
                 lsp_ticks.set(ticks_key, stamp);
-                server.notify("textDocument/didOpen", MED_lsp.object(["textDocument"], [MED_lsp.object(["uri", "languageId", "version", "text"], [MED_lsp.text(MED_lsp.uri_of(key)), MED_lsp.text(lang), MED_lsp.number(1), MED_lsp.text(text_of_slot(slot))])]));
+                server.notify("textDocument/didOpen", MED_lsp.object(["textDocument"], [MED_lsp.object(["uri", "languageId", "version", "text"], [MED_lsp.text(MED_lsp.uri_of(key)), MED_lsp.text(MED_lsp.language_id_of(key, lang)), MED_lsp.number(1), MED_lsp.text(text_of_slot(slot))])]));
             } else if (lsp_ticks.get(ticks_key).or(-1) != stamp && slot.editor.mode != MED_editor.INSERT) {
                 int version = server.versions.get(key).or(1) + 1;
                 server.versions.set(key, version);
@@ -5184,6 +5258,24 @@ bool App.did_tick_lsp(int elapsed_ms) {
         }
     }
     return is_changed;
+}
+
+/// Send the active buffer's current text to its server now (didChange), as
+/// completion needs the text up to the cursor.
+void App.lsp_flush_document() {
+    int found = server_for(lsp_language_here());
+    if (found < 0 || servers[found].is_dead || !servers[found].is_ready) {
+        return;
+    }
+    MED_lsp.Server server = servers[found];
+    str key = absolute_of(path);
+    if (!server.versions.contains(key)) {
+        return;
+    }
+    int version = server.versions.get(key).or(1) + 1;
+    server.versions.set(key, version);
+    lsp_ticks.set(lsp_language_here() + "|" + key, editor.buffer.tick);
+    server.notify("textDocument/didChange", MED_lsp.object(["textDocument", "contentChanges"], [MED_lsp.object(["uri", "version"], [MED_lsp.text(MED_lsp.uri_of(key)), MED_lsp.number(version)]), json.Value.Array([MED_lsp.object(["text"], [MED_lsp.text(editor.buffer.lines.join("\n") + "\n")])])]));
 }
 
 /// Tell the servers a file was saved.
@@ -5203,6 +5295,7 @@ bool App.did_handle_server_message(int position, MED_lsp.Message message) {
         if (message.id == server.initialize_id) {
             if (!message.is_error) {
                 server.is_ready = true;
+                server.capabilities = MED_lsp.member(message.body, "capabilities");
                 server.notify("initialized", MED_lsp.object([], []));
                 lsp_quiet_ms = 1000;
             } else {
@@ -5218,7 +5311,11 @@ bool App.did_handle_server_message(int position, MED_lsp.Message message) {
         }
         lsp_pending.remove(key);
         if (message.is_error) {
-            notice = "LSP: " + message.error_text;
+            if (message.error_code == -32801 || message.error_code == -32800) {
+                notice = "LSP: the server was busy, try again";
+            } else {
+                notice = "LSP: " + message.error_text;
+            }
             return true;
         }
         handle_lsp_result(purpose, message.body);
@@ -5228,6 +5325,11 @@ bool App.did_handle_server_message(int position, MED_lsp.Message message) {
         if (message.method == "textDocument/publishDiagnostics") {
             str file = MED_lsp.path_of(MED_lsp.text_of(MED_lsp.member(message.body, "uri")));
             if (file.size() == 0) {
+                return false;
+            }
+            int sent_version = MED_lsp.int_of(MED_lsp.member(message.body, "version"), -1);
+            if (sent_version >= 0 && sent_version < server.versions.get(file).or(0)) {
+                // computed for text that has since changed: a newer set follows
                 return false;
             }
             List<MED_lsp.Diagnostic> raw = MED_lsp.diagnostics_of(message.body);
@@ -5254,23 +5356,92 @@ bool App.did_handle_server_message(int position, MED_lsp.Message message) {
             notice = MED_lsp.text_of(MED_lsp.member(message.body, "message"));
             return true;
         }
+        if (message.method == "$/progress") {
+            return did_note_progress(server, message.body);
+        }
         return false;
     }
     if (message.kind == "request") {
         if (message.method == "workspace/applyEdit") {
             List<MED_lsp.FileEdits> files = MED_lsp.workspace_edits(MED_lsp.member(message.body, "edit"));
             apply_workspace_edits(files);
-            server.respond(message.id, MED_lsp.object(["applied"], [json.Value.Bool(true)]));
+            server.respond_to(message, MED_lsp.object(["applied"], [json.Value.Bool(true)]));
             return true;
         }
-        server.respond(message.id, json.Value.Null);
+        if (message.method == "workspace/configuration") {
+            // one answer per requested item; null means "no setting, use your default"
+            List<json.Value> answers = [];
+            for (json.Value item in MED_lsp.items_of(MED_lsp.member(message.body, "items"))) {
+                answers.push(json.Value.Null);
+            }
+            server.respond_to(message, json.Value.Array(answers));
+            return false;
+        }
+        if (message.method == "workspace/workspaceFolders") {
+            json.Value folder = MED_lsp.object(["uri", "name"], [MED_lsp.text(MED_lsp.uri_of(server.root)), MED_lsp.text(server.root)]);
+            server.respond_to(message, json.Value.Array([folder]));
+            return false;
+        }
+        if (message.method == "window/workDoneProgress/create") {
+            str token = MED_lsp.text_of(MED_lsp.member(message.body, "token"));
+            if (token.size() == 0) {
+                token = MED_lsp.int_of(MED_lsp.member(message.body, "token"), 0).to_str();
+            }
+            server.tokens.set(token, "");
+            server.respond_to(message, json.Value.Null);
+            return false;
+        }
+        // client/registerCapability, client/unregisterCapability,
+        // window/showMessageRequest, window/showDocument and anything else:
+        // every request gets an answer or the server waits for ever
+        server.respond_to(message, json.Value.Null);
     }
     return false;
 }
 
+/// A `$/progress` notification: keep what the server is busy with. True when
+/// the status line text changed.
+bool App.did_note_progress(MED_lsp.Server server, json.Value body) {
+    str token = MED_lsp.text_of(MED_lsp.member(body, "token"));
+    if (token.size() == 0) {
+        token = MED_lsp.int_of(MED_lsp.member(body, "token"), 0).to_str();
+    }
+    json.Value value = MED_lsp.member(body, "value");
+    str kind = MED_lsp.text_of(MED_lsp.member(value, "kind"));
+    str before = server.progress;
+    if (kind == "end") {
+        server.tokens.remove(token);
+        server.progress = "";
+        for (str other in server.tokens.keys()) {
+            if (server.tokens.get(other).or("").size() > 0) {
+                server.progress = server.tokens.get(other).or("");
+            }
+        }
+        return before != server.progress;
+    }
+    str title = MED_lsp.text_of(MED_lsp.member(value, "title"));
+    if (title.size() == 0) {
+        title = server.tokens.get(token).or("");
+    }
+    str detail = MED_lsp.text_of(MED_lsp.member(value, "message"));
+    str progress_text = title;
+    if (detail.size() > 0) {
+        progress_text = progress_text + " " + detail;
+    }
+    int percentage = MED_lsp.int_of(MED_lsp.member(value, "percentage"), -1);
+    if (percentage >= 0) {
+        progress_text = progress_text + " " + percentage.to_str() + "%";
+    }
+    if (kind == "begin" || kind == "report") {
+        server.tokens.set(token, progress_text);
+        server.progress = progress_text;
+    }
+    return before != server.progress;
+}
+
 /// Send a request for the active buffer; remember what it was for.
 void App.lsp_request(str method, str purpose, json.Value parameters) {
-    int found = server_for(language_here());
+    int found = server_for(lsp_language_here());
     if (found < 0 || servers[found].is_dead || !servers[found].is_ready) {
         notice = "LSP: no language server is ready for this buffer";
         return;
@@ -5303,7 +5474,21 @@ void App.run_lsp_command(str sub, str arg) {
             } else if (!servers[position].is_ready) {
                 state = "starting";
             }
-            lines.push("  " + server_languages[position] + ": " + servers[position].name + " (" + state + ")");
+            str extra = "";
+            if (servers[position].progress.size() > 0) {
+                extra = ", " + servers[position].progress;
+            }
+            lines.push("  " + server_languages[position] + ": " + servers[position].name + " (" + state + extra + ")");
+            if (servers[position].is_dead && servers[position].log.size() > 0) {
+                List<str> log_lines = servers[position].log.trim().split("\n");
+                int first = log_lines.size() - 3;
+                if (first < 0) {
+                    first = 0;
+                }
+                for (int index in first .. log_lines.size()) {
+                    lines.push("      " + log_lines[index]);
+                }
+            }
         }
         overlay = lines;
         return;
@@ -5320,7 +5505,7 @@ void App.run_lsp_command(str sub, str arg) {
     }
     if (sub == "start") {
         lsp_failed_for = "";
-        str lang = language_here();
+        str lang = lsp_language_here();
         if (lang.size() == 0) {
             notice = "LSP: no language for this buffer";
         } else if (server_for(lang) >= 0 && !servers[server_for(lang)].is_dead) {
@@ -5345,6 +5530,12 @@ void App.run_lsp_command(str sub, str arg) {
         notice = "LSP: no language server for this buffer (:Lsp info)";
         return;
     }
+    str needed = lsp_capability_for(sub);
+    int active = server_for(lsp_language_here());
+    if (needed.size() > 0 && active >= 0 && !servers[active].can_do(needed)) {
+        notice = "LSP: " + servers[active].name + " does not support " + sub;
+        return;
+    }
     if (sub == "hover") {
         lsp_request("textDocument/hover", "hover", lsp_position_parameters());
     } else if (sub == "definition") {
@@ -5367,11 +5558,40 @@ void App.run_lsp_command(str sub, str arg) {
         int units = MED_lsp.units_of(editor.buffer.line(editor.row), editor.col);
         json.Value spot = MED_lsp.position_value(editor.row, units);
         json.Value range = MED_lsp.object(["start", "end"], [spot, spot]);
-        lsp_request("textDocument/codeAction", "action", MED_lsp.object(["textDocument", "range", "context"], [MED_lsp.object(["uri"], [MED_lsp.text(MED_lsp.uri_of(absolute_of(path)))]), range, MED_lsp.object(["diagnostics"], [json.Value.Array([])])]));
+        // the diagnostics on this line go along: quick fixes are offered for them
+        List<json.Value> here = [];
+        for (MED_lsp.Diagnostic one in diagnostics.get(absolute_of(path)).or([])) {
+            if (one.row == editor.row) {
+                int start_units = MED_lsp.units_of(editor.buffer.line(one.row), one.col);
+                int end_units = start_units;
+                if (one.end_row < editor.buffer.line_count()) {
+                    end_units = MED_lsp.units_of(editor.buffer.line(one.end_row), one.end_col);
+                }
+                json.Value one_range = MED_lsp.object(["start", "end"], [MED_lsp.position_value(one.row, start_units), MED_lsp.position_value(one.end_row, end_units)]);
+                here.push(MED_lsp.object(["range", "severity", "message"], [one_range, MED_lsp.number(one.severity), MED_lsp.text(one.message)]));
+            }
+        }
+        lsp_request("textDocument/codeAction", "action", MED_lsp.object(["textDocument", "range", "context"], [MED_lsp.object(["uri"], [MED_lsp.text(MED_lsp.uri_of(absolute_of(path)))]), range, MED_lsp.object(["diagnostics"], [json.Value.Array(here)])]));
+    } else if (sub == "complete") {
+        if (arg.size() > 0) {
+            accept_completion(arg.parse_int().or(-1));
+            return;
+        }
+        int word_start = editor.col;
+        str line_text = editor.buffer.line(editor.row);
+        while (word_start > 0 && is_completion_byte(line_text.byte_at(word_start - 1))) {
+            word_start = word_start - 1;
+        }
+        lsp_completion_row = editor.row;
+        lsp_completion_byte = word_start;
+        // Insert mode holds back didChange: the server must see what was typed
+        lsp_flush_document();
+        json.Value parameters = lsp_position_parameters();
+        lsp_request("textDocument/completion", "complete", MED_lsp.object(["textDocument", "position", "context"], [MED_lsp.member(parameters, "textDocument"), MED_lsp.member(parameters, "position"), MED_lsp.object(["triggerKind"], [MED_lsp.number(1)])]));
     } else if (sub.starts_with("apply")) {
         int which = arg.parse_int().or(-1);
         if (which >= 0 && which < lsp_actions.size()) {
-            apply_workspace_edits(lsp_actions[which]);
+            run_code_action(lsp_actions[which]);
         }
     } else {
         notice = "E474: Unknown :Lsp subcommand: " + sub;
@@ -5430,16 +5650,79 @@ void App.handle_lsp_result(str purpose_and_file, json.Value result) {
         }
         did_apply_file_edits(file, edits);
         notice = "Formatted";
+    } else if (purpose == "complete") {
+        json.Value list = result;
+        if (!MED_lsp.is_null(MED_lsp.member(result, "items"))) {
+            list = MED_lsp.member(result, "items");
+        }
+        lsp_completions = [];
+        List<MED_picker.Entry> entries = [];
+        // by the server's sortText (label when it has none), stable
+        List<str> sort_keys = [];
+        List<json.Value> sorted = [];
+        for (json.Value item in MED_lsp.items_of(list)) {
+            str label = MED_lsp.text_of(MED_lsp.member(item, "label"));
+            if (label.size() == 0 || sorted.size() >= 5000) {
+                continue;
+            }
+            str sort_key = MED_lsp.text_of(MED_lsp.member(item, "sortText"));
+            if (sort_key.size() == 0) {
+                sort_key = label;
+            }
+            int low = 0;
+            int high = sort_keys.size();
+            while (low < high) {
+                int middle = (low + high) / 2;
+                if (MED_lsp.is_before(sort_key, sort_keys[middle])) {
+                    high = middle;
+                } else {
+                    low = middle + 1;
+                }
+            }
+            sort_keys.insert(low, sort_key);
+            sorted.insert(low, item);
+        }
+        for (json.Value item in sorted) {
+            str label = MED_lsp.text_of(MED_lsp.member(item, "label"));
+            str detail = MED_lsp.text_of(MED_lsp.member(item, "detail"));
+            if (detail.size() > 0) {
+                label = label + "  " + detail;
+            }
+            entries.push(MED_picker.Entry(label, action: "app:lsp_complete " + lsp_completions.size().to_str()));
+            lsp_completions.push(item);
+        }
+        if (entries.size() == 0) {
+            notice = "LSP: no completions";
+            return;
+        }
+        picker = MED_picker.make(MED_picker.KIND_LIST, "Completion");
+        picker.set_entries(entries);
+        // servers send everything that fits; the typed prefix narrows it here
+        str typed = "";
+        if (lsp_completion_row < editor.buffer.line_count() && lsp_completion_byte <= editor.col) {
+            typed = editor.buffer.line(lsp_completion_row).substr(lsp_completion_byte, editor.col);
+        }
+        if (typed.size() > 0) {
+            picker.query = typed;
+            picker.refilter();
+            if (picker.shown.size() == 0) {
+                picker.query = "";
+                picker.refilter();
+            }
+        }
+        has_picker = true;
+    } else if (purpose == "resolved_action") {
+        run_resolved_action(result);
     } else if (purpose == "action") {
         lsp_actions = [];
         List<MED_picker.Entry> entries = [];
         for (json.Value item in MED_lsp.items_of(result)) {
-            List<MED_lsp.FileEdits> files = MED_lsp.workspace_edits(MED_lsp.member(item, "edit"));
-            if (files.size() == 0) {
+            str title = MED_lsp.text_of(MED_lsp.member(item, "title"));
+            if (title.size() == 0) {
                 continue;
             }
-            entries.push(MED_picker.Entry(MED_lsp.text_of(MED_lsp.member(item, "title")), action: "app:lsp_apply " + lsp_actions.size().to_str()));
-            lsp_actions.push(files);
+            entries.push(MED_picker.Entry(title, action: "app:lsp_apply " + lsp_actions.size().to_str()));
+            lsp_actions.push(item);
         }
         if (entries.size() == 0) {
             notice = "LSP: no code actions";
@@ -5449,6 +5732,134 @@ void App.handle_lsp_result(str purpose_and_file, json.Value result) {
         picker.set_entries(entries);
         has_picker = true;
     }
+}
+
+/// Insert completion item `which` in place of the word before the cursor
+/// (or over the item's own `textEdit` range), cursor after the text.
+void App.accept_completion(int which) {
+    if (which < 0 || which >= lsp_completions.size() || lsp_completion_row >= editor.buffer.line_count()) {
+        return;
+    }
+    json.Value item = lsp_completions[which];
+    str line_text = editor.buffer.line(lsp_completion_row);
+    int from_units = MED_lsp.units_of(line_text, lsp_completion_byte);
+    int to_units = MED_lsp.units_of(line_text, editor.col);
+    str inserted = MED_lsp.text_of(MED_lsp.member(item, "insertText"));
+    if (inserted.size() == 0) {
+        inserted = MED_lsp.text_of(MED_lsp.member(item, "label"));
+    }
+    json.Value edit = MED_lsp.member(item, "textEdit");
+    int row_from = lsp_completion_row;
+    int row_to = lsp_completion_row;
+    if (!MED_lsp.is_null(edit)) {
+        json.Value range = MED_lsp.member(edit, "range");
+        if (MED_lsp.is_null(range)) {
+            range = MED_lsp.member(edit, "replace");
+        }
+        if (MED_lsp.is_null(range)) {
+            range = MED_lsp.member(edit, "insert");
+        }
+        json.Value start = MED_lsp.member(range, "start");
+        json.Value finish = MED_lsp.member(range, "end");
+        row_from = MED_lsp.int_of(MED_lsp.member(start, "line"), lsp_completion_row);
+        row_to = MED_lsp.int_of(MED_lsp.member(finish, "line"), lsp_completion_row);
+        from_units = MED_lsp.int_of(MED_lsp.member(start, "character"), from_units);
+        to_units = MED_lsp.int_of(MED_lsp.member(finish, "character"), to_units);
+        str edited = MED_lsp.text_of(MED_lsp.member(edit, "newText"));
+        if (edited.size() > 0) {
+            inserted = edited;
+        }
+    }
+    if (MED_lsp.int_of(MED_lsp.member(item, "insertTextFormat"), 1) == 2) {
+        inserted = MED_lsp.plain_snippet(inserted);
+    }
+    List<MED_lsp.TextEdit> edits = [MED_lsp.TextEdit(row_from, from_units, row_to, to_units, inserted)];
+    for (MED_lsp.TextEdit extra in MED_lsp.edits_of(MED_lsp.member(item, "additionalTextEdits"))) {
+        edits.push(extra);
+    }
+    if (!did_apply_file_edits(absolute_of(path), edits)) {
+        return;
+    }
+    // the cursor goes after the inserted text
+    int start_byte = MED_lsp.byte_of(line_text, from_units);
+    List<str> pieces = inserted.split("\n");
+    editor.row = row_from + pieces.size() - 1;
+    if (pieces.size() == 1) {
+        editor.col = start_byte + inserted.size();
+    } else {
+        editor.col = pieces[pieces.size() - 1].size();
+    }
+    editor.clamp();
+    editor.want_from_cursor();
+}
+
+/// Carry out a code action the user picked: its edit, else its command, else
+/// resolve it first (servers send the edit lazily in `data`).
+void App.run_code_action(json.Value item) {
+    if (!MED_lsp.is_null(MED_lsp.member(item, "edit"))) {
+        apply_workspace_edits(MED_lsp.workspace_edits(MED_lsp.member(item, "edit")));
+        run_action_command(item);
+        return;
+    }
+    int found = server_for(lsp_language_here());
+    if (found >= 0 && !MED_lsp.is_null(MED_lsp.member(item, "data")) && MED_lsp.is_null(MED_lsp.member(item, "command"))) {
+        lsp_request("codeAction/resolve", "resolved_action", item);
+        return;
+    }
+    run_action_command(item);
+}
+
+/// The result of `codeAction/resolve`.
+void App.run_resolved_action(json.Value item) {
+    if (!MED_lsp.is_null(MED_lsp.member(item, "edit"))) {
+        apply_workspace_edits(MED_lsp.workspace_edits(MED_lsp.member(item, "edit")));
+    }
+    run_action_command(item);
+}
+
+// Send the `command` of a code action (or the action itself, when it is a
+// bare Command) as workspace/executeCommand.
+void App.run_action_command(json.Value item) {
+    json.Value command = MED_lsp.member(item, "command");
+    json.Value spec = command;
+    if (MED_lsp.text_of(command).size() > 0) {
+        // the item is itself a Command: {title, command: "name", arguments}
+        spec = item;
+    }
+    if (MED_lsp.is_null(spec) || MED_lsp.text_of(MED_lsp.member(spec, "command")).size() == 0) {
+        return;
+    }
+    json.Value arguments = MED_lsp.member(spec, "arguments");
+    if (MED_lsp.is_null(arguments)) {
+        arguments = json.Value.Array([]);
+    }
+    lsp_request("workspace/executeCommand", "command", MED_lsp.object(["command", "arguments"], [MED_lsp.member(spec, "command"), arguments]));
+}
+
+/// The server capability a `:Lsp` subcommand needs ("" for none).
+str App.lsp_capability_for(str sub) {
+    if (sub == "hover") {
+        return "hoverProvider";
+    }
+    if (sub == "definition") {
+        return "definitionProvider";
+    }
+    if (sub == "references") {
+        return "referencesProvider";
+    }
+    if (sub == "rename") {
+        return "renameProvider";
+    }
+    if (sub == "format") {
+        return "documentFormattingProvider";
+    }
+    if (sub == "action") {
+        return "codeActionProvider";
+    }
+    if (sub == "complete") {
+        return "completionProvider";
+    }
+    return "";
 }
 
 /// The text of line `row` of `file` (from an open buffer, else from disk).
@@ -5659,6 +6070,10 @@ List<MED_picker.Entry> App.diagnostic_entries(bool is_buffer_only) {
         }
     }
     return out;
+}
+
+bool is_completion_byte(int byte) {
+    return (byte >= 48 && byte <= 57) || (byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122) || byte == 95 || byte >= 128;
 }
 
 const str JUMP_LABELS = "asdfghjklqwertyuiopzxcvbnm";
@@ -6161,20 +6576,32 @@ str expand_home(str path) {
     return path;
 }
 
-/// Where the keymap file is: $M3D1TOR_KEYMAP, else $XDG_CONFIG_HOME/m3d1tor/keymap.vim,
-/// else ~/.config/m3d1tor/keymap.vim.
+/// Where the keymap file is: $M3_KEYMAP, else $XDG_CONFIG_HOME/m3/keymap.vim,
+/// else ~/.config/m3/keymap.vim. When that file is absent and the pre-0.1.0
+/// directory (`m3d1tor`, same parent) has one, that file is read instead.
 pub str keymap_path() {
-    match (os.env("M3D1TOR_KEYMAP")) {
+    match (os.env("M3_KEYMAP")) {
         case Some(str given): {
             return given;
         }
         case None: {
         }
     }
+    str current = keymap_default_path();
+    if (current.size() > 0 && !fs.is_file(current)) {
+        str legacy = current.substr(0, current.size() - "/m3/keymap.vim".size()) + "/m3d1tor/keymap.vim";
+        if (fs.is_file(legacy)) {
+            return legacy;
+        }
+    }
+    return current;
+}
+
+str keymap_default_path() {
     match (os.env("XDG_CONFIG_HOME")) {
         case Some(str base): {
             if (base.size() > 0) {
-                return base + "/m3d1tor/keymap.vim";
+                return base + "/m3/keymap.vim";
             }
         }
         case None: {
@@ -6182,7 +6609,7 @@ pub str keymap_path() {
     }
     match (os.env("HOME")) {
         case Some(str home): {
-            return home + "/.config/m3d1tor/keymap.vim";
+            return home + "/.config/m3/keymap.vim";
         }
         case None: {
             return "";
@@ -6575,6 +7002,10 @@ int char_of(term.Code code) {
 
 /// The control character of a letter or one of `@ [ \ ] ^ _`, or -1.
 int control_of(int code_point) {
+    if (code_point == 32) {
+        // CTRL-Space is NUL
+        return 0;
+    }
     if (code_point >= 97 && code_point <= 122) {
         return code_point - 96;
     }
