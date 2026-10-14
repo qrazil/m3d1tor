@@ -23,6 +23,14 @@ options are stored but do not change behaviour yet, and LSP / tree-sitter /
 plugins are out of scope. The acceptance bar for v0.1.0 is DESIGN section 9.
 `m3d1tor --version` prints the version.
 
+## Install
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/qrazil/m3dit/master/install.sh | sh
+```
+
+Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<version>` and links the programs into `~/.local/bin`. `VERSION=v1.2.3` pins a release, `PREFIX=...` moves the install, `sh install.sh --uninstall` removes it.
+
 ## Features
 
 - Modal editing with Vim grammar: motions, operators, text objects, counts,
