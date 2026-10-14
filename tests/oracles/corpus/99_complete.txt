@@ -440,7 +440,7 @@ x	0,0	:set s<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:setl swap<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:up READ<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:lcd .<Tab><Tab><C-b>"<CR>
-x	0,0	:cd m3d1tor.m<Tab><C-b>"<CR>
+x	0,0	:cd m3.m<Tab><C-b>"<CR>
 x	0,0	:sp tests/oracles/corpus/8<Tab><Tab><C-b>"<CR>
 x	0,0	:sav tests/oracles/<Tab><C-b>"<CR>
 x	0,0	:up te<Tab><Tab><Tab><C-b>"<CR>
@@ -455,7 +455,7 @@ x	0,0	:cd .g<Tab><Tab><C-b>"<CR>
 x	0,0	:e t<Tab><Tab><C-b>"<CR>
 x	0,0	:vnew ui/<Tab><C-b>"<CR>
 x	0,0	:w tests/oracles/corpus/8<Tab><Tab><Tab><C-b>"<CR>
-x	0,0	:vnew m3d1tor.m<Tab><C-b>"<CR>
+x	0,0	:vnew m3.m<Tab><C-b>"<CR>
 x	0,0	:so D<Tab><C-b>"<CR>
 x	0,0	:new .g<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:cd tests/oracles/<Tab><Tab><Tab><C-b>"<CR>
@@ -467,7 +467,7 @@ x	0,0	:up t<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:sp u<Tab><C-b>"<CR>
 x	0,0	:w .g<Tab><C-b>"<CR>
 x	0,0	:sp <Tab><C-b>"<CR>
-x	0,0	:sp m3d1tor.m<Tab><Tab><Tab><C-b>"<CR>
+x	0,0	:sp m3.m<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:e tests/oracles/<Tab><Tab><C-b>"<CR>
 x	0,0	:new bench/<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:w e<Tab><Tab><C-b>"<CR>
@@ -478,7 +478,7 @@ x	0,0	:lcd D<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:up .g<Tab><Tab><C-b>"<CR>
 x	0,0	:sp b<Tab><Tab><C-b>"<CR>
 x	0,0	:vs te<Tab><C-b>"<CR>
-x	0,0	:edit m3d1tor.m<Tab><Tab><C-b>"<CR>
+x	0,0	:edit m3.m<Tab><Tab><C-b>"<CR>
 x	0,0	:new ui/<Tab><C-b>"<CR>
 x	0,0	:lcd ui/MED_a<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:w R<Tab><Tab><C-b>"<CR>
@@ -562,7 +562,7 @@ x	0,0	:vnew tests/o<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:up ui/<Tab><C-b>"<CR>
 x	0,0	:so ./<Tab><Tab><Tab><C-b>"<CR>
 x	0,0	:up D<Tab><C-b>"<CR>
-x	0,0	:new m3d1tor.m<Tab><Tab><C-b>"<CR>
+x	0,0	:new m3.m<Tab><Tab><C-b>"<CR>
 x	0,0	:r ./<Tab><C-b>"<CR>
 x	0,0	:vs tests/oracles/corpus/0<Tab><C-b>"<CR>
 x	0,0	:up R<Tab><Tab><C-b>"<CR>

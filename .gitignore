@@ -1,7 +1,7 @@
 .m31-deps/
 /build/
 *.o
-/m3d1tor
+/m3
 __pycache__/
 /dist/
 *.log

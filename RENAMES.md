@@ -1,3 +1,24 @@
+# 0.1.0: m3d1tor is now m3dit, the command is `m3`
+
+| old | new |
+|---|---|
+| repository `qrazil/m3d1tor` | `qrazil/m3dit` (GitHub redirects the old URL) |
+| binary `m3d1tor` | `m3` (short, like `vi` / `nvim` / `hx`) |
+| entry file `m3d1tor.m31` | `m3.m31` |
+| project `name m3d1tor` in `deps` | `name m3dit` |
+| release assets `m3d1tor-<os>-<arch>.tar.gz` | `m3-linux-x86_64.tar.gz`, `m3-linux-aarch64.tar.gz`, `m3-macos-arm64.tar.gz` (same layout inside, binary named `m3`) |
+| `~/.config/m3d1tor/keymap.vim` | `~/.config/m3/keymap.vim` (the old file is still read when the new one is absent) |
+| `~/.local/state/m3d1tor` | `~/.local/state/m3` (old state files are read until the new ones are written) |
+| `M3D1TOR_KEYMAP`, `M3D1TOR_NO_MOUSE`, `M3D1TOR_CLIP_COPY`, `M3D1TOR_CLIP_PASTE` | `M3_KEYMAP`, `M3_NO_MOUSE`, `M3_CLIP_COPY`, `M3_CLIP_PASTE` |
+| `--version` output `m3d1tor 0.0.x` | `m3 0.1.0` |
+
+Why: a short binary name that is quick to type, and a readable repository name.
+The 0.0.1 to 0.0.3 pre-releases were published as `m3d1tor`; those tags and
+assets keep that name.
+
+The `MED_` module prefix is unchanged: it stands for "m3 edit" (earlier "medit"),
+so no module, type or function was renamed.
+
 # Grouped layout (0.0.x)
 
 **No module, type, function or field changed its name.** The `MED_` prefix and

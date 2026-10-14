@@ -1,19 +1,19 @@
-# sourced by tests/test.sh: the real binary (m3d1tor.m31, the entry file no unit
+# sourced by tests/test.sh: the real binary (m3.m31, the entry file no unit
 # program compiles), its --version and --help, and a pty smoke test: start it,
 # type `:q`, expect a clean exit.
-if build m3d1tor m3d1tor.m31; then
+if build m3 m3.m31; then
     version=$(grep '^version ' deps | awk '{print $2}')
-    if out=$("$WORK/m3d1tor" --version 2>&1) && [ "$out" = "m3d1tor $version" ]; then
-        note "m3d1tor --version: $out"
+    if out=$("$WORK/m3" --version 2>&1) && [ "$out" = "m3 $version" ]; then
+        note "m3 --version: $out"
     else
-        bad "m3d1tor --version (want 'm3d1tor $version')" "$out"
+        bad "m3 --version (want 'm3 $version')" "$out"
     fi
-    if out=$("$WORK/m3d1tor" --help 2>&1) && printf '%s' "$out" | grep -q '^usage: m3d1tor'; then
-        note "m3d1tor --help"
+    if out=$("$WORK/m3" --help 2>&1) && printf '%s' "$out" | grep -q '^usage: m3'; then
+        note "m3 --help"
     else
-        bad "m3d1tor --help" "$out"
+        bad "m3 --help" "$out"
     fi
-    if out=$(python3 - "$WORK/m3d1tor" <<'PY' 2>&1
+    if out=$(python3 - "$WORK/m3" <<'PY' 2>&1
 import os, pty, select, struct, subprocess, sys, termios, fcntl, time
 binary = sys.argv[1]
 master, slave = pty.openpty()
@@ -56,13 +56,13 @@ if code != 0:
 print("started, drew %d bytes, :q exited 0" % len(first))
 PY
     ); then
-        note "m3d1tor pty smoke: $out"
+        note "m3 pty smoke: $out"
     else
-        bad "m3d1tor pty smoke" "$out"
+        bad "m3 pty smoke" "$out"
     fi
-    if out=$(python3 tests/e2e.py "$WORK/m3d1tor" 2>&1); then
-        note "m3d1tor pty e2e: $(printf '%s\n' "$out" | tail -1)"
+    if out=$(python3 tests/e2e.py "$WORK/m3" 2>&1); then
+        note "m3 pty e2e: $(printf '%s\n' "$out" | tail -1)"
     else
-        bad "m3d1tor pty e2e" "$(printf '%s\n' "$out" | tail -15)"
+        bad "m3 pty e2e" "$(printf '%s\n' "$out" | tail -15)"
     fi
 fi

@@ -1,4 +1,4 @@
-# m3d1tor
+# m3
 
 A terminal text editor with Vim key bindings, written in
 [m31](https://github.com/qrazil/m31) on the [tui](https://github.com/qrazil/tui)
@@ -25,7 +25,7 @@ with `formatoptions` (auto-wrap, `gq`, comment leaders), `tabstop`, `shiftwidth`
 `cursorcolumn`, `colorcolumn`. Known limits: no command-line window, no fold methods besides manual,
 a reduced `=` indent (`cindent` is not implemented; `smartindent` is), `formatoptions` `a` and `n`, `linebreak`, many
 options are stored but do not change behaviour yet, no tree-sitter, no undo files, and the terminal pane is
-line oriented (no full-screen programs). `m3d1tor --version` prints the version.
+line oriented (no full-screen programs). `m3 --version` prints the version.
 
 ## Install
 
@@ -49,6 +49,9 @@ Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<ver
 - Syntax highlighting for c, cpp, go, javascript/typescript, json, m31, markdown,
   python, rust, sh, toml and yaml (`:syntax on|off`, `:set syntax=NAME`); the
   colours are the terminal's palette, light or dark by `COLORFGBG` or `:set background=`.
+  Markdown: headings, emphasis, strong, strikethrough, code spans, links, lists and task boxes, quotes, rules,
+  tables, and fenced blocks highlighted in the fence's language (```` ```rust ````, `py`, `sh`, `m31`, ...;
+  unknown language = plain code colour).
 - Command-line completion: `<Tab>` / `<C-n>` and `<S-Tab>` / `<C-p>` complete ex
   commands, option names (long and short), file and directory names and buffers.
 - Manual folds: `zf` `zF` `:fold`, `zo zO zc zC za zA zv zR zM zd zD zE zj zk`.
@@ -123,7 +126,7 @@ In a picker, `<C-s>` / `<C-v>` open the hit in a split below / beside.
 | autopairs | insert mode | bracket and quote pairing |
 | statusline | | mode, file, git branch and hunk counts, E/W counts, filetype, position; bufferline with two or more buffers |
 | bracketed | `[b ]b [q ]q [d ]d [h ]h [t ]t` | buffers, quickfix, diagnostics, hunks, TODO comments |
-| harpoon | `<Space>ha he hn hp hd`, `<Space>1`..`9` | pinned files per project (`~/.local/state/m3d1tor`) |
+| harpoon | `<Space>ha he hn hp hd`, `<Space>1`..`9` | pinned files per project (`~/.local/state/m3`) |
 | move | `<A-j> <A-k> <A-h> <A-l>` | move or shift the line or the Visual selection |
 | jump | `<Space>j` | type a character, then a label |
 | guides | | indent guides (`:set noindentguides`) |
@@ -142,11 +145,16 @@ Visual `!` start the filter command line; `%` is the file name and `!` the previ
 LSP: servers are found on `$PATH` by file type (rust-analyzer, gopls, pyright-langserver or pylsp, clangd,
 typescript-language-server, lua-language-server, marksman, bash-language-server) and started on demand;
 `:Lsp server LANGUAGE COMMAND...` sets one, `:Lsp info|start|stop|hover|definition|references|rename NAME|format|action`.
+Servers that are not on `$PATH` are also looked for in Neovim's mason directory
+(`~/.local/share/nvim/mason/bin`). Tested against real servers (pty scenarios in `tests/e2e.py`, skipped when a
+server is not installed): pyright, clangd, typescript-language-server, lua-language-server, rust-analyzer;
+the per-server table is in DESIGN.md section 13. The status line shows `LSP: ...` while a server reports progress
+(indexing). CTRL-Space in Insert mode completes from the server (a picker; Enter accepts).
 
 ## Keymap file
 
-`~/.config/m3d1tor/keymap.vim` (or `$XDG_CONFIG_HOME/m3d1tor/keymap.vim`, or the file
-named by `$M3D1TOR_KEYMAP`, or `m3d1tor -u FILE`; `-u NONE` reads none) is a list of ex lines:
+`~/.config/m3/keymap.vim` (or `$XDG_CONFIG_HOME/m3/keymap.vim`, or the file
+named by `$M3_KEYMAP`, or `m3 -u FILE`; `-u NONE` reads none) is a list of ex lines:
 
     let mapleader = " "
     nnoremap <leader>w :w<CR>
@@ -161,17 +169,17 @@ not apply inside macros, `.` or `:normal`.
 ## macOS (Apple silicon) in three lines
 
     curl -fsSL https://github.com/qrazil/m31/releases/download/v0.4.3/m31-macos-arm64.tar.gz | tar -xz -C /tmp && export M31_ROOT=/tmp LANGC=/tmp/m31c   # the m31 compiler and runtime
-    git clone https://github.com/qrazil/m3d1tor && cd m3d1tor && bash scripts/build.sh      # needs Xcode command line tools (cc); first run fetches tui
-    ./m3d1tor FILE   # Terminal.app (256 colours) and iTerm2 / kitty / WezTerm (truecolor) work; --no-mouse turns mouse reports off
+    git clone https://github.com/qrazil/m3dit && cd m3dit && bash scripts/build.sh      # needs Xcode command line tools (cc); first run fetches tui
+    ./m3 FILE   # Terminal.app (256 colours) and iTerm2 / kitty / WezTerm (truecolor) work; --no-mouse turns mouse reports off
 
-Colour depth follows `COLORTERM` / `TERM`; `--no-mouse` (or `M3D1TOR_NO_MOUSE=1`) leaves the mouse to the terminal.
+Colour depth follows `COLORTERM` / `TERM`; `--no-mouse` (or `M3_NO_MOUSE=1`) leaves the mouse to the terminal.
 
 ## Build
 
     export M31_ROOT=/path/to/m31          # a checkout or an extracted release (config.sh + runtime/)
     export LANGC=$M31_ROOT/target/release/m31c
-    bash scripts/build.sh                 # -> ./m3d1tor   (bash scripts/build.sh -o NAME to rename)
-    ./m3d1tor FILE...
+    bash scripts/build.sh                 # -> ./m3   (bash scripts/build.sh -o NAME to rename)
+    ./m3 FILE...
 
 Needs m31 v0.4.3 or later (the `proc` module); the first compile fetches the pinned `tui` into
 `.m31-deps/` (the commit is in `deps`, recorded in `deps.lock`).
@@ -216,7 +224,7 @@ Options: `:set treeglyphs` (Nerd Font icons), `:set treewidth=40`, `:set treehid
 
 ## Layout
 
-    m3d1tor.m31        entry point: arguments, terminal check, tui loop
+    m3.m31        entry point: arguments, terminal check, tui loop
     engine/            editing core, no terminal dependency
                        buffer text charclass case key parse num nrfmt motion textobj
                        register regex search editor ex vim view
@@ -229,7 +237,7 @@ Options: `:set treeglyphs` (Nerd Font icons), `:set treewidth=40`, `:set treehid
     DESIGN.md          plan, plugin audit, architecture, oracle plan, v0.1.0 acceptance
     RENAMES.md         old-to-new import and file table for the grouped layout
 
-Every module is `MED_<name>`, imported by path (`import engine.MED_buffer;`) and
+(`MED_` stands for "m3 edit".) Every module is `MED_<name>`, imported by path (`import engine.MED_buffer;`) and
 used by its last segment (`MED_buffer.Buffer`). `engine/` imports nothing from
 `ui/` and `tui`; `ui/` imports `engine/` and `tui`.
 
@@ -238,7 +246,7 @@ used by its last segment (`MED_buffer.Buffer`). `engine/` imports nothing from
 CI (`.github/workflows/test.yml`) runs `tests/test.sh` on Linux x86-64, Linux
 aarch64 and macOS arm64 for every push to master. Pushing a `v*` tag runs
 `.github/workflows/release.yml`: the test workflow is a hard precondition, then
-it builds `m3d1tor` on the same three platforms and attaches
-`m3d1tor-linux-x86_64`, `m3d1tor-linux-aarch64` and `m3d1tor-macos-arm64`
+it builds `m3` on the same three platforms and attaches
+`m3-linux-x86_64`, `m3-linux-aarch64` and `m3-macos-arm64`
 tarballs to the GitHub Release. The release is marked a pre-release; v0.0.2 is tagged on the
 user's instruction. Version 0.1.0 is not tagged by the branch that introduced the default plugins; the lead tags after review.

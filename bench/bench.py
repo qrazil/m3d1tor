@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Benchmarks of m3d1tor against nvim and hx (DESIGN.md section 8).
+"""Benchmarks of m3 against nvim and hx (DESIGN.md section 8).
 
 Each editor runs in a real pty (200 x 60) with a scripted key stream. A step is
 finished when the editor has been quiet for QUIET seconds after the keys, which
 is the same rule for all three. Peak memory is VmHWM from /proc.
 
-    python3 bench/bench.py --m3d ./m3d1tor [--nvim nvim] [--hx hx] [--lines 100000]
+    python3 bench/bench.py --m3d ./m3 [--nvim nvim] [--hx hx] [--lines 100000]
                            [--runs 10] [--only startup,open,search,...]
 
 Fixtures are generated deterministically into a temporary directory. The
@@ -152,14 +152,14 @@ def median(values):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--m3d", default="./m3d1tor")
+    parser.add_argument("--m3d", default="./m3")
     parser.add_argument("--nvim", default="nvim")
     parser.add_argument("--hx", default="hx")
     parser.add_argument("--lines", type=int, default=100000)
     parser.add_argument("--runs", type=int, default=5)
     parser.add_argument("--only", default="")
     args = parser.parse_args()
-    editors = [("m3d1tor", args.m3d), ("nvim", args.nvim), ("hx", args.hx)]
+    editors = [("m3", args.m3d), ("nvim", args.nvim), ("hx", args.hx)]
     editors = [(n, b) for n, b in editors if shutil.which(b) or os.path.exists(b)]
     only = set(filter(None, args.only.split(",")))
     work = tempfile.mkdtemp(prefix="m3d-bench-")
