@@ -30,7 +30,7 @@ check.ok("walk finds a test file", tree.contains("tests/t_grep.m31"));
 check.ok("walk skips .git", !tree.contains(".git/config"));
 check.ok("walk skips dot files", !tree.contains(".gitignore"));
 check.ok("hidden files on request", MED_files.list_files(".", true, true).contains(".gitignore"));
-check.ok("walk honours .gitignore", !tree.contains("m3d1tor"));
+check.ok("walk honours .gitignore", !tree.contains("m3"));
 check.ok("project root is a directory", MED_files.project_root().size() > 0);
 List<str> entries = MED_files.list_directory("tests", false);
 check.ok("directories come first", entries[0].ends_with("/"));

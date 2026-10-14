@@ -27,7 +27,7 @@ void make_folder(str path) {
     }
 }
 
-str base = "/tmp/m3d1tor_t_tree";
+str base = "/tmp/m3_t_tree";
 match (os.run(["rm", "-rf", base])) {
     case Ok(os.ExitStatus gone): {
     }
@@ -108,7 +108,7 @@ check.eq_str("modified file", status.get("src/main.m31").or(""), "M");
 check.eq_str("untracked file", status.get("src/deep/fresh.txt").or(""), "?");
 check.eq_str("folder takes the worst", status.get("src").or(""), "M");
 check.eq_str("clean file has none", status.get("a/b/new.txt").or(""), "");
-check.eq_int("outside a repo is empty", MED_git.status_map("/tmp/m3d1tor_no_repo_here").size(), 0);
+check.eq_int("outside a repo is empty", MED_git.status_map("/tmp/m3_no_repo_here").size(), 0);
 tree.status = status;
 tree.expanded = [];
 tree.refresh();

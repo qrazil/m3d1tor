@@ -1,6 +1,6 @@
 name: Release
 
-# Build the m3d1tor release binary for Linux x86-64, Linux aarch64 and macOS arm64 and attach
+# Build the m3 release binary for Linux x86-64, Linux aarch64 and macOS arm64 and attach
 # them to the GitHub Release for a pushed version tag -- the same pattern as
 # qrazil/tui-markdown's release.yml, against a pinned release of qrazil/m31
 # (compiler + runtime SDK) and the qrazil/tui commit named in `deps`.
@@ -49,26 +49,26 @@ jobs:
       - name: Build
         run: |
           set -euo pipefail
-          OUT=dist/m3d1tor-linux-x86_64
+          OUT=dist/m3-linux-x86_64
           mkdir -p "$OUT"
-          bash scripts/build.sh -o "$OUT/m3d1tor"
+          bash scripts/build.sh -o "$OUT/m3"
           cp README.md DESIGN.md RENAMES.md "$OUT/"
           sed 's/^ *//' > "$OUT/NOTES.txt" <<EOF
-          m3d1tor — Linux x86-64 release build
+          m3 — Linux x86-64 release build
           Built from commit: ${GITHUB_SHA}
           Tag: ${GITHUB_REF_NAME}
           Built against m31 ${{ env.M31_REF }}, tui $(awk '$1=="tui"{print $3}' deps)
 
-          m3d1tor                  ./m3d1tor FILE...   (Vim keys, <Space> leader, <Space>? for the keymap)
+          m3                  ./m3 FILE...   (Vim keys, <Space> leader, <Space>? for the keymap)
           EOF
 
       - name: Package
-        run: tar -C "dist/m3d1tor-linux-x86_64" -czf m3d1tor-linux-x86_64.tar.gz .
+        run: tar -C "dist/m3-linux-x86_64" -czf m3-linux-x86_64.tar.gz .
 
       - uses: actions/upload-artifact@v4
         with:
-          name: m3d1tor-linux-x86_64
-          path: m3d1tor-linux-x86_64.tar.gz
+          name: m3-linux-x86_64
+          path: m3-linux-x86_64.tar.gz
           if-no-files-found: error
 
   build-linux-aarch64:
@@ -92,26 +92,26 @@ jobs:
       - name: Build
         run: |
           set -euo pipefail
-          OUT=dist/m3d1tor-linux-aarch64
+          OUT=dist/m3-linux-aarch64
           mkdir -p "$OUT"
-          bash scripts/build.sh -o "$OUT/m3d1tor"
+          bash scripts/build.sh -o "$OUT/m3"
           cp README.md DESIGN.md RENAMES.md "$OUT/"
           sed 's/^ *//' > "$OUT/NOTES.txt" <<EOF
-          m3d1tor — Linux aarch64 release build
+          m3 — Linux aarch64 release build
           Built from commit: ${GITHUB_SHA}
           Tag: ${GITHUB_REF_NAME}
           Built against m31 ${{ env.M31_REF }}, tui $(awk '$1=="tui"{print $3}' deps)
 
-          m3d1tor                  ./m3d1tor FILE...   (Vim keys, <Space> leader, <Space>? for the keymap)
+          m3                  ./m3 FILE...   (Vim keys, <Space> leader, <Space>? for the keymap)
           EOF
 
       - name: Package
-        run: tar -C "dist/m3d1tor-linux-aarch64" -czf m3d1tor-linux-aarch64.tar.gz .
+        run: tar -C "dist/m3-linux-aarch64" -czf m3-linux-aarch64.tar.gz .
 
       - uses: actions/upload-artifact@v4
         with:
-          name: m3d1tor-linux-aarch64
-          path: m3d1tor-linux-aarch64.tar.gz
+          name: m3-linux-aarch64
+          path: m3-linux-aarch64.tar.gz
           if-no-files-found: error
 
   build-macos-arm64:
@@ -135,26 +135,26 @@ jobs:
       - name: Build
         run: |
           set -euo pipefail
-          OUT=dist/m3d1tor-macos-arm64
+          OUT=dist/m3-macos-arm64
           mkdir -p "$OUT"
-          bash scripts/build.sh -o "$OUT/m3d1tor"
+          bash scripts/build.sh -o "$OUT/m3"
           cp README.md DESIGN.md RENAMES.md "$OUT/"
           sed 's/^ *//' > "$OUT/NOTES.txt" <<EOF
-          m3d1tor — macOS arm64 (Apple Silicon) release build
+          m3 — macOS arm64 (Apple Silicon) release build
           Built from commit: ${GITHUB_SHA}
           Tag: ${GITHUB_REF_NAME}
           Built against m31 ${{ env.M31_REF }}, tui $(awk '$1=="tui"{print $3}' deps)
 
-          m3d1tor                  ./m3d1tor FILE...   (Vim keys, <Space> leader, <Space>? for the keymap)
+          m3                  ./m3 FILE...   (Vim keys, <Space> leader, <Space>? for the keymap)
           EOF
 
       - name: Package
-        run: tar -C "dist/m3d1tor-macos-arm64" -czf m3d1tor-macos-arm64.tar.gz .
+        run: tar -C "dist/m3-macos-arm64" -czf m3-macos-arm64.tar.gz .
 
       - uses: actions/upload-artifact@v4
         with:
-          name: m3d1tor-macos-arm64
-          path: m3d1tor-macos-arm64.tar.gz
+          name: m3-macos-arm64
+          path: m3-macos-arm64.tar.gz
           if-no-files-found: error
 
   release:

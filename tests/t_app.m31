@@ -108,7 +108,7 @@ check.eq_int("back-tab is shift-tab", MED_app.keys_of_key(term.Key(term.Code.Bac
 check.eq_int("text rows", MED_app.text_rows(24), 22);
 check.eq_int("text rows tiny", MED_app.text_rows(1), 1);
 // a new file: type, write, quit
-str path = "/tmp/m3d1tor_t_app_file.txt";
+str path = "/tmp/m3_t_app_file.txt";
 remove_file(path);
 match (MED_app.open(path)) {
     case Err(str message): {
@@ -206,8 +206,8 @@ match (MED_app.open("")) {
     }
 }
 // several buffers
-str first_path = "/tmp/m3d1tor_t_app_a.txt";
-str second_path = "/tmp/m3d1tor_t_app_b.txt";
+str first_path = "/tmp/m3_t_app_a.txt";
+str second_path = "/tmp/m3_t_app_b.txt";
 write_file(first_path, "alpha\n");
 write_file(second_path, "beta\ngamma\n");
 match (MED_app.open_all([first_path, second_path])) {
@@ -275,8 +275,8 @@ match (MED_app.open_all([first_path, second_path])) {
 remove_file(first_path);
 remove_file(second_path);
 // windows
-str win_a = "/tmp/m3d1tor_t_app_wa.txt";
-str win_b = "/tmp/m3d1tor_t_app_wb.txt";
+str win_a = "/tmp/m3_t_app_wa.txt";
+str win_b = "/tmp/m3_t_app_wb.txt";
 write_file(win_a, "one\ntwo\nthree\nfour\n");
 write_file(win_b, "bravo\n");
 match (MED_app.open_all([win_a, win_b])) {
@@ -357,7 +357,7 @@ match (MED_app.open_all([win_a])) {
 remove_file(win_a);
 remove_file(win_b);
 // leader keys, which-key, jk, the palette, pickers
-str lead_path = "/tmp/m3d1tor_t_app_lead.txt";
+str lead_path = "/tmp/m3_t_app_lead.txt";
 write_file(lead_path, "one\ntwo\n");
 match (MED_app.open_all([lead_path])) {
     case Err(str message): {
@@ -416,7 +416,7 @@ match (MED_app.open_all([lead_path])) {
 }
 remove_file(lead_path);
 // the directory listing (:Explore)
-str tree = "/tmp/m3d1tor_t_app_tree";
+str tree = "/tmp/m3_t_app_tree";
 remove_file(tree + "/alpha/inner.txt");
 remove_directory(tree + "/alpha");
 remove_file(tree + "/beta.txt");
@@ -523,8 +523,8 @@ match (MED_app.open_all([""])) {
     }
 }
 // syntax highlighting
-write_file("/tmp/m3d1tor_t_app_syn.py", "def f(): pass  # note\n");
-match (MED_app.open_all(["/tmp/m3d1tor_t_app_syn.py"])) {
+write_file("/tmp/m3_t_app_syn.py", "def f(): pass  # note\n");
+match (MED_app.open_all(["/tmp/m3_t_app_syn.py"])) {
     case Err(str message): {
         check.ok("open for the syntax tests: " + message, false);
     }
@@ -546,7 +546,7 @@ match (MED_app.open_all(["/tmp/m3d1tor_t_app_syn.py"])) {
         check.ok(":set syntax= picks the language", screen.style_at(note, 0) != screen.style_at(plain + 2, 0));
     }
 }
-remove_file("/tmp/m3d1tor_t_app_syn.py");
+remove_file("/tmp/m3_t_app_syn.py");
 // manual folds
 match (MED_app.open_all([""])) {
     case Err(str message): {
@@ -571,7 +571,7 @@ match (MED_app.open_all([""])) {
     }
 }
 // the file tree sidebar (:Neotree, <Space>e)
-str side = "/tmp/m3d1tor_t_app_side";
+str side = "/tmp/m3_t_app_side";
 rm_tree(side);
 make_dirs(side + "/lib");
 write_file(side + "/lib/util.txt", "util\n");
@@ -593,7 +593,7 @@ match (MED_app.open_all([side + "/main.txt"])) {
         app.render(screen, screen.area());
         check.ok("the sidebar shows the folder", screen.row_text(1).contains("lib/"));
         check.ok("and the file", screen.row_text(2).contains("main.txt"));
-        check.ok("the file shows beside it", screen.row_text(0).contains("m3d1tor_t_app_side"));
+        check.ok("the file shows beside it", screen.row_text(0).contains("m3_t_app_side"));
         type_text(app, "l");
         check.eq_int("l expands the folder", app.tree.entries.size(), 3);
         type_text(app, "j");
@@ -646,8 +646,8 @@ remove_file(tree + "/beta.txt");
 remove_file(tree + "/zeta.txt");
 remove_directory(tree);
 // the keymap file, :source, mappings against the front end's own keys
-str map_text = "/tmp/m3d1tor_t_app_map.txt";
-str map_file = "/tmp/m3d1tor_t_app_keymap.vim";
+str map_text = "/tmp/m3_t_app_map.txt";
+str map_file = "/tmp/m3_t_app_keymap.vim";
 write_file(map_text, "one two\nthree\n");
 write_file(map_file, "\" a comment\nlet mapleader = \" \"\nnnoremap <leader>d dd\n:inoremap jj <Esc>\nnnoremap Q x\n");
 match (MED_app.open_all([map_text])) {
@@ -676,7 +676,7 @@ match (MED_app.open_all([map_text])) {
         type_text(app, "\x1b:set nonumber\n");
         type_text(app, ":source " + map_file + "\n");
         check.eq_str(":source reads the file again", app.notice, "");
-        type_text(app, ":source /tmp/m3d1tor_no_such_file.vim\n");
+        type_text(app, ":source /tmp/m3_no_such_file.vim\n");
         check.ok("a missing file is reported", app.notice.starts_with("E484"));
         write_file(map_file, "nnoremap a b\nfrobnicate\n");
         type_text(app, ":source " + map_file + "\n");
@@ -690,18 +690,18 @@ match (MED_app.open_all([map_text])) {
         check.ok("open for the missing keymap test: " + message, false);
     }
     case Ok(MED_app.App app): {
-        app.load_keymap("/tmp/m3d1tor_no_such_keymap.vim", false);
+        app.load_keymap("/tmp/m3_no_such_keymap.vim", false);
         app.notice = "";
-        app.load_keymap("/tmp/m3d1tor_no_such_keymap.vim", false);
+        app.load_keymap("/tmp/m3_no_such_keymap.vim", false);
         check.eq_str("a default keymap that is not there is no error", app.notice, "");
-        app.load_keymap("/tmp/m3d1tor_no_such_keymap.vim", true);
+        app.load_keymap("/tmp/m3_no_such_keymap.vim", true);
         check.ok("a named one is", app.notice.starts_with("E484"));
     }
 }
 remove_file(map_text);
 remove_file(map_file);
 // built-in plugins: the leader tree, user maps under <Space>, jk, switches
-str plug_path = "/tmp/m3d1tor_t_app_plugins.txt";
+str plug_path = "/tmp/m3_t_app_plugins.txt";
 write_file(plug_path, "one\ntwo\nthree\n");
 match (MED_app.open_all([plug_path])) {
     case Err(str message): {

@@ -9,7 +9,7 @@
 //   MED_clip.did_copy(p, text)  true when the text was handed to the tool
 //   MED_clip.paste(p)           Option<str>: what the tool printed
 //
-// `M3D1TOR_CLIP_COPY` and `M3D1TOR_CLIP_PASTE` name the two commands when a
+// `M3_CLIP_COPY` and `M3_CLIP_PASTE` name the two commands when a
 // machine has others (a copy command reads standard input, a paste command
 // writes standard output).
 
@@ -42,7 +42,7 @@ str scratch_name() {
     if (base.ends_with("/")) {
         base = base.substr(0, base.size() - 1);
     }
-    return base + "/m3d1tor-clip-" + random.system().hex(6);
+    return base + "/m3-clip-" + random.system().hex(6);
 }
 
 void remove_scratch(Provider provider) {
@@ -57,8 +57,8 @@ void remove_scratch(Provider provider) {
 /// Look for a clipboard tool pair: the environment first, then the usual ones.
 pub Provider detect() {
     Provider found = Provider();
-    str copy_env = os.env("M3D1TOR_CLIP_COPY").or("");
-    str paste_env = os.env("M3D1TOR_CLIP_PASTE").or("");
+    str copy_env = os.env("M3_CLIP_COPY").or("");
+    str paste_env = os.env("M3_CLIP_PASTE").or("");
     if (copy_env != "" && paste_env != "") {
         found.is_present = true;
         found.copy = copy_env;

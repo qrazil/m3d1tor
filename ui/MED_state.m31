@@ -1,6 +1,6 @@
 // Per-user state files: the recent-files list, last cursor positions and the
 // per-project harpoon lists. One small text file each under
-// $XDG_STATE_HOME/m3d1tor (default ~/.local/state/m3d1tor); nothing here runs
+// $XDG_STATE_HOME/m3 (default ~/.local/state/m3); nothing here runs
 // unless the front end was given a state directory, so tests and `-u NONE`
 // stay hermetic.
 
@@ -12,13 +12,13 @@ import os;
 pub str default_directory() {
     str base = os.env("XDG_STATE_HOME").or("");
     if (base.size() > 0) {
-        return base + "/m3d1tor";
+        return base + "/m3";
     }
     str home = os.env("HOME").or("");
     if (home.size() == 0) {
         return "";
     }
-    return home + "/.local/state/m3d1tor";
+    return home + "/.local/state/m3";
 }
 
 /// The lines of state file `name` (empty when it is not there).
@@ -26,7 +26,15 @@ pub List<str> read_lines(str directory, str name) {
     if (directory.size() == 0) {
         return [];
     }
-    match (io.read(directory + "/" + name)) {
+    str path = directory + "/" + name;
+    if (!fs.is_file(path) && directory.ends_with("/m3")) {
+        // pre-0.1.0 state lived in .../m3d1tor; read it until the new file is written
+        str legacy = directory.substr(0, directory.size() - 2) + "m3d1tor/" + name;
+        if (fs.is_file(legacy)) {
+            path = legacy;
+        }
+    }
+    match (io.read(path)) {
         case Ok(str text): {
             List<str> out = [];
             for (str line in text.split("\n")) {

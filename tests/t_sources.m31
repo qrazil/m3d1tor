@@ -49,7 +49,7 @@ check.eq_int("blank lines skipped", rows.size(), 2);
 check.eq_str("line text", rows[1].text, "3  b");
 // shell
 check.ok("sh is on PATH", MED_shell.which("sh").is_some());
-check.ok("no such program", MED_shell.which("m3d1tor-no-such-program").is_none());
+check.ok("no such program", MED_shell.which("m3-no-such-program").is_none());
 check.eq_str("output", MED_shell.output(["echo", "hi"], "").or("fail"), "hi\n");
 check.ok("failure is None", MED_shell.output(["false"], "").is_none());
 check.eq_int("lines", MED_shell.lines(["printf", "a\\nb\\n"], "").or([]).size(), 2);
@@ -67,6 +67,6 @@ while (!stream.is_done && rounds < 2000000) {
     rounds = rounds + 1;
 }
 check.eq_str("stream lines, last one unterminated", got.join(","), "a,b,c");
-MED_shell.Stream missing = MED_shell.start(["m3d1tor-no-such-program"], "");
+MED_shell.Stream missing = MED_shell.start(["m3-no-such-program"], "");
 check.ok("a program that is not there is a finished stream", missing.is_done);
 check.finish("t_sources");

@@ -14,7 +14,7 @@
 //            disabled plugin are not shown or run
 //   mode     "n" Normal, "x" Visual, "i" Insert
 //   source   "vim" a Vim/nvim default (the engine is checked against nvim),
-//            "config" mirrors the owner's nvim config, "m3d1tor" a built-in extra
+//            "config" mirrors the owner's nvim config, "m3" a built-in extra
 //
 // A group row only names a prefix: `("f", "+find", "")`. Everything else is a
 // leaf. `lookup` says whether what was typed is a leaf, a prefix of more keys,
@@ -29,7 +29,7 @@ pub type Binding {
     pub str action;
     pub str plugin = "core";
     pub str mode = "n";
-    pub str source = "m3d1tor";
+    pub str source = "m3";
     /// `keys` is the whole sequence, not relative to <Space>.
     pub bool is_full = false;
 }
@@ -62,25 +62,25 @@ pub List<Binding> defaults() {
     rows.push(leaf_row("config", "core", "sh", "Split below", "ex:split"));
     rows.push(leaf_row("config", "core", "se", "Equalize windows", "ex:wincmd ="));
     rows.push(leaf_row("config", "core", "sc", "Close window", "ex:close"));
-    rows.push(leaf_row("m3d1tor", "core", "sn", "Clear search highlight", "ex:nohlsearch"));
+    rows.push(leaf_row("m3", "core", "sn", "Clear search highlight", "ex:nohlsearch"));
     rows.push(leaf_row("config", "surround", "sa", "Surround add (ys{motion}{char})", "keys:ys"));
     rows.push(visual_row("config", "surround", "sa", "Surround selection (S{char})", "keys:S"));
     rows.push(leaf_row("config", "surround", "sd", "Surround delete (ds{char})", "keys:ds"));
     rows.push(leaf_row("config", "surround", "sr", "Surround replace (cs{old}{new})", "keys:cs"));
     // quit and buffers
-    rows.push(leaf_row("m3d1tor", "core", "q", "+quit", ""));
-    rows.push(leaf_row("m3d1tor", "core", "qq", "Quit", "ex:quit"));
-    rows.push(leaf_row("m3d1tor", "core", "qa", "Quit all", "ex:qall"));
-    rows.push(leaf_row("m3d1tor", "core", "b", "+buffer", ""));
-    rows.push(leaf_row("m3d1tor", "finder", "bb", "Switch buffer", "picker:buffers"));
-    rows.push(leaf_row("m3d1tor", "core", "bn", "Next buffer", "ex:bnext"));
-    rows.push(leaf_row("m3d1tor", "core", "bp", "Previous buffer", "ex:bprevious"));
-    rows.push(leaf_row("m3d1tor", "core", "ba", "Alternate buffer", "ex:buffer #"));
-    rows.push(leaf_row("m3d1tor", "core", "bd", "Delete buffer", "ex:bdelete"));
-    rows.push(leaf_row("m3d1tor", "core", "bl", "List buffers", "ex:ls"));
+    rows.push(leaf_row("m3", "core", "q", "+quit", ""));
+    rows.push(leaf_row("m3", "core", "qq", "Quit", "ex:quit"));
+    rows.push(leaf_row("m3", "core", "qa", "Quit all", "ex:qall"));
+    rows.push(leaf_row("m3", "core", "b", "+buffer", ""));
+    rows.push(leaf_row("m3", "finder", "bb", "Switch buffer", "picker:buffers"));
+    rows.push(leaf_row("m3", "core", "bn", "Next buffer", "ex:bnext"));
+    rows.push(leaf_row("m3", "core", "bp", "Previous buffer", "ex:bprevious"));
+    rows.push(leaf_row("m3", "core", "ba", "Alternate buffer", "ex:buffer #"));
+    rows.push(leaf_row("m3", "core", "bd", "Delete buffer", "ex:bdelete"));
+    rows.push(leaf_row("m3", "core", "bl", "List buffers", "ex:ls"));
     // explorer
     rows.push(leaf_row("config", "explorer", "e", "File tree", "ex:Neotree toggle"));
-    rows.push(leaf_row("m3d1tor", "explorer", "E", "Reveal file in the tree", "ex:Neotree reveal"));
+    rows.push(leaf_row("m3", "explorer", "E", "Reveal file in the tree", "ex:Neotree reveal"));
     // finder (the owner's mini.pick / fzf-lua maps)
     rows.push(leaf_row("config", "finder", "f", "+find", ""));
     rows.push(leaf_row("config", "finder", "ff", "Find files", "picker:files"));
@@ -90,22 +90,22 @@ pub List<Binding> defaults() {
     rows.push(leaf_row("config", "finder", "fe", "File explorer (picker)", "picker:explore"));
     rows.push(leaf_row("config", "finder", "fq", "Quickfix list", "picker:quickfix"));
     rows.push(leaf_row("config", "finder", "fd", "Lines of this buffer", "picker:lines"));
-    rows.push(leaf_row("m3d1tor", "finder", "fw", "Grep the word under the cursor", "picker:word"));
-    rows.push(leaf_row("m3d1tor", "finder", "fh", "Help: all keys", "picker:help"));
-    rows.push(leaf_row("m3d1tor", "finder", "fc", "Commands", "picker:commands"));
-    rows.push(leaf_row("m3d1tor", "finder", "fk", "Keymaps", "picker:help"));
-    rows.push(leaf_row("m3d1tor", "finder", "fo", "Options", "picker:options"));
-    rows.push(leaf_row("m3d1tor", "finder", "fm", "Marks", "picker:marks"));
-    rows.push(leaf_row("m3d1tor", "finder", "fx", "Diagnostics", "picker:diagnostics"));
-    rows.push(leaf_row("m3d1tor", "finder", "fs", "Symbols in this file", "picker:symbols"));
-    rows.push(leaf_row("m3d1tor", "finder", "ft", "TODO comments", "picker:todos"));
-    rows.push(leaf_row("m3d1tor", "finder", "fl", "Plugins", "picker:plugins"));
-    rows.push(leaf_row("m3d1tor", "finder", " ", "Find files", "picker:files"));
-    rows.push(leaf_row("m3d1tor", "finder", ",", "Switch buffer", "picker:buffers"));
-    rows.push(leaf_row("m3d1tor", "finder", "/", "Live grep", "picker:grep"));
-    rows.push(leaf_row("m3d1tor", "finder", ":", "Commands", "picker:commands"));
-    rows.push(leaf_row("m3d1tor", "core", "?", "All keys", "picker:help"));
-    rows.push(leaf_row("m3d1tor", "jump", "j", "Jump to a label", "app:jump"));
+    rows.push(leaf_row("m3", "finder", "fw", "Grep the word under the cursor", "picker:word"));
+    rows.push(leaf_row("m3", "finder", "fh", "Help: all keys", "picker:help"));
+    rows.push(leaf_row("m3", "finder", "fc", "Commands", "picker:commands"));
+    rows.push(leaf_row("m3", "finder", "fk", "Keymaps", "picker:help"));
+    rows.push(leaf_row("m3", "finder", "fo", "Options", "picker:options"));
+    rows.push(leaf_row("m3", "finder", "fm", "Marks", "picker:marks"));
+    rows.push(leaf_row("m3", "finder", "fx", "Diagnostics", "picker:diagnostics"));
+    rows.push(leaf_row("m3", "finder", "fs", "Symbols in this file", "picker:symbols"));
+    rows.push(leaf_row("m3", "finder", "ft", "TODO comments", "picker:todos"));
+    rows.push(leaf_row("m3", "finder", "fl", "Plugins", "picker:plugins"));
+    rows.push(leaf_row("m3", "finder", " ", "Find files", "picker:files"));
+    rows.push(leaf_row("m3", "finder", ",", "Switch buffer", "picker:buffers"));
+    rows.push(leaf_row("m3", "finder", "/", "Live grep", "picker:grep"));
+    rows.push(leaf_row("m3", "finder", ":", "Commands", "picker:commands"));
+    rows.push(leaf_row("m3", "core", "?", "All keys", "picker:help"));
+    rows.push(leaf_row("m3", "jump", "j", "Jump to a label", "app:jump"));
     // git (gitsigns, mini.pick git pickers)
     rows.push(leaf_row("config", "git", "g", "+git", ""));
     rows.push(leaf_row("config", "git", "gg", "Changed files (status)", "picker:changed"));
@@ -113,18 +113,18 @@ pub List<Binding> defaults() {
     rows.push(leaf_row("config", "git", "gb", "Branches (checkout)", "picker:branches"));
     rows.push(leaf_row("config", "git", "gc", "Remote branches (checkout as local)", "picker:remotes"));
     rows.push(leaf_row("config", "git", "gC", "Commit history", "picker:commits"));
-    rows.push(leaf_row("m3d1tor", "git", "gs", "Stage hunk", "app:hunk_stage"));
-    rows.push(leaf_row("m3d1tor", "git", "gr", "Reset hunk", "app:hunk_reset"));
-    rows.push(leaf_row("m3d1tor", "git", "gp", "Preview hunk", "app:hunk_preview"));
-    rows.push(leaf_row("m3d1tor", "git", "gB", "Blame line", "app:blame"));
-    rows.push(leaf_row("m3d1tor", "git", "gt", "Toggle git signs", "app:signs"));
+    rows.push(leaf_row("m3", "git", "gs", "Stage hunk", "app:hunk_stage"));
+    rows.push(leaf_row("m3", "git", "gr", "Reset hunk", "app:hunk_reset"));
+    rows.push(leaf_row("m3", "git", "gp", "Preview hunk", "app:hunk_preview"));
+    rows.push(leaf_row("m3", "git", "gB", "Blame line", "app:blame"));
+    rows.push(leaf_row("m3", "git", "gt", "Toggle git signs", "app:signs"));
     // harpoon
     rows.push(leaf_row("config", "harpoon", "h", "+harpoon", ""));
     rows.push(leaf_row("config", "harpoon", "ha", "Harpoon: add this file", "app:harpoon_add"));
     rows.push(leaf_row("config", "harpoon", "he", "Harpoon: menu", "picker:harpoon"));
     rows.push(leaf_row("config", "harpoon", "hn", "Harpoon: next", "app:harpoon_next"));
     rows.push(leaf_row("config", "harpoon", "hp", "Harpoon: previous", "app:harpoon_prev"));
-    rows.push(leaf_row("m3d1tor", "harpoon", "hd", "Harpoon: remove this file", "app:harpoon_remove"));
+    rows.push(leaf_row("m3", "harpoon", "hd", "Harpoon: remove this file", "app:harpoon_remove"));
     for (int slot in 1 .. 10) {
         rows.push(leaf_row("config", "harpoon", slot.to_str(), "Harpoon: file " + slot.to_str(), "app:harpoon " + slot.to_str()));
     }
@@ -139,10 +139,10 @@ pub List<Binding> defaults() {
     rows.push(leaf_row("config", "finder", "xQ", "Quickfix list", "picker:quickfix"));
     rows.push(leaf_row("config", "finder", "xL", "Location list", "picker:quickfix"));
     rows.push(leaf_row("config", "finder", "cs", "Symbols", "picker:symbols"));
-    rows.push(leaf_row("m3d1tor", "lsp", "c", "+code", ""));
-    rows.push(leaf_row("m3d1tor", "lsp", "cr", "Rename symbol", "app:lsp_rename"));
-    rows.push(leaf_row("m3d1tor", "lsp", "ca", "Code action", "app:lsp_action"));
-    rows.push(leaf_row("m3d1tor", "lsp", "cf", "Format buffer", "app:lsp_format"));
+    rows.push(leaf_row("m3", "lsp", "c", "+code", ""));
+    rows.push(leaf_row("m3", "lsp", "cr", "Rename symbol", "app:lsp_rename"));
+    rows.push(leaf_row("m3", "lsp", "ca", "Code action", "app:lsp_action"));
+    rows.push(leaf_row("m3", "lsp", "cf", "Format buffer", "app:lsp_format"));
     // terminal
     rows.push(leaf_row("config", "terminal", "t", "Terminal", "ex:terminal"));
     return rows;
@@ -183,7 +183,7 @@ pub List<Binding> prefixes() {
     for (Binding row in prefix_data("core", "vim", ["[ :: +previous", "] :: +next", "[[ :: previous section start", "]] :: next section start", "[] :: previous section end", "][ :: next section end", "[{ :: previous unmatched {", "]} :: next unmatched }", "[( :: previous unmatched (", "]) :: next unmatched )", "[' :: previous mark line", "]' :: next mark line", "[` :: previous mark", "]` :: next mark", "[<Space> :: add blank line above", "]<Space> :: add blank line below"])) {
         rows.push(row);
     }
-    for (Binding row in prefix_data("bracketed", "m3d1tor", ["[b :: previous buffer", "]b :: next buffer", "[B :: first buffer", "]B :: last buffer", "[q :: previous quickfix entry", "]q :: next quickfix entry", "[Q :: first quickfix entry", "]Q :: last quickfix entry", "[t :: previous TODO comment", "]t :: next TODO comment", "[h :: previous git hunk", "]h :: next git hunk", "[c :: previous git change", "]c :: next git change", "[d :: previous diagnostic", "]d :: next diagnostic"])) {
+    for (Binding row in prefix_data("bracketed", "m3", ["[b :: previous buffer", "]b :: next buffer", "[B :: first buffer", "]B :: last buffer", "[q :: previous quickfix entry", "]q :: next quickfix entry", "[Q :: first quickfix entry", "]Q :: last quickfix entry", "[t :: previous TODO comment", "]t :: next TODO comment", "[h :: previous git hunk", "]h :: next git hunk", "[c :: previous git change", "]c :: next git change", "[d :: previous diagnostic", "]d :: next diagnostic"])) {
         rows.push(row);
     }
     for (Binding row in prefix_data("core", "vim", ["^W :: +windows", "^Ws :: split below", "^Wv :: split right", "^Wn :: new window", "^Wc :: close window", "^Wq :: quit window", "^Wo :: only this window", "^Ww :: next window", "^WW :: previous window", "^Wp :: last window", "^Wt :: top-left window", "^Wb :: bottom-right window", "^Wh :: window left", "^Wj :: window below", "^Wk :: window above", "^Wl :: window right", "^WH :: move window far left", "^WJ :: move window to the bottom", "^WK :: move window to the top", "^WL :: move window far right", "^Wr :: rotate windows", "^WR :: rotate windows up", "^Wx :: exchange window", "^W= :: equalize sizes", "^W+ :: taller", "^W- :: shorter", "^W< :: narrower", "^W> :: wider", "^W_ :: maximize height", "^W| :: maximize width"])) {
@@ -196,7 +196,7 @@ pub List<Binding> prefixes() {
     for (Binding row in prefix_data("core", "vim", ["d :: +delete", "c :: +change", "y :: +yank", "< :: +dedent", "> :: +indent", "= :: +reindent", "! :: +filter through a command", "dd :: delete line", "cc :: change line", "yy :: yank line", "<< :: dedent line", ">> :: indent line", "== :: reindent line", "!! :: filter line through a command"])) {
         rows.push(row);
     }
-    for (Binding row in prefix_data("lsp", "m3d1tor", ["K :: hover documentation (language server)", "gd :: go to definition (language server)", "grr :: references (language server)", "grn :: rename symbol (language server)", "gra :: code action (language server)"])) {
+    for (Binding row in prefix_data("lsp", "m3", ["K :: hover documentation (language server)", "gd :: go to definition (language server)", "grr :: references (language server)", "grn :: rename symbol (language server)", "gra :: code action (language server)"])) {
         rows.push(row);
     }
     for (Binding row in prefix_data("surround", "vim", ["ys :: +surround add (ys{motion}{char})", "yss :: surround the line", "ds :: surround delete (ds{char})", "cs :: surround change (cs{old}{new})", "yS :: surround add, on own lines"])) {
@@ -360,7 +360,7 @@ pub str markdown() {
     lines.push("The in-editor listing (`<Space>?`, `:Keys`) is built from the same table.");
     lines.push("");
     lines.push("Source column: `vim` is a Vim / Neovim default that the engine is checked against (nvim parity),");
-    lines.push("`config` mirrors the owner's Neovim config, `m3d1tor` is specific to this editor.");
+    lines.push("`config` mirrors the owner's Neovim config, `m3` is specific to this editor.");
     lines.push("A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear everywhere.");
     lines.push("");
     lines.push("## Leader (`<Space>`)");

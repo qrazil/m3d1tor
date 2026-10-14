@@ -1,13 +1,13 @@
-// m3d1tor: a terminal modal editor in m31.
+// m3: a terminal modal editor in m31.
 //
-//   m3d1tor FILE...   open the files as buffers (a new buffer when one does not exist yet)
-//   m3d1tor           an empty buffer with no name
-//   m3d1tor -u FILE   read FILE as the keymap file (-u NONE reads none)
-//   m3d1tor --no-mouse  do not ask the terminal for mouse reports
-//   m3d1tor --version   print the version and exit
+//   m3 FILE...   open the files as buffers (a new buffer when one does not exist yet)
+//   m3           an empty buffer with no name
+//   m3 -u FILE   read FILE as the keymap file (-u NONE reads none)
+//   m3 --no-mouse  do not ask the terminal for mouse reports
+//   m3 --version   print the version and exit
 //
 // The keymap file holds ex lines (`nnoremap`, `let mapleader`, `set` ...); by
-// default it is $XDG_CONFIG_HOME/m3d1tor/keymap.vim (~/.config/...).
+// default it is $XDG_CONFIG_HOME/m3/keymap.vim (~/.config/...).
 //
 // Vim keys (the engine is checked against nvim, see DESIGN.md), `:w` writes,
 // `:q` quits (`:q!` discards, `:wq` / `ZZ` write and quit).
@@ -62,23 +62,23 @@ void say(str text) {
 List<str> arguments = os.arguments();
 for (str argument in arguments) {
     if (argument == "--version" || argument == "-v") {
-        say("m3d1tor " + VERSION + "\n");
+        say("m3 " + VERSION + "\n");
         os.exit(0);
     }
     if (argument == "--help" || argument == "-h") {
-        say("m3d1tor " + VERSION + "\nusage: m3d1tor [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\n");
+        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\n");
         os.exit(0);
     }
 }
 if (!term.is_terminal(0) || !term.is_terminal(1)) {
-    io.eprint("m3d1tor: needs a terminal on standard input and output\n");
+    io.eprint("m3: needs a terminal on standard input and output\n");
     os.exit(1);
 }
 List<str> files = [];
 // -u FILE reads that keymap file, -u NONE reads none
 str keymap = MED_app.keymap_path();
 bool is_keymap_required = false;
-bool is_mouse = os.env("M3D1TOR_NO_MOUSE").or("") == "";
+bool is_mouse = os.env("M3_NO_MOUSE").or("") == "";
 int arg_index = 1;
 while (arg_index < arguments.size()) {
     if (arguments[arg_index] == "--no-mouse") {
@@ -129,13 +129,13 @@ match (MED_app.open_all(files)) {
             case Ok(int frames): {
             }
             case Err(term.Error error): {
-                io.eprint("m3d1tor: " + error.to_str() + "\n");
+                io.eprint("m3: " + error.to_str() + "\n");
                 os.exit(1);
             }
         }
     }
     case Err(str message): {
-        io.eprint("m3d1tor: " + message + "\n");
+        io.eprint("m3: " + message + "\n");
         os.exit(1);
     }
 }

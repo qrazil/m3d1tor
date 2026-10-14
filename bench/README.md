@@ -1,6 +1,6 @@
 # Benchmarks
 
-`bench.py` drives m3d1tor, nvim and hx in a real pty (200 x 60 unless
+`bench.py` drives m3, nvim and hx in a real pty (200 x 60 unless
 `BENCH_ROWS` / `BENCH_COLS` say otherwise) with the same key stream and
 reports, per editor:
 
@@ -10,7 +10,7 @@ reports, per editor:
   `:%s` (not for hx)
 
 ```
-python3 bench/bench.py --m3d ./m3d1tor --lines 100000 --runs 5
+python3 bench/bench.py --m3d ./m3 --lines 100000 --runs 5
 ```
 
 A step is finished when the editor has been quiet for 150 ms; the 150 ms are
@@ -20,7 +20,7 @@ belong in the benchmark repository, next to the host description.
 
 Second run (Linux x86-64, 100000 lines, 5 runs; v0.0.2 plus input coalescing):
 
-| measurement | m3d1tor | nvim -u NONE | hx |
+| measurement | m3 | nvim -u NONE | hx |
 |---|---|---|---|
 | startup, 1k lines (s) | 0.016 | 0.119 | 0.066 |
 | open 100k lines (s) | 0.068 | 0.119 | 0.547 |

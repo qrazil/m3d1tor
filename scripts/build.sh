@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Build m3d1tor (`m3d1tor.m31`) into a real executable.
+# Build m3 (`m3.m31`) into a real executable.
 #
-#   M31_ROOT=/path/to/m31 bash scripts/build.sh            -> ./m3d1tor
+#   M31_ROOT=/path/to/m31 bash scripts/build.sh            -> ./m3
 #   M31_ROOT=/path/to/m31 bash scripts/build.sh -o name    -> ./name
 #
-# `m3d1tor.m31` and `ui/MED_app.m31` import github.com/qrazil/tui as `import tui.app.TUI_app;`. The
+# `m3.m31` and `ui/MED_app.m31` import github.com/qrazil/tui as `import tui.app.TUI_app;`. The
 # `deps` file names the exact commit; the first compile fetches it into
 # `.m31-deps/` and records it in `deps.lock`.
 #
@@ -27,7 +27,7 @@ fi
 . "$M31_ROOT/config.sh"
 . "$M31_ROOT/runtime/arch.sh"
 
-out=m3d1tor
+out=m3
 [ "${1:-}" = "-o" ] && out=${2:?-o needs a name}
 
 LANGC=${LANGC:-./m31c}
@@ -40,8 +40,8 @@ if [ ! -x "$LANGC" ]; then
     exit 1
 fi
 
-"$LANGC" --emit-c m3d1tor.m31 -o "$tmp/m3d1tor.c"
-"$CC" -O2 -pthread -I "$M31_ROOT/runtime" -o "$out" "$tmp/m3d1tor.c" \
+"$LANGC" --emit-c m3.m31 -o "$tmp/m3.c"
+"$CC" -O2 -pthread -I "$M31_ROOT/runtime" -o "$out" "$tmp/m3.c" \
     "$M31_ROOT/runtime/rt.c" "$M31_ROOT/runtime/scheduler.c" \
     "$M31_ROOT/$RT_REACTOR_C" "$M31_ROOT/$RT_CTX_ASM"
 echo "$out"

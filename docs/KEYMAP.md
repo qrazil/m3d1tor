@@ -4,7 +4,7 @@ Generated from `ui/MED_keymap.m31` by `scripts/gen_keymap.sh`; do not edit by ha
 The in-editor listing (`<Space>?`, `:Keys`) is built from the same table.
 
 Source column: `vim` is a Vim / Neovim default that the engine is checked against (nvim parity),
-`config` mirrors the owner's Neovim config, `m3d1tor` is specific to this editor.
+`config` mirrors the owner's Neovim config, `m3` is specific to this editor.
 A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear everywhere.
 
 ## Leader (`<Space>`)
@@ -21,23 +21,23 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `<Space>sh` | Normal | Split below | core | config |
 | `<Space>se` | Normal | Equalize windows | core | config |
 | `<Space>sc` | Normal | Close window | core | config |
-| `<Space>sn` | Normal | Clear search highlight | core | m3d1tor |
+| `<Space>sn` | Normal | Clear search highlight | core | m3 |
 | `<Space>sa` | Normal | Surround add (ys{motion}{char}) | surround | config |
 | `<Space>sa` | Visual | Surround selection (S{char}) | surround | config |
 | `<Space>sd` | Normal | Surround delete (ds{char}) | surround | config |
 | `<Space>sr` | Normal | Surround replace (cs{old}{new}) | surround | config |
-| `<Space>q` | Normal | +quit | core | m3d1tor |
-| `<Space>qq` | Normal | Quit | core | m3d1tor |
-| `<Space>qa` | Normal | Quit all | core | m3d1tor |
-| `<Space>b` | Normal | +buffer | core | m3d1tor |
-| `<Space>bb` | Normal | Switch buffer | finder | m3d1tor |
-| `<Space>bn` | Normal | Next buffer | core | m3d1tor |
-| `<Space>bp` | Normal | Previous buffer | core | m3d1tor |
-| `<Space>ba` | Normal | Alternate buffer | core | m3d1tor |
-| `<Space>bd` | Normal | Delete buffer | core | m3d1tor |
-| `<Space>bl` | Normal | List buffers | core | m3d1tor |
+| `<Space>q` | Normal | +quit | core | m3 |
+| `<Space>qq` | Normal | Quit | core | m3 |
+| `<Space>qa` | Normal | Quit all | core | m3 |
+| `<Space>b` | Normal | +buffer | core | m3 |
+| `<Space>bb` | Normal | Switch buffer | finder | m3 |
+| `<Space>bn` | Normal | Next buffer | core | m3 |
+| `<Space>bp` | Normal | Previous buffer | core | m3 |
+| `<Space>ba` | Normal | Alternate buffer | core | m3 |
+| `<Space>bd` | Normal | Delete buffer | core | m3 |
+| `<Space>bl` | Normal | List buffers | core | m3 |
 | `<Space>e` | Normal | File tree | explorer | config |
-| `<Space>E` | Normal | Reveal file in the tree | explorer | m3d1tor |
+| `<Space>E` | Normal | Reveal file in the tree | explorer | m3 |
 | `<Space>f` | Normal | +find | finder | config |
 | `<Space>ff` | Normal | Find files | finder | config |
 | `<Space>fg` | Normal | Live grep | finder | config |
@@ -46,39 +46,39 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `<Space>fe` | Normal | File explorer (picker) | finder | config |
 | `<Space>fq` | Normal | Quickfix list | finder | config |
 | `<Space>fd` | Normal | Lines of this buffer | finder | config |
-| `<Space>fw` | Normal | Grep the word under the cursor | finder | m3d1tor |
-| `<Space>fh` | Normal | Help: all keys | finder | m3d1tor |
-| `<Space>fc` | Normal | Commands | finder | m3d1tor |
-| `<Space>fk` | Normal | Keymaps | finder | m3d1tor |
-| `<Space>fo` | Normal | Options | finder | m3d1tor |
-| `<Space>fm` | Normal | Marks | finder | m3d1tor |
-| `<Space>fx` | Normal | Diagnostics | finder | m3d1tor |
-| `<Space>fs` | Normal | Symbols in this file | finder | m3d1tor |
-| `<Space>ft` | Normal | TODO comments | finder | m3d1tor |
-| `<Space>fl` | Normal | Plugins | finder | m3d1tor |
-| `<Space><Space>` | Normal | Find files | finder | m3d1tor |
-| `<Space>,` | Normal | Switch buffer | finder | m3d1tor |
-| `<Space>/` | Normal | Live grep | finder | m3d1tor |
-| `<Space>:` | Normal | Commands | finder | m3d1tor |
-| `<Space>?` | Normal | All keys | core | m3d1tor |
-| `<Space>j` | Normal | Jump to a label | jump | m3d1tor |
+| `<Space>fw` | Normal | Grep the word under the cursor | finder | m3 |
+| `<Space>fh` | Normal | Help: all keys | finder | m3 |
+| `<Space>fc` | Normal | Commands | finder | m3 |
+| `<Space>fk` | Normal | Keymaps | finder | m3 |
+| `<Space>fo` | Normal | Options | finder | m3 |
+| `<Space>fm` | Normal | Marks | finder | m3 |
+| `<Space>fx` | Normal | Diagnostics | finder | m3 |
+| `<Space>fs` | Normal | Symbols in this file | finder | m3 |
+| `<Space>ft` | Normal | TODO comments | finder | m3 |
+| `<Space>fl` | Normal | Plugins | finder | m3 |
+| `<Space><Space>` | Normal | Find files | finder | m3 |
+| `<Space>,` | Normal | Switch buffer | finder | m3 |
+| `<Space>/` | Normal | Live grep | finder | m3 |
+| `<Space>:` | Normal | Commands | finder | m3 |
+| `<Space>?` | Normal | All keys | core | m3 |
+| `<Space>j` | Normal | Jump to a label | jump | m3 |
 | `<Space>g` | Normal | +git | git | config |
 | `<Space>gg` | Normal | Changed files (status) | git | config |
 | `<Space>gf` | Normal | Changed files | git | config |
 | `<Space>gb` | Normal | Branches (checkout) | git | config |
 | `<Space>gc` | Normal | Remote branches (checkout as local) | git | config |
 | `<Space>gC` | Normal | Commit history | git | config |
-| `<Space>gs` | Normal | Stage hunk | git | m3d1tor |
-| `<Space>gr` | Normal | Reset hunk | git | m3d1tor |
-| `<Space>gp` | Normal | Preview hunk | git | m3d1tor |
-| `<Space>gB` | Normal | Blame line | git | m3d1tor |
-| `<Space>gt` | Normal | Toggle git signs | git | m3d1tor |
+| `<Space>gs` | Normal | Stage hunk | git | m3 |
+| `<Space>gr` | Normal | Reset hunk | git | m3 |
+| `<Space>gp` | Normal | Preview hunk | git | m3 |
+| `<Space>gB` | Normal | Blame line | git | m3 |
+| `<Space>gt` | Normal | Toggle git signs | git | m3 |
 | `<Space>h` | Normal | +harpoon | harpoon | config |
 | `<Space>ha` | Normal | Harpoon: add this file | harpoon | config |
 | `<Space>he` | Normal | Harpoon: menu | harpoon | config |
 | `<Space>hn` | Normal | Harpoon: next | harpoon | config |
 | `<Space>hp` | Normal | Harpoon: previous | harpoon | config |
-| `<Space>hd` | Normal | Harpoon: remove this file | harpoon | m3d1tor |
+| `<Space>hd` | Normal | Harpoon: remove this file | harpoon | m3 |
 | `<Space>1` | Normal | Harpoon: file 1 | harpoon | config |
 | `<Space>2` | Normal | Harpoon: file 2 | harpoon | config |
 | `<Space>3` | Normal | Harpoon: file 3 | harpoon | config |
@@ -98,10 +98,10 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `<Space>xQ` | Normal | Quickfix list | finder | config |
 | `<Space>xL` | Normal | Location list | finder | config |
 | `<Space>cs` | Normal | Symbols | finder | config |
-| `<Space>c` | Normal | +code | lsp | m3d1tor |
-| `<Space>cr` | Normal | Rename symbol | lsp | m3d1tor |
-| `<Space>ca` | Normal | Code action | lsp | m3d1tor |
-| `<Space>cf` | Normal | Format buffer | lsp | m3d1tor |
+| `<Space>c` | Normal | +code | lsp | m3 |
+| `<Space>cr` | Normal | Rename symbol | lsp | m3 |
+| `<Space>ca` | Normal | Code action | lsp | m3 |
+| `<Space>cf` | Normal | Format buffer | lsp | m3 |
 | `<Space>t` | Normal | Terminal | terminal | config |
 
 ## Prefixes (g, z, [, ], CTRL-W, registers, marks, operators)
@@ -197,22 +197,22 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `]`` | Normal | next mark | core | vim |
 | `[<Space>` | Normal | add blank line above | core | vim |
 | `]<Space>` | Normal | add blank line below | core | vim |
-| `[b` | Normal | previous buffer | bracketed | m3d1tor |
-| `]b` | Normal | next buffer | bracketed | m3d1tor |
-| `[B` | Normal | first buffer | bracketed | m3d1tor |
-| `]B` | Normal | last buffer | bracketed | m3d1tor |
-| `[q` | Normal | previous quickfix entry | bracketed | m3d1tor |
-| `]q` | Normal | next quickfix entry | bracketed | m3d1tor |
-| `[Q` | Normal | first quickfix entry | bracketed | m3d1tor |
-| `]Q` | Normal | last quickfix entry | bracketed | m3d1tor |
-| `[t` | Normal | previous TODO comment | bracketed | m3d1tor |
-| `]t` | Normal | next TODO comment | bracketed | m3d1tor |
-| `[h` | Normal | previous git hunk | bracketed | m3d1tor |
-| `]h` | Normal | next git hunk | bracketed | m3d1tor |
-| `[c` | Normal | previous git change | bracketed | m3d1tor |
-| `]c` | Normal | next git change | bracketed | m3d1tor |
-| `[d` | Normal | previous diagnostic | bracketed | m3d1tor |
-| `]d` | Normal | next diagnostic | bracketed | m3d1tor |
+| `[b` | Normal | previous buffer | bracketed | m3 |
+| `]b` | Normal | next buffer | bracketed | m3 |
+| `[B` | Normal | first buffer | bracketed | m3 |
+| `]B` | Normal | last buffer | bracketed | m3 |
+| `[q` | Normal | previous quickfix entry | bracketed | m3 |
+| `]q` | Normal | next quickfix entry | bracketed | m3 |
+| `[Q` | Normal | first quickfix entry | bracketed | m3 |
+| `]Q` | Normal | last quickfix entry | bracketed | m3 |
+| `[t` | Normal | previous TODO comment | bracketed | m3 |
+| `]t` | Normal | next TODO comment | bracketed | m3 |
+| `[h` | Normal | previous git hunk | bracketed | m3 |
+| `]h` | Normal | next git hunk | bracketed | m3 |
+| `[c` | Normal | previous git change | bracketed | m3 |
+| `]c` | Normal | next git change | bracketed | m3 |
+| `[d` | Normal | previous diagnostic | bracketed | m3 |
+| `]d` | Normal | next diagnostic | bracketed | m3 |
 | `<C-w>` | Normal | +windows | core | vim |
 | `<C-w>s` | Normal | split below | core | vim |
 | `<C-w>v` | Normal | split right | core | vim |
@@ -282,11 +282,11 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `>>` | Normal | indent line | core | vim |
 | `==` | Normal | reindent line | core | vim |
 | `!!` | Normal | filter line through a command | core | vim |
-| `K` | Normal | hover documentation (language server) | lsp | m3d1tor |
-| `gd` | Normal | go to definition (language server) | lsp | m3d1tor |
-| `grr` | Normal | references (language server) | lsp | m3d1tor |
-| `grn` | Normal | rename symbol (language server) | lsp | m3d1tor |
-| `gra` | Normal | code action (language server) | lsp | m3d1tor |
+| `K` | Normal | hover documentation (language server) | lsp | m3 |
+| `gd` | Normal | go to definition (language server) | lsp | m3 |
+| `grr` | Normal | references (language server) | lsp | m3 |
+| `grn` | Normal | rename symbol (language server) | lsp | m3 |
+| `gra` | Normal | code action (language server) | lsp | m3 |
 | `ys` | Normal | +surround add (ys{motion}{char}) | surround | vim |
 | `yss` | Normal | surround the line | surround | vim |
 | `ds` | Normal | surround delete (ds{char}) | surround | vim |
@@ -300,10 +300,10 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `jk` | Insert | Insert mode: leave to Normal mode (:set nojk_escape turns it off) | core | config |
 | `<Space>` | Normal | Normal mode: leader key | core | config |
 | `<C-^>` | Normal | Normal mode: alternate buffer | core | vim |
-| `<A-j>/<A-k>` | Normal | Normal and Visual: move the line or selection down / up | move | m3d1tor |
-| `<A-h>/<A-l>` | Normal | Normal and Visual: shift the line or selection left / right | move | m3d1tor |
-| `<C-q>` | Normal | Picker: send the marked (or all) entries to the quickfix list | finder | m3d1tor |
-| `<C-t>` | Normal | Picker: mark or unmark the entry | finder | m3d1tor |
+| `<A-j>/<A-k>` | Normal | Normal and Visual: move the line or selection down / up | move | m3 |
+| `<A-h>/<A-l>` | Normal | Normal and Visual: shift the line or selection left / right | move | m3 |
+| `<C-q>` | Normal | Picker: send the marked (or all) entries to the quickfix list | finder | m3 |
+| `<C-t>` | Normal | Picker: mark or unmark the entry | finder | m3 |
 
 ## Built-in plugins
 

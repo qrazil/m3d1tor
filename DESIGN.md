@@ -168,7 +168,7 @@ Keymaps are **data**: `MED_defaults` is a list of
 `("n", "<leader>ff", "picker.files", "", "find files")`. At start they are
 compiled into one trie per mode. `description` feeds which-key and `?`. A user
 keymap file can override rows. As built, the user layer is Vim's own: the file
-is a list of ex lines (`~/.config/m3d1tor/keymap.vim`, or `$M3D1TOR_KEYMAP`, or
+is a list of ex lines (`~/.config/m3/keymap.vim`, or `$M3_KEYMAP`, or
 `-u FILE`) using the `:map` / `:noremap` family for n, x, o, i and c modes,
 `:unmap`, `:mapclear`, `let mapleader`, `<nowait>` and `:source`. The engine
 resolves them (`MED_map`, `MED_ex.pump`) and the mapping behaviour is checked
@@ -307,8 +307,8 @@ diff-the-listing-on-write step.
 
 ## 6. Module list (v0.1)
 
-The tree is grouped (m3d1tor 0.0.x, see RENAMES.md): `engine/` is the editing core with no
-terminal dependency, `ui/` is everything that draws, picks or lays out; `m3d1tor.m31` is the entry
+The tree is grouped (m3 0.0.x, see RENAMES.md): `engine/` is the editing core with no
+terminal dependency, `ui/` is everything that draws, picks or lays out; `m3.m31` is the entry
 at the root. Modules are imported by path (`import engine.MED_buffer;`); names keep the `MED_`
 prefix. The rows below are the original plan, including modules not written yet.
 
@@ -338,7 +338,7 @@ ui/MED_window.m31  window layout tree: split, remove, placement into screen rect
 engine/MED_view.m31  drawing
 ui/MED_window.m31  window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
 MED_help.m31       ? and which-key content from keymap data
-m3d1tor.m31        entry: args, terminal check, tui loop
+m3.m31        entry: args, terminal check, tui loop
 ui/MED_app.m31  front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
 ```
 
@@ -439,17 +439,17 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Themes | Partial | The terminal's own 16-colour palette (works at 16, 256 and truecolor); dark and light by `COLORFGBG` or `:set background=`; no per-language scopes, no user schemes |
 | Syntax highlighting | **Partial** | A lexical highlighter (`MED_syntax`, no parse tree) for c, cpp, go, javascript/typescript, json, m31, markdown, python, rust, sh, toml and yaml; `:syntax on/off`, `:set syntax=`. Multi-line comments, strings and code fences carry across lines |
 | Tree-sitter textobjects (`maf`, `mic`), indentation, selection expansion | **Impossible** (G3) | No tree-sitter runtime in m31 and the rule forbids Rust/FFI work |
-| LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Partial** (0.1.0) | Section 13: diagnostics, hover, definition, references, rename, code action, format over `proc` pipes. No completion, signature help or inlay hints |
+| LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Partial** (0.1.0) | Section 13: diagnostics, hover, definition, references, rename, code action, format over `proc` pipes, tested with real servers. Completion is a picker on CTRL-Space (section 13); no signature help or inlay hints |
 | Formatting via external formatter, shell pipe (`!`, `\|`, `:pipe`), `:sh`-capture, `:r !cmd` | **Yes** (0.1.0) | `:!cmd`, `:{range}!cmd`, `:r !cmd`, `!{motion}` through `proc.run`; nvim oracle corpus 103. `:!cmd` captures output (no tty): use `:terminal` for interactive programs |
 | Debug adapter (DAP) | **Later** | The pipes exist now; the UI does not |
 | Embedded terminal | **Partial** (0.1.0) | `:terminal` over `proc.start_pty`; a line-oriented screen model (`ui/MED_vt.m31`), not a full VT emulator |
 | Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list` + `listchars`, `number`, `relativenumber`, `colorcolumn`, `cursorline`, `cursorcolumn`, `scrolloff`, `sidescroll(off)` and `nowrap` scrolling, indent guides (0.1.0, `:set noindentguides`) done; `linebreak` later |
 | Snippets | Later | |
 | Auto-reload on external change, auto-save | Partial | Poll `fs.stat` mtimes on idle tick; auto-save later |
-| Persistent undo, session restore | Partial | Last cursor position and recent files are restored (0.1.0, `~/.local/state/m3d1tor`); `undofile` is stored but undo trees are not written to disk |
+| Persistent undo, session restore | Partial | Last cursor position and recent files are restored (0.1.0, `~/.local/state/m3`); `undofile` is stored but undo trees are not written to disk |
 | Increment/decrement (`<C-a>`/`<C-x>`) | Yes | Engine feature, oracle-tested |
 | Search (`/`, `?`, `*`, `#`), `:s`, `:g` | Yes | Vim regex subset; no backreferences or lookaround in the regex engine (G6) |
-| Config file | Yes (minimal) | `~/.config/m3d1tor/keymap.vim`: `:map` family, `let mapleader`, `:set`; no scripting |
+| Config file | Yes (minimal) | `~/.config/m3/keymap.vim`: `:map` family, `let mapleader`, `:set`; no scripting |
 | Command-line completion and history | Yes | Tab / Shift-Tab complete ex commands (nvim's own list and order), option names (long and short), files, directories and buffers; `<Up>`/`<Down>` history with prefix, `<C-p>`/`<C-n>` |
 | Folds | **Partial** | Manual folds: `zf{motion}` `zF` `:fold`, `zo zO zc zC za zA zv zR zM zd zD zE zj zk zn zN zi`, `j`/`k`/`dd`/`p`/`o`/ranges take a closed fold whole, shown as `+--  N lines: text`; no fold methods, no `foldlevel`, no `zx`/`zm`/`zr` |
 
@@ -464,7 +464,7 @@ as Helix without its language intelligence", and the tag description must say so
 
 * M0 (this commit): design and scaffolding.
 * M1: engine + oracle harness + fuzzer, with a stated divergence list.
-* M2 (started: `m3d1tor <file>` opens, renders with gutter and status line, edits, `:w`, `:q`, `ZZ`; build with `scripts/build.sh`): tui integration: render, scroll, numbers, statusline, command line, insert
+* M2 (started: `m3 <file>` opens, renders with gutter and status line, edits, `:w`, `:q`, `ZZ`; build with `scripts/build.sh`): tui integration: render, scroll, numbers, statusline, command line, insert
   entry, open/save, grapheme width.
 * M3 (done): pickers (files, buffers, grep, commands, help, explorer), which-key, keymap help.
   Deviations from section 4: sources run synchronously on the loop (the file list
@@ -526,7 +526,7 @@ A built-in plugin is:
 * a **name** and a one-line summary (`ui/MED_plugin.m31`, `MED_plugin.all()`),
 * **keymap rows**: `MED_keymap.Binding` rows carry the plugin name, a
   description (the which-key label), a mode (Normal or Visual) and a source
-  (`vim`, `config` = mirrors the owner's nvim config, `m3d1tor`),
+  (`vim`, `config` = mirrors the owner's nvim config, `m3`),
 * **ex commands** (`:Files`, `:Plugins` ... routed through `MED_ex.is_ui_command`
   to the front end) and
 * **UI** it draws or loads (statusline segments, signs, guides, pickers).
@@ -587,9 +587,40 @@ whatever a server wrote (a read with a deadline that has already passed fails at
   `<Space>[[`, the diagnostics picker `<Space>xx fx`), `K` hover, `gd` definition, `grr` references (picker),
   `grn` / `:Lsp rename NAME`, `gra` / `:Lsp action` (picker of edit-carrying actions), `:Lsp format`. WorkspaceEdits
   from the server (`workspace/applyEdit`) are applied. Edits go in as one undoable change per file.
-* Not done: completion, signature help, inlay hints, semantic tokens, code actions that only carry a command,
-  incremental sync, workspace folders, dynamic registration (requests from the server are answered with null),
-  formatting on save.
-* Tests: `tests/t_lsp.m31` (framing, decoding, URIs, columns, edits and a round trip with a scripted server) and
-  the `lsp_client` pty scenario of `tests/e2e.py` against `tests/fake_lsp.py`. Real servers were not available in
-  the build environment; the protocol subset is the common one but a real server is untested.
+* Code actions: an action with an `edit` is applied; one with only `data` is sent through `codeAction/resolve`
+  first; a `command` goes out as `workspace/executeCommand` (servers answer with `workspace/applyEdit`). The
+  diagnostics of the cursor line are part of the request context, so quick fixes are offered for them.
+* Server-initiated requests are all answered (a server that is not answered waits for ever): `workspace/applyEdit`
+  (applied), `workspace/configuration` (one `null` per item), `workspace/workspaceFolders`,
+  `window/workDoneProgress/create`, `client/registerCapability`, `window/showMessageRequest`, anything else with
+  `null`. Ids may be numbers or strings and are echoed as sent. `$/progress` drives the `LSP: ...` status text.
+* Capabilities from the `initialize` answer gate the commands ("does not support rename" instead of an
+  `Unhandled method` from the server). `publishDiagnostics` carrying a `version` older than the text last sent is
+  dropped (stale). `languageId` follows the file (`typescript`, `typescriptreact`, `javascriptreact`, `shellscript`).
+* The server's stderr is drained on every tick and its tail kept (`:Lsp info` shows it when the server died); it is
+  never closed, because a closed stderr kills servers that log (clangd). `workspaceFolders` is deliberately not
+  declared: pyright then never analyses. Quit sends `shutdown`/`exit`, waits briefly for the server to exit by
+  itself (so tsserver and proc-macro servers go with it), then kills it.
+* Completion: CTRL-Space in Insert mode (or `:Lsp complete`) syncs the buffer, sends `textDocument/completion` and
+  lists the items in the picker, ordered by `sortText`, pre-filtered by the typed word; Enter accepts (its
+  `textEdit` or `insertText`, snippets flattened to their defaults, `additionalTextEdits` such as clangd's
+  includes), the cursor lands after the text. A popup that follows the cursor and completes as you type
+  (trigger characters, `completionItem/resolve`, snippet tab stops) is the next step.
+* Not done: signature help, inlay hints, semantic tokens, incremental sync, dynamic registration, formatting on
+  save, `didClose`.
+* Tests: `tests/t_lsp.m31` (framing, decoding, URIs, columns, edits, ids, a round trip with a scripted server);
+  the `lsp_client` pty scenario of `tests/e2e.py` against `tests/fake_lsp.py` (server requests with string ids,
+  an stderr flood, lazy and command code actions); and `lsp_real_*` pty scenarios against real servers (skipped
+  when a binary is missing). Each of the latter waits for diagnostics, then hover, definition, references and
+  rename, and requires that no process of the server survives the quit.
+
+Tested with real servers on 2026-10-13 (Linux x86-64):
+
+| server | diagnostics | hover | definition | references | rename | code action | format | notes |
+|---|---|---|---|---|---|---|---|---|
+| pyright-langserver 1.1.407 | yes | yes | yes | yes | yes | none offered on the probe | not supported (message) | needs `workspaceFolders` undeclared |
+| clangd 21.1.8 | yes | yes | yes | yes | yes | none on the probe | yes | dies if stderr is closed |
+| typescript-language-server | yes | yes | yes | yes | yes | yes (refactors) | yes | `.ts` is sent as `typescript` |
+| lua-language-server | yes | yes | yes | yes | yes | yes | yes | no highlighting for lua (server only) |
+| rust-analyzer (mason build) | yes | yes | yes | yes | yes | not exercised | not exercised | diagnostics arrive while indexing; hover waits for it, shown as `LSP: Indexing` |
+| gopls, marksman, bash-language-server | not installed here | | | | | | | configured, untested |
