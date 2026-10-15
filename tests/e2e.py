@@ -361,6 +361,30 @@ def lsp_client(binary, root):
     s = Session(binary, root, ["a.py"])
     try:
         assert s.wait_for("print(hello)")
+@scenario
+def tab_pages(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send(":tabnew src/main.py\r", settle=0.4)
+        assert s.wait_for("return 42"), s.text()
+        first = s.text().split("\n")[0]
+        assert "hello.txt" in first and "src/main.py" in first, "tab line:\n" + s.text()
+        s.send("gt", settle=0.3)
+        assert "hello world" in s.text() and "return 42" not in s.text(), s.text()
+        s.send(":vsplit\r", settle=0.3)
+        s.send("gt", settle=0.3)
+        assert "return 42" in s.text(), s.text()
+        s.send("gT", settle=0.3)
+        first = s.text().split("\n")[0]
+        assert "2 hello.txt" in first, "window count in the tab label:\n" + first
+        s.send(":tabclose\r", settle=0.3)
+        assert "return 42" in s.text(), s.text()
+        assert "2 hello.txt" not in s.text().split("\n")[0], s.text()
+    finally:
+        s.close()
+
+
         s.send(":Lsp server python python3 %s\r" % fake, settle=0.3)
         s.send(":Lsp start\r", settle=0.3)
         assert s.wait_for("E:1", 8.0), "diagnostic count missing:\n" + s.text()

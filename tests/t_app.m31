@@ -356,6 +356,65 @@ match (MED_app.open_all([win_a])) {
 }
 remove_file(win_a);
 remove_file(win_b);
+// tab pages
+str tab_a = "/tmp/m3_t_app_ta.txt";
+str tab_b = "/tmp/m3_t_app_tb.txt";
+write_file(tab_a, "alpha\nbeta\ngamma\n");
+write_file(tab_b, "bravo\n");
+match (MED_app.open_all([tab_a])) {
+    case Err(str message): {
+        check.ok("open for the tab tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(80, 12);
+        check.eq_int("one tab page", app.page_count(), 1);
+        type_text(app, "jj");
+        type_text(app, ":tabnew\n");
+        check.eq_int("tabnew makes a page", app.page_count(), 2);
+        check.eq_str("showing a nameless buffer", app.path, "");
+        app.render(screen, screen.area());
+        check.ok("the tab line lists the first page", screen.row_text(0).contains(tab_a));
+        check.ok("the tab line lists the second page", screen.row_text(0).contains("[No Name]"));
+        type_text(app, ":tabe " + tab_b + "\n");
+        check.eq_int("tabe makes a third", app.page_count(), 3);
+        check.eq_str("showing the file", app.path, tab_b);
+        type_text(app, ":vsplit\n");
+        check.eq_int("two windows in this page", app.wins.size(), 2);
+        type_text(app, "gt");
+        check.eq_int("gt wraps to the first page", app.page_index, 0);
+        check.eq_int("whose single window", app.wins.size(), 1);
+        check.eq_str("and its buffer", app.path, tab_a);
+        check.eq_int("with its cursor", app.editor.row, 2);
+        type_text(app, "gT");
+        check.eq_int("gT wraps back", app.page_index, 2);
+        check.eq_int("the split came back", app.wins.size(), 2);
+        type_text(app, "2gt");
+        check.eq_int("2gt goes to page 2", app.page_index, 1);
+        type_text(app, ":tabfirst\n");
+        check.eq_int("tabfirst", app.page_index, 0);
+        type_text(app, ":tablast\n");
+        check.eq_int("tablast", app.page_index, 2);
+        type_text(app, ":tabprev\n");
+        check.eq_int("tabprev", app.page_index, 1);
+        type_text(app, ":tabnext\n");
+        check.eq_int("tabnext", app.page_index, 2);
+        type_text(app, ":tabs\n");
+        app.render(screen, screen.area());
+        check.ok(":tabs lists the pages", app.overlay.size() >= 4 && app.overlay[0] == "Tab page 1");
+        type_text(app, ":tabclose\n");
+        check.eq_int("tabclose drops a page", app.page_count(), 2);
+        check.eq_int("the one before the closed last becomes active", app.page_index, 1);
+        type_text(app, ":tabonly\n");
+        check.eq_int("tabonly keeps one", app.page_count(), 1);
+        type_text(app, ":tabclose\n");
+        check.ok("the last page stays", app.notice.starts_with("E784"));
+        type_text(app, ":tabnew\n:q\n");
+        check.eq_int("q on the last window of a page closes the page", app.page_count(), 1);
+        check.ok(":q on the last page quits", is_quit(type_text(app, ":q\n")));
+    }
+}
+remove_file(tab_a);
+remove_file(tab_b);
 // leader keys, which-key, jk, the palette, pickers
 str lead_path = "/tmp/m3_t_app_lead.txt";
 write_file(lead_path, "one\ntwo\n");

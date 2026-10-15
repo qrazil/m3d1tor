@@ -5677,6 +5677,18 @@ pub str map_mode(MED_editor.Editor editor) {
             break;
         }
     }
+    if (second == 116 || second == 84) {
+        // gt / gT: the next / previous tab page, or page COUNT (gt)
+        str word = "tabnext";
+        if (second == 84) {
+            word = "tabprevious";
+        }
+        if (count > 0) {
+            word = word + " " + count.to_str();
+        }
+        editor.requests.push(word);
+        return true;
+    }
     if (index >= amount) {
         return "o";
     }

@@ -21,6 +21,16 @@ pub type Win {
     pub int left_column = 0;
 }
 
+/// One tab page: the windows and layout it had when it was left, and which
+/// window was active (the active tab page's own live values are in the front
+/// end and are stored back here whenever it leaves the page).
+pub type Page {
+    pub List<Win> wins = [];
+    pub Node layout = Node();
+    pub int current_win = 1;
+    pub int previous_win = 0;
+}
+
 /// A leaf (`win_id` > 0) or a branch (`kids`).
 pub type Node {
     pub int win_id = 0;

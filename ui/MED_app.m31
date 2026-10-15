@@ -230,6 +230,10 @@ pub type App {
     pub int current_win = 1;
     pub int previous_win = 0;
     pub int next_win = 2;
+    /// The tab pages (empty: only the one in `wins` / `layout`). The active
+    /// page's entry is stale, its live values being the fields above.
+    pub List<MED_window.Page> pages = [];
+    pub int page_index = 0;
     /// CTRL-W was typed: the next key is a window command.
     pub bool is_window_key = false;
     /// The file tree sidebar (`:Neotree`, <Space>e).
@@ -666,6 +670,8 @@ void App.run_request(str request) {
         }
     } else if (name == "only") {
         only_window();
+    } else if (name.starts_with("tab")) {
+        run_tab_command(name, arg, is_forced);
     } else if (name == "Rename" || name == "Delete" || name == "Create" || name == "Mkdir") {
         listing_file_command(name, arg);
     } else if (name == "resize" || name == "vresize") {
@@ -864,6 +870,10 @@ bool App.did_finish() {
     editor.is_force_quit = false;
     bool is_one = editor.is_quit_one;
     editor.is_quit_one = false;
+    if (is_one && wins.size() < 2 && pages.size() > 1) {
+        close_page(page_index, is_forced);
+        return false;
+    }
     if (is_one && wins.size() > 1) {
         if (!is_forced && !is_close_allowed()) {
             return false;
@@ -899,6 +909,9 @@ TUI_geometry.Rect App.screen_rect() {
 
 /// 1 when the tabline (buffer list) is shown: two or more buffers, plugin on.
 int App.tabline_rows() {
+    if (pages.size() >= 2) {
+        return 1;
+    }
     if (!is_plugin_on("statusline") || !editor.is_option_on("bufferline", true)) {
         return 0;
     }
@@ -920,6 +933,22 @@ void App.draw_tabline(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
     buffer.fill(TUI_geometry.Rect(area.x, area.y, area.width, 1), " ", bar);
     int x = area.x;
+    if (pages.size() >= 2) {
+        List<str> labels = tab_labels();
+        for (int position in 0 .. labels.size()) {
+            str label = " " + labels[position] + " ";
+            TUI_style.Style look = bar;
+            if (position == page_index) {
+                look = current;
+            }
+            if (x + label.size() > area.x + area.width) {
+                break;
+            }
+            buffer.set_str(x, area.y, label, look);
+            x = x + label.size();
+        }
+        return;
+    }
     for (Slot one in slots) {
         if (one.is_listing) {
             continue;
@@ -1215,6 +1244,302 @@ void App.resize_window(int amount, bool is_vertical, bool is_absolute) {
         wanted = least;
     }
     MED_window.did_set_size(layout, current_win, wanted, is_vertical);
+}
+
+// ------------------------------------------------------------------ tab pages
+
+/// The windows of tab page `index` (the live ones for the active page).
+List<MED_window.Win> App.page_wins(int index) {
+    if (index == page_index || pages.size() == 0) {
+        return wins;
+    }
+    return pages[index].wins;
+}
+
+/// How many tab pages there are.
+pub int App.page_count() {
+    if (pages.size() == 0) {
+        return 1;
+    }
+    return pages.size();
+}
+
+/// The tab line labels: window count and `+` when any buffer is changed,
+/// then the name of the page's active window's buffer.
+List<str> App.tab_labels() {
+    save_active();
+    List<str> labels = [];
+    for (int index in 0 .. page_count()) {
+        List<MED_window.Win> in_page = page_wins(index);
+        int showing_id = current_id;
+        bool is_changed = false;
+        for (MED_window.Win win in in_page) {
+            int position = index_of(win.buffer_id);
+            if (position >= 0 && is_slot_modified(slots[position])) {
+                is_changed = true;
+            }
+        }
+        if (index == page_index) {
+            showing_id = current_id;
+        } else {
+            showing_id = pages[index].wins[0].buffer_id;
+            for (MED_window.Win win in in_page) {
+                if (win.id == pages[index].current_win) {
+                    showing_id = win.buffer_id;
+                }
+            }
+        }
+        str label = "";
+        if (in_page.size() > 1) {
+            label = in_page.size().to_str();
+        }
+        if (is_changed) {
+            label = label + "+";
+        }
+        if (label.size() > 0) {
+            label = label + " ";
+        }
+        int at = index_of(showing_id);
+        if (at >= 0) {
+            label = label + slot_name(slots[at]);
+        }
+        labels.push(label);
+    }
+    return labels;
+}
+
+/// Store the live windows into the active page's entry.
+void App.save_page() {
+    save_active();
+    if (pages.size() == 0) {
+        pages.push(MED_window.Page(wins: wins, layout: layout, current_win: current_win, previous_win: previous_win));
+        page_index = 0;
+        return;
+    }
+    pages[page_index] = MED_window.Page(wins: wins, layout: layout, current_win: current_win, previous_win: previous_win);
+}
+
+/// Make tab page `target` (0-based) the active one.
+void App.go_page(int target) {
+    if (pages.size() == 0 || target == page_index || target < 0 || target >= pages.size()) {
+        return;
+    }
+    save_page();
+    MED_window.Page page = pages[target];
+    page_index = target;
+    wins = page.wins;
+    layout = page.layout;
+    current_win = -1;
+    focus_window(page.current_win);
+    previous_win = page.previous_win;
+}
+
+/// `:tabnew [file]`: a page after the active one (or at `at`) with one window.
+void App.new_page(str arg, int at) {
+    save_page();
+    int id = next_win;
+    next_win = id + 1;
+    int position = page_index + 1;
+    if (at >= 0 && at <= pages.size()) {
+        position = at;
+    }
+    pages.insert(position, MED_window.Page(wins: [MED_window.Win(id, current_id, row: editor.row, col: editor.col, view_top: editor.view_top, left_column: left_column)], layout: MED_window.leaf(id), current_win: id));
+    if (position <= page_index) {
+        page_index = page_index + 1;
+    }
+    // the new page becomes the active one: its window starts with this buffer
+    go_page(position);
+    if (arg.trim().size() > 0) {
+        edit(arg, false);
+    } else {
+        new_buffer();
+    }
+}
+
+/// `:tabclose [N]`, and `:q` on the last window of a page.
+void App.close_page(int target, bool is_forced) {
+    if (pages.size() < 2) {
+        notice = "E784: Cannot close last tab page";
+        return;
+    }
+    save_page();
+    if (!is_forced) {
+        for (MED_window.Win win in pages[target].wins) {
+            int position = index_of(win.buffer_id);
+            if (position < 0 || !is_slot_modified(slots[position])) {
+                continue;
+            }
+            bool is_elsewhere = false;
+            for (int other in 0 .. pages.size()) {
+                if (other == target) {
+                    continue;
+                }
+                for (MED_window.Win again in pages[other].wins) {
+                    if (again.buffer_id == win.buffer_id) {
+                        is_elsewhere = true;
+                    }
+                }
+            }
+            if (!is_elsewhere) {
+                notice = "E37: No write since last change (add ! to override)";
+                return;
+            }
+        }
+    }
+    if (target == page_index) {
+        int next = target + 1;
+        if (next >= pages.size()) {
+            next = target - 1;
+        }
+        go_page(next);
+        pages.remove_at(target);
+        if (next > target) {
+            page_index = next - 1;
+        } else {
+            page_index = next;
+        }
+    } else {
+        pages.remove_at(target);
+        if (target < page_index) {
+            page_index = page_index - 1;
+        }
+    }
+    if (pages.size() == 1) {
+        pages = [];
+        page_index = 0;
+    }
+}
+
+/// `:tabonly`: close every other page.
+void App.only_page(bool is_forced) {
+    if (pages.size() < 2) {
+        notice = "Already only one tab page";
+        return;
+    }
+    int index = pages.size() - 1;
+    while (index >= 0) {
+        if (pages.size() < 2) {
+            return;
+        }
+        if (index < pages.size() && index != page_index) {
+            close_page(index, is_forced);
+            if (pages.size() > 1 && index < pages.size() && index != page_index) {
+                // refused: a changed buffer
+                notice = "E445: Other window contains changes";
+                return;
+            }
+        }
+        index = index - 1;
+    }
+}
+
+/// `:tabmove [N]`.
+void App.move_page(str arg) {
+    if (pages.size() < 2) {
+        return;
+    }
+    save_page();
+    int last = pages.size() - 1;
+    int target = last;
+    str word = arg.trim();
+    if (word.size() > 0) {
+        if (word.byte_at(0) == 43 || word.byte_at(0) == 45) {
+            int delta = word.substr(1, word.size()).parse_int().or(1);
+            if (word.byte_at(0) == 45) {
+                delta = 0 - delta;
+            }
+            target = page_index + delta;
+        } else {
+            target = word.parse_int().or(last);
+        }
+    }
+    if (target < 0) {
+        target = 0;
+    }
+    if (target > last) {
+        target = last;
+    }
+    MED_window.Page moved = pages[page_index];
+    pages.remove_at(page_index);
+    pages.insert(target, moved);
+    page_index = target;
+}
+
+/// The `:tab...` commands; `arg` is the text after the command word.
+void App.run_tab_command(str name, str arg, bool is_forced) {
+    int count = page_count();
+    str word = arg.trim();
+    if (name == "tabnew" || name == "tabedit") {
+        new_page(word, -1);
+    } else if (name == "tabnext") {
+        if (word.size() > 0) {
+            if (word.byte_at(0) == 43 || word.byte_at(0) == 45) {
+                int delta = word.substr(1, word.size()).parse_int().or(1);
+                if (word.byte_at(0) == 45) {
+                    delta = 0 - delta;
+                }
+                go_page(((page_index + delta) % count + count) % count);
+            } else {
+                int number = word.parse_int().or(0);
+                if (number < 1 || number > count) {
+                    notice = "E475: Invalid argument: " + word;
+                } else {
+                    go_page(number - 1);
+                }
+            }
+        } else {
+            go_page((page_index + 1) % count);
+        }
+    } else if (name == "tabprevious" || name == "tabNext") {
+        int step = 1;
+        if (word.size() > 0) {
+            step = word.parse_int().or(1);
+        }
+        go_page(((page_index - step) % count + count) % count);
+    } else if (name == "tabfirst" || name == "tabrewind") {
+        go_page(0);
+    } else if (name == "tablast") {
+        go_page(count - 1);
+    } else if (name == "tabclose") {
+        int target = page_index;
+        if (word.size() > 0) {
+            target = word.parse_int().or(0) - 1;
+            if (target < 0 || target >= count) {
+                notice = "E475: Invalid argument: " + word;
+                return;
+            }
+        }
+        close_page(target, is_forced);
+    } else if (name == "tabonly") {
+        only_page(is_forced);
+    } else if (name == "tabmove") {
+        move_page(word);
+    } else if (name == "tabs") {
+        save_active();
+        List<str> lines = [];
+        for (int index in 0 .. count) {
+            lines.push("Tab page " + (index + 1).to_str());
+            List<MED_window.Win> in_page = page_wins(index);
+            for (MED_window.Win win in in_page) {
+                int position = index_of(win.buffer_id);
+                if (position < 0) {
+                    continue;
+                }
+                str flag = " ";
+                if (index == page_index && win.id == current_win) {
+                    flag = ">";
+                } else if (win.buffer_id == alternate_id && index == page_index) {
+                    flag = "#";
+                }
+                str modified = " ";
+                if (is_slot_modified(slots[position])) {
+                    modified = "+";
+                }
+                lines.push(flag + " " + modified + " " + slot_name(slots[position]));
+            }
+        }
+        overlay = lines;
+    }
 }
 
 /// `:split`, `:vsplit`, `:new`, `:vnew` with an optional file.
