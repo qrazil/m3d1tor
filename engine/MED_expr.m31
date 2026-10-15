@@ -21,12 +21,15 @@ pub type Context {
     pub int line_last = 1;
     /// What `@x` reads: register name -> text.
     pub Map<str, str> registers = {};
+    /// `:let` variables: "i" + digits for a number, "s" + text for a string.
+    pub Map<str, str> variables = {};
 }
 
 pub type Evaluated {
     pub bool is_ok = false;
     pub str text = "";
     pub str error = "";
+    pub bool is_integer = false;
 }
 
 type Value {
@@ -466,8 +469,27 @@ Value Parser.function_call() {
         position = position + 1;
     }
     str name = str.from_chars(chars.slice(start, position));
+    if (peek() == 58 && name.size() == 1 && is_word(peek_at(1))) {
+        // g:name, b:name, ...
+        position = position + 1;
+        int scoped = position;
+        while (is_word(peek())) {
+            position = position + 1;
+        }
+        name = str.from_chars(chars.slice(scoped, position));
+    }
     skip_white();
     if (peek() != 40) {
+        match (context.variables.get(name)) {
+            case Some(str stored): {
+                if (stored.starts_with("i")) {
+                    return number_value(text_number(stored.substr(1, stored.size())));
+                }
+                return text_value(stored.substr(1, stored.size()));
+            }
+            case None: {
+            }
+        }
         fail("E121: Undefined variable: " + name);
         return number_value(0);
     }
@@ -927,5 +949,6 @@ pub Evaluated eval(str text, Context context) {
     }
     result.is_ok = true;
     result.text = as_text(value);
+    result.is_integer = value.is_integer;
     return result;
 }

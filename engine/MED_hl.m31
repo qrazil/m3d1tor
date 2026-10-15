@@ -6,7 +6,6 @@
 // row the buffer changed (`Buffer.dirty_row`).
 
 import engine.MED_editor;
-import syntax.core.SYN_class;
 import syntax.core.SYN_detect;
 import syntax.core.SYN_highlight;
 import syntax.core.SYN_registry;
@@ -38,9 +37,9 @@ pub str language(MED_editor.Editor editor) {
     return SYN_detect.language_of(editor.buffer.path, first);
 }
 
-/// The class of each byte of line `row` (the twelve classes of
-/// `SYN_class.NORMAL .. TITLE`; the library's richer classes are folded onto
-/// them), or an empty list without highlighting.
+/// The class of each byte of line `row` (all 25 classes of the library; the
+/// renderer draws each, `SYN_class.legacy` is the fold onto the first twelve),
+/// or an empty list without highlighting.
 pub List<int> classes_of(MED_editor.Editor editor, int row, str lang) {
     if (lang == "") {
         return [];
@@ -60,10 +59,5 @@ pub List<int> classes_of(MED_editor.Editor editor, int row, str lang) {
     if (row >= editor.buffer.line_count()) {
         return [];
     }
-    List<int> raw = editor.syn.classes(row);
-    List<int> out = [];
-    for (int class_value in raw) {
-        out.push(SYN_class.legacy(class_value));
-    }
-    return out;
+    return editor.syn.classes(row);
 }

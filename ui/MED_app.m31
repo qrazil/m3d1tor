@@ -6152,6 +6152,53 @@ TUI_style.Style syntax_style(int class_value, bool is_dark, int background) {
         if (!is_dark) {
             colour = 1;
         }
+    } else if (class_value == SYN_class.CALL) {
+        colour = 4;
+        if (is_dark) {
+            colour = 12;
+        }
+    } else if (class_value == SYN_class.PROPERTY) {
+        colour = 6;
+        if (!is_dark) {
+            colour = 4;
+        }
+    } else if (class_value == SYN_class.TAG) {
+        colour = 1;
+        if (is_dark) {
+            colour = 9;
+        }
+    } else if (class_value == SYN_class.ATTRIBUTE) {
+        colour = 3;
+        if (!is_dark) {
+            colour = 5;
+        }
+    } else if (class_value == SYN_class.PUNCTUATION) {
+        colour = 6;
+    } else if (class_value == SYN_class.ADDED) {
+        colour = 2;
+    } else if (class_value == SYN_class.REMOVED) {
+        colour = 1;
+    } else if (class_value == SYN_class.LINK) {
+        colour = 4;
+        if (is_dark) {
+            colour = 12;
+        }
+        attrs = TUI_style.UNDERLINE;
+    } else if (class_value == SYN_class.EMPHASIS) {
+        attrs = TUI_style.ITALIC;
+    } else if (class_value == SYN_class.STRONG) {
+        attrs = TUI_style.BOLD;
+    } else if (class_value == SYN_class.RAW) {
+        colour = 2;
+    } else if (class_value == SYN_class.BUILTIN_VAR) {
+        colour = 5;
+        attrs = TUI_style.ITALIC;
+    }
+    if (colour < 0 && attrs != 0) {
+        if (background >= 0) {
+            return TUI_style.Style(background: TUI_style.Colour.Indexed(background), attrs: attrs);
+        }
+        return TUI_style.Style(attrs: attrs);
     }
     if (colour < 0) {
         if (background >= 0) {

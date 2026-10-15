@@ -1,0 +1,59 @@
+# Insert-mode abbreviations (:iab :ab :iunab :abclear), checked against nvim
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>Afoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A xfoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo<CR>x<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo<Tab>x<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>Afoo,<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A #i <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A x#i <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>Ax#i <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A##<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A ##<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A##<CR>y<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A## <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo<C-]>x<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo<C-v> x<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo<BS>o <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>Afoo<C-c>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>ifoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>Rfoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>ofoo bar foo,<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>3Afoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo <Esc>.
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A foo bar<Esc>u
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>A,foo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab #i #include<CR>:iab ## HH<CR>Afoo.x foo-<Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iab foo BAR<CR>Afoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iunab foo<CR>Afoo <Esc>
+foo\nbar	0,2	:iab foo FOO<CR>:iabc<CR>Afoo <Esc>
+foo\nbar	0,2	:iab foo FOO bar<CR>Afoo <Esc>
+foo\nbar	0,2	:iab teh the<CR>Ateh quick teh<Esc>
+foo\nbar	0,2	:set iskeyword+=-<CR>:iab a-b XY<CR>Aa-b <Esc>
+# `:let` variables and `\=` (0.3.0)
+one two three\nfour\n\nlast	0,3	:let x=1<CR>:s/o/\=x/<CR>
+one two three\nfour\n\nlast	0,3	:let y=2<CR>:let y+=5<CR>:%s/o/\=y*2/g<CR>
+one two three\nfour\n\nlast	0,3	:let s='ab'<CR>:let s.='cd'<CR>:%s/o/\=s . g:s/g<CR>
+one two three\nfour\n\nlast	0,3	:let g:n=3<CR>:%s/^/\=g:n/<CR>
+one two three\nfour\n\nlast	0,3	:let n=5<CR>:let n-=2<CR>:let n*=4<CR>:%s/^/\=n/<CR>
+# the change list and `. after a command that changed nothing (0.3.0)
+abc\nb\n\nc	0,0	xjjx`.iZ<Esc>
+abc\nb\n\nc	0,0	x:3<CR>x`.iZ<Esc>
+abc\nb\n\nc	0,0	xjjxjxg;g;iZ<Esc>
+abc\nb\n\nc	0,0	xjjxg;iZ<Esc>
+abc\nb\n\nc	0,0	xjjxjxg;g;g,iZ<Esc>
+# gw keeps the cursor on a blank through a join and where nothing changed (0.3.0)
+one two three\nfour\n\nlast	0,3	gwap
+one two three\nfour\n\nlast	0,9	gwap
+one two three\nfour\n\nlast	1,2	gwj
+one two three\nfour\n\nlast	0,3	gwwx
+a b\nc d\n\nx  y	1,1	gwip
+a b\nc d\n\nx  y	3,1	gwG
+one two three\nfour\n\nlast	0,3	:set tw=6<CR>gwap
+one two three four five\nsix	0,3	:set tw=10<CR>gwap
+one two three four five\nsix	0,13	:set tw=10<CR>gwap
+one  two three four five\nsix	0,4	:set tw=10<CR>gwap
+one two three four five\nsix	0,7	:set tw=10<CR>gwap
+one two three four five\nsix	0,18	:set tw=10<CR>gwap
+  one two\n  three four five	1,5	:set tw=12<CR>gwap

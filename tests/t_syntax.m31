@@ -81,9 +81,19 @@ check.eq_int("rust keyword in a rust fence", fenced[0], SYN_class.KEYWORD);
 check.eq_int("rust function name", fenced[3], SYN_class.FUNCTION);
 check.eq_int("rust number", fenced[20], SYN_class.NUMBER);
 check.eq_int("rust comment", fenced[27], SYN_class.COMMENT);
-// the library classes the fence marker as raw text (a string); it was SPECIAL in 0.1.0
-check.eq_int("closing fence marker", classes_at(notes, 3)[0], SYN_class.STRING);
+// the library classes the fence marker as raw text; it was SPECIAL in 0.1.0 (0.3.0 draws RAW itself)
+check.eq_int("closing fence marker", classes_at(notes, 3)[0], SYN_class.RAW);
 check.ok("after the fence is not rust", !has_class(classes_at(notes, 4), SYN_class.KEYWORD));
+// --- richer classes reach the renderer unfolded (0.3.0) -------------------------------
+MED_editor.Editor data = open("a.json", "{\"key\": 1}");
+check.eq_int("json key is a property", classes_at(data, 0)[2], SYN_class.PROPERTY);
+check.eq_int("json number", classes_at(data, 0)[8], SYN_class.NUMBER);
+MED_editor.Editor page = open("a.html", "<a href=\"x\">t</a>");
+check.eq_int("html tag name", classes_at(page, 0)[1], SYN_class.TAG);
+check.ok("html attribute", has_class(classes_at(page, 0), SYN_class.ATTRIBUTE));
+MED_editor.Editor calls = open("a.py", "print(self.x)");
+check.eq_int("a call", classes_at(calls, 0)[0], SYN_class.CALL);
+check.ok("self is a builtin variable", has_class(classes_at(calls, 0), SYN_class.BUILTIN_VAR));
 // --- incremental: edits move the states -------------------------------------------
 MED_editor.Editor edited = open("a.c", "int a;\nint b;\nint c;\n");
 check.eq_int("before: plain", classes_at(edited, 2)[0], SYN_class.TYPE);

@@ -314,6 +314,12 @@ pub type Editor {
     pub str sur_new = "";
     pub str sur_input = "";
     pub str sur_last_deleted = "";
+    /// `:let` variables ("i" + digits or "s" + text), what `\=` and `:echo` read.
+    pub Map<str, str> vars = {};
+    /// `:iabbrev` / `:abbreviate` (Insert mode): left-hand sides and right-hand sides, in definition order.
+    pub List<str> abbr_lhs = [];
+    pub List<str> abbr_rhs = [];
+    pub bool is_abbr_busy = false;
     pub int sur_count = 1;
     pub int sur_lines = 0;
     pub bool is_sur_prepared = false;
@@ -521,7 +527,9 @@ pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos position, 
         block_before = MED_buffer.Pos(row, col);
         block_namedm = snapshot_named();
     }
-    note_change(from);
+    if (from.row != position.row || from.col != position.col || replacement != "") {
+        note_change(from);
+    }
     if (!is_uline_off && from.row == position.row && uline_row != from.row && !replacement.index_of("\n").is_some()) {
         // u_save() of a single line remembers it for `U`
         uline_row = from.row;

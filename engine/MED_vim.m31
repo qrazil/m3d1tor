@@ -1736,6 +1736,10 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
     int first = oap.start.row;
     int last = oap.end.row;
     int keep_count = nonblank_before(editor, first, saved.row, saved.col);
+    List<str> before_lines = [];
+    for (int row_before in first .. last + 1) {
+        before_lines.push(editor.buffer.line(row_before));
+    }
     bool is_cursor_inside = saved.row >= first && saved.row <= last;
     List<str> out = [];
     List<str> paragraph = [];
@@ -1803,7 +1807,11 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
         int target_col = 0;
         int stop_row = first + out.size();
         bool is_found = false;
-        if (!is_cursor_inside) {
+        if (is_same && is_cursor_inside) {
+            // nothing changed: the cursor stays where it was (nvim restores the saved position)
+            editor.row = saved.row;
+            editor.col = saved.col;
+        } else if (!is_cursor_inside) {
             row = saved.row;
             if (saved.row > last) {
                 row = saved.row + (out.size() - (last - first + 1));
@@ -1811,12 +1819,32 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
             editor.row = MED_num.smaller(row, editor.buffer.line_count() - 1);
             editor.col = saved.col;
         } else {
+            // a cursor on blank text stays that far after the last word before it
+            // (nvim keeps the saved position through a join)
+            int white_gap = 0;
+            bool is_on_white = false;
+            if (keep_count > 0 && saved.row >= first && saved.row <= last) {
+                str was = before_lines[saved.row - first];
+                if (saved.col >= was.size() || is_white_byte(was.byte_at(saved.col))) {
+                    is_on_white = true;
+                    int back = saved.col;
+                    while (back > 0 && back <= was.size() && is_white_byte(was.byte_at(back - 1))) {
+                        back = back - 1;
+                        white_gap = white_gap + 1;
+                    }
+                }
+            }
             while (row < stop_row && !is_found) {
                 str line = editor.buffer.line(row);
                 int scan = 0;
                 while (scan < line.size()) {
                     if (!is_white_byte(line.byte_at(scan))) {
-                        if (seen == keep_count) {
+                        if (is_on_white && seen == keep_count - 1) {
+                            is_found = true;
+                            target_col = MED_text.next_col(line, scan) + white_gap;
+                            break;
+                        }
+                        if (!is_on_white && seen == keep_count) {
                             is_found = true;
                             target_col = scan;
                             break;
@@ -4539,6 +4567,76 @@ bool is_alnum_code(int code_point) {
     return (code_point >= 48 && code_point <= 57) || (code_point >= 65 && code_point <= 90) || (code_point >= 97 && code_point <= 122);
 }
 
+// Vim's check_abbr(): typing a non-keyword character (not <Tab>) or <Esc>, <CR>, CTRL-]
+// after an Insert-mode abbreviation replaces it by its right-hand side, as if
+// the left-hand side had been backspaced and the right-hand side typed (so `.`
+// and a count repeat the expanded text). A full-id abbreviation (all keyword
+// characters) needs a non-keyword before it or the start of the typed text; an
+// end-id one (ends in a keyword character) matches anywhere; one that ends in
+// a non-keyword character only expands on <Esc>, <CR> and CTRL-] (what nvim
+// does; the probes are in corpus 104).
+bool did_abbreviate(MED_editor.Editor editor, int key) {
+    if (editor.abbr_lhs.size() == 0 || editor.is_abbr_busy || editor.is_in_dot) {
+        return false;
+    }
+    bool is_end = key == 27 || key == 13 || key == 10 || key == 29;
+    if (!is_end) {
+        if (key < 32 || key == 127 || key >= 63232 || MED_text.class_in(key, editor.buffer.keywords) == 2) {
+            return false;
+        }
+    }
+    int limit = 0;
+    if (editor.row == editor.ins_start.row && editor.ins_start.col <= editor.col) {
+        limit = editor.ins_start.col;
+    }
+    str line = editor.buffer.line(editor.row);
+    if (editor.col <= limit || editor.col > line.size()) {
+        return false;
+    }
+    List<int> before = line.substr(limit, editor.col).chars();
+    int total = before.size();
+    for (int index in 0 .. editor.abbr_lhs.size()) {
+        List<int> left = editor.abbr_lhs[index].chars();
+        int length = left.size();
+        if (length == 0 || length > total) {
+            continue;
+        }
+        bool is_match = true;
+        for (int offset in 0 .. length) {
+            if (before[total - length + offset] != left[offset]) {
+                is_match = false;
+                break;
+            }
+        }
+        if (!is_match) {
+            continue;
+        }
+        bool is_last_word = MED_text.class_in(left[length - 1], editor.buffer.keywords) == 2;
+        bool is_all_word = true;
+        for (int code in left) {
+            if (MED_text.class_in(code, editor.buffer.keywords) != 2) {
+                is_all_word = false;
+            }
+        }
+        if (is_all_word && length < total && MED_text.class_in(before[total - length - 1], editor.buffer.keywords) == 2) {
+            continue;
+        }
+        if (!is_last_word && !is_end) {
+            continue;
+        }
+        editor.is_abbr_busy = true;
+        for (int count in 0 .. length) {
+            insert_key(editor, 8);
+        }
+        for (int code in MED_key.parse(editor.abbr_rhs[index], leader: "")) {
+            insert_key(editor, code);
+        }
+        editor.is_abbr_busy = false;
+        return true;
+    }
+    return false;
+}
+
 void insert_key(MED_editor.Editor editor, int key) {
     if (editor.is_ins_next_set) {
         if (!editor.is_ins_hold) {
@@ -4697,6 +4795,9 @@ void insert_key(MED_editor.Editor editor, int key) {
             editor.ins_wait = 24;
         }
         return;
+    }
+    if (key != 3) {
+        did_abbreviate(editor, key);
     }
     if (key == 27 || key == 3) {
         finish_insert(editor);
@@ -7299,6 +7400,7 @@ str expr_value(MED_editor.Editor editor, str text) {
     MED_expr.Context context = MED_expr.Context();
     context.line_now = editor.row + 1;
     context.line_last = editor.buffer.line_count();
+    context.variables = editor.vars;
     MED_expr.Evaluated evaluated = MED_expr.eval(text, context);
     if (!evaluated.is_ok) {
         editor.message = evaluated.error;

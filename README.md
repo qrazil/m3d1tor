@@ -6,7 +6,7 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.1.0 (default plugins).** The Vim engine is checked against `nvim --headless` on
+**Status: v0.3.0.** The Vim engine is checked against `nvim --headless` on
 more than 38,500 generated and hand-written cases (20 known divergences, listed in
 `tests/oracles/known_divergences.txt`); on top of it sit the built-in plugins that make it a daily editor:
 a fuzzy finder with async sources (rg / fd / git when installed, a built-in walker and grep when not), which-key for
@@ -61,6 +61,12 @@ Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<ver
   folders first, git status letters (M A D R ? !) sit at the right and folders
   carry the worst status of what is inside; the tree follows the buffer.
   `:Explore` and `:e DIR` still open the netrw-style listing in a window.
+- Insert-mode abbreviations: `:iabbrev` / `:abbreviate` (and the `nore` forms), `:iunabbrev`, `:iabclear`. Full-id,
+  end-id and non-id forms; expansion on a non-keyword character, `<Esc>`, `<CR>` or `CTRL-]`, repeated by `.` and counts
+  as in Vim. Not in the command line.
+- Variables: `:let x = 1`, `g:x`, `+= -= *= .=`, read by `\=` in `:s` and shown by `:echo`.
+- Syntax: all 25 token classes of the `syntax` library are drawn (properties, tags, attributes, calls, links, emphasis,
+  strong, raw text, diff added / removed, builtin variables).
 - Which-key popup for the leader sequences.
 - Comment toggle `gc` / `gcc` / visual `gc`, with the comment string chosen by file type
   (`:set commentstring=`), matching Neovim 0.11's built-in `gc`.
