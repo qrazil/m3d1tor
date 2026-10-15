@@ -143,6 +143,8 @@ pub List<Binding> defaults() {
     rows.push(leaf_row("m3", "lsp", "cr", "Rename symbol", "app:lsp_rename"));
     rows.push(leaf_row("m3", "lsp", "ca", "Code action", "app:lsp_action"));
     rows.push(leaf_row("m3", "lsp", "cf", "Format buffer", "app:lsp_format"));
+    rows.push(leaf_row("m3", "lsp", "ck", "Signature help", "app:lsp_signature"));
+    rows.push(leaf_row("m3", "lsp", "ch", "Toggle inlay hints", "app:lsp_hints"));
     // terminal
     rows.push(leaf_row("config", "terminal", "t", "Terminal", "ex:terminal"));
     return rows;

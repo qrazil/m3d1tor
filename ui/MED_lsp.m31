@@ -799,7 +799,8 @@ pub Server start(str name, List<str> argv, str root) {
     json.Value synchronization = object(["didSave", "dynamicRegistration"], [json.Value.Bool(true), json.Value.Bool(false)]);
     json.Value markup = object(["contentFormat"], [json.Value.Array([text("markdown"), text("plaintext")])]);
     json.Value diagnostics = object(["relatedInformation", "versionSupport"], [json.Value.Bool(false), json.Value.Bool(true)]);
-    json.Value document_capabilities = object(["synchronization", "hover", "definition", "references", "rename", "codeAction", "formatting", "publishDiagnostics"], [synchronization, markup, object(["linkSupport"], [json.Value.Bool(false)]), object([], []), object(["prepareSupport"], [json.Value.Bool(false)]), object(["isPreferredSupport", "dataSupport", "resolveSupport"], [json.Value.Bool(false), json.Value.Bool(true), object(["properties"], [json.Value.Array([text("edit")])])]), object([], []), diagnostics]);
+    json.Value signature = object(["signatureInformation"], [object(["documentationFormat", "parameterInformation"], [json.Value.Array([text("plaintext")]), object(["labelOffsetSupport"], [json.Value.Bool(true)])])]);
+    json.Value document_capabilities = object(["synchronization", "hover", "signatureHelp", "inlayHint", "definition", "references", "rename", "codeAction", "formatting", "publishDiagnostics"], [synchronization, markup, signature, object(["dynamicRegistration"], [json.Value.Bool(false)]), object(["linkSupport"], [json.Value.Bool(false)]), object([], []), object(["prepareSupport"], [json.Value.Bool(false)]), object(["isPreferredSupport", "dataSupport", "resolveSupport"], [json.Value.Bool(false), json.Value.Bool(true), object(["properties"], [json.Value.Array([text("edit")])])]), object([], []), diagnostics]);
     // workspaceFolders is deliberately not declared: pyright then never starts
     // analysing (the root is passed as rootUri and as one workspace folder)
     json.Value workspace_capabilities = object(["applyEdit", "workspaceEdit"], [json.Value.Bool(true), object(["documentChanges"], [json.Value.Bool(false)])]);
@@ -810,6 +811,75 @@ pub Server start(str name, List<str> argv, str root) {
     json.Value parameters = object(["processId", "rootUri", "rootPath", "capabilities", "clientInfo", "workspaceFolders", "trace"], [json.Value.Null, text(uri_of(root)), text(root), capabilities, object(["name", "version"], [text("m3"), text("0.1.0")]), json.Value.Array([folder]), text("off")]);
     server.initialize_id = server.request("initialize", parameters);
     return server;
+}
+
+/// The text of an inlay hint label: a string or the values of its parts.
+pub str inlay_label(json.Value hint) {
+    json.Value label = member(hint, "label");
+    str plain = text_of(label);
+    if (plain.size() > 0) {
+        return plain;
+    }
+    str joined = "";
+    for (json.Value part in items_of(label)) {
+        joined = joined + text_of(member(part, "value"));
+    }
+    return joined;
+}
+
+/// The text of a documentation value: a string or MarkupContent.
+pub str documentation_text(json.Value value) {
+    str plain = text_of(value);
+    if (plain.size() > 0) {
+        return plain;
+    }
+    return text_of(member(value, "value"));
+}
+
+/// A signature help result as lines: the active signature, the active
+/// parameter and the documentation. Empty when there is no signature.
+pub List<str> signature_lines(json.Value result) {
+    List<str> lines = [];
+    List<json.Value> signatures = items_of(member(result, "signatures"));
+    if (signatures.size() == 0) {
+        return lines;
+    }
+    int active = int_of(member(result, "activeSignature"), 0);
+    if (active < 0 || active >= signatures.size()) {
+        active = 0;
+    }
+    json.Value signature = signatures[active];
+    str label = text_of(member(signature, "label"));
+    lines.push(label);
+    int wanted = int_of(member(signature, "activeParameter"), -1);
+    if (wanted < 0) {
+        wanted = int_of(member(result, "activeParameter"), 0);
+    }
+    List<json.Value> parameters = items_of(member(signature, "parameters"));
+    if (wanted >= 0 && wanted < parameters.size()) {
+        json.Value parameter = member(parameters[wanted], "label");
+        str name = text_of(parameter);
+        List<json.Value> offsets = items_of(parameter);
+        if (name.size() == 0 && offsets.size() == 2) {
+            int from = byte_of(label, int_of(offsets[0], 0));
+            int to = byte_of(label, int_of(offsets[1], 0));
+            name = label.substr(from, to);
+        }
+        if (name.size() > 0) {
+            lines.push("-> " + name);
+        }
+        str parameter_doc = documentation_text(member(parameters[wanted], "documentation")).trim();
+        if (parameter_doc.size() > 0) {
+            lines.push(parameter_doc);
+        }
+    }
+    str doc = documentation_text(member(signature, "documentation")).trim();
+    if (doc.size() > 0) {
+        for (str one in doc.split("\n")) {
+            lines.push(one);
+        }
+    }
+    return lines;
 }
 
 /// A completion snippet as plain text: placeholders `${1:name}` become their

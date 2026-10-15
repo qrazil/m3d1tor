@@ -474,6 +474,45 @@ def lsp_client(binary, root):
         s.close()
 
 
+@scenario
+def lsp_signature_hints_close(binary, root):
+    fake = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fake_lsp.py")
+    with open(os.path.join(root, "a.py"), "w") as f:
+        f.write("hello = 1\nprint(hello)\n")
+    with open(os.path.join(root, "b.py"), "w") as f:
+        f.write("other = 2\n")
+    s = Session(binary, root, ["a.py"])
+    try:
+        assert s.wait_for("print(hello)")
+        s.send(":Lsp server python python3 %s\r" % fake, settle=0.3)
+        s.send(":Lsp start\r", settle=0.3)
+        s.pump(2.0)
+        s.send("j$", settle=0.2)
+        s.send(":Lsp signature\r", settle=1.0)
+        assert s.wait_for("greet(name, greeting)", 5.0), "signature help:\n" + s.text()
+        assert "-> greeting" in s.text() and "Say hello" in s.text(), s.text()
+        s.send("\r", settle=0.2)
+        s.send(":Lsp hints\r", settle=1.5)
+        assert s.wait_for("value:", 5.0), "inlay hints:\n" + s.text()
+        s.send(":Lsp hints\r", settle=0.4)
+        assert "value:" not in s.text(), s.text()
+        # typing a trigger character in Insert mode asks for signature help
+        s.send("o", settle=0.2)
+        s.send("greet(", settle=1.2)
+        assert s.wait_for("greet(name, greeting)", 5.0), "signature on (:\n" + s.text()
+        s.send("\x1b", settle=0.2)   # dismisses the listing
+        s.send("\x1b", settle=0.2)
+        # deleting a buffer sends didClose
+        s.send(":e b.py\r", settle=0.3)
+        s.pump(1.0)
+        s.send(":bd! 1\r", settle=0.5)
+        s.pump(0.5)
+        s.send("K", settle=1.0)
+        assert s.wait_for("closed=1", 5.0), "didClose:\n" + s.text()
+    finally:
+        s.close()
+
+
 class Skip(Exception):
     pass
 

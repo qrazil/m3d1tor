@@ -15,7 +15,7 @@ import sys
 
 docs = {}
 awaiting = {}
-state = {"replies": "missing"}
+state = {"replies": "missing", "closed": 0}
 
 
 def read():
@@ -74,7 +74,9 @@ while True:
                                          "referencesProvider": True, "renameProvider": True,
                                          "documentFormattingProvider": True,
                                          "codeActionProvider": True, "textDocumentSync": 1,
-                                         "completionProvider": {"triggerCharacters": ["."]}}})
+                                         "completionProvider": {"triggerCharacters": ["."]},
+                                         "signatureHelpProvider": {"triggerCharacters": ["(", ","]},
+                                         "inlayHintProvider": True}})
     elif method == "initialized":
         log_flood()
         send({"jsonrpc": "2.0", "id": "s1", "method": "window/workDoneProgress/create",
@@ -117,8 +119,25 @@ while True:
     elif method == "textDocument/hover":
         position = params["position"]
         reply(message, {"contents": {"kind": "plaintext",
-                                     "value": "hover %d:%d replies=%s" % (
-                                         position["line"], position["character"], state["replies"])}})
+                                     "value": "hover %d:%d replies=%s closed=%d" % (
+                                         position["line"], position["character"], state["replies"],
+                                         state["closed"])}})
+    elif method == "textDocument/didClose":
+        state["closed"] += 1
+    elif method == "textDocument/signatureHelp":
+        reply(message, {"signatures": [{"label": "greet(name, greeting)",
+                                        "parameters": [{"label": "name"}, {"label": [12, 20]}],
+                                        "documentation": "Say hello"}],
+                        "activeSignature": 0, "activeParameter": 1})
+    elif method == "textDocument/inlayHint":
+        uri = params["textDocument"]["uri"]
+        hints = []
+        for number, line in enumerate(docs.get(uri, "").split("\n")):
+            column = line.find("print(")
+            if column >= 0:
+                hints.append({"position": {"line": number, "character": column + 6},
+                              "label": [{"value": "value"}, {"value": ":"}], "kind": 2})
+        reply(message, hints)
     elif method == "textDocument/completion":
         reply(message, {"isIncomplete": False, "items": [
             {"label": "hello_world", "detail": "fn", "insertText": "hello_world"},

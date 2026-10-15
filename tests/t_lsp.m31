@@ -94,4 +94,17 @@ check.eq_str("nested placeholder", MED_lsp.plain_snippet("${1:a${2:b}}"), "ab");
 check.ok("order a < b", MED_lsp.is_before("a", "b"));
 check.ok("prefix sorts first", MED_lsp.is_before("ab", "abc"));
 check.ok("equal is not before", !MED_lsp.is_before("x", "x"));
+// signature help and inlay hints
+MED_lsp.Message signature = MED_lsp.decode("{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"signatures\":[{\"label\":\"greet(name, greeting)\",\"parameters\":[{\"label\":\"name\"},{\"label\":[12,20],\"documentation\":\"the words\"}],\"documentation\":{\"kind\":\"markdown\",\"value\":\"Say hello\"}}],\"activeSignature\":0,\"activeParameter\":1}}");
+List<str> signature_lines = MED_lsp.signature_lines(signature.body);
+check.eq_int("signature lines", signature_lines.size(), 4);
+check.eq_str("the label", signature_lines[0], "greet(name, greeting)");
+check.eq_str("the active parameter by offsets", signature_lines[1], "-> greeting");
+check.eq_str("the parameter documentation", signature_lines[2], "the words");
+check.eq_str("the documentation", signature_lines[3], "Say hello");
+check.eq_int("no signatures", MED_lsp.signature_lines(MED_lsp.member(signature.body, "nothing")).size(), 0);
+MED_lsp.Message hints = MED_lsp.decode("{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":[{\"position\":{\"line\":1,\"character\":2},\"label\":\"x:\"},{\"position\":{\"line\":2,\"character\":0},\"label\":[{\"value\":\"a\"},{\"value\":\": int\"}]}]}");
+List<json.Value> hint_items = MED_lsp.items_of(hints.body);
+check.eq_str("a string label", MED_lsp.inlay_label(hint_items[0]), "x:");
+check.eq_str("a label of parts", MED_lsp.inlay_label(hint_items[1]), "a: int");
 check.finish("t_lsp");

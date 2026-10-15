@@ -192,6 +192,13 @@ pub type App {
     /// Per document: the buffer tick last sent and the document version.
     Map<str, int> lsp_ticks = {};
     int lsp_quiet_ms = 0;
+    /// Inlay hints: by absolute file path, row -> the hints of that row as one
+    /// text; shown after the end of the line while `is_hints_on`.
+    pub Map<str, Map<str, str>> hints = {};
+    pub bool is_hints_on = false;
+    int hints_tick = -1;
+    int hints_top = -1;
+    str hints_for = "";
     /// Rows with a diagnostic in the window being drawn (severity, 0 none).
     List<int> diagnostic_rows = [];
     /// The running child that fills the open picker (rg, fd, git).
@@ -594,6 +601,7 @@ void App.delete_buffer(str arg, bool is_forced) {
         }
         activate(target);
     }
+    lsp_did_close(slot_key(slots[index_of(id)]));
     slots.remove_at(index_of(id));
     if (alternate_id == id) {
         alternate_id = 0;
@@ -2992,6 +3000,11 @@ bool App.should_quit_after(int key) {
         run_lsp_command("complete", "");
         return did_finish();
     }
+    if (editor.mode == MED_editor.INSERT && key == 19 && has_server_here()) {
+        // CTRL-S: signature help for the call under the cursor
+        run_lsp_command("signature", "");
+        return did_finish();
+    }
     if (editor.mode == MED_editor.NORMAL && editor.ta_keys.size() == 0 && has_server_here() && is_lsp_key(key)) {
         if (key == 75 && editor.pending.size() == 0) {
             run_lsp_command("hover", "");
@@ -3123,6 +3136,9 @@ bool App.should_quit_after(int key) {
     MED_ex.feed(editor, sent);
     if (is_in_listing()) {
         keep_listing_read_only();
+    }
+    if (editor.mode == MED_editor.INSERT && (sent == 40 || sent == 44) && is_signature_trigger(sent)) {
+        run_lsp_command("signature", "");
     }
     return did_finish();
 }
@@ -3818,6 +3834,20 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
             buffer.set_str(x_start + end_spot - left, y, list_chars.eol, special);
         }
     }
+    if (hints_for.size() > 0 && stop_at >= line.size()) {
+        Map<str, str> by_row = hints.get(hints_for).or({});
+        str hint_text = by_row.get(row.to_str()).or("");
+        if (hint_text.size() > 0) {
+            int end_spot = MED_text.line_width(line, subject.tab) + 1;
+            int room = left + text_width - end_spot;
+            if (end_spot >= left && room > 0) {
+                if (hint_text.size() > room) {
+                    hint_text = hint_text.substr(0, room);
+                }
+                buffer.set_str(x_start + end_spot - left, y, hint_text, TUI_style.Style(foreground: TUI_style.Colour.Indexed(8), attrs: TUI_style.DIM));
+            }
+        }
+    }
 }
 
 /// The pending keys of an unfinished command (`2d`), as typed.
@@ -4005,6 +4035,10 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     }
     subject.view_height = rows;
     syntax_lang = MED_hl.language(subject);
+    hints_for = "";
+    if (is_hints_on && hints.size() > 0 && file.size() > 0) {
+        hints_for = absolute_of(file);
+    }
     GitInfo git_state = git_info(file, subject, false);
     subject.sign_columns = 0;
     diagnostic_rows = diagnostic_rows_of(file, subject.buffer.line_count());
@@ -5558,6 +5592,21 @@ bool App.did_tick_lsp(int elapsed_ms) {
         if (!server.is_ready || lsp_quiet_ms < 250) {
             continue;
         }
+        if (is_hints_on && server_languages[position] == lang_here && server.can_do("inlayHintProvider") && path.size() > 0) {
+            int hint_tick = editor.buffer.tick;
+            if ((hint_tick != hints_tick || editor.view_top != hints_top) && server.versions.contains(absolute_of(path)) && editor.mode != MED_editor.INSERT) {
+                hints_tick = hint_tick;
+                hints_top = editor.view_top;
+                int first = editor.view_top;
+                int last = editor.view_top + editor.view_height + 1;
+                if (last > editor.buffer.line_count()) {
+                    last = editor.buffer.line_count();
+                }
+                json.Value range = MED_lsp.object(["start", "end"], [MED_lsp.position_value(first, 0), MED_lsp.position_value(last, 0)]);
+                lsp_flush_document();
+                lsp_request("textDocument/inlayHint", "hints", MED_lsp.object(["textDocument", "range"], [MED_lsp.object(["uri"], [MED_lsp.text(MED_lsp.uri_of(absolute_of(path)))]), range]));
+            }
+        }
         // open and change: full-text sync of every buffer of this language
         str lang = server_languages[position];
         for (int index in 0 .. slots.size()) {
@@ -5606,6 +5655,39 @@ void App.lsp_flush_document() {
     server.versions.set(key, version);
     lsp_ticks.set(lsp_language_here() + "|" + key, editor.buffer.tick);
     server.notify("textDocument/didChange", MED_lsp.object(["textDocument", "contentChanges"], [MED_lsp.object(["uri", "version"], [MED_lsp.text(MED_lsp.uri_of(key)), MED_lsp.number(version)]), json.Value.Array([MED_lsp.object(["text"], [MED_lsp.text(editor.buffer.lines.join("\n") + "\n")])])]));
+}
+
+/// Whether the server of this buffer asks for signature help after typing `code`.
+bool App.is_signature_trigger(int code) {
+    int found = server_for(lsp_language_here());
+    if (found < 0 || servers[found].is_dead || !servers[found].is_ready) {
+        return false;
+    }
+    json.Value provider = MED_lsp.member(servers[found].capabilities, "signatureHelpProvider");
+    for (json.Value one in MED_lsp.items_of(MED_lsp.member(provider, "triggerCharacters"))) {
+        if (MED_lsp.text_of(one) == str.from_chars([code])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// Tell the servers a document was closed (its buffer was deleted); it is
+/// opened again, with a new version, if it comes back.
+void App.lsp_did_close(str key) {
+    if (key.size() == 0) {
+        return;
+    }
+    for (int position in 0 .. servers.size()) {
+        MED_lsp.Server server = servers[position];
+        if (!server.is_dead && server.versions.contains(key)) {
+            server.notify("textDocument/didClose", MED_lsp.object(["textDocument"], [MED_lsp.object(["uri"], [MED_lsp.text(MED_lsp.uri_of(key))])]));
+            server.versions.remove(key);
+            lsp_ticks.remove(server_languages[position] + "|" + key);
+        }
+    }
+    diagnostics.remove(key);
+    hints.remove(key);
 }
 
 /// Tell the servers a file was saved.
@@ -5868,6 +5950,24 @@ void App.run_lsp_command(str sub, str arg) {
     }
     if (sub == "hover") {
         lsp_request("textDocument/hover", "hover", lsp_position_parameters());
+    } else if (sub == "signature") {
+        lsp_flush_document();
+        lsp_request("textDocument/signatureHelp", "signature", lsp_position_parameters());
+    } else if (sub == "hints") {
+        if (arg == "on") {
+            is_hints_on = true;
+        } else if (arg == "off") {
+            is_hints_on = false;
+        } else {
+            is_hints_on = !is_hints_on;
+        }
+        hints_tick = -1;
+        if (is_hints_on) {
+            notice = "LSP: inlay hints on";
+        } else {
+            hints = {};
+            notice = "LSP: inlay hints off";
+        }
     } else if (sub == "definition") {
         lsp_request("textDocument/definition", "definition", lsp_position_parameters());
     } else if (sub == "references") {
@@ -5946,6 +6046,29 @@ void App.handle_lsp_result(str purpose_and_file, json.Value result) {
             }
         }
         overlay = lines;
+    } else if (purpose == "signature") {
+        List<str> lines = MED_lsp.signature_lines(result);
+        if (lines.size() == 0) {
+            notice = "LSP: no signature help";
+            return;
+        }
+        overlay = lines;
+    } else if (purpose == "hints") {
+        Map<str, str> by_row = {};
+        int found_slot = slot_with_path(file);
+        for (json.Value hint in MED_lsp.items_of(result)) {
+            json.Value spot = MED_lsp.member(hint, "position");
+            int row = MED_lsp.int_of(MED_lsp.member(spot, "line"), -1);
+            str label = MED_lsp.inlay_label(hint).trim();
+            if (row < 0 || label.size() == 0) {
+                continue;
+            }
+            if (found_slot >= 0 && row >= slots[found_slot].editor.buffer.line_count()) {
+                continue;
+            }
+            by_row.set(row.to_str(), by_row.get(row.to_str()).or("") + " " + label);
+        }
+        hints.set(file, by_row);
     } else if (purpose == "definition" || purpose == "references") {
         List<MED_lsp.Place> places = MED_lsp.places_of(result);
         if (places.size() == 0) {
@@ -6188,6 +6311,12 @@ str App.lsp_capability_for(str sub) {
     }
     if (sub == "complete") {
         return "completionProvider";
+    }
+    if (sub == "signature") {
+        return "signatureHelpProvider";
+    }
+    if (sub == "hints") {
+        return "inlayHintProvider";
     }
     return "";
 }
