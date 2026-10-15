@@ -97,8 +97,9 @@ match (io.read(cases_path)) {
                     print("open: " + message);
                 }
                 case Ok(MED_app.App app): {
-                    // no buffer list row (nvim has none): the windows start at row 0
-                    for (int code_point in ":set nobufferline".chars()) {
+                    // no buffer list row and no number column (nvim -u NONE has none):
+                    // the windows start at row 0 and CTRL-W j keeps the cursor column
+                    for (int code_point in ":set nobufferline nonumber norelativenumber".chars()) {
                         app.handle(press(code_point));
                     }
                     app.handle(named(term.Code.Enter));

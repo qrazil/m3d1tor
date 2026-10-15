@@ -320,8 +320,22 @@ List<str> path_matches(str given, bool is_directories_only) {
             names_only.push(item);
         }
     }
-    for (str item in sorted_files(names_only)) {
-        specials.push(item);
+    // a directory sorts by its name, not by the "/" after it ("next" before
+    // "next-2"): the slash is swapped for a byte below every name character
+    List<str> keyed = [];
+    for (str item in names_only) {
+        if (item.ends_with("/")) {
+            keyed.push(item.substr(0, item.size() - 1) + "\x01");
+        } else {
+            keyed.push(item);
+        }
+    }
+    for (str item in sorted_files(keyed)) {
+        if (item.ends_with("\x01")) {
+            specials.push(item.substr(0, item.size() - 1) + "/");
+        } else {
+            specials.push(item);
+        }
     }
     return specials;
 }

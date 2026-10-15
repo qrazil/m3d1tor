@@ -102,6 +102,8 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `<Space>cr` | Normal | Rename symbol | lsp | m3 |
 | `<Space>ca` | Normal | Code action | lsp | m3 |
 | `<Space>cf` | Normal | Format buffer | lsp | m3 |
+| `<Space>ck` | Normal | Signature help | lsp | m3 |
+| `<Space>ch` | Normal | Toggle inlay hints | lsp | m3 |
 | `<Space>t` | Normal | Terminal | terminal | config |
 
 ## Prefixes (g, z, [, ], CTRL-W, registers, marks, operators)

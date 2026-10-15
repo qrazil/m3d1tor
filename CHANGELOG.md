@@ -23,8 +23,11 @@ A round of queue items, each probed against nvim where the repo can.
 - Git gutter: already in place (an in-repo diff against the index or HEAD blob; no `gitui` dependency needed); tests added
   for `]c` / `[c`, no repository and a 100000-line file.
 
+- File-name completion sorts a directory by its name, not by the `/` after it (`next` before `next-2`).
+
 Known gaps: text typed in one burst leaves `.` at its last character, nvim at its first (nvim's typeahead
-batching); `gq` leaves `.` one line higher; resizing the only window does not grow the command line as nvim does;
+batching); `gq` leaves `.` one line higher; resizing the only window, or a column that is the whole screen, does not
+grow the command line as nvim does;
 `:tab` as a modifier (`:tab split`), `:{N}tabnew` placement; inlay hints are drawn at the end of the line, not inline.
 
 ## 0.3.0

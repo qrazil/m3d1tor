@@ -863,6 +863,11 @@ Node normalized(Node node) {
         Node only_kid = kept[0];
         only_kid.width = node.width;
         only_kid.height = node.height;
+        if (node.tag == -1 && !is_leaf(only_kid)) {
+            // nvim moves the only child into the parent's frame: the branch
+            // that lost a window stays "the frame that was closed in"
+            only_kid.tag = -1;
+        }
         return only_kid;
     }
     return node;
