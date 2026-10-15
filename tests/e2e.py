@@ -266,6 +266,41 @@ def git_signs_and_pickers(binary, root):
 
 
 @scenario
+def git_hunk_jumps_and_no_repo(binary, root):
+    path = os.path.join(root, "long.txt")
+    with open(path, "w") as f:
+        f.write("".join("row %02d\n" % n for n in range(1, 31)))
+    s = Session(binary, root, ["long.txt"])
+    try:
+        assert s.wait_for("row 01")
+        s.send("3GAA\x1b", settle=0.3)
+        s.send("gg0]cx", settle=0.3)     # not a repository: no hunks, ]c stays put and x eats the "r"
+        assert "ow 01" in s.text(), s.text()
+    finally:
+        s.close()
+    if not have("git"):
+        return
+    git(root, "init", "-q", "-b", "main")
+    git(root, "add", "long.txt")
+    git(root, "commit", "-q", "-m", "first")
+    with open(path, "w") as f:
+        f.write("".join("row %02d\n" % n for n in range(1, 31)))
+    s = Session(binary, root, ["long.txt"])
+    try:
+        assert s.wait_for("row 01")
+        s.send("3GAA\x1b", settle=0.3)
+        s.send("20GAB\x1b", settle=0.5)
+        s.send("gg0]cx", settle=0.3)
+        assert "ow 03A" in s.text(), s.text()
+        s.send("]cx", settle=0.3)
+        assert "ow 20B" in s.text(), s.text()
+        s.send("[cx", settle=0.3)
+        assert "w 03A" in s.text(), s.text()
+    finally:
+        s.close()
+
+
+@scenario
 def terminal_pane(binary, root):
     s = Session(binary, root, ["hello.txt"], env={"SHELL": "/bin/sh", "PS1": "$ "})
     try:
@@ -327,6 +362,30 @@ def statusline_tabline_guides(binary, root):
 
 
 @scenario
+def tab_pages(binary, root):
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world")
+        s.send(":tabnew src/main.py\r", settle=0.4)
+        assert s.wait_for("return 42"), s.text()
+        first = s.text().split("\n")[0]
+        assert "hello.txt" in first and "src/main.py" in first, "tab line:\n" + s.text()
+        s.send("gt", settle=0.3)
+        assert "hello world" in s.text() and "return 42" not in s.text(), s.text()
+        s.send(":vsplit\r", settle=0.3)
+        s.send("gt", settle=0.3)
+        assert "return 42" in s.text(), s.text()
+        s.send("gT", settle=0.3)
+        first = s.text().split("\n")[0]
+        assert "2 hello.txt" in first, "window count in the tab label:\n" + first
+        s.send(":tabclose\r", settle=0.3)
+        assert "return 42" in s.text(), s.text()
+        assert "2 hello.txt" not in s.text().split("\n")[0], s.text()
+    finally:
+        s.close()
+
+
+@scenario
 def state_recent_harpoon_position(binary, root):
     keymap = os.path.join(root, "empty.vim")
     open(keymap, "w").close()
@@ -361,30 +420,6 @@ def lsp_client(binary, root):
     s = Session(binary, root, ["a.py"])
     try:
         assert s.wait_for("print(hello)")
-@scenario
-def tab_pages(binary, root):
-    s = Session(binary, root, ["hello.txt"])
-    try:
-        assert s.wait_for("hello world")
-        s.send(":tabnew src/main.py\r", settle=0.4)
-        assert s.wait_for("return 42"), s.text()
-        first = s.text().split("\n")[0]
-        assert "hello.txt" in first and "src/main.py" in first, "tab line:\n" + s.text()
-        s.send("gt", settle=0.3)
-        assert "hello world" in s.text() and "return 42" not in s.text(), s.text()
-        s.send(":vsplit\r", settle=0.3)
-        s.send("gt", settle=0.3)
-        assert "return 42" in s.text(), s.text()
-        s.send("gT", settle=0.3)
-        first = s.text().split("\n")[0]
-        assert "2 hello.txt" in first, "window count in the tab label:\n" + first
-        s.send(":tabclose\r", settle=0.3)
-        assert "return 42" in s.text(), s.text()
-        assert "2 hello.txt" not in s.text().split("\n")[0], s.text()
-    finally:
-        s.close()
-
-
         s.send(":Lsp server python python3 %s\r" % fake, settle=0.3)
         s.send(":Lsp start\r", settle=0.3)
         assert s.wait_for("E:1", 8.0), "diagnostic count missing:\n" + s.text()
