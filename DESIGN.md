@@ -437,7 +437,7 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Mouse (click, scroll, drag-select) | Partial | Click/scroll first; drag-select later |
 | Clipboard | Yes | `"+` `"*` and `clipboard=unnamedplus` through pbcopy / pbpaste, wl-clipboard, xclip or xsel (spawned through `sh` with a file in between: no pipes needed); without a tool the registers are the unnamed one, as in nvim |
 | Themes | Partial | The terminal's own 16-colour palette (works at 16, 256 and truecolor); dark and light by `COLORFGBG` or `:set background=`; no per-language scopes, no user schemes |
-| Syntax highlighting | **Partial** | A lexical highlighter (`MED_syntax`, no parse tree) for c, cpp, go, javascript/typescript, json, m31, markdown, python, rust, sh, toml and yaml; `:syntax on/off`, `:set syntax=`. Multi-line comments, strings and code fences carry across lines |
+| Syntax highlighting | **Partial** | The shared `syntax` library (lexical, no parse tree; 77 languages, see section 14); `:syntax on/off`, `:set syntax=`. Multi-line comments, strings and code fences carry across lines |
 | Tree-sitter textobjects (`maf`, `mic`), indentation, selection expansion | **Impossible** (G3) | No tree-sitter runtime in m31 and the rule forbids Rust/FFI work |
 | LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Partial** (0.1.0) | Section 13: diagnostics, hover, definition, references, rename, code action, format over `proc` pipes, tested with real servers. Completion is a picker on CTRL-Space (section 13); no signature help or inlay hints |
 | Formatting via external formatter, shell pipe (`!`, `\|`, `:pipe`), `:sh`-capture, `:r !cmd` | **Yes** (0.1.0) | `:!cmd`, `:{range}!cmd`, `:r !cmd`, `!{motion}` through `proc.run`; nvim oracle corpus 103. `:!cmd` captures output (no tty): use `:terminal` for interactive programs |
@@ -624,3 +624,39 @@ Tested with real servers on 2026-10-13 (Linux x86-64):
 | lua-language-server | yes | yes | yes | yes | yes | yes | yes | no highlighting for lua (server only) |
 | rust-analyzer (mason build) | yes | yes | yes | yes | yes | not exercised | not exercised | diagnostics arrive while indexing; hover waits for it, shown as `LSP: Indexing` |
 | gopls, marksman, bash-language-server | not installed here | | | | | | | configured, untested |
+
+## 14. Syntax highlighting: the `syntax` library
+
+Since 0.2.0 the editor has no tokenizer of its own. `engine/MED_syntax.m31`
+(a 1000-line hand-written lexer for twelve languages) is gone; highlighting,
+language detection and comment forms come from
+[`github.com/qrazil/syntax`](https://github.com/qrazil/syntax), pinned in `deps`
+(v0.4.2, commit `e49e01c`), the same library `tui` and `gitui` use.
+
+- `engine/MED_hl.m31` is the adapter. `language(editor)` answers `:set
+  syntax=NAME` (through `SYN_detect.alias_of`, so `py`, `bash`, `md`, `ts` work)
+  or else `SYN_detect.language_of(path, first_line)` (extension, file name,
+  modeline, shebang). `classes_of(editor, row, lang)` answers one class per byte.
+- Each `Editor` holds a `SYN_highlight.Highlighter` (`editor.syn`) over the
+  buffer's own line list. `Buffer.dirty_row` (the first row any splice touched)
+  is handed to `Highlighter.update`, which re-tokenizes from that row and stops
+  at the first later line whose start state is unchanged; typing in a line that
+  opens or closes nothing costs one line. Inserted and removed lines shift the
+  cached states with them. Code that replaces `buffer.lines` wholesale sets
+  `dirty_row = 0`.
+- The library has 25 classes; the editor draws the twelve it always had, so
+  `SYN_class.legacy` folds the rest onto them (colours as in 0.1.0). Markdown
+  fences are the library's: a fence in any known language (`rust`, `py`, `sh`,
+  ...) is highlighted in that language, states carried line to line.
+- `commentstring` defaults (`gc`) come from `SYN_structure.comment_forms` of the
+  detected language (`// %s`, `# %s`, `<!-- %s -->`, `/* %s */`, ...).
+- Not taken from the library: `%` (`MED_motion.match_pair`) stays Vim's, because
+  it is checked against the nvim oracle (Vim does not skip brackets in strings
+  or comments, `SYN_structure.match_bracket` does); `gc` stays the engine's
+  commentstring toggle (checked against nvim, with `commentstring` an option).
+- LSP: a TypeScript file is served as `javascript` (one server for both), as before.
+
+Tests: `tests/t_syntax.m31` (detection, options, classes, markdown fences,
+incremental edits, 17 file types, and a 20k-line speed check: a cold pass
+under 10 s and 1000 edits each followed by a 50-line redraw under 5 s; measured
+about 0.1 s and 1.4 s).

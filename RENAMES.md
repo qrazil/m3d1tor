@@ -1,3 +1,14 @@
+# 0.2.0: highlighting by the shared `syntax` library
+
+| old | new |
+|---|---|
+| `engine/MED_syntax.m31` (`MED_syntax.language_of`, `classify`, `languages`, the class constants) | the `syntax` dependency: `SYN_detect.language_of`, `SYN_highlight`, `SYN_registry.names`, `SYN_class` |
+| 12 languages | 77 (`:set syntax=` takes any of `SYN_registry.names()` or an alias) |
+| `Editor.syn_lang`, `syn_states`, `syn_valid` | `Editor.syn`, a `SYN_highlight.Highlighter` |
+| `MED_app.comment_for` extension lists | the library's comment forms for the detected language |
+| markdown fence marker is SPECIAL, `#include` is PREPROC | the library classes them RAW (drawn as a string) and KEYWORD |
+| a `.ts` file is language `javascript` | language `typescript` (the language server is still shared); `--version` is `m3 0.2.0` |
+
 # 0.1.0: m3d1tor is now m3dit, the command is `m3`
 
 | old | new |

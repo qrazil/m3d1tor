@@ -25,7 +25,9 @@ import engine.MED_editor;
 import engine.MED_ex;
 import engine.MED_vim;
 import engine.MED_fold;
-import engine.MED_syntax;
+import syntax.core.SYN_class;
+import syntax.core.SYN_detect;
+import syntax.core.SYN_structure;
 import ui.MED_clip;
 import ui.MED_files;
 import ui.MED_git;
@@ -3421,7 +3423,7 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
             } else if (style_background >= 0) {
                 style = TUI_style.Style(background: TUI_style.Colour.Indexed(style_background));
             }
-            if (offset >= todo_from && offset < todo_to && (offset >= syntax_classes.size() || syntax_classes[offset] == MED_syntax.COMMENT)) {
+            if (offset >= todo_from && offset < todo_to && (offset >= syntax_classes.size() || syntax_classes[offset] == SYN_class.COMMENT)) {
                 style = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(3), attrs: TUI_style.BOLD);
             }
             if (is_in_spans(spans, offset)) {
@@ -3536,7 +3538,7 @@ void App.draw_status(TUI_buffer.Buffer buffer, MED_window.Placed frame, MED_edit
     int percent = (subject.row + 1) * 100 / count;
     str where = (subject.row + 1).to_str() + ":" + (vcol + 1).to_str() + "  " + percent.to_str() + "% ";
     if (is_plugin_on("statusline")) {
-        str lang = MED_syntax.language_of(file, subject.buffer.line(0));
+        str lang = SYN_detect.language_of(file, subject.buffer.line(0));
         if (lang.size() > 0) {
             where = lang + "  " + where;
         }
@@ -4279,7 +4281,7 @@ bool App.did_open_list_picker(str name, str arg) {
     List<MED_picker.Entry> entries = [];
     str title = "";
     root = MED_files.project_root();
-    str lang = MED_syntax.language_of(path, editor.buffer.line(0));
+    str lang = server_language_of(path, editor.buffer.line(0));
     if (name == "recent") {
         title = "Recent";
         entries = recent_entries();
@@ -4749,6 +4751,7 @@ void App.run_git_command(str spec) {
 void App.open_scratch(str title, List<str> lines) {
     new_buffer();
     editor.buffer.lines = lines;
+    editor.buffer.dirty_row = 0;
     if (editor.buffer.lines.size() == 0) {
         editor.buffer.lines = [""];
     }
@@ -4920,6 +4923,7 @@ void App.start_terminal(str command) {
             fresh.ptys.push(pty);
             terms.push(fresh);
             editor.buffer.lines = [""];
+            editor.buffer.dirty_row = 0;
             editor.row = 0;
             editor.col = 0;
             saved_current = editor.current;
@@ -5030,6 +5034,7 @@ void App.show_terminal(int position) {
     Slot slot = slots[slot_position];
     List<str> lines = term_state.screen.lines.slice(0, term_state.screen.lines.size());
     slot.editor.buffer.lines = lines;
+    slot.editor.buffer.dirty_row = 0;
     slot.editor.buffer.tick = slot.editor.buffer.tick + 1;
     int row = term_state.screen.row;
     if (row >= lines.size()) {
@@ -5087,7 +5092,7 @@ str App.language_here() {
     if (path.size() == 0 || is_in_listing() || terminal_of(current_id) >= 0) {
         return "";
     }
-    return MED_syntax.language_of(path, editor.buffer.line(0));
+    return server_language_of(path, editor.buffer.line(0));
 }
 
 /// The language the language server of the active buffer serves: the
@@ -5236,7 +5241,7 @@ bool App.did_tick_lsp(int elapsed_ms) {
             if (key.size() == 0) {
                 continue;
             }
-            str slot_lang = MED_syntax.language_of(slot.path, slot.editor.buffer.line(0));
+            str slot_lang = server_language_of(slot.path, slot.editor.buffer.line(0));
             if (slot_lang.size() == 0) {
                 slot_lang = MED_lsp.language_of_extension(slot.path);
             }
@@ -6095,43 +6100,53 @@ str paste_text(List<int> keys) {
     return str.from_chars(codes);
 }
 
+/// The language a file is served as: what `SYN_detect` says, with TypeScript
+/// folded onto JavaScript (one language server handles both).
+pub str server_language_of(str path, str first_line) {
+    str lang = SYN_detect.language_of(path, first_line);
+    if (lang == "typescript") {
+        return "javascript";
+    }
+    return lang;
+}
+
 /// The colour of a syntax class, by 16-colour index (the terminal's own
 /// palette, so it works at every colour depth and in light and dark themes).
 TUI_style.Style syntax_style(int class_value, bool is_dark, int background) {
     int colour = -1;
     int attrs = 0;
-    if (class_value == MED_syntax.COMMENT) {
+    if (class_value == SYN_class.COMMENT) {
         colour = 8;
-    } else if (class_value == MED_syntax.STRING) {
+    } else if (class_value == SYN_class.STRING) {
         colour = 2;
-    } else if (class_value == MED_syntax.NUMBER) {
+    } else if (class_value == SYN_class.NUMBER) {
         colour = 1;
         if (is_dark) {
             colour = 3;
         }
-    } else if (class_value == MED_syntax.KEYWORD) {
+    } else if (class_value == SYN_class.KEYWORD) {
         colour = 5;
         attrs = TUI_style.BOLD;
-    } else if (class_value == MED_syntax.TYPE) {
+    } else if (class_value == SYN_class.TYPE) {
         colour = 6;
         if (!is_dark) {
             colour = 4;
         }
-    } else if (class_value == MED_syntax.FUNCTION) {
+    } else if (class_value == SYN_class.FUNCTION) {
         colour = 4;
         if (is_dark) {
             colour = 12;
         }
-    } else if (class_value == MED_syntax.PREPROC) {
+    } else if (class_value == SYN_class.PREPROC) {
         colour = 5;
-    } else if (class_value == MED_syntax.CONSTANT) {
+    } else if (class_value == SYN_class.CONSTANT) {
         colour = 3;
         if (!is_dark) {
             colour = 1;
         }
-    } else if (class_value == MED_syntax.SPECIAL) {
+    } else if (class_value == SYN_class.SPECIAL) {
         colour = 6;
-    } else if (class_value == MED_syntax.TITLE) {
+    } else if (class_value == SYN_class.TITLE) {
         colour = 3;
         attrs = TUI_style.BOLD;
         if (!is_dark) {
@@ -6519,43 +6534,21 @@ Result<Slot, str> read_slot(int id, str name) {
     return Result<Slot, str>.Ok(Slot(id, loaded, name));
 }
 
-const List<str> HASH_TYPES = ["py", "sh", "bash", "zsh", "rb", "pl", "toml", "yaml", "yml", "conf", "mk", "cfg", "ini", "r", "jl", "nix", "dockerfile"];
-const List<str> SLASH_TYPES = ["m31", "oro", "c", "h", "cpp", "hpp", "cc", "cxx", "rs", "go", "java", "js", "mjs", "ts", "jsx", "tsx", "swift", "kt", "zig", "cs", "scala", "dart", "php", "proto"];
-const List<str> DASH_TYPES = ["lua", "sql", "hs", "elm", "ada"];
-const List<str> MARKUP_TYPES = ["html", "htm", "xml", "svg", "md", "markdown"];
-
-/// The 'commentstring' for a file name, from its extension ("" when unknown).
+/// The 'commentstring' for a file name ("" when the language is unknown or
+/// has no comments): the `syntax` library's comment forms for what
+/// `SYN_detect` makes of the name.
 pub str comment_for(str name) {
-    List<str> parts = name.split("/");
-    str base = parts[parts.size() - 1];
-    if (base == "Makefile" || base == "makefile" || base == "Dockerfile" || base == "CMakeLists.txt") {
-        return "# %s";
-    }
-    List<str> pieces = base.split(".");
-    if (pieces.size() < 2) {
+    str lang = SYN_detect.language_of(name, "");
+    if (lang == "" || (lang == "markdown" && !name.contains("."))) {
+        // no language, or an extensionless README: not worth a comment form
         return "";
     }
-    str ext = pieces[pieces.size() - 1].to_lower();
-    if (HASH_TYPES.contains(ext)) {
-        return "# %s";
+    List<str> forms = SYN_structure.comment_forms(lang);
+    if (forms[0] != "") {
+        return forms[0] + "%s";
     }
-    if (SLASH_TYPES.contains(ext)) {
-        return "// %s";
-    }
-    if (DASH_TYPES.contains(ext)) {
-        return "-- %s";
-    }
-    if (MARKUP_TYPES.contains(ext)) {
-        return "<!-- %s -->";
-    }
-    if (ext == "css" || ext == "scss") {
-        return "/* %s */";
-    }
-    if (ext == "vim") {
-        return "\" %s";
-    }
-    if (ext == "tex") {
-        return "% %s";
+    if (forms[1] != "") {
+        return forms[1] + " %s " + forms[2];
     }
     return "";
 }

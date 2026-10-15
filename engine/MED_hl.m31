@@ -1,12 +1,18 @@
 // Syntax highlighting for the editor: which language a buffer is, and the
-// class of every byte of a line (see MED_syntax). The state each line starts
-// in is cached on the editor; a change at row R keeps the states above R.
+// class of every byte of a line. The tokenizer, the language definitions and
+// the detection live in the `syntax` library (github.com/qrazil/syntax); this
+// module is the adapter: the `syntax` and `syntaxenabled` options, and a
+// `SYN_highlight.Highlighter` kept on the editor and updated from the first
+// row the buffer changed (`Buffer.dirty_row`).
 
 import engine.MED_editor;
-import engine.MED_syntax;
+import syntax.core.SYN_class;
+import syntax.core.SYN_detect;
+import syntax.core.SYN_highlight;
+import syntax.core.SYN_registry;
 
-/// The language of the buffer: `:set syntax=NAME`, else by file name; "" when
-/// highlighting is off or the file type is not known.
+/// The language of the buffer: `:set syntax=NAME`, else by file name, modeline
+/// or shebang; "" when highlighting is off or the file type is not known.
 pub str language(MED_editor.Editor editor) {
     if (editor.opts.get("syntaxenabled").or("true") == "false") {
         return "";
@@ -16,26 +22,12 @@ pub str language(MED_editor.Editor editor) {
         return "";
     }
     if (named != "") {
-        for (str known in MED_syntax.languages()) {
-            if (known == named) {
-                return named;
+        // a name, or a Vim file type / alias ("js", "py", "bash", "md")
+        str alias = SYN_detect.alias_of(named);
+        for (str known in SYN_registry.names()) {
+            if (known == alias) {
+                return alias;
             }
-        }
-        // a Vim file type name that this highlighter spells differently
-        if (named == "js" || named == "typescript" || named == "ts") {
-            return "javascript";
-        }
-        if (named == "bash" || named == "zsh") {
-            return "sh";
-        }
-        if (named == "md") {
-            return "markdown";
-        }
-        if (named == "py") {
-            return "python";
-        }
-        if (named == "rs") {
-            return "rust";
         }
         return "";
     }
@@ -43,37 +35,35 @@ pub str language(MED_editor.Editor editor) {
     if (editor.buffer.line_count() > 0) {
         first = editor.buffer.line(0);
     }
-    return MED_syntax.language_of(editor.buffer.path, first);
+    return SYN_detect.language_of(editor.buffer.path, first);
 }
 
-/// The class of each byte of line `row`, or an empty list without highlighting.
+/// The class of each byte of line `row` (the twelve classes of
+/// `SYN_class.NORMAL .. TITLE`; the library's richer classes are folded onto
+/// them), or an empty list without highlighting.
 pub List<int> classes_of(MED_editor.Editor editor, int row, str lang) {
     if (lang == "") {
         return [];
     }
-    if (editor.syn_lang != lang) {
-        editor.syn_lang = lang;
-        editor.syn_states = [0];
-        editor.syn_valid = 0;
-    }
     int dirty = editor.buffer.dirty_row;
     editor.buffer.dirty_row = 1000000000;
-    if (dirty < editor.syn_valid) {
-        editor.syn_valid = dirty;
+    if (editor.syn.language != lang) {
+        editor.syn = SYN_highlight.Highlighter(language: lang);
+        editor.syn.set_lines(editor.buffer.lines);
+    } else if (dirty < editor.buffer.line_count() || editor.syn.synced != editor.buffer.line_count()) {
+        int from = dirty;
+        if (from > editor.buffer.line_count()) {
+            from = 0;
+        }
+        editor.syn.update(from, editor.buffer.lines);
     }
     if (row >= editor.buffer.line_count()) {
         return [];
     }
-    while (editor.syn_valid < row) {
-        int state = editor.syn_states[editor.syn_valid];
-        MED_syntax.Line done = MED_syntax.classify(lang, editor.buffer.line(editor.syn_valid), state);
-        editor.syn_valid = editor.syn_valid + 1;
-        if (editor.syn_states.size() > editor.syn_valid) {
-            editor.syn_states[editor.syn_valid] = done.state;
-        } else {
-            editor.syn_states.push(done.state);
-        }
+    List<int> raw = editor.syn.classes(row);
+    List<int> out = [];
+    for (int class_value in raw) {
+        out.push(SYN_class.legacy(class_value));
     }
-    MED_syntax.Line shown = MED_syntax.classify(lang, editor.buffer.line(row), editor.syn_states[row]);
-    return shown.classes;
+    return out;
 }

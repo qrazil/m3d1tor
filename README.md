@@ -46,8 +46,9 @@ Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<ver
 - Buffers and windows: `:e :ls :b :bn :bp :bd`, `:split :vsplit :close :only`,
   `<C-w>` commands, mouse click, drag and wheel.
 - Pickers: files, buffers, live grep, commands, keymap help, explorer; `.gitignore` aware.
-- Syntax highlighting for c, cpp, go, javascript/typescript, json, m31, markdown,
-  python, rust, sh, toml and yaml (`:syntax on|off`, `:set syntax=NAME`); the
+- Syntax highlighting for 77 languages (c, cpp, go, javascript/typescript, json, m31, markdown,
+  python, rust, sh, toml, yaml, html, css, sql, java, ruby, lua, ...), by the shared
+  [`syntax`](https://github.com/qrazil/syntax) library (`:syntax on|off`, `:set syntax=NAME`); the
   colours are the terminal's palette, light or dark by `COLORFGBG` or `:set background=`.
   Markdown: headings, emphasis, strong, strikethrough, code spans, links, lists and task boxes, quotes, rules,
   tables, and fenced blocks highlighted in the fence's language (```` ```rust ````, `py`, `sh`, `m31`, ...;

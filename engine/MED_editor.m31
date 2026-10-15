@@ -21,6 +21,7 @@ import engine.MED_num;
 import engine.MED_motion;
 import engine.MED_map;
 import engine.MED_regex;
+import syntax.core.SYN_highlight;
 
 pub const int NORMAL = 0;
 pub const int INSERT = 1;
@@ -146,11 +147,9 @@ pub type Editor {
     /// The cursor row for which `view_top` is known to be right (Vim's
     /// VALID_TOPLINE, set by cursor_correct); -1 when it must be checked.
     pub int view_valid_row = -1;
-    /// Syntax highlighting: the language in use, the state each line starts in
-    /// (valid for the first `syn_valid` + 1 lines).
-    pub str syn_lang = "";
-    pub List<int> syn_states = [0];
-    pub int syn_valid = 0;
+    /// Syntax highlighting: the language in use and the state each line starts
+    /// in, cached by the `syntax` library (see MED_hl).
+    pub SYN_highlight.Highlighter syn = SYN_highlight.Highlighter();
     pub int view_valid_text = 0;
     pub int view_valid_height = 0;
     pub int view_valid_width = 0;

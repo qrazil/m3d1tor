@@ -46,7 +46,7 @@ TUI_style.Depth colour_depth() {
     return TUI_style.Depth.Ansi16;
 }
 
-const str VERSION = "0.1.0";
+const str VERSION = "0.2.0";
 
 // Standard output, for the options that print and exit.
 void say(str text) {

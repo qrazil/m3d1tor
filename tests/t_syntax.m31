@@ -1,117 +1,144 @@
-// Unit checks for MED_syntax: language by name and the classes of a line.
+// Unit checks for MED_hl (the adapter over the `syntax` library): the
+// language of a buffer, the classes of a line, incremental updates after
+// edits, ten languages opened as files, and a speed check on 20k lines.
 
-import engine.MED_syntax;
+import engine.MED_buffer;
+import engine.MED_editor;
+import engine.MED_hl;
+import syntax.core.SYN_class;
+import syntax.core.SYN_detect;
+import timer;
 import tests.MED_check;
 
 MED_check.Check check = MED_check.Check();
-check.eq_str("c by extension", MED_syntax.language_of("a/b/x.c", ""), "c");
-check.eq_str("rust", MED_syntax.language_of("main.rs", ""), "rust");
-check.eq_str("m31", MED_syntax.language_of("m3.m31", ""), "m31");
-check.eq_str("shebang", MED_syntax.language_of("tool", "#!/usr/bin/env python3"), "python");
-check.eq_str("unknown", MED_syntax.language_of("notes.txt", ""), "");
-check.eq_str("dotfile name", MED_syntax.language_of("/home/u/.bashrc", ""), "sh");
-MED_syntax.Line python = MED_syntax.classify("python", "def f(x): # note", 0);
-check.eq_int("keyword", python.classes[0], MED_syntax.KEYWORD);
-check.eq_int("function name", python.classes[4], MED_syntax.FUNCTION);
-check.eq_int("plain", python.classes[7], MED_syntax.NORMAL);
-check.eq_int("comment", python.classes[11], MED_syntax.COMMENT);
-MED_syntax.Line open_string = MED_syntax.classify("python", "x = \"\"\"abc", 0);
-check.eq_int("a triple quote carries on", open_string.state, 3);
-check.eq_int("string", open_string.classes[6], MED_syntax.STRING);
-MED_syntax.Line closed = MED_syntax.classify("python", "def\"\"\" + 1", open_string.state);
-check.eq_int("inside the string", closed.classes[0], MED_syntax.STRING);
-check.eq_int("closed", closed.state, 0);
-check.eq_int("number after it", closed.classes[9], MED_syntax.NUMBER);
-MED_syntax.Line block = MED_syntax.classify("c", "int x; /* start", 0);
-check.eq_int("type", block.classes[0], MED_syntax.TYPE);
-check.eq_int("block comment", block.classes[8], MED_syntax.COMMENT);
-check.eq_int("state", block.state, 1);
-MED_syntax.Line after = MED_syntax.classify("c", "end */ return 0;", block.state);
-check.eq_int("comment ends", after.classes[4], MED_syntax.COMMENT);
-check.eq_int("keyword after", after.classes[7], MED_syntax.KEYWORD);
-check.eq_int("state cleared", after.state, 0);
-MED_syntax.Line preproc = MED_syntax.classify("c", "#include <stdio.h>", 0);
-check.eq_int("preprocessor", preproc.classes[3], MED_syntax.PREPROC);
-MED_syntax.Line json = MED_syntax.classify("json", "{\"a\": [1, true, \"s\"]}", 0);
-check.eq_int("key", json.classes[2], MED_syntax.TYPE);
-check.eq_int("number", json.classes[7], MED_syntax.NUMBER);
-check.eq_int("constant", json.classes[10], MED_syntax.CONSTANT);
-check.eq_int("string value", json.classes[17], MED_syntax.STRING);
-MED_syntax.Line heading = MED_syntax.classify("markdown", "## Title", 0);
-check.eq_int("heading", heading.classes[3], MED_syntax.TITLE);
-MED_syntax.Line fence = MED_syntax.classify("markdown", "```rust", 0);
-check.ok("a known fence language carries a language state", fence.state >= 100);
-MED_syntax.Line inside = MED_syntax.classify("markdown", "fn main() { let x = 1; } // c", fence.state);
-check.eq_int("rust keyword in a rust fence", inside.classes[0], MED_syntax.KEYWORD);
-check.eq_int("rust function name", inside.classes[3], MED_syntax.FUNCTION);
-check.eq_int("rust number", inside.classes[20], MED_syntax.NUMBER);
-check.eq_int("rust comment", inside.classes[27], MED_syntax.COMMENT);
-check.eq_int("fence stays open", inside.state, fence.state);
-MED_syntax.Line fence_end = MED_syntax.classify("markdown", "```", inside.state);
-check.eq_int("fence closes", fence_end.state, 0);
-check.eq_int("closing fence marker", fence_end.classes[0], MED_syntax.SPECIAL);
-MED_syntax.Line py_open = MED_syntax.classify("markdown", "```python", 0);
-MED_syntax.Line py_line = MED_syntax.classify("markdown", "def f(): pass", py_open.state);
-check.eq_int("python def in a python fence", py_line.classes[0], MED_syntax.KEYWORD);
-check.ok("python fence is not the rust fence", py_open.state != fence.state);
-MED_syntax.Line alias = MED_syntax.classify("markdown", "```py", 0);
-check.eq_int("py alias is python", alias.state, py_open.state);
-check.eq_int("rs alias is rust", MED_syntax.classify("markdown", "``` rs", 0).state, fence.state);
-check.eq_int("sh alias", MED_syntax.classify("markdown", "```bash", 0).state, MED_syntax.classify("markdown", "```sh", 0).state);
-check.eq_int("tilde fence with a brace info string", MED_syntax.classify("markdown", "~~~{.python}", 0).state, py_open.state);
-MED_syntax.Line unknown = MED_syntax.classify("markdown", "```brainfuck", 0);
-check.eq_int("unknown language is a plain fence", unknown.state, 5);
-check.eq_int("plain code colour", MED_syntax.classify("markdown", "+++", 5).classes[0], MED_syntax.STRING);
-check.eq_int("bare fence is plain", MED_syntax.classify("markdown", "```", 0).state, 5);
-MED_syntax.Line m31_open = MED_syntax.classify("markdown", "```m31", 0);
-check.eq_int("m31 fence", MED_syntax.classify("markdown", "int x = 1;", m31_open.state).classes[0], MED_syntax.KEYWORD);
-// a block comment inside a fence survives across lines, and the fence still closes
-MED_syntax.Line c_open = MED_syntax.classify("markdown", "```c", 0);
-MED_syntax.Line c_comment = MED_syntax.classify("markdown", "/* open", c_open.state);
-check.eq_int("comment line", c_comment.classes[3], MED_syntax.COMMENT);
-MED_syntax.Line c_inside = MED_syntax.classify("markdown", "still comment", c_comment.state);
-check.eq_int("comment continues in the fence", c_inside.classes[0], MED_syntax.COMMENT);
-check.eq_int("fence closes out of a comment", MED_syntax.classify("markdown", "```", c_inside.state).state, 0);
-MED_syntax.Line md_title = MED_syntax.classify("markdown", "# Hello `x`", 0);
-check.eq_int("heading marker", md_title.classes[0], MED_syntax.SPECIAL);
-check.eq_int("heading text", md_title.classes[3], MED_syntax.TITLE);
-check.eq_int("code in a heading", md_title.classes[9], MED_syntax.STRING);
-MED_syntax.Line md_inline = MED_syntax.classify("markdown", "a *em* **bo** `co` [t](u) ~~s~~", 0);
-check.eq_int("plain", md_inline.classes[0], MED_syntax.NORMAL);
-check.eq_int("emphasis", md_inline.classes[3], MED_syntax.TYPE);
-check.eq_int("strong", md_inline.classes[8], MED_syntax.KEYWORD);
-check.eq_int("inline code", md_inline.classes[14], MED_syntax.STRING);
-check.eq_int("link text", md_inline.classes[19], MED_syntax.FUNCTION);
-check.eq_int("link url", md_inline.classes[22], MED_syntax.COMMENT);
-check.eq_int("strikethrough", md_inline.classes[27], MED_syntax.COMMENT);
-MED_syntax.Line snake = MED_syntax.classify("markdown", "snake_case_name and 2 * 3 * 4", 0);
-check.eq_int("underscores inside words are not emphasis", snake.classes[6], MED_syntax.NORMAL);
-check.eq_int("spaced stars are not emphasis", snake.classes[22], MED_syntax.NORMAL);
-MED_syntax.Line quote = MED_syntax.classify("markdown", "> quoted `c`", 0);
-check.eq_int("blockquote marker", quote.classes[0], MED_syntax.SPECIAL);
-check.eq_int("blockquote text", quote.classes[3], MED_syntax.COMMENT);
-check.eq_int("code in a quote", quote.classes[10], MED_syntax.STRING);
-check.eq_int("hr dashes", MED_syntax.classify("markdown", "---", 0).classes[1], MED_syntax.SPECIAL);
-check.eq_int("hr stars", MED_syntax.classify("markdown", "* * *", 0).classes[2], MED_syntax.SPECIAL);
-MED_syntax.Line row = MED_syntax.classify("markdown", "| a | `b` |", 0);
-check.eq_int("table pipe", row.classes[0], MED_syntax.SPECIAL);
-check.eq_int("table cell", row.classes[2], MED_syntax.NORMAL);
-check.eq_int("table code cell", row.classes[6], MED_syntax.STRING);
-check.eq_int("table delimiter", MED_syntax.classify("markdown", "|---|:-:|", 0).classes[3], MED_syntax.SPECIAL);
-MED_syntax.Line bullet = MED_syntax.classify("markdown", "- [x] done **it**", 0);
-check.eq_int("bullet", bullet.classes[0], MED_syntax.SPECIAL);
-check.eq_int("task box", bullet.classes[3], MED_syntax.CONSTANT);
-check.eq_int("strong in a list item", bullet.classes[12], MED_syntax.KEYWORD);
-check.eq_int("ordered marker", MED_syntax.classify("markdown", "12. item", 0).classes[1], MED_syntax.SPECIAL);
-check.eq_int("bare url", MED_syntax.classify("markdown", "see https://x.org/a ok", 0).classes[6], MED_syntax.FUNCTION);
-check.eq_int("html comment", MED_syntax.classify("markdown", "<!-- note --> t", 0).classes[3], MED_syntax.COMMENT);
-MED_syntax.Line shell = MED_syntax.classify("sh", "echo \"$HOME\" # c", 0);
-check.eq_int("shell keyword", shell.classes[0], MED_syntax.KEYWORD);
-check.eq_int("shell string", shell.classes[6], MED_syntax.STRING);
-check.eq_int("shell comment", shell.classes[15], MED_syntax.COMMENT);
-MED_syntax.Line rust = MED_syntax.classify("rust", "let c = 'a'; // x", 0);
-check.eq_int("rust char", rust.classes[8], MED_syntax.STRING);
-check.eq_int("rust comment", rust.classes[14], MED_syntax.COMMENT);
-MED_syntax.Line lifetime = MED_syntax.classify("rust", "fn f<'a>(x: &'a str)", 0);
-check.eq_int("a lifetime is not a string", lifetime.classes[5], MED_syntax.NORMAL);
+
+MED_editor.Editor open(str path, str text) {
+    MED_editor.Editor editor = MED_editor.new(text);
+    editor.buffer.path = path;
+    return editor;
+}
+
+List<int> classes_at(MED_editor.Editor editor, int row) {
+    return MED_hl.classes_of(editor, row, MED_hl.language(editor));
+}
+
+bool has_class(List<int> classes, int wanted) {
+    for (int value in classes) {
+        if (value == wanted) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// --- detection (SYN_detect) -----------------------------------------------
+check.eq_str("c by extension", SYN_detect.language_of("a/b/x.c", ""), "c");
+check.eq_str("rust", SYN_detect.language_of("main.rs", ""), "rust");
+check.eq_str("m31", SYN_detect.language_of("m3.m31", ""), "m31");
+check.eq_str("shebang", SYN_detect.language_of("tool", "#!/usr/bin/env python3"), "python");
+check.eq_str("unknown", SYN_detect.language_of("notes.txt", ""), "");
+check.eq_str("dotfile name", SYN_detect.language_of("/home/u/.bashrc", ""), "sh");
+check.eq_str("ts is typescript", SYN_detect.language_of("a.ts", ""), "typescript");
+// --- options ----------------------------------------------------------------
+MED_editor.Editor named = open("x.txt", "def f(): pass");
+check.eq_str("plain text has no language", MED_hl.language(named), "");
+named.opts.set("syntax", "py");
+check.eq_str("alias py", MED_hl.language(named), "python");
+named.opts.set("syntax", "bash");
+check.eq_str("alias bash", MED_hl.language(named), "sh");
+named.opts.set("syntax", "nonsense");
+check.eq_str("unknown name", MED_hl.language(named), "");
+named.opts.set("syntax", "off");
+check.eq_str("off", MED_hl.language(named), "");
+named.opts.set("syntax", "");
+named.opts.set("syntaxenabled", "false");
+check.eq_str("syntax off", MED_hl.language(open("a.rs", "")), "rust");
+MED_editor.Editor disabled = open("a.rs", "fn main() {}");
+disabled.opts.set("syntaxenabled", "false");
+check.eq_str("syntaxenabled=false", MED_hl.language(disabled), "");
+check.eq_int("no classes when off", classes_at(disabled, 0).size(), 0);
+// --- classes of a line --------------------------------------------------------
+MED_editor.Editor python = open("a.py", "def f(x): # note\nx = \"\"\"abc\ndef\"\"\" + 1");
+List<int> py0 = classes_at(python, 0);
+check.eq_int("keyword", py0[0], SYN_class.KEYWORD);
+check.eq_int("function name", py0[4], SYN_class.FUNCTION);
+check.eq_int("comment", py0[11], SYN_class.COMMENT);
+check.eq_int("string opens", classes_at(python, 1)[6], SYN_class.STRING);
+List<int> py2 = classes_at(python, 2);
+check.eq_int("inside the string", py2[0], SYN_class.STRING);
+check.eq_int("number after it", py2[9], SYN_class.NUMBER);
+MED_editor.Editor source = open("a.c", "int x; /* start\nend */ return 0;\n#include <stdio.h>");
+check.eq_int("type", classes_at(source, 0)[0], SYN_class.TYPE);
+check.eq_int("block comment", classes_at(source, 0)[8], SYN_class.COMMENT);
+check.eq_int("comment ends", classes_at(source, 1)[4], SYN_class.COMMENT);
+check.eq_int("keyword after", classes_at(source, 1)[7], SYN_class.KEYWORD);
+// the library classes a directive as a keyword (it was PREPROC in 0.1.0)
+check.eq_int("preprocessor directive", classes_at(source, 2)[3], SYN_class.KEYWORD);
+MED_editor.Editor notes = open("a.md", "## Title\n```rust\nfn main() { let x = 1; } // c\n```\nafter");
+check.eq_int("heading", classes_at(notes, 0)[3], SYN_class.TITLE);
+List<int> fenced = classes_at(notes, 2);
+check.eq_int("rust keyword in a rust fence", fenced[0], SYN_class.KEYWORD);
+check.eq_int("rust function name", fenced[3], SYN_class.FUNCTION);
+check.eq_int("rust number", fenced[20], SYN_class.NUMBER);
+check.eq_int("rust comment", fenced[27], SYN_class.COMMENT);
+// the library classes the fence marker as raw text (a string); it was SPECIAL in 0.1.0
+check.eq_int("closing fence marker", classes_at(notes, 3)[0], SYN_class.STRING);
+check.ok("after the fence is not rust", !has_class(classes_at(notes, 4), SYN_class.KEYWORD));
+// --- incremental: edits move the states -------------------------------------------
+MED_editor.Editor edited = open("a.c", "int a;\nint b;\nint c;\n");
+check.eq_int("before: plain", classes_at(edited, 2)[0], SYN_class.TYPE);
+edited.change(MED_buffer.Pos(0, 0), MED_buffer.Pos(0, 0), "/* ");
+check.eq_int("an opened comment reaches the later lines", classes_at(edited, 2)[0], SYN_class.COMMENT);
+edited.change(MED_buffer.Pos(1, 0), MED_buffer.Pos(1, 0), "*/ ");
+check.eq_int("closed again", classes_at(edited, 2)[0], SYN_class.TYPE);
+edited.change(MED_buffer.Pos(0, 0), MED_buffer.Pos(0, 0), "x\ny\n");
+check.eq_int("lines inserted above keep the states", classes_at(edited, 4)[0], SYN_class.TYPE);
+check.eq_int("the new line is code", classes_at(edited, 2)[0], SYN_class.COMMENT);
+// --- ten languages opened as files -----------------------------------------------------
+List<str> paths = ["a.c", "a.cpp", "a.go", "a.js", "a.json", "a.m31", "a.py", "a.rs", "a.sh", "a.toml", "a.yaml", "a.html", "a.css", "a.sql", "a.java", "a.rb", "a.lua"];
+List<str> sources = ["int main(void) { return 0; }", "class A { int x = 1; };", "package main\nfunc main() { x := 1 }", "const a = function() { return 1; };", "{\"a\": [1, true, \"s\"]}", "fn main() { int x = 1; }", "def f(x):\n    return 1", "fn main() { let x = 1; }", "if [ -f x ]; then echo \"hi\"; fi", "[package]\nname = \"x\"\nn = 3", "key: value\nn: 3", "<div class=\"a\">text</div>", "a { color: red; margin: 0 }", "SELECT a FROM t WHERE b = 1;", "public class A { int x = 1; }", "def f\n  puts \"hi\"\nend", "local x = 1\nfunction f() return x end"];
+for (int index in 0 .. paths.size()) {
+    MED_editor.Editor opened = open(paths[index], sources[index]);
+    str lang = MED_hl.language(opened);
+    check.ok(paths[index] + " has a language", lang != "");
+    bool is_any = false;
+    for (int row in 0 .. opened.buffer.line_count()) {
+        List<int> found = classes_at(opened, row);
+        check.eq_int(paths[index] + " row " + row.to_str() + " has a class per byte", found.size(), opened.buffer.line(row).size());
+        for (int value in found) {
+            if (value != SYN_class.NORMAL) {
+                is_any = true;
+            }
+        }
+    }
+    check.ok(paths[index] + " highlights something", is_any);
+}
+// --- speed: 20k lines, incremental ---------------------------------------------------------
+List<str> big = [];
+for (int row in 0 .. 20000) {
+    big.push("int f" + row.to_str() + "(int x) { return x + " + row.to_str() + "; } // line \"" + row.to_str() + "\"");
+}
+MED_editor.Editor large = open("big.c", big.join("\n"));
+int started = timer.monotonic_ns();
+int shown = 0;
+for (int row in 0 .. 20000) {
+    shown = shown + classes_at(large, row).size();
+}
+int cold_ms = (timer.monotonic_ns() - started) / 1000000;
+check.ok("20k lines classified", shown > 0);
+// 1000 keystrokes at the top of the file, each followed by a redraw of 50 lines
+started = timer.monotonic_ns();
+for (int key in 0 .. 1000) {
+    large.change(MED_buffer.Pos(0, 0), MED_buffer.Pos(0, 0), "x");
+    for (int row in 0 .. 50) {
+        classes_at(large, row);
+    }
+}
+int edit_ms = (timer.monotonic_ns() - started) / 1000000;
+print("cold pass over 20000 lines: " + cold_ms.to_str() + " ms (budget 10000)");
+print("1000 edits + 50-line redraws: " + edit_ms.to_str() + " ms (budget 5000)");
+check.ok("cold highlight of 20k lines within 10 s", cold_ms < 10000);
+check.ok("1000 incremental edits within 5 s", edit_ms < 5000);
+// an edit at the bottom of the file after the whole file was walked
+check.eq_int("the last line is still code", classes_at(large, 19999)[0], SYN_class.TYPE);
 check.finish("t_syntax");
