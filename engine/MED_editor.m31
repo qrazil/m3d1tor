@@ -319,6 +319,8 @@ pub type Editor {
     /// `:iabbrev` / `:abbreviate` (Insert mode): left-hand sides and right-hand sides, in definition order.
     pub List<str> abbr_lhs = [];
     pub List<str> abbr_rhs = [];
+    /// Where each applies: "i" Insert, "c" command line, "!" both.
+    pub List<str> abbr_mode = [];
     pub bool is_abbr_busy = false;
     pub int sur_count = 1;
     pub int sur_lines = 0;

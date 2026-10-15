@@ -268,13 +268,20 @@ Step run_let(MED_editor.Editor editor, Cmd cmd) {
     return done();
 }
 
-// `:abbreviate`, `:iabbrev` (and the `nore` forms, which are the same here),
-// `:unabbreviate`, `:abclear`. A bare `:ab` lists them.
+// `:abbreviate` (Insert and command line), `:iabbrev` (Insert), `:cabbrev`
+// (command line) and the `nore` forms, which are the same here;
+// `:unabbreviate`, `:iunabbrev`, `:cunabbrev`; `:abclear`, `:iabclear`,
+// `:cabclear`. Without a right-hand side they list.
 Step run_abbrev(MED_editor.Editor editor, Cmd cmd) {
     str name = cmd.name;
-    if (name == "abclear" || name == "iabclear") {
-        editor.abbr_lhs = [];
-        editor.abbr_rhs = [];
+    str mode = "!";
+    if (name.starts_with("i")) {
+        mode = "i";
+    } else if (name.starts_with("c")) {
+        mode = "c";
+    }
+    if (name.ends_with("clear")) {
+        abbrev_remove(editor, "", mode);
         return done();
     }
     str text = cmd.arg.trim();
@@ -295,46 +302,72 @@ Step run_abbrev(MED_editor.Editor editor, Cmd cmd) {
     }
     str lhs = text.substr(0, split);
     str rhs = text.substr(split, text.size()).trim();
-    if (name == "unabbreviate" || name == "iunabbrev") {
-        for (int index in 0 .. editor.abbr_lhs.size()) {
-            if (editor.abbr_lhs[index] == lhs) {
-                List<str> keep_lhs = [];
-                List<str> keep_rhs = [];
-                for (int other in 0 .. editor.abbr_lhs.size()) {
-                    if (other != index) {
-                        keep_lhs.push(editor.abbr_lhs[other]);
-                        keep_rhs.push(editor.abbr_rhs[other]);
-                    }
-                }
-                editor.abbr_lhs = keep_lhs;
-                editor.abbr_rhs = keep_rhs;
-                return done();
-            }
+    if (name.contains("unab")) {
+        if (!abbrev_remove(editor, lhs, mode)) {
+            return fail(editor, "E24: No such abbreviation");
         }
-        return fail(editor, "E24: No such abbreviation");
+        return done();
     }
     if (lhs == "" || rhs == "") {
         List<str> shown = [];
-        for (int index in 0 .. editor.abbr_lhs.size()) {
-            if (lhs == "" || editor.abbr_lhs[index].starts_with(lhs)) {
-                shown.push("i  " + editor.abbr_lhs[index] + "  " + editor.abbr_rhs[index]);
+        int index = editor.abbr_lhs.size() - 1;
+        while (index >= 0) {
+            str kind = editor.abbr_mode[index];
+            bool is_for_mode = mode == "!" || kind == "!" || kind == mode;
+            if (is_for_mode && (lhs == "" || editor.abbr_lhs[index].starts_with(lhs))) {
+                str pad = "   ";
+                if (editor.abbr_lhs[index].size() < 14) {
+                    pad = " ".repeat(14 - editor.abbr_lhs[index].size());
+                }
+                shown.push(kind + "  " + editor.abbr_lhs[index] + pad + editor.abbr_rhs[index]);
             }
+            index = index - 1;
         }
         if (shown.size() == 0) {
-            return fail(editor, "E24: No such abbreviation");
+            return fail(editor, "E24: No abbreviation found");
         }
         editor.message = shown.join("\n");
         return done();
     }
-    for (int index in 0 .. editor.abbr_lhs.size()) {
-        if (editor.abbr_lhs[index] == lhs) {
-            editor.abbr_rhs[index] = rhs;
-            return done();
-        }
-    }
+    // the part of an entry for another mode survives
+    abbrev_remove(editor, lhs, mode);
     editor.abbr_lhs.push(lhs);
     editor.abbr_rhs.push(rhs);
+    editor.abbr_mode.push(mode);
     return done();
+}
+
+// Remove the abbreviation `lhs` (every one when empty) for `mode` ("!": all);
+// an entry for both modes keeps the other mode. False when none matched.
+bool abbrev_remove(MED_editor.Editor editor, str lhs, str mode) {
+    List<str> keep_lhs = [];
+    List<str> keep_rhs = [];
+    List<str> keep_mode = [];
+    bool is_found = false;
+    for (int index in 0 .. editor.abbr_lhs.size()) {
+        str kind = editor.abbr_mode[index];
+        bool is_hit = (lhs == "" || editor.abbr_lhs[index] == lhs) && (mode == "!" || kind == "!" || kind == mode);
+        if (!is_hit) {
+            keep_lhs.push(editor.abbr_lhs[index]);
+            keep_rhs.push(editor.abbr_rhs[index]);
+            keep_mode.push(kind);
+            continue;
+        }
+        is_found = true;
+        if (kind == "!" && mode != "!") {
+            keep_lhs.push(editor.abbr_lhs[index]);
+            keep_rhs.push(editor.abbr_rhs[index]);
+            if (mode == "i") {
+                keep_mode.push("c");
+            } else {
+                keep_mode.push("i");
+            }
+        }
+    }
+    editor.abbr_lhs = keep_lhs;
+    editor.abbr_rhs = keep_rhs;
+    editor.abbr_mode = keep_mode;
+    return is_found;
 }
 
 // `:let name = expr`, `+=`, `-=`, `*=`, `.=` on a plain or `g:` variable.
@@ -1380,7 +1413,7 @@ Step exec_cmd(MED_editor.Editor editor, Cmd cmd) {
     if (name == "let") {
         return run_let(editor, cmd);
     }
-    if (name == "abbreviate" || name == "iabbrev" || name == "noreabbrev" || name == "inoreabbrev" || name == "unabbreviate" || name == "iunabbrev" || name == "abclear" || name == "iabclear") {
+    if (name == "abbreviate" || name == "iabbrev" || name == "noreabbrev" || name == "inoreabbrev" || name == "unabbreviate" || name == "iunabbrev" || name == "abclear" || name == "iabclear" || name == "cabbrev" || name == "cnoreabbrev" || name == "cunabbrev" || name == "cabclear") {
         return run_abbrev(editor, cmd);
     }
     if (name == "delete" || name == "yank") {

@@ -4593,9 +4593,29 @@ bool did_abbreviate(MED_editor.Editor editor, int key) {
     if (editor.col <= limit || editor.col > line.size()) {
         return false;
     }
-    List<int> before = line.substr(limit, editor.col).chars();
+    int index = abbreviation_at(editor, line.substr(limit, editor.col).chars(), is_end, "i");
+    if (index < 0) {
+        return false;
+    }
+    editor.is_abbr_busy = true;
+    for (int count in 0 .. editor.abbr_lhs[index].chars().size()) {
+        insert_key(editor, 8);
+    }
+    for (int code in MED_key.parse(editor.abbr_rhs[index], leader: "")) {
+        insert_key(editor, code);
+    }
+    editor.is_abbr_busy = false;
+    return true;
+}
+
+// The abbreviation (for `mode`, "i" or "c") whose left-hand side ends the
+// typed text `before`, or -1.
+int abbreviation_at(MED_editor.Editor editor, List<int> before, bool is_end, str mode) {
     int total = before.size();
     for (int index in 0 .. editor.abbr_lhs.size()) {
+        if (editor.abbr_mode[index] != mode && editor.abbr_mode[index] != "!") {
+            continue;
+        }
         List<int> left = editor.abbr_lhs[index].chars();
         int length = left.size();
         if (length == 0 || length > total) {
@@ -4621,20 +4641,66 @@ bool did_abbreviate(MED_editor.Editor editor, int key) {
         if (is_all_word && length < total && MED_text.class_in(before[total - length - 1], editor.buffer.keywords) == 2) {
             continue;
         }
+        if (!is_all_word && length < total && MED_text.class_in(before[total - length - 1], editor.buffer.keywords) == 1) {
+            // an end-id or non-id one is not recognized after punctuation
+            continue;
+        }
         if (!is_last_word && !is_end) {
             continue;
         }
-        editor.is_abbr_busy = true;
-        for (int count in 0 .. length) {
-            insert_key(editor, 8);
-        }
-        for (int code in MED_key.parse(editor.abbr_rhs[index], leader: "")) {
-            insert_key(editor, code);
-        }
-        editor.is_abbr_busy = false;
+        return index;
+    }
+    return -1;
+}
+
+// Whether the command line is an `:unabbreviate`, `:iunabbrev` or `:cunabbrev`,
+// whose argument is not expanded.
+bool is_unabbreviate_line(str line) {
+    int index = 0;
+    while (index < line.size() && (line.byte_at(index) == 32 || line.byte_at(index) == 58)) {
+        index = index + 1;
+    }
+    int start = index;
+    while (index < line.size() && ((line.byte_at(index) >= 97 && line.byte_at(index) <= 122) || (line.byte_at(index) >= 65 && line.byte_at(index) <= 90))) {
+        index = index + 1;
+    }
+    str word = line.substr(start, index);
+    if (word.size() >= 3 && "unabbreviate".starts_with(word)) {
+        return true;
+    }
+    if (word.size() >= 4 && ("iunabbrev".starts_with(word) || "cunabbrev".starts_with(word))) {
         return true;
     }
     return false;
+}
+
+// The command line's abbreviations: typing a non-keyword character, <CR> or
+// CTRL-] after a left-hand side replaces it by the right-hand side.
+bool did_cmd_abbreviate(MED_editor.Editor editor, int key) {
+    if (editor.abbr_lhs.size() == 0 || editor.is_abbr_busy || editor.is_in_dot) {
+        return false;
+    }
+    bool is_end = key == 13 || key == 10 || key == 29;
+    if (!is_end) {
+        if (key < 32 || key == 127 || key >= 63232 || MED_text.class_in(key, editor.buffer.keywords) == 2) {
+            return false;
+        }
+    }
+    if (editor.cmd_position == 0 || editor.cmd_position > editor.cmdline.size()) {
+        return false;
+    }
+    if (editor.cmd_type == 58 && is_unabbreviate_line(editor.cmdline)) {
+        return false;
+    }
+    int index = abbreviation_at(editor, editor.cmdline.substr(0, editor.cmd_position).chars(), true, "c");
+    if (index < 0) {
+        return false;
+    }
+    int length = editor.abbr_lhs[index].size();
+    str rhs = str.from_chars(MED_key.parse(editor.abbr_rhs[index], leader: ""));
+    cmd_delete(editor, editor.cmd_position - length, editor.cmd_position);
+    cmd_insert(editor, rhs);
+    return true;
 }
 
 void insert_key(MED_editor.Editor editor, int key) {
@@ -5611,6 +5677,18 @@ bool did_run_g(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> type
         editor.ex_queue.push("%s//~/&");
         return true;
     }
+    if (second == 116 || second == 84) {
+        // gt / gT: the next / previous tab page, or page COUNT (gt)
+        str word = "tabnext";
+        if (second == 84) {
+            word = "tabprevious";
+        }
+        if (count > 0) {
+            word = word + " " + count.to_str();
+        }
+        editor.requests.push(word);
+        return true;
+    }
     return true;
 }
 
@@ -5676,18 +5754,6 @@ pub str map_mode(MED_editor.Editor editor) {
         } else {
             break;
         }
-    }
-    if (second == 116 || second == 84) {
-        // gt / gT: the next / previous tab page, or page COUNT (gt)
-        str word = "tabnext";
-        if (second == 84) {
-            word = "tabprevious";
-        }
-        if (count > 0) {
-            word = word + " " + count.to_str();
-        }
-        editor.requests.push(word);
-        return true;
     }
     if (index >= amount) {
         return "o";
@@ -7746,6 +7812,13 @@ void cmdline_key(MED_editor.Editor editor, int key) {
         cmdline_leave(editor);
         return;
     }
+    if (key == 29) {
+        did_cmd_abbreviate(editor, key);
+        return;
+    }
+    if ((key == 13 || key == 10) && !(editor.cmd_type == 61 && editor.expr_from != 0)) {
+        did_cmd_abbreviate(editor, key);
+    }
     if (key == 13 || key == 10) {
         if (editor.cmd_type == 61 && editor.expr_from != 0) {
             expr_finish(editor);
@@ -7827,6 +7900,9 @@ void cmdline_key(MED_editor.Editor editor, int key) {
         return;
     }
     if (MED_key.is_printable(key) || key == 9) {
+        if (key != 9 && !(editor.cmd_type == 61)) {
+            did_cmd_abbreviate(editor, key);
+        }
         cmd_insert(editor, str.from_chars([key]));
     }
 }

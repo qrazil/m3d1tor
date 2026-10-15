@@ -1,0 +1,41 @@
+# command-line abbreviations (:cabbrev :cnoreabbrev :cunabbrev :cabclear, and :ab for both modes), checked against nvim (0.4.0)
+foo bar\nbaz	0,0	:cab foo xx<CR>:s/foo/foo/<CR>
+foo bar\nbaz	0,0	:cab foo xx<CR>:s/foo/foo<Space>/<CR>
+foo bar\nbaz	0,0	:cab foo s/bar/Q/<CR>:foo<CR>
+foo bar\nbaz	0,0	:cab ss s/bar/Q/<CR>:ss<CR>
+foo bar\nbaz	0,0	:cab ss s/bar/Q/<CR>:1ss<CR>
+foo bar\nbaz	0,0	:cab ss s/bar/Q/<CR>:%ss<CR>
+foo bar\nbaz	0,0	:ab ss s/bar/Q/<CR>:ss<CR>
+foo bar\nbaz	0,0	:ab ss s/bar/Q/<CR>:ss<Space><CR>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>A ss <Esc>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>:s/o/ss<CR>
+foo bar\nbaz	0,0	:iab ss ZZ<CR>:s/o/ss<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>A ss <Esc>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/ss<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/ss/<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>/ss<CR>
+foo bar\nbaz	0,0	:cab foo bar<CR>:cnoreab bar baz<CR>:s/o/foo/<CR>
+foo bar\nbaz	0,0	:cnoreab foo bar<CR>:s/o/foo/<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:cunab ss<CR>:s/o/ss/<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:cabc<CR>:s/o/ss/<CR>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>:cunab ss<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>:iunab ss<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>:unab ss<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>:cabc<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:ab ss ZZ<CR>:abc<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:iab ss II<CR>:cab ss CC<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:ab ss AA<CR>:iab ss II<CR>:s/o/ss/<CR>A ss <Esc>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/a ss<C-]>b/<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/ss<Esc>:s/a/ss<CR>
+foo bar\nbaz	0,0	:cab #i XX<CR>:s/o/#i<CR>
+foo bar\nbaz	0,0	:cab #i XX<CR>:s/o/#i /<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/xss<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/x ss<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/x,ss<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:echo "ss"<CR>:s/o/<C-r>:<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:normal Ass<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:g/foo/s/o/ss<CR>
+foo bar\nbaz	0,0	:cab teh the<CR>:s/o/teh<Space>teh<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/ss<BS>x<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/sss<CR>
+foo bar\nbaz	0,0	:cab ss ZZ<CR>:s/o/s<C-v>s<CR>
