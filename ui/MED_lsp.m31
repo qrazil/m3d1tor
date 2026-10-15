@@ -862,8 +862,8 @@ pub List<str> signature_lines(json.Value result) {
         List<json.Value> offsets = items_of(parameter);
         if (name.size() == 0 && offsets.size() == 2) {
             int from = byte_of(label, int_of(offsets[0], 0));
-            int to = byte_of(label, int_of(offsets[1], 0));
-            name = label.substr(from, to);
+            int stop = byte_of(label, int_of(offsets[1], 0));
+            name = label.substr(from, stop);
         }
         if (name.size() > 0) {
             lines.push("-> " + name);

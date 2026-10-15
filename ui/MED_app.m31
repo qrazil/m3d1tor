@@ -1039,7 +1039,7 @@ void App.focus_window(int id) {
     // entering a window widens it to 'winwidth' (20) when the others allow
     layout_in(screen_rect());
     if (MED_window.text_width(layout, id) < 20) {
-        MED_window.resize(layout, id, 20, true);
+        MED_window.did_resize(layout, id, 20, true);
     }
     editor.view_height = current_text_rows();
 }
@@ -1171,18 +1171,18 @@ void App.window_to_page() {
     int id = current_win;
     MED_window.Win moving = wins[win_index(id)];
     int target = MED_window.successor(layout, id);
-    int at = page_index + 1;
+    int next_page = page_index + 1;
     // the tab line is there from now on: the old page is laid out under it
     // before the window leaves it, as nvim closes the window after opening
     // the new page
-    pages.insert(at, MED_window.Page(wins: [moving], layout: MED_window.leaf(id), current_win: id));
+    pages.insert(next_page, MED_window.Page(wins: [moving], layout: MED_window.leaf(id), current_win: id));
     layout_in(screen_rect());
     layout = MED_window.without(layout, id, target);
     wins.remove_at(win_index(id));
     pages[page_index] = MED_window.Page(wins: wins, layout: layout, current_win: target);
-    page_index = at;
+    page_index = next_page;
     wins = [moving];
-    layout = pages[at].layout;
+    layout = pages[next_page].layout;
     current_win = id;
     previous_win = 0;
 }
@@ -1221,11 +1221,11 @@ void App.window_command(int key, int count) {
     } else if (key == 119 || key == 23 || key == 87) {
         if (count > 0) {
             // CTRL-W 3 w: window number 3 (the last when there are fewer)
-            int at = count - 1;
-            if (at >= order.size()) {
-                at = order.size() - 1;
+            int nth = count - 1;
+            if (nth >= order.size()) {
+                nth = order.size() - 1;
             }
-            focus_window(order[at]);
+            focus_window(order[nth]);
         } else if (key == 87) {
             cycle_window(-1);
         } else {
@@ -1310,7 +1310,7 @@ void App.resize_window(int amount, bool is_vertical, bool is_absolute) {
     if (is_absolute) {
         wanted = amount;
     }
-    MED_window.resize(layout, current_win, wanted, is_vertical);
+    MED_window.did_resize(layout, current_win, wanted, is_vertical);
 }
 
 // ------------------------------------------------------------------ tab pages
@@ -1366,9 +1366,9 @@ List<str> App.tab_labels() {
         if (label.size() > 0) {
             label = label + " ";
         }
-        int at = index_of(showing_id);
-        if (at >= 0) {
-            label = label + slot_name(slots[at]);
+        int found_at = index_of(showing_id);
+        if (found_at >= 0) {
+            label = label + slot_name(slots[found_at]);
         }
         labels.push(label);
     }
@@ -1401,14 +1401,14 @@ void App.go_page(int target) {
     previous_win = page.previous_win;
 }
 
-/// `:tabnew [file]`: a page after the active one (or at `at`) with one window.
-void App.new_page(str arg, int at) {
+/// `:tabnew [file]`: a page after the active one (or at `place`) with one window.
+void App.new_page(str arg, int place) {
     save_page();
     int id = next_win;
     next_win = id + 1;
     int position = page_index + 1;
-    if (at >= 0 && at <= pages.size()) {
-        position = at;
+    if (place >= 0 && place <= pages.size()) {
+        position = place;
     }
     pages.insert(position, MED_window.Page(wins: [MED_window.Win(id, current_id, row: editor.row, col: editor.col, view_top: editor.view_top, left_column: left_column)], layout: MED_window.leaf(id), current_win: id));
     if (position <= page_index) {

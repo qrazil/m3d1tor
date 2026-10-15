@@ -109,7 +109,7 @@ MED_window.Node sized = MED_window.leaf(1);
 sized = MED_window.split(sized, 1, 2, false, true);
 sized = MED_window.split(sized, 2, 3, false, true);
 MED_window.place(sized, 0, 0, 40, 20);
-check.ok("set a height", MED_window.resize(sized, 1, 4, false));
+check.ok("set a height", MED_window.did_resize(sized, 1, 4, false));
 MED_window.Layout shown = MED_window.place(sized, 0, 0, 40, 20);
 check.eq_int("the window has the rows asked for and its status line", MED_window.placed_of(shown, 1).height, 5);
 check.eq_int("the rest is shared out of what is left (8, 7)", MED_window.placed_of(shown, 2).height + MED_window.placed_of(shown, 3).height, 15);

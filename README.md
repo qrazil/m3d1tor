@@ -6,7 +6,7 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.3.0.** The Vim engine is checked against `nvim --headless` on
+**Status: v0.4.0.** The Vim engine is checked against `nvim --headless` on
 more than 38,500 generated and hand-written cases (20 known divergences, listed in
 `tests/oracles/known_divergences.txt`); on top of it sit the built-in plugins that make it a daily editor:
 a fuzzy finder with async sources (rg / fd / git when installed, a built-in walker and grep when not), which-key for
@@ -44,7 +44,13 @@ Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<ver
   ex subset in DESIGN section 2. A purpose-built Vim-regex engine (no
   backreferences or lookaround).
 - Buffers and windows: `:e :ls :b :bn :bp :bd`, `:split :vsplit :close :only`,
-  `<C-w>` commands, mouse click, drag and wheel.
+  `<C-w>` commands (with counts: `<C-w>5_`, `3<C-w>w`), mouse click, drag and wheel. Sizes follow nvim's
+  frame model: a split halves the window and shares the space out again only when needed, closing gives the
+  space to the neighbour, `:resize` takes rows from the windows below and then above, and a terminal resize
+  shrinks the last window first (checked against nvim by `tests/oracles/oracle_windows.py`).
+- Tab pages: `:tabnew :tabedit :tabnext :tabprev :tabNext :tabfirst :tablast :tabclose :tabonly :tabmove :tabs`,
+  `gt` / `gT` (and `3gt`), `<C-w>T`; a tab line shows the window count, `+` and the name; each page keeps its own
+  windows; `:q` / `:close` on the last window of a page closes the page.
 - Pickers: files, buffers, live grep, commands, keymap help, explorer; `.gitignore` aware.
 - Syntax highlighting for 77 languages (c, cpp, go, javascript/typescript, json, m31, markdown,
   python, rust, sh, toml, yaml, html, css, sql, java, ruby, lua, ...), by the shared
@@ -61,9 +67,10 @@ Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<ver
   folders first, git status letters (M A D R ? !) sit at the right and folders
   carry the worst status of what is inside; the tree follows the buffer.
   `:Explore` and `:e DIR` still open the netrw-style listing in a window.
-- Insert-mode abbreviations: `:iabbrev` / `:abbreviate` (and the `nore` forms), `:iunabbrev`, `:iabclear`. Full-id,
+- Abbreviations: `:abbreviate` (Insert and command line), `:iabbrev`, `:cabbrev` (and the `nore` forms),
+  `:unabbreviate` `:iunabbrev` `:cunabbrev`, `:abclear` `:iabclear` `:cabclear`, listed as nvim does. Full-id,
   end-id and non-id forms; expansion on a non-keyword character, `<Esc>`, `<CR>` or `CTRL-]`, repeated by `.` and counts
-  as in Vim. Not in the command line.
+  as in Vim; in the command line (also `/` and `?`) on a non-keyword character, `<CR>` or `CTRL-]`.
 - Variables: `:let x = 1`, `g:x`, `+= -= *= .=`, read by `\=` in `:s` and shown by `:echo`.
 - Syntax: all 25 token classes of the `syntax` library are drawn (properties, tags, attributes, calls, links, emphasis,
   strong, raw text, diff added / removed, builtin variables).
@@ -92,7 +99,13 @@ More
   `:changes` list as Vim does and `<Space>fm` is a marks picker.
 - System clipboard: `"+` and `"*` use pbcopy / pbpaste (macOS), wl-clipboard, xclip or xsel; `:set clipboard=unnamedplus` makes
   every yank and put use it.
-- Windows: `:resize`, `:vertical resize`, `<C-w>` `+ - < > _ | =` `H J K L` `r R x`; closing a modified buffer's last window is E37.
+- Windows: `:resize`, `:vertical resize`, `<C-w>` `+ - < > _ | =` `H J K L` `r R x T`; closing a modified buffer's last window is E37.
+- Language servers: diagnostics, hover (`K`), definition, references, rename, code actions, format, completion,
+  signature help (`:Lsp signature`, `<C-s>` in Insert mode, `<Space>ck`, and after the server's trigger characters),
+  inlay hints (`:Lsp hints`, `<Space>ch`; drawn dimmed after the end of the line) and `textDocument/didClose`
+  when a buffer is deleted.
+- Registers: `"=` (the expression register, `"=5*5<CR>p`), `:put =expr`, `:let @a=` / `@A=` / `@"=`, `]p [p ]P [P`;
+  marks: `]'` `['` `` ]` `` `` [` ``, `.` and `^` as nvim sets them after put, join, delete, shift, :copy, :move, :s and undo.
 - Display: soft wrap, `incsearch`, `hlsearch`, `number`, `relativenumber`, `list`; `gj gk g0 g^ g$ gm`.
 - Directory listings (`:Explore`): `R` rename, `D` delete, `%` new file, `d` new directory, `gh` toggle dotfiles.
 
@@ -114,7 +127,8 @@ Normal-mode `<Space>` is the leader; a pending sequence shows which-key after a 
 | `<Space>sv` `sh` `se` `sc` `z` `o` | split right, split below, equalise, close, close, only this window |
 | `<Space>n` | new buffer |
 | `<Space>w` / `<Space>qq` / `<Space>qa` | write, quit, quit all |
-| `<C-w>` `s v n c q o w W p t h j k l` | window commands |
+| `<C-w>` `s v n c q o w W p t b h j k l x r R H J K L = + - < > _ \| T` | window commands |
+| `gt` `gT` `:tabnew` | next / previous tab page, new tab page |
 | `<C-^>` | alternate buffer |
 | `:w` `:q` `:q!` `:wq` `ZZ` | write and quit |
 

@@ -8,10 +8,10 @@
 //
 // The sizes follow nvim's frame model (window.c): every node keeps the size
 // it was given (`width` and `height` include the separator and the status
-// line), and the operations that change the layout resize frames the way nvim
+// line), and the operations that change the layout did_resize frames the way nvim
 // does: a split halves the window and then equalizes ('equalalways', the
 // current window first and at least 'winwidth' wide), a close gives the space
-// to the neighbour and equalizes, `:resize` takes the room from the frames
+// to the neighbour and equalizes, `:did_resize` takes the room from the frames
 // after the window and then before it, a change of the screen size shrinks
 // the last frames first and gives extra room to the last one. The differential
 // test against nvim is tests/oracles/oracle_windows.py.
@@ -187,16 +187,16 @@ void new_height(Node node, int height, bool is_top_first) {
             }
         } else {
             int count = node.kids.size();
-            int at = count - 1;
+            int spot = count - 1;
             int step = -1;
             if (is_top_first) {
-                at = 0;
+                spot = 0;
                 step = 1;
             }
             int extra = wanted - node.height;
             if (extra < 0) {
-                while (at >= 0 && at < count) {
-                    Node kid = node.kids[at];
+                while (spot >= 0 && spot < count) {
+                    Node kid = node.kids[spot];
                     int least = min_height(kid, 0);
                     if (kid.height + extra < least) {
                         extra = extra + kid.height - least;
@@ -205,13 +205,13 @@ void new_height(Node node, int height, bool is_top_first) {
                         new_height(kid, kid.height + extra, is_top_first);
                         break;
                     }
-                    at = at + step;
-                    if (at < 0 || at >= count) {
+                    spot = spot + step;
+                    if (spot < 0 || spot >= count) {
                         wanted = wanted - extra;
                     }
                 }
             } else if (extra > 0) {
-                new_height(node.kids[at], node.kids[at].height + extra, is_top_first);
+                new_height(node.kids[spot], node.kids[spot].height + extra, is_top_first);
             }
         }
     }
@@ -238,17 +238,17 @@ void new_width(Node node, int width, bool is_left_first, bool is_edge) {
             }
         } else {
             int count = node.kids.size();
-            int at = count - 1;
+            int spot = count - 1;
             int step = -1;
             if (is_left_first) {
-                at = 0;
+                spot = 0;
                 step = 1;
             }
             int extra = wanted - node.width;
             if (extra < 0) {
-                while (at >= 0 && at < count) {
-                    Node kid = node.kids[at];
-                    bool is_kid_edge = is_edge && at == count - 1;
+                while (spot >= 0 && spot < count) {
+                    Node kid = node.kids[spot];
+                    bool is_kid_edge = is_edge && spot == count - 1;
                     int least = min_width(kid, 0, is_kid_edge);
                     if (kid.width + extra < least) {
                         extra = extra + kid.width - least;
@@ -257,13 +257,13 @@ void new_width(Node node, int width, bool is_left_first, bool is_edge) {
                         new_width(kid, kid.width + extra, is_left_first, is_kid_edge);
                         break;
                     }
-                    at = at + step;
-                    if (at < 0 || at >= count) {
+                    spot = spot + step;
+                    if (spot < 0 || spot >= count) {
                         wanted = wanted - extra;
                     }
                 }
             } else if (extra > 0) {
-                new_width(node.kids[at], node.kids[at].width + extra, is_left_first, is_edge && at == count - 1);
+                new_width(node.kids[spot], node.kids[spot].width + extra, is_left_first, is_edge && spot == count - 1);
             }
         }
     }
@@ -503,7 +503,7 @@ pub int window_at(Layout layout, int x, int y) {
 
 // The nodes from `node` down to window `id` (empty when there is none) and,
 // for each but the first, its index in its parent.
-bool find_chain(Node node, int id, List<Node> nodes, List<int> indexes) {
+bool did_find_chain(Node node, int id, List<Node> nodes, List<int> indexes) {
     nodes.push(node);
     if (is_leaf(node)) {
         if (node.win_id == id) {
@@ -514,7 +514,7 @@ bool find_chain(Node node, int id, List<Node> nodes, List<int> indexes) {
     }
     for (int index in 0 .. node.kids.size()) {
         indexes.push(index);
-        if (find_chain(node.kids[index], id, nodes, indexes)) {
+        if (did_find_chain(node.kids[index], id, nodes, indexes)) {
             return true;
         }
         indexes.pop();
@@ -524,7 +524,7 @@ bool find_chain(Node node, int id, List<Node> nodes, List<int> indexes) {
 }
 
 // Whether the node at `depth` of a chain touches the right edge of the screen.
-bool chain_edge(List<Node> nodes, List<int> indexes, int depth) {
+bool is_chain_edge(List<Node> nodes, List<int> indexes, int depth) {
     for (int step in 0 .. depth) {
         Node parent = nodes[step];
         if (parent.is_vertical && indexes[step] != parent.kids.size() - 1) {
@@ -541,7 +541,7 @@ bool chain_edge(List<Node> nodes, List<int> indexes, int depth) {
 pub bool can_split(Node root, int target, bool is_vertical) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, target, nodes, indexes)) {
+    if (!did_find_chain(root, target, nodes, indexes)) {
         return false;
     }
     int depth = nodes.size() - 1;
@@ -549,13 +549,13 @@ pub bool can_split(Node root, int target, bool is_vertical) {
         return true;
     }
     if (is_vertical) {
-        int minimum = min_width(nodes[depth], 0, chain_edge(nodes, indexes, depth));
+        int minimum = min_width(nodes[depth], 0, is_chain_edge(nodes, indexes, depth));
         for (int step in 0 .. depth) {
             Node parent = nodes[step];
             if (parent.is_vertical) {
                 for (int index in 0 .. parent.kids.size()) {
                     if (index != indexes[step]) {
-                        minimum = minimum + min_width(parent.kids[index], 0, chain_edge(nodes, indexes, step) && index == parent.kids.size() - 1);
+                        minimum = minimum + min_width(parent.kids[index], 0, is_chain_edge(nodes, indexes, step) && index == parent.kids.size() - 1);
                     }
                 }
             }
@@ -582,12 +582,12 @@ pub bool can_split(Node root, int target, bool is_vertical) {
 pub Node split(Node root, int target, int new_id, bool is_vertical, bool is_after) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, target, nodes, indexes)) {
+    if (!did_find_chain(root, target, nodes, indexes)) {
         return root;
     }
     int depth = nodes.size() - 1;
     Node old = nodes[depth];
-    bool is_edge = chain_edge(nodes, indexes, depth);
+    bool is_edge = is_chain_edge(nodes, indexes, depth);
     bool is_sized = root.width > 0 && root.height > 0;
     // 'equalalways' shares the space out again only when the halves do not
     // fit, or one of the other windows of the branch is bigger than a half
@@ -607,7 +607,7 @@ pub Node split(Node root, int target, int new_id, bool is_vertical, bool is_afte
                 if (parent.is_vertical) {
                     for (int index in 0 .. parent.kids.size()) {
                         if (index != indexes[step]) {
-                            minimum = minimum + min_width(parent.kids[index], 0, chain_edge(nodes, indexes, step) && index == parent.kids.size() - 1);
+                            minimum = minimum + min_width(parent.kids[index], 0, is_chain_edge(nodes, indexes, step) && index == parent.kids.size() - 1);
                         }
                     }
                 }
@@ -631,7 +631,7 @@ pub Node split(Node root, int target, int new_id, bool is_vertical, bool is_afte
                         continue;
                     }
                     int other_text = other.width;
-                    if (beside.is_vertical && !(chain_edge(nodes, indexes, depth - 1) && index == beside.kids.size() - 1)) {
+                    if (beside.is_vertical && !(is_chain_edge(nodes, indexes, depth - 1) && index == beside.kids.size() - 1)) {
                         other_text = other.width - 1;
                     }
                     if (other_text > new_size || other_text > old_text - new_size - 1) {
@@ -708,11 +708,11 @@ pub Node split(Node root, int target, int new_id, bool is_vertical, bool is_afte
         Node parent = nodes[depth - 1];
         int position = indexes[depth - 1];
         if (parent.is_vertical == is_vertical) {
-            int at = position;
+            int spot = position;
             if (is_after) {
-                at = position + 1;
+                spot = position + 1;
             }
-            parent.kids.insert(at, fresh);
+            parent.kids.insert(spot, fresh);
         } else {
             Node wrapped = leaf(old.win_id);
             wrapped.width = old.width;
@@ -754,7 +754,7 @@ List<Node> pair(Node old, Node added, bool is_after) {
 pub int successor(Node root, int id) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, id, nodes, indexes) || nodes.size() < 2) {
+    if (!did_find_chain(root, id, nodes, indexes) || nodes.size() < 2) {
         return 0;
     }
     Node parent = nodes[nodes.size() - 2];
@@ -771,7 +771,7 @@ pub int successor(Node root, int id) {
 str remove_window(Node root, int id) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, id, nodes, indexes) || nodes.size() < 2) {
+    if (!did_find_chain(root, id, nodes, indexes) || nodes.size() < 2) {
         return "";
     }
     Node parent = nodes[nodes.size() - 2];
@@ -814,7 +814,7 @@ pub Node without(Node root, int id, int focus) {
     bool is_current = false;
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (find_chain(result, focus, nodes, indexes) && nodes.size() >= 2) {
+    if (did_find_chain(result, focus, nodes, indexes) && nodes.size() >= 2) {
         is_current = nodes[nodes.size() - 2].tag == -1;
     }
     clear_tags(result);
@@ -930,7 +930,7 @@ pub int neighbor(Layout layout, int active, int direction, int ref_x, int ref_y)
     return 0;
 }
 
-// ------------------------------------------------------------------ resize
+// ------------------------------------------------------------------ did_resize
 
 // nvim's frame_setheight: give the frame at `depth` of the chain `height`
 // rows, taking them from the frames after it and then before it.
@@ -976,14 +976,14 @@ void set_frame_height(Node root, List<Node> nodes, List<int> indexes, int depth,
     int take = wanted - current.height;
     new_height(current, wanted, false);
     for (int run in 0 .. 2) {
-        int at = position + 1;
+        int spot = position + 1;
         int step = 1;
         if (run == 1) {
-            at = position - 1;
+            spot = position - 1;
             step = -1;
         }
-        while (at >= 0 && at < parent.kids.size() && take != 0) {
-            Node kid = parent.kids[at];
+        while (spot >= 0 && spot < parent.kids.size() && take != 0) {
+            Node kid = parent.kids[spot];
             int least = min_height(kid, 0);
             if (kid.height - take < least) {
                 take = take - (kid.height - least);
@@ -992,7 +992,7 @@ void set_frame_height(Node root, List<Node> nodes, List<int> indexes, int depth,
                 new_height(kid, kid.height - take, false);
                 take = 0;
             }
-            at = at + step;
+            spot = spot + step;
         }
     }
 }
@@ -1007,7 +1007,7 @@ void set_frame_width(Node root, List<Node> nodes, List<int> indexes, int depth, 
     Node parent = nodes[depth - 1];
     int position = indexes[depth - 1];
     int wanted = width;
-    bool is_parent_edge = chain_edge(nodes, indexes, depth - 1);
+    bool is_parent_edge = is_chain_edge(nodes, indexes, depth - 1);
     if (!parent.is_vertical) {
         int least = min_width(parent, 0, is_parent_edge);
         if (wanted < least) {
@@ -1037,15 +1037,15 @@ void set_frame_width(Node root, List<Node> nodes, List<int> indexes, int depth, 
     int take = wanted - current.width;
     new_width(current, wanted, false, is_parent_edge && position == count - 1);
     for (int run in 0 .. 2) {
-        int at = position + 1;
+        int spot = position + 1;
         int step = 1;
         if (run == 1) {
-            at = position - 1;
+            spot = position - 1;
             step = -1;
         }
-        while (at >= 0 && at < count && take != 0) {
-            Node kid = parent.kids[at];
-            bool is_kid_edge = is_parent_edge && at == count - 1;
+        while (spot >= 0 && spot < count && take != 0) {
+            Node kid = parent.kids[spot];
+            bool is_kid_edge = is_parent_edge && spot == count - 1;
             int least = min_width(kid, 0, is_kid_edge);
             if (kid.width - take < least) {
                 take = take - (kid.width - least);
@@ -1054,18 +1054,18 @@ void set_frame_width(Node root, List<Node> nodes, List<int> indexes, int depth, 
                 new_width(kid, kid.width - take, false, is_kid_edge);
                 take = 0;
             }
-            at = at + step;
+            spot = spot + step;
         }
     }
 }
 
 /// Give window `id` the height (or, `is_vertical`, the width) `size` cells of
-/// text, as far as the other windows allow (`:resize`, CTRL-W _ | + - < >).
+/// text, as far as the other windows allow (`:did_resize`, CTRL-W _ | + - < >).
 /// False when there is no such window.
-pub bool resize(Node root, int id, int size, bool is_vertical) {
+pub bool did_resize(Node root, int id, int size, bool is_vertical) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, id, nodes, indexes)) {
+    if (!did_find_chain(root, id, nodes, indexes)) {
         return false;
     }
     int depth = nodes.size() - 1;
@@ -1075,7 +1075,7 @@ pub bool resize(Node root, int id, int size, bool is_vertical) {
     }
     if (is_vertical) {
         int separator = 1;
-        if (chain_edge(nodes, indexes, depth)) {
+        if (is_chain_edge(nodes, indexes, depth)) {
             separator = 0;
         }
         set_frame_width(root, nodes, indexes, depth, wanted + separator);
@@ -1089,7 +1089,7 @@ pub bool resize(Node root, int id, int size, bool is_vertical) {
 pub int text_height(Node root, int id) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, id, nodes, indexes)) {
+    if (!did_find_chain(root, id, nodes, indexes)) {
         return 0;
     }
     return nodes[nodes.size() - 1].height - 1;
@@ -1099,12 +1099,12 @@ pub int text_height(Node root, int id) {
 pub int text_width(Node root, int id) {
     List<Node> nodes = [];
     List<int> indexes = [];
-    if (!find_chain(root, id, nodes, indexes)) {
+    if (!did_find_chain(root, id, nodes, indexes)) {
         return 0;
     }
     int depth = nodes.size() - 1;
     int width = nodes[depth].width;
-    if (!chain_edge(nodes, indexes, depth)) {
+    if (!is_chain_edge(nodes, indexes, depth)) {
         width = width - 1;
     }
     return width;
@@ -1142,8 +1142,8 @@ void reorder(Node root, int id, Node parent, List<int> from) {
         List<Node> nodes = [];
         List<int> indexes = [];
         bool is_edge = false;
-        if (find_chain(root, id, nodes, indexes)) {
-            is_edge = chain_edge(nodes, indexes, nodes.size() - 2);
+        if (did_find_chain(root, id, nodes, indexes)) {
+            is_edge = is_chain_edge(nodes, indexes, nodes.size() - 2);
         }
         List<int> text = [];
         for (int position in 0 .. count) {
@@ -1263,15 +1263,15 @@ pub Node moved_to_edge(Node root, int id, int direction) {
         }
         if (rest.is_vertical) {
             Node side = rest.kids[rest.kids.size() - 1];
-            int at = rest.kids.size();
+            int spot = rest.kids.size();
             if (is_first) {
                 side = rest.kids[0];
-                at = 0;
+                spot = 0;
             }
             if (is_sized) {
                 new_width(side, side.width - taken, is_first, false);
             }
-            rest.kids.insert(at, fresh);
+            rest.kids.insert(spot, fresh);
         } else {
             int whole = rest.width;
             if (is_sized) {
@@ -1297,15 +1297,15 @@ pub Node moved_to_edge(Node root, int id, int direction) {
         }
         if (!rest.is_vertical && !is_leaf(rest)) {
             Node side = rest.kids[rest.kids.size() - 1];
-            int at = rest.kids.size();
+            int spot = rest.kids.size();
             if (is_first) {
                 side = rest.kids[0];
-                at = 0;
+                spot = 0;
             }
             if (is_sized) {
                 new_height(side, side.height - fresh.height, is_first);
             }
-            rest.kids.insert(at, fresh);
+            rest.kids.insert(spot, fresh);
         } else {
             int whole = rest.height;
             if (is_sized) {
@@ -1330,7 +1330,7 @@ pub Node moved_to_edge(Node root, int id, int direction) {
         }
         equal_tree(result, id, true, direction_char);
         if (!is_vertical) {
-            resize(result, id, height_before, false);
+            did_resize(result, id, height_before, false);
             equal_tree(result, id, true, "v");
         }
     }

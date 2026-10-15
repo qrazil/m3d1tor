@@ -53,11 +53,11 @@ str report(MED_app.App app, int rows, int columns) {
     MED_window.Layout placed = MED_window.place(app.layout, 0, top, columns, rows - top - 1);
     List<MED_window.Placed> windows = [];
     for (MED_window.Placed one in placed.windows) {
-        int at = 0;
-        while (at < windows.size() && (windows[at].y < one.y || (windows[at].y == one.y && windows[at].x < one.x))) {
-            at = at + 1;
+        int place = 0;
+        while (place < windows.size() && (windows[place].y < one.y || (windows[place].y == one.y && windows[place].x < one.x))) {
+            place = place + 1;
         }
-        windows.insert(at, one);
+        windows.insert(place, one);
     }
     List<str> parts = [];
     for (MED_window.Placed one in windows) {

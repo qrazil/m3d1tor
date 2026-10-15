@@ -334,9 +334,9 @@ ui/MED_files.m31  project root, file walk with ignore and hidden toggles, direct
 ui/MED_grep.m31  corpus + search (literal fast path, regex, smart-case); tests/t_grep.m31
 ui/MED_picker.m31  picker state machine (prompt, ranking, selection, keys); tests/t_picker.m31
 ui/MED_picker_view.m31  picker drawing: list, highlights, preview pane
-ui/MED_window.m31  window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
+ui/MED_window.m31  window layout tree with nvim's frame sizes (win_split_ins, win_equal, frame_setheight / width, frame_new_height / width, win_exchange / win_rotate / win_totop), placement into screen rectangles, directional neighbours, the tab page record; tests/t_window.m31, tests/oracles/oracle_windows.py
 engine/MED_view.m31  drawing
-ui/MED_window.m31  window layout tree: split, remove, placement into screen rectangles, directional neighbours; tests/t_window.m31
+ui/MED_window.m31  window layout tree with nvim's frame sizes (win_split_ins, win_equal, frame_setheight / width, frame_new_height / width, win_exchange / win_rotate / win_totop), placement into screen rectangles, directional neighbours, the tab page record; tests/t_window.m31, tests/oracles/oracle_windows.py
 MED_help.m31       ? and which-key content from keymap data
 m3.m31        entry: args, terminal check, tui loop
 ui/MED_app.m31  front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
@@ -475,7 +475,7 @@ as Helix without its language intelligence", and the tag description must say so
   quickfix list yet; the buffers picker is in buffer order, not MRU. There is no
   nvim oracle for buffers and pickers, so they are covered by unit tests and
   manual runs only.
-* M4 (in progress): splits are done (`:split :vsplit :new :vnew :close :only :wincmd`, `<C-w>` s v n c q o w W p t b h j k l, `<Space>sv/sh/se/sc/o/n`, mouse click focuses a window). Windows split the space equally (no `:resize` or `<C-w>+-<>|`, `<C-w>=` is a no-op); each has its own status line and shows its own cursor and view of a shared buffer; closing a window keeps its buffer loaded (hidden), so `:q` of a modified buffer in a window never prompts, and E162 reports it at the final quit. Edits made through one window do not move the cursor of another window on the same buffer (it is only clamped). Not done: `<C-w>HJKLrRx` (move/rotate/exchange windows), counts for `<C-w>`.
+* M4 (in progress): splits are done (`:split :vsplit :new :vnew :close :only :wincmd`, `<C-w>` s v n c q o w W p t b h j k l, `<Space>sv/sh/se/sc/o/n`, mouse click focuses a window). Window sizes: see the 0.4.0 window model (nvim's frame sizes, equalising after a split or close, `:resize`, `<C-w> + - < > _ | =`, `H J K L r R x T`, counts); each has its own status line and shows its own cursor and view of a shared buffer; closing a window keeps its buffer loaded (hidden), so `:q` of a modified buffer in a window never prompts, and E162 reports it at the final quit. Edits made through one window do not move the cursor of another window on the same buffer (it is only clamped). Tab pages arrived in 0.4.0 (`:tabnew` and friends, `gt` / `gT`, `<C-w>T`): a page is a window list, a layout and the active window.
 * M4 explorer: done. `<Space>e` / `<Space>fe` is the picker explorer (`-` up on an empty prompt). `:Explore [dir]`, `:Sexplore`, `:Vexplore` and `:e dir` open a read-only directory buffer (`../`, folders, files; cursor on the file we came from): Enter opens the entry (the listing buffer is dropped when a file replaces it), `-` goes up, and any edit is undone at once by re-reading the directory with Vim's E21; `:w` gives E382. Not done: netrw's rename/delete/create keys, `gh` hidden toggle (dotfiles are always shown, `.git` never). In every picker CTRL-S / CTRL-V accept a file, buffer or grep hit into a new window below / beside.
 * M4 keymap file: done. `:map` family (see 2.3), `:source`, startup file, `-u`.
 * M4 (done): git gutter (`MED_git`, signs and `]c` `[c`, HEAD read through `git show`, diff by LCS
