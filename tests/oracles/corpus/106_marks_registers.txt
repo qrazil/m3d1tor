@@ -1,0 +1,482 @@
+# marks, registers, macros, the `.` mark and the change list (0.4.0 probe round, checked against nvim).
+# Not here: text typed in one burst (`ihello<Esc>`) leaves `. at the start of the burst in nvim and at the
+# last character here, because nvim's insertchar() joins typeahead; `gq` leaves `. one line lower.
+three\nfour\nfive\nsix	1,1	Jgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	3Jgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	gJgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	:j<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	:1,3j<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	:j!<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	vjJgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyjpgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyjPgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyGpgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yy2pgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	2yyjpgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ywjpgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ywjPgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yw3pgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyjgpgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyj]pgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yy:2put<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yy:0put<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2t0<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2t$<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2m0<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:1m$<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3m0<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:g/o/d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:g/e/s/e/E/<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:%s/e/E/g<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3s/e/E/<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:%norm Ax<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:>|gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	>jgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	==gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	gUUgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	guugg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	g~~gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	gUjgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	dw`.i|<Esc>
+three\nfour\nfive\nsix	1,1	dwu`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ddu`.i|<Esc>
+three\nfour\nfive\nsix	1,1	jddggu`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxggu`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxggu<C-r>`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxuu<C-r>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	Ox<Esc>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	Ox<Esc>ugg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyjpggu`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ddjpgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xp`.i|<Esc>
+three\nfour\nfive\nsix	1,1	~gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	5~gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ddggg;i|<Esc>
+three\nfour\nfive\nsix	1,1	yyjpggg;i|<Esc>
+three\nfour\nfive\nsix	1,1	Jggg;i|<Esc>
+three\nfour\nfive\nsix	1,1	xGxggg;g;i|<Esc>
+three\nfour\nfive\nsix	3,1	ddgg`.i|<Esc>
+three\nfour\nfive\nsix	2,1	2ddgg`.i|<Esc>
+three\nfour\nfive\nsix	3,1	Jgg`.i|<Esc>
+three\nfour\nfive\nsix	2,1	Jgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	3Jgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	4Jgg`.i|<Esc>
+three\nfour\nfive\nsix	0,3	Jgg`.i|<Esc>
+three\nfour\nfive\nsix	3,1	:d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	2,1	:2,3d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:3,4d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	:1,4d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	:%d<CR>`.i|<Esc>
+three\nfour\nfive\nsix	3,1	dkgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	djgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	dGgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	dGgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	dggG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	d}gg`.i|<Esc>
+three\nfour\nfive\nsix	3,1	pgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	yy3Pgg`.i|<Esc>
+three\nfour\nfive\nsix	0,1	yy:1put!<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ox<Esc>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	Ox<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	2ox<Esc>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3>|gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	>2jgg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3s/o/0/<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3s/\\w/X/<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3s/$/!/<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2s/r/\\r/<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:%s/\\n//<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3g/./s/$/!/<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3normal Ax<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3sort!<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:%sort!<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	gUjG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3normal ~<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3co0<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3t.<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3m$<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2m3<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:3m1<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3m4<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:4m1<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ddpG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ddPG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ddjpG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	yyjpuG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxu<C-r>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxuuG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxuu<C-r><C-r>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	ox<Esc>juG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3d<CR>uG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:%s/e/E/<CR>uG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:%s/e/E/<CR>u<C-r>gg`.i|<Esc>
+three\nfour\nfive\nsix	1,1	:2,3j<CR>uG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxgg:undo 1<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxgg:earlier 2<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxgg:undo 0<CR>:redo<CR>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxgg2uG`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxgg2u2<C-r>G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxuggg-G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxuggg+G`.i|<Esc>
+three\nfour\nfive\nsix	1,1	xjxjxg-g-g+G`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:2,3sort<CR>G`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:1,2sort<CR>G`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:1,4sort<CR>G`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:%sort<CR>G`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:3,6sort<CR>gg`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:3,5sort<CR>gg`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:3,4sort!<CR>gg`.i|<Esc>
+b\nd\na\nc\ne\nf	0,0	:%sort u<CR>gg`.i|<Esc>
+b\nd\nd\nc\ne\nf	0,0	:%sort u<CR>G`.i|<Esc>
+b\nd\nd\nc\ne\nf	0,0	:2,4sort u<CR>G`.i|<Esc>
+a\nb\nc\nd\ne\nf	0,0	:2,4sort<CR>G`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	4,0	:2,3sort!<CR>`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	4,0	:2,3sort!<CR>gg`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	4,0	:2,3sort!<CR>G`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	4,0	:2,3sort!<CR>:1<CR>`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	4,0	:2,3sort!<CR>g;i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	0,0	:2,4sort!<CR>G`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	0,0	:1,3sort!<CR>G`.i|<Esc>
+r0\nr1\nr2\nr3\nr4\nr5	0,0	:3,5sort!<CR>gg`.i|<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	majjd'a
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	majjd`a
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	mbggd'b
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	majj`ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	majj'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	maggOnew<Esc>'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	magg3dd'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	maggddu'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	3,3	majkdd'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	ma:1d<CR>'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	ma:1,2d<CR>'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	ma:1m$<CR>'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	ma:1t$<CR>'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	2,3	magg:s/alpha/XX/<CR>`ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	majkJ`ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	ma0kJ`ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	mayyP`ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	maggyyP'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	maggyyjp`ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	maggjyy4Gp'ax
+one\ntwo\nthree\nfour\nfive\nsix	2,0	ma:'a,+1d<CR>
+one\ntwo\nthree\nfour\nfive\nsix	1,0	maj:'a,.d<CR>
+one\ntwo\nthree\nfour\nfive\nsix	1,0	majmb:'a,'bs/$/!/<CR>
+one\ntwo\nthree\nfour\nfive\nsix	1,0	majmb:'a,'bj<CR>
+one\ntwo\nthree\nfour\nfive\nsix	4,0	mazzgg:'ad<CR>
+one\ntwo\nthree\nfour\nfive\nsix	1,0	maGmb:'a,'bg/o/s/o/0/<CR>
+one\ntwo\nthree\nfour\nfive\nsix	1,0	majjmb'a''x
+one\ntwo\nthree\nfour\nfive\nsix	1,0	majjmb'a`bx
+one\ntwo\nthree\nfour\nfive\nsix	0,0	jjmaggj'a:marks a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	3,2	mxgg:k y<CR>'yx
+one\ntwo\nthree\nfour\nfive\nsix	3,2	mxgg:mark y<CR>`yx
+one\ntwo\nthree\nfour\nfive\nsix	3,2	mxmy:delmarks x<CR>'xx
+one\ntwo\nthree\nfour\nfive\nsix	3,2	mxmy:delm x y<CR>'yx
+one\ntwo\nthree\nfour\nfive\nsix	3,2	mxmy:delmarks a-z<CR>'yx
+one\ntwo\nthree\nfour\nfive\nsix	3,2	mxmy:delmarks!<CR>'yx
+one\ntwo\nthree\nfour\nfive\nsix	2,1	mAgg'Ax
+one\ntwo\nthree\nfour\nfive\nsix	2,1	mAGgg`Ax
+one\ntwo\nthree\nfour\nfive\nsix	2,1	mAjmB'Ax'Bx
+one\ntwo\nthree\nfour\nfive\nsix	2,1	mA:delmarks A<CR>'Ax
+one\ntwo\nthree\nfour\nfive\nsix	2,1	yiw`[x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	yyj`]x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	jyyk'[x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	viwj<Esc>gg`<x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	Vj<Esc>gg`>x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	Vjd`<x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	ihello<Esc>gg`^x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	ihello<Esc>gg`[x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	ihello<Esc>gg`]x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	ihello<Esc>jj``x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	Gggx''x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	Gggx``x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	Ggg<C-o>x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	jjmajjmb]'x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	jjmajjmb['x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	jjmajjmb]`x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	jjmajjmb[`x
+one\ntwo\nthree\nfour\nfive\nsix	0,0	mjjjmkgg]'x]'x
+one\ntwo\nthree\nfour\nfive\nsix	2,1	ma$g`ax
+one\ntwo\nthree\nfour\nfive\nsix	2,1	magg$g'ax
+one\ntwo\nthree\nfour\nfive\nsix	2,1	mayy:1<CR>'aP
+one\ntwo\nthree\nfour\nfive\nsix	3,0	mazfkfa
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma>>gg'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma:>><CR>gg'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ddggP'.x
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jddggP`.x
+one\ntwo\nthree\nfour\nfive\nsix	3,0	xu`.x
+one\ntwo\nthree\nfour\nfive\nsix	3,0	xuu`[x
+one\ntwo\nthree\nfour\nfive\nsix	3,0	xu:marks .<CR>
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma:2,3normal dd<CR>'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma:g/o/d<CR>'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma:v/o/d<CR>'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma:sort!<CR>'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	ma:2<CR>:normal! `ax<CR>
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jmaggdd'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jmaggddu'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jmaggddu<C-r>'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jmaggOxx<Esc>u'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jmaGdd'ax
+one\ntwo\nthree\nfour\nfive\nsix	3,0	jmaggR<C-o>'ax
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayw"Ayw"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayy"Ayw"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayw"Ayy"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayy"Ayy"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayy"aP
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,6	"ayw"bywj"ap"bp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"_ddp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yyjdd"0p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yyjdd"1p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	ddddddu"1p"2p"3p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	dwdwdw"-p"1p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	dd.u"1pu"2p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	dd"1pu.u.
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	x"-p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	dw"-P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	d)"1p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	d}"1p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	d/gamma<CR>"/p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yw/zeta<CR>"/p":p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:s/alpha/A/<CR>":p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:s/alpha/A/<CR>@:j@@
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	ihello<Esc>".p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	ihello<Esc>j".p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:put =5*5<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"=5*5<CR>p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"=toupper('abc')<CR>P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	i<C-r>=3+4<CR><Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yiwA <C-r>"<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yiwA <C-r>0<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yyA <C-r>"<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayiwA <C-r>a<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayiwA <C-r><C-r>a<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayiwA <C-r><C-o>a<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayiwA <C-r><C-p>a<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:let @a='xyz'<CR>"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:let @a='xyz'<CR>:let @A='123'<CR>"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:let @a="x\ny"<CR>"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:let @/='beta'<CR>nx
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:let @"='QQ'<CR>p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:let @0='QQ'<CR>"0p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayw:reg a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:2put a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yy:2put<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yy:2put!<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yy:0put<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yy:$put<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yw:put<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:y a<CR>:2put a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:2,3y a<CR>:$put a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:2,3y A<CR>:1y A<CR>:$put a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:d a<CR>:$put a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:2d a|$put a<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	:2,3d b<CR>"bp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	3yy3p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yw3p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yw3P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yyjgpix<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	ywjgpix<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	yyjgPix<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,0	yyk]p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	1,3	  yyk]p
+one\ntwo\nthree\nfour\nfive\nsix	0,0	yyj]p
+one\ntwo\nthree\nfour\nfive\nsix	0,0	yyj[p
+one\ntwo\nthree\nfour\nfive\nsix	0,0	yyj]P
+foo(bar) baz\n  indented line\n\ttabbed\nlast one here	0,0	jyyj]p
+foo(bar) baz\n  indented line\n\ttabbed\nlast one here	0,0	jyyk[p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayy"byw"cyiw:reg abc<CR>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"Ayy"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"ayiw"ap"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	"qyw"qp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	wyiwb"0P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	v$y$p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	vey$"0p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jly$p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jlyGp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jlyGP
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jld$P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jlcX<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jjIXX<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jj$AXX<Esc>
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,0	<C-v>jlyjjP
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	xpxp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	ddpddp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	ddkP
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yyPjp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yypk.
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	"ayy"ap.
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	"ayy"ap"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	"1p..
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	ddddu"1p..
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	ddjdd"1pu"2p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	"add"bdd"ap"bp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	"Add"Add"ap
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	vjd"-p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	vjd"1p
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	vjy"0P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	v"ay"aP
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	vjp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yiwjviwp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yiwjviwpgg"0P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yiwjviwpgg"1P
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yiwjVp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yyjviwp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yyjVp
+alpha beta\ngamma delta\nepsilon zeta\neta theta\niota kappa	0,2	yiwjviwP""p
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jq3@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jq@a@@
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jq2@a@@
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jq5@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jq10@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxjq@a:2,4normal @a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxjq:%normal @a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaIx<Esc>q:g/e/normal @a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>q:2,4normal 2@a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxq:s/o/0/<CR>@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qqAAy<Esc>q@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qqAAy<Esc>q"ap
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qqaq"ap
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qqaAz<Esc>q@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>q:let @a='Ay<Esc>'<CR>@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa/e<CR>xq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaf!xq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qafox@aq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxjq5@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa0fex;q@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qadwjq@a.
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaddq@a.
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>q@au
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jA?<Esc>qu
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA!<Esc>jA?<Esc>q@au
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa:s/$/!/<CR>jq@a@@
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa:s/$/!/<CR>jq@:
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	@@
+one\ntwo\nthree\nfour\nfive\nsix	0,0	@:
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa<Esc>q@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaiX<Esc>qu@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaiX<Esc>q"aP
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaiX<C-v><Esc><Esc>q"aP
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaoNew<Esc>q3@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxq"ap@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa"byyq"bp
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa"ayyq"ap
+one\ntwo\nthree\nfour\nfive\nsix	0,0	yy:let @a=@"<CR>@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	ix<Esc>qaq:let @a='j'<CR>@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	:let @a="Ax\<Esc>"<CR>@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qqA1<Esc>jq@qj@@
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA1<Esc>jq:2,3normal @a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA1<Esc>jq:2,3normal! @a<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA1<Esc>jq3@a2@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaA1<Esc>jq3@a@@
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa3xq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa3xq2@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxq3@a.
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxq3@au
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaxq3@a3u
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>q@a@a:undo<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>q@a@a:undo<CR>:undo<CR>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>q2@au
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qu@a<C-r>
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qj.
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>qj@a.
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qaAx<Esc>jqj@a@:
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa:normal Ax<CR>jq@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa:normal Ax<CR>jq2@a
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa:s/e/E/<CR>jq2@a@:
+one\ntwo\nthree\nfour\nfive\nsix	0,0	qa:s/e/E/<CR>jq2@a:s/o/O/<CR>@:@@
+three\nfour\nfive\nsix\nseven	1,1	d}gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	d/five<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	d/five<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	dvjG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	vjdG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	vjjdG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	vjcX<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	c/five<CR>X<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	<C-v>jjdG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	<C-v>jjIX<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	vjyG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	vj~G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	vjUG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	Vjd`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	Vjp`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	yyjVp`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	yyjvjp`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	gqqG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	==G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	!!cat<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	!jsort<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	:r !echo hi<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	:2,3!sort -r<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	0,2	:.,+1>|G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,0	:.-1,.d<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,0	yyP`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,0	ccX<CR>Y<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,0	3ccX<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,0	D`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	D`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	rXG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	3rXG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	r<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	<C-a>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	i<CR><Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	A<CR><Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	i<C-j><Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	ix<CR>y<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	ox<CR>y<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	Ox<CR>y<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	gJG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	gIX<Esc>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	g~~G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	gUiwG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	gUUG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	3gUUG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	>>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	>iwG`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:s/i/I/<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:g/e/s/$/!/<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:g/e/m0<CR>G`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:g/e/t.<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:g/e/normal dd<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:v/e/d<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:g/e/j<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:%!sort<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:norm! Ax<CR>gg`.i|<Esc>
+three\nfour\nfive\nsix\nseven	2,2	:norm! ddp<CR>gg`.i|<Esc>
+one\ntwo\nthree	0,0	"=1+2<CR>p
+one\ntwo\nthree	0,0	"=1+2<CR>P
+one\ntwo\nthree	0,0	"=1+2<CR>pu
+one\ntwo\nthree	0,0	3"=1+2<CR>p
+one\ntwo\nthree	0,0	"=1+2<Esc>p
+one\ntwo\nthree	0,0	"=1+2<CR>"=3*3<CR>p
+one\ntwo\nthree	0,0	"=1+2<CR>p"=3*3<CR>p
+one\ntwo\nthree	0,0	"=line('.')<CR>p
+one\ntwo\nthree	0,0	jj"=line('.')<CR>p
+one\ntwo\nthree	0,0	"='a'."b"<CR>gp
+one\ntwo\nthree	0,0	:put ='x'<CR>
+one\ntwo\nthree	0,0	:2put =1+1<CR>
+one\ntwo\nthree	0,0	:0put =1+1<CR>
+one\ntwo\nthree	0,0	:put! =5<CR>
+one\ntwo\nthree	0,0	:$put ='end'<CR>
+one\ntwo\nthree	0,0	vj"=1+1<CR>p
+one\ntwo\nthree	0,0	i<C-r>=1+1<CR><Esc>
+one\ntwo\nthree	0,0	:let @a='x'<CR>p
+one\ntwo\nthree	0,0	:let @a='x'<CR>"ap
+one\ntwo\nthree	0,0	yw:let @a='x'<CR>p
+one\ntwo\nthree	0,0	:let @0='x'<CR>p
+one\ntwo\nthree	0,0	:let @"='x'<CR>"0p
+one\ntwo\nthree	0,0	dd:let @a='x'<CR>p
+one\ntwo\nthree	0,0	:let @A='x'<CR>"ap
+one\ntwo\nthree	0,0	"ayy:let @A='x'<CR>"ap
+one\ntwo\nthree	0,0	:let @a=@a . 'x'<CR>"ap
+one\ntwo\nthree	0,0	:let @-='z'<CR>"-p
+one\ntwo\nthree	0,0	:let @1='z'<CR>"1p
+one\ntwo\nthree	0,0	:let @/='tw'<CR>nx
+one\ntwo\nthree	0,0	:let @:='ls'<CR>@:
+one\ntwo\nthree	0,0	:let @a="dd"<CR>@a
+one\ntwo\nthree	0,0	:let @a="ddp"<CR>@a
+one\ntwo\nthree	0,0	:let @a="Ax\<Esc>"<CR>@a
+one\ntwo\nthree	0,0	:let @a='A!'.nr2char(27)<CR>@a

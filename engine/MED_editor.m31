@@ -101,6 +101,8 @@ pub type SubRun {
     pub int nmatch_tl = 0;
     pub bool is_skip_match = false;
     pub int sub_row = 0;
+    /// The first line a substitution changed (-1: none yet).
+    pub int first_changed = -1;
     pub str sub_first = "";
     pub bool is_have_first = false;
 }
@@ -375,6 +377,8 @@ pub type Editor {
     pub bool is_in_dot = false;
     /// A `/` or `?` whose pattern was just typed: the motion may run.
     pub bool is_search_ready = false;
+    /// `"=` was answered (the value is in register `=`): do not ask again.
+    pub bool is_expr_ready = false;
     pub str dot_reg = "";
     pub int dot_count = 0;
     pub List<int> dot_body = [];
@@ -458,6 +462,12 @@ pub type Editor {
     pub bool is_sub_has = false;
     /// Set while a caller adjusts the marks itself (`:s` line breaks).
     pub bool is_adjust_off = false;
+    /// Set while a step is saved for undo without a change to note (a
+    /// `:sort` that moved nothing): `.` and the change list stay.
+    pub bool is_change_unnoted = false;
+    /// Whole lines are being deleted (the Visual marks then stay on the line
+    /// that took their place).
+    bool is_line_delete = false;
 }
 
 /// The effective 'shiftwidth': 0 stands for 'tabstop'.
@@ -519,6 +529,16 @@ pub void Editor.open_block() {
     }
 }
 
+/// Put the `.` mark (and the newest change list entry) where nvim's own
+/// bookkeeping of a whole-line change leaves it: the first line it touched,
+/// column 0 (put, join, line delete, shift, :copy, :move, :s, undo ...).
+pub void Editor.override_change(MED_buffer.Pos place) {
+    marks.set(".", place);
+    if (change_length > 0) {
+        marks.set(change_name(change_length - 1), place);
+    }
+}
+
 /// The single entry point for changing text. The first change of a block
 /// remembers the cursor, which is what undo restores.
 pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos position, str replacement) {
@@ -529,7 +549,7 @@ pub MED_buffer.Edit Editor.change(MED_buffer.Pos from, MED_buffer.Pos position, 
         block_before = MED_buffer.Pos(row, col);
         block_namedm = snapshot_named();
     }
-    if (from.row != position.row || from.col != position.col || replacement != "") {
+    if (!is_change_unnoted && (from.row != position.row || from.col != position.col || replacement != "")) {
         note_change(from);
     }
     if (!is_uline_off && from.row == position.row && uline_row != from.row && !replacement.index_of("\n").is_some()) {
@@ -668,6 +688,9 @@ pub void Editor.mark_adjust(int left, int new_delete, int new_insert) {
                 // a deleted previous-context mark is line 0 (checkpcmark() may
                 // bring the one before it back)
                 marks.set(name, MED_buffer.Pos(-1, 0));
+            } else if ((name == "<" || name == ">") && is_line_delete) {
+                // the Visual marks stay on the first line that took the place
+                marks.set(name, MED_buffer.Pos(left, position.col));
             } else {
                 int result = left;
                 if (result > 0) {
@@ -695,7 +718,9 @@ void Editor.adjust_lines(MED_buffer.Pos from, MED_buffer.Pos position, str repla
         return;
     }
     if (replacement == "" && from.col == 0 && position.col == 0 && removed > 0) {
+        is_line_delete = true;
         mark_adjust(from.row, removed, 0);
+        is_line_delete = false;
     } else if (removed == 0 && from.col == 0 && added > 0 && replacement.ends_with("\n")) {
         mark_adjust(from.row, 0, added);
     } else if (added > removed) {
@@ -818,7 +843,20 @@ Landing Editor.apply_edit(MED_buffer.Edit edit, bool is_forward) {
     if (from_text == "" || to_text == "") {
         str moved = from_text + to_text;
         if (moved.starts_with("\n")) {
+            // a line break at the start of a line opened a line above it (O),
+            // one at the end of a line a line below it (o)
+            bool is_above = false;
+            if (edit.from.col == 0) {
+                if (from_text == "") {
+                    is_above = old_lines[0].size() > 0;
+                } else {
+                    is_above = old_lines[0].size() == 0 && old_lines.size() > 1 && old_lines[1].size() > 0;
+                }
+            }
             landing.mtop = landing.top + 1;
+            if (is_above) {
+                landing.mtop = landing.top;
+            }
             landing.mnew = newsize - 1;
         } else if (moved.ends_with("\n") && edit.from.col == 0) {
             landing.mnew = newsize - 1;
@@ -890,6 +928,10 @@ void Editor.land(Node node, List<Landing> landings, bool is_undoing, int old_lin
                 is_set_row = true;
             }
         }
+    }
+    if (landings.size() > 0) {
+        // the `.` mark: where the last entry processed changed lines
+        override_change(MED_buffer.Pos(landings[landings.size() - 1].mtop, 0));
     }
     int lnum = cursor_row + 1;
     if (!is_set_row) {

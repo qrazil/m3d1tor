@@ -563,6 +563,10 @@ MED_motion.Motion mark_motion(MED_editor.Editor editor, int cmd, int name, bool 
     Option<MED_buffer.Pos> found = mark_position(editor, name);
     match (found) {
         case Some(MED_buffer.Pos position): {
+            if (position.row >= editor.buffer.line_count()) {
+                editor.message = "E19: Mark has invalid line number";
+                return MED_motion.failed();
+            }
             MED_motion.Motion motion = motion_at(editor);
             motion.row = position.row;
             motion.col = position.col;
@@ -619,8 +623,74 @@ MED_motion.Motion percent_motion(MED_editor.Editor editor, int count) {
     return motion;
 }
 
+// `]'` `['` `]\`` `[\``: the next / previous lowercase mark (nvim's
+// getnextmark). With the line forms a mark on the cursor line does not count;
+// when there is none the cursor stays (a line form still goes to the first
+// non-blank).
+MED_motion.Motion next_mark_motion(MED_editor.Editor editor, bool is_forward, bool is_linewise, int count) {
+    int row = editor.row;
+    int col = editor.col;
+    for (int step in 0 .. count1(count)) {
+        int from_col = col;
+        if (is_linewise && is_forward) {
+            from_col = 1000000000;
+        } else if (is_linewise) {
+            from_col = 0;
+        }
+        bool is_found = false;
+        int best_row = 0;
+        int best_col = 0;
+        for (int code in 97 .. 123) {
+            match (editor.marks.get(str.from_chars([code]))) {
+                case Some(MED_buffer.Pos mark): {
+                    bool is_after = mark.row > row || (mark.row == row && mark.col > from_col);
+                    bool is_before = mark.row < row || (mark.row == row && mark.col < from_col);
+                    bool is_wanted = is_after;
+                    if (!is_forward) {
+                        is_wanted = is_before;
+                    }
+                    if (is_wanted) {
+                        bool is_better = !is_found;
+                        if (is_found && is_forward) {
+                            is_better = mark.row < best_row || (mark.row == best_row && mark.col < best_col);
+                        } else if (is_found) {
+                            is_better = mark.row > best_row || (mark.row == best_row && mark.col > best_col);
+                        }
+                        if (is_better) {
+                            is_found = true;
+                            best_row = mark.row;
+                            best_col = mark.col;
+                        }
+                    }
+                }
+                case None: {
+                }
+            }
+        }
+        if (!is_found) {
+            break;
+        }
+        row = best_row;
+        col = best_col;
+    }
+    MED_motion.Motion motion = motion_at(editor);
+    motion.row = row;
+    motion.col = col;
+    motion.is_jump = true;
+    if (is_linewise) {
+        motion.is_linewise = true;
+        motion.col = first_nonblank_fix(editor.buffer.line(row));
+    } else if (motion.col > editor.buffer.line_size(row)) {
+        motion.col = editor.buffer.line_size(row);
+    }
+    return motion;
+}
+
 // `[(` `[{` `])` `]}`
 MED_motion.Motion bracket_motion(MED_editor.Editor editor, int first, int second, int count) {
+    if (second == 39 || second == 96) {
+        return next_mark_motion(editor, first == 93, second == 39, count);
+    }
     MED_motion.Motion motion = motion_at(editor);
     int directory = 1;
     if (first == 91) {
@@ -1226,6 +1296,7 @@ void delete_lines(MED_editor.Editor editor, int first, int last) {
     }
     // deleting lines forgets the line "U" would restore
     editor.uline_row = -1;
+    editor.override_change(MED_buffer.Pos(first, 0));
 }
 
 // Vim's op_yank: the register write for a yank.
@@ -1309,6 +1380,10 @@ bool did_op_delete(MED_editor.Editor editor, Oap oap) {
     } else {
         MED_buffer.Pos position = exclusive_end(editor, oap);
         editor.change(oap.start, position, "");
+        if (position.row > oap.start.row) {
+            // a character-wise delete over lines ends in a join of two lines
+            editor.override_change(MED_buffer.Pos(oap.start.row + 1, 0));
+        }
         editor.row = oap.start.row;
         editor.col = oap.start.col;
         if (oap.operator != "c") {
@@ -1396,6 +1471,7 @@ void op_shift(MED_editor.Editor editor, Oap oap) {
     if (end_length > 0) {
         end_length = end_length - 1;
     }
+    editor.override_change(MED_buffer.Pos(oap.start.row, 0));
     set_op_marks(editor, oap.start, MED_buffer.Pos(oap.end.row, end_length));
     // beginline(BL_SOL | BL_FIX) with 'nostartofline': back to the wanted column
     editor.row = oap.start.row;
@@ -2011,6 +2087,7 @@ pub bool did_do_join(MED_editor.Editor editor, int row, int count, bool is_inser
         end_col = end_col - 1;
     }
     set_op_marks(editor, MED_buffer.Pos(row, first.size()), MED_buffer.Pos(row, end_col));
+    editor.override_change(MED_buffer.Pos(row + 1, 0));
     editor.row = row;
     editor.col = join_col;
     return true;
@@ -2212,6 +2289,7 @@ bool did_put_reg(MED_editor.Editor editor, MED_register.Reg reg0, int dir0, int 
         if ((flags & PUT_FIXINDENT) != 0) {
             fix_put_indent(editor, first_row, last_put, orig_indent);
         }
+        editor.override_change(MED_buffer.Pos(first_row, 0));
         int last_length = buffer.line_size(last_put);
         if (last_length > 0) {
             last_length = last_length - 1;
@@ -5501,6 +5579,26 @@ void run_cmd(MED_editor.Editor editor, MED_parse.Parsed parsed, List<int> typed)
         is_ok = did_do_put(editor, parsed.reg, directory, count, false);
         editor.clamp();
         editor.want_from_cursor();
+    } else if ((key == 93 || key == 91) && parsed.keys.size() == 2 && (parsed.keys[1] == 112 || parsed.keys[1] == 80)) {
+        // ]p [p ]P [P: put and fix the indent to the current line
+        record_dot(editor, parsed);
+        int directory = -1;
+        if (key == 93 && parsed.keys[1] == 112) {
+            directory = 1;
+        }
+        Option<MED_register.Reg> found = editor.regs.get(parsed.reg);
+        match (found) {
+            case None: {
+                editor.message = "E353: Nothing in register " + parsed.reg;
+                editor.noop_node();
+                is_ok = false;
+            }
+            case Some(MED_register.Reg reg): {
+                is_ok = did_put_reg(editor, reg, directory, count, false, PUT_FIXINDENT, 0);
+            }
+        }
+        editor.clamp();
+        editor.want_from_cursor();
     } else if (key == 117) {
         int undo_tick = editor.buffer.tick;
         cmd_undo(editor, count, false);
@@ -5865,6 +5963,25 @@ void stop_recording(MED_editor.Editor editor) {
 
 // Parse what is pending and run it once it is a whole command.
 void feed_pending(MED_editor.Editor editor) {
+    if (!editor.is_expr_ready && is_expr_register_pending(editor.pending)) {
+        // `"=` asks for an expression on the command line before the command
+        editor.mode_before_cmd = editor.mode;
+        editor.expr_from = 3;
+        editor.expr_line = "";
+        editor.expr_position = 0;
+        editor.expr_type = 58;
+        editor.expr_hist_at = -1;
+        editor.expr_hist_prefix = "";
+        editor.hist_at = -1;
+        editor.hist_prefix = "";
+        editor.cmd_type = 61;
+        editor.cmd_wait = 0;
+        editor.cmd_saved = editor.pending;
+        editor.pending = [];
+        set_cmdline(editor, "");
+        editor.mode = MED_editor.CMDLINE;
+        return;
+    }
     MED_parse.Parsed parsed = MED_parse.parse(editor.pending, editor.mode == MED_editor.VISUAL);
     if (parsed.status == MED_parse.NEED_MORE) {
         return;
@@ -5884,6 +6001,26 @@ void feed_pending(MED_editor.Editor editor) {
         return;
     }
     execute(editor, parsed, typed);
+}
+
+// Whether the pending keys are a count and then `"=`.
+bool is_expr_register_pending(List<int> keys) {
+    int size = keys.size();
+    if (size < 2 || keys[size - 2] != 34 || keys[size - 1] != 61) {
+        return false;
+    }
+    int index = 0;
+    while (index < size - 2) {
+        if (keys[index] >= 48 && keys[index] <= 57) {
+            index = index + 1;
+        } else if (keys[index] == 34 && index + 1 < size - 2) {
+            // an earlier register prefix
+            index = index + 2;
+        } else {
+            return false;
+        }
+    }
+    return true;
 }
 
 pub void feed_keys(MED_editor.Editor editor, List<int> keys) {
@@ -6343,6 +6480,7 @@ void block_delete(MED_editor.Editor editor, Oap oap) {
         }
         editor.change(MED_buffer.Pos(row, block_cut_value.from), MED_buffer.Pos(row, block_cut_value.target_position), " ".repeat(block_cut_value.pre + block_cut_value.post));
     }
+    editor.override_change(MED_buffer.Pos(oap.start.row, first_col));
     editor.row = oap.start.row;
     editor.col = first_col;
 }
@@ -6866,6 +7004,10 @@ void block_insert(MED_editor.Editor editor, int top, int bottom, int left_vcol, 
             rest = rest.substr(1, rest.size());
         }
         editor.change(MED_buffer.Pos(row, 0), MED_buffer.Pos(row, old.size()), old.substr(0, offset) + " ".repeat(spaces) + text + post + rest);
+    }
+    if (bottom > top) {
+        // changed_lines(start + 1, 0, end + 1)
+        editor.override_change(MED_buffer.Pos(top + 1, 0));
     }
 }
 
@@ -7491,6 +7633,23 @@ str expr_value(MED_editor.Editor editor, str text) {
 void expr_finish(MED_editor.Editor editor) {
     int from = editor.expr_from;
     str value = expr_value(editor, editor.cmdline);
+    if (from == 3) {
+        // `"=expr<CR>`: the value is register `=` for the command that follows
+        List<int> saved = editor.cmd_saved;
+        expr_restore(editor);
+        int kind = MED_register.CHAR;
+        List<str> lines = value.split("\n");
+        if (value.ends_with("\n")) {
+            kind = MED_register.LINE;
+            lines.pop();
+        }
+        editor.regs.set_named("=", MED_register.Reg(lines, kind));
+        editor.pending = saved;
+        editor.is_expr_ready = true;
+        feed_pending(editor);
+        editor.is_expr_ready = false;
+        return;
+    }
     expr_restore(editor);
     if (from == 1) {
         cmd_insert(editor, value.split("\n").join("\r"));
@@ -7981,6 +8140,7 @@ pub void ex_shift(MED_editor.Editor editor, int first, int last, bool is_left, i
     if (end_length > 0) {
         end_length = end_length - 1;
     }
+    editor.override_change(MED_buffer.Pos(first, 0));
     set_op_marks(editor, MED_buffer.Pos(first, 0), MED_buffer.Pos(last, end_length));
     editor.row = last;
     editor.col = col;

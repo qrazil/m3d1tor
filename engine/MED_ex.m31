@@ -281,7 +281,7 @@ Step run_abbrev(MED_editor.Editor editor, Cmd cmd) {
         mode = "c";
     }
     if (name.ends_with("clear")) {
-        abbrev_remove(editor, "", mode);
+        did_abbrev_remove(editor, "", mode);
         return done();
     }
     str text = cmd.arg.trim();
@@ -303,7 +303,7 @@ Step run_abbrev(MED_editor.Editor editor, Cmd cmd) {
     str lhs = text.substr(0, split);
     str rhs = text.substr(split, text.size()).trim();
     if (name.contains("unab")) {
-        if (!abbrev_remove(editor, lhs, mode)) {
+        if (!did_abbrev_remove(editor, lhs, mode)) {
             return fail(editor, "E24: No such abbreviation");
         }
         return done();
@@ -330,7 +330,7 @@ Step run_abbrev(MED_editor.Editor editor, Cmd cmd) {
         return done();
     }
     // the part of an entry for another mode survives
-    abbrev_remove(editor, lhs, mode);
+    did_abbrev_remove(editor, lhs, mode);
     editor.abbr_lhs.push(lhs);
     editor.abbr_rhs.push(rhs);
     editor.abbr_mode.push(mode);
@@ -339,7 +339,7 @@ Step run_abbrev(MED_editor.Editor editor, Cmd cmd) {
 
 // Remove the abbreviation `lhs` (every one when empty) for `mode` ("!": all);
 // an entry for both modes keeps the other mode. False when none matched.
-bool abbrev_remove(MED_editor.Editor editor, str lhs, str mode) {
+bool did_abbrev_remove(MED_editor.Editor editor, str lhs, str mode) {
     List<str> keep_lhs = [];
     List<str> keep_rhs = [];
     List<str> keep_mode = [];
@@ -423,11 +423,7 @@ MED_expr.Context expression_context(MED_editor.Editor editor) {
             case None: {
             }
             case Some(MED_register.Reg reg): {
-                str body = reg.text();
-                if (reg.kind == MED_register.LINE) {
-                    body = body + "\n";
-                }
-                context.registers.set(name, body);
+                context.registers.set(name, reg.text());
             }
         }
     }
@@ -464,7 +460,7 @@ Step let_register(MED_editor.Editor editor, str text) {
         editor.is_last_is_sub = false;
         return done();
     }
-    if (!MED_register.is_valid(name) || name == "\"" || name == "_" || name == "." || name == ":" || name == "%" || name == "#" || name == "=") {
+    if (!MED_register.is_valid(name) || name == "_" || name == "." || name == ":" || name == "%" || name == "#" || name == "=") {
         return done();
     }
     int kind = MED_register.CHAR;
@@ -473,8 +469,34 @@ Step let_register(MED_editor.Editor editor, str text) {
         kind = MED_register.LINE;
         lines.pop();
     }
-    if (is_append) {
-        editor.regs.set_named(MED_case.upper(name), MED_register.Reg(lines, kind));
+    if (name == "\"") {
+        editor.regs.set_unnamed(MED_register.Reg(lines, kind));
+        return done();
+    }
+    // an upper-case name appends, as `.=` does: the text joins the last line
+    // unless it is a whole line, and the register takes the type of the new text
+    bool is_upper = name.byte_at(0) >= 65 && name.byte_at(0) <= 90;
+    if (is_append || is_upper) {
+        match (editor.regs.get(MED_case.lower(name))) {
+            case Some(MED_register.Reg old): {
+                List<str> merged = [];
+                for (str existing in old.lines) {
+                    merged.push(existing);
+                }
+                int from_index = 0;
+                if (kind == MED_register.CHAR && old.kind != MED_register.LINE && merged.size() > 0 && lines.size() > 0) {
+                    merged[merged.size() - 1] = merged[merged.size() - 1] + lines[0];
+                    from_index = 1;
+                }
+                for (int i in from_index .. lines.size()) {
+                    merged.push(lines[i]);
+                }
+                editor.regs.set_named(MED_case.lower(name), MED_register.Reg(merged, kind));
+            }
+            case None: {
+                editor.regs.set_named(MED_case.lower(name), MED_register.Reg(lines, kind));
+            }
+        }
     } else {
         editor.regs.set_named(MED_case.lower(name), MED_register.Reg(lines, kind));
     }
@@ -1474,6 +1496,21 @@ Step exec_cmd(MED_editor.Editor editor, Cmd cmd) {
         return done();
     }
     if (name == "put") {
+        if (cmd.arg.starts_with("=")) {
+            // :put =expr puts the value as lines
+            MED_expr.Evaluated made = MED_expr.eval(cmd.arg.substr(1, cmd.arg.size()).trim(), expression_context(editor));
+            if (!made.is_ok) {
+                return fail(editor, made.error);
+            }
+            List<str> value_lines = made.text.split("\n");
+            if (made.text.ends_with("\n")) {
+                value_lines.pop();
+            }
+            editor.regs.set_named("=", MED_register.Reg(value_lines, MED_register.LINE));
+            cmd.reg = "=";
+            cmd.has_reg = true;
+            cmd.arg = "";
+        }
         str error = reg_count(editor, cmd, true, false);
         if (error != "") {
             return fail(editor, error);
@@ -1772,6 +1809,7 @@ Step cmd_copymove(MED_editor.Editor editor, Cmd cmd) {
     if (cmd.name != "move") {
         List<str> block = rows_text(editor, first_line - 1, end_line - 1);
         insert_rows(editor, dest - 1, block);
+        editor.override_change(MED_buffer.Pos(dest, 0));
         editor.marks.set("[", MED_buffer.Pos(dest, 0));
         editor.marks.set("]", MED_buffer.Pos(dest + count - 1, 0));
         editor.row = dest + count - 1;
@@ -1811,6 +1849,11 @@ Step cmd_copymove(MED_editor.Editor editor, Cmd cmd) {
     }
     editor.marks = saved;
     editor.gmarks = groups;
+    int first_touched = first_line;
+    if (dest + 1 < first_touched) {
+        first_touched = dest + 1;
+    }
+    editor.override_change(MED_buffer.Pos(first_touched - 1, 0));
     int start1 = dest + 1;
     if (dest >= end_line) {
         start1 = dest - count + 1;
@@ -3123,6 +3166,9 @@ Step sub_lines(MED_editor.Editor editor, MED_editor.SubRun run, int answer) {
                     }
                     run.nsubs = run.nsubs + 1;
                     run.did_sub = true;
+                    if (run.first_changed < 0) {
+                        run.first_changed = run.lnum;
+                    }
                     editor.col = 0;
                     if (run.nmatch > 1) {
                         run.sub_row = run.sub_row + run.nmatch - 1;
@@ -3246,6 +3292,9 @@ Step sub_finish(MED_editor.Editor editor, MED_editor.SubRun run) {
         editor.set_cursor(run.old_cursor);
     }
     if (run.nsubs > 0) {
+        if (run.first_changed >= 0 && !run.should_count) {
+            editor.override_change(MED_buffer.Pos(run.first_changed, 0));
+        }
         editor.marks.set("[", MED_buffer.Pos(run.first_line, 0));
         editor.marks.set("]", MED_buffer.Pos(run.line2, 0));
         editor.clamp();
@@ -3951,9 +4000,19 @@ Step cmd_sort(MED_editor.Editor editor, Cmd cmd) {
     int deleted = count - out.size();
     int left = cmd.line1 - 1;
     int right = cmd.line2 - 1;
+    bool is_same_order = deleted == 0;
+    for (int i in 0 .. out.size()) {
+        if (is_same_order && out[i] != editor.buffer.line(left + i)) {
+            is_same_order = false;
+        }
+    }
+    // nothing moved: the step is saved for undo but, as in nvim, no change is
+    // noted (`.` and the change list stay)
+    editor.is_change_unnoted = is_same_order;
     editor.is_adjust_off = true;
     editor.change(MED_buffer.Pos(left, 0), MED_buffer.Pos(right, editor.buffer.line_size(right)), out.join("\n"));
     editor.is_adjust_off = false;
+    editor.is_change_unnoted = false;
     if (deleted > 0) {
         editor.mark_adjust(cmd.line2 - deleted - 1, deleted + 1, 1);
     }

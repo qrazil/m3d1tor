@@ -76,7 +76,8 @@ pub Option<Reg> Registers.get(str name) {
     // nvim without a clipboard provider reads "+ and "* as the unnamed register
     if (name == "" || name == "\"" || name == "+" || name == "*") {
         if (previous == "") {
-            return Option<Reg>.None;
+            // nothing written yet: the unnamed register is register 0
+            return slots.get("0");
         }
         return slots.get(previous);
     }
@@ -288,7 +289,7 @@ str slot_of(str name) {
     if (code >= 65 && code <= 90) {
         return name.to_lower();
     }
-    if (code == 45) {
+    if (code == 45 || code == 61) {
         return name;
     }
     if (code == 43 || code == 42) {
@@ -321,7 +322,7 @@ pub bool is_valid(str name) {
     if (code >= 65 && code <= 90) {
         return true;
     }
-    return name == "-" || name == "_" || name == "\"" || name == "." || name == ":" || name == "/" || name == "%" || name == "+" || name == "*";
+    return name == "-" || name == "_" || name == "\"" || name == "." || name == ":" || name == "/" || name == "%" || name == "+" || name == "*" || name == "=";
 }
 
 Option<Reg> text_reg(str text) {
