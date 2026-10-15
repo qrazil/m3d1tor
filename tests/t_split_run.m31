@@ -1,0 +1,121 @@
+// The window half of the differential oracle (tests/oracles/oracle_windows.py).
+//
+// Usage: t_split_run FILE CASES_FILE
+//
+// Each line of CASES_FILE is hex(keys). For every case this opens FILE in a
+// fresh App, types the keys, and prints one line: the rectangles of the
+// windows of the active tab page sorted by (row, column) as `row,col,w,h`
+// joined by `;` (h without the status line, as nvim counts it), then `|` and
+// the rectangle of the active window, then `|` and `tab/tabs`.
+
+import encoding.hexcodec;
+import io;
+import os;
+import term;
+import ui.MED_app;
+import ui.MED_window;
+
+term.Event press(int code_point) {
+    return term.Event.Key(term.Key(term.Code.Char(code_point), 0));
+}
+
+term.Event named(term.Code code) {
+    return term.Event.Key(term.Key(code, 0));
+}
+
+str unhex(str digits) {
+    match (hexcodec.decode(digits)) {
+        case Ok(bytes data): {
+            match (data.utf8()) {
+                case Some(str text): {
+                    return text;
+                }
+                case None: {
+                    return "";
+                }
+            }
+        }
+        case Err(hexcodec.Error error): {
+            return "";
+        }
+    }
+}
+
+str rect_of(MED_window.Placed one) {
+    return one.y.to_str() + "," + one.x.to_str() + "," + one.width.to_str() + "," + (one.height - 1).to_str();
+}
+
+str report(MED_app.App app, int rows, int columns) {
+    int top = 0;
+    if (app.page_count() >= 2) {
+        top = 1;
+    }
+    MED_window.Layout placed = MED_window.place(app.layout, 0, top, columns, rows - top - 1);
+    List<MED_window.Placed> windows = [];
+    for (MED_window.Placed one in placed.windows) {
+        int at = 0;
+        while (at < windows.size() && (windows[at].y < one.y || (windows[at].y == one.y && windows[at].x < one.x))) {
+            at = at + 1;
+        }
+        windows.insert(at, one);
+    }
+    List<str> parts = [];
+    for (MED_window.Placed one in windows) {
+        parts.push(rect_of(one));
+    }
+    MED_window.Placed current = MED_window.placed_of(placed, app.current_win);
+    return parts.join(";") + "|" + rect_of(current) + "|" + (app.page_index + 1).to_str() + "/" + app.page_count().to_str();
+}
+
+List<str> arguments = os.arguments();
+if (arguments.size() < 3) {
+    print("usage: t_split_run FILE CASES_FILE");
+    os.exit(2);
+}
+str file = arguments[1];
+str cases_path = arguments[2];
+match (io.read(cases_path)) {
+    case Err(io.Error error): {
+        print("cannot read " + cases_path);
+        os.exit(2);
+    }
+    case Ok(str cases): {
+        for (str line in cases.split("\n")) {
+            if (line.size() == 0) {
+                continue;
+            }
+            List<str> fields = line.split("\t");
+            int rows = 24;
+            int columns = 80;
+            if (fields.size() > 1) {
+                List<str> size = fields[1].split(",");
+                rows = size[0].parse_int().or(24);
+                columns = size[1].parse_int().or(80);
+            }
+            match (MED_app.open(file)) {
+                case Err(str message): {
+                    print("open: " + message);
+                }
+                case Ok(MED_app.App app): {
+                    // no buffer list row (nvim has none): the windows start at row 0
+                    for (int code_point in ":set nobufferline".chars()) {
+                        app.handle(press(code_point));
+                    }
+                    app.handle(named(term.Code.Enter));
+                    // the screen is laid out at 24x80 first, as the real one is
+                    MED_window.place(app.layout, 0, 0, 80, 23);
+                    for (int code_point in unhex(fields[0]).chars()) {
+                        if (code_point == 13) {
+                            app.handle(named(term.Code.Enter));
+                        } else if (code_point == 27) {
+                            app.handle(named(term.Code.Escape));
+                        } else {
+                            app.handle(press(code_point));
+                        }
+                    }
+                    print(fields[0] + "\t" + report(app, rows, columns));
+                }
+            }
+        }
+    }
+}

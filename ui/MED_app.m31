@@ -72,8 +72,6 @@ const int MAP_TIMEOUT_MS = 1000;
 const int STATE_MS = 1000;
 const int PREVIEW_LINES = 3000;
 /// The smallest a window may get, status line included.
-const int MIN_WINDOW_HEIGHT = 2;
-const int MIN_WINDOW_WIDTH = 5;
 const int VKIND_CHAR = 118;
 const int VKIND_LINE = 86;
 
@@ -243,6 +241,8 @@ pub type App {
     pub int page_index = 0;
     /// CTRL-W was typed: the next key is a window command.
     pub bool is_window_key = false;
+    /// The count typed with CTRL-W (`CTRL-W 5 _`, `5 CTRL-W w`).
+    int window_count = 0;
     /// The file tree sidebar (`:Neotree`, <Space>e).
     pub MED_tree.Tree tree = MED_tree.Tree();
     bool is_tree_pending_g = false;
@@ -700,7 +700,7 @@ void App.run_request(str request) {
         if (arg.trim().size() == 0) {
             notice = "E471: Argument required";
         } else {
-            window_command(arg.trim().byte_at(0));
+            window_command(arg.trim().byte_at(0), 0);
         }
     } else if (name == "source") {
         source_file(arg.trim());
@@ -1027,8 +1027,6 @@ void App.focus_window(int id) {
     }
     if (win_index(current_win) >= 0) {
         previous_win = current_win;
-    } else {
-        previous_win = 0;
     }
     current_win = id;
     editor.row = target.row;
@@ -1038,6 +1036,11 @@ void App.focus_window(int id) {
     editor.view_left = left_column;
     editor.clamp();
     editor.want_from_cursor();
+    // entering a window widens it to 'winwidth' (20) when the others allow
+    layout_in(screen_rect());
+    if (MED_window.text_width(layout, id) < 20) {
+        MED_window.resize(layout, id, 20, true);
+    }
     editor.view_height = current_text_rows();
 }
 
@@ -1046,18 +1049,15 @@ void App.focus_window(int id) {
 /// there is no room.
 bool App.did_split(bool is_vertical) {
     save_active();
+    // the tree takes the sizes of the screen before it is split
+    layout_in(screen_rect());
+    if (!MED_window.can_split(layout, current_win, is_vertical)) {
+        notice = "E36: Not enough room";
+        return false;
+    }
     int id = next_win;
     wins.push(MED_window.Win(id, current_id, row: editor.row, col: editor.col, view_top: editor.view_top, left_column: left_column));
     layout = MED_window.split(layout, current_win, id, is_vertical, true);
-    MED_window.Layout fresh = layout_in(screen_rect());
-    for (MED_window.Placed one in fresh.windows) {
-        if (one.height < MIN_WINDOW_HEIGHT || one.width < MIN_WINDOW_WIDTH) {
-            layout = MED_window.without(layout, id);
-            wins.remove_at(win_index(id));
-            notice = "E36: Not enough room";
-            return false;
-        }
-    }
     next_win = id + 1;
     focus_window(id);
     return true;
@@ -1085,18 +1085,22 @@ bool App.is_close_allowed() {
 }
 
 void App.close_window(int id) {
+    if (wins.size() < 2 && pages.size() > 1 && win_index(id) >= 0) {
+        // the last window of a tab page closes the page
+        close_page(page_index, true);
+        return;
+    }
     if (wins.size() < 2 || win_index(id) < 0) {
         notice = "E444: Cannot close last window";
         return;
     }
     save_active();
-    List<int> order = MED_window.leaves(layout);
-    int spot = position_of(order, id);
-    int target = order[1];
-    if (spot > 0) {
-        target = order[spot - 1];
+    // the window that gets the space becomes the active one
+    int target = current_win;
+    if (id == current_win) {
+        target = MED_window.successor(layout, id);
     }
-    layout = MED_window.without(layout, id);
+    layout = MED_window.without(layout, id, target);
     wins.remove_at(win_index(id));
     if (previous_win == id) {
         previous_win = 0;
@@ -1115,7 +1119,8 @@ void App.only_window() {
         return;
     }
     wins = [wins[win_index(current_win)]];
-    layout = MED_window.leaf(current_win);
+    layout_in(screen_rect());
+    layout = MED_window.only(layout, current_win);
     previous_win = 0;
 }
 
@@ -1143,8 +1148,51 @@ void App.move_window(int direction) {
     }
 }
 
-/// The window command `key` (CTRL-W KEY, `:wincmd KEY`).
-void App.window_command(int key) {
+/// Whether the pending keys are only a count (`12`).
+bool App.is_count_pending() {
+    if (editor.pending.size() == 0) {
+        return false;
+    }
+    for (int digit in editor.pending) {
+        if (digit < 48 || digit > 57) {
+            return false;
+        }
+    }
+    return editor.pending[0] != 48;
+}
+
+/// `CTRL-W T`: the window moves to a tab page of its own.
+void App.window_to_page() {
+    if (wins.size() < 2) {
+        notice = "Already only one window";
+        return;
+    }
+    save_page();
+    int id = current_win;
+    MED_window.Win moving = wins[win_index(id)];
+    int target = MED_window.successor(layout, id);
+    int at = page_index + 1;
+    // the tab line is there from now on: the old page is laid out under it
+    // before the window leaves it, as nvim closes the window after opening
+    // the new page
+    pages.insert(at, MED_window.Page(wins: [moving], layout: MED_window.leaf(id), current_win: id));
+    layout_in(screen_rect());
+    layout = MED_window.without(layout, id, target);
+    wins.remove_at(win_index(id));
+    pages[page_index] = MED_window.Page(wins: wins, layout: layout, current_win: target);
+    page_index = at;
+    wins = [moving];
+    layout = pages[at].layout;
+    current_win = id;
+    previous_win = 0;
+}
+
+/// The window command `key` (CTRL-W KEY, `:wincmd KEY`) with an optional count.
+void App.window_command(int key, int count) {
+    int steps = count;
+    if (steps < 1) {
+        steps = 1;
+    }
     if (tree.is_focused) {
         // from the tree every window command goes back to the editor windows
         tree.is_focused = false;
@@ -1170,10 +1218,19 @@ void App.window_command(int key) {
         editor.is_quit_one = true;
     } else if (key == 111 || key == 15) {
         only_window();
-    } else if (key == 119 || key == 23) {
-        cycle_window(1);
-    } else if (key == 87) {
-        cycle_window(-1);
+    } else if (key == 119 || key == 23 || key == 87) {
+        if (count > 0) {
+            // CTRL-W 3 w: window number 3 (the last when there are fewer)
+            int at = count - 1;
+            if (at >= order.size()) {
+                at = order.size() - 1;
+            }
+            focus_window(order[at]);
+        } else if (key == 87) {
+            cycle_window(-1);
+        } else {
+            cycle_window(1);
+        }
     } else if (key == 112 || key == 16) {
         if (win_index(previous_win) >= 0) {
             focus_window(previous_win);
@@ -1182,28 +1239,43 @@ void App.window_command(int key) {
         focus_window(order[0]);
     } else if (key == 98 || key == 2) {
         focus_window(order[order.size() - 1]);
-    } else if (key == 104 || key == 8) {
-        move_window(MED_window.GO_LEFT);
-    } else if (key == 106 || key == 10) {
-        move_window(MED_window.GO_DOWN);
-    } else if (key == 107 || key == 11) {
-        move_window(MED_window.GO_UP);
-    } else if (key == 108 || key == 12) {
-        move_window(MED_window.GO_RIGHT);
+    } else if (key == 104 || key == 8 || key == 106 || key == 10 || key == 107 || key == 11 || key == 108 || key == 12) {
+        int toward = MED_window.GO_LEFT;
+        if (key == 106 || key == 10) {
+            toward = MED_window.GO_DOWN;
+        } else if (key == 107 || key == 11) {
+            toward = MED_window.GO_UP;
+        } else if (key == 108 || key == 12) {
+            toward = MED_window.GO_RIGHT;
+        }
+        for (int step in 0 .. steps) {
+            move_window(toward);
+        }
     } else if (key == 43) {
-        resize_window(1, false, false);
+        resize_window(steps, false, false);
     } else if (key == 45) {
-        resize_window(-1, false, false);
+        resize_window(0 - steps, false, false);
     } else if (key == 62) {
-        resize_window(1, true, false);
+        resize_window(steps, true, false);
     } else if (key == 60) {
-        resize_window(-1, true, false);
+        resize_window(0 - steps, true, false);
     } else if (key == 95) {
-        resize_window(1000, false, true);
+        if (count > 0) {
+            resize_window(count, false, true);
+        } else {
+            resize_window(1000, false, true);
+        }
     } else if (key == 124) {
-        resize_window(1000, true, true);
+        if (count > 0) {
+            resize_window(count, true, true);
+        } else {
+            resize_window(1000, true, true);
+        }
+    } else if (key == 84) {
+        window_to_page();
     } else if (key == 61) {
-        MED_window.equalize(layout);
+        layout_in(screen_rect());
+        MED_window.equalize(layout, current_win);
     } else if (key == 72 || key == 74 || key == 75 || key == 76) {
         int direction = MED_window.GO_LEFT;
         if (key == 74) {
@@ -1230,28 +1302,15 @@ void App.window_command(int key) {
 /// when `is_vertical`; with `is_absolute` exactly that many.
 void App.resize_window(int amount, bool is_vertical, bool is_absolute) {
     MED_window.Placed here = MED_window.placed_of(layout_in(screen_rect()), current_win);
-    int size = 0;
+    int size = here.height - 1;
     if (is_vertical) {
         size = here.width;
-    } else {
-        size = here.height;
     }
     int wanted = size + amount;
     if (is_absolute) {
         wanted = amount;
-        if (!is_vertical) {
-            // the height Vim counts leaves out the status line
-            wanted = amount + 1;
-        }
     }
-    int least = MIN_WINDOW_HEIGHT;
-    if (is_vertical) {
-        least = MIN_WINDOW_WIDTH;
-    }
-    if (wanted < least) {
-        wanted = least;
-    }
-    MED_window.did_set_size(layout, current_win, wanted, is_vertical);
+    MED_window.resize(layout, current_win, wanted, is_vertical);
 }
 
 // ------------------------------------------------------------------ tab pages
@@ -2985,13 +3044,26 @@ bool App.should_quit_after(int key) {
         return did_finish();
     }
     if (is_window_key) {
+        if (key >= 48 && key <= 57 && (window_count > 0 || key != 48)) {
+            // CTRL-W 5 _ : a count between CTRL-W and the command
+            window_count = window_count * 10 + (key - 48);
+            return false;
+        }
         is_window_key = false;
+        int typed_count = window_count;
+        window_count = 0;
         if (key != MED_key.ESC) {
-            window_command(key);
+            window_command(key, typed_count);
         }
         return did_finish();
     }
-    if (editor.mode == MED_editor.NORMAL && key == 23 && editor.pending.size() == 0) {
+    if (editor.mode == MED_editor.NORMAL && key == 23 && (editor.pending.size() == 0 || is_count_pending())) {
+        // 5 CTRL-W _ : the count typed before CTRL-W
+        window_count = 0;
+        for (int digit in editor.pending) {
+            window_count = window_count * 10 + (digit - 48);
+        }
+        editor.pending = [];
         is_window_key = true;
         return false;
     }
