@@ -34,7 +34,7 @@ x\ny	0,0	:r !echo a|tr a b<CR>
 x\ny	0,0	:.!cat<CR>
 x\ny	0,0	:.!cat -<CR>
 x\ny\nz	0,0	:1,2!cat<CR>Gdd
-x\ny\nz	1,0	:.,$!tac<CR>
+x\ny\nz	1,0	:.,$!sort -r<CR>
 x\ny\nz	1,0	:2!rev<CR>
 abc\nxyz	0,0	:%!rev<CR>
 
