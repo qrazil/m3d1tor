@@ -27,13 +27,44 @@ a reduced `=` indent (`cindent` is not implemented; `smartindent` is), `formatop
 options are stored but do not change behaviour yet, no tree-sitter, and the terminal pane is
 line oriented (no full-screen programs). `m3 --version` prints the version.
 
+## Command line
+
+    m3 [options] [FILE...]
+
+The grammar is Oro's `args` (`lib/args`, m31's
+[`docs/cli-conventions.md`](https://github.com/qrazil/m31/blob/master/docs/cli-conventions.md)):
+`--keymap FILE`, `--keymap=FILE`, `--k FILE`; a short option is two dashes and one
+letter; `-word` would be a command (there are none), so an unknown `-x` is an error
+instead of a file called `-x` (pass it as `./-x`); `--help` is the only help; a
+mistyped option names the closest one. A bad command line is an error on standard
+error with the usage line and exit 2; `m3` needs a terminal on standard input and
+output (exit 1).
+
+| option | | default | |
+|---|---|---|---|
+| `--keymap FILE\|NONE`, `--k` | path, or the word `NONE` | `$M3_KEYMAP`, else `$XDG_CONFIG_HOME/m3/keymap.vim` | `NONE` reads no keymap and keeps no state files (this was vim's `-u`) |
+| `--theme NAME` | theme name | the default theme | start with that colour theme |
+| `--colors DEPTH` | `16`, `256`, `true` | the terminal's | the depth `--dump-sample` writes at |
+| `--dump-sample` | switch | off | print the theme(s) on sample code as ANSI text and exit |
+| `--no-mouse` | switch | mouse on, unless `M3_NO_MOUSE` is non-empty | do not ask the terminal for mouse reports |
+| `--version` | | | `m3 0.5.0` |
+| `--completions SHELL` | `bash`, `zsh`, `fish` | | prints a completion script |
+| `FILE...` | paths | an empty buffer | a new buffer when a file does not exist yet |
+
+`-u`, `-v` and `-h` (the old spellings) still work for this one release and print a
+warning; then they go.
+
+    m3 --completions bash > ~/.local/share/bash-completion/completions/m3
+    m3 --completions fish > ~/.config/fish/completions/m3.fish
+    m3 --completions zsh  > "${fpath[1]}/_m3"
+
 ## Install
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/qrazil/m3dit/master/install.sh | sh
 ```
 
-Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<version>` and links the programs into `~/.local/bin`. `VERSION=v1.2.3` pins a release, `PREFIX=...` moves the install, `sh install.sh --uninstall` removes it.
+Picks the release for your OS and CPU, unpacks it under `~/.local/opt/m3dit/<version>` and links the programs into `~/.local/bin`. `--release v1.2.3` (or `VERSION=v1.2.3`) pins a release, `--prefix DIR` (or `PREFIX=...`) moves the install, `--libc gnu|musl` (or `LIBC=`) overrides detection, `-uninstall` removes it, `--help` lists them; piped from curl, pass them after `-s --`: `curl -fsSL <url> | sh -s -- --prefix /usr/local`. The grammar is Oro's: a mistyped option is an error naming the closest one (exit 2).
 
 On Alpine (musl) the installer picks the `-musl` Linux asset built by `scripts/ci-musl.sh`; `LIBC=gnu|musl` overrides detection, and a release without a musl asset falls back to the glibc one.
 
@@ -295,7 +326,7 @@ renderer asks for: `tests/t_theme.m31` reads the renderer's source for the scope
 ## Keymap file
 
 `~/.config/m3/keymap.vim` (or `$XDG_CONFIG_HOME/m3/keymap.vim`, or the file
-named by `$M3_KEYMAP`, or `m3 -u FILE`; `-u NONE` reads none) is a list of ex lines:
+named by `$M3_KEYMAP`, or `m3 --keymap FILE`; `--keymap NONE` reads none) is a list of ex lines:
 
     let mapleader = " "
     nnoremap <leader>w :w<CR>
