@@ -189,6 +189,7 @@ match (MED_app.open_all(files)) {
         if (keymap != "") {
             // -u NONE is a clean run: no state files either
             app.state_directory = MED_state.default_directory();
+            app.apply_project_all();
             app.restore_position();
             app.restore_undo();
         }

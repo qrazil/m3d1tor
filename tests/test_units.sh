@@ -1,4 +1,4 @@
 # sourced by tests/test.sh: unit programs
-for t in t_app t_keymap t_sources t_vt t_lsp t_buffer t_fuzzy t_grep t_git t_ignore t_key t_map t_picker t_register t_surround t_syntax t_text t_theme t_tree t_undofile t_window; do
+for t in t_app t_buffer t_fuzzy t_git t_grep t_ignore t_key t_keymap t_lsp t_map t_picker t_projconf t_register t_sources t_surround t_syntax t_text t_theme t_tree t_undofile t_vt t_window; do
     unit "$t"
 done

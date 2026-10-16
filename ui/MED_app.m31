@@ -48,6 +48,7 @@ import engine.MED_shell;
 import ui.MED_sources;
 import ui.MED_state;
 import ui.MED_persist;
+import engine.MED_projconf;
 import engine.MED_option;
 import ui.MED_picker_view;
 import engine.MED_text;
@@ -101,6 +102,9 @@ pub type Slot {
     pub bool is_listing = false;
     /// A terminal pane's name ("" for an ordinary buffer).
     pub str title = "";
+    /// The `:set` lines `.editorconfig` / `.m3.toml` gave this buffer; run again whenever it becomes active
+    /// (options are shared between buffers, these are not).
+    pub List<str> local_lines = [];
 }
 
 /// A terminal pane: a program on a pty whose output fills a buffer.
@@ -212,6 +216,8 @@ pub type App {
     /// Where recent files, positions and harpoon lists are kept ("" none).
     pub str state_directory = "";
     pub List<str> recent = [];
+    /// Buffers read `.editorconfig` and `.m3.toml` (off for `-u NONE`, so test runs stay hermetic).
+    pub bool is_project_conf = false;
     pub List<str> positions = [];
     pub List<str> harpoon = [];
     pub int harpoon_index = -1;
@@ -397,6 +403,7 @@ void App.activate(int id) {
     remember_position();
     Slot target = slots[position];
     share_state(editor, target.editor);
+    run_local(target);
     alternate_id = current_id;
     current_id = id;
     editor = target.editor;
@@ -407,8 +414,44 @@ void App.activate(int id) {
     editor.view_height = current_text_rows();
 }
 
+/// Run the project settings of `slot` on its editor.
+void App.run_local(Slot slot) {
+    for (str line in slot.local_lines) {
+        if (!MED_ex.did_run_line(slot.editor, line)) {
+            slot.editor.message = "";
+        }
+    }
+}
+
+/// Read `.editorconfig` and `.m3.toml` for `slot` and apply them (`is_project_conf`).
+pub void App.apply_project(Slot slot) {
+    if (!is_project_conf || slot.is_listing || slot.path.size() == 0) {
+        return;
+    }
+    str file = MED_projconf.absolute_path(slot.path);
+    if (file.size() == 0) {
+        return;
+    }
+    str language = SYN_detect.language_of(slot.path, slot.editor.buffer.line(0));
+    MED_projconf.Conf conf = MED_projconf.for_file(file, language);
+    slot.local_lines = conf.lines;
+    run_local(slot);
+    if (conf.final_newline >= 0) {
+        slot.editor.buffer.is_eol = conf.final_newline == 1;
+    }
+}
+
+/// Apply the project settings to every buffer opened so far (the startup files).
+pub void App.apply_project_all() {
+    is_project_conf = true;
+    for (Slot slot in slots) {
+        apply_project(slot);
+    }
+}
+
 /// Add `slot` to the session and make it active.
 void App.adopt(Slot slot) {
+    apply_project(slot);
     slots.push(slot);
     next_id = slot.id + 1;
     activate(slot.id);
@@ -441,6 +484,7 @@ void App.edit(str target, bool is_forced) {
             case Ok(Slot fresh): {
                 MED_editor.Editor old = editor;
                 share_state(old, fresh.editor);
+                apply_project(fresh);
                 editor = fresh.editor;
                 saved_current = fresh.saved_current;
                 left_column = 0;
@@ -7024,6 +7068,9 @@ str write_slot(Slot slot, str target) {
     }
     if (name.size() == 0) {
         return "E32: No file name";
+    }
+    if (slot.editor.is_option_on("trimtrailing", false)) {
+        MED_projconf.trim_trailing(slot.editor);
     }
     str text = slot.editor.buffer.dump();
     match (io.write(name, text)) {

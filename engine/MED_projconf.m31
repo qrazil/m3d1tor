@@ -1,0 +1,561 @@
+// Per-file project settings: `.editorconfig` and `.m3.toml`.
+//
+// API
+// ---
+//   MED_projconf.for_file(path, language)   -> Conf   the settings that apply to the file at `path`
+//   Conf.lines                              ex lines (`set noexpandtab`, `set shiftwidth=4` ...) to run on the buffer
+//   Conf.final_newline                      -1 leave the file alone, 0 write without a final newline, 1 write with one
+//   MED_projconf.absolute_path(path)        a path made absolute (also for a file that does not exist yet)
+//   MED_projconf.trim_trailing(editor)      strip trailing blanks (the write-time half of trim_trailing_whitespace)
+//   MED_projconf.is_glob_match(glob, text)     EditorConfig glob matching, for tests
+//   MED_projconf.editorconfig(texts, dirs, path) / m3toml(text, language)   the pure halves, for tests
+//
+// Precedence (later wins): the editor's defaults, the user's keymap file, `.editorconfig`,
+// `.m3.toml`, a modeline. The settings are applied when a buffer is created, never in the middle of an edit.
+//
+// EditorConfig (https://spec.editorconfig.org): `.editorconfig` files are read from the file's directory up
+// to the root or the first one with `root = true`; the outermost applies first, later sections of the same
+// file and nearer files override. Section globs: `*` (not `/`), `**`, `?`, `[seq]`, `[!seq]`,
+// `{a,b,c}`, `{1..5}`, `\` escapes; a glob without `/` matches at any depth. Properties understood:
+//   indent_style (tab, space)                 -> expandtab
+//   indent_size (N, tab), tab_width (N)       -> shiftwidth, softtabstop, tabstop (as nvim's editorconfig does)
+//   max_line_length (N, off)                  -> textwidth
+//   insert_final_newline (true, false)        -> Conf.final_newline
+//   trim_trailing_whitespace (true, false)    -> trimtrailing (m3 option: strip on write)
+// `end_of_line` and `charset` are read but not applied (the buffer is LF and UTF-8 only), `unset` clears a key.
+//
+// `.m3.toml` (the nearest one up the tree): a small TOML subset, `[options]` and `[language.NAME]` tables of
+// `name = value` with booleans, integers and strings. Each pair is `:set name`, `:set noname` or `:set name=value`;
+// a `[language.NAME]` table applies only to files of that language (the `syntax` library's name).
+
+import engine.MED_buffer;
+import engine.MED_editor;
+import fs;
+import io;
+
+pub type Conf {
+    pub List<str> lines = [];
+    pub int final_newline = -1;
+}
+
+// ------------------------------------------------------------------ globs
+
+// Alternatives of the first top-level `{...}` group of `pattern` (nested groups expand recursively), or the
+// pattern itself when it has none. `{num..num}` is a range; a group with no comma and no range is literal.
+pub List<str> expand_braces(str pattern) {
+    bytes raw = pattern.to_bytes();
+    int start_at = -1;
+    int depth = 0;
+    int stop_at = -1;
+    List<int> commas = [];
+    int index = 0;
+    while (index < raw.size()) {
+        int byte = raw[index];
+        if (byte == 92) {
+            index = index + 2;
+            continue;
+        }
+        if (byte == 123) {
+            if (depth == 0) {
+                start_at = index;
+                commas = [];
+            }
+            depth = depth + 1;
+        } else if (byte == 44 && depth == 1) {
+            commas.push(index);
+        } else if (byte == 125 && depth > 0) {
+            depth = depth - 1;
+            if (depth == 0) {
+                stop_at = index;
+                // a usable group
+                str inner = pattern.substr(start_at + 1, stop_at);
+                bool is_range = false;
+                int dots = inner.index_of("..").or(-1);
+                if (dots > 0) {
+                    Option<int> low = inner.substr(0, dots).parse_int();
+                    Option<int> high = inner.substr(dots + 2, inner.size()).parse_int();
+                    if (low.is_some() && high.is_some()) {
+                        is_range = true;
+                    }
+                }
+                if (commas.size() > 0 || is_range) {
+                    break;
+                }
+                start_at = -1;
+                stop_at = -1;
+            }
+        }
+        index = index + 1;
+    }
+    if (start_at < 0 || stop_at < 0) {
+        return [pattern];
+    }
+    str head = pattern.substr(0, start_at);
+    str tail = pattern.substr(stop_at + 1, pattern.size());
+    List<str> choices = [];
+    str inner = pattern.substr(start_at + 1, stop_at);
+    if (commas.size() > 0) {
+        int from = start_at + 1;
+        for (int comma in commas) {
+            choices.push(pattern.substr(from, comma));
+            from = comma + 1;
+        }
+        choices.push(pattern.substr(from, stop_at));
+    } else {
+        int dots = inner.index_of("..").or(0);
+        int low = inner.substr(0, dots).parse_int().or(0);
+        int high = inner.substr(dots + 2, inner.size()).parse_int().or(0);
+        if (low > high) {
+            int swap = low;
+            low = high;
+            high = swap;
+        }
+        for (int number in low .. high + 1) {
+            choices.push(number.to_str());
+        }
+    }
+    List<str> out = [];
+    for (str choice in choices) {
+        for (str expanded in expand_braces(head + choice + tail)) {
+            out.push(expanded);
+        }
+    }
+    return out;
+}
+
+// Whether `pattern` (no braces) matches `text` from byte `spot` / `where`.
+bool is_match_from(bytes pattern, int spot, bytes text, int where) {
+    while (spot < pattern.size()) {
+        int byte = pattern[spot];
+        if (byte == 92 && spot + 1 < pattern.size()) {
+            if (where >= text.size() || text[where] != pattern[spot + 1]) {
+                return false;
+            }
+            spot = spot + 2;
+            where = where + 1;
+            continue;
+        }
+        if (byte == 42) {
+            bool is_double = spot + 1 < pattern.size() && pattern[spot + 1] == 42;
+            if (is_double) {
+                int after = spot + 2;
+                // `**/` also matches no directory at all
+                if (after < pattern.size() && pattern[after] == 47 && is_match_from(pattern, after + 1, text, where)) {
+                    return true;
+                }
+                for (int cut in where .. text.size() + 1) {
+                    if (is_match_from(pattern, after, text, cut)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            int cut = where;
+            while (true) {
+                if (is_match_from(pattern, spot + 1, text, cut)) {
+                    return true;
+                }
+                if (cut >= text.size() || text[cut] == 47) {
+                    return false;
+                }
+                cut = cut + 1;
+            }
+        }
+        if (byte == 63) {
+            if (where >= text.size() || text[where] == 47) {
+                return false;
+            }
+            spot = spot + 1;
+            where = where + 1;
+            continue;
+        }
+        if (byte == 91) {
+            int end = spot + 1;
+            if (end < pattern.size() && pattern[end] == 33) {
+                end = end + 1;
+            }
+            if (end < pattern.size() && pattern[end] == 93) {
+                end = end + 1;
+            }
+            while (end < pattern.size() && pattern[end] != 93) {
+                end = end + 1;
+            }
+            if (end < pattern.size()) {
+                if (where >= text.size() || text[where] == 47) {
+                    return false;
+                }
+                bool is_negated = pattern[spot + 1] == 33;
+                int scan = spot + 1;
+                if (is_negated) {
+                    scan = scan + 1;
+                }
+                bool is_in = false;
+                while (scan < end) {
+                    if (scan + 2 < end && pattern[scan + 1] == 45) {
+                        if (text[where] >= pattern[scan] && text[where] <= pattern[scan + 2]) {
+                            is_in = true;
+                        }
+                        scan = scan + 3;
+                    } else {
+                        if (text[where] == pattern[scan]) {
+                            is_in = true;
+                        }
+                        scan = scan + 1;
+                    }
+                }
+                if (is_in == is_negated) {
+                    return false;
+                }
+                spot = end + 1;
+                where = where + 1;
+                continue;
+            }
+        }
+        if (where >= text.size() || text[where] != byte) {
+            return false;
+        }
+        spot = spot + 1;
+        where = where + 1;
+    }
+    return where == text.size();
+}
+
+/// Whether the EditorConfig section glob `glob` matches `relative`, the file's path below the directory of the
+/// `.editorconfig` that holds the section.
+pub bool is_glob_match(str glob, str relative) {
+    str normal = glob;
+    if (normal.starts_with("/")) {
+        normal = normal.substr(1, normal.size());
+    } else if (!normal.contains("/")) {
+        normal = "**/" + normal;
+    }
+    bytes text = relative.to_bytes();
+    for (str one in expand_braces(normal)) {
+        if (is_match_from(one.to_bytes(), 0, text, 0)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// ----------------------------------------------------------- EditorConfig
+
+/// The properties the `.editorconfig` file `text` gives the file `relative` (its path below the file's
+/// directory), applied on top of `props`; sets `is_root` when the preamble has `root = true`.
+pub bool is_root_after(str text, str relative, Map<str, str> props) {
+    bool is_root = false;
+    bool is_in_preamble = true;
+    bool is_active = false;
+    for (str raw in text.split("\n")) {
+        str line = raw.trim();
+        if (line.size() == 0 || line.starts_with("#") || line.starts_with(";")) {
+            continue;
+        }
+        if (line.starts_with("[")) {
+            is_in_preamble = false;
+            int stop_at = line.size() - 1;
+            while (stop_at > 0 && line.byte_at(stop_at) != 93) {
+                stop_at = stop_at - 1;
+            }
+            if (stop_at <= 0) {
+                is_active = false;
+                continue;
+            }
+            is_active = is_glob_match(line.substr(1, stop_at), relative);
+            continue;
+        }
+        int equals = line.index_of("=").or(-1);
+        if (equals <= 0) {
+            continue;
+        }
+        str key = line.substr(0, equals).trim().to_lower();
+        str value = line.substr(equals + 1, line.size()).trim();
+        if (is_in_preamble) {
+            if (key == "root" && value.to_lower() == "true") {
+                is_root = true;
+            }
+            continue;
+        }
+        if (is_active) {
+            props.set(key, value.to_lower());
+        }
+    }
+    return is_root;
+}
+
+/// The settings for `props` (EditorConfig key / value pairs, values lowercase).
+pub Conf from_properties(Map<str, str> props) {
+    Conf conf = Conf();
+    str style = props.get("indent_style").or("");
+    if (style == "tab") {
+        conf.lines.push("set noexpandtab");
+    } else if (style == "space") {
+        conf.lines.push("set expandtab");
+    }
+    str size = props.get("indent_size").or("");
+    str width = props.get("tab_width").or("");
+    Option<int> width_number = width.parse_int();
+    if (size == "tab") {
+        // 'shiftwidth' of 0 follows 'tabstop'; spell it out
+        size = width_number.or(8).to_str();
+    }
+    Option<int> size_number = size.parse_int();
+    if (size_number.is_some() && size_number.or(0) > 0) {
+        conf.lines.push("set shiftwidth=" + size_number.or(0).to_str() + " softtabstop=" + size_number.or(0).to_str());
+        if (!width_number.is_some()) {
+            conf.lines.push("set tabstop=" + size_number.or(0).to_str());
+        }
+    }
+    if (width_number.is_some() && width_number.or(0) > 0) {
+        conf.lines.push("set tabstop=" + width_number.or(0).to_str());
+    }
+    str length = props.get("max_line_length").or("");
+    if (length == "off") {
+        conf.lines.push("set textwidth=0");
+    } else if (length.parse_int().is_some() && length.parse_int().or(0) > 0) {
+        conf.lines.push("set textwidth=" + length);
+    }
+    str finish = props.get("insert_final_newline").or("");
+    if (finish == "true") {
+        conf.final_newline = 1;
+    } else if (finish == "false") {
+        conf.final_newline = 0;
+    }
+    str trim = props.get("trim_trailing_whitespace").or("");
+    if (trim == "true") {
+        conf.lines.push("set trimtrailing");
+    } else if (trim == "false") {
+        conf.lines.push("set notrimtrailing");
+    }
+    return conf;
+}
+
+// -------------------------------------------------------------- .m3.toml
+
+// The text of a TOML value as a `:set` argument tail ("" for a value that is not understood), `=` included
+// for values and "" for a true boolean; `is_false` is set for a false one.
+str toml_value(str value, Flag flag) {
+    if (value == "true") {
+        return "";
+    }
+    if (value == "false") {
+        flag.is_false = true;
+        return "";
+    }
+    if (value.size() >= 2 && (value.starts_with("\"") || value.starts_with("'"))) {
+        // up to the closing quote; whatever follows (a comment) is dropped
+        str quote = value.substr(0, 1);
+        int stop = value.substr(1, value.size()).index_of(quote).or(-2) + 1;
+        if (stop < 1) {
+            flag.is_bad = true;
+            return "";
+        }
+        return "=" + value.substr(1, stop).split(" ").join("\\ ");
+    }
+    if (value.parse_int().is_some()) {
+        return "=" + value;
+    }
+    flag.is_bad = true;
+    return "";
+}
+
+type Flag {
+    pub bool is_false = false;
+    pub bool is_bad = false;
+}
+
+/// The `:set` lines of the `.m3.toml` text: its `[options]` table and the `[language.NAME]` table of
+/// `language`.
+pub List<str> m3toml(str text, str language) {
+    List<str> out = [];
+    bool is_active = false;
+    for (str raw in text.split("\n")) {
+        str line = raw.trim();
+        if (line.size() == 0 || line.starts_with("#")) {
+            continue;
+        }
+        if (line.starts_with("[")) {
+            int stop_at = line.index_of("]").or(-1);
+            str name = "";
+            if (stop_at > 0) {
+                name = line.substr(1, stop_at).trim();
+            }
+            is_active = name == "options";
+            if (name.starts_with("language.") || name.starts_with("languages.")) {
+                str wanted = name.substr(name.index_of(".").or(0) + 1, name.size()).trim();
+                if (wanted.starts_with("\"") && wanted.ends_with("\"") && wanted.size() >= 2) {
+                    wanted = wanted.substr(1, wanted.size() - 1);
+                }
+                is_active = language.size() > 0 && wanted == language;
+            }
+            continue;
+        }
+        if (!is_active) {
+            continue;
+        }
+        int equals = line.index_of("=").or(-1);
+        if (equals <= 0) {
+            continue;
+        }
+        str key = line.substr(0, equals).trim();
+        str value = line.substr(equals + 1, line.size()).trim();
+        // a trailing comment outside a string
+        if (!value.starts_with("\"") && !value.starts_with("'")) {
+            int hash = value.index_of("#").or(-1);
+            if (hash >= 0) {
+                value = value.substr(0, hash).trim();
+            }
+        }
+        Flag flag = Flag();
+        str tail = toml_value(value, flag);
+        if (flag.is_bad) {
+            continue;
+        }
+        if (flag.is_false) {
+            out.push("set no" + key);
+        } else {
+            out.push("set " + key + tail);
+        }
+    }
+    return out;
+}
+
+// -------------------------------------------------------------- the files
+
+// The directory part of `path` ("/" for a file in the root, "." with no slash).
+str directory_of(str path) {
+    int slash = path.size() - 1;
+    while (slash >= 0 && path.byte_at(slash) != 47) {
+        slash = slash - 1;
+    }
+    if (slash < 0) {
+        return ".";
+    }
+    if (slash == 0) {
+        return "/";
+    }
+    return path.substr(0, slash);
+}
+
+/// `path` made absolute and with symbolic links resolved ("" when its directory does not exist), for a file that
+/// may not exist yet.
+pub str absolute_path(str path) {
+    if (path.size() == 0) {
+        return "";
+    }
+    match (fs.realpath(path)) {
+        case Ok(str real): {
+            return real;
+        }
+        case Err(io.Error error): {
+        }
+    }
+    int slash = path.size() - 1;
+    while (slash >= 0 && path.byte_at(slash) != 47) {
+        slash = slash - 1;
+    }
+    str base = path.substr(slash + 1, path.size());
+    str directory = ".";
+    if (slash == 0) {
+        directory = "/";
+    } else if (slash > 0) {
+        directory = path.substr(0, slash);
+    }
+    match (fs.realpath(directory)) {
+        case Ok(str real): {
+            if (real == "/") {
+                return "/" + base;
+            }
+            return real + "/" + base;
+        }
+        case Err(io.Error error): {
+            return "";
+        }
+    }
+}
+
+str read_text(str file) {
+    if (!fs.is_file(file)) {
+        return "";
+    }
+    match (io.read(file)) {
+        case Ok(str text): {
+            return text;
+        }
+        case Err(io.Error error): {
+            return "";
+        }
+    }
+}
+
+/// Strip trailing blanks from every line (one undo block; the cursor stays where it is, clamped).
+pub void trim_trailing(MED_editor.Editor editor) {
+    for (int row in 0 .. editor.buffer.line_count()) {
+        str line = editor.buffer.line(row);
+        int keep = line.size();
+        while (keep > 0 && (line.byte_at(keep - 1) == 32 || line.byte_at(keep - 1) == 9)) {
+            keep = keep - 1;
+        }
+        if (keep < line.size()) {
+            editor.change(MED_buffer.Pos(row, keep), MED_buffer.Pos(row, line.size()), "");
+        }
+    }
+    editor.end_block();
+    editor.clamp();
+}
+
+/// The settings for the file at absolute path `path` (language name `language`, "" unknown): EditorConfig first,
+/// then `.m3.toml`.
+pub Conf for_file(str path, str language) {
+    if (!path.starts_with("/")) {
+        return Conf();
+    }
+    List<str> directories = [];
+    List<str> texts = [];
+    str directory = directory_of(path);
+    int guard = 0;
+    while (guard < 64) {
+        guard = guard + 1;
+        directories.push(directory);
+        if (directory == "/") {
+            break;
+        }
+        directory = directory_of(directory);
+    }
+    // nearest first; find where the chain stops
+    List<str> chain = [];
+    for (str one in directories) {
+        str text = read_text(one + "/.editorconfig");
+        if (text.size() > 0 || fs.is_file(one + "/.editorconfig")) {
+            Map<str, str> probe = {};
+            bool is_root = is_root_after(text, "", probe);
+            chain.push(one);
+            texts.push(text);
+            if (is_root) {
+                break;
+            }
+        }
+    }
+    Map<str, str> props = {};
+    int index = chain.size() - 1;
+    while (index >= 0) {
+        str base = chain[index];
+        str relative = path.substr(base.size(), path.size());
+        if (relative.starts_with("/")) {
+            relative = relative.substr(1, relative.size());
+        }
+        is_root_after(texts[index], relative, props);
+        index = index - 1;
+    }
+    Conf conf = from_properties(props);
+    for (str one in directories) {
+        str text = read_text(one + "/.m3.toml");
+        if (text.size() > 0) {
+            for (str line in m3toml(text, language)) {
+                conf.lines.push(line);
+            }
+            break;
+        }
+    }
+    return conf;
+}

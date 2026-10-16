@@ -818,6 +818,33 @@ def undofile_persists(binary, root):
         s.close()
 
 
+@scenario
+def project_settings(binary, root):
+    keymap = os.path.join(root, "empty.vim")
+    open(keymap, "w").close()
+    with open(os.path.join(root, ".editorconfig"), "w") as f:
+        f.write("root = true\n[*.txt]\nindent_style = space\nindent_size = 3\ntrim_trailing_whitespace = true\n")
+    with open(os.path.join(root, ".m3.toml"), "w") as f:
+        f.write("[options]\nnumber = false\n")
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("hello world")
+        s.send("A  \x1b", settle=0.2)
+        s.send("o\tx\x1b", settle=0.3)
+        s.pump(0.3)
+        assert re.search(r"^[│ ]  x ", s.text(), re.M), s.text()
+        assert "1 " not in s.text().split("\n")[0][:3], "number = false was not applied:\n" + s.text()
+        s.send(":w\r", settle=0.5)
+        assert s.wait_for("written"), s.text()
+        s.send(":q\r", settle=0.5)
+    finally:
+        s.close()
+    with open(os.path.join(root, "hello.txt")) as f:
+        lines = f.read().split("\n")
+    assert lines[0] == "hello world", repr(lines[0])
+    assert lines[1] == "   x", repr(lines[1])
+
+
 def main():
     binary = os.path.abspath(sys.argv[1])
     only = None

@@ -37,6 +37,7 @@ const List<str> SPECS = [
     "lazyredraw:lz:bool:false",
     "swapfile:swf:bool:true",
     "undofile:udf:bool:false",
+    "trimtrailing::bool:false",
     "backup:bk:bool:false",
     "writebackup:wb:bool:true",
     "mouse::str:nvi",

@@ -1,0 +1,100 @@
+// Unit checks for MED_projconf: EditorConfig globs and properties, .m3.toml, and the file walk.
+
+import engine.MED_editor;
+import engine.MED_ex;
+import engine.MED_key;
+import engine.MED_projconf;
+import engine.MED_shell;
+import io;
+import tests.MED_check;
+
+MED_check.Check check = MED_check.Check();
+// globs (the cases of the editorconfig-core-test suite that matter)
+check.ok("star", MED_projconf.is_glob_match("*", "a.pyprops"));
+check.ok("star deep", MED_projconf.is_glob_match("*.pyprops", "a/b/c.pyprops"));
+check.ok("star ext", !MED_projconf.is_glob_match("*.pyprops", "a.pyc"));
+check.ok("braces", MED_projconf.is_glob_match("*.{js,pyprops}", "x/a.pyprops"));
+check.ok("braces miss", !MED_projconf.is_glob_match("*.{js,pyprops}", "x/a.rs"));
+check.ok("nested braces", MED_projconf.is_glob_match("{a,b{c,d}}.txt", "bd.txt"));
+check.ok("range", MED_projconf.is_glob_match("f{1..3}.txt", "f2.txt"));
+check.ok("range miss", !MED_projconf.is_glob_match("f{1..3}.txt", "f4.txt"));
+check.ok("single braces are literal", MED_projconf.is_glob_match("{x}.c", "{x}.c"));
+check.ok("slash star", MED_projconf.is_glob_match("src/*.c", "src/a.c"));
+check.ok("slash star is one level", !MED_projconf.is_glob_match("src/*.c", "src/a/b.c"));
+check.ok("double star", MED_projconf.is_glob_match("lib/**.js", "lib/a/b.js"));
+check.ok("double star dir", MED_projconf.is_glob_match("**/x/*.c", "x/a.c"));
+check.ok("double star dir deep", MED_projconf.is_glob_match("**/x/*.c", "p/q/x/a.c"));
+check.ok("anchored", MED_projconf.is_glob_match("/a.c", "a.c"));
+check.ok("anchored miss", !MED_projconf.is_glob_match("/a.c", "d/a.c"));
+check.ok("question", MED_projconf.is_glob_match("a?.c", "ab.c"));
+check.ok("question not slash", !MED_projconf.is_glob_match("a?c", "a/c"));
+check.ok("set", MED_projconf.is_glob_match("[ab].txt", "b.txt"));
+check.ok("set range", MED_projconf.is_glob_match("[a-c].txt", "c.txt"));
+check.ok("negated set", !MED_projconf.is_glob_match("[!a].txt", "a.txt"));
+check.ok("negated set hit", MED_projconf.is_glob_match("[!a].txt", "b.txt"));
+check.ok("escaped star", MED_projconf.is_glob_match("a\\*.c", "a*.c"));
+check.ok("escaped star miss", !MED_projconf.is_glob_match("a\\*.c", "ab.c"));
+check.ok("literal bracket", MED_projconf.is_glob_match("a[.c", "a[.c"));
+check.ok("makefile", MED_projconf.is_glob_match("Makefile", "sub/Makefile"));
+// properties
+Map<str, str> props = {};
+bool is_root = MED_projconf.is_root_after("root = true\n[*]\nindent_style = Tab\nindent_size = 4\n; comment\n[*.md]\ntrim_trailing_whitespace = true\nmax_line_length = 72\n[*.pyprops]\nindent_style = space\n", "doc/a.md", props);
+check.ok("root", is_root);
+MED_projconf.Conf conf = MED_projconf.from_properties(props);
+check.eq_str("md lines", conf.lines.join("|"), "set noexpandtab|set shiftwidth=4 softtabstop=4|set tabstop=4|set textwidth=72|set trimtrailing");
+Map<str, str> pyprops = {};
+MED_projconf.is_root_after("[*]\nindent_style = tab\n[*.pyprops]\nindent_style = space\nindent_size = 2\ntab_width = 8\ninsert_final_newline = true\n", "a.pyprops", pyprops);
+MED_projconf.Conf pyconf = MED_projconf.from_properties(pyprops);
+check.eq_str("pyprops lines", pyconf.lines.join("|"), "set expandtab|set shiftwidth=2 softtabstop=2|set tabstop=8");
+check.eq_int("final newline", pyconf.final_newline, 1);
+Map<str, str> tab = {};
+MED_projconf.is_root_after("[*]\nindent_size = tab\ntab_width = 3\nmax_line_length = off\ninsert_final_newline = false\n", "x", tab);
+MED_projconf.Conf tab_conf = MED_projconf.from_properties(tab);
+check.eq_str("indent_size tab", tab_conf.lines.join("|"), "set shiftwidth=3 softtabstop=3|set tabstop=3|set textwidth=0");
+check.eq_int("no final newline", tab_conf.final_newline, 0);
+Map<str, str> unset = {};
+MED_projconf.is_root_after("[*]\nindent_style = tab\n[*.c]\nindent_style = unset\n", "a.c", unset);
+check.eq_str("unset", MED_projconf.from_properties(unset).lines.join("|"), "");
+// .m3.toml
+str toml = "# project\n[options]\nexpandtab = true\nshiftwidth = 2\nnumber = false\ncolorcolumn = \"80,100\" # wide\n[language.python]\nshiftwidth = 4\n[language.\"rust\"]\nshiftwidth = 8\n";
+check.eq_str("toml options", MED_projconf.m3toml(toml, "").join("|"), "set expandtab|set shiftwidth=2|set nonumber|set colorcolumn=80,100");
+check.eq_str("toml python", MED_projconf.m3toml(toml, "python").join("|"), "set expandtab|set shiftwidth=2|set nonumber|set colorcolumn=80,100|set shiftwidth=4");
+check.eq_str("toml rust", MED_projconf.m3toml(toml, "rust").join("|"), "set expandtab|set shiftwidth=2|set nonumber|set colorcolumn=80,100|set shiftwidth=8");
+
+// the walk, on real files
+void put(str file, str text) {
+    match (io.write(file, text)) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+            print("write failed: " + file);
+        }
+    }
+}
+
+Option<str> made = MED_shell.output(["sh", "-c", "mktemp -d \"${TMPDIR:-/tmp}/m3pc.XXXXXX\""], "");
+if (made.is_some()) {
+    str root = made.or("").trim();
+    MED_shell.output(["mkdir", "-p", root + "/proj/sub/deep"], "");
+    put(root + "/.editorconfig", "[*]\nindent_style = tab\nindent_size = 8\n");
+    put(root + "/proj/.editorconfig", "root = true\n[*.rs]\nindent_style = space\nindent_size = 4\n");
+    put(root + "/proj/sub/.editorconfig", "[deep/*.rs]\nindent_size = 2\n");
+    put(root + "/proj/.m3.toml", "[options]\nnumber = false\n");
+    MED_projconf.Conf outer = MED_projconf.for_file(root + "/proj/a.rs", "rust");
+    check.eq_str("root stops the walk", outer.lines.join("|"), "set expandtab|set shiftwidth=4 softtabstop=4|set tabstop=4|set nonumber");
+    MED_projconf.Conf deep = MED_projconf.for_file(root + "/proj/sub/deep/b.rs", "rust");
+    check.eq_str("nearer file wins", deep.lines.join("|"), "set expandtab|set shiftwidth=2 softtabstop=2|set tabstop=2|set nonumber");
+    MED_projconf.Conf other = MED_projconf.for_file(root + "/proj/c.txt", "");
+    check.eq_str("no section", other.lines.join("|"), "set nonumber");
+    MED_shell.output(["rm", "-rf", root], "");
+} else {
+    check.ok("mktemp", false);
+}
+// trailing blanks are stripped as one undo block
+MED_editor.Editor trimmed = MED_editor.new("a  \n b\t \nc\n");
+MED_projconf.trim_trailing(trimmed);
+check.eq_str("trim", trimmed.buffer.dump(), "a\n b\nc\n");
+MED_ex.feed_keys(trimmed, MED_key.parse("u"));
+check.eq_str("trim is one undo step", trimmed.buffer.dump(), "a  \n b\t \nc\n");
+check.eq_int("relative path ignored", MED_projconf.for_file("a.rs", "rust").lines.size(), 0);
+check.finish("t_projconf");
