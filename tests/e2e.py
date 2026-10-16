@@ -780,8 +780,11 @@ def themes(binary, root):
             for col in range(0, 40):
                 cell = s.screen.buffer[row][col]
                 assert not regex.fullmatch("[0-9a-f]{6}", cell.fg) and not regex.fullmatch("[0-9a-f]{6}", cell.bg), ("quantised", row, col, cell)
+    finally:
+        s.close()
 
 
+@scenario
 def undofile_persists(binary, root):
     keymap = os.path.join(root, "empty.vim")
     open(keymap, "w").close()
