@@ -4715,9 +4715,11 @@ pub void App.load_keymap(str file, bool is_required) {
         case Ok(str content): {
             str failure = run_script(content, file);
             editor.message = "";
+            notice = failure;
             // the file's :theme / :colorscheme lines take effect before the first frame
+            // (their "theme: NAME" is not news at startup; an error is)
             run_requests();
-            if (failure.size() > 0) {
+            if (notice.starts_with("theme: ")) {
                 notice = failure;
             }
         }
