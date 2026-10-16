@@ -1,0 +1,84 @@
+# The terminal's own 16 colours, for a light background. This is what m3 uses
+# instead of `default-light` when the terminal has only 16 colours. Original to
+# m3. The dark counterpart is term16-dark.
+
+"comment" = { fg = "gray", modifiers = ["italic"] }
+"string" = "green"
+"string.special" = "cyan"
+"constant" = "red"
+"constant.numeric" = "red"
+"constant.character.escape" = "cyan"
+"keyword" = { fg = "magenta", modifiers = ["bold"] }
+"keyword.directive" = "magenta"
+"operator" = "blue"
+"function" = "blue"
+"function.call" = "blue"
+"type" = "blue"
+"variable.builtin" = { fg = "magenta", modifiers = ["italic"] }
+"variable.other.member" = "blue"
+"attribute" = "magenta"
+"tag" = "red"
+"punctuation" = "cyan"
+"special" = "cyan"
+"label" = "cyan"
+"namespace" = "cyan"
+
+"markup.heading" = { fg = "red", modifiers = ["bold"] }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.url" = { fg = "blue", modifiers = ["underlined"] }
+"markup.raw" = "green"
+"markup.quote" = "gray"
+"markup.list" = "red"
+
+"diff.plus" = "green"
+"diff.minus" = "red"
+"diff.delta" = "magenta"
+
+"error" = { fg = "red", modifiers = ["bold"] }
+"warning" = { fg = "yellow", modifiers = ["bold"] }
+"info" = "cyan"
+"hint" = "cyan"
+"diagnostic.error" = { underline = { color = "red", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "yellow", style = "curl" } }
+"diagnostic.info" = { underline = { color = "cyan", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "cyan", style = "curl" } }
+
+"ui.text" = {}
+"ui.text.inactive" = { modifiers = ["dim"] }
+"ui.linenr" = { modifiers = ["dim"] }
+"ui.linenr.selected" = { modifiers = ["bold"] }
+"ui.cursor" = { modifiers = ["reversed"] }
+"ui.cursorline" = { bg = "light-gray" }
+"ui.selection" = { bg = "light-cyan" }
+"ui.statusline" = { modifiers = ["reversed"] }
+"ui.statusline.inactive" = { modifiers = ["reversed", "dim"] }
+"ui.statusline.normal" = { modifiers = ["reversed", "bold"] }
+"ui.statusline.insert" = { fg = "white", bg = "green", modifiers = ["bold"] }
+"ui.statusline.visual" = { fg = "white", bg = "magenta", modifiers = ["bold"] }
+"ui.statusline.replace" = { fg = "white", bg = "red", modifiers = ["bold"] }
+"ui.statusline.command" = { fg = "white", bg = "yellow", modifiers = ["bold"] }
+"ui.statusline.terminal" = { fg = "white", bg = "cyan", modifiers = ["bold"] }
+"ui.bufferline" = { modifiers = ["reversed", "dim"] }
+"ui.bufferline.active" = { modifiers = ["bold"] }
+"ui.popup" = {}
+"ui.which-key" = {}
+"ui.which-key.title" = { modifiers = ["bold"] }
+"ui.menu" = { modifiers = ["reversed"] }
+"ui.menu.selected" = { fg = "white", bg = "blue" }
+"ui.picker" = {}
+"ui.picker.title" = { modifiers = ["bold"] }
+"ui.picker.match" = { fg = "red", modifiers = ["bold"] }
+"ui.picker.selected" = { bg = "light-gray", modifiers = ["bold"] }
+"ui.prompt" = { modifiers = ["bold"] }
+"ui.virtual.indent-guide" = { modifiers = ["dim"] }
+"ui.virtual.whitespace" = "cyan"
+"ui.virtual.ruler" = { bg = "light-red" }
+"ui.virtual.inlay-hint" = { fg = "gray", modifiers = ["dim"] }
+"ui.window" = { modifiers = ["dim"] }
+"ui.tree.directory" = { fg = "blue", modifiers = ["bold"] }
+"ui.tree.hidden" = { modifiers = ["dim"] }
+"ui.todo" = { fg = "white", bg = "yellow", modifiers = ["bold"] }
+"search.match" = { fg = "black", bg = "yellow" }
+"search.current" = { fg = "white", bg = "red", modifiers = ["bold"] }

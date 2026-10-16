@@ -1,0 +1,126 @@
+# m3's default theme for light terminals (`:set background=light`, or a
+# COLORFGBG that says so). Original to m3. Like `default` it sets no
+# `ui.background`: the terminal's own background shows through, and the colours
+# are picked to read on white. At 16 colours m3 picks `term16-light` instead.
+
+# --- syntax --------------------------------------------------------------
+
+"comment" = { fg = "comment", modifiers = ["italic"] }
+"string" = "green"
+"string.special" = "teal"
+"constant" = "orange"
+"constant.numeric" = "orange"
+"constant.builtin" = "orange"
+"constant.character.escape" = "teal"
+"keyword" = "purple"
+"keyword.control" = "purple"
+"keyword.directive" = "pink"
+"keyword.operator" = "cyan"
+"operator" = "cyan"
+"function" = "blue"
+"function.call" = "blue"
+"function.builtin" = "cyan"
+"function.macro" = "pink"
+"type" = "yellow"
+"type.builtin" = "yellow"
+"constructor" = "yellow"
+"variable" = {}
+"variable.builtin" = { fg = "red", modifiers = ["italic"] }
+"variable.parameter" = { fg = "orange", modifiers = ["italic"] }
+"variable.other.member" = "teal"
+"namespace" = "cyan"
+"label" = "cyan"
+"attribute" = "yellow"
+"tag" = "red"
+"punctuation" = "fg-mid"
+"punctuation.special" = "cyan"
+"special" = "teal"
+
+"markup.heading" = { fg = "blue", modifiers = ["bold"] }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link" = "blue"
+"markup.link.url" = { fg = "cyan", modifiers = ["underlined"] }
+"markup.link.text" = "blue"
+"markup.raw" = "green"
+"markup.quote" = "comment"
+"markup.list" = "orange"
+
+"diff.plus" = "green"
+"diff.minus" = "red"
+"diff.delta" = "orange"
+
+"error" = "red"
+"warning" = "yellow"
+"info" = "cyan"
+"hint" = "teal"
+"diagnostic.error" = { underline = { color = "red", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "yellow", style = "curl" } }
+"diagnostic.info" = { underline = { color = "cyan", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "teal", style = "curl" } }
+
+# --- interface -----------------------------------------------------------
+
+"ui.text" = {}
+"ui.text.inactive" = "comment"
+"ui.text.focus" = { bg = "raised" }
+"ui.linenr" = "gutter"
+"ui.linenr.selected" = { fg = "fg-mid", modifiers = ["bold"] }
+"ui.gutter" = {}
+"ui.cursor" = { modifiers = ["reversed"] }
+"ui.cursor.primary.insert" = { fg = "ink", bg = "green" }
+"ui.cursor.primary.select" = { fg = "ink", bg = "purple" }
+"ui.cursorline" = { bg = "cursorline" }
+"ui.selection" = { bg = "selection" }
+"ui.statusline" = { fg = "fg", bg = "panel" }
+"ui.statusline.inactive" = { fg = "comment", bg = "panel" }
+"ui.statusline.normal" = { fg = "ink", bg = "blue", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "ink", bg = "green", modifiers = ["bold"] }
+"ui.statusline.visual" = { fg = "ink", bg = "purple", modifiers = ["bold"] }
+"ui.statusline.replace" = { fg = "ink", bg = "red", modifiers = ["bold"] }
+"ui.statusline.command" = { fg = "ink", bg = "orange", modifiers = ["bold"] }
+"ui.statusline.terminal" = { fg = "ink", bg = "cyan", modifiers = ["bold"] }
+"ui.bufferline" = { fg = "comment", bg = "panel" }
+"ui.bufferline.active" = { fg = "fg", bg = "raised", modifiers = ["bold"] }
+"ui.popup" = { fg = "fg", bg = "raised" }
+"ui.which-key" = { fg = "fg", bg = "raised" }
+"ui.which-key.title" = { fg = "blue", bg = "raised", modifiers = ["bold"] }
+"ui.menu" = { fg = "fg", bg = "raised" }
+"ui.menu.selected" = { fg = "ink", bg = "blue" }
+"ui.picker" = { fg = "fg", bg = "panel" }
+"ui.picker.title" = { fg = "blue", bg = "panel", modifiers = ["bold"] }
+"ui.picker.match" = { fg = "orange", modifiers = ["bold"] }
+"ui.picker.selected" = { bg = "selection", modifiers = ["bold"] }
+"ui.prompt" = { fg = "green", modifiers = ["bold"] }
+"ui.virtual.indent-guide" = { fg = "guide" }
+"ui.virtual.whitespace" = { fg = "guide" }
+"ui.virtual.ruler" = { bg = "cursorline" }
+"ui.virtual.inlay-hint" = { fg = "comment", modifiers = ["italic"] }
+"ui.window" = { fg = "guide" }
+"ui.tree.directory" = { fg = "blue", modifiers = ["bold"] }
+"ui.tree.hidden" = "comment"
+"ui.todo" = { fg = "ink", bg = "yellow", modifiers = ["bold"] }
+"search.match" = { fg = "ink", bg = "yellow" }
+"search.current" = { fg = "ink", bg = "orange", modifiers = ["bold"] }
+
+[palette]
+ink = "#ffffff"
+fg = "#2b303b"
+fg-mid = "#5b6272"
+comment = "#7b8296"
+gutter = "#a3a9b8"
+guide = "#d3d7e0"
+panel = "#e6e9ef"
+raised = "#edf0f5"
+cursorline = "#eef1f6"
+selection = "#cddbf5"
+red = "#c4313b"
+orange = "#b25a00"
+yellow = "#8f6b00"
+green = "#2f7d32"
+teal = "#007f73"
+cyan = "#00789a"
+blue = "#2a63c5"
+purple = "#7f4bc4"
+pink = "#b53e84"

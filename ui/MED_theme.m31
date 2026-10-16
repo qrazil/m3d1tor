@@ -1,0 +1,975 @@
+// Themes: the editor's colours as data, in Helix's model.
+//
+// A theme is a TOML file: a `[palette]` of named colours and a table from
+// scope names to styles. `inherits = "other"` starts from another theme.
+//
+//     inherits = "tokyonight"
+//     "comment"       = { fg = "gray", modifiers = ["italic"] }
+//     "ui.linenr"     = "gray"                      # a bare colour is a foreground
+//     "ui.statusline" = { fg = "bg", bg = "blue", underline = { style = "line" } }
+//     [palette]
+//     gray = "#565f89"
+//
+// Colours are `#rrggbb` (`#rrggbbaa` too, the alpha ignored), `#rgb`, a 16-colour name (black red green yellow blue
+// magenta cyan gray light-red .. light-cyan light-gray white), a palette name,
+// `default`, or a number 0..255 (an xterm palette index). Modifiers: bold dim
+// italic underlined reversed crossed_out (slow_blink, rapid_blink and hidden are
+// accepted and ignored: the `tui` style has no bit for them), and `underline`
+// sets the underline modifier (its colour is checked but not drawn, for the
+// same reason).
+//
+// Only the TOML this needs is read: `#` comments, `[palette]`, `key = value`
+// (quoted or bare, dotted keys are scope names, not tables), strings,
+// arrays and inline tables, the last two continuing over lines.
+//
+// Scope lookup is Helix's: `keyword.control.return` is tried, then
+// `keyword.control`, then `keyword`. Before the prefixes, a scope that Helix
+// themes do not know (`ui.statusline.visual`, `ui.which-key`, `search.match`)
+// is looked up under the names Helix themes do have (`FALLBACKS`).
+//
+// The API:
+//
+//   MED_theme.load(name, directory)        Result<Theme, str>: a user file wins over a built-in
+//   MED_theme.available(directory)         every name `load` accepts, sorted
+//   MED_theme.parse_layer(name, text)     one file, no inheritance (for tests)
+//   theme.look(scope)                     the style a renderer draws `scope` in
+//   theme.class_look(class, variant)      a syntax class, on a plain / cursor line / ruler cell
+//
+// `look` is `ui.background` and `ui.text` laid under the scope's own style, so
+// a theme with no `ui.background` leaves the terminal's own background alone
+// (Helix's transparent background) and every cell the editor draws still gets
+// the same base.
+
+import fs;
+import io;
+import os;
+import tui.core.TUI_style;
+import syntax.core.SYN_class;
+import ui.MED_theme_data;
+
+/// The built-in themes `:set background=` picks between.
+pub const str DARK = "default";
+pub const str LIGHT = "default-light";
+/// The same two drawn with the terminal's own 16 colours (the default at 16 colours).
+pub const str DARK_16 = "term16-dark";
+pub const str LIGHT_16 = "term16-light";
+/// How deep an `inherits` chain or a palette reference may go.
+const int MAX_DEPTH = 8;
+/// The variants of `class_look`: the plain background, the cursor line (and
+/// cursor column), and a colour column.
+pub const int PLAIN = 0;
+pub const int ON_CURSOR_LINE = 1;
+pub const int ON_RULER = 2;
+/// The scope each of the 25 `SYN_class` values is drawn in, by class number.
+/// PROPERTY and MEMBER share Helix's `variable.other.member`; CALL is
+/// `function.call` (themes that do not tell it from a definition fall back to
+/// `function`).
+const Array<str> CLASS_SCOPES = ["variable", "comment", "string", "constant.numeric", "keyword", "type", "function", "keyword.directive", "constant", "operator", "string.special", "markup.heading", "variable.other.member", "tag", "attribute", "punctuation.special", "function.call", "diff.plus", "diff.minus", "markup.link.url", "markup.italic", "markup.bold", "markup.raw", "variable.builtin", "variable.other.member"];
+/// Scopes the renderer asks for that Helix themes lack, and where to look
+/// instead: "scope=alternative,alternative". The alternatives are tried in
+/// order, each with its own prefixes and fallbacks, before the scope's own
+/// prefixes.
+const Array<str> FALLBACKS = ["ui.statusline.visual=ui.statusline.select", "ui.statusline.replace=ui.statusline.insert", "ui.statusline.command=ui.statusline.normal", "ui.statusline.terminal=ui.statusline.insert", "ui.cursorline=ui.cursorline.primary", "ui.cursorcolumn=ui.cursorcolumn.primary,ui.cursorline", "ui.virtual.ruler=ui.cursorline", "ui.virtual.indent-guide=ui.virtual.whitespace", "ui.virtual.inlay-hint=ui.text.inactive", "ui.text.inactive=comment", "ui.bufferline=ui.statusline.inactive", "ui.bufferline.active=ui.statusline", "ui.which-key=ui.popup.info,ui.help,ui.popup", "ui.which-key.title=ui.text.focus", "ui.picker=ui.popup,ui.menu", "ui.picker.title=ui.text.focus", "ui.picker.match=special", "ui.picker.selected=ui.menu.selected,ui.text.focus", "ui.picker.preview=ui.picker", "ui.prompt=ui.text", "ui.tree.directory=ui.text.directory,function", "ui.tree.hidden=ui.text.inactive", "ui.todo=warning", "search.match=ui.highlight,ui.selection", "search.current=ui.cursor.match,ui.selection.primary,ui.selection", "ui.window=ui.virtual.whitespace", "ui.gutter=", "ui.linenr.selected=ui.linenr", "ui.cursor.match=ui.selection", "ui.popup.info=ui.popup", "ui.menu.selected=ui.selection", "ui.selection.primary=ui.selection", "markup.heading=markup.heading.1,markup.heading.marker,keyword", "markup.link.url=markup.link,markup.link.text,markup.link.label,function", "markup.raw=markup.raw.inline,markup.raw.block,string", "operator=keyword.operator", "punctuation.special=punctuation.delimiter,punctuation.bracket,special,operator", "diagnostic.error=error", "diagnostic.warning=warning", "diagnostic.info=info", "diagnostic.hint=hint"];
+
+/// The scopes every built-in theme must resolve to a style (a test keeps
+/// them honest): the ones the renderer asks for.
+pub List<str> required_scopes() {
+    return ["ui.text", "ui.text.inactive", "ui.linenr", "ui.linenr.selected", "ui.cursor", "ui.cursorline", "ui.selection", "ui.statusline", "ui.statusline.normal", "ui.statusline.insert", "ui.statusline.visual", "ui.statusline.replace", "ui.statusline.command", "ui.statusline.inactive", "ui.bufferline", "ui.bufferline.active", "ui.popup", "ui.which-key", "ui.menu", "ui.menu.selected", "ui.picker", "ui.picker.match", "ui.picker.selected", "ui.prompt", "ui.virtual.indent-guide", "ui.virtual.whitespace", "ui.virtual.ruler", "ui.virtual.inlay-hint", "ui.window", "ui.tree.directory", "ui.todo", "search.match", "search.current", "error", "warning", "info", "hint", "diff.plus", "diff.minus", "diff.delta", "special"];
+}
+
+/// The scope of syntax class `class_value`.
+pub str class_scope(int class_value) {
+    if (class_value < 0 || class_value >= SYN_class.COUNT) {
+        return CLASS_SCOPES[0];
+    }
+    return CLASS_SCOPES[class_value];
+}
+
+/// A style that sets nothing: no colour, no modifier.
+pub bool is_empty(TUI_style.Style style) {
+    return style.foreground.code() == 0 && style.background.code() == 0 && style.attrs == 0;
+}
+
+// ------------------------------------------------------------------ colours
+
+/// The 16-colour names. `gray` is bright black and `light-gray` plain white,
+/// as in Helix's own 16-colour themes (a gray background under a light-gray
+/// foreground).
+Option<TUI_style.Colour> named_colour(str name) {
+    List<str> names = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "light-gray", "gray", "light-red", "light-green", "light-yellow", "light-blue", "light-magenta", "light-cyan", "white"];
+    for (int index in 0 .. names.size()) {
+        if (names[index] == name) {
+            return Option<TUI_style.Colour>.Some(TUI_style.Colour.Indexed(index));
+        }
+    }
+    if (name == "default" || name == "reset") {
+        return Option<TUI_style.Colour>.Some(TUI_style.Colour.Default);
+    }
+    return Option<TUI_style.Colour>.None;
+}
+
+/// The value of one hex digit, or -1.
+int hex_digit(int byte) {
+    if (byte >= 48 && byte <= 57) {
+        return byte - 48;
+    }
+    if (byte >= 97 && byte <= 102) {
+        return byte - 87;
+    }
+    if (byte >= 65 && byte <= 70) {
+        return byte - 55;
+    }
+    return -1;
+}
+
+/// A colour spelled out: `#rrggbb`, `#rgb`, a 16-colour name or a number 0..255.
+pub Result<TUI_style.Colour, str> parse_colour(str text) {
+    if (text.starts_with("#")) {
+        List<int> digits = [];
+        for (int offset in 1 .. text.size()) {
+            int digit = hex_digit(text.byte_at(offset));
+            if (digit < 0) {
+                return Result<TUI_style.Colour, str>.Err("bad colour \"" + text + "\": not a hex digit");
+            }
+            digits.push(digit);
+        }
+        if (digits.size() == 3) {
+            return Result<TUI_style.Colour, str>.Ok(TUI_style.Colour.Rgb(digits[0] * 17, digits[1] * 17, digits[2] * 17));
+        }
+        // #rrggbbaa is read as #rrggbb: a terminal has no alpha
+        if (digits.size() == 6 || digits.size() == 8) {
+            return Result<TUI_style.Colour, str>.Ok(TUI_style.Colour.Rgb(digits[0] * 16 + digits[1], digits[2] * 16 + digits[3], digits[4] * 16 + digits[5]));
+        }
+        return Result<TUI_style.Colour, str>.Err("bad colour \"" + text + "\": expected #rrggbb or #rgb");
+    }
+    match (named_colour(text)) {
+        case Some(TUI_style.Colour found): {
+            return Result<TUI_style.Colour, str>.Ok(found);
+        }
+        case None: {
+        }
+    }
+    match (text.parse_int()) {
+        case Some(int index): {
+            if (index >= 0 && index <= 255) {
+                return Result<TUI_style.Colour, str>.Ok(TUI_style.Colour.Indexed(index));
+            }
+        }
+        case None: {
+        }
+    }
+    return Result<TUI_style.Colour, str>.Err("unknown colour \"" + text + "\" (not in [palette], and not a #hex, a 16-colour name or 0..255)");
+}
+
+/// A colour as a style names it: a palette entry (which may itself name
+/// another) or a colour spelled out.
+Result<TUI_style.Colour, str> resolve_colour(str text, Map<str, str> palette, int depth) {
+    if (depth > MAX_DEPTH) {
+        return Result<TUI_style.Colour, str>.Err("palette entry \"" + text + "\" refers back to itself");
+    }
+    match (palette.get(text)) {
+        case Some(str target): {
+            if (target == text) {
+                return parse_colour(text);
+            }
+            return resolve_colour(target, palette, depth + 1);
+        }
+        case None: {
+            return parse_colour(text);
+        }
+    }
+}
+
+// ------------------------------------------------------------------- reading
+
+const int NODE_STRING = 0;
+const int NODE_ARRAY = 1;
+const int NODE_TABLE = 2;
+
+/// A value of the file: a string (`text`), an array (`items`) or an inline
+/// table (`keys[i]` is `items[i]`'s key).
+type Node {
+    int kind = 0;
+    str text = "";
+    List<Node> items = [];
+    List<str> keys = [];
+}
+
+/// A cursor over one logical line.
+type Reader {
+    str text;
+    int position = 0;
+}
+
+bool Reader.is_done() {
+    return position >= text.size();
+}
+
+void Reader.skip_blank() {
+    while (position < text.size() && is_blank_byte(text.byte_at(position))) {
+        position = position + 1;
+    }
+}
+
+/// A quoted string starting at the cursor ("..." with \" \\ \n \t escapes, or
+/// '...' taken literally).
+Result<str, str> Reader.read_string() {
+    int quote = text.byte_at(position);
+    position = position + 1;
+    int start = position;
+    str out = "";
+    while (position < text.size()) {
+        int byte = text.byte_at(position);
+        if (byte == quote) {
+            out = out + text.substr(start, position);
+            position = position + 1;
+            return Result<str, str>.Ok(out);
+        }
+        if (byte == 92 && quote == 34) {
+            out = out + text.substr(start, position);
+            if (position + 1 >= text.size()) {
+                break;
+            }
+            int escaped = text.byte_at(position + 1);
+            if (escaped == 34 || escaped == 92) {
+                out = out + str.from_chars([escaped]);
+            } else if (escaped == 110) {
+                out = out + "\n";
+            } else if (escaped == 116) {
+                out = out + "\t";
+            } else {
+                return Result<str, str>.Err("unsupported escape \\" + str.from_chars([escaped]) + " in a string");
+            }
+            position = position + 2;
+            start = position;
+        } else {
+            position = position + 1;
+        }
+    }
+    return Result<str, str>.Err("unterminated string");
+}
+
+/// A key: a quoted string or a run of letters, digits, `_ - . +`.
+Result<str, str> Reader.read_key() {
+    skip_blank();
+    if (is_done()) {
+        return Result<str, str>.Err("expected a key");
+    }
+    int byte = text.byte_at(position);
+    if (byte == 34 || byte == 39) {
+        return read_string();
+    }
+    int start = position;
+    while (position < text.size() && is_key_byte(text.byte_at(position))) {
+        position = position + 1;
+    }
+    if (position == start) {
+        return Result<str, str>.Err("expected a key, found \"" + text.substr(position, position + 1) + "\"");
+    }
+    return Result<str, str>.Ok(text.substr(start, position));
+}
+
+/// A value: a string, an array, an inline table, or a bare word (a number).
+Result<Node, str> Reader.read_value() {
+    skip_blank();
+    if (is_done()) {
+        return Result<Node, str>.Err("missing value");
+    }
+    int byte = text.byte_at(position);
+    if (byte == 34 || byte == 39) {
+        str value = read_string()?;
+        return Result<Node, str>.Ok(Node(kind: NODE_STRING, text: value));
+    }
+    if (byte == 91) {
+        position = position + 1;
+        Node array = Node(kind: NODE_ARRAY);
+        while (true) {
+            skip_blank();
+            if (is_done()) {
+                return Result<Node, str>.Err("unterminated array");
+            }
+            if (text.byte_at(position) == 93) {
+                position = position + 1;
+                return Result<Node, str>.Ok(array);
+            }
+            Node item = read_value()?;
+            array.items.push(item);
+            skip_blank();
+            if (is_done()) {
+                return Result<Node, str>.Err("unterminated array");
+            }
+            if (text.byte_at(position) == 44) {
+                position = position + 1;
+            } else if (text.byte_at(position) != 93) {
+                return Result<Node, str>.Err("expected , or ] in an array");
+            }
+        }
+    }
+    if (byte == 123) {
+        position = position + 1;
+        Node table = Node(kind: NODE_TABLE);
+        while (true) {
+            skip_blank();
+            if (is_done()) {
+                return Result<Node, str>.Err("unterminated inline table");
+            }
+            if (text.byte_at(position) == 125) {
+                position = position + 1;
+                return Result<Node, str>.Ok(table);
+            }
+            str key = read_key()?;
+            skip_blank();
+            if (is_done() || text.byte_at(position) != 61) {
+                return Result<Node, str>.Err("expected = after \"" + key + "\"");
+            }
+            position = position + 1;
+            Node item = read_value()?;
+            table.keys.push(key);
+            table.items.push(item);
+            skip_blank();
+            if (is_done()) {
+                return Result<Node, str>.Err("unterminated inline table");
+            }
+            if (text.byte_at(position) == 44) {
+                position = position + 1;
+            } else if (text.byte_at(position) != 125) {
+                return Result<Node, str>.Err("expected , or } in an inline table");
+            }
+        }
+    }
+    int start = position;
+    while (position < text.size() && is_key_byte(text.byte_at(position))) {
+        position = position + 1;
+    }
+    if (position == start) {
+        return Result<Node, str>.Err("unexpected \"" + text.substr(position, position + 1) + "\"");
+    }
+    return Result<Node, str>.Ok(Node(kind: NODE_STRING, text: text.substr(start, position)));
+}
+
+bool is_blank_byte(int byte) {
+    return byte == 32 || byte == 9;
+}
+
+bool is_key_byte(int byte) {
+    return (byte >= 48 && byte <= 57) || (byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122) || byte == 95 || byte == 45 || byte == 46 || byte == 43;
+}
+
+/// The line without its `#` comment (a `#` inside a string stays).
+str strip_comment(str line) {
+    int quote = 0;
+    for (int offset in 0 .. line.size()) {
+        int byte = line.byte_at(offset);
+        if (quote != 0) {
+            if (byte == 92 && quote == 34) {
+                continue;
+            }
+            if (byte == quote && !(offset > 0 && line.byte_at(offset - 1) == 92 && quote == 34)) {
+                quote = 0;
+            }
+        } else if (byte == 34 || byte == 39) {
+            quote = byte;
+        } else if (byte == 35) {
+            return line.substr(0, offset);
+        }
+    }
+    return line;
+}
+
+/// How many `[` / `{` the line leaves open (outside strings).
+int open_depth(str line) {
+    int depth = 0;
+    int quote = 0;
+    for (int offset in 0 .. line.size()) {
+        int byte = line.byte_at(offset);
+        if (quote != 0) {
+            if (byte == quote && !(offset > 0 && line.byte_at(offset - 1) == 92 && quote == 34)) {
+                quote = 0;
+            }
+        } else if (byte == 34 || byte == 39) {
+            quote = byte;
+        } else if (byte == 91 || byte == 123) {
+            depth = depth + 1;
+        } else if (byte == 93 || byte == 125) {
+            depth = depth - 1;
+        }
+    }
+    return depth;
+}
+
+/// One file as written: `inherits`, the palette as text, and the scopes in
+/// file order with their values and line numbers. `resolve` turns the values
+/// into styles once the parent's palette is known.
+pub type Layer {
+    pub str name;
+    pub str inherits = "";
+    /// Palette entries, name to the colour as written (a hex, a name or another entry).
+    pub Map<str, str> palette = {};
+    /// The styles, resolved: palette applied, modifiers and underline read.
+    pub Map<str, TUI_style.Style> entries = {};
+    /// Entries that could not be read (an unknown colour, a bad modifier): they
+    /// are left out, as Helix leaves them out, and reported.
+    pub List<str> warnings = [];
+    List<str> scopes = [];
+    List<Node> nodes = [];
+    List<int> lines = [];
+}
+
+/// Read every scope's value as a style, a palette name looked up first in
+/// this file's `[palette]`, then in `inherited` (the parent's, as in Helix).
+/// A value that cannot be read becomes a warning, not a failure.
+pub void Layer.resolve(Map<str, str> inherited) {
+    Map<str, str> palette_all = {};
+    for (str key in inherited.keys()) {
+        palette_all.set(key, inherited.get(key).or(""));
+    }
+    for (str key in palette.keys()) {
+        palette_all.set(key, palette.get(key).or(""));
+    }
+    entries = {};
+    warnings = [];
+    for (int position in 0 .. scopes.size()) {
+        match (style_of(nodes[position], palette_all)) {
+            case Ok(TUI_style.Style style): {
+                entries.set(scopes[position], style);
+            }
+            case Err(str message): {
+                warnings.push(name + ":" + lines[position].to_str() + ": " + scopes[position] + ": " + message);
+            }
+        }
+    }
+}
+
+/// The style a value stands for: a bare colour is a foreground; a table has
+/// `fg`, `bg`, `underline` and `modifiers`.
+Result<TUI_style.Style, str> style_of(Node node, Map<str, str> palette) {
+    if (node.kind == NODE_STRING) {
+        TUI_style.Colour colour = resolve_colour(node.text, palette, 0)?;
+        return Result<TUI_style.Style, str>.Ok(TUI_style.Style(foreground: colour));
+    }
+    if (node.kind != NODE_TABLE) {
+        return Result<TUI_style.Style, str>.Err("a style is a colour or a { fg = .., bg = .. } table");
+    }
+    TUI_style.Style style = TUI_style.Style();
+    for (int index in 0 .. node.keys.size()) {
+        str key = node.keys[index];
+        Node value = node.items[index];
+        if (key == "fg" || key == "bg") {
+            if (value.kind != NODE_STRING) {
+                return Result<TUI_style.Style, str>.Err(key + " is a colour");
+            }
+            TUI_style.Colour colour = resolve_colour(value.text, palette, 0)?;
+            if (key == "fg") {
+                style = style.with_foreground(colour);
+            } else {
+                style = style.with_background(colour);
+            }
+        } else if (key == "modifiers") {
+            if (value.kind != NODE_ARRAY) {
+                return Result<TUI_style.Style, str>.Err("modifiers is a list of names");
+            }
+            for (Node one in value.items) {
+                int bit = modifier_bit(one.text)?;
+                style = style.with_attrs(bit);
+            }
+        } else if (key == "underline") {
+            if (value.kind != NODE_TABLE) {
+                return Result<TUI_style.Style, str>.Err("underline is a { color = .., style = .. } table");
+            }
+            for (int field in 0 .. value.keys.size()) {
+                check_underline(value.keys[field], value.items[field], palette)?;
+            }
+            style = style.with_attrs(TUI_style.UNDERLINE);
+        } else if (key.starts_with("underline.")) {
+            check_underline(key.substr(10, key.size()), value, palette)?;
+            style = style.with_attrs(TUI_style.UNDERLINE);
+        } else {
+            return Result<TUI_style.Style, str>.Err("unknown style key \"" + key + "\" (fg, bg, underline, modifiers)");
+        }
+    }
+    return Result<TUI_style.Style, str>.Ok(style);
+}
+
+/// One field of an underline: its colour must resolve and its style be one of
+/// the known ones (neither is drawn, see the header).
+Result<bool, str> check_underline(str field, Node value, Map<str, str> palette) {
+    if (value.kind != NODE_STRING) {
+        return Result<bool, str>.Err("underline " + field + " is a string");
+    }
+    if (field == "color") {
+        resolve_colour(value.text, palette, 0)?;
+    } else if (field == "style") {
+        if (!is_underline_style(value.text)) {
+            return Result<bool, str>.Err("unknown underline style \"" + value.text + "\" (line curl dashed dotted double_line)");
+        }
+    } else {
+        return Result<bool, str>.Err("unknown underline key \"" + field + "\" (color, style)");
+    }
+    return Result<bool, str>.Ok(true);
+}
+
+bool is_underline_style(str name) {
+    return name == "line" || name == "curl" || name == "dashed" || name == "dotted" || name == "double_line" || name == "reset";
+}
+
+/// The attribute bit of a modifier name; the blink and hidden ones have no
+/// bit (0) and are accepted.
+Result<int, str> modifier_bit(str name) {
+    if (name == "bold") {
+        return Result<int, str>.Ok(TUI_style.BOLD);
+    }
+    if (name == "dim") {
+        return Result<int, str>.Ok(TUI_style.DIM);
+    }
+    if (name == "italic") {
+        return Result<int, str>.Ok(TUI_style.ITALIC);
+    }
+    if (name == "underlined") {
+        return Result<int, str>.Ok(TUI_style.UNDERLINE);
+    }
+    if (name == "reversed") {
+        return Result<int, str>.Ok(TUI_style.REVERSE);
+    }
+    if (name == "crossed_out") {
+        return Result<int, str>.Ok(TUI_style.STRIKE);
+    }
+    if (name == "slow_blink" || name == "rapid_blink" || name == "hidden") {
+        return Result<int, str>.Ok(0);
+    }
+    return Result<int, str>.Err("unknown modifier \"" + name + "\" (bold dim italic underlined reversed crossed_out)");
+}
+
+/// Parse one theme file, without following `inherits`. Errors name the theme
+/// and the line.
+pub Result<Layer, str> parse_layer(str name, str text) {
+    Layer layer = Layer(name);
+    bool is_palette = false;
+    List<str> lines = text.split("\n");
+    int index = 0;
+    while (index < lines.size()) {
+        int number = index + 1;
+        str line = strip_comment(lines[index]).trim();
+        index = index + 1;
+        if (line.size() == 0) {
+            continue;
+        }
+        if (line.starts_with("[")) {
+            str header = line.substr(1, line.size()).trim();
+            if (!header.ends_with("]")) {
+                return Result<Layer, str>.Err(name + ":" + number.to_str() + ": malformed table header");
+            }
+            header = header.substr(0, header.size() - 1).trim();
+            if (header != "palette") {
+                return Result<Layer, str>.Err(name + ":" + number.to_str() + ": unsupported table [" + header + "] (only [palette])");
+            }
+            is_palette = true;
+            continue;
+        }
+        // an array or inline table may go on over the next lines
+        while (open_depth(line) > 0 && index < lines.size()) {
+            line = line + " " + strip_comment(lines[index]).trim();
+            index = index + 1;
+        }
+        Reader reader = Reader(line);
+        match (read_entry(reader, is_palette, layer, number)) {
+            case Ok(bool did_read): {
+            }
+            case Err(str message): {
+                return Result<Layer, str>.Err(name + ":" + number.to_str() + ": " + message);
+            }
+        }
+    }
+    return Result<Layer, str>.Ok(layer);
+}
+
+/// One `key = value` line: `inherits`, a palette entry or a scope's style (kept
+/// as a node until the whole palette is known).
+Result<bool, str> read_entry(Reader reader, bool is_palette, Layer layer, int number) {
+    str key = reader.read_key()?;
+    // `"diagnostic.info".underline = {..}`: a quoted scope, then the field of its style
+    List<str> fields = [];
+    while (!reader.is_done() && reader.text.byte_at(reader.position) == 46) {
+        reader.position = reader.position + 1;
+        fields.push(reader.read_key()?);
+    }
+    reader.skip_blank();
+    if (reader.is_done() || reader.text.byte_at(reader.position) != 61) {
+        return Result<bool, str>.Err("expected = after \"" + key + "\"");
+    }
+    reader.position = reader.position + 1;
+    Node value = reader.read_value()?;
+    if (fields.size() > 0) {
+        if (is_palette || key == "inherits" || fields.size() > 1) {
+            return Result<bool, str>.Err("unsupported dotted key after \"" + key + "\"");
+        }
+        int found = layer.scopes.index_of(key).or(-1);
+        if (found >= 0 && layer.nodes[found].kind == NODE_TABLE) {
+            layer.nodes[found].keys.push(fields[0]);
+            layer.nodes[found].items.push(value);
+            return Result<bool, str>.Ok(true);
+        }
+        value = Node(kind: NODE_TABLE, keys: [fields[0]], items: [value]);
+    }
+    reader.skip_blank();
+    if (!reader.is_done()) {
+        return Result<bool, str>.Err("unexpected text after the value of \"" + key + "\"");
+    }
+    if (is_palette) {
+        if (value.kind != NODE_STRING) {
+            return Result<bool, str>.Err("palette entry \"" + key + "\" is a colour");
+        }
+        layer.palette.set(key, value.text);
+    } else if (key == "inherits") {
+        if (value.kind != NODE_STRING) {
+            return Result<bool, str>.Err("inherits is a theme name");
+        }
+        layer.inherits = value.text;
+    } else {
+        layer.scopes.push(key);
+        layer.nodes.push(value);
+        layer.lines.push(number);
+    }
+    return Result<bool, str>.Ok(true);
+}
+
+// -------------------------------------------------------------------- Theme
+
+/// A theme ready to draw with: every scope's style, after inheritance and
+/// palette, and the lookups the renderer makes memoised.
+pub type Theme {
+    pub str name;
+    pub Map<str, TUI_style.Style> entries = {};
+    /// Entries of the files that could not be read and were left out.
+    pub List<str> warnings = [];
+    /// `ui.background` under `ui.text`: what every drawn cell starts from.
+    pub TUI_style.Style base = TUI_style.Style();
+    Map<str, TUI_style.Style> found = {};
+    Map<str, bool> missing = {};
+    Map<str, TUI_style.Style> looks = {};
+    List<List<TUI_style.Style>> class_looks = [];
+    List<TUI_style.Style> text_looks = [];
+}
+
+/// A theme from resolved entries.
+pub static Theme Theme.make(str name, Map<str, TUI_style.Style> entries) {
+    Theme theme = Theme(name, entries: entries);
+    theme.seal();
+    return theme;
+}
+
+/// Work out `base` and the syntax looks (again after `entries` changed).
+pub void Theme.seal() {
+    found = {};
+    missing = {};
+    looks = {};
+    TUI_style.Style background = style("ui.background");
+    TUI_style.Style text = style("ui.text");
+    base = TUI_style.Style(foreground: background.foreground, background: background.background).merged(TUI_style.Style(foreground: text.foreground, background: text.background));
+    class_looks = [];
+    text_looks = [];
+    List<TUI_style.Colour> backgrounds = [TUI_style.Colour.Default, style("ui.cursorline").background, style("ui.virtual.ruler").background];
+    for (TUI_style.Colour variant in backgrounds) {
+        TUI_style.Style under = TUI_style.Style(background: variant);
+        List<TUI_style.Style> row = [];
+        for (int class_value in 0 .. SYN_class.COUNT) {
+            row.push(look(CLASS_SCOPES[class_value]).merged(under));
+        }
+        class_looks.push(row);
+        text_looks.push(base.merged(under));
+    }
+}
+
+/// Where `scope` is defined, if anywhere: the scope itself, its fallbacks
+/// (`FALLBACKS`), then its dotted prefixes.
+Option<TUI_style.Style> Theme.find(str scope, int depth) {
+    match (entries.get(scope)) {
+        case Some(TUI_style.Style own): {
+            return Option<TUI_style.Style>.Some(own);
+        }
+        case None: {
+        }
+    }
+    if (depth > MAX_DEPTH) {
+        return Option<TUI_style.Style>.None;
+    }
+    for (str row in FALLBACKS) {
+        if (row.starts_with(scope + "=")) {
+            for (str alternative in row.substr(scope.size() + 1, row.size()).split(",")) {
+                if (alternative.size() == 0) {
+                    return Option<TUI_style.Style>.None;
+                }
+                match (find(alternative, depth + 1)) {
+                    case Some(TUI_style.Style via): {
+                        return Option<TUI_style.Style>.Some(via);
+                    }
+                    case None: {
+                    }
+                }
+            }
+        }
+    }
+    int dot = scope.size();
+    while (dot > 0 && scope.byte_at(dot - 1) != 46) {
+        dot = dot - 1;
+    }
+    if (dot <= 1) {
+        return Option<TUI_style.Style>.None;
+    }
+    return find(scope.substr(0, dot - 1), depth + 1);
+}
+
+/// The style `scope` is defined as (a plain style when nothing is), without
+/// the base.
+pub TUI_style.Style Theme.style(str scope) {
+    match (found.get(scope)) {
+        case Some(TUI_style.Style known): {
+            return known;
+        }
+        case None: {
+        }
+    }
+    if (missing.contains(scope)) {
+        return TUI_style.Style();
+    }
+    match (find(scope, 0)) {
+        case Some(TUI_style.Style defined): {
+            found.set(scope, defined);
+            return defined;
+        }
+        case None: {
+            missing.set(scope, true);
+            return TUI_style.Style();
+        }
+    }
+}
+
+/// Whether `scope` resolves to a definition (itself, a fallback or a prefix).
+pub bool Theme.is_defined(str scope) {
+    style(scope);
+    return !missing.contains(scope);
+}
+
+/// Whether the theme itself has an entry for exactly `scope`.
+pub bool Theme.has_entry(str scope) {
+    return entries.contains(scope);
+}
+
+/// The style to draw `scope` in: its definition over the base.
+pub TUI_style.Style Theme.look(str scope) {
+    match (looks.get(scope)) {
+        case Some(TUI_style.Style known): {
+            return known;
+        }
+        case None: {
+        }
+    }
+    TUI_style.Style made = base.merged(style(scope));
+    looks.set(scope, made);
+    return made;
+}
+
+/// `scope` laid over the look of `under` (`ui.statusline.insert` over
+/// `ui.statusline`): what Helix's own statusline does with its mode colours.
+pub TUI_style.Style Theme.over(str under, str scope) {
+    return look(under).merged(style(scope));
+}
+
+/// Plain text on a plain / cursor line / ruler background.
+pub TUI_style.Style Theme.text_look(int variant) {
+    return text_looks[variant];
+}
+
+/// The first of `scopes` the theme defines, drawn (the base alone when none is).
+pub TUI_style.Style Theme.look_of_first(List<str> scopes) {
+    for (str scope in scopes) {
+        if (is_defined(scope)) {
+            return look(scope);
+        }
+    }
+    return base;
+}
+
+/// The syntax class `class_value`, as `variant` (PLAIN, ON_CURSOR_LINE, ON_RULER)
+/// wants the background.
+pub TUI_style.Style Theme.class_look(int class_value, int variant) {
+    int which = class_value;
+    if (which < 0 || which >= SYN_class.COUNT) {
+        which = 0;
+    }
+    return class_looks[variant][which];
+}
+
+/// The cursor cell of a mode ("normal", "insert", "select"): `ui.cursor.primary.MODE`
+/// and the prefixes after it, reversed when the theme says nothing.
+pub TUI_style.Style Theme.cursor(str mode) {
+    TUI_style.Style defined = style("ui.cursor.primary." + mode);
+    if (is_empty(defined)) {
+        defined = style("ui.cursor");
+    }
+    if (is_empty(defined)) {
+        return base.merged(TUI_style.Style(attrs: TUI_style.REVERSE));
+    }
+    return base.merged(defined);
+}
+
+/// A theme with no entries: everything is drawn in the terminal's own colours.
+pub Theme plain() {
+    return Theme.make("plain", {});
+}
+
+// ------------------------------------------------------------------- loading
+
+/// A name a theme may have: letters, digits and `_ - . +`, not starting with a dot.
+pub bool is_valid_name(str name) {
+    if (name.size() == 0 || name.starts_with(".")) {
+        return false;
+    }
+    for (int offset in 0 .. name.size()) {
+        if (!is_key_byte(name.byte_at(offset))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/// The directory user themes live in: `$XDG_CONFIG_HOME/m3/themes`, else
+/// `$HOME/.config/m3/themes` (macOS too), "" when neither is set.
+pub str user_directory(str config_home, str home) {
+    if (config_home.size() > 0) {
+        return config_home + "/m3/themes";
+    }
+    if (home.size() > 0) {
+        return home + "/.config/m3/themes";
+    }
+    return "";
+}
+
+/// `user_directory` from the environment.
+pub str default_user_directory() {
+    return user_directory(os.env("XDG_CONFIG_HOME").or(""), os.env("HOME").or(""));
+}
+
+/// Whether `name` is one of the themes compiled in.
+pub bool is_builtin(str name) {
+    return MED_theme_data.NAMES.contains(name);
+}
+
+/// The file text of theme `name`: the user's file when `directory` has one
+/// (and `is_user_allowed`), else the built-in.
+Result<str, str> source_of(str name, str directory, bool is_user_allowed) {
+    if (!is_valid_name(name)) {
+        return Result<str, str>.Err("invalid theme name \"" + name + "\"");
+    }
+    if (is_user_allowed && directory.size() > 0) {
+        str file = directory + "/" + name + ".toml";
+        if (fs.is_file(file)) {
+            match (io.read(file)) {
+                case Ok(str text): {
+                    return Result<str, str>.Ok(text);
+                }
+                case Err(io.Error error): {
+                    return Result<str, str>.Err("cannot read " + file + ": " + error.to_str());
+                }
+            }
+        }
+    }
+    if (is_builtin(name)) {
+        return Result<str, str>.Ok(MED_theme_data.source_of(name).join("\n"));
+    }
+    return Result<str, str>.Err("unknown theme \"" + name + "\"");
+}
+
+/// A theme and the ones it inherits from, merged: the child's entries over
+/// the parent's, the palettes laid over each other, the warnings of every file.
+type Merged {
+    Map<str, TUI_style.Style> entries = {};
+    Map<str, str> palette = {};
+    List<str> warnings = [];
+}
+
+Result<Merged, str> merge_chain(str name, str directory, bool is_user_allowed, List<str> seen) {
+    if (seen.size() >= MAX_DEPTH) {
+        return Result<Merged, str>.Err("theme \"" + name + "\": inherits is nested too deep");
+    }
+    str key = name;
+    if (is_user_allowed) {
+        key = name + "*";
+    }
+    if (seen.contains(key)) {
+        return Result<Merged, str>.Err("theme \"" + name + "\" inherits from itself");
+    }
+    seen.push(key);
+    str text = source_of(name, directory, is_user_allowed)?;
+    Layer layer = parse_layer(name, text)?;
+    Merged out = Merged();
+    if (layer.inherits.size() > 0) {
+        // a user theme may extend the built-in of its own name
+        bool is_parent_user = layer.inherits != name || !is_user_allowed;
+        out = merge_chain(layer.inherits, directory, is_parent_user, seen)?;
+    }
+    layer.resolve(out.palette);
+    for (str scope in layer.entries.keys()) {
+        out.entries.set(scope, layer.entries.get(scope).or(TUI_style.Style()));
+    }
+    for (str colour in layer.palette.keys()) {
+        out.palette.set(colour, layer.palette.get(colour).or(""));
+    }
+    for (str warning in layer.warnings) {
+        out.warnings.push(warning);
+    }
+    return Result<Merged, str>.Ok(out);
+}
+
+/// Theme `name`: a user file in `directory` (or the built-in of that name),
+/// with its `inherits` chain followed. A file that cannot be parsed, a missing
+/// parent or a loop is an error; an entry that cannot be read is a warning
+/// (`theme.warnings`) and is left out.
+pub Result<Theme, str> load(str name, str directory) {
+    Merged merged = merge_chain(name, directory, true, [])?;
+    Theme theme = Theme.make(name, merged.entries);
+    theme.warnings = merged.warnings;
+    return Result<Theme, str>.Ok(theme);
+}
+
+/// Every theme name `load` takes: the built-ins and the `.toml` files of
+/// `directory`, sorted.
+pub List<str> available(str directory) {
+    List<str> names = [];
+    for (str name in MED_theme_data.NAMES) {
+        names.push(name);
+    }
+    if (directory.size() > 0 && fs.is_directory(directory)) {
+        match (fs.listdir(directory)) {
+            case Ok(List<str> found): {
+                for (str file in found) {
+                    if (file.ends_with(".toml")) {
+                        str name = file.substr(0, file.size() - 5);
+                        if (is_valid_name(name) && !names.contains(name)) {
+                            names.push(name);
+                        }
+                    }
+                }
+            }
+            case Err(io.Error error): {
+            }
+        }
+    }
+    names.sort();
+    return names;
+}
+
+/// The built-in that `:set background=` and the terminal's depth choose:
+/// `default` or `default-light`, drawn with the terminal's own 16 colours when
+/// that is all there is.
+pub str default_for(bool is_light, bool is_sixteen) {
+    if (is_light) {
+        if (is_sixteen) {
+            return LIGHT_16;
+        }
+        return LIGHT;
+    }
+    if (is_sixteen) {
+        return DARK_16;
+    }
+    return DARK;
+}
