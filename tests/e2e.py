@@ -845,6 +845,45 @@ def project_settings(binary, root):
     assert lines[1] == "   x", repr(lines[1])
 
 
+@scenario
+def disk_watch_autosave_autowrite(binary, root):
+    keymap = os.path.join(root, "empty.vim")
+    open(keymap, "w").close()
+    path = os.path.join(root, "hello.txt")
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("hello world")
+        # an outside change to an unmodified buffer is read again within a couple of seconds
+        with open(path, "w") as f:
+            f.write("changed outside the editor\nsecond\n")
+        assert s.wait_for("changed outside the editor", timeout=6), s.text()
+        assert s.wait_for("reloaded", timeout=2), s.text()
+        # a modified buffer is not touched, it gets the warning
+        s.send("x", settle=0.2)
+        with open(path, "w") as f:
+            f.write("a different outside change\n")
+        assert s.wait_for("W12", timeout=6), s.text()
+        assert "hanged outside the editor" in s.text(), "the modified buffer must keep its text:\n" + s.text()
+        s.send("u", settle=0.2)
+        # 'autosave': written after the quiet time
+        s.send(":set autosave=1\r", settle=0.3)
+        s.send("x", settle=0.2)
+        assert s.wait_for("autosaved", timeout=6), s.text()
+        with open(path) as f:
+            assert f.read().startswith("hanged outside the editor"), "autosave wrote the buffer"
+        s.send(":set autosave=0\r", settle=0.3)
+        # 'autowriteall': :q writes the buffer first
+        s.send(":set autowriteall\r", settle=0.3)
+        s.send("x", settle=0.2)
+        s.send(":q\r", settle=0.8)
+    finally:
+        s.close()
+    with open(path) as f:
+        text = f.read()
+    assert text.startswith("anged outside the editor"), "quit with autowriteall: %r" % text
+    assert s.proc.poll() == 0, "exit status"
+
+
 def main():
     binary = os.path.abspath(sys.argv[1])
     only = None

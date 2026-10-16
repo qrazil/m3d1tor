@@ -113,6 +113,8 @@ const List<str> SPECS = [
     "wrapmargin:wm:num:0",
     "scroll:scr:num:0",
     "autowrite:aw:bool:false",
+    "autowriteall:awa:bool:false",
+    "autosave::num:0",
     "confirm:cf:bool:false",
     "wildmode:wim:str:full",
     "completeopt:cot:str:menu,popup",

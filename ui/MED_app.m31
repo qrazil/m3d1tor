@@ -51,6 +51,7 @@ import ui.MED_persist;
 import engine.MED_projconf;
 import engine.MED_option;
 import ui.MED_picker_view;
+import engine.MED_num;
 import engine.MED_text;
 import engine.MED_regex;
 import engine.MED_search;
@@ -69,6 +70,8 @@ const int WHEEL_LINES = 3;
 const int GREP_DEBOUNCE_MS = 120;
 /// How long (ms) a typed prefix of a longer mapping waits ('timeoutlen').
 const int MAP_TIMEOUT_MS = 1000;
+/// How often (ms) the active buffer's file is checked for an outside change.
+const int WATCH_MS = 1000;
 /// How often (ms) the recent-files and cursor-position state is brought up to date.
 const int STATE_MS = 1000;
 const int PREVIEW_LINES = 3000;
@@ -105,6 +108,8 @@ pub type Slot {
     /// The `:set` lines `.editorconfig` / `.m3.toml` gave this buffer; run again whenever it becomes active
     /// (options are shared between buffers, these are not).
     pub List<str> local_lines = [];
+    /// The file on disk as last read or written (MED_persist.disk_stamp), to notice an outside change.
+    pub str stamp = "";
 }
 
 /// A terminal pane: a program on a pty whose output fills a buffer.
@@ -224,6 +229,9 @@ pub type App {
     str noted_path = "";
     int noted_row = -1;
     int state_ms = 0;
+    /// Time since the last disk check ('autoread') and since the last key ('autosave').
+    int watch_ms = 0;
+    int quiet_ms = 0;
     str lsp_failed_for = "";
     bool is_lsp_gr = false;
     /// Label jump: 0 off, 1 waiting for the character to look for, 2 for a label.
@@ -412,6 +420,7 @@ void App.activate(int id) {
     left_column = target.left_column;
     editor.view_left = left_column;
     editor.view_height = current_text_rows();
+    check_disk();
 }
 
 /// Run the project settings of `slot` on its editor.
@@ -459,6 +468,126 @@ void App.adopt(Slot slot) {
     restore_undo();
 }
 
+/// Read the active buffer's file again (`:e!`, an outside change under 'autoread'); the cursor stays on its line.
+/// False (with the message in `notice`) when the file cannot be read.
+bool App.did_reload_active() {
+    int row = editor.row;
+    int col = editor.col;
+    match (read_slot(current_id, path)) {
+        case Ok(Slot fresh): {
+            MED_editor.Editor old = editor;
+            share_state(old, fresh.editor);
+            apply_project(fresh);
+            editor = fresh.editor;
+            saved_current = fresh.saved_current;
+            left_column = 0;
+            editor.row = MED_num.smaller(row, editor.buffer.line_count() - 1);
+            editor.col = col;
+            editor.clamp();
+            editor.want_from_cursor();
+            save_active();
+            slots[index_of(current_id)].stamp = fresh.stamp;
+            return true;
+        }
+        case Err(str message): {
+            notice = message;
+            return false;
+        }
+    }
+}
+
+/// Notice a change of the active buffer's file on disk ('autoread'): an unmodified buffer is read again, a modified
+/// one only gets the warning, once per change. `:checktime` and every tick of a quiet Normal mode run this.
+void App.check_disk() {
+    Slot slot = active_slot();
+    if (slot.is_listing || slot.path.size() == 0 || slot.title.size() > 0) {
+        return;
+    }
+    str now = MED_persist.disk_stamp(slot.path);
+    if (now == slot.stamp) {
+        return;
+    }
+    bool was_present = slot.stamp.size() > 0;
+    slot.stamp = now;
+    if (now.size() == 0) {
+        if (was_present) {
+            notice = "E211: File \"" + slot.path + "\" no longer available";
+        }
+        return;
+    }
+    if (!was_present) {
+        return;
+    }
+    if (is_modified()) {
+        notice = "W12: Warning: File \"" + slot.path + "\" has changed and the buffer was changed in Vim as well";
+        return;
+    }
+    if (!editor.is_option_on("autoread", true)) {
+        notice = "W11: Warning: File \"" + slot.path + "\" has changed since editing started";
+        return;
+    }
+    if (did_reload_active()) {
+        notice = "\"" + slot.path + "\" changed on disk, reloaded";
+    }
+}
+
+/// 'autowrite' / 'autowriteall': write every modified buffer that has a file before a command that would leave it
+/// ('autowriteall' for :edit, :quit and closing too, 'autowrite' for CTRL-^ and `:e #`). A buffer that cannot be
+/// written stays modified and the command then fails the usual way.
+void App.autowrite(bool is_all_command) {
+    bool is_on = editor.is_option_on("autowriteall", false) || (!is_all_command && editor.is_option_on("autowrite", false));
+    if (!is_on) {
+        return;
+    }
+    save_active();
+    for (Slot slot in slots) {
+        if (!is_slot_modified(slot) || slot.path.size() == 0 || slot.is_listing) {
+            continue;
+        }
+        if (!write_slot(slot, "").starts_with("E")) {
+            save_undo(slot);
+        }
+    }
+    Slot active = slots[index_of(current_id)];
+    path = active.path;
+    saved_current = active.saved_current;
+}
+
+/// Write the modified buffers once the user has been quiet for 'autosave' seconds (Normal mode only, so a half-typed
+/// insert or command is never written).
+void App.autosave_idle(int elapsed_ms) {
+    int seconds = editor.option_number("autosave", 0);
+    if (seconds <= 0 || editor.mode != MED_editor.NORMAL) {
+        quiet_ms = 0;
+        return;
+    }
+    quiet_ms = quiet_ms + elapsed_ms;
+    if (quiet_ms < seconds * 1000) {
+        return;
+    }
+    quiet_ms = 0;
+    save_active();
+    int written = 0;
+    for (Slot slot in slots) {
+        if (is_slot_modified(slot) && slot.path.size() > 0 && !slot.is_listing && slot.title.size() == 0) {
+            if (!write_slot(slot, "").starts_with("E")) {
+                save_undo(slot);
+                written = written + 1;
+            }
+        }
+    }
+    if (written > 0) {
+        Slot active = slots[index_of(current_id)];
+        path = active.path;
+        saved_current = active.saved_current;
+        if (written == 1) {
+            notice = "autosaved 1 buffer";
+        } else {
+            notice = "autosaved " + written.to_str() + " buffers";
+        }
+    }
+}
+
 /// `:e [file]`, `:e!`, `:e #`, `:enew`.
 void App.edit(str target, bool is_forced) {
     str name = target.trim();
@@ -480,23 +609,12 @@ void App.edit(str target, bool is_forced) {
             notice = "E37: No write since last change (add ! to override)";
             return;
         }
-        match (read_slot(current_id, path)) {
-            case Ok(Slot fresh): {
-                MED_editor.Editor old = editor;
-                share_state(old, fresh.editor);
-                apply_project(fresh);
-                editor = fresh.editor;
-                saved_current = fresh.saved_current;
-                left_column = 0;
-                save_active();
-                notice = file_note(path, editor);
-            }
-            case Err(str message): {
-                notice = message;
-            }
+        if (did_reload_active()) {
+            notice = file_note(path, editor);
         }
         return;
     }
+    autowrite(true);
     for (Slot known in slots) {
         if (known.path == name) {
             activate(known.id);
@@ -532,6 +650,7 @@ void App.switch_alternate() {
         notice = "E23: No alternate file";
         return;
     }
+    autowrite(false);
     activate(alternate_id);
     notice = file_note(path, editor);
 }
@@ -711,6 +830,8 @@ void App.run_request(str request) {
         }
     } else if (name == "wall") {
         write_all();
+    } else if (name == "checktime") {
+        check_disk();
     } else if (name == "edit") {
         edit(arg, is_forced);
     } else if (name == "enew") {
@@ -1059,6 +1180,7 @@ bool App.did_finish() {
     if (is_forced) {
         return true;
     }
+    autowrite(true);
     save_active();
     if (is_modified()) {
         notice = "E37: No write since last change (add ! to override)";
@@ -3136,6 +3258,24 @@ pub TUI_app.Action App.tick(int elapsed_ms) {
             return TUI_app.Action.Redraw;
         }
     }
+    if (!has_picker && editor.mode == MED_editor.NORMAL) {
+        watch_ms = watch_ms + elapsed_ms;
+        if (watch_ms >= WATCH_MS) {
+            watch_ms = 0;
+            str before = notice;
+            check_disk();
+            if (notice != before) {
+                return TUI_app.Action.Redraw;
+            }
+        }
+    }
+    if (!has_picker) {
+        str before_save = notice;
+        autosave_idle(elapsed_ms);
+        if (notice != before_save) {
+            return TUI_app.Action.Redraw;
+        }
+    }
     state_ms = state_ms + elapsed_ms;
     if (state_ms >= STATE_MS) {
         state_ms = 0;
@@ -3478,6 +3618,7 @@ TUI_app.Action App.finish_event() {
 
 /// One event: feed its keys to the engine, then the UI requests.
 pub TUI_app.Action App.handle(term.Event event) {
+    quiet_ms = 0;
     if (has_picker) {
         return handle_picker(event);
     }
@@ -7080,6 +7221,7 @@ str write_slot(Slot slot, str target) {
                 slot.editor.buffer.path = name;
             }
             if (name == slot.path) {
+                slot.stamp = MED_persist.disk_stamp(name);
                 slot.saved_current = slot.editor.current;
                 slot.editor.saved_nodes.push(slot.editor.current);
                 slot.editor.buffer.is_modified = false;
@@ -7249,7 +7391,9 @@ Result<Slot, str> read_slot(int id, str name) {
     MED_editor.Editor loaded = MED_editor.new(text);
     loaded.buffer.path = name;
     loaded.commentstring = comment_for(name);
-    return Result<Slot, str>.Ok(Slot(id, loaded, name));
+    Slot made = Slot(id, loaded, name);
+    made.stamp = MED_persist.disk_stamp(name);
+    return Result<Slot, str>.Ok(made);
 }
 
 /// The 'commentstring' for a file name ("" when the language is unknown or

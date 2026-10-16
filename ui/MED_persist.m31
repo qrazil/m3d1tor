@@ -61,3 +61,18 @@ pub void save_undo(str directory, str file, MED_editor.Editor editor) {
         }
     }
 }
+
+/// A fingerprint of the file at `file` on disk: size and modification time in nanoseconds ("" when it is not there).
+pub str disk_stamp(str file) {
+    if (file.size() == 0) {
+        return "";
+    }
+    match (fs.stat(file)) {
+        case Ok(fs.Stat stat): {
+            return stat.size.to_str() + ":" + stat.mtime_ns.to_str();
+        }
+        case Err(io.Error error): {
+            return "";
+        }
+    }
+}
