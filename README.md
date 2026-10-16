@@ -6,7 +6,7 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.5.0.** The Vim engine is checked against `nvim --headless` on
+**Status: v0.7.0.** The Vim engine is checked against `nvim --headless` on
 more than 38,500 generated and hand-written cases (20 known divergences, listed in
 `tests/oracles/known_divergences.txt`); on top of it sit the built-in plugins that make it a daily editor:
 a fuzzy finder with async sources (rg / fd / git when installed, a built-in walker and grep when not), which-key for
@@ -22,9 +22,9 @@ Options that change behaviour are checked against nvim one by one: `scrolloff`, 
 with `formatoptions` (auto-wrap, `gq`, comment leaders), `tabstop`, `shiftwidth`,
 `softtabstop`, `expandtab`, `smarttab`, `autoindent`, `ignorecase`, `smartcase`,
 `wrapscan`, `startofline`, `smartindent`, `list`/`listchars`, `cursorline`,
-`cursorcolumn`, `colorcolumn`. Known limits: no command-line window, no fold methods besides manual,
+`cursorcolumn`, `colorcolumn`. Known limits: no command-line window, fold methods manual, indent and marker only,
 a reduced `=` indent (`cindent` is not implemented; `smartindent` is), `formatoptions` `a` and `n`, `linebreak`, many
-options are stored but do not change behaviour yet, no tree-sitter, no undo files, and the terminal pane is
+options are stored but do not change behaviour yet, no tree-sitter, and the terminal pane is
 line oriented (no full-screen programs). `m3 --version` prints the version.
 
 ## Install
@@ -63,7 +63,8 @@ On Alpine (musl) the installer picks the `-musl` Linux asset built by `scripts/c
   unknown language = plain code colour).
 - Command-line completion: `<Tab>` / `<C-n>` and `<S-Tab>` / `<C-p>` complete ex
   commands, option names (long and short), file and directory names and buffers.
-- Manual folds: `zf` `zF` `:fold`, `zo zO zc zC za zA zv zR zM zd zD zE zj zk`.
+- Folds: manual (`zf` `zF` `:fold`, `zd zD zE`) and `:set foldmethod=indent|marker`; `zo zO zc zC za zA zv zR zM zm zr zx zX zn zN zi zj zk [z ]z`, `foldlevel`.
+- Persistence and project settings: undo files, `.editorconfig` and `.m3.toml`, outside-change reload, `autowriteall`, `autosave`, `:Session`.
 - File tree sidebar (neo-tree style): `<Space>e` toggles it, `<Space>E` reveals the
   current file, `:Neotree [toggle|show|focus|close|reveal|refresh|DIR]`. Rows are
   folders first, git status letters (M A D R ? !) sit at the right and folders

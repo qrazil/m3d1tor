@@ -65,7 +65,7 @@ bool is_sixteen(TUI_style.Depth depth) {
     }
 }
 
-const str VERSION = "0.5.0";
+const str VERSION = "0.7.0";
 
 // Standard output, for the options that print and exit.
 void say(str text) {

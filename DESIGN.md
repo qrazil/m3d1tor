@@ -459,14 +459,14 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Debug adapter (DAP) | **Later** | The pipes exist now; the UI does not |
 | Embedded terminal | **Partial** (0.1.0) | `:terminal` over `proc.start_pty`; a line-oriented screen model (`ui/MED_vt.m31`), not a full VT emulator |
 | Soft wrap, rulers, indent guides, whitespace rendering | Partial | Soft wrap (with nvim's scrolling), `list` + `listchars`, `number`, `relativenumber`, `colorcolumn`, `cursorline`, `cursorcolumn`, `scrolloff`, `sidescroll(off)` and `nowrap` scrolling, indent guides (0.1.0, `:set noindentguides`) done; `linebreak` later |
-| Snippets | Later | |
+| Snippets | Later | 0.8.0 in the roadmap |
 | Auto-reload on external change, auto-save | Partial | Poll `fs.stat` mtimes on idle tick; auto-save later |
-| Persistent undo, session restore | Partial | Last cursor position and recent files are restored (0.1.0, `~/.local/state/m3`); `undofile` is stored but undo trees are not written to disk |
+| Persistent undo, session restore | Yes (0.7.0) | Undo files under the state directory, buffers and cursors of a project restored (layout not yet) |
 | Increment/decrement (`<C-a>`/`<C-x>`) | Yes | Engine feature, oracle-tested |
-| Search (`/`, `?`, `*`, `#`), `:s`, `:g` | Yes | Vim regex subset; no backreferences or lookaround in the regex engine (G6) |
+| Search (`/`, `?`, `*`, `#`), `:s`, `:g` | Yes | Vim regex with backreferences and lookaround (engine/MED_regex.m31) |
 | Config file | Yes (minimal) | `~/.config/m3/keymap.vim`: `:map` family, `let mapleader`, `:set`; no scripting |
 | Command-line completion and history | Yes | Tab / Shift-Tab complete ex commands (nvim's own list and order), option names (long and short), files, directories and buffers; `<Up>`/`<Down>` history with prefix, `<C-p>`/`<C-n>` |
-| Folds | **Partial** | Manual folds: `zf{motion}` `zF` `:fold`, `zo zO zc zC za zA zv zR zM zd zD zE zj zk zn zN zi`, `j`/`k`/`dd`/`p`/`o`/ranges take a closed fold whole, shown as `+--  N lines: text`; no fold methods, no `foldlevel`, no `zx`/`zm`/`zr` |
+| Folds | Partial | Manual, indent and marker methods, foldlevel, zm zr zx; no expr or syntax methods |
 
 Honest summary: with Vim bindings, medit can match or exceed Helix on
 editing, navigation, picker and window features. It cannot match Helix on the
@@ -529,7 +529,7 @@ owner) is in [docs/ROADMAP.md](docs/ROADMAP.md).
 | G3 | No tree-sitter or foreign-library binding | No parse-tree features |
 | G4 | **Resolved in m31 0.4.3** (`proc.start_pty`) | `:terminal` (0.1.0) |
 | G5 | No clipboard read, no process pipe to `wl-copy`/`xclip` | OSC 52 yank only |
-| G6 | `regex` has no backreferences/lookaround, `\d \w \s` ASCII-only | Vim `\1`, `\@=` etc. unsupported in `:s`/search |
+| G6 | The stdlib `regex` has no backreferences/lookaround, `\d \w \s` ASCII-only | Not an effect any more: `engine/MED_regex.m31` is the editor's own backtracking Vim regex engine (`\1`, `\@=`, `\zs`, multi-line) |
 | G7 | `str` immutable, no function values, `match` only on enums | Design choices above (line array, enum dispatch); not blockers |
 | G8 | **Miscompile** (m31c 0.3.3 `--emit-c`, -O2): when both arms of an `if`/`else` start with the same assignment, that assignment is dropped. Repro: `int b(int x, bool open) { int i = x; int f = 0; if (open) { f = i; i = 1; } else { f = i; i = 2; } return f * 1000 + i; } print(b(40, true).to_str());` prints `1`, expected `40001` | Worked around by hoisting the shared assignment above the `if` (MED_search.findmatch). Needs a compiler fix |
 

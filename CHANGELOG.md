@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.7.0
+
+Persistence, project settings and folds. The queue is in docs/ROADMAP.md.
+
+- `undofile`: the undo tree is written to `~/.local/state/m3/undo/` on `:w` and read back when the file still holds
+  the text it was saved for (a fingerprint of the buffer; a changed file drops the history). On by default in a normal
+  run; `:set noundofile` in the keymap file turns it off. Own text format, tests/t_undofile.m31.
+- `gq` and `gw` leave the `.` mark where nvim's format_lines does (corpus 107).
+- `.editorconfig` (globs, indent_style, indent_size, tab_width, max_line_length, insert_final_newline,
+  trim_trailing_whitespace) and `.m3.toml` (`[options]` and `[language.NAME]` tables of `:set` values) per buffer;
+  new option `trimtrailing`. `end_of_line` and `charset` are read but not applied.
+- Disk watch: an outside change to the unmodified active buffer is read again within a second (`autoread`),
+  a modified one gets W12 once, a vanished file E211; `:checktime`. `autowriteall` writes modified buffers before
+  `:e`, `:q` and closing, `autowrite` before CTRL-^; `autosave` N writes after N quiet seconds in Normal mode. `:e!`
+  keeps the cursor line.
+- Sessions: plain `m3` reopens the files the directory had at its last exit, with their cursors (`--no-session` and
+  `-u NONE` start empty); `:Session save|load|delete|list NAME`. Window layout and tab pages are not restored yet.
+- Folds: `foldmethod=indent` and `marker`, `foldlevel`, `foldminlines`, `foldnestmax`, `foldignore`, `foldmarker`,
+  `zm zr zx zX`, `zR`/`zM` through `foldlevel`, `zc`/`za` turn `foldenable` on, `zj zk` and the new `[z ]z` as nvim's
+  foldMoveTo, `{` and `}` skip closed folds, the cursor leaves a closed fold that ends the buffer. Corpus 108 (400
+  cases against nvim); five marker cases with jump levels (`{{{3`) are in tests/oracles/pending.
+  `zf zd zD zE` under indent and marker give an error instead of editing markers.
+
+Known gaps and what is blocked: see the roadmap (snippets, linebreak, tab `:split`, m31git as a library).
+
 ## 0.5.0
 
 Themes. The hard-wired mapping onto the terminal's 16 colours is gone; every colour the renderer draws now comes from a
