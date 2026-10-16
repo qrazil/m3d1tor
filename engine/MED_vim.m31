@@ -1383,11 +1383,23 @@ void op_yank(MED_editor.Editor editor, Oap oap) {
     editor.regs.yank(oap.reg, range_reg(editor, oap));
     if (oap.is_linewise) {
         set_op_marks(editor, MED_buffer.Pos(oap.start.row, 0), MED_buffer.Pos(oap.end.row, MAXCOL));
+        note_yank(editor, oap.start, oap.end, true);
     } else if (oap.is_inclusive || oap.is_block) {
         set_op_marks(editor, oap.start, oap.end);
+        note_yank(editor, oap.start, oap.end, false);
     } else {
         set_op_marks(editor, oap.start, dec_position(editor, oap.end));
+        note_yank(editor, oap.start, dec_position(editor, oap.end), false);
     }
+}
+
+// Tell the front end a yank happened and over what: the first and last
+// character yanked (the yank flash).
+void note_yank(MED_editor.Editor editor, MED_buffer.Pos first, MED_buffer.Pos last, bool is_lines) {
+    editor.yank_serial = editor.yank_serial + 1;
+    editor.yank_start = first;
+    editor.yank_end = last;
+    editor.is_yank_lines = is_lines;
 }
 
 // Vim's op_delete (also the first half of op_change). Returns false if the
@@ -5213,6 +5225,7 @@ List<int> count_keys(int count) {
 // command that queued an ex line also stops it: the keys after it are parked in
 // `ed.park` and MED_ex continues them once the ex line has run.
 pub bool did_replay(MED_editor.Editor editor, List<int> keys) {
+    editor.replay_runs = editor.replay_runs + 1;
     bool is_saved = editor.is_replaying;
     editor.is_replaying = true;
     bool is_ok = true;
@@ -7318,6 +7331,7 @@ bool did_block_operator(MED_editor.Editor editor, Oap oap) {
     if (operator == "y") {
         editor.regs.yank(oap.reg, block_reg(editor, oap));
         set_op_marks(editor, oap.start, oap.end);
+        note_yank(editor, oap.start, oap.end, false);
         editor.row = oap.start.row;
         editor.col = oap.start.col;
         editor.clamp();

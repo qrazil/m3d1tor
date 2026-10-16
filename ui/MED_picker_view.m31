@@ -25,6 +25,9 @@ pub type Preview {
     pub List<str> lines = [];
     pub int first = 0;
     pub int focus = -1;
+    /// The preview pane has been shown for this picker: it keeps its place (an empty
+    /// pane) when a query has no match, so the list does not jump between widths.
+    pub bool is_pane = false;
 }
 
 /// The box a picker occupies in `area`.
@@ -179,7 +182,10 @@ pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Pic
         return;
     }
     buffer.fill(TUI_geometry.Rect(inner.x, inner.y + 1, inner.width, 1), "\u{2500}", faint);
-    if (inner.width >= PREVIEW_MIN_WIDTH && preview.title.size() > 0) {
+    if (preview.title.size() > 0) {
+        preview.is_pane = true;
+    }
+    if (inner.width >= PREVIEW_MIN_WIDTH && preview.is_pane) {
         int list_width = inner.width * 2 / 5;
         draw_list(buffer, TUI_geometry.Rect(body.x, body.y, list_width, body.height), picker, theme);
         for (int row in 0 .. body.height) {

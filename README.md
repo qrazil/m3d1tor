@@ -6,7 +6,7 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.7.0.** The Vim engine is checked against `nvim --headless` on
+**Status: v0.8.0.** The Vim engine is checked against `nvim --headless` on
 more than 38,500 generated and hand-written cases (20 known divergences, listed in
 `tests/oracles/known_divergences.txt`); on top of it sit the built-in plugins that make it a daily editor:
 a fuzzy finder with async sources (rg / fd / git when installed, a built-in walker and grep when not), which-key for
@@ -113,6 +113,48 @@ More
   marks: `]'` `['` `` ]` `` `` [` ``, `.` and `^` as nvim sets them after put, join, delete, shift, :copy, :move, :s and undo.
 - Display: soft wrap, `incsearch`, `hlsearch`, `number`, `relativenumber`, `list`; `gj gk g0 g^ g$ gm`.
 - Directory listings (`:Explore`): `R` rename, `D` delete, `%` new file, `d` new directory, `gh` toggle dotfiles.
+
+## Smoothness
+
+The editor decides every result exactly as it always did; what changed in 0.8.0 is
+what you see on the way there. Nothing is ever animated into a different final state:
+an animation is a path to the screen the engine already computed, and the last frame is
+always that screen.
+
+What moves (all of it terminal-native: cells, not pixels):
+
+* **Scrolling.** `<C-d> <C-u> <C-f> <C-b> zt zz zb gg G`, search jumps, `{n}G`, `%`,
+  marks and the mouse wheel glide to their target in about 100 ms: the window's top line
+  closes a fixed share of the remaining distance each frame (an ease-out), the cursor line
+  slides with the text and `scrolloff` holds at every frame, a long jump arrives from a
+  screen away instead of sweeping 10,000 lines, and a wheel burst accumulates into one
+  movement. `j`, `k`, `<C-e>`, `<C-y>` (one line) stay instant. Any key is handled before
+  the next frame, and a key that is not itself a scroll shows the final state at once.
+* **Yank flash.** The yanked text lights up for 200 ms.
+* **Popups fade in** (which-key, the pickers) over about 90 ms, in 24-bit colour.
+* **Cursor shape.** Insert mode shows a bar, Replace an underline, the command line a
+  bar; the terminal's own shape is put back when m3 quits. Without focus (`CSI ? 1004`)
+  the cursor cell becomes an underline.
+* **Scrollbar** (`:set scrollbar`, off by default): a thin dim thumb on each window's
+  right edge; click or drag it to jump. Dragging a selection to the top or bottom edge
+  autoscrolls, faster the longer it stays.
+* **No layout jumps.** The line-number gutter only grows (deleting lines does not pull
+  the text back), a running language server reserves the sign column before its first
+  diagnostic, and the picker keeps its preview pane's place when a query matches nothing.
+
+The output side: every frame is written once, wrapped in synchronized output (DEC mode
+2026) when the terminal says it supports it, and a view that scrolled by a few lines is
+moved with a terminal scroll region instead of being rewritten (a held `j` writes ~140
+bytes a frame instead of ~2000). Idle, the editor wakes four times a second to notice a
+resize, and not at all otherwise for the animation.
+
+Switching it off: `:set noanimate` (everything), `:set noanimatescroll`,
+`:set noanimatefade`, `:set noanimateflash`, `:set animatetime=60` (shorter or longer
+scrolls), `:set nocursorshape`; `m3 --no-anim`, `M3_NO_ANIM=1` or `TERM=dumb` for a whole
+run. Colour fades need 24-bit colour (`COLORTERM=truecolor`) and are skipped without it;
+scrolling still glides. Nothing animates during a macro, `.`, `:normal`, `:g`, a paste or
+while more input is waiting, while the terminal is not focused, or when frames take too
+long to write (then fewer steps, then none). Numbers and budgets: [docs/UX-PERF.md](docs/UX-PERF.md).
 
 ## Keys
 

@@ -146,6 +146,11 @@ pub type Editor {
     pub int view_gutter = 0;
     /// Columns of signs (git changes, marks) left of the line numbers.
     pub int sign_columns = 0;
+    /// The widest line-number column and the sign column this buffer has shown: the
+    /// gutter only grows, so deleting lines or a diagnostic clearing does not shift
+    /// the text back (the front end's, not a Vim option).
+    pub int gutter_digits_floor = 0;
+    pub bool is_sign_floor = false;
     /// Screen rows of line `view_skip_line` that are scrolled off the top (nvim's
     /// 'smoothscroll' skipcol, left when CTRL-F stops in the last line).
     /// The cursor row for which `view_top` is known to be right (Vim's
@@ -209,6 +214,14 @@ pub type Editor {
     pub bool is_changed_cmd = false;
     /// Executing dot or a macro: a failing command aborts the rest.
     pub bool is_replaying = false;
+    /// How many times keys were replayed (macro, dot, :normal, :g): the front end
+    /// compares it between frames to know a frame follows a replay.
+    pub int replay_runs = 0;
+    /// How many yanks happened, and the last one's range (for the yank flash).
+    pub int yank_serial = 0;
+    pub MED_buffer.Pos yank_start = MED_buffer.Pos(0, 0);
+    pub MED_buffer.Pos yank_end = MED_buffer.Pos(0, 0);
+    pub bool is_yank_lines = false;
     pub str macro_reg = "";
     pub List<int> macro_keys = [];
     /// The last command took a character argument (f, t, r ...): see `feed_key`.

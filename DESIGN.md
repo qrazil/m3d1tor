@@ -263,8 +263,54 @@ names for completion (`Editor.theme_names`).
 The loop is the tui `Loop` pattern (read with timeout, `Action.Redraw`), with the
 gitui-style idle `Ticker` for timeouts (`jk`), message expiry and picker results
 streaming in. Resize is detected by polling `term.size()` each tick (there is no
-SIGWINCH, G2); the tick drops to 30 ms while the user is active so resize feels
-immediate, and back to 250 ms when idle.
+SIGWINCH, G2).
+
+### 3.1 Frames
+
+One pass of the loop: wait for input (or the next tick), handle every event that has
+already arrived (up to a budget, with one event of look-ahead so a callback can ask
+`Loop.is_input_queued`), give the ticker its turn, then draw **once**. The frame is the
+view rendered into a cell buffer, diffed against the previous one (`TUI_diff`), and written
+as one `write()`:
+
+* `CSI ? 2026 h` ... `l` around it when the terminal answered the DECRQM question
+  (`CSI ? 2026 $ p`, sent at start-up, the reply consumed by the loop); a terminal that does
+  not answer gets plain frames. No clear-screen, ever; a resize writes every cell over the old
+  ones inside one synchronized frame.
+* A view that scrolled by a few lines: `diff_scrolled` finds a vertical shift (candidate shifts
+  from three anchor rows, counted over the changed rows) and emits a scroll region
+  (`CSI t;b r`, line feeds on the last row or reverse indices on the first, `CSI r`), then diffs
+  against the picture of the screen the scroll leaves. It only matches whole identical rows, so
+  splits and sidebars that did not move fall back to the plain diff with no special casing.
+  Plain `LF`/`RI` rather than `CSI S`/`T` because every terminal, screen and tmux has them.
+* The terminal's own cursor is hidden while a frame is drawn and shown afterwards only when the
+  view asked (`Loop.cursor`: position and DECSCUSR shape); the editor draws a block cell for
+  Normal and Visual and uses the real cursor, shaped, for Insert, Replace and the command line.
+
+### 3.2 Motion (`ui/MED_anim.m31`, `ui/MED_glide.m31`)
+
+The rule: an animation is a path to a state the engine already computed. `MED_view.update` still
+settles `view_top` as it always did; `MED_glide.shift` is called right after it while the active
+window is drawn and, when the top moved by two or more lines, draws from an intermediate top
+(restoring the engine's value before the status line and input handling see it). So
+macros, tests and `M3_NO_ANIM` follow the same code with the same result, and the last frame is
+the engine's.
+
+* `Scroll` (pure, given a clock): each frame closes `1 - exp(-dt/tau)` of the remaining distance
+  (`tau` from `animatetime`), which is frame-rate independent and needs no restart when the goal
+  moves (wheel bursts, repeated `<C-d>`); a hard cap lands it exactly; a jump of more than a
+  screen and a quarter starts a screen and a quarter away. Frames are the monotonic clock's
+  (`timer.monotonic_ns`), never counted.
+* The cursor row drawn is the engine's row clamped into the window with `scrolloff` (`clamp_row`).
+* Not animated: a one-line move; a different window or buffer; a text change since the last frame;
+  a frame after a macro, `.`, `:normal` or `:g` (the engine counts replays); while input is queued;
+  while unfocused; when `Pacer` says the terminal is too slow (smoothed frame time: 16 ms ticks
+  under 8 ms, 33 under 16, 66 under 30, none above).
+* Ticks: `Loop.animate_ms` is read each pass and set by the front end: 16 ms (or the pacer's) while
+  something moves, 50 ms while the editor is in use or has timers, 250 ms after 1.5 s of quiet.
+* Effects over the finished frame: the yank flash (`engine.yank_serial`; a blend of the cell's own
+  background in gamma-2 space, a reverse flash without truecolor) and the popup fade (`fade_in`
+  against a copy of the frame as it was before the popup, only cells the popup changed).
 
 ## 4. Picker
 

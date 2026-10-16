@@ -5,6 +5,7 @@
 //   m3 --no-session  start with an empty buffer
 //   m3 -u FILE   read FILE as the keymap file (-u NONE reads none)
 //   m3 --no-mouse  do not ask the terminal for mouse reports
+//   m3 --no-anim   no animation (also $M3_NO_ANIM=1, TERM=dumb, or :set noanimate)
 //   m3 --version   print the version and exit
 //
 // The keymap file holds ex lines (`nnoremap`, `let mapleader`, `set` ...); by
@@ -65,7 +66,13 @@ bool is_sixteen(TUI_style.Depth depth) {
     }
 }
 
-const str VERSION = "0.7.0";
+// Whether colours are 24-bit (fades blend colours only then).
+bool is_truecolour() {
+    str colour_term = os.env("COLORTERM").or("");
+    return colour_term == "truecolor" || colour_term == "24bit" || os.env("TERM_PROGRAM").or("") == "iTerm.app" || os.env("TERM_PROGRAM").or("") == "WezTerm" || os.env("TERM_PROGRAM").or("") == "ghostty";
+}
+
+const str VERSION = "0.8.0";
 
 // Standard output, for the options that print and exit.
 void say(str text) {
@@ -85,7 +92,7 @@ for (str argument in arguments) {
         os.exit(0);
     }
     if (argument == "--help" || argument == "-h") {
-        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [--no-session] [-u KEYMAP|NONE] [--theme NAME] [FILE...]\n       m3 [--theme NAME] [--colors 16|256|true] --dump-sample\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\ncolours: :theme NAME (Tab lists them), <Space>fC picks one, ~/.config/m3/themes/NAME.toml adds one\n");
+        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [--no-session] [--no-anim] [-u KEYMAP|NONE] [--theme NAME] [FILE...]\n       m3 [--theme NAME] [--colors 16|256|true] --dump-sample\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\ncolours: :theme NAME (Tab lists them), <Space>fC picks one, ~/.config/m3/themes/NAME.toml adds one\n");
         os.exit(0);
     }
 }
@@ -139,9 +146,13 @@ str keymap = MED_app.keymap_path();
 bool is_keymap_required = false;
 bool is_mouse = os.env("M3_NO_MOUSE").or("") == "";
 bool is_session = true;
+bool is_no_anim = false;
 int arg_index = 1;
 while (arg_index < arguments.size()) {
-    if (arguments[arg_index] == "--no-mouse") {
+    if (arguments[arg_index] == "--no-anim") {
+        is_no_anim = true;
+        arg_index = arg_index + 1;
+    } else if (arguments[arg_index] == "--no-mouse") {
         is_mouse = false;
         arg_index = arg_index + 1;
     } else if ((arguments[arg_index] == "--theme" || arguments[arg_index] == "--colors") && arg_index + 1 < arguments.size()) {
@@ -220,7 +231,10 @@ match (MED_app.open_all(files)) {
             // after the keymap file, so the flag wins over its :colorscheme
             app.did_use_theme(theme_name);
         }
-        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, animate_ms: 50, depth: colour_depth());
+        TUI_style.Depth depth = colour_depth();
+        TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, should_sync: true, should_scroll: true, should_report_focus: true, should_manage_cursor: true, animate_ms: 50, depth: depth);
+        app.motion.loop = loop;
+        app.motion.configure(is_no_anim, is_truecolour(), !is_light_background());
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {
                 if (is_project_session) {

@@ -41,6 +41,7 @@ import encoding.json;
 import proc;
 import timer;
 import ui.MED_lsp;
+import ui.MED_glide;
 import ui.MED_picker;
 import ui.MED_vt;
 import ui.MED_plugin;
@@ -276,6 +277,17 @@ pub type App {
     /// The theme picker is open: the theme to return to when it is cancelled.
     bool is_theme_picker = false;
     str theme_before = "";
+    /// Animated scrolling and effects (MED_glide): what is drawn between two states.
+    pub MED_glide.Glide motion = MED_glide.Glide();
+    /// A left-button drag is under way, where the pointer is, and how long it has
+    /// sat at the top or bottom edge (the autoscroll's speed ramp).
+    bool is_dragging = false;
+    bool is_bar_drag = false;
+    int bar_win = 0;
+    int drag_x = 0;
+    int drag_y = 0;
+    int edge_total_ms = 0;
+    int edge_wait_ms = 0;
 }
 
 /// Whether the text differs from what was last written (undo back to the
@@ -3312,8 +3324,22 @@ List<MED_keymap.Binding> App.prefix_table(str typed) {
     return table;
 }
 
-/// The timer: which-key after a pending leader waits, and the grep debounce.
+/// The timer: animation frames, then the app's own work (`tick_work`).
 pub TUI_app.Action App.tick(int elapsed_ms) {
+    motion.is_app_busy = has_picker || is_leader || is_prefix_help || prefix_ms > 0 || editor.ta_keys.size() > 0 || terms.size() > 0 || servers.size() > 0 || is_lsp_wanted() || tree.is_open || is_grep_due || !source.is_done || is_dragging || editor.mode == MED_editor.CMDLINE || editor.pending.size() > 0;
+    bool is_frame_due = motion.did_tick(elapsed_ms);
+    if (did_autoscroll(elapsed_ms)) {
+        is_frame_due = true;
+    }
+    TUI_app.Action work = tick_work(elapsed_ms);
+    if (is_frame_due) {
+        return TUI_app.Action.Redraw;
+    }
+    return work;
+}
+
+/// The timer: which-key after a pending leader waits, and the grep debounce.
+TUI_app.Action App.tick_work(int elapsed_ms) {
     if (is_leader && !is_which_key) {
         leader_ms = leader_ms + elapsed_ms;
         if (leader_ms >= MED_keymap.WHICH_KEY_MS) {
@@ -3719,6 +3745,7 @@ TUI_app.Action App.finish_event() {
 /// One event: feed its keys to the engine, then the UI requests.
 pub TUI_app.Action App.handle(term.Event event) {
     quiet_ms = 0;
+    motion.note_input();
     if (has_picker) {
         return handle_picker(event);
     }
@@ -3825,7 +3852,7 @@ bool App.did_place_cursor(int screen_x, int screen_y) {
     if (y_cell < 0 || y_cell >= rows || x_cell < 0) {
         return false;
     }
-    int row = editor.view_top;
+    int row = motion.top_for_mouse(editor.view_top);
     int remaining = y_cell;
     int part = 0;
     int text_width = here.width - gutter_width();
@@ -3870,6 +3897,7 @@ bool App.did_place_cursor(int screen_x, int screen_y) {
 
 /// A mouse gesture: a press puts the cursor there, a drag selects, the wheel scrolls.
 pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
+    motion.note_input();
     TUI_mouse.Gesture gesture = routed.gesture;
     if (has_picker) {
         return handle_picker_wheel(gesture);
@@ -3912,9 +3940,17 @@ pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
             }
         }
     }
+    if (did_scrollbar(gesture)) {
+        return TUI_app.Action.Redraw;
+    }
     match (gesture.kind) {
         case Press: {
             if (gesture.button == 0) {
+                is_dragging = true;
+                edge_total_ms = 0;
+                edge_wait_ms = 0;
+                drag_x = gesture.x;
+                drag_y = gesture.y;
                 if (editor.mode == MED_editor.VISUAL) {
                     MED_ex.feed(editor, MED_key.ESC);
                 }
@@ -3929,6 +3965,8 @@ pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
         }
         case Drag: {
             if (gesture.button == 0) {
+                drag_x = gesture.x;
+                drag_y = gesture.y;
                 if (editor.mode == MED_editor.NORMAL) {
                     MED_ex.feed(editor, VKIND_CHAR);
                 }
@@ -3950,6 +3988,8 @@ pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
             return TUI_app.Action.Redraw;
         }
         case Release: {
+            is_dragging = false;
+            is_bar_drag = false;
         }
         case Click: {
         }
@@ -3963,6 +4003,123 @@ pub TUI_app.Action App.handle_mouse(TUI_mouse.Routed routed) {
         }
     }
     return TUI_app.Action.Continue;
+}
+
+/// A press or drag on a window's scrollbar column (`:set scrollbar`): the line that
+/// row of the track stands for becomes the cursor line, centred. True when the
+/// gesture was the scrollbar's.
+bool App.did_scrollbar(TUI_mouse.Gesture gesture) {
+    if (!editor.is_option_on("scrollbar", false)) {
+        return false;
+    }
+    bool is_down = false;
+    match (gesture.kind) {
+        case Press: {
+            is_down = gesture.button == 0;
+        }
+        case Drag: {
+            is_down = gesture.button == 0 && is_bar_drag;
+        }
+        case Release: {
+        }
+        case Click: {
+        }
+        case Hover: {
+        }
+        case Leave: {
+        }
+        case ScrollUp: {
+        }
+        case ScrollDown: {
+        }
+        case ScrollLeft: {
+        }
+        case ScrollRight: {
+        }
+    }
+    if (!is_down) {
+        return false;
+    }
+    for (MED_window.Placed one in layout_in(screen_rect()).windows) {
+        int rows = one.height - 1;
+        bool is_on_bar = gesture.x == one.x + one.width - 1 && gesture.y >= one.y && gesture.y < one.y + rows;
+        bool is_held = is_bar_drag && one.win_id == bar_win;
+        if (!is_on_bar && !is_held) {
+            continue;
+        }
+        if (!is_bar_drag) {
+            is_bar_drag = true;
+            bar_win = one.win_id;
+        }
+        if (one.win_id != current_win) {
+            focus_window(one.win_id);
+        }
+        int y_cell = gesture.y - one.y;
+        if (y_cell < 0) {
+            y_cell = 0;
+        }
+        if (y_cell >= rows) {
+            y_cell = rows - 1;
+        }
+        int target = MED_glide.line_at(y_cell, rows, editor.buffer.line_count());
+        editor.view_height = current_text_rows();
+        MED_ex.feed(editor, MED_key.ESC);
+        for (int digit in (target + 1).to_str().chars()) {
+            MED_ex.feed(editor, digit);
+        }
+        MED_ex.feed(editor, 71);
+        MED_ex.feed(editor, 122);
+        MED_ex.feed(editor, 122);
+        return true;
+    }
+    return false;
+}
+
+/// While a drag-selection sits on the top or bottom row of the text, scroll that
+/// way, faster the longer it stays (one line per 120 ms at first, down to one per
+/// 25 ms and several lines a step). True when it scrolled.
+bool App.did_autoscroll(int elapsed_ms) {
+    if (!is_dragging || is_bar_drag || editor.mode != MED_editor.VISUAL || has_picker) {
+        return false;
+    }
+    MED_window.Placed here = MED_window.placed_of(layout_in(screen_rect()), current_win);
+    int rows = here.height - 1;
+    int direction = 0;
+    if (drag_y <= here.y && editor.view_top > 0) {
+        direction = -1;
+    } else if (drag_y >= here.y + rows - 1 && MED_view.bottom(editor) < editor.buffer.line_count()) {
+        direction = 1;
+    }
+    if (direction == 0) {
+        edge_total_ms = 0;
+        edge_wait_ms = 0;
+        return false;
+    }
+    edge_total_ms = edge_total_ms + elapsed_ms;
+    edge_wait_ms = edge_wait_ms + elapsed_ms;
+    int interval = 120 - edge_total_ms / 16;
+    if (interval < 25) {
+        interval = 25;
+    }
+    motion.loop.animate_ms = 16;
+    if (edge_wait_ms < interval) {
+        return false;
+    }
+    edge_wait_ms = 0;
+    editor.view_height = current_text_rows();
+    int steps = 1 + edge_total_ms / 800;
+    for (int step in 0 .. steps) {
+        if (direction > 0) {
+            MED_ex.feed(editor, 5);
+        } else {
+            MED_ex.feed(editor, 25);
+        }
+    }
+    int edge_y = here.y;
+    if (direction > 0) {
+        edge_y = here.y + rows - 1;
+    }
+    return did_place_cursor(drag_x, edge_y);
 }
 
 str App.mode_name() {
@@ -4547,7 +4704,14 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     GitInfo git_state = git_info(file, subject, false);
     subject.sign_columns = 0;
     diagnostic_rows = diagnostic_rows_of(file, subject.buffer.line_count());
-    if (git_state.has_base || has_marks(subject) || diagnostic_rows.size() > 0) {
+    if (git_state.has_base || has_marks(subject) || diagnostic_rows.size() > 0 || (servers.size() > 0 && file.size() > 0 && subject.is_option_on("lsp", true))) {
+        // (a running language server reserves the column before its first diagnostic)
+        subject.sign_columns = 1;
+    }
+    // the gutter only grows: a diagnostic clearing does not shift the text back
+    if (subject.sign_columns > 0) {
+        subject.is_sign_floor = true;
+    } else if (subject.is_sign_floor) {
         subject.sign_columns = 1;
     }
     int gutter = gutter_of(subject);
@@ -4589,6 +4753,11 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         }
     }
     MED_view.update(subject);
+    // motion: while a scroll runs, draw from a top line part-way to the engine's
+    int motion_top = subject.view_top;
+    int motion_row = subject.row;
+    int motion_col = subject.col;
+    bool is_motion = is_active && motion.did_shift(subject, current_win * 100003 + current_id, rows);
     bool is_wrap = subject.is_option_on("wrap", true);
     int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
     left = subject.view_left;
@@ -4755,6 +4924,17 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
         row = row + 1;
     }
     inc_row = -1;
+    if (subject.is_option_on("scrollbar", false)) {
+        motion.draw_scrollbar(buffer, subject, frame.x + frame.width - 1, frame.y, rows);
+    }
+    if (is_active) {
+        motion.place(frame.x + gutter, frame.y, text_width, rows, motion_top, left);
+    }
+    if (is_motion) {
+        subject.view_top = motion_top;
+        subject.row = motion_row;
+        subject.col = motion_col;
+    }
     if (preview_row >= 0) {
         // the preview was only a look: the cursor and the view stay put
         subject.row = saved_row;
@@ -4841,6 +5021,8 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
     for (MED_window.Placed one in placed.windows) {
         draw_window(buffer, one, one.win_id == current_win);
     }
+    motion.use_theme(theme, editor.opts.get("background").or("dark") != "light");
+    motion.finish(buffer, editor);
     if (tree.is_open && tree_columns(area.width) > 0) {
         draw_tree(buffer, area);
     }
@@ -4860,6 +5042,14 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
     if (overlay.size() > 0) {
         draw_overlay(buffer, area, rows);
     }
+    int popup_kind = 0;
+    if ((is_leader && is_which_key) || jump_stage == 2 || (is_prefix_help && !is_leader)) {
+        popup_kind = 1;
+    }
+    if (has_picker) {
+        popup_kind = 2;
+    }
+    motion.before_popup(buffer, popup_kind, editor);
     if (is_leader && is_which_key) {
         TUI_menu.WhichKey menu = TUI_menu.WhichKey("<Space>" + leader, MED_keymap.next_items(leader_table(), leader, mode: leader_mode), style: theme.look("ui.which-key"), title_style: theme.over("ui.which-key", "ui.which-key.title"));
         menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
@@ -4879,6 +5069,9 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
             menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
         }
     }
+    if (!has_picker) {
+        preview.is_pane = false;
+    }
     if (has_picker) {
         picker.scroll_to(MED_picker_view.list_rows(area));
         if (preview.focus >= 0) {
@@ -4889,19 +5082,30 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
         }
         MED_picker_view.render(buffer, area, picker, preview, theme);
     }
+    motion.after_popup(buffer, editor);
     int message_y = area.y + area.height - 1;
     draw_message(buffer, area, message_y);
-    TUI_style.Style cursor_style = theme.cursor(cursor_mode());
+    TUI_style.Style cursor_style = motion.cursor_style(theme.cursor(cursor_mode()));
+    motion.hide_cursor();
     if (overlay.size() > 0 || has_picker || is_leader) {
         return;
     }
     if (editor.mode == MED_editor.CMDLINE) {
         int command_x = area.x + 1 + MED_text.line_width(editor.cmdline.substr(0, editor.cmd_position), editor.tab);
         if (command_x < area.x + area.width) {
-            buffer.set_style(command_x, message_y, cursor_style);
+            if (editor.is_option_on("cursorshape", true)) {
+                motion.show_cursor(command_x, message_y, 6);
+            } else {
+                buffer.set_style(command_x, message_y, cursor_style);
+            }
         }
     } else if (!(tree.is_open && tree.is_focused)) {
-        buffer.set_style(cursor_x, cursor_y, cursor_style);
+        int shape = motion.shape_for(editor);
+        if (shape > 0) {
+            motion.show_cursor(cursor_x, cursor_y, shape);
+        } else {
+            buffer.set_style(cursor_x, cursor_y, cursor_style);
+        }
     }
 }
 
@@ -7276,6 +7480,11 @@ int gutter_of(MED_editor.Editor shown) {
     if (digits < least) {
         digits = least;
     }
+    // never narrower than it has been: deleting down below 1000 lines keeps the column
+    if (digits < shown.gutter_digits_floor) {
+        digits = shown.gutter_digits_floor;
+    }
+    shown.gutter_digits_floor = digits;
     return digits + 1 + shown.sign_columns;
 }
 

@@ -2448,6 +2448,7 @@ Step cmd_at(MED_editor.Editor editor, Cmd cmd) {
 // Type `keys` as a complete command; an unfinished one is aborted as by <Esc>.
 bool did_run_normal(MED_editor.Editor editor, List<int> keys) {
     bool is_saved_replaying = editor.is_replaying;
+    editor.replay_runs = editor.replay_runs + 1;
     // an insert that CTRL-O left open is restarted after the whole `:normal`
     int saved_restart = editor.restart_edit;
     bool is_saved_skip = editor.is_restart_skip;

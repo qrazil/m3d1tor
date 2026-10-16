@@ -1,0 +1,476 @@
+// Glide in the front end: the glue between the pure scheduler (MED_anim), the
+// options, the terminal's abilities and the application loop. `MED_app` keeps
+// one `Glide` and calls it from four places: before a window's text is drawn
+// (`shift`), when the timer ticks (`tick`), when the frame is finished (`finish`,
+// for effects drawn over it) and once at start-up (`configure`).
+//
+// When is nothing animated? (`is_allowed`)
+//   * `:set noanimate` / `animatescroll`, `$M3_NO_ANIM`, `--no-anim`, TERM=dumb;
+//   * while a macro, `.`, `:normal` or `:g` ran since the last frame (the
+//     engine counts them: `replay_runs`);
+//   * while more input is already waiting (`Loop.is_input_queued`);
+//   * while the terminal is in the background (focus reports);
+//   * when frames take too long to write (`Pacer`: slower terminals get fewer
+//     steps, then none).
+// In every one of those cases the frame shows the engine's state at once, and an
+// animation that was running ends on it.
+
+import engine.MED_editor;
+import engine.MED_text;
+import engine.MED_view;
+import os;
+import tui.app.TUI_app;
+import tui.core.TUI_buffer;
+import tui.core.TUI_geometry;
+import tui.core.TUI_style;
+import ui.MED_anim;
+import ui.MED_theme;
+
+/// The ms between ticks when nothing moves: the app's own timers (which-key,
+/// grep debounce, LSP, git) run on this.
+pub const int IDLE_TICK_MS = 50;
+/// The ms between ticks when the editor has been left alone with nothing pending: 4
+/// wakeups a second, only to notice a resize (the terminal gives no signal).
+pub const int SLEEP_TICK_MS = 250;
+/// How long after the last input the quicker tick is kept.
+pub const int AWAKE_MS = 1500;
+/// How long the yank flash lasts, and a popup's fade.
+pub const int FLASH_MS = 200;
+pub const int FADE_MS = 90;
+/// What the flash blends towards when the theme's `search.match` leaves its colour at
+/// the terminal's default (the colours otherwise come from the theme: `use_theme`).
+pub const int FALLBACK_FLASH = 0xe8c060;
+
+pub type Glide {
+    /// The active window's scroll.
+    pub MED_anim.Scroll scroll = MED_anim.Scroll();
+    pub MED_anim.Pacer pacer = MED_anim.Pacer();
+    /// The loop, for its frame timings, queue and focus state, and to set the
+    /// tick interval. Set by the entry point.
+    pub TUI_app.Loop loop = TUI_app.Loop();
+    /// Off for the whole run: `$M3_NO_ANIM`, `--no-anim`, TERM=dumb.
+    pub bool is_vetoed = false;
+    /// 24-bit colour is available (colour fades run only then).
+    pub bool is_truecolour = false;
+    pub bool is_dark = true;
+    /// `editor.replay_runs` at the last frame.
+    int replays_seen = 0;
+    /// `loop.frame_count` at the last tick (new frames feed the pacer).
+    int frames_seen = 0;
+    /// The animations that ran: how many frames each drew (for tests and docs).
+    pub int scroll_frames = 0;
+    /// Ms since the last input, and whether the app has timers that need the quick tick
+    /// (a language server, a picker, a pending key, a drag...): set by the app.
+    int quiet_ms = 0;
+    pub bool is_app_busy = false;
+    /// Whether this frame may animate (decided once, when the window is drawn).
+    bool is_frame_allowed = false;
+    /// Where the active window's text is on screen (set by `place`).
+    bool is_placed = false;
+    int place_x = 0;
+    int place_y = 0;
+    int place_width = 0;
+    int place_rows = 0;
+    int place_left = 0;
+    int place_top = 0;
+    /// The yank flash: the last yank seen, when its flash began, and whether it runs.
+    int yank_seen = 0;
+    bool is_flash = false;
+    int flash_started_ns = 0;
+    int flash_first_row = 0;
+    int flash_first_col = 0;
+    int flash_last_row = 0;
+    int flash_last_col = 0;
+    bool is_flash_lines = false;
+    int flash_drawn = -1;
+    pub int flash_rgb = 0xe8c060;
+    pub int default_fg_rgb = 0xd0d0d0;
+    pub int default_bg_rgb = 0x000000;
+    /// A popup fading in: what is showing (0 none, 1 which-key, 2 picker), when
+    /// the fade began, and the frame as it was before the popup.
+    int popup_seen = 0;
+    bool is_fade = false;
+    int fade_started_ns = 0;
+    TUI_buffer.Buffer under = TUI_buffer.Buffer.sized(1, 1);
+}
+
+/// Decide the run-wide switches from the environment: `$M3_NO_ANIM` (any
+/// non-empty value but 0), TERM=dumb, `--no-anim` (`is_flag`).
+pub void Glide.configure(bool is_flag, bool has_truecolour, bool is_dark_background) {
+    str no_anim = os.env("M3_NO_ANIM").or("");
+    is_vetoed = is_flag || (no_anim != "" && no_anim != "0") || os.env("TERM").or("") == "dumb";
+    is_truecolour = has_truecolour;
+    is_dark = is_dark_background;
+}
+
+/// The options as one value.
+pub MED_anim.Config Glide.config(MED_editor.Editor editor) {
+    MED_anim.Config out = MED_anim.Config();
+    out.is_on = editor.is_option_on("animate", true) && !is_vetoed;
+    out.is_scroll = editor.is_option_on("animatescroll", true);
+    out.is_fade = editor.is_option_on("animatefade", true) && is_truecolour;
+    out.is_flash = editor.is_option_on("animateflash", true);
+    out.time_ms = editor.option_number("animatetime", 100);
+    out.is_truecolour = is_truecolour;
+    out.is_dark = is_dark;
+    return out;
+}
+
+/// May this frame animate at all? See the header.
+bool Glide.is_allowed(MED_editor.Editor editor, MED_anim.Config settings) {
+    int runs = editor.replay_runs;
+    bool did_replay = runs != replays_seen;
+    replays_seen = runs;
+    if (!settings.is_on || did_replay || loop.is_input_queued || !loop.has_focus) {
+        return false;
+    }
+    return pacer.interval_ms() > 0;
+}
+
+/// Called while the active window is drawn, after the engine settled the view:
+/// when a scroll is in progress, set the window's top line (and the cursor row,
+/// kept inside 'scrolloff') to what to draw now. True when it did; the caller
+/// puts the engine's values back after drawing the text (`subject.view_top`,
+/// `row`, `col`).
+pub bool Glide.did_shift(MED_editor.Editor subject, int key, int rows) {
+    MED_anim.Config settings = config(subject);
+    is_frame_allowed = is_allowed(subject, settings);
+    bool is_allowed = is_frame_allowed && settings.is_scroll;
+    scroll.tau_ms = MED_anim.tau_for(settings.time_ms);
+    scroll.max_ms = settings.time_ms + 60;
+    int top = scroll.observe(key, subject.buffer.tick, subject.view_top, rows, is_allowed, MED_anim.now_ns());
+    if (scroll.is_active) {
+        // the first frame of a scroll: ask the loop for frames at once
+        loop.animate_ms = pacer.interval_ms();
+    }
+    if (top == subject.view_top) {
+        return false;
+    }
+    int count = subject.buffer.line_count();
+    int row = MED_anim.clamp_row(subject.row, top, rows, MED_view.margin(subject), count);
+    subject.view_top = top;
+    if (row != subject.row) {
+        subject.row = row;
+        subject.clamp();
+    }
+    scroll_frames = scroll_frames + 1;
+    return true;
+}
+
+/// An event arrived: the quick tick again, at once.
+pub void Glide.note_input() {
+    quiet_ms = 0;
+    if (loop.animate_ms > IDLE_TICK_MS) {
+        loop.animate_ms = IDLE_TICK_MS;
+    }
+}
+
+/// Take the colours effects blend with from the theme (called every frame: three lookups).
+pub void Glide.use_theme(MED_theme.Theme theme, bool is_dark) {
+    int fallback_ink = 0xd0d0d0;
+    int fallback_paper = 0x000000;
+    if (!is_dark) {
+        fallback_ink = 0x303030;
+        fallback_paper = 0xffffff;
+    }
+    default_bg_rgb = MED_anim.colour_rgb(theme.style("ui.background").background, fallback_paper);
+    default_fg_rgb = MED_anim.colour_rgb(theme.style("ui.text").foreground, fallback_ink);
+    TUI_style.Style found = theme.style("search.match");
+    TUI_style.Colour mark = found.background;
+    if (mark.eq(TUI_style.Colour.Default)) {
+        mark = found.foreground;
+    }
+    flash_rgb = MED_anim.colour_rgb(mark, FALLBACK_FLASH);
+}
+
+/// Does anything move right now?
+pub bool Glide.is_moving() {
+    return scroll.is_active || is_flash || is_fade;
+}
+
+/// The active window's text area, for the effects drawn over the finished frame.
+/// `top` and `left` are what the text was drawn from (the engine's, not an
+/// animation's mid-scroll values: the flash is not drawn mid-scroll).
+pub void Glide.place(int x, int y, int width, int rows, int top, int left) {
+    is_placed = true;
+    place_x = x;
+    place_y = y;
+    place_width = width;
+    place_rows = rows;
+    place_top = top;
+    place_left = left;
+}
+
+/// Effects drawn over the finished text: the yank flash. Starts one when the
+/// engine yanked since the last frame (and animation is allowed).
+pub void Glide.finish(TUI_buffer.Buffer buffer, MED_editor.Editor subject) {
+    MED_anim.Config settings = config(subject);
+    int now = MED_anim.now_ns();
+    if (subject.yank_serial != yank_seen) {
+        yank_seen = subject.yank_serial;
+        if (settings.is_on && settings.is_flash && is_frame_allowed) {
+            is_flash = true;
+            flash_started_ns = now;
+            flash_first_row = subject.yank_start.row;
+            flash_first_col = subject.yank_start.col;
+            flash_last_row = subject.yank_end.row;
+            flash_last_col = subject.yank_end.col;
+            is_flash_lines = subject.is_yank_lines;
+            flash_drawn = -1;
+            loop.animate_ms = pacer.interval_ms();
+        }
+    }
+    if (!is_flash || !is_placed) {
+        return;
+    }
+    int done = MED_anim.progress(flash_started_ns, now, FLASH_MS);
+    if (done >= 1000 || scroll.is_active) {
+        is_flash = false;
+        return;
+    }
+    int strength = 1000 - done;
+    flash_drawn = strength;
+    for (int row in flash_first_row .. flash_last_row + 1) {
+        if (row >= subject.buffer.line_count() || row < place_top) {
+            continue;
+        }
+        int screen = screen_row(subject, row);
+        if (screen < 0 || screen >= place_rows) {
+            continue;
+        }
+        str line = subject.buffer.line(row);
+        int from_col = 0;
+        int to_col = line.size();
+        if (!is_flash_lines) {
+            if (row == flash_first_row) {
+                from_col = flash_first_col;
+            }
+            if (row == flash_last_row) {
+                to_col = MED_text.next_col(line, flash_last_col);
+            }
+        }
+        int from_spot = MED_text.display_col(line, from_col, subject.tab) - place_left;
+        int to_spot = MED_text.display_col(line, to_col, subject.tab) - place_left;
+        if (to_spot <= from_spot) {
+            to_spot = from_spot + 1;
+        }
+        for (int spot in from_spot .. to_spot) {
+            if (spot < 0 || spot >= place_width) {
+                continue;
+            }
+            int x = place_x + spot;
+            int y = place_y + screen;
+            if (!buffer.area().has_point(x, y)) {
+                continue;
+            }
+            TUI_style.Style style = TUI_style.Style.unpack(buffer.style_at(x, y));
+            if (settings.is_truecolour) {
+                style = style.with_background(MED_anim.mix_towards(style.background, flash_rgb, strength * 55 / 100, default_bg_rgb));
+            } else if (strength > 500) {
+                style = style.with_attrs(TUI_style.REVERSE);
+            }
+            buffer.set_style(x, y, style);
+        }
+    }
+}
+
+// The screen row of buffer line `row` in the text area, or -1 when the line
+// wraps (its flash would need the wrap's breaks, and it is not worth one) or
+// folds. Lines above it may wrap: each takes its rows.
+int Glide.screen_row(MED_editor.Editor subject, int row) {
+    if (subject.folds.size() > 0) {
+        return -1;
+    }
+    if (!subject.is_option_on("wrap", true)) {
+        return row - place_top;
+    }
+    int used = 0;
+    for (int above in place_top .. row) {
+        used = used + MED_view.rows_of(subject, above);
+        if (used >= place_rows) {
+            return -1;
+        }
+    }
+    if (MED_view.rows_of(subject, row) > 1) {
+        return -1;
+    }
+    return used - MED_view.top_skip(subject);
+}
+
+/// Called just before a popup is drawn, with what is about to show (0 none,
+/// 1 which-key, 2 picker): when it is new and fading is on, remember the frame
+/// under it.
+pub void Glide.before_popup(TUI_buffer.Buffer buffer, int kind, MED_editor.Editor subject) {
+    if (kind != popup_seen) {
+        popup_seen = kind;
+        is_fade = false;
+        MED_anim.Config settings = config(subject);
+        if (kind != 0 && settings.is_on && settings.is_fade && is_frame_allowed) {
+            is_fade = true;
+            fade_started_ns = MED_anim.now_ns();
+            loop.animate_ms = pacer.interval_ms();
+        }
+    }
+    if (is_fade) {
+        under = buffer.copy();
+    }
+}
+
+/// Called after the popup is drawn: make it the fraction of the way in that the
+/// clock says.
+pub void Glide.after_popup(TUI_buffer.Buffer buffer, MED_editor.Editor subject) {
+    if (!is_fade) {
+        return;
+    }
+    MED_anim.Config settings = config(subject);
+    int done = MED_anim.progress(fade_started_ns, MED_anim.now_ns(), FADE_MS);
+    if (done >= 1000 || !under.area().eq(buffer.area())) {
+        is_fade = false;
+        return;
+    }
+    MED_anim.fade_in(buffer, under, buffer.area(), done, default_fg_rgb, default_bg_rgb);
+}
+
+/// The timer: step the animations to now and say whether a frame is due. Also
+/// keeps the loop's tick at the animation's frame interval while something moves
+/// and back to the app's own while it does not (so an idle editor wakes on the
+/// slow tick only).
+pub bool Glide.did_tick(int elapsed_ms) {
+    quiet_ms = quiet_ms + elapsed_ms;
+    if (loop.frame_count != frames_seen) {
+        frames_seen = loop.frame_count;
+        pacer.note(loop.last_frame_us);
+    }
+    bool is_due = false;
+    if (is_flash && flash_drawn != 1000 - MED_anim.progress(flash_started_ns, MED_anim.now_ns(), FLASH_MS)) {
+        is_due = true;
+    }
+    if (is_fade) {
+        is_due = true;
+    }
+    if (scroll.is_active) {
+        if (pacer.interval_ms() == 0) {
+            scroll.stop();
+            is_due = true;
+        } else if (scroll.did_advance(MED_anim.now_ns())) {
+            is_due = true;
+        }
+    }
+    if (is_moving()) {
+        loop.animate_ms = pacer.interval_ms();
+        if (loop.animate_ms == 0) {
+            loop.animate_ms = IDLE_TICK_MS;
+        }
+    } else if (is_app_busy || quiet_ms < AWAKE_MS) {
+        loop.animate_ms = IDLE_TICK_MS;
+    } else {
+        loop.animate_ms = SLEEP_TICK_MS;
+    }
+    return is_due;
+}
+
+/// Hide the terminal's own cursor (the editor draws a block cell instead).
+pub void Glide.hide_cursor() {
+    loop.cursor.x = -1;
+    loop.cursor.y = -1;
+}
+
+/// Show the terminal's own cursor at screen cell (`x`, `y`) in DECSCUSR shape
+/// `shape` (4 steady underline, 6 steady bar).
+pub void Glide.show_cursor(int x, int y, int shape) {
+    loop.cursor.x = x;
+    loop.cursor.y = y;
+    loop.cursor.shape = shape;
+}
+
+/// The shape of the real cursor for the editor's mode, 0 when the mode keeps
+/// the block cell: Insert a bar, Replace an underline (`:set nocursorshape`
+/// keeps the block everywhere).
+pub int Glide.shape_for(MED_editor.Editor subject) {
+    if (!subject.is_option_on("cursorshape", true)) {
+        return 0;
+    }
+    if (subject.mode == MED_editor.INSERT) {
+        return 6;
+    }
+    if (subject.mode == MED_editor.REPLACE) {
+        return 4;
+    }
+    return 0;
+}
+
+/// The cursor cell's look: the theme's `base`, or an underline in its colour while
+/// the terminal does not have focus.
+pub TUI_style.Style Glide.cursor_style(TUI_style.Style base) {
+    if (!loop.has_focus) {
+        TUI_style.Colour colour = base.background;
+        if (colour.eq(TUI_style.Colour.Default)) {
+            colour = base.foreground;
+        }
+        return TUI_style.Style(foreground: colour, attrs: TUI_style.UNDERLINE);
+    }
+    return base;
+}
+
+/// Draw a quiet scrollbar down column `x`: only the thumb, a thin dim bar, and
+/// nothing at all while the whole buffer fits. It rides the animated top line, so
+/// it glides with the text.
+pub void Glide.draw_scrollbar(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int x, int y, int rows) {
+    TUI_geometry.Rect thumb = thumb_of(rows, subject.buffer.line_count(), subject.view_top, rows);
+    for (int offset in 0 .. thumb.height) {
+        buffer.set_str(x, y + thumb.y + offset, "\u{2590}", TUI_style.Style(attrs: TUI_style.DIM));
+    }
+}
+
+/// The line to show a mouse click at: while a scroll runs, what is on screen.
+pub int Glide.top_for_mouse(int engine_top) {
+    if (scroll.is_active) {
+        return scroll.shown;
+    }
+    return engine_top;
+}
+
+// ---------------------------------------------------------------- scrollbar
+
+/// The thumb of a window's scrollbar: its first row and its length in the
+/// `rows` of the track, for a buffer of `lines` lines whose top line is `top`
+/// with `visible` lines showing. 0 length when the whole buffer shows.
+pub TUI_geometry.Rect thumb_of(int rows, int lines, int top, int visible) {
+    if (lines <= visible || rows < 2 || lines < 1) {
+        return TUI_geometry.Rect(0, 0, 0, 0);
+    }
+    int length = rows * visible / lines;
+    if (length < 1) {
+        length = 1;
+    }
+    if (length > rows - 1) {
+        length = rows - 1;
+    }
+    int span = lines - visible;
+    int start = 0;
+    if (span > 0) {
+        start = (rows - length) * top / span;
+    }
+    if (start < 0) {
+        start = 0;
+    }
+    if (start + length > rows) {
+        start = rows - length;
+    }
+    return TUI_geometry.Rect(0, start, 1, length);
+}
+
+/// The line that a click `row` rows down a track of `rows` rows stands for.
+pub int line_at(int row, int rows, int lines) {
+    if (rows < 1 || lines < 1) {
+        return 0;
+    }
+    int line = row * lines / rows;
+    if (line >= lines) {
+        line = lines - 1;
+    }
+    if (line < 0) {
+        line = 0;
+    }
+    return line;
+}

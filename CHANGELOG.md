@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.8.0
+
+Smooth, polished, never abrupt (docs/UX-PERF.md has the numbers; needs tui with the `feat/render` changes,
+tui 0.9.0).
+
+- Measurement first: `bench/uxperf.py` drives the real binary in a pty and reports key-to-first-byte and
+  key-to-frame latency, bytes per frame, frames per second for a held key, the cost of a full redraw, 1 MB pastes
+  and key storms, idle wakeups and a wrapped file. `tests/test.sh` runs it with `--check` (gross regressions only).
+- Output: synchronized output (mode 2026, asked with DECRQM, silent when unsupported), one write per frame, scroll
+  regions instead of rewriting a scrolled view, the cursor hidden while a frame is drawn.
+- Animation (`:set animate`, `animatetime`, `animatescroll`, `animatefade`, `animateflash`; `--no-anim`,
+  `$M3_NO_ANIM`, `TERM=dumb`): scrolling glides (`<C-d> <C-u> <C-f> <C-b> zt zz zb gg G`, search and distant jumps,
+  the mouse wheel), a yank flashes, which-key and the pickers fade in. Never animated: one-line moves, macros, `.`,
+  `:normal`, `:g`, pastes, queued input, an unfocused terminal, a slow terminal. A 16 ms ticker runs only while
+  something moves; idle ticks drop to 4 a second.
+- Polish: the terminal cursor takes a bar in Insert and the command line and an underline in Replace
+  (`:set nocursorshape`), restored on exit; focus reports; `:set scrollbar` with click and drag; drag-select
+  autoscroll with a speed ramp; the gutter only grows; the sign column is reserved while a language server runs; the
+  picker's preview pane keeps its place.
+- Tests: `tests/t_anim.m31` (scheduler, pacer, blends), `tests/anim_pty.py` (an animation never changes the final
+  screen over 19 motion sequences, intermediate frames are consistent, kill switches), renderer golden-byte tests in tui.
+- Engine: `replay_runs`, `yank_serial` and friends on the editor, for the front end only; new options.
+
 ## 0.7.0
 
 Persistence, project settings and folds. The queue is in docs/ROADMAP.md.

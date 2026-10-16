@@ -1,0 +1,213 @@
+// Unit checks for MED_anim: the scroll scheduler, the pacer, colour blends.
+// Everything is driven with a made-up clock, so every run is the same.
+
+import tests.MED_check;
+import tui.core.TUI_buffer;
+import tui.core.TUI_geometry;
+import tui.core.TUI_style;
+import ui.MED_anim;
+
+MED_check.Check check = MED_check.Check();
+
+const int NS_PER_MS = 1000000;
+
+// Run the scheduler `frames` frames of `step_ms` after `start_ms`, the engine
+// holding on `top` throughout; returns every top drawn.
+List<int> run_frames(MED_anim.Scroll scroll, int top, int start_ms, int step_ms, int frames) {
+    List<int> drawn = [];
+    for (int frame in 1 .. frames + 1) {
+        drawn.push(scroll.observe(1, 7, top, 30, true, (start_ms + frame * step_ms) * NS_PER_MS));
+    }
+    return drawn;
+}
+
+bool is_monotonic_up(List<int> values) {
+    for (int i in 1 .. values.size()) {
+        if (values[i] < values[i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// --- a first frame, and a one-line move, are instant ---
+MED_anim.Scroll scroll = MED_anim.Scroll();
+check.eq_int("first frame shows the engine's top", scroll.observe(1, 7, 100, 30, true, 0), 100);
+check.ok("not animating at first", !scroll.is_active);
+check.eq_int("one line down is instant", scroll.observe(1, 7, 101, 30, true, 16 * NS_PER_MS), 101);
+check.ok("one line does not animate", !scroll.is_active);
+check.eq_int("one line up is instant", scroll.observe(1, 7, 100, 30, true, 32 * NS_PER_MS), 100);
+check.ok("still idle", !scroll.is_active);
+// --- a half page animates, ends exactly on the target, within the cap ---
+int first = scroll.observe(1, 7, 115, 30, true, 100 * NS_PER_MS);
+check.ok("half page starts an animation", scroll.is_active);
+check.ok("first frame is at the start or between", first >= 100 && first <= 115);
+List<int> drawn = run_frames(scroll, 115, 100, 16, 12);
+check.ok("tops only move forward", is_monotonic_up(drawn));
+check.eq_int("lands exactly on the target", drawn[drawn.size() - 1], 115);
+check.ok("ends", !scroll.is_active);
+bool is_early = false;
+for (int i in 0 .. drawn.size()) {
+    if (drawn[i] > 115 || drawn[i] < 100) {
+        is_early = true;
+    }
+}
+check.ok("never outside the start and the goal", !is_early);
+// 16 ms frames: the half page is over inside 160 ms (10 frames)
+int last_moving = 0;
+for (int i in 0 .. drawn.size()) {
+    if (drawn[i] != 115) {
+        last_moving = i + 1;
+    }
+}
+check.ok("a half page settles in under 170 ms", (last_moving + 1) * 16 <= 170);
+// --- a jump to the end of a long file: starts a screen and a bit away ---
+MED_anim.Scroll far = MED_anim.Scroll();
+far.observe(1, 7, 0, 30, true, 0);
+int far_first = far.observe(1, 7, 90000, 30, true, 16 * NS_PER_MS);
+check.ok("a long jump starts near the target", far_first >= 90000 - 40);
+List<int> far_frames = run_frames(far, 90000, 16, 16, 12);
+check.eq_int("a long jump lands exactly", far_frames[far_frames.size() - 1], 90000);
+check.ok("a long jump moves one way", is_monotonic_up(far_frames));
+// --- upward is symmetric ---
+MED_anim.Scroll upward = MED_anim.Scroll();
+upward.observe(1, 7, 500, 30, true, 0);
+upward.observe(1, 7, 470, 30, true, 16 * NS_PER_MS);
+List<int> up_frames = run_frames(upward, 470, 16, 16, 12);
+check.eq_int("upward lands exactly", up_frames[up_frames.size() - 1], 470);
+bool is_down_only = true;
+for (int i in 1 .. up_frames.size()) {
+    if (up_frames[i] > up_frames[i - 1]) {
+        is_down_only = false;
+    }
+}
+check.ok("upward never goes back down", is_down_only);
+// --- redirecting a running animation: no restart, still lands on the new goal ---
+MED_anim.Scroll wheel = MED_anim.Scroll();
+wheel.observe(1, 7, 200, 30, true, 0);
+int shown = 0;
+int goal = 200;
+for (int notch in 1 .. 11) {
+    goal = goal + 3;
+    shown = wheel.observe(1, 7, goal, 30, true, notch * 8 * NS_PER_MS);
+}
+check.ok("a wheel burst is one running animation", wheel.is_active);
+check.ok("still behind the goal while it runs", shown < goal);
+List<int> wheel_rest = run_frames(wheel, goal, 80, 16, 14);
+check.eq_int("the burst lands on the final goal", wheel_rest[wheel_rest.size() - 1], goal);
+check.ok("the burst's tail is monotonic", is_monotonic_up(wheel_rest));
+// --- not allowed (macro, queued input, animation off): at once, ending the run ---
+MED_anim.Scroll snap = MED_anim.Scroll();
+snap.observe(1, 7, 0, 30, true, 0);
+snap.observe(1, 7, 40, 30, true, 16 * NS_PER_MS);
+check.ok("animating", snap.is_active);
+check.eq_int("a disallowed frame shows the final top", snap.observe(1, 7, 40, 30, false, 32 * NS_PER_MS), 40);
+check.ok("and ends the animation", !snap.is_active);
+check.eq_int("a disallowed scroll is instant", snap.observe(1, 7, 90, 30, false, 48 * NS_PER_MS), 90);
+// --- a new window or buffer, or an edit, is shown at once ---
+MED_anim.Scroll other = MED_anim.Scroll();
+other.observe(1, 7, 0, 30, true, 0);
+check.eq_int("another window is instant", other.observe(2, 7, 60, 30, true, 16 * NS_PER_MS), 60);
+check.ok("no animation across windows", !other.is_active);
+check.eq_int("an edit's scroll is instant", other.observe(2, 8, 20, 30, true, 32 * NS_PER_MS), 20);
+check.ok("no animation across an edit", !other.is_active);
+// --- the cap lands a stalled animation exactly ---
+MED_anim.Scroll stalled = MED_anim.Scroll();
+stalled.observe(1, 7, 0, 30, true, 0);
+stalled.observe(1, 7, 25, 30, true, 1 * NS_PER_MS);
+check.eq_int("a frame after the cap is the target", stalled.observe(1, 7, 25, 30, true, 400 * NS_PER_MS), 25);
+check.ok("and the animation is over", !stalled.is_active);
+// --- a clock that does not move changes nothing; one that goes back is harmless ---
+MED_anim.Scroll still = MED_anim.Scroll();
+still.observe(1, 7, 0, 30, true, 100 * NS_PER_MS);
+int at_start = still.observe(1, 7, 30, 30, true, 100 * NS_PER_MS);
+int same_time = still.observe(1, 7, 30, 30, true, 100 * NS_PER_MS);
+check.eq_int("no time, no movement", same_time, at_start);
+int backwards = still.observe(1, 7, 30, 30, true, 50 * NS_PER_MS);
+check.ok("a clock that went back does not move the view backwards", backwards >= at_start || backwards == 30);
+List<int> after_back = run_frames(still, 30, 100, 16, 14);
+check.eq_int("and it still lands", after_back[after_back.size() - 1], 30);
+// --- frame-rate independence: 8 ms frames and 32 ms frames land on the same line
+MED_anim.Scroll fast = MED_anim.Scroll();
+MED_anim.Scroll slow = MED_anim.Scroll();
+fast.observe(1, 7, 0, 30, true, 0);
+slow.observe(1, 7, 0, 30, true, 0);
+fast.observe(1, 7, 20, 30, true, 0);
+slow.observe(1, 7, 20, 30, true, 0);
+int fast_at = 0;
+int slow_at = 0;
+for (int frame in 1 .. 5) {
+    fast_at = fast.observe(1, 7, 20, 30, true, frame * 8 * NS_PER_MS);
+}
+slow_at = slow.observe(1, 7, 20, 30, true, 32 * NS_PER_MS);
+check.ok("8 ms steps and one 32 ms step agree within a line", fast_at - slow_at <= 1 && slow_at - fast_at <= 1);
+// --- the cursor row follows the shown top, honouring scrolloff ---
+check.eq_int("inside the margins: unchanged", MED_anim.clamp_row(50, 40, 30, 5, 1000), 50);
+check.eq_int("above the top margin", MED_anim.clamp_row(10, 40, 30, 5, 1000), 45);
+check.eq_int("below the bottom margin", MED_anim.clamp_row(900, 40, 30, 5, 1000), 64);
+check.eq_int("at the start of the buffer there is no top margin", MED_anim.clamp_row(0, 0, 30, 5, 1000), 0);
+check.eq_int("at the end of the buffer there is no bottom margin", MED_anim.clamp_row(999, 975, 30, 5, 1000), 999);
+check.eq_int("scrolloff 0", MED_anim.clamp_row(10, 40, 30, 0, 1000), 40);
+check.eq_int("a margin bigger than the window centres", MED_anim.clamp_row(10, 40, 10, 30, 1000), 44);
+// every frame of an animation keeps the cursor inside the margins
+MED_anim.Scroll follow = MED_anim.Scroll();
+follow.observe(1, 7, 0, 30, true, 0);
+follow.observe(1, 7, 200, 30, true, 16 * NS_PER_MS);
+bool is_margin_kept = true;
+for (int frame in 2 .. 16) {
+    int top = follow.observe(1, 7, 200, 30, true, frame * 16 * NS_PER_MS);
+    int row = MED_anim.clamp_row(215, top, 30, 5, 1000);
+    if (row < top + 5 || row > top + 24) {
+        is_margin_kept = false;
+    }
+}
+check.ok("scrolloff is honoured at every frame", is_margin_kept);
+// --- pacer ---
+MED_anim.Pacer pacer = MED_anim.Pacer();
+check.eq_int("a fresh pacer asks for 16 ms frames", pacer.interval_ms(), 16);
+for (int i in 0 .. 12) {
+    pacer.note(3000);
+}
+check.eq_int("fast frames keep 16 ms", pacer.interval_ms(), 16);
+for (int i in 0 .. 12) {
+    pacer.note(12000);
+}
+check.eq_int("slow frames halve the rate", pacer.interval_ms(), 33);
+for (int i in 0 .. 12) {
+    pacer.note(40000);
+}
+check.eq_int("very slow frames switch animation off", pacer.interval_ms(), 0);
+for (int i in 0 .. 30) {
+    pacer.note(2000);
+}
+check.eq_int("and it recovers when the terminal speeds up", pacer.interval_ms(), 16);
+MED_anim.Pacer one_slow = MED_anim.Pacer();
+for (int i in 0 .. 10) {
+    one_slow.note(3000);
+}
+one_slow.note(50000);
+check.ok("one slow frame does not switch it off", one_slow.interval_ms() > 0);
+// --- colours ---
+check.eq_int("blend 0 is the start", MED_anim.blend_rgb(0x102030, 0xf0e0d0, 0), 0x102030);
+check.eq_int("blend 1000 is the end", MED_anim.blend_rgb(0x102030, 0xf0e0d0, 1000), 0xf0e0d0);
+check.eq_int("blend of equals is that colour", MED_anim.blend_rgb(0x808080, 0x808080, 400), 0x808080);
+int mid = MED_anim.blend_channel(0, 255, 500);
+check.ok("half way between black and white is brighter than the plain average", mid > 128 && mid < 200);
+check.ok("blend is monotonic", MED_anim.blend_channel(0, 255, 250) < MED_anim.blend_channel(0, 255, 750));
+check.eq_int("progress at the start", MED_anim.progress(0, 0, 100), 0);
+check.eq_int("progress at the end", MED_anim.progress(0, 100 * NS_PER_MS, 100), 1000);
+check.ok("progress eases out (faster at first)", MED_anim.progress(0, 25 * NS_PER_MS, 100) > 250);
+check.eq_int("a zero duration is over", MED_anim.progress(0, 0, 0), 1000);
+// --- a fade-in leaves the finished popup alone at 1000 and starts from the background
+TUI_buffer.Buffer under = TUI_buffer.Buffer.sized(6, 2);
+TUI_buffer.Buffer popup = TUI_buffer.Buffer.sized(6, 2);
+TUI_style.Style box = TUI_style.Style(foreground: TUI_style.Colour.Rgb(255, 255, 255), background: TUI_style.Colour.Rgb(40, 40, 80));
+popup.set_str(0, 0, "abc", box);
+int whole = popup.style_at(0, 0);
+MED_anim.fade_in(popup, under, TUI_geometry.Rect(0, 0, 3, 1), 1000, 0xd0d0d0, 0x000000);
+check.eq_int("fade at 1000 changes nothing", popup.style_at(0, 0), whole);
+MED_anim.fade_in(popup, under, TUI_geometry.Rect(0, 0, 3, 1), 0, 0xd0d0d0, 0x000000);
+TUI_style.Style at_zero = TUI_style.Style.unpack(popup.style_at(0, 0));
+check.ok("fade at 0 has the background of what was behind", at_zero.background.eq(TUI_style.Colour.Rgb(0, 0, 0)));
+check.ok("and the text hidden in it", at_zero.foreground.eq(TUI_style.Colour.Rgb(0, 0, 0)));
+check.finish("t_anim");
