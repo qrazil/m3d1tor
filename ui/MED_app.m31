@@ -47,6 +47,7 @@ import ui.MED_plugin;
 import engine.MED_shell;
 import ui.MED_sources;
 import ui.MED_state;
+import ui.MED_persist;
 import engine.MED_option;
 import ui.MED_picker_view;
 import engine.MED_text;
@@ -350,6 +351,9 @@ void App.write_file(str target) {
     notice = write_slot(slot, target);
     path = slot.path;
     saved_current = slot.saved_current;
+    if (!notice.starts_with("E")) {
+        save_undo(slot);
+    }
     if (servers.size() > 0 && !notice.starts_with("E")) {
         lsp_did_save(slot.path);
     }
@@ -372,6 +376,7 @@ void App.write_all() {
             notice = result;
             return;
         }
+        save_undo(slot);
         written = written + 1;
     }
     Slot active = slots[index_of(current_id)];
@@ -408,6 +413,7 @@ void App.adopt(Slot slot) {
     next_id = slot.id + 1;
     activate(slot.id);
     restore_position();
+    restore_undo();
 }
 
 /// `:e [file]`, `:e!`, `:e #`, `:enew`.
@@ -5101,6 +5107,24 @@ void App.note_state() {
         noted_row = editor.row;
         remember_position();
     }
+}
+
+/// Load the saved undo history of the active buffer ('undofile'), when its text is the one it was saved for.
+pub void App.restore_undo() {
+    if (state_directory.size() == 0 || path.size() == 0 || is_in_listing() || !editor.is_option_on("undofile", false)) {
+        return;
+    }
+    if (MED_persist.did_restore_undo(state_directory, absolute_of(path), editor)) {
+        saved_current = editor.current;
+    }
+}
+
+/// Write the undo history of `slot` after its file was written ('undofile').
+void App.save_undo(Slot slot) {
+    if (state_directory.size() == 0 || slot.path.size() == 0 || slot.is_listing || !slot.editor.is_option_on("undofile", false)) {
+        return;
+    }
+    MED_persist.save_undo(state_directory, absolute_of(slot.path), slot.editor);
 }
 
 /// Write down where the cursor of the active buffer is.

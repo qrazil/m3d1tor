@@ -1,0 +1,63 @@
+// What the front end keeps on disk for a buffer between sessions (besides the recent-file and
+// cursor lists of MED_state): the undo file. Everything takes the state directory as an argument and
+// does nothing when it is "" (tests and `-u NONE` stay hermetic). Failures are silent: persistence is a
+// convenience and must never get in the way of editing.
+
+import engine.MED_editor;
+import engine.MED_undofile;
+import fs;
+import io;
+
+/// Load the saved undo tree of the file at absolute path `file` into `editor` when the buffer still
+/// holds the text it was saved for. True when a tree was loaded.
+pub bool did_restore_undo(str directory, str file, MED_editor.Editor editor) {
+    if (directory.size() == 0 || file.size() == 0 || editor.nodes.size() != 1) {
+        return false;
+    }
+    str name = directory + "/" + MED_undofile.file_name(file);
+    if (!fs.is_file(name)) {
+        return false;
+    }
+    match (io.read(name)) {
+        case Ok(str data): {
+            return MED_undofile.did_restore(editor, data);
+        }
+        case Err(io.Error error): {
+            return false;
+        }
+    }
+}
+
+/// Write the undo tree of `editor`, which holds the text just written to the file at absolute path
+/// `file`. An editor without history removes a stale undo file.
+pub void save_undo(str directory, str file, MED_editor.Editor editor) {
+    if (directory.size() == 0 || file.size() == 0) {
+        return;
+    }
+    str name = directory + "/" + MED_undofile.file_name(file);
+    str data = MED_undofile.encode(editor);
+    if (data.size() == 0) {
+        if (fs.is_file(name)) {
+            match (fs.remove(name)) {
+                case Ok(bool did_remove): {
+                }
+                case Err(io.Error error): {
+                }
+            }
+        }
+        return;
+    }
+    match (fs.makedirs(directory + "/undo")) {
+        case Ok(bool did_make): {
+        }
+        case Err(io.Error error): {
+            return;
+        }
+    }
+    match (io.write(name, data)) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+}

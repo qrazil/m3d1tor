@@ -780,6 +780,40 @@ def themes(binary, root):
             for col in range(0, 40):
                 cell = s.screen.buffer[row][col]
                 assert not regex.fullmatch("[0-9a-f]{6}", cell.fg) and not regex.fullmatch("[0-9a-f]{6}", cell.bg), ("quantised", row, col, cell)
+
+
+def undofile_persists(binary, root):
+    keymap = os.path.join(root, "empty.vim")
+    open(keymap, "w").close()
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("hello world")
+        s.send("xx", settle=0.2)
+        s.send("jdd", settle=0.2)
+        s.send(":w\r", settle=0.5)
+        assert s.wait_for("written"), s.text()
+        s.send(":q\r", settle=0.5)
+    finally:
+        s.close()
+    undo_dir = os.path.join(root, ".state", "m3", "undo")
+    assert os.path.isdir(undo_dir) and os.listdir(undo_dir), "no undo file written"
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("llo world")
+        s.send("u", settle=0.3)
+        assert s.wait_for("second line"), "undo of the line delete after a restart:\n" + s.text()
+        s.send("uu", settle=0.3)
+        assert s.wait_for("hello world"), "undo of the two x:\n" + s.text()
+    finally:
+        s.close()
+    # a file changed behind our back drops the history instead of corrupting the text
+    with open(os.path.join(root, "hello.txt"), "w") as f:
+        f.write("replaced\n")
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("replaced")
+        s.send("u", settle=0.3)
+        assert "replaced" in s.text(), s.text()
     finally:
         s.close()
 

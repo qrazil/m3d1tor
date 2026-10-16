@@ -1,0 +1,227 @@
+// Persistent undo: the undo tree of an Editor as text, and back.
+//
+// API
+// ---
+//   MED_undofile.encode(editor)          -> str   the whole undo tree plus a fingerprint of the buffer text
+//   MED_undofile.did_restore(editor, data)   -> bool  load a tree into a fresh editor when the fingerprint
+//                                                 matches the buffer text; false (editor untouched) otherwise
+//   MED_undofile.fingerprint(text)       -> str   size and two 32-bit FNV-1a lanes of `text`
+//   MED_undofile.file_name(path)         -> str   the state-directory file name for a buffer path
+//
+// The format is line oriented and has no native counterpart (nvim's undo files are
+// binary and version specific), so there is no oracle for it; tests/t_undofile.m31
+// checks the round trip. Strings are escaped (`\\`, `\n`, `\t`, `\r`) so a record is
+// one line and fields are tab separated.
+//
+//   m3undo 1
+//   fingerprint SIZE H1 H2
+//   current N
+//   saved N N N ...
+//   node SEQ PARENT REDO_CHILD BEFORE_ROW BEFORE_COL EDITS MARKS
+//   e ROW COL REMOVED INSERTED          (EDITS of them)
+//   m NAME ROW COL                      (MARKS of them)
+//
+// A tree whose text no longer matches the file is dropped, never applied: undoing
+// edits against a different text would corrupt the buffer.
+
+import engine.MED_buffer;
+import engine.MED_editor;
+
+pub const str MAGIC = "m3undo 1";
+/// The most text an undo file may carry; a bigger tree is not written.
+pub const int MAX_BYTES = 8000000;
+
+/// The state-directory file for the buffer at absolute `path`: the path with `/` as `%`,
+/// as nvim names its undo files.
+pub str file_name(str path) {
+    return "undo/" + path.split("/").join("%");
+}
+
+/// A fingerprint of `text`: its size and two independent 32-bit FNV-1a hashes.
+pub str fingerprint(str text) {
+    bytes raw = text.to_bytes();
+    int first = 2166136261;
+    int second = 305419896;
+    for (int index in 0 .. raw.size()) {
+        int byte = raw[index];
+        first = ((first ^ byte) * 16777619) & 4294967295;
+        second = ((second ^ byte) * 40503 + 1) & 4294967295;
+    }
+    return raw.size().to_str() + " " + first.to_str() + " " + second.to_str();
+}
+
+pub str escape(str text) {
+    bytes raw = text.to_bytes();
+    bytes out = [];
+    for (int index in 0 .. raw.size()) {
+        int byte = raw[index];
+        if (byte == 92) {
+            out.push(92);
+            out.push(92);
+        } else if (byte == 10) {
+            out.push(92);
+            out.push(110);
+        } else if (byte == 9) {
+            out.push(92);
+            out.push(116);
+        } else if (byte == 13) {
+            out.push(92);
+            out.push(114);
+        } else {
+            out.push(byte);
+        }
+    }
+    return out.utf8().or(text);
+}
+
+pub str unescape(str text) {
+    bytes raw = text.to_bytes();
+    bytes out = [];
+    int index = 0;
+    while (index < raw.size()) {
+        int byte = raw[index];
+        if (byte == 92 && index + 1 < raw.size()) {
+            int next = raw[index + 1];
+            if (next == 110) {
+                out.push(10);
+            } else if (next == 116) {
+                out.push(9);
+            } else if (next == 114) {
+                out.push(13);
+            } else {
+                out.push(next);
+            }
+            index = index + 2;
+            continue;
+        }
+        out.push(byte);
+        index = index + 1;
+    }
+    return out.utf8().or(text);
+}
+
+/// The undo tree of `editor` as text. "" when it is too big to keep or there is nothing to keep.
+pub str encode(MED_editor.Editor editor) {
+    if (editor.nodes.size() <= 1) {
+        return "";
+    }
+    List<str> out = [MAGIC, "fingerprint " + fingerprint(editor.buffer.dump())];
+    out.push("current " + editor.current.to_str());
+    List<str> saved = [];
+    for (int node in editor.saved_nodes) {
+        saved.push(node.to_str());
+    }
+    out.push("saved " + saved.join(" "));
+    int total = 0;
+    for (MED_editor.Node node in editor.nodes) {
+        List<str> names = [];
+        for (str name in node.namedm.keys()) {
+            names.push(name);
+        }
+        out.push("node " + node.seq.to_str() + " " + node.parent.to_str() + " " + node.redo_child.to_str() + " " + node.before.row.to_str() + " " + node.before.col.to_str() + " " + node.edits.size().to_str() + " " + names.size().to_str());
+        for (MED_buffer.Edit edit in node.edits) {
+            str removed = escape(edit.removed);
+            str inserted = escape(edit.inserted);
+            total = total + removed.size() + inserted.size();
+            out.push("e\t" + edit.from.row.to_str() + "\t" + edit.from.col.to_str() + "\t" + removed + "\t" + inserted);
+        }
+        for (str name in names) {
+            MED_buffer.Pos position = node.namedm.get(name).or(MED_buffer.Pos(0, 0));
+            out.push("m\t" + name + "\t" + position.row.to_str() + "\t" + position.col.to_str());
+        }
+        if (total > MAX_BYTES) {
+            return "";
+        }
+    }
+    return out.join("\n") + "\n";
+}
+
+// The integers of a space separated record after its first word.
+List<int> numbers(str line) {
+    List<int> out = [];
+    List<str> parts = line.split(" ");
+    for (int index in 1 .. parts.size()) {
+        if (parts[index].size() > 0) {
+            Option<int> value = parts[index].parse_int();
+            match (value) {
+                case Some(int number): {
+                    out.push(number);
+                }
+                case None: {
+                    out.push(-2147483647);
+                }
+            }
+        }
+    }
+    return out;
+}
+
+/// Load the tree in `data` into `editor`, whose buffer holds the text the tree was saved for. True when
+/// the tree was taken; false (and `editor` unchanged) for anything malformed or for other text.
+pub bool did_restore(MED_editor.Editor editor, str data) {
+    List<str> lines = data.split("\n");
+    if (lines.size() < 5 || lines[0] != MAGIC || !lines[1].starts_with("fingerprint ")) {
+        return false;
+    }
+    if (lines[1].substr("fingerprint ".size(), lines[1].size()) != fingerprint(editor.buffer.dump())) {
+        return false;
+    }
+    List<int> current = numbers(lines[2]);
+    if (current.size() != 1 || !lines[2].starts_with("current ")) {
+        return false;
+    }
+    List<int> saved = numbers(lines[3]);
+    List<MED_editor.Node> nodes = [];
+    int cursor = 4;
+    while (cursor < lines.size() && lines[cursor].starts_with("node ")) {
+        List<int> head = numbers(lines[cursor]);
+        if (head.size() != 7) {
+            return false;
+        }
+        cursor = cursor + 1;
+        MED_editor.Node node = MED_editor.Node(head[0], head[1], [], MED_buffer.Pos(head[3], head[4]));
+        node.redo_child = head[2];
+        for (int one in 0 .. head[5]) {
+            if (cursor >= lines.size()) {
+                return false;
+            }
+            List<str> parts = lines[cursor].split("\t");
+            if (parts.size() != 5 || parts[0] != "e") {
+                return false;
+            }
+            node.edits.push(MED_buffer.Edit(MED_buffer.Pos(parts[1].parse_int().or(0), parts[2].parse_int().or(0)), unescape(parts[3]), unescape(parts[4])));
+            cursor = cursor + 1;
+        }
+        for (int one in 0 .. head[6]) {
+            if (cursor >= lines.size()) {
+                return false;
+            }
+            List<str> parts = lines[cursor].split("\t");
+            if (parts.size() != 4 || parts[0] != "m") {
+                return false;
+            }
+            node.namedm.set(parts[1], MED_buffer.Pos(parts[2].parse_int().or(0), parts[3].parse_int().or(0)));
+            cursor = cursor + 1;
+        }
+        nodes.push(node);
+    }
+    if (nodes.size() == 0 || current[0] < 0 || current[0] >= nodes.size()) {
+        return false;
+    }
+    // the tree must be consistent: node i has seq i and a parent / redo child inside the tree
+    for (int index in 0 .. nodes.size()) {
+        MED_editor.Node node = nodes[index];
+        if (node.seq != index || node.parent >= index || (index > 0 && node.parent < 0) || node.redo_child >= nodes.size()) {
+            return false;
+        }
+    }
+    for (int one in saved) {
+        if (one < 0 || one >= nodes.size()) {
+            return false;
+        }
+    }
+    editor.nodes = nodes;
+    editor.current = current[0];
+    editor.saved_nodes = saved;
+    return true;
+}

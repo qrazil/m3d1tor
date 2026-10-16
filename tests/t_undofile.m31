@@ -1,0 +1,69 @@
+// Unit checks for MED_undofile: the undo tree survives encode / restore, and a tree for other text is refused.
+
+import engine.MED_buffer;
+import engine.MED_editor;
+import engine.MED_ex;
+import engine.MED_key;
+import engine.MED_undofile;
+import tests.MED_check;
+
+MED_check.Check check = MED_check.Check();
+
+MED_editor.Editor edited(str text, str keys) {
+    MED_editor.Editor editor = MED_editor.new(text);
+    MED_ex.feed_keys(editor, MED_key.parse(keys));
+    MED_ex.flush_maps(editor);
+    return editor;
+}
+
+MED_editor.Editor fresh(str text) {
+    return MED_editor.new(text);
+}
+
+// round trip: three changes, one undone, a branch
+MED_editor.Editor first = edited("one\ntwo\nthree\n", "xjddiab\tc<Esc>uu");
+str data = MED_undofile.encode(first);
+check.ok("encoded", data.starts_with("m3undo 1\nfingerprint "));
+MED_editor.Editor second = fresh(first.buffer.dump());
+check.ok("restored", MED_undofile.did_restore(second, data));
+check.eq_int("nodes", second.nodes.size(), first.nodes.size());
+check.eq_int("current", second.current, first.current);
+// redo on the restored tree gives the same text the original gives
+MED_ex.feed_keys(first, MED_key.parse("<C-r><C-r>"));
+MED_ex.feed_keys(second, MED_key.parse("<C-r><C-r>"));
+check.eq_str("redo text", second.buffer.dump(), first.buffer.dump());
+MED_ex.feed_keys(first, MED_key.parse("uuu"));
+MED_ex.feed_keys(second, MED_key.parse("uuu"));
+check.eq_str("undo to the start", second.buffer.dump(), "one\ntwo\nthree\n");
+check.eq_str("undo to the start (orig)", first.buffer.dump(), "one\ntwo\nthree\n");
+// a branch: undo, change again, then g- and g+ walk the same way in the copy
+MED_editor.Editor third = edited("alpha beta", "xuiq<Esc>g-g-");
+MED_editor.Editor fourth = fresh(third.buffer.dump());
+check.ok("branch restored", MED_undofile.did_restore(fourth, MED_undofile.encode(third)));
+MED_ex.feed_keys(third, MED_key.parse("g+g+"));
+MED_ex.feed_keys(fourth, MED_key.parse("g+g+"));
+check.eq_str("g+ on a branch", fourth.buffer.dump(), third.buffer.dump());
+// text that changed is refused and nothing is touched
+MED_editor.Editor fifth = fresh("different");
+check.ok("other text refused", !MED_undofile.did_restore(fifth, data));
+check.eq_int("untouched nodes", fifth.nodes.size(), 1);
+// garbage and truncation are refused
+MED_editor.Editor sixth = fresh(first.buffer.dump());
+check.ok("garbage", !MED_undofile.did_restore(sixth, "hello"));
+check.ok("empty", !MED_undofile.did_restore(sixth, ""));
+check.ok("truncated", !MED_undofile.did_restore(sixth, data.substr(0, data.size() / 2)));
+check.eq_int("still one node", sixth.nodes.size(), 1);
+// escapes
+str odd = "a\\b\tc\nd\re";
+check.eq_str("escape round trip", MED_undofile.unescape(MED_undofile.escape(odd)), odd);
+check.ok("escape has no newline", !MED_undofile.escape(odd).contains("\n"));
+// marks survive (the lowercase marks stored on a node)
+MED_editor.Editor seventh = edited("a\nb\nc\n", "majjmbggddu");
+MED_editor.Editor eighth = fresh(seventh.buffer.dump());
+check.ok("marks restored", MED_undofile.did_restore(eighth, MED_undofile.encode(seventh)));
+check.eq_int("mark nodes", eighth.nodes.size(), seventh.nodes.size());
+// nothing to keep
+check.eq_str("nothing to keep", MED_undofile.encode(fresh("x")), "");
+check.eq_str("name", MED_undofile.file_name("/home/me/a.txt"), "undo/%home%me%a.txt");
+check.ok("fingerprint differs", MED_undofile.fingerprint("a") != MED_undofile.fingerprint("b"));
+check.finish("t_undofile");
