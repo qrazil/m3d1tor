@@ -63,6 +63,19 @@ GROSS = {
 }
 
 
+LIVE = []
+
+
+def _watchdog(_sig, _frm):
+    for pr in LIVE:
+        try:
+            os.killpg(os.getpgid(pr.pid), signal.SIGKILL)
+        except (OSError, ProcessLookupError):
+            pass
+    print("uxperf: watchdog expired -- the run stalled", flush=True)
+    os._exit(2)
+
+
 def percentile(values, q):
     if not values:
         return float("nan")
@@ -100,6 +113,9 @@ class Editor:
                                      stderr=slave, cwd=cwd, env=full, start_new_session=True,
                                      close_fds=True)
         os.close(slave)
+        # a blocking write into a full pty (macOS keeps about 1 KB) would hang the whole run
+        fcntl.fcntl(master, fcntl.F_SETFL, fcntl.fcntl(master, fcntl.F_GETFL) | os.O_NONBLOCK)
+        LIVE.append(self.proc)
         self.master = master
         self.sync_reply = sync_reply
         self.carry = b""
@@ -183,6 +199,29 @@ class Editor:
 
     # -- writing --------------------------------------------------------------
 
+    def send(self, data, limit=5.0):
+        """Write `data` without ever blocking: drain the editor's output while the pty is full."""
+        if isinstance(data, str):
+            data = data.encode()
+        end = time.perf_counter() + limit
+        view = memoryview(data)
+        while len(view) and time.perf_counter() < end:
+            r, w, _ = select.select([self.master], [self.master], [], 0.05)
+            if r:
+                try:
+                    got = os.read(self.master, 1 << 20)
+                except OSError:
+                    return
+                self.raw += got
+                self._answer_queries(got)
+            if w:
+                try:
+                    view = view[os.write(self.master, view[:512]):]
+                except (BlockingIOError, InterruptedError):
+                    pass
+                except OSError:
+                    return
+
     def write(self, data, chunk=4096):
         if isinstance(data, str):
             data = data.encode()
@@ -198,9 +237,11 @@ class Editor:
                 self._answer_queries(got)
             if ready[1]:
                 try:
-                    n = os.write(self.master, view[:chunk])
-                except BlockingIOError:
+                    n = os.write(self.master, view[:min(chunk, 512)])
+                except (BlockingIOError, InterruptedError):
                     continue
+                except OSError:
+                    return
                 view = view[n:]
 
     def key(self, keys, quiet=0.12, limit=3.0, min_frames=1):
@@ -208,7 +249,7 @@ class Editor:
         if isinstance(keys, str):
             keys = keys.encode()
         t0 = time.perf_counter()
-        os.write(self.master, keys)
+        self.send(keys)
         frames, first = self.read_frames(t0 + limit, quiet, t_key=t0, min_frames=min_frames)
         out = {"frames": len(frames.items), "bytes_all": frames.total}
         out["first_byte"] = (first - t0) if first else None
@@ -247,10 +288,7 @@ class Editor:
             return None
 
     def close(self):
-        try:
-            os.write(self.master, b"\x1b\x1b:qa!\r")
-        except OSError:
-            pass
+        self.send(b"\x1b\x1b:qa!\r", limit=1.0)
         end = time.time() + 3
         while time.time() < end and self.proc.poll() is None:
             try:
@@ -378,7 +416,7 @@ def run_hold(binary, args, root):
             while time.perf_counter() < end:
                 now = time.perf_counter()
                 if sent_count < n and now >= next_key:
-                    os.write(ed.master, key)
+                    ed.send(key, limit=0.5)
                     sent.append(now)
                     sent_count += 1
                     next_key += period
@@ -576,7 +614,11 @@ def main():
     ap.add_argument("--env", action="append", default=[], help="NAME=VALUE for the editor")
     ap.add_argument("--no-sync-reply", action="store_true")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--watchdog", type=int, default=300, help="abort the whole run after N seconds (0 = off)")
     args = ap.parse_args()
+    if args.watchdog and hasattr(signal, "SIGALRM"):
+        signal.signal(signal.SIGALRM, _watchdog)
+        signal.alarm(args.watchdog)
     args.env = dict(e.split("=", 1) for e in args.env)
     args.sync_reply = not args.no_sync_reply
     binary = os.path.abspath(args.m3d)
