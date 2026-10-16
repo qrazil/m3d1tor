@@ -1,6 +1,6 @@
 # marks, registers, macros, the `.` mark and the change list (0.4.0 probe round, checked against nvim).
 # Not here: text typed in one burst (`ihello<Esc>`) leaves `. at the start of the burst in nvim and at the
-# last character here, because nvim's insertchar() joins typeahead; `gq` leaves `. one line lower.
+# last character here, because nvim's insertchar() joins typeahead (the `gq` cases are corpus 107).
 three\nfour\nfive\nsix	1,1	Jgg`.i|<Esc>
 three\nfour\nfive\nsix	1,1	3Jgg`.i|<Esc>
 three\nfour\nfive\nsix	0,1	gJgg`.i|<Esc>

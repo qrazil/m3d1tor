@@ -1,0 +1,142 @@
+# gq / gw leave the `. mark where nvim's format_lines does: the end of the line cut by the last break, else column 0 of the line
+# after the last join (0.7.0). Marks are read back with gg`.i|
+aa bb\ncc dd\nee	0,0	3gqqgg`.i|<Esc>
+aa bb	0,0	:set tw=20<CR>gq2jgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqap.gg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=20<CR>Vjgqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gwjgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gwjgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>gqjjgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gqjgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqgqgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=30 fo+=q<CR>gq2jgg`.i|<Esc>
+aa bb	0,0	:set tw=20<CR>gwapgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>gqgqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gqGgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gqqgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>gwapgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	gwjgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gqapgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=20<CR>gqjgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	gqkgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gqjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gqqgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>Vjgqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	vipgqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gq2jgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>gq2jgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gq2jgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	gqap.gg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>gqGgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	gqgqgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gqap.gg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>vipgqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	gqipgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gq2jgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>gqqgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>vipgqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	Vjgqgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	gqipgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=20<CR>gqap.gg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gqipgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>gqap.gg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gqgqgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	gqjjgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	vipgqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>gqap.gg`.i|<Esc>
+aa bb	0,0	:set tw=20<CR>gqapgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gq2jgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqapgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gqjjgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gqipgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gqgqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqGgg`.i|<Esc>
+aa bb	0,0	:set tw=20<CR>gqqgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	gqkgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	gwjgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gqGgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	gqGgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gqipgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>gqipgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=30 fo+=q<CR>gwapgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	gq2jgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>gq2jgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gqjgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	gqjjgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gqjgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>gqjgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>vipgqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqjjgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqkgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gqjgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gqipgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=20<CR>gqkgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gq2jgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gwjgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=30 fo+=q<CR>gqkgg`.i|<Esc>
+aa bb	0,0	:set tw=20<CR>3gqqgg`.i|<Esc>
+aa bb	0,0	gwjgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=30 fo+=q<CR>gqqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>vipgqgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gqgqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gqap.gg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gqgqgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gwjgg`.i|<Esc>
+aa bb	0,0	gqgqgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	3gqqgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	gqap.gg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gqjjgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	Vjgqgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>gq2jgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gqapgg`.i|<Esc>
+aa bb	0,0	gq2jgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=30 fo+=q<CR>gwjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gqkgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	gqapgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=30 fo+=q<CR>gqap.gg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gwapgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=20<CR>gwjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gqkgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>gqjgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gwapgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	gwapgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>gqipgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=20<CR>3gqqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>Vjgqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gqap.gg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>Vjgqgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gqGgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=20<CR>gqap.gg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gqgqgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	gwjgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=30 fo+=q<CR>gqjjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gq2jgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	gq2jgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=30 fo+=q<CR>Vjgqgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>gqjjgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	gqgqgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	gwjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>gqgqgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=20<CR>gq2jgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gwapgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gwapgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=30 fo+=q<CR>gqkgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	gqipgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	gqipgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>gqqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=30 fo+=q<CR>gqGgg`.i|<Esc>
+aa bb	0,0	:set tw=30 fo+=q<CR>3gqqgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>gwjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gqjgg`.i|<Esc>
+aa bb\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>3gqqgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=20<CR>vipgqgg`.i|<Esc>
+aa bb	0,0	gqkgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	gwapgg`.i|<Esc>
+one two three four five six seven eight nine ten eleven twelve\nthirteen fourteen fifteen sixteen\n\nnext para here and a long text that wraps over limit again	0,0	:set tw=20<CR>vipgqgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=30 fo+=q<CR>gqqgg`.i|<Esc>
+  aa bb\n  cc dd\n  ee ff gg hh ii jj kk ll mm nn oo pp	0,0	:set tw=30 fo+=q<CR>gqgqgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=20<CR>gqjjgg`.i|<Esc>
+# one two three four five six seven\n# eight nine ten\nplain text line\nmore	0,0	:set tw=30 fo+=q<CR>3gqqgg`.i|<Esc>
+aa bb cc dd ee ff gg hh ii jj kk ll mm nn oo pp qq rr ss tt uu vv ww xx yy zz 11 22 33 44 55 66 77 88 99\nzz	0,0	:set tw=30 fo+=q<CR>gqapgg`.i|<Esc>
+aa bb\n\ncc dd\nee	0,0	:set tw=30 fo+=q<CR>gqapgg`.i|<Esc>

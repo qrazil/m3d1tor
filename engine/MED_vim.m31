@@ -1801,6 +1801,25 @@ int nonblank_before(MED_editor.Editor editor, int from, int row, int col) {
     return total;
 }
 
+// Format one paragraph into `out` and note where nvim's `.` mark ends up. format_lines() joins the lines of a
+// paragraph one by one (each do_join leaves `.` at column 0 of the line after the joined one) and then splits the
+// long line at 'textwidth' (each break leaves `.` at the end of the line it cut). So the last change is the last
+// break when there was one, else the last join. A lone line that needs nothing changes nothing.
+void format_into(MED_editor.Editor editor, List<str> paragraph, int width, List<str> out, int first, MED_buffer.Pos dot_spot) {
+    int start = out.size();
+    List<str> formatted = format_paragraph(editor, paragraph, width);
+    for (str line in formatted) {
+        out.push(line);
+    }
+    if (formatted.size() > 1) {
+        dot_spot.row = first + start + formatted.size() - 2;
+        dot_spot.col = formatted[formatted.size() - 2].size();
+    } else if (paragraph.size() > 1) {
+        dot_spot.row = first + start + 1;
+        dot_spot.col = 0;
+    }
+}
+
 // `gq` and `gw`: reformat the lines of the area to 'textwidth'.
 void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
     touch(editor);
@@ -1819,6 +1838,8 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
     bool is_cursor_inside = saved.row >= first && saved.row <= last;
     List<str> out = [];
     List<str> paragraph = [];
+    // where nvim leaves the `.` mark: its last changed_lines() call (see format_into)
+    MED_buffer.Pos dot_spot = MED_buffer.Pos(-1, 0);
     bool is_comments = has_format_flag(editor, "q");
     for (int row in first .. last + 1) {
         str line = editor.buffer.line(row);
@@ -1829,9 +1850,7 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
         bool is_blank = is_blank_line(line) || (lead.length > 0 && is_blank_line(line.substr(lead.length, line.size())));
         if (is_blank) {
             if (paragraph.size() > 0) {
-                for (str formatted in format_paragraph(editor, paragraph, width)) {
-                    out.push(formatted);
-                }
+                format_into(editor, paragraph, width, out, first, dot_spot);
                 paragraph = [];
             }
             out.push(line);
@@ -1843,9 +1862,7 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
                     previous_lead = comment_leader(editor, previous);
                 }
                 if (!is_same_leader(previous, previous_lead, line, lead)) {
-                    for (str formatted in format_paragraph(editor, paragraph, width)) {
-                        out.push(formatted);
-                    }
+                    format_into(editor, paragraph, width, out, first, dot_spot);
                     paragraph = [];
                 }
             }
@@ -1853,9 +1870,7 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
         }
     }
     if (paragraph.size() > 0) {
-        for (str formatted in format_paragraph(editor, paragraph, width)) {
-            out.push(formatted);
-        }
+        format_into(editor, paragraph, width, out, first, dot_spot);
     }
     bool is_same = out.size() == last - first + 1;
     if (is_same) {
@@ -1868,6 +1883,9 @@ void op_format(MED_editor.Editor editor, Oap oap, bool is_keep_cursor) {
     }
     if (!is_same) {
         editor.change(MED_buffer.Pos(first, 0), MED_buffer.Pos(last, editor.buffer.line_size(last)), out.join("\n"));
+    }
+    if (dot_spot.row >= 0) {
+        editor.override_change(dot_spot);
     }
     int end_row = first + out.size() - 1;
     if (oap.is_end_adjusted && end_row < editor.buffer.line_count() - 1) {
