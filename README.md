@@ -14,7 +14,7 @@ every prefix, a keymap table that mirrors the owner's Neovim leader keys, git si
 preview / blame, a statusline and bufferline, harpoon-style pinned files, quickfix, a terminal pane, `:!` `:r !` and
 `!{motion}` filters, label jump, line move, indent guides, TODO highlighting, last-position restore and a minimal
 language server client. Every built-in can be switched off (`:PluginDisable NAME`, `:Plugins`). See
-[docs/KEYMAP.md](docs/KEYMAP.md) for every default key (generated from the same table the editor uses) and DESIGN
+[docs/ROADMAP.md](docs/ROADMAP.md) for the queue from 0.7.0 to 1.0.0 and [docs/KEYMAP.md](docs/KEYMAP.md) for every default key (generated from the same table the editor uses) and DESIGN
 section 12 and 13 for the plugin framework and the LSP client.
 
 Options that change behaviour are checked against nvim one by one: `scrolloff`, `sidescroll`,

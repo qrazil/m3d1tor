@@ -477,6 +477,9 @@ as Helix without its language intelligence", and the tag description must say so
 
 ## 10. Milestones
 
+The queue after 0.4.x (0.7.0 to 1.0.0, the 1.0 acceptance bar, what is never in scope and the decisions that need the
+owner) is in [docs/ROADMAP.md](docs/ROADMAP.md).
+
 * M0 (this commit): design and scaffolding.
 * M1: engine + oracle harness + fuzzer, with a stated divergence list.
 * M2 (started: `m3 <file>` opens, renders with gutter and status line, edits, `:w`, `:q`, `ZZ`; build with `scripts/build.sh`): tui integration: render, scroll, numbers, statusline, command line, insert
