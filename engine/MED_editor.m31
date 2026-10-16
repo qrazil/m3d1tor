@@ -62,6 +62,8 @@ pub type Fold {
     pub int start = 0;
     pub int end = 0;
     pub bool is_closed = true;
+    /// Follows 'foldlevel' (nobody opened or closed it by hand): see MED_autofold.
+    pub bool is_level = false;
 }
 
 pub type SubRun {
@@ -438,6 +440,11 @@ pub type Editor {
     /// Manual folds, and whether folding is on at all (zn / zN / zi).
     pub List<Fold> folds = [];
     pub bool is_fold_off = false;
+    /// The method, options and text the fold list was computed for, and the 'foldlevel' it follows (MED_autofold).
+    pub str fold_method = "manual";
+    pub str fold_sig = "";
+    pub int fold_tick = -1;
+    pub int fold_fdl = 0;
     /// A `:g` command is waiting for the answer to a `:s///c` prompt: the
     /// command to go on with, and whether the answer quit the whole `:g`.
     pub bool is_global_waiting = false;
@@ -578,8 +585,9 @@ pub int Editor.fold_start_of(int row) {
     }
     int found = -1;
     int found_end = -1;
+    int minlines = option_number("foldminlines", 1);
     for (Fold fold in folds) {
-        if (fold.is_closed && fold.start <= row && row <= fold.end) {
+        if (fold.is_closed && fold.start <= row && row <= fold.end && fold.end - fold.start + 1 > minlines) {
             if (found < 0 || fold.start < found || (fold.start == found && fold.end > found_end)) {
                 found = fold.start;
                 found_end = fold.end;
@@ -596,8 +604,9 @@ pub int Editor.fold_end_of(int row) {
     }
     int found = -1;
     int found_start = -1;
+    int minlines = option_number("foldminlines", 1);
     for (Fold fold in folds) {
-        if (fold.is_closed && fold.start <= row && row <= fold.end) {
+        if (fold.is_closed && fold.start <= row && row <= fold.end && fold.end - fold.start + 1 > minlines) {
             if (found < 0 || fold.start < found_start || (fold.start == found_start && fold.end > found)) {
                 found = fold.end;
                 found_start = fold.start;
@@ -645,7 +654,7 @@ void Editor.fold_adjust(int left, int new_delete, int new_insert) {
             }
         }
         if (!is_gone) {
-            kept.push(Fold(start: start, end: end, is_closed: fold.is_closed));
+            kept.push(Fold(start: start, end: end, is_closed: fold.is_closed, is_level: fold.is_level));
         }
     }
     folds = kept;
@@ -1109,6 +1118,11 @@ pub void Editor.want_from_cursor() {
 pub void Editor.clamp() {
     if (row >= buffer.line_count()) {
         row = buffer.line_count() - 1;
+        // nvim's check_cursor_lnum(): a closed fold at the end of the file takes the cursor to its first line
+        int fold_first = fold_start_of(row);
+        if (fold_first >= 0) {
+            row = fold_first;
+        }
     }
     if (row < 0) {
         row = 0;

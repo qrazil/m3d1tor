@@ -1,7 +1,8 @@
 // m3: a terminal modal editor in m31.
 //
 //   m3 FILE...   open the files as buffers (a new buffer when one does not exist yet)
-//   m3           an empty buffer with no name
+//   m3           the files the project had open at its last exit (a session), else an empty buffer
+//   m3 --no-session  start with an empty buffer
 //   m3 -u FILE   read FILE as the keymap file (-u NONE reads none)
 //   m3 --no-mouse  do not ask the terminal for mouse reports
 //   m3 --version   print the version and exit
@@ -24,6 +25,7 @@ import ui.MED_theme;
 import ui.MED_app;
 import ui.MED_clip;
 import ui.MED_sample;
+import ui.MED_session;
 import ui.MED_state;
 
 // How many colours the terminal has: truecolor when it says so (COLORTERM,
@@ -83,7 +85,7 @@ for (str argument in arguments) {
         os.exit(0);
     }
     if (argument == "--help" || argument == "-h") {
-        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [-u KEYMAP|NONE] [--theme NAME] [FILE...]\n       m3 [--theme NAME] [--colors 16|256|true] --dump-sample\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\ncolours: :theme NAME (Tab lists them), <Space>fC picks one, ~/.config/m3/themes/NAME.toml adds one\n");
+        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [--no-session] [-u KEYMAP|NONE] [--theme NAME] [FILE...]\n       m3 [--theme NAME] [--colors 16|256|true] --dump-sample\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\ncolours: :theme NAME (Tab lists them), <Space>fC picks one, ~/.config/m3/themes/NAME.toml adds one\n");
         os.exit(0);
     }
 }
@@ -136,6 +138,7 @@ List<str> files = [];
 str keymap = MED_app.keymap_path();
 bool is_keymap_required = false;
 bool is_mouse = os.env("M3_NO_MOUSE").or("") == "";
+bool is_session = true;
 int arg_index = 1;
 while (arg_index < arguments.size()) {
     if (arguments[arg_index] == "--no-mouse") {
@@ -143,6 +146,9 @@ while (arg_index < arguments.size()) {
         arg_index = arg_index + 1;
     } else if ((arguments[arg_index] == "--theme" || arguments[arg_index] == "--colors") && arg_index + 1 < arguments.size()) {
         arg_index = arg_index + 2;
+    } else if (arguments[arg_index] == "--no-session") {
+        is_session = false;
+        arg_index = arg_index + 1;
     } else if (arguments[arg_index] == "-u" && arg_index + 1 < arguments.size()) {
         keymap = arguments[arg_index + 1];
         is_keymap_required = true;
@@ -154,6 +160,22 @@ while (arg_index < arguments.size()) {
         files.push(arguments[arg_index]);
         arg_index = arg_index + 1;
     }
+}
+// `m3` with no file starts the project's session (the files it had open at its last exit) when there is one;
+// a clean run (-u NONE) and --no-session start with an empty buffer
+bool is_project_session = files.size() == 0 && keymap != "" && is_session;
+MED_session.Session saved = MED_session.Session();
+if (is_project_session) {
+    saved = MED_app.load_project_session(MED_state.default_directory());
+    List<str> reopened = [];
+    for (MED_session.Entry entry in saved.entries) {
+        if (entry.path == saved.active) {
+            reopened.insert(0, entry.path);
+        } else {
+            reopened.push(entry.path);
+        }
+    }
+    files = reopened;
 }
 if (files.size() == 0) {
     files.push("");
@@ -192,6 +214,7 @@ match (MED_app.open_all(files)) {
             app.apply_project_all();
             app.restore_position();
             app.restore_undo();
+            app.apply_session_cursors(saved);
         }
         if (theme_name != "") {
             // after the keymap file, so the flag wins over its :colorscheme
@@ -200,6 +223,9 @@ match (MED_app.open_all(files)) {
         TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, animate_ms: 50, depth: colour_depth());
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {
+                if (is_project_session) {
+                    app.save_session("");
+                }
             }
             case Err(term.Error error): {
                 io.eprint("m3: " + error.to_str() + "\n");

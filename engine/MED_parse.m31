@@ -114,7 +114,7 @@ int motion_length(List<int> keys, int other_index, bool is_with_objects) {
             return 0;
         }
         int second = keys[other_index + 1];
-        if (second == 40 || second == 123 || second == 41 || second == 125 || second == 91 || second == 93 || second == 39 || second == 96) {
+        if (second == 40 || second == 123 || second == 41 || second == 125 || second == 91 || second == 93 || second == 39 || second == 96 || second == 122) {
             return 2;
         }
         return -1;

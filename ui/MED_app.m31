@@ -48,6 +48,7 @@ import engine.MED_shell;
 import ui.MED_sources;
 import ui.MED_state;
 import ui.MED_persist;
+import ui.MED_session;
 import engine.MED_projconf;
 import engine.MED_option;
 import ui.MED_picker_view;
@@ -468,6 +469,109 @@ void App.adopt(Slot slot) {
     restore_undo();
 }
 
+/// Put the cursors of a restored session where they were (the active buffer's included).
+pub void App.apply_session_cursors(MED_session.Session session) {
+    for (MED_session.Entry entry in session.entries) {
+        for (int index in 0 .. slots.size()) {
+            Slot slot = slots[index];
+            if (slot.path == entry.path && !slot.is_listing) {
+                slot.editor.row = MED_num.smaller(entry.row, slot.editor.buffer.line_count() - 1);
+                slot.editor.col = entry.col;
+                slot.editor.clamp();
+                slot.editor.want_from_cursor();
+            }
+        }
+    }
+}
+
+/// The buffers worth keeping in a session: ordinary files that exist, in buffer order.
+List<MED_session.Entry> App.session_entries() {
+    save_active();
+    List<MED_session.Entry> out = [];
+    for (Slot slot in slots) {
+        if (slot.is_listing || slot.title.size() > 0 || slot.path.size() == 0) {
+            continue;
+        }
+        str file = absolute_of(slot.path);
+        if (file.size() == 0 || !fs.is_file(file)) {
+            continue;
+        }
+        out.push(MED_session.Entry(file, row: slot.editor.row, col: slot.editor.col));
+    }
+    return out;
+}
+
+/// Write the session `name` ("" is the one of the current directory).
+pub void App.save_session(str name) {
+    if (state_directory.size() == 0) {
+        return;
+    }
+    List<MED_session.Entry> entries = session_entries();
+    if (entries.size() == 0 && name.size() == 0) {
+        return;
+    }
+    str active = "";
+    if (path.size() > 0) {
+        active = absolute_of(path);
+    }
+    MED_session.save(state_directory, MED_session.file_for(name, MED_projconf.absolute_path(".")), MED_session.encode(entries, active));
+}
+
+/// `:Session save|load|delete|list [NAME]`.
+void App.run_session(str arg) {
+    List<str> words = arg.trim().split(" ");
+    str verb = words[0];
+    str name = "";
+    if (words.size() > 1) {
+        name = words[1].trim();
+    }
+    if (state_directory.size() == 0) {
+        notice = "Sessions need a state directory (HOME is not set, or -u NONE)";
+        return;
+    }
+    if (verb == "list" || verb == "") {
+        List<str> found = MED_session.names(state_directory);
+        notice = "Sessions: " + found.join(" ");
+        if (found.size() == 0) {
+            notice = "No saved sessions";
+        }
+        return;
+    }
+    if (verb != "save" && verb != "load" && verb != "delete") {
+        notice = "E474: Invalid argument: " + verb;
+        return;
+    }
+    if (name.size() > 0 && !MED_session.is_valid_name(name)) {
+        notice = "E474: Invalid session name: " + name;
+        return;
+    }
+    str file = MED_session.file_for(name, MED_projconf.absolute_path("."));
+    if (verb == "save") {
+        save_session(name);
+        notice = "Session saved";
+    } else if (verb == "delete") {
+        if (MED_session.did_delete(state_directory, file)) {
+            notice = "Session deleted";
+        } else {
+            notice = "E484: No such session";
+        }
+    } else {
+        MED_session.Session session = MED_session.load(state_directory, file);
+        if (session.entries.size() == 0) {
+            notice = "E484: No such session";
+            return;
+        }
+        for (MED_session.Entry entry in session.entries) {
+            if (entry.path != session.active) {
+                edit(entry.path, false);
+            }
+        }
+        edit(session.active, false);
+        apply_session_cursors(session);
+        notice = "Session loaded: " + session.entries.size().to_str() + " buffers";
+    }
+}
+
 /// Read the active buffer's file again (`:e!`, an outside change under 'autoread'); the cursor stays on its line.
 /// False (with the message in `notice`) when the file cannot be read.
 bool App.did_reload_active() {
@@ -830,6 +934,8 @@ void App.run_request(str request) {
         }
     } else if (name == "wall") {
         write_all();
+    } else if (name == "Session") {
+        run_session(arg);
     } else if (name == "checktime") {
         check_disk();
     } else if (name == "edit") {
@@ -1194,8 +1300,6 @@ bool App.did_finish() {
     }
     return true;
 }
-
-// ------------------------------------------------------------------ windows
 
 /// The whole screen as the loop gives it.
 TUI_geometry.Rect App.screen_rect() {
@@ -1602,8 +1706,6 @@ void App.resize_window(int amount, bool is_vertical, bool is_absolute) {
     MED_window.did_resize(layout, current_win, wanted, is_vertical);
 }
 
-// ------------------------------------------------------------------ tab pages
-
 /// The windows of tab page `index` (the live ones for the active page).
 List<MED_window.Win> App.page_wins(int index) {
     if (index == page_index || pages.size() == 0) {
@@ -1910,8 +2012,6 @@ void App.run_split(str name, str arg) {
         new_buffer();
     }
 }
-
-// ------------------------------------------------------------------ listings
 
 /// Whether the active buffer is a directory listing.
 bool App.is_in_listing() {
@@ -3670,7 +3770,7 @@ pub TUI_app.Action App.handle(term.Event event) {
         if (editor.mode == MED_editor.CMDLINE && (editor.cmdline.starts_with("theme ") || editor.cmdline.starts_with("colo"))) {
             editor.theme_names = MED_theme.available(theme_directory);
         }
-        editor.extra_commands = ["theme", "Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Keys", "Plugins", "PluginEnable", "PluginDisable", "terminal", "Lsp", "Recent", "Symbols", "Todo", "Branches", "Commits", "Changed", "Rename", "Delete", "Create", "Mkdir"];
+        editor.extra_commands = ["theme", "Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Keys", "Plugins", "PluginEnable", "PluginDisable", "terminal", "Lsp", "Recent", "Symbols", "Todo", "Branches", "Commits", "Changed", "Rename", "Delete", "Create", "Mkdir", "Session", "checktime"];
     }
     if (is_paste_in_insert(event)) {
         // typed literally: no autoindent, auto-pairs, mappings or jk, and one undo step
@@ -6987,6 +7087,19 @@ List<MED_picker.Entry> App.diagnostic_entries(bool is_buffer_only) {
     }
     return out;
 }
+
+// ----------------------------------------------------------------- sessions
+
+/// The session saved for the current directory (an empty one when there is none).
+pub MED_session.Session load_project_session(str directory) {
+    return MED_session.load(directory, MED_session.file_for("", MED_projconf.absolute_path(".")));
+}
+
+// ------------------------------------------------------------------ windows
+
+// ------------------------------------------------------------------ tab pages
+
+// ------------------------------------------------------------------ listings
 
 bool is_completion_byte(int byte) {
     return (byte >= 48 && byte <= 57) || (byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122) || byte == 95 || byte >= 128;

@@ -314,7 +314,7 @@ pub bool did_bckend_word(Cur cursor, int count, bool is_big, bool is_eol) {
     return true;
 }
 
-bool is_starts_paragraph(MED_buffer.Buffer buffer, int row, bool is_both) {
+pub bool is_starts_paragraph(MED_buffer.Buffer buffer, int row, bool is_both) {
     str line = buffer.line(row);
     if (line.size() == 0) {
         return true;

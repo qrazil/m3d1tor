@@ -5,10 +5,12 @@
 // API
 // ---
 //   MED_fold.create(editor, first, last)       a new, closed fold over rows first ..= last
-//   MED_fold.did_z_command(editor, key, count) zo zc za zO zC zA zv zR zM zd zD zE zn zN zi zj zk
+//   MED_fold.did_z_command(editor, key, count) zo zc za zO zC zA zv zR zM zm zr zx zX zd zD zE zn zN zi zj zk
 //   MED_fold.open_at(editor, row)              open every closed fold that holds `row`
 //   MED_fold.set_range(editor, a, b, is_closed, is_bang)   :foldopen / :foldclose
 
+import engine.MED_autofold;
+import engine.MED_buffer;
 import engine.MED_editor;
 import engine.MED_motion;
 import engine.MED_num;
@@ -53,6 +55,11 @@ bool is_inside(MED_editor.Editor editor, int outer, int inner) {
 
 /// A new fold over rows `first` ..= `last`; it starts out closed.
 pub void create(MED_editor.Editor editor, int first, int last) {
+    if (MED_autofold.method_of(editor) != "manual") {
+        editor.message = "E350: Cannot create fold with current 'foldmethod'";
+        editor.is_failed = true;
+        return;
+    }
     int top = first;
     int bottom = last;
     if (bottom < top) {
@@ -61,6 +68,7 @@ pub void create(MED_editor.Editor editor, int first, int last) {
     }
     editor.folds.push(MED_editor.Fold(start: top, end: bottom, is_closed: true));
     editor.is_fold_off = false;
+    editor.opts.set("foldenable", "true");
 }
 
 /// Open every closed fold that holds `row` (Vim's foldOpenCursor).
@@ -79,8 +87,24 @@ bool did_set_manual(MED_editor.Editor editor, int row, bool is_opening, bool is_
         return false;
     }
     int found = -1;
+    int fdl = editor.option_number("foldlevel", 0);
+    bool is_using = false;
+    int depth = -1;
     for (int index in chain) {
         MED_editor.Fold fold = editor.folds[index];
+        depth = depth + 1;
+        if (is_using || fold.is_level) {
+            // change from level-dependent folding to manual (nvim's setManualFoldWin)
+            is_using = true;
+            editor.folds[index].is_closed = depth >= fdl;
+            editor.folds[index].is_level = false;
+            for (int other in 0 .. editor.folds.size()) {
+                MED_editor.Fold inner = editor.folds[other];
+                if (other != index && inner.start >= fold.start && inner.end <= fold.end) {
+                    editor.folds[other].is_level = true;
+                }
+            }
+        }
         if (!is_opening && is_recursive) {
             editor.folds[index].is_closed = true;
             found = index;
@@ -94,6 +118,7 @@ bool did_set_manual(MED_editor.Editor editor, int row, bool is_opening, bool is_
                         MED_editor.Fold inner = editor.folds[other];
                         if (inner.start >= fold.start && inner.end <= fold.end) {
                             editor.folds[other].is_closed = false;
+                            editor.folds[other].is_level = false;
                         }
                     }
                 }
@@ -110,6 +135,11 @@ bool did_set_manual(MED_editor.Editor editor, int row, bool is_opening, bool is_
 
 // Delete the fold at `row`: the closed one that is shown, else the innermost.
 bool did_delete_at(MED_editor.Editor editor, int row, bool is_recursive) {
+    if (MED_autofold.method_of(editor) != "manual") {
+        editor.message = "E351: Cannot delete fold with current 'foldmethod'";
+        editor.is_failed = true;
+        return true;
+    }
     List<int> chain = holding(editor, row);
     if (chain.size() == 0) {
         return false;
@@ -153,28 +183,6 @@ pub bool did_set_range(MED_editor.Editor editor, int first, int last, bool is_cl
     return is_found;
 }
 
-// The row of the next fold start below `row`, or -1.
-int next_start(MED_editor.Editor editor, int row) {
-    int best = -1;
-    for (MED_editor.Fold fold in editor.folds) {
-        if (fold.start > row && (best < 0 || fold.start < best)) {
-            best = fold.start;
-        }
-    }
-    return best;
-}
-
-// The row of the previous fold end above `row`, or -1.
-int previous_end(MED_editor.Editor editor, int row) {
-    int best = -1;
-    for (MED_editor.Fold fold in editor.folds) {
-        if (fold.end < row && fold.end > best) {
-            best = fold.end;
-        }
-    }
-    return best;
-}
-
 /// How deeply the fold `start` ..= `end` is nested: 1 for one no other holds.
 pub int level_of(MED_editor.Editor editor, int start, int end) {
     int level = 1;
@@ -203,6 +211,28 @@ pub str text_of(MED_editor.Editor editor, int start, int end) {
     return "+-" + dashes + padded + " lines: " + body;
 }
 
+// 'foldenable' on again (zc, zC and the closing half of za and zA turn folding on).
+void enable(MED_editor.Editor editor) {
+    editor.is_fold_off = false;
+    editor.opts.set("foldenable", "true");
+}
+
+str bool_text(bool is_on) {
+    if (is_on) {
+        return "true";
+    }
+    return "false";
+}
+
+// Set 'foldlevel' to `level`; `is_forced` runs newFoldLevel even when the value did not change (nvim's `old_fdl = -1`).
+void set_level(MED_editor.Editor editor, int level, bool is_forced) {
+    int old = editor.option_number("foldlevel", 0);
+    editor.opts.set("foldlevel", level.to_str());
+    if (is_forced || old != level) {
+        MED_autofold.new_level(editor);
+    }
+}
+
 /// The z commands that work on folds. False when `key` is not one of them.
 pub bool did_z_command(MED_editor.Editor editor, int key, int count) {
     int row = editor.row;
@@ -221,59 +251,84 @@ pub bool did_z_command(MED_editor.Editor editor, int key, int count) {
         for (int step in 0 .. total) {
             is_found = did_set_manual(editor, row, false, false);
         }
+        enable(editor);
     } else if (key == 67) {
         is_found = did_set_manual(editor, row, false, true);
+        enable(editor);
     } else if (key == 97) {
         if (editor.fold_start_of(row) >= 0) {
             is_found = did_set_manual(editor, row, true, false);
         } else {
             is_found = did_set_manual(editor, row, false, false);
+            enable(editor);
         }
     } else if (key == 65) {
         if (editor.fold_start_of(row) >= 0) {
             is_found = did_set_manual(editor, row, true, true);
         } else {
             is_found = did_set_manual(editor, row, false, true);
+            enable(editor);
         }
     } else if (key == 118) {
         open_at(editor, row);
     } else if (key == 82) {
-        for (int index in 0 .. editor.folds.size()) {
-            editor.folds[index].is_closed = false;
-        }
+        set_level(editor, MED_autofold.deepest(editor), true);
     } else if (key == 77) {
-        for (int index in 0 .. editor.folds.size()) {
-            editor.folds[index].is_closed = true;
-        }
+        set_level(editor, 0, true);
         editor.is_fold_off = false;
+        editor.opts.set("foldenable", "true");
+    } else if (key == 109) {
+        int level = editor.option_number("foldlevel", 0);
+        if (level > 0) {
+            level = MED_num.larger(0, level - total);
+        }
+        set_level(editor, level, true);
+        editor.is_fold_off = false;
+    } else if (key == 114) {
+        int level = editor.option_number("foldlevel", 0) + total;
+        int deepest = MED_autofold.deepest(editor);
+        if (level >= deepest) {
+            level = deepest;
+        }
+        set_level(editor, level, false);
+    } else if (key == 120) {
+        editor.is_fold_off = false;
+        MED_autofold.sync(editor);
+        MED_autofold.new_level(editor);
+        open_at(editor, row);
+    } else if (key == 88) {
+        editor.is_fold_off = false;
+        MED_autofold.sync(editor);
+        MED_autofold.new_level(editor);
     } else if (key == 100) {
         is_found = did_delete_at(editor, row, false);
     } else if (key == 68) {
         is_found = did_delete_at(editor, row, true);
     } else if (key == 69) {
+        if (MED_autofold.method_of(editor) != "manual") {
+            editor.message = "E352: Cannot erase folds with current 'foldmethod'";
+            editor.is_failed = true;
+            return true;
+        }
         editor.folds = [];
     } else if (key == 110) {
         editor.is_fold_off = true;
+        editor.opts.set("foldenable", "false");
     } else if (key == 78) {
         editor.is_fold_off = false;
+        editor.opts.set("foldenable", "true");
     } else if (key == 105) {
         editor.is_fold_off = !editor.is_fold_off;
-    } else if (key == 106) {
-        int target = next_start(editor, row);
-        if (target < 0) {
+        editor.opts.set("foldenable", bool_text(!editor.is_fold_off));
+    } else if (key == 106 || key == 107) {
+        int old_row = editor.row;
+        int old_col = editor.col;
+        if (!MED_autofold.did_move_to(editor, true, key == 106, total)) {
             editor.is_failed = true;
-            return true;
+        } else {
+            editor.set_pcmark(MED_buffer.Pos(old_row, old_col));
         }
-        editor.row = target;
-        editor.col = MED_motion.col_for_want(editor.buffer.line(target), editor.want, editor.tab, false);
-    } else if (key == 107) {
-        int target = previous_end(editor, row);
-        if (target < 0) {
-            editor.is_failed = true;
-            return true;
-        }
-        editor.row = target;
-        editor.col = MED_motion.col_for_want(editor.buffer.line(target), editor.want, editor.tab, false);
+        return true;
     } else {
         return false;
     }

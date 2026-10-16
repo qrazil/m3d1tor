@@ -1,0 +1,508 @@
+// Folds that follow the text: 'foldmethod' indent and marker, and the 'foldlevel' that decides which of them
+// are closed. Manual folds stay in MED_fold; both kinds live in `editor.folds`.
+//
+// API
+// ---
+//   MED_autofold.sync(editor)              bring `editor.folds` up to date with the text and the fold options; called at
+//                                          the start of every key (cheap when nothing changed)
+//   MED_autofold.new_level(editor)         'foldlevel' changed: top-level folds follow it again (nvim's newFoldLevel)
+//   MED_autofold.deepest(editor)           the deepest nesting of the current folds (zR)
+//   MED_autofold.refresh_closed(editor)    recompute `is_closed` of the folds that follow 'foldlevel'
+//   MED_autofold.did_move_to(editor, is_updown, is_forward, count)   nvim's foldMoveTo: zj zk (updown) and [z ]z
+//
+// Model (nvim's fold.c): a fold is closed when it follows 'foldlevel' (`is_level`, the state of a fold nobody opened or
+// closed by hand) and its depth (0 for the outermost) is at least 'foldlevel', or by its own flag when a `zo` / `zc`
+// changed it. A fold below a level-following one follows the level too. A fold that has `foldminlines` or fewer lines
+// is never shown closed.
+//
+// indent: the level of a line is its indent divided by 'shiftwidth' (the 'tabstop' when that is 0), at most
+// 'foldnestmax'. Blank lines and lines that start with a character of 'foldignore' (default `#`) get the lower level of the
+// lines around them. A run of lines at level >= k is a fold of level k; the line before an indented block is not in it.
+// marker: `{{{` opens and `}}}` closes a fold (a number after the marker sets the level); the fold spans both marker
+// lines. 'foldmarker' changes the markers.
+//
+// Not done: foldmethod expr, syntax and diff; `zf`, `zd`, `zD` and `zE` under indent and marker (they report E350 and
+// friends where nvim would edit the markers or refuse).
+
+import engine.MED_editor;
+import engine.MED_text;
+
+/// The method in force: "manual", "indent" or "marker" (the others are stored but behave as manual).
+pub str method_of(MED_editor.Editor editor) {
+    str name = editor.opts.get("foldmethod").or("manual");
+    if (name == "indent" || name == "marker") {
+        return name;
+    }
+    return "manual";
+}
+
+// Indent of `line` in columns.
+int indent_of(MED_editor.Editor editor, str line) {
+    int index = 0;
+    int width = 0;
+    while (index < line.size()) {
+        int byte = line.byte_at(index);
+        if (byte == 32) {
+            width = width + 1;
+        } else if (byte == 9) {
+            width = width + editor.tab - width % editor.tab;
+        } else {
+            break;
+        }
+        index = index + 1;
+    }
+    return width;
+}
+
+/// The level of every row under foldmethod=indent.
+pub List<int> indent_levels(MED_editor.Editor editor) {
+    int count = editor.buffer.line_count();
+    int unit = editor.shift_size();
+    if (unit < 1) {
+        unit = 8;
+    }
+    int nest_max = editor.option_number("foldnestmax", 20);
+    str ignore = editor.opts.get("foldignore").or("#");
+    List<int> levels = [];
+    for (int row in 0 .. count) {
+        str line = editor.buffer.line(row);
+        int first = MED_text.first_nonblank(line);
+        bool is_undefined = first >= line.size() || ignore.contains(line.substr(first, first + 1));
+        if (is_undefined) {
+            if (row == 0 || row == count - 1) {
+                levels.push(0);
+            } else {
+                levels.push(-1);
+            }
+        } else {
+            int level = indent_of(editor, line) / unit;
+            if (level > nest_max) {
+                level = nest_max;
+            }
+            levels.push(level);
+        }
+    }
+    // an undefined line takes the lower level of the defined lines around it
+    int row = 0;
+    while (row < count) {
+        if (levels[row] >= 0) {
+            row = row + 1;
+            continue;
+        }
+        int end = row;
+        while (end < count && levels[end] < 0) {
+            end = end + 1;
+        }
+        int before = 0;
+        if (row > 0) {
+            before = levels[row - 1];
+        }
+        int after = 0;
+        if (end < count) {
+            after = levels[end];
+        }
+        int low = before;
+        if (after < low) {
+            low = after;
+        }
+        for (int fill in row .. end) {
+            levels[fill] = low;
+        }
+        row = end;
+    }
+    return levels;
+}
+
+/// The folds of foldmethod=indent: for every level k, each run of rows at level >= k.
+pub List<MED_editor.Fold> indent_folds(MED_editor.Editor editor) {
+    List<int> levels = indent_levels(editor);
+    List<MED_editor.Fold> out = [];
+    int count = levels.size();
+    // sweep with a stack of the start rows of the open folds (index = level - 1)
+    List<int> starts = [];
+    for (int row in 0 .. count + 1) {
+        int level = 0;
+        if (row < count) {
+            level = levels[row];
+        }
+        while (starts.size() < level) {
+            starts.push(row);
+        }
+        while (starts.size() > level) {
+            int start = starts.pop();
+            out.push(MED_editor.Fold(start: start, end: row - 1, is_closed: true, is_level: true));
+        }
+    }
+    return sorted(out);
+}
+
+// The folds ordered the way a document reads: by first row, outer before inner.
+List<MED_editor.Fold> sorted(List<MED_editor.Fold> folds) {
+    // the sweep emits inner folds first; a stable pass on (start, -end) restores the reading order
+    List<MED_editor.Fold> out = [];
+    for (MED_editor.Fold fold in folds) {
+        int slot = out.size();
+        while (slot > 0 && (out[slot - 1].start > fold.start || (out[slot - 1].start == fold.start && out[slot - 1].end < fold.end))) {
+            slot = slot - 1;
+        }
+        out.insert(slot, fold);
+    }
+    return out;
+}
+
+// The number after a marker at `from` in `line` (0 when there is none).
+int marker_number(str line, int from) {
+    int index = from;
+    int value = 0;
+    int digits = 0;
+    while (index < line.size() && line.byte_at(index) >= 48 && line.byte_at(index) <= 57 && digits < 9) {
+        value = value * 10 + line.byte_at(index) - 48;
+        index = index + 1;
+        digits = digits + 1;
+    }
+    return value;
+}
+
+/// The folds of foldmethod=marker (nvim's foldlevelMarker): `{{{` and `}}}` with optional levels.
+pub List<MED_editor.Fold> marker_folds(MED_editor.Editor editor) {
+    str markers = editor.opts.get("foldmarker").or("{{{,}}}");
+    int comma = markers.index_of(",").or(-1);
+    if (comma <= 0 || comma >= markers.size() - 1) {
+        return [];
+    }
+    str open_marker = markers.substr(0, comma);
+    str close_marker = markers.substr(comma + 1, markers.size());
+    int nest_max = editor.option_number("foldnestmax", 20);
+    List<MED_editor.Fold> out = [];
+    List<int> starts = [];
+    int level = 0;
+    for (int row in 0 .. editor.buffer.line_count()) {
+        str line = editor.buffer.line(row);
+        int start_level = level;
+        int lvl = level;
+        int lvl_next = level;
+        int start = 0;
+        int index = 0;
+        while (index < line.size()) {
+            if (index + open_marker.size() <= line.size() && line.substr(index, index + open_marker.size()) == open_marker) {
+                index = index + open_marker.size();
+                if (index < line.size() && line.byte_at(index) >= 48 && line.byte_at(index) <= 57) {
+                    int number = marker_number(line, index);
+                    if (number > 0) {
+                        lvl = number;
+                        lvl_next = number;
+                        if (number > start_level) {
+                            start = number - start_level;
+                        } else {
+                            start = 1;
+                        }
+                    }
+                } else {
+                    lvl = lvl + 1;
+                    lvl_next = lvl_next + 1;
+                    start = start + 1;
+                }
+            } else if (index + close_marker.size() <= line.size() && line.substr(index, index + close_marker.size()) == close_marker) {
+                index = index + close_marker.size();
+                if (index < line.size() && line.byte_at(index) >= 48 && line.byte_at(index) <= 57) {
+                    int number = marker_number(line, index);
+                    if (number > 0) {
+                        lvl = number;
+                        lvl_next = number - 1;
+                        if (lvl_next > start_level) {
+                            lvl_next = start_level;
+                        }
+                    }
+                } else {
+                    lvl_next = lvl_next - 1;
+                }
+            } else {
+                index = index + 1;
+            }
+        }
+        if (lvl_next < 0) {
+            lvl_next = 0;
+        }
+        if (lvl > nest_max) {
+            lvl = nest_max;
+        }
+        // folds that start on this line
+        if (start > 0) {
+            while (starts.size() < lvl) {
+                starts.push(row);
+            }
+        }
+        // folds that end on this line (the level drops after it)
+        while (starts.size() > lvl_next) {
+            int start_row = starts.pop();
+            out.push(MED_editor.Fold(start: start_row, end: row, is_closed: true, is_level: true));
+        }
+        level = lvl_next;
+    }
+    // a fold still open at the end of the buffer runs to the last line
+    while (starts.size() > 0) {
+        int start_row = starts.pop();
+        out.push(MED_editor.Fold(start: start_row, end: editor.buffer.line_count() - 1, is_closed: true, is_level: true));
+    }
+    return sorted(out);
+}
+
+/// The deepest nesting of `folds` (0 when there are none).
+pub int deepest(MED_editor.Editor editor) {
+    int best = 0;
+    List<int> ends = [];
+    List<MED_editor.Fold> ordered = sorted(editor.folds);
+    for (MED_editor.Fold fold in ordered) {
+        while (ends.size() > 0 && ends[ends.size() - 1] < fold.start) {
+            ends.pop();
+        }
+        ends.push(fold.end);
+        if (ends.size() > best) {
+            best = ends.size();
+        }
+    }
+    return best;
+}
+
+/// Recompute `is_closed` of every fold that follows 'foldlevel' (itself or through a fold around it); folds with
+/// their own flag keep theirs.
+pub void refresh_closed(MED_editor.Editor editor) {
+    int fdl = editor.option_number("foldlevel", 0);
+    int minlines = editor.option_number("foldminlines", 1);
+    List<MED_editor.Fold> ordered = sorted_indexes(editor);
+    List<int> ends = [];
+    List<bool> uses = [];
+    for (int position in 0 .. ordered.size()) {
+        MED_editor.Fold fold = ordered[position];
+        while (ends.size() > 0 && ends[ends.size() - 1] < fold.start) {
+            ends.pop();
+            uses.pop();
+        }
+        bool is_using = fold.is_level;
+        if (uses.size() > 0 && uses[uses.size() - 1]) {
+            is_using = true;
+        }
+        if (is_using) {
+            fold.is_closed = ends.size() >= fdl;
+        }
+        ends.push(fold.end);
+        uses.push(is_using);
+    }
+}
+
+// The folds themselves (references, so a change shows in `editor.folds`) in reading order.
+List<MED_editor.Fold> sorted_indexes(MED_editor.Editor editor) {
+    return sorted(editor.folds);
+}
+
+/// 'foldlevel' changed (zm, zr, zM, zR, zx, `:set foldlevel`): the outermost folds follow it again, then every
+/// level-following fold is closed or opened by its depth.
+pub void new_level(MED_editor.Editor editor) {
+    List<MED_editor.Fold> ordered = sorted(editor.folds);
+    List<int> ends = [];
+    for (int position in 0 .. ordered.size()) {
+        MED_editor.Fold fold = ordered[position];
+        while (ends.size() > 0 && ends[ends.size() - 1] < fold.start) {
+            ends.pop();
+        }
+        if (ends.size() == 0) {
+            fold.is_level = true;
+        }
+        ends.push(fold.end);
+    }
+    refresh_closed(editor);
+    editor.fold_fdl = editor.option_number("foldlevel", 0);
+}
+
+// What identifies the inputs of the fold computation apart from the text.
+str signature(MED_editor.Editor editor, str method) {
+    return method + "|" + editor.opts.get("foldmarker").or("") + "|" + editor.opts.get("foldignore").or("") + "|" + editor.opts.get("foldnestmax").or("") + "|" + editor.shift_size().to_str() + "|" + editor.tab.to_str();
+}
+
+/// Bring the fold list in line with the text and the options.
+pub void sync(MED_editor.Editor editor) {
+    bool is_enabled = editor.is_option_on("foldenable", true);
+    if (is_enabled == editor.is_fold_off) {
+        editor.is_fold_off = !is_enabled;
+    }
+    str method = method_of(editor);
+    if (method == "manual") {
+        if (editor.fold_method != "manual") {
+            // back to manual: the computed folds go
+            editor.folds = [];
+            editor.fold_method = "manual";
+        }
+        int fdl = editor.option_number("foldlevel", 0);
+        if (fdl != editor.fold_fdl && editor.folds.size() > 0) {
+            new_level(editor);
+        }
+        editor.fold_fdl = fdl;
+        return;
+    }
+    str signature_now = signature(editor, method);
+    if (method == editor.fold_method && signature_now == editor.fold_sig && editor.buffer.tick == editor.fold_tick) {
+        int fdl = editor.option_number("foldlevel", 0);
+        if (fdl != editor.fold_fdl) {
+            new_level(editor);
+        }
+        return;
+    }
+    List<MED_editor.Fold> fresh = [];
+    if (method == "indent") {
+        fresh = indent_folds(editor);
+    } else {
+        fresh = marker_folds(editor);
+    }
+    bool is_new_method = method != editor.fold_method;
+    if (!is_new_method) {
+        // keep what the user did to a fold that is still there (same first and last row)
+        for (int slot in 0 .. fresh.size()) {
+            MED_editor.Fold now = fresh[slot];
+            for (MED_editor.Fold old in editor.folds) {
+                if (old.start == now.start && old.end == now.end) {
+                    now.is_level = old.is_level;
+                    now.is_closed = old.is_closed;
+                    break;
+                }
+            }
+        }
+    }
+    editor.folds = fresh;
+    editor.fold_method = method;
+    editor.fold_sig = signature_now;
+    editor.fold_tick = editor.buffer.tick;
+    refresh_closed(editor);
+    editor.fold_fdl = editor.option_number("foldlevel", 0);
+}
+
+// ------------------------------------------------------------- zj zk [z ]z
+
+// The fold tree of `folds` (reading order): for each fold the positions of its children, and the roots.
+type Tree {
+    pub List<MED_editor.Fold> folds = [];
+    pub List<List<int>> kids = [];
+    pub List<int> roots = [];
+}
+
+Tree tree_of(MED_editor.Editor editor) {
+    Tree tree = Tree();
+    tree.folds = sorted(editor.folds);
+    List<int> chain = [];
+    for (int position in 0 .. tree.folds.size()) {
+        MED_editor.Fold fold = tree.folds[position];
+        tree.kids.push([]);
+        while (chain.size() > 0 && tree.folds[chain[chain.size() - 1]].end < fold.start) {
+            chain.pop();
+        }
+        if (chain.size() == 0) {
+            tree.roots.push(position);
+        } else {
+            tree.kids[chain[chain.size() - 1]].push(position);
+        }
+        chain.push(position);
+    }
+    return tree;
+}
+
+// nvim's foldFind over one sibling list: the position in `siblings` of the fold that holds `row`, or minus the
+// position of the first fold after it, minus one (so -1 is "before the first", -len-1 "after the last").
+int find_sibling(Tree tree, List<int> siblings, int row) {
+    int low = 0;
+    int high = siblings.size() - 1;
+    while (low <= high) {
+        int middle = (low + high) / 2;
+        MED_editor.Fold fold = tree.folds[siblings[middle]];
+        if (fold.start > row) {
+            high = middle - 1;
+        } else if (fold.end < row) {
+            low = middle + 1;
+        } else {
+            return middle;
+        }
+    }
+    return 0 - low - 1;
+}
+
+/// nvim's foldMoveTo: `zj` / `zk` (`is_updown`: to the start of the next fold / the end of the previous one) and `[z` /
+/// `]z` (to the start / end of the open fold around the cursor). False when the cursor does not move at all.
+pub bool did_move_to(MED_editor.Editor editor, bool is_updown, bool is_forward, int count) {
+    if (editor.folds.size() == 0) {
+        return false;
+    }
+    Tree tree = tree_of(editor);
+    int minlines = editor.option_number("foldminlines", 1);
+    bool is_moved = false;
+    for (int step in 0 .. count) {
+        int found_row = editor.row;
+        List<int> siblings = tree.roots;
+        bool is_last = false;
+        while (true) {
+            int found_at = find_sibling(tree, siblings, editor.row);
+            int fold_position = 0;
+            if (found_at < 0) {
+                int after = 0 - found_at - 1;
+                if (!is_updown || siblings.size() == 0) {
+                    break;
+                }
+                if (is_forward) {
+                    if (after >= siblings.size()) {
+                        break;
+                    }
+                    fold_position = after - 1;
+                } else {
+                    if (after == 0) {
+                        break;
+                    }
+                    fold_position = after;
+                }
+                is_last = true;
+            } else {
+                fold_position = found_at;
+            }
+            MED_editor.Fold fold = editor.folds[0];
+            if (found_at >= 0) {
+                fold = tree.folds[siblings[fold_position]];
+            }
+            if (!is_last) {
+                if (fold.is_closed && fold.end - fold.start + 1 > minlines) {
+                    is_last = true;
+                }
+                if (is_last && !is_updown) {
+                    break;
+                }
+            }
+            if (is_updown) {
+                if (is_forward) {
+                    if (fold_position + 1 < siblings.size()) {
+                        int row = tree.folds[siblings[fold_position + 1]].start;
+                        if (row > editor.row) {
+                            found_row = row;
+                        }
+                    }
+                } else if (fold_position > 0) {
+                    int row = tree.folds[siblings[fold_position - 1]].end;
+                    if (row < editor.row) {
+                        found_row = row;
+                    }
+                }
+            } else if (is_forward) {
+                if (fold.end > editor.row) {
+                    found_row = fold.end;
+                }
+            } else if (fold.start < editor.row) {
+                found_row = fold.start;
+            }
+            if (is_last) {
+                break;
+            }
+            siblings = tree.kids[siblings[fold_position]];
+        }
+        if (found_row == editor.row) {
+            break;
+        }
+        editor.row = found_row;
+        editor.col = 0;
+        is_moved = true;
+    }
+    return is_moved;
+}

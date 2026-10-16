@@ -5,6 +5,7 @@
 // with lines that wrap ('wrap' and `view_width`) and with 'scrolloff' 0. The editor keeps `view_top` and `view_height`; the UI sets
 // the height and calls `update` after each key so the cursor stays visible.
 
+import engine.MED_autofold;
 import engine.MED_editor;
 import engine.MED_motion;
 import engine.MED_num;
@@ -364,6 +365,7 @@ pub void horizontal(MED_editor.Editor editor) {
 /// Vim's update_topline: scroll just enough to show the cursor line, or
 /// centre it when it is far away.
 pub void update(MED_editor.Editor editor) {
+    MED_autofold.sync(editor);
     if (editor.folds.size() > 0 && !editor.is_fold_off) {
         // the cursor is on the first line of a closed fold as far as the window
         // is concerned, and the window starts at one

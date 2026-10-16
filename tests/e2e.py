@@ -884,6 +884,47 @@ def disk_watch_autosave_autowrite(binary, root):
     assert s.proc.poll() == 0, "exit status"
 
 
+@scenario
+def session_restore(binary, root):
+    keymap = os.path.join(root, "empty.vim")
+    open(keymap, "w").close()
+    s = Session(binary, root, [], keymap=keymap)
+    try:
+        s.send(":e hello.txt\r", settle=0.4)
+        s.send("jj", settle=0.2)
+        s.send(":e src/main.py\r", settle=0.4)
+        assert s.wait_for("return 42")
+        s.send("j", settle=0.2)
+        s.send(":Session save work\r", settle=0.4)
+        assert s.wait_for("Session saved"), s.text()
+        s.send(":q\r", settle=0.3)
+        s.send(":qa\r", settle=0.6)
+    finally:
+        s.close()
+    # no arguments: the project's buffers come back, the last current one shown
+    s = Session(binary, root, [], keymap=keymap)
+    try:
+        assert s.wait_for("return 42"), s.text()
+        s.send(":ls\r", settle=0.4)
+        assert s.wait_for("hello.txt"), s.text()
+        s.send("\r", settle=0.2)
+    finally:
+        s.close()
+    # --no-session starts empty
+    s = Session(binary, root, ["--no-session"], keymap=keymap)
+    try:
+        s.pump(1.0)
+        assert "return 42" not in s.text() and "hello world" not in s.text(), s.text()
+        s.send(":Session load work\r", settle=0.6)
+        assert s.wait_for("Session loaded"), s.text()
+        s.send(":Session list\r", settle=0.3)
+        assert s.wait_for("Sessions: work"), s.text()
+        s.send(":Session delete work\r", settle=0.3)
+        assert s.wait_for("Session deleted"), s.text()
+    finally:
+        s.close()
+
+
 def main():
     binary = os.path.abspath(sys.argv[1])
     only = None

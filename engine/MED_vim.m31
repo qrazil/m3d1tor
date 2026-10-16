@@ -11,6 +11,7 @@
 
 import engine.MED_buffer;
 import engine.MED_complete;
+import engine.MED_autofold;
 import engine.MED_fold;
 import engine.MED_editor;
 import engine.MED_motion;
@@ -688,6 +689,23 @@ MED_motion.Motion next_mark_motion(MED_editor.Editor editor, bool is_forward, bo
 
 // `[(` `[{` `])` `]}`
 MED_motion.Motion bracket_motion(MED_editor.Editor editor, int first, int second, int count) {
+    if (second == 122) {
+        // `[z` / `]z`: the start / end of the open fold around the cursor
+        MED_motion.Motion fold_motion = motion_at(editor);
+        MED_editor.Editor probe = editor;
+        int saved_row = editor.row;
+        int saved_col = editor.col;
+        bool is_moved = MED_autofold.did_move_to(probe, false, first == 93, count1(count));
+        fold_motion.row = editor.row;
+        fold_motion.col = editor.col;
+        editor.row = saved_row;
+        editor.col = saved_col;
+        if (!is_moved) {
+            return MED_motion.failed();
+        }
+        fold_motion.is_jump = true;
+        return fold_motion;
+    }
     if (second == 39 || second == 96) {
         return next_mark_motion(editor, first == 93, second == 39, count);
     }
@@ -714,6 +732,64 @@ MED_motion.Motion bracket_motion(MED_editor.Editor editor, int first, int second
     motion.row = row;
     motion.col = col;
     motion.is_jump = true;
+    return motion;
+}
+
+// `{` and `}` with closed folds (nvim's findpar): a closed fold under the cursor counts as one line, so the motion
+// starts beyond it.
+MED_motion.Motion paragraph_in_folds(MED_editor.Editor editor, int directory, int count) {
+    int curr = editor.row;
+    int left = count;
+    int last = editor.buffer.line_count() - 1;
+    while (left > 0) {
+        left = left - 1;
+        bool did_skip = false;
+        bool is_first = true;
+        while (true) {
+            if (curr >= 0 && curr <= last && editor.buffer.line_size(curr) != 0) {
+                did_skip = true;
+            }
+            bool is_fold_skipped = false;
+            if (is_first) {
+                int fold_first = editor.fold_start_of(curr);
+                if (fold_first >= 0) {
+                    int fold_last = editor.fold_end_of(curr);
+                    if (directory > 0) {
+                        curr = fold_last + directory;
+                    } else {
+                        curr = fold_first + directory;
+                    }
+                    is_fold_skipped = true;
+                }
+            }
+            if (!is_first && did_skip && curr >= 0 && curr <= last && MED_motion.is_starts_paragraph(editor.buffer, curr, false)) {
+                break;
+            }
+            if (is_fold_skipped) {
+                curr = curr - directory;
+            }
+            curr = curr + directory;
+            if (curr < 0 || curr > last) {
+                if (left > 0) {
+                    return MED_motion.failed();
+                }
+                curr = curr - directory;
+                break;
+            }
+            is_first = false;
+        }
+    }
+    MED_motion.Motion motion = MED_motion.Motion();
+    motion.row = curr;
+    motion.is_jump = true;
+    motion.col = 0;
+    if (curr == last && directory > 0) {
+        str line = editor.buffer.line(curr);
+        if (line.size() != 0) {
+            motion.col = MED_text.last_col(line);
+            motion.is_inclusive = true;
+        }
+    }
     return motion;
 }
 
@@ -992,6 +1068,9 @@ MED_motion.Motion run_motion_raw(MED_editor.Editor editor, List<int> keys, int c
         int directory = 1;
         if (key == 123) {
             directory = -1;
+        }
+        if (editor.folds.size() > 0 && !editor.is_fold_off) {
+            return paragraph_in_folds(editor, directory, count1(count));
         }
         MED_motion.Motion motion_item = MED_motion.paragraph(editor.buffer, editor.row, directory, count1(count));
         return motion_item;
@@ -5881,9 +5960,20 @@ pub str map_mode(MED_editor.Editor editor) {
 
 /// Process one key in whatever mode `editor` is in.
 pub void feed(MED_editor.Editor editor, int key) {
+    MED_autofold.sync(editor);
     editor.is_restart_skip = false;
+    int tick_before = editor.buffer.tick;
     feed_key(editor, key);
     try_restart(editor);
+    if (editor.buffer.tick != tick_before && editor.mode == MED_editor.NORMAL && editor.folds.size() > 0 && editor.row == editor.buffer.line_count() - 1) {
+        // lines were deleted below the cursor: nvim's check_cursor_lnum() puts the cursor on the first line of a
+        // closed fold that ends the buffer
+        int fold_first = editor.fold_start_of(editor.row);
+        if (fold_first >= 0) {
+            editor.row = fold_first;
+            editor.clamp();
+        }
+    }
     MED_view.update(editor);
 }
 

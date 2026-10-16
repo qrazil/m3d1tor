@@ -1,0 +1,396 @@
+# foldmethod=indent and marker, foldlevel, zm zr zx zX zR zM zj zk [z ]z (0.7.0)
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>zo{>>zm:set fdl=1<CR>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	0,0	:set fdm=indent sw=2 ts=8<CR>jddzxzak
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	10,0	:set fdm=indent sw=2 ts=8<CR>znx[zo<Esc>zzzx
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>pzizzzapgg}
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>zr{}zjzNzM2k
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	8,0	:set fdm=indent sw=2 ts=8<CR>zRzNkyyzNzR
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	8,0	:set fdm=indent sw=2 ts=8<CR>]z
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	2,0	:set fdm=indent sw=2 ts=8<CR>3jddj}
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	3,0	:set fdm=indent sw=2 ts=8<CR>x>>zz}3jjgg
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	4,0	:set fdm=indent sw=2 ts=8<CR>zM
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>zzzv
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	0,0	:set fdm=indent sw=2 ts=8<CR>o<Esc>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	2,0	:set fdm=indent sw=2 ts=8<CR>zMzo
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	7,0	:set fdm=indent sw=2 ts=8<CR>zRpG
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	5,0	:set fdm=indent sw=2 ts=8<CR>:set fml=0<CR>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>za}xkzNzR}
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>[z[zzNGx:set fdl=0<CR>zm
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>yy
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	2,0	:set fdm=indent sw=2 ts=8<CR>zC:set fdl=1<CR>zmJ
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	3,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=2<CR>zmx{:set fdn=2<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	5,0	:set fdm=indent sw=2 ts=8<CR>GzNkGzC
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	5,0	:set fdm=indent sw=2 ts=8<CR>zazz
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	1,0	:set fdm=indent sw=2 ts=8<CR>]zzj:set fdl=2<CR>]z
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>}2kzO{zzG:set fdl=1<CR>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	4,0	:set fdm=indent sw=2 ts=8<CR>zOzn:set fml=2<CR>zc2k]zJ
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>:set fdn=2<CR>:set fml=0<CR>:set fdl=1<CR>zio<Esc>zX
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	5,0	:set fdm=indent sw=2 ts=8<CR>zn]zp>>
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	11,0	:set fdm=indent sw=2 ts=8<CR>zj:set fdl=0<CR>
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>GzoJ
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	5,0	:set fdm=indent sw=2 ts=8<CR>]z>>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	1,0	:set fdm=indent sw=2 ts=8<CR>yy2k
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	1,0	:set fdm=indent sw=2 ts=8<CR>o<Esc>
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	1,0	:set fdm=indent sw=2 ts=8<CR>zxyy:set fdl=2<CR>yyzazc
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	1,0	:set fdm=indent sw=2 ts=8<CR>zN
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	1,0	:set fdm=indent sw=2 ts=8<CR>zo:set fdl=1<CR>3jzA:set fdl=0<CR>
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	6,0	:set fdm=indent sw=2 ts=8<CR>zAG}pzmzj
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>zzzmxzkzXzoo<Esc>
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	2,0	:set fdm=indent sw=2 ts=8<CR>]zzNzR
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	0,0	:set fdm=indent sw=2 ts=8<CR>zi
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>zCzCddzNzcj
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	5,0	:set fdm=indent sw=2 ts=8<CR>o<Esc>zx{
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	3,0	:set fdm=indent sw=2 ts=8<CR>ggdd
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>2k
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	1,0	:set fdm=indent sw=2 ts=8<CR>zmyy2kJzO}zM
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>zkzN3jzR
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	2,0	:set fdm=indent sw=2 ts=8<CR>za
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	6,0	:set fdm=indent sw=2 ts=8<CR>zczX
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>G{zO]z
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	3,0	:set fdm=indent sw=2 ts=8<CR>zXzz:set fdl=2<CR>k:set fml=2<CR>zv
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	2,0	:set fdm=indent sw=2 ts=8<CR>zrzvo<Esc>
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	6,0	:set fdm=indent sw=2 ts=8<CR>zOznza
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	8,0	:set fdm=indent sw=2 ts=8<CR>j
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	7,0	:set fdm=indent sw=2 ts=8<CR>zC:set fdl=0<CR>yy3jG:set fml=0<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>gg{:set fml=0<CR>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	11,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>}J[zyy
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	5,0	:set fdm=indent sw=2 ts=8<CR>[z[z:set fml=0<CR>zN
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	5,0	:set fdm=indent sw=2 ts=8<CR>zozXpzizA
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	2,0	:set fdm=indent sw=2 ts=8<CR>zMjzvzi]zJ{
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	2,0	:set fdm=indent sw=2 ts=8<CR>:set fml=2<CR>:set fml=2<CR>3j:set fml=0<CR>:set fml=2<CR>
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	1,0	:set fdm=indent sw=2 ts=8<CR>ddzmzXdd
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>[zJzkzzzxzN
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	4,0	:set fdm=indent sw=2 ts=8<CR>ggzvzXkzNxzX
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	9,0	:set fdm=indent sw=2 ts=8<CR>zR
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	5,0	:set fdm=indent sw=2 ts=8<CR>zAzvzRzCo<Esc>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>zOyy:set fdl=2<CR>{zM:set fml=2<CR>:set fdl=2<CR>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	3,0	:set fdm=indent sw=2 ts=8<CR>o<Esc>dd:set fdn=2<CR>zx{zR
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>zzzmzvzOzc:set fdl=1<CR>G
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>zNzAk
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	4,0	:set fdm=indent sw=2 ts=8<CR>]z:set fml=0<CR>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	0,0	:set fdm=indent sw=2 ts=8<CR>yy
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	11,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=2<CR>:set fdl=0<CR>x:set fdl=1<CR>zC
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>zrznddzXzMzz
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	2,0	:set fdm=indent sw=2 ts=8<CR>zr]zzozoza
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	8,0	:set fdm=indent sw=2 ts=8<CR>zj:set fdl=1<CR>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	0,0	:set fdm=indent sw=2 ts=8<CR>G:set fml=2<CR>:set fdn=2<CR>zNo<Esc>
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	5,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>:set fdl=1<CR>zk
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	1,0	:set fdm=indent sw=2 ts=8<CR>zvzOyy
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	8,0	:set fdm=indent sw=2 ts=8<CR>zzggzN>>:set fdn=2<CR>[z[z
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	5,0	:set fdm=indent sw=2 ts=8<CR>zRznzazCzj]zyy
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	5,0	:set fdm=indent sw=2 ts=8<CR>[z[zG
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	2,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>2kznzczk
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	8,0	:set fdm=indent sw=2 ts=8<CR>zvgg2kJgg
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>zC
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	10,0	:set fdm=indent sw=2 ts=8<CR>zk]zzazo[zzozm
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>k{pzrzX
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	1,0	:set fdm=indent sw=2 ts=8<CR>zrzozvjzn{
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	8,0	:set fdm=indent sw=2 ts=8<CR>x:set fml=0<CR>:set fdl=0<CR>jyy
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>zzzi[zyyzCzCzR
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	0,0	:set fdm=indent sw=2 ts=8<CR>zjzNkzc
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	7,0	:set fdm=indent sw=2 ts=8<CR>2k>>zn
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	6,0	:set fdm=indent sw=2 ts=8<CR>zizM2kp
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>zix{{zN
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	3,0	:set fdm=indent sw=2 ts=8<CR>zA
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	1,0	:set fdm=indent sw=2 ts=8<CR>>>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	8,0	:set fdm=indent sw=2 ts=8<CR>j:set fml=2<CR>zk]zzkza
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>zOddzkzczOp{
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	10,0	:set fdm=indent sw=2 ts=8<CR>zazrzv]z{
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>ggza
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>]zyyzaddzXzC
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	11,0	:set fdm=indent sw=2 ts=8<CR>zk}zi>>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	2,0	:set fdm=indent sw=2 ts=8<CR>{>>zM
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	1,0	:set fdm=indent sw=2 ts=8<CR>zA:set fdl=0<CR>zCzm{zO
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	0,0	:set fdm=indent sw=2 ts=8<CR>zczkzOzryyj
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>zcddgg[zzOzC:set fdl=2<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=1<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	2,0	:set fdm=indent sw=2 ts=8<CR>zkzc
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	5,0	:set fdm=indent sw=2 ts=8<CR>zX:set fdl=0<CR>}
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	7,0	:set fdm=indent sw=2 ts=8<CR>zCdd[z
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>zNzxzz}
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	4,0	:set fdm=indent sw=2 ts=8<CR>xk
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>zvzN2k
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	5,0	:set fdm=indent sw=2 ts=8<CR>}ko<Esc>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	7,0	:set fdm=indent sw=2 ts=8<CR>:set fml=2<CR>zm
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	1,0	:set fdm=indent sw=2 ts=8<CR>zRznzN
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	6,0	:set fdm=indent sw=2 ts=8<CR>jj
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>zaxx2k
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	8,0	:set fdm=indent sw=2 ts=8<CR>zazjjzO[z
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>3jzXzX:set fdl=0<CR>zO
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	5,0	:set fdm=indent sw=2 ts=8<CR>3jzkzip
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>[zgg}{zOkzm
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	7,0	:set fdm=indent sw=2 ts=8<CR>zaggJ2k
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>]z{zCzn
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	7,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=1<CR>J}pzAzak
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	8,0	:set fdm=indent sw=2 ts=8<CR>zxzN]zxzMzX:set fml=2<CR>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	3,0	:set fdm=indent sw=2 ts=8<CR>kx
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	6,0	:set fdm=indent sw=2 ts=8<CR>}]z:set fml=0<CR>zOzk
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>:set fml=0<CR>:set fml=2<CR>j:set fdl=0<CR>zi
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	4,0	:set fdm=indent sw=2 ts=8<CR>Go<Esc>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	2,0	:set fdm=indent sw=2 ts=8<CR>zNzrddzAdd
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	1,0	:set fdm=indent sw=2 ts=8<CR>gg
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>znJ:set fdl=2<CR>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	8,0	:set fdm=indent sw=2 ts=8<CR>:set fml=2<CR>zr
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>zCzNzczozk:set fml=0<CR>
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	3,0	:set fdm=indent sw=2 ts=8<CR>zC]z:set fdl=2<CR>zCzNzM
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	7,0	:set fdm=indent sw=2 ts=8<CR>{zcyyJ:set fml=2<CR>2k
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	3,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>zCza:set fml=0<CR>zX
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	6,0	:set fdm=indent sw=2 ts=8<CR>zmzn[zzvzO
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	1,0	:set fdm=indent sw=2 ts=8<CR>>>zxzRzzzizi{
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	3,0	:set fdm=indent sw=2 ts=8<CR>J{
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>ggza:set fdn=2<CR>:set fml=0<CR>zr}}
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	3,0	:set fdm=indent sw=2 ts=8<CR>2kzozk
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	7,0	:set fdm=indent sw=2 ts=8<CR>zAp}:set fml=2<CR>zNyy3j
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	1,0	:set fdm=indent sw=2 ts=8<CR>>>:set fdl=0<CR>Gzzdd
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	5,0	:set fdm=indent sw=2 ts=8<CR>2k[zzO:set fml=2<CR>:set fdl=0<CR>2kzj
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	5,0	:set fdm=indent sw=2 ts=8<CR>:set fdn=2<CR>:set fml=2<CR>}]z:set fdl=2<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	5,0	:set fdm=indent sw=2 ts=8<CR>zAzN
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	6,0	:set fdm=indent sw=2 ts=8<CR>gg2k:set fdl=1<CR>zX
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>zzzc:set fdl=2<CR>ddzCzvza
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	3,0	:set fdm=indent sw=2 ts=8<CR>yy
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	2,0	:set fdm=indent sw=2 ts=8<CR>gg
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>zj
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	3,0	:set fdm=indent sw=2 ts=8<CR>zz:set fml=2<CR>[zzr
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	3,0	:set fdm=indent sw=2 ts=8<CR>}ddzkJ3j
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>zj
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=2<CR>zczM:set fml=2<CR>o<Esc>
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	9,0	:set fdm=indent sw=2 ts=8<CR>GzozMyy
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	3,0	:set fdm=indent sw=2 ts=8<CR>kzaxggzi
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	2,0	:set fdm=indent sw=2 ts=8<CR>zz>>o<Esc>zR[zzNzv
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	7,0	:set fdm=indent sw=2 ts=8<CR>zj
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	6,0	:set fdm=indent sw=2 ts=8<CR>o<Esc>>>zA
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	0,0	:set fdm=indent sw=2 ts=8<CR>3j
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>zkjyyzkzczop
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	2,0	:set fdm=indent sw=2 ts=8<CR>zM}2k
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	3,0	:set fdm=indent sw=2 ts=8<CR>[zzozizj
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	11,0	:set fdm=indent sw=2 ts=8<CR>znzA
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	7,0	:set fdm=indent sw=2 ts=8<CR>2k:set fdn=2<CR>o<Esc>zA:set fdl=0<CR>gg
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	1,0	:set fdm=indent sw=2 ts=8<CR>:set fdn=2<CR>zzx:set fdl=0<CR>{
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	0,0	:set fdm=indent sw=2 ts=8<CR>zvzx
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	1,0	:set fdm=indent sw=2 ts=8<CR>}pzozkk
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	5,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=0<CR>
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	0,0	:set fdm=indent sw=2 ts=8<CR>:set fdl=2<CR>ddzzzxzN
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	3,0	:set fdm=indent sw=2 ts=8<CR>zjzi:set fml=2<CR>zczm
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	1,0	:set fdm=indent sw=2 ts=8<CR>za:set fdl=0<CR>zA
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	1,0	:set fdm=indent sw=2 ts=8<CR>pzk
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	0,0	:set fdm=indent sw=2 ts=8<CR>zM:set fdl=2<CR>
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	4,0	:set fdm=indent sw=2 ts=8<CR>zx
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>zXzvGJzn
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	4,0	:set fdm=indent sw=2 ts=8<CR>{zMzOx
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	2,0	:set fdm=indent sw=2 ts=8<CR>gg2k2k
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	2,0	:set fdm=indent sw=2 ts=8<CR>}:set fdl=2<CR>yyzz
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	2,0	:set fdm=indent sw=2 ts=8<CR>zAzczvG
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	3,0	:set fdm=indent sw=2 ts=8<CR>zozzo<Esc>zAzo>>zj
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>}3j}2kzOzn
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	0,0	:set fdm=indent sw=2 ts=8<CR>zm:set fdl=0<CR>zNzkp
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	5,0	:set fdm=indent sw=2 ts=8<CR>zx
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	4,0	:set fdm=indent sw=2 ts=8<CR>zx:set fml=2<CR>]z
+  lead\n  same\nless\n  more\n  more2\n    deeper\n	1,0	:set fdm=indent sw=2 ts=8<CR>o<Esc>>>3jzozxzCk
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	1,0	:set fdm=indent sw=2 ts=8<CR>2k:set fdl=2<CR>zm
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	7,0	:set fdm=indent sw=2 ts=8<CR>ggk>>zk{zC
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	10,0	:set fdm=indent sw=2 ts=8<CR>yyzczizv:set fdn=2<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	3,0	:set fdm=indent sw=2 ts=8<CR>G
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	4,0	:set fdm=indent sw=2 ts=8<CR>zv{j
+a\n  b\n\n  c\n    d\n\n\ne\n  f\n# x\n  g\nh	6,0	:set fdm=indent sw=2 ts=8<CR>zOzm{zvGza
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	3,0	:set fdm=indent sw=2 ts=8<CR>zro<Esc>>>zX:set fdn=2<CR>
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	11,0	:set fdm=indent sw=2 ts=8<CR>:set fml=2<CR>>>[z{znzz
+one\n  two\n    three\n      four\n    five\n  six\nseven\n  eight\nnine	5,0	:set fdm=indent sw=2 ts=8<CR>2k:set fdn=2<CR>
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	7,0	:set fdm=indent sw=2 ts=8<CR>]zzc3jzC
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	9,0	:set fdm=indent sw=2 ts=8<CR>zM>>:set fdl=2<CR>
+top\n  a\n  b\n    c\n    d\n  e\ntop2\n  f\n    g\n      h\n  i\nlast	2,0	:set fdm=indent sw=2 ts=8<CR>}zNzOzC
+x\n    y\n    z\n  w\nq\n\t\tdeep\n\tmid\nend	6,0	:set fdm=indent sw=2 ts=8<CR>[zzz
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	6,0	:set fdm=marker<CR>zo{>>zm:set fdl=1<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	0,0	:set fdm=marker<CR>jddzxzak
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	3,0	:set fdm=marker<CR>znx[zo<Esc>zzzx
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>zizzza
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	6,0	:set fdm=marker<CR>}
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zr{}zjzNzM2k
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	4,0	:set fdm=marker<CR>zRzNkyyzNzR
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>]z
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	6,0	:set fdm=marker<CR>3jddj}[z
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>zk2k
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	3,0	:set fdm=marker<CR>zi3j
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>gg
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>zM
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zzzv
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	0,0	:set fdm=marker<CR>o<Esc>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>zMzo
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	7,0	:set fdm=marker<CR>zRpG
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>:set fml=0<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	5,0	:set fdm=marker<CR>za}xkzNzR}
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	4,0	:set fdm=marker<CR>zkzo
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	0,0	:set fdm=marker<CR>zvzzzjzmJ}
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	4,0	:set fdm=marker<CR>zmx
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	4,0	:set fdm=marker<CR>:set fdn=2<CR>}GzN
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>GzC
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>zazz
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>]zzj:set fdl=2<CR>]z
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	6,0	:set fdm=marker<CR>}2kzO{zzG:set fdl=1<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	4,0	:set fdm=marker<CR>zOzn:set fml=2<CR>zc2k]zJ
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	2,0	:set fdm=marker<CR>:set fdl=0<CR>:set fdn=2<CR>:set fml=0<CR>:set fdl=1<CR>zio<Esc>zX
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>zn]zp>>
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	9,0	:set fdm=marker<CR>zj:set fdl=0<CR>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	8,0	:set fdm=marker<CR>zN:set fdl=0<CR>J:set fdl=2<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	5,0	:set fdm=marker<CR>zMyy2k:set fdl=0<CR>:set fml=0<CR>:set fml=2<CR>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	5,0	:set fdm=marker<CR>yy:set fdl=2<CR>
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>zazck
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	5,0	:set fdm=marker<CR>zo
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>p
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>zA:set fdl=0<CR>:set fdn=2<CR>zA
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>:set fml=2<CR>pzm
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	2,0	:set fdm=marker<CR>:set fdl=0<CR>zzzmxzkzX
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	6,0	:set fdm=marker<CR>x]z]zzNzRk
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>:set fdl=0<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	2,0	:set fdm=marker<CR>zvddzNzcj
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	5,0	:set fdm=marker<CR>o<Esc>zx{
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	5,0	:set fdm=marker<CR>ggdd
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>}
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	6,0	:set fdm=marker<CR>zmyy2kJzO
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	7,0	:set fdm=marker<CR>zmzk
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>znzRzjzczazc
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	3,0	:set fdm=marker<CR>zczXznxG{zO
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zOddzz:set fdl=2<CR>k
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>zmzA
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>zvo<Esc>zR
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	0,0	:set fdm=marker<CR>zmznzak
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>:set fdl=0<CR>zC:set fdl=0<CR>yy3jG
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	6,0	:set fdm=marker<CR>3jzN{:set fml=0<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	2,0	:set fdm=marker<CR>:set fdl=0<CR>}J[zyy
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	3,0	:set fdm=marker<CR>zrjxggzo
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>pzizAzNzMj
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	1,0	:set fdm=marker<CR>]zJ{}:set fml=2<CR>:set fml=2<CR>3j
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	5,0	:set fdm=marker<CR>zR
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	1,0	:set fdm=marker<CR>ddzmzXdd
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	2,0	:set fdm=marker<CR>[zJzkzzzxzN
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	6,0	:set fdm=marker<CR>ggzvzXkzNxzX
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>:set fdn=2<CR>o<Esc>
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	2,0	:set fdm=marker<CR>zRzCo<Esc>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	0,0	:set fdm=marker<CR>zOyy:set fdl=2<CR>{zM:set fml=2<CR>:set fdl=2<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>o<Esc>dd:set fdn=2<CR>zx{zR
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	6,0	:set fdm=marker<CR>zzzmzvzOzc:set fdl=1<CR>G
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zNzAk
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>]z:set fml=0<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	0,0	:set fdm=marker<CR>yy
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	4,0	:set fdm=marker<CR>:set fdl=2<CR>:set fdl=0<CR>x:set fdl=1<CR>zC
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>ggzvzXzMzzzk
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>]zzozoza
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	8,0	:set fdm=marker<CR>zj:set fdl=1<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	0,0	:set fdm=marker<CR>G:set fml=2<CR>:set fdn=2<CR>zNo<Esc>
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	5,0	:set fdm=marker<CR>:set fdl=0<CR>:set fdl=1<CR>zk
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	1,0	:set fdm=marker<CR>zvzOyy
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	4,0	:set fdm=marker<CR>zzggzN>>:set fdn=2<CR>[z[z
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>zRznzazCzj]zyy
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	5,0	:set fdm=marker<CR>[z[zG
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>:set fdl=0<CR>2kznzczk
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	8,0	:set fdm=marker<CR>zvgg2kJgg
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>:set fdl=0<CR>zC
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	2,0	:set fdm=marker<CR>zk]zzazo[zzozm
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	3,0	:set fdm=marker<CR>2k{pzrzX2kzr
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	0,0	:set fdm=marker<CR>zvjzn{:set fml=2<CR>x:set fml=0<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	4,0	:set fdm=marker<CR>jyyG
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>[zyyzCzC
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	4,0	:set fdm=marker<CR>xzjzN
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	6,0	:set fdm=marker<CR>j
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>2k>>znzO
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	5,0	:set fdm=marker<CR>kzv
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>zi}zix{
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>zc:set fdl=2<CR>zxza
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>zazMzczk
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>zazizOdd
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	0,0	:set fdm=marker<CR>zkzczOp{zO>>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>zrzv]z{
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>zaddzXzCzizk
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>zi>>dd{>>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	8,0	:set fdm=marker<CR>zMo<Esc>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	2,0	:set fdm=marker<CR>[z
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>>>zCzv
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	9,0	:set fdm=marker<CR>zkzOzryyjyy
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>dd
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	5,0	:set fdm=marker<CR>zn:set fdl=0<CR>zOzAzj
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	4,0	:set fdm=marker<CR>za
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>zkzc
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>zX:set fdl=0<CR>}
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	7,0	:set fdm=marker<CR>zCdd[z
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zNzxzz}
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	4,0	:set fdm=marker<CR>xk
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zvzN2k
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	5,0	:set fdm=marker<CR>}ko<Esc>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	7,0	:set fdm=marker<CR>:set fml=2<CR>zm
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	1,0	:set fdm=marker<CR>zRznzN
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	5,0	:set fdm=marker<CR>jj
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	4,0	:set fdm=marker<CR>zazjjzO[z
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	0,0	:set fdm=marker<CR>3jzXzX:set fdl=0<CR>zO
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	5,0	:set fdm=marker<CR>3jzkzip
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	3,0	:set fdm=marker<CR>[zgg}{zOkzm
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	7,0	:set fdm=marker<CR>zaggJ2k
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	6,0	:set fdm=marker<CR>]z{zCzn
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	7,0	:set fdm=marker<CR>:set fdl=1<CR>J}pzAzak
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	4,0	:set fdm=marker<CR>zxzN]zxzMzX:set fml=2<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>kx
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	6,0	:set fdm=marker<CR>}]z:set fml=0<CR>zOzk
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	2,0	:set fdm=marker<CR>:set fml=0<CR>:set fml=2<CR>j:set fdl=0<CR>zi
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>Go<Esc>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	6,0	:set fdm=marker<CR>zNzrddzAdd
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>zcggzv3jJ:set fdl=2<CR>zx
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	6,0	:set fdm=marker<CR>zrzXzzzr:set fdl=1<CR>zk:set fml=0<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>zC]z:set fdl=2<CR>zCzNzM
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>{zcyyJ:set fml=2<CR>2k
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	3,0	:set fdm=marker<CR>:set fdl=0<CR>zCza:set fml=0<CR>zX
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>zmzn[zzvzO
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>]zdd:set fdl=2<CR>zz
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>ddzi{:set fdl=2<CR>kzjzN
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	0,0	:set fdm=marker<CR>:set fdn=2<CR>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>zMzrznzrzozkzM
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	6,0	:set fdm=marker<CR>:set fml=2<CR>:set fml=2<CR>zNyy
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	5,0	:set fdm=marker<CR>zk>>:set fdl=0<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	0,0	:set fdm=marker<CR>dd:set fml=2<CR>2k[zzO
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>:set fdl=0<CR>2kzjzozc
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	1,0	:set fdm=marker<CR>]z:set fdl=2<CR>2k
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	1,0	:set fdm=marker<CR>za}2kzvzj
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	4,0	:set fdm=marker<CR>zNzc:set fdl=2<CR>ddzCzvza
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	6,0	:set fdm=marker<CR>yy
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	0,0	:set fdm=marker<CR>zzpzC:set fdl=0<CR>zj:set fdl=0<CR>zR
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	0,0	:set fdm=marker<CR>3jj:set fml=0<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	0,0	:set fdm=marker<CR>zj:set fdl=1<CR>zM
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	2,0	:set fdm=marker<CR>p}
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>zozMyyx
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	6,0	:set fdm=marker<CR>za
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>zi}zz
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>o<Esc>zR[zzNzv
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>zj
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	3,0	:set fdm=marker<CR>o<Esc>>>zA
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	6,0	:set fdm=marker<CR>3j
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	9,0	:set fdm=marker<CR>zkjyy
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	1,0	:set fdm=marker<CR>gg:set fdn=2<CR>
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	6,0	:set fdm=marker<CR>zizx:set fdn=2<CR>zM}2kzn
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	1,0	:set fdm=marker<CR>zozizjzx
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	5,0	:set fdm=marker<CR>zAyy2k:set fdn=2<CR>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>zA:set fdl=0<CR>gg}
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	1,0	:set fdm=marker<CR>:set fdn=2<CR>zzx:set fdl=0<CR>{
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	0,0	:set fdm=marker<CR>zvzx
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	1,0	:set fdm=marker<CR>}pzozkk
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>:set fdl=0<CR>
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	0,0	:set fdm=marker<CR>:set fdl=2<CR>ddzzzxzN
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>zjzi:set fml=2<CR>zczm
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	1,0	:set fdm=marker<CR>za:set fdl=0<CR>zA
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	4,0	:set fdm=marker<CR>pzk
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	1,0	:set fdm=marker<CR>zxzO:set fdl=1<CR>zO
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	3,0	:set fdm=marker<CR>[zzXzv
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	7,0	:set fdm=marker<CR>znzn:set fdl=2<CR>
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	4,0	:set fdm=marker<CR>zOx
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	2,0	:set fdm=marker<CR>gg2k2k
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>}:set fdl=2<CR>yyzz
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	2,0	:set fdm=marker<CR>zAzczvG
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	3,0	:set fdm=marker<CR>zozzo<Esc>zAzo>>zj
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	0,0	:set fdm=marker<CR>}3j}2kzOzn
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	0,0	:set fdm=marker<CR>zm:set fdl=0<CR>zNzkp
+{{{1 one\nx\n{{{2 two\ny\n}}}2\nz\n}}}1\nw	5,0	:set fdm=marker<CR>zx
+{{{3 deep\nx\n}}}3\ny {{{\nz\n}}}	4,0	:set fdm=marker<CR>zx:set fml=2<CR>]z
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	0,0	:set fdm=marker<CR>2k:set fdl=2<CR>zm
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	3,0	:set fdm=marker<CR>ggk>>zk{zC
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>yyzczizv:set fdn=2<CR>
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	4,0	:set fdm=marker<CR>zxzv
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	2,0	:set fdm=marker<CR>pp:set fml=0<CR>zm
+head {{{\n  a\n  b {{{ c }}}\n  d\n}}}\nnext {{{\nq\n}}}\nend	2,0	:set fdm=marker<CR>{zvGza[zzro<Esc>
+a\n{{{\nb\n}}}\n}}}\nc {{{\nd	3,0	:set fdm=marker<CR>zX:set fdl=1<CR>:set fml=2<CR>>>[z{
+a {{{\nb\nc }}}\nd\ne {{{\nf {{{\ng\nh }}}\ni }}}\nj	5,0	:set fdm=marker<CR>zzo<Esc>2k:set fdn=2<CR>
