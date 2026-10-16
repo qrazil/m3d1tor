@@ -20,8 +20,10 @@ import tui.core.TUI_buffer;
 import tui.core.TUI_geometry;
 import tui.core.TUI_mouse;
 import tui.core.TUI_style;
+import ui.MED_theme;
 import ui.MED_app;
 import ui.MED_clip;
+import ui.MED_sample;
 import ui.MED_state;
 
 // How many colours the terminal has: truecolor when it says so (COLORTERM,
@@ -46,7 +48,22 @@ TUI_style.Depth colour_depth() {
     return TUI_style.Depth.Ansi16;
 }
 
-const str VERSION = "0.4.0";
+// Whether that is the 16-colour ANSI palette and no more.
+bool is_sixteen(TUI_style.Depth depth) {
+    match (depth) {
+        case Ansi16: {
+            return true;
+        }
+        case Ansi256: {
+            return false;
+        }
+        case TrueColour: {
+            return false;
+        }
+    }
+}
+
+const str VERSION = "0.5.0";
 
 // Standard output, for the options that print and exit.
 void say(str text) {
@@ -66,9 +83,49 @@ for (str argument in arguments) {
         os.exit(0);
     }
     if (argument == "--help" || argument == "-h") {
-        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [-u KEYMAP|NONE] [FILE...]\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\n");
+        say("m3 " + VERSION + "\nusage: m3 [--no-mouse] [-u KEYMAP|NONE] [--theme NAME] [FILE...]\n       m3 [--theme NAME] [--colors 16|256|true] --dump-sample\nkeys: Vim; <Space> leader (which-key), <Space>ff files, <Space>e file tree, <Space>? all keys, :Plugins, :q quits\ncolours: :theme NAME (Tab lists them), <Space>fC picks one, ~/.config/m3/themes/NAME.toml adds one\n");
         os.exit(0);
     }
+}
+// --theme NAME starts with that theme; --dump-sample writes the theme (every
+// built-in one without --theme) drawn on sample code as ANSI text and exits;
+// --colors picks the depth it is written at.
+str theme_name = "";
+bool is_dump = false;
+str dump_colours = "";
+int flag_index = 1;
+while (flag_index < arguments.size()) {
+    if (arguments[flag_index] == "--theme" && flag_index + 1 < arguments.size()) {
+        theme_name = arguments[flag_index + 1];
+        flag_index = flag_index + 2;
+    } else if (arguments[flag_index] == "--colors" && flag_index + 1 < arguments.size()) {
+        dump_colours = arguments[flag_index + 1];
+        flag_index = flag_index + 2;
+    } else {
+        if (arguments[flag_index] == "--dump-sample") {
+            is_dump = true;
+        }
+        flag_index = flag_index + 1;
+    }
+}
+if (is_dump) {
+    TUI_style.Depth depth = colour_depth();
+    if (dump_colours == "16") {
+        depth = TUI_style.Depth.Ansi16;
+    } else if (dump_colours == "256") {
+        depth = TUI_style.Depth.Ansi256;
+    } else if (dump_colours == "true" || dump_colours == "24") {
+        depth = TUI_style.Depth.TrueColour;
+    }
+    str themes_directory = MED_theme.default_user_directory();
+    List<str> wanted = [theme_name];
+    if (theme_name == "") {
+        wanted = MED_theme.available(themes_directory);
+    }
+    for (str one in wanted) {
+        say(MED_sample.screens(one, themes_directory, depth));
+    }
+    os.exit(0);
 }
 if (!term.is_terminal(0) || !term.is_terminal(1)) {
     io.eprint("m3: needs a terminal on standard input and output\n");
@@ -84,6 +141,8 @@ while (arg_index < arguments.size()) {
     if (arguments[arg_index] == "--no-mouse") {
         is_mouse = false;
         arg_index = arg_index + 1;
+    } else if ((arguments[arg_index] == "--theme" || arguments[arg_index] == "--colors") && arg_index + 1 < arguments.size()) {
+        arg_index = arg_index + 2;
     } else if (arguments[arg_index] == "-u" && arg_index + 1 < arguments.size()) {
         keymap = arguments[arg_index + 1];
         is_keymap_required = true;
@@ -116,6 +175,10 @@ match (MED_app.open_all(files)) {
         if (is_light_background()) {
             app.editor.opts.set("background", "light");
         }
+        // themes: user files first, the 16-colour twin of the default at 16 colours
+        app.theme_directory = MED_theme.default_user_directory();
+        app.is_sixteen_colours = is_sixteen(colour_depth());
+        app.did_use_theme(MED_theme.DARK);
         app.clipboard = MED_clip.detect();
         app.editor.regs.has_clipboard = app.clipboard.is_present;
         app.load_keymap(keymap, is_keymap_required);
@@ -123,6 +186,10 @@ match (MED_app.open_all(files)) {
             // -u NONE is a clean run: no state files either
             app.state_directory = MED_state.default_directory();
             app.restore_position();
+        }
+        if (theme_name != "") {
+            // after the keymap file, so the flag wins over its :colorscheme
+            app.did_use_theme(theme_name);
         }
         TUI_app.Loop loop = TUI_app.Loop(should_report_paste: true, should_report_mouse: is_mouse, animate_ms: 50, depth: colour_depth());
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {

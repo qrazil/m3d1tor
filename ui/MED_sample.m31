@@ -1,0 +1,121 @@
+// `m3 --dump-sample`: a few screens drawn by the editor's own renderer through a
+// theme, written as ANSI text. It is a way to look at a theme (or at all the
+// built-in ones, one after the other) without opening an editor, and to see the
+// colours at 16, 256 or 24 bits as `tui` would write them:
+//
+//     m3 --theme tokyonight --dump-sample
+//     m3 --dump-sample --colors 256 | less -R
+//
+// Seven screens: Rust, Python, C, Markdown, JSON and shell code (the Rust one
+// with a search match and the cursor line, Python with a Visual selection, C in
+// Insert mode, the shell one with the command line open: the statusline mode
+// colours), then the file picker's theme list and the which-key popup.
+
+import tui.core.TUI_buffer;
+import tui.core.TUI_style;
+import engine.MED_ex;
+import engine.MED_key;
+import ui.MED_theme;
+import ui.MED_app;
+
+const int WIDTH = 78;
+const int ROWS = 13;
+
+/// One screen of code: a file name (the language), its text, and keys that put
+/// the editor in a state worth looking at.
+type Sample {
+    str path;
+    str text;
+    str keys = "";
+}
+
+List<Sample> samples() {
+    return [Sample("sample.rs", "use std::collections::HashMap;\n\n/// Counts the words of `text`.\npub fn count(text: &str) -> HashMap<String, usize> {\n    let mut seen = HashMap::new();\n    for word in text.split_whitespace() {\n        *seen.entry(word.to_lowercase()).or_insert(0) += 1; // 0x1F\n    }\n    seen\n}\n\n#[test]\nfn counts() { assert_eq!(count(\"a a\").len(), 1); }\n", keys: "3j/seen<CR>"), Sample("sample.py", "import json\n\nclass Cache(dict):\n    \"\"\"A tiny cache.\"\"\"\n    def get_or(self, key, default=None):\n        if key in self:\n            return self[key]\n        print(f\"miss {key!r}\")  # TODO: log it\n        return default\n\n@staticmethod\ndef load(path: str) -> \"Cache\":\n    return Cache(json.load(open(path)))\n", keys: "4jVj"), Sample("sample.c", "#include <stdio.h>\n#define LIMIT 0x40\n\nstatic int sum(const int *items, size_t count) {\n    int total = 0;\n    for (size_t i = 0; i < count; i++) {\n        total += items[i];\n    }\n    return total; /* done */\n}\n\nint main(void) { printf(\"%d\\n\", sum(NULL, 0)); }\n", keys: "3jA"), Sample("sample.md", "# Title\n\nSome *emphasis*, **strong**, `code` and a [link](https://example.com).\n\n- item one\n- item two\n\n> a quote\n\n```rust\nfn main() {}\n```\n", keys: ""), Sample("sample.json", "{\n  \"name\": \"m3\",\n  \"version\": 5,\n  \"ok\": true,\n  \"tags\": [\"editor\", \"vim\", null],\n  \"nested\": { \"pi\": 3.14, \"text\": \"a\\tb\" }\n}\n", keys: "jj"), Sample("sample.sh", "#!/bin/sh\n# say hello\nNAME=\"${1:-world}\"\nif [ -n \"$NAME\" ]; then\n    echo \"hello, $NAME\" | tr a-z A-Z\nfi\nfor f in *.txt; do wc -l \"$f\"; done\n", keys: ":set list")];
+}
+
+/// The cells of `buffer` as ANSI text (colours at `depth`), one line a row.
+pub str ansi_of(TUI_buffer.Buffer buffer, TUI_style.Depth depth) {
+    bytes out = [];
+    for (int y in 0 .. buffer.area().height) {
+        int pen = TUI_style.RESET_STYLE;
+        for (int x in 0 .. buffer.area().width) {
+            if (buffer.width_at(x, y) == 0) {
+                continue;
+            }
+            int packed = buffer.style_at(x, y);
+            TUI_style.sgr(out, pen, packed, depth);
+            pen = packed;
+            buffer.append_symbol(out, x, y);
+        }
+        TUI_style.push_reset(out);
+        out.push(10);
+    }
+    match (out.utf8()) {
+        case Some(str text): {
+            return text;
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+/// A fresh editor showing `sample` (and an empty second buffer, for the tab line).
+MED_app.App app_for(Sample sample, str theme_name, str themes_directory, TUI_style.Depth depth) {
+    match (MED_app.open_all([sample.path, "other.txt"])) {
+        case Ok(MED_app.App app): {
+            app.theme_directory = themes_directory;
+            match (depth) {
+                case Ansi16: {
+                    app.is_sixteen_colours = true;
+                }
+                case Ansi256: {
+                }
+                case TrueColour: {
+                }
+            }
+            app.did_use_theme(theme_name);
+            app.editor.buffer.lines = sample.text.split("\n");
+            app.editor.buffer.dirty_row = 0;
+            app.editor.opts.set("cursorline", "true");
+            app.editor.opts.set("colorcolumn", "70");
+            app.editor.opts.set("indentguides", "true");
+            MED_ex.feed_keys(app.editor, MED_key.parse(sample.keys));
+            app.notice = "";
+            return app;
+        }
+        case Err(str message): {
+            trap("sample: " + message);
+        }
+    }
+}
+
+/// The screens of theme `name` as ANSI text, led by a title line. A theme that
+/// does not load gives its error instead.
+pub str screens(str name, str themes_directory, TUI_style.Depth depth) {
+    str out = "== theme " + name + " ==\n";
+    match (MED_theme.load(name, themes_directory)) {
+        case Ok(MED_theme.Theme loaded): {
+        }
+        case Err(str message): {
+            return out + "cannot load: " + message + "\n";
+        }
+    }
+    for (Sample sample in samples()) {
+        MED_app.App app = app_for(sample, name, themes_directory, depth);
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(WIDTH, ROWS);
+        app.render(screen, screen.area());
+        out = out + ansi_of(screen, depth);
+    }
+    MED_app.App picker_app = app_for(samples()[0], name, themes_directory, depth);
+    picker_app.open_picker("themes", "");
+    TUI_buffer.Buffer picker_screen = TUI_buffer.Buffer.sized(WIDTH, ROWS + 4);
+    picker_app.render(picker_screen, picker_screen.area());
+    out = out + ansi_of(picker_screen, depth);
+    MED_app.App keys_app = app_for(samples()[0], name, themes_directory, depth);
+    keys_app.is_leader = true;
+    keys_app.is_which_key = true;
+    TUI_buffer.Buffer keys_screen = TUI_buffer.Buffer.sized(WIDTH, ROWS + 4);
+    keys_app.render(keys_screen, keys_screen.area());
+    return out + ansi_of(keys_screen, depth);
+}

@@ -280,6 +280,8 @@ pub type Editor {
     pub str comp_tail = "";
     pub List<str> buffer_names = [];
     pub List<str> extra_commands = [];
+    /// The theme names `:theme` and `:colorscheme` complete (set by the front end).
+    pub List<str> theme_names = [];
     pub List<str> hist_search = [];
     pub int hist_at = -1;
     pub str hist_prefix = "";

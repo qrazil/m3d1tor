@@ -110,6 +110,8 @@ pub type Picker {
     pub str query = "";
     pub int selected = 0;
     pub int top = 0;
+    /// A narrow box on the left that leaves the text visible (the theme picker).
+    pub bool is_side = false;
     pub bool is_hidden_shown = false;
     pub bool is_ignore_used = true;
     pub bool is_fixed = false;

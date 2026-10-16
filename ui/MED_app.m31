@@ -52,6 +52,7 @@ import ui.MED_picker_view;
 import engine.MED_text;
 import engine.MED_regex;
 import engine.MED_search;
+import ui.MED_theme;
 import ui.MED_tree;
 import ui.MED_window;
 import engine.MED_view;
@@ -60,8 +61,6 @@ import engine.MED_view;
 const int FOOTER_ROWS = 2;
 /// How often (ms) HEAD is read again for the git gutter.
 const int GIT_REFRESH_MS = 3000;
-/// Visual selection background (a palette grey).
-const int SELECTION_COLOUR = 240;
 /// Lines the mouse wheel scrolls per notch.
 const int WHEEL_LINES = 3;
 /// Quiet time (ms) after typing in the grep prompt before the search runs.
@@ -251,6 +250,16 @@ pub type App {
     /// Where the active window's cursor was drawn.
     pub int cursor_x = 0;
     pub int cursor_y = 0;
+    /// The colour theme every drawing call looks its styles up in, the
+    /// directory user themes are read from ("" for none), whether the terminal
+    /// has only 16 colours, and the `background` option as the theme last saw it.
+    pub MED_theme.Theme theme = MED_theme.plain();
+    pub str theme_directory = "";
+    pub bool is_sixteen_colours = false;
+    str theme_background = "dark";
+    /// The theme picker is open: the theme to return to when it is cancelled.
+    bool is_theme_picker = false;
+    str theme_before = "";
 }
 
 /// Whether the text differs from what was last written (undo back to the
@@ -746,6 +755,8 @@ void App.run_request(str request) {
         go_quickfix(0);
     } else if (name == "clast") {
         go_quickfix(2);
+    } else if (name == "theme" || name == "colorscheme") {
+        run_theme_command(arg.trim());
     } else if (name == "Plugins" || name == "PluginEnable" || name == "PluginDisable") {
         run_plugin_command(name, arg.trim());
     } else if (name == "Neotree" || name == "NeoTree") {
@@ -760,6 +771,102 @@ void App.run_request(str request) {
         }
     } else {
         notice = "Not supported yet: :" + request.trim();
+    }
+}
+
+/// The theme loaded for `name`: the 16-colour twin of `default` and
+/// `default-light` when the terminal has no more colours than that.
+str App.theme_choice(str name) {
+    if (is_sixteen_colours && name == MED_theme.DARK) {
+        return MED_theme.DARK_16;
+    }
+    if (is_sixteen_colours && name == MED_theme.LIGHT) {
+        return MED_theme.LIGHT_16;
+    }
+    return name;
+}
+
+/// Switch to theme `name` (a user file in the themes directory, else a
+/// built-in). On failure the theme in use stays and `notice` says why; a
+/// theme with entries that could not be read still loads and says so.
+pub bool App.did_use_theme(str name) {
+    str chosen = theme_choice(name);
+    match (MED_theme.load(chosen, theme_directory)) {
+        case Ok(MED_theme.Theme loaded): {
+            theme = loaded;
+            theme_background = editor.opts.get("background").or("dark");
+            if (loaded.warnings.size() > 0) {
+                notice = loaded.warnings[0];
+                if (loaded.warnings.size() > 1) {
+                    notice = notice + " (and " + (loaded.warnings.size() - 1).to_str() + " more)";
+                }
+            }
+            return true;
+        }
+        case Err(str message): {
+            notice = message;
+            if (message.starts_with("unknown theme")) {
+                notice = message + " (:theme <Tab> lists them)";
+            }
+            return false;
+        }
+    }
+}
+
+/// `:theme` shows the theme in use, `:theme NAME` (and `:colorscheme NAME`)
+/// switches to it.
+void App.run_theme_command(str name) {
+    if (name.size() == 0) {
+        notice = "theme: " + theme.name + " (" + MED_theme.available(theme_directory).size().to_str() + " available, :theme <Tab>)";
+        return;
+    }
+    if (did_use_theme(name) && notice.size() == 0) {
+        notice = "theme: " + theme.name;
+    }
+}
+
+/// `:set background=dark|light` moves between the default themes, as Vim moves
+/// between its default colours; any other theme stays as it is.
+void App.follow_background() {
+    str wanted = editor.opts.get("background").or("dark");
+    if (wanted == theme_background) {
+        return;
+    }
+    theme_background = wanted;
+    if (theme.name == MED_theme.DARK || theme.name == MED_theme.LIGHT || theme.name == MED_theme.DARK_16 || theme.name == MED_theme.LIGHT_16) {
+        did_use_theme(MED_theme.default_for(wanted == "light", false));
+    }
+}
+
+/// While the theme picker is open, the highlighted theme is the one in use.
+void App.preview_selected_theme() {
+    match (picker.current()) {
+        case Some(MED_picker.Entry entry): {
+            if (!entry.action.starts_with("ex:theme ")) {
+                return;
+            }
+            str wanted = entry.action.substr(9, entry.action.size());
+            if (theme_choice(wanted) != theme.name) {
+                str kept = notice;
+                did_use_theme(wanted);
+                notice = kept;
+            }
+        }
+        case None: {
+        }
+    }
+}
+
+/// The theme picker closed: a cancel puts back the theme it was opened with.
+void App.end_theme_picker(bool is_cancelled) {
+    if (!is_theme_picker) {
+        return;
+    }
+    is_theme_picker = false;
+    if (is_cancelled) {
+        str kept = notice;
+        did_use_theme(theme_before);
+        notice = kept;
     }
 }
 
@@ -857,15 +964,25 @@ void App.run_app_action(str spec) {
     }
 }
 
+/// Run the requests the engine queued, and the ones those queue in turn (a
+/// `:source`d file's `:theme` lines).
+void App.run_requests() {
+    int rounds = 0;
+    while (editor.requests.size() > 0 && rounds < 20) {
+        rounds = rounds + 1;
+        List<str> requests = editor.requests;
+        editor.requests = [];
+        for (str request in requests) {
+            run_request(request);
+        }
+    }
+}
+
 /// Run the pending requests, then say whether the editor should quit now. A
 /// quit with unsaved changes is refused the way Vim refuses it (E37, or E162
 /// for another buffer) unless it was forced.
 bool App.did_finish() {
-    List<str> requests = editor.requests;
-    editor.requests = [];
-    for (str request in requests) {
-        run_request(request);
-    }
+    run_requests();
     if (editor.message.contains("\n") && editor.mode != MED_editor.CMDLINE) {
         overlay = editor.message.split("\n");
     }
@@ -937,8 +1054,8 @@ int App.tabline_rows() {
 
 /// The buffer list on the first row: ` 1 name `, the current one reversed.
 void App.draw_tabline(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
-    TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.DIM | TUI_style.REVERSE);
-    TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
+    TUI_style.Style bar = theme.look("ui.bufferline");
+    TUI_style.Style current = theme.over("ui.bufferline", "ui.bufferline.active");
     buffer.fill(TUI_geometry.Rect(area.x, area.y, area.width, 1), " ", bar);
     int x = area.x;
     if (pages.size() >= 2) {
@@ -2271,10 +2388,11 @@ void App.draw_tree(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     }
     int rows = height - 2;
     tree.scroll_to(rows);
-    TUI_style.Style plain = TUI_style.Style();
-    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
-    TUI_style.Style folder = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4), attrs: TUI_style.BOLD);
-    TUI_style.Style header = TUI_style.Style(attrs: TUI_style.BOLD);
+    TUI_style.Style plain = theme.look("ui.text");
+    TUI_style.Style dim = theme.look("ui.window");
+    TUI_style.Style folder = theme.look("ui.tree.directory");
+    TUI_style.Style hidden = theme.look("ui.tree.hidden");
+    TUI_style.Style header = theme.look("ui.picker.title");
     for (int y in 0 .. height) {
         for (int x in 0 .. side) {
             buffer.set_str(area.x + x, area.y + y, " ", plain);
@@ -2296,13 +2414,13 @@ void App.draw_tree(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
         if (entry.is_directory) {
             look = folder;
         } else if (entry.name.starts_with(".")) {
-            look = dim;
+            look = hidden;
         }
         bool is_selected = index == tree.row;
         if (is_selected) {
-            look = TUI_style.Style(attrs: TUI_style.BOLD);
+            look = plain.with_attrs(TUI_style.BOLD);
             if (tree.is_focused) {
-                look = TUI_style.Style(attrs: TUI_style.REVERSE);
+                look = theme.look("ui.menu.selected");
             }
             for (int x in 0 .. side) {
                 buffer.set_str(area.x + x, area.y + 1 + line, " ", look);
@@ -2311,15 +2429,13 @@ void App.draw_tree(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
         str text = clip_cells(entry.label(tree.has_glyphs), side - 3);
         buffer.set_str(area.x, area.y + 1 + line, text, look);
         if (entry.status.size() > 0) {
-            int colour = 3;
+            str scope = "diff.delta";
             if (entry.status == "A" || entry.status == "?") {
-                colour = 2;
+                scope = "diff.plus";
             } else if (entry.status == "D" || entry.status == "!") {
-                colour = 1;
-            } else if (entry.status == "R") {
-                colour = 5;
+                scope = "diff.minus";
             }
-            TUI_style.Style mark = TUI_style.Style(foreground: TUI_style.Colour.Indexed(colour), attrs: TUI_style.BOLD);
+            TUI_style.Style mark = theme.look(scope).with_attrs(TUI_style.BOLD);
             if (is_selected && tree.is_focused) {
                 mark = look;
             }
@@ -2330,7 +2446,7 @@ void App.draw_tree(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     if (tree.is_focused) {
         label = "TREE *";
     }
-    TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.REVERSE);
+    TUI_style.Style bar = theme.look("ui.statusline");
     for (int x in 0 .. side) {
         buffer.set_str(area.x + x, area.y + height - 1, " ", bar);
     }
@@ -2339,12 +2455,13 @@ void App.draw_tree(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
 
 /// Open the picker `name` (files, buffers, grep, commands, help, explore);
 /// `arg` is the starting query of grep or the directory of the explorer.
-void App.open_picker(str name, str arg) {
+pub void App.open_picker(str name, str arg) {
     overlay = [];
     is_leader = false;
     is_which_key = false;
     preview_path = "";
     is_grep_due = false;
+    end_theme_picker(true);
     stop_source();
     if (name == "files") {
         picker = MED_picker.make(MED_picker.KIND_FILES, "Files");
@@ -2522,6 +2639,9 @@ void App.reload_picker() {
 
 /// The lines previewed for the selection, read again only when the file changes.
 void App.update_preview() {
+    if (is_theme_picker) {
+        preview_selected_theme();
+    }
     preview = MED_picker_view.Preview();
     match (picker.current()) {
         case Some(MED_picker.Entry entry): {
@@ -2606,6 +2726,7 @@ bool App.should_quit_after_accept() {
                 return false;
             }
             has_picker = false;
+            end_theme_picker(false);
             if (kind == MED_picker.KIND_FILES || kind == MED_picker.KIND_EXPLORE) {
                 edit(entry.path, false);
             } else if (kind == MED_picker.KIND_BUFFERS) {
@@ -2624,6 +2745,7 @@ bool App.should_quit_after_accept() {
         }
         case None: {
             has_picker = false;
+            end_theme_picker(true);
         }
     }
     return false;
@@ -2681,6 +2803,7 @@ TUI_app.Action App.handle_picker(term.Event event) {
             }
             case Cancel: {
                 has_picker = false;
+                end_theme_picker(true);
             }
             case Requery: {
                 is_grep_due = true;
@@ -3352,7 +3475,11 @@ pub TUI_app.Action App.handle(term.Event event) {
                 editor.buffer_names.push(known.path);
             }
         }
-        editor.extra_commands = ["Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Keys", "Plugins", "PluginEnable", "PluginDisable", "terminal", "Lsp", "Recent", "Symbols", "Todo", "Branches", "Commits", "Changed", "Rename", "Delete", "Create", "Mkdir"];
+        editor.theme_names = [];
+        if (editor.mode == MED_editor.CMDLINE && (editor.cmdline.starts_with("theme ") || editor.cmdline.starts_with("colo"))) {
+            editor.theme_names = MED_theme.available(theme_directory);
+        }
+        editor.extra_commands = ["theme", "Files", "Buffers", "Grep", "Commands", "Explore", "Sexplore", "Vexplore", "Neotree", "NeoTree", "Keys", "Plugins", "PluginEnable", "PluginDisable", "terminal", "Lsp", "Recent", "Symbols", "Todo", "Branches", "Commits", "Changed", "Rename", "Delete", "Create", "Mkdir"];
     }
     if (is_paste_in_insert(event)) {
         // typed literally: no autoindent, auto-pairs, mappings or jk, and one undo step
@@ -3572,6 +3699,38 @@ str App.mode_name() {
     return "NORMAL";
 }
 
+/// The theme scope suffix of the mode (`ui.statusline.insert`).
+str App.mode_scope() {
+    str name = mode_name();
+    if (name == "INSERT") {
+        return "insert";
+    }
+    if (name == "REPLACE") {
+        return "replace";
+    }
+    if (name == "COMMAND") {
+        return "command";
+    }
+    if (name == "TERMINAL") {
+        return "terminal";
+    }
+    if (name.starts_with("V")) {
+        return "visual";
+    }
+    return "normal";
+}
+
+/// The cursor's theme mode (`ui.cursor.primary.select` is Visual).
+str App.cursor_mode() {
+    if (editor.mode == MED_editor.INSERT || editor.mode == MED_editor.REPLACE) {
+        return "insert";
+    }
+    if (editor.mode == MED_editor.VISUAL) {
+        return "select";
+    }
+    return "normal";
+}
+
 /// The columns of the line-number gutter, with its trailing space.
 int App.gutter_width() {
     return gutter_of(editor);
@@ -3669,7 +3828,7 @@ void App.draw_sign(TUI_buffer.Buffer buffer, MED_editor.Editor shown, GitInfo st
         match (shown.marks.get(str.from_chars([code]))) {
             case Some(MED_buffer.Pos mark): {
                 if (mark.row == row) {
-                    buffer.set_str(x, y, str.from_chars([code]), TUI_style.Style(foreground: TUI_style.Colour.Indexed(6), attrs: TUI_style.BOLD));
+                    buffer.set_str(x, y, str.from_chars([code]), theme.over("ui.gutter", "special").with_attrs(TUI_style.BOLD));
                     return;
                 }
             }
@@ -3680,22 +3839,22 @@ void App.draw_sign(TUI_buffer.Buffer buffer, MED_editor.Editor shown, GitInfo st
     if (row < diagnostic_rows.size() && diagnostic_rows[row] > 0) {
         int severity = diagnostic_rows[row];
         if (severity == 1) {
-            buffer.set_str(x, y, "E", TUI_style.Style(foreground: TUI_style.Colour.Indexed(1), attrs: TUI_style.BOLD));
+            buffer.set_str(x, y, "E", theme.over("ui.gutter", "error").with_attrs(TUI_style.BOLD));
         } else if (severity == 2) {
-            buffer.set_str(x, y, "W", TUI_style.Style(foreground: TUI_style.Colour.Indexed(3), attrs: TUI_style.BOLD));
+            buffer.set_str(x, y, "W", theme.over("ui.gutter", "warning").with_attrs(TUI_style.BOLD));
         } else {
-            buffer.set_str(x, y, "I", TUI_style.Style(foreground: TUI_style.Colour.Indexed(6)));
+            buffer.set_str(x, y, "I", theme.over("ui.gutter", "info"));
         }
         return;
     }
     if (state.has_base && row < state.hunks.kinds.size()) {
         int kind = state.hunks.kinds[row];
         if (kind == MED_git.ADDED) {
-            buffer.set_str(x, y, "+", TUI_style.Style(foreground: TUI_style.Colour.Indexed(2)));
+            buffer.set_str(x, y, "+", theme.over("ui.gutter", "diff.plus"));
         } else if (kind == MED_git.CHANGED) {
-            buffer.set_str(x, y, "~", TUI_style.Style(foreground: TUI_style.Colour.Indexed(3)));
+            buffer.set_str(x, y, "~", theme.over("ui.gutter", "diff.delta"));
         } else if (kind == MED_git.REMOVED) {
-            buffer.set_str(x, y, "_", TUI_style.Style(foreground: TUI_style.Colour.Indexed(1)));
+            buffer.set_str(x, y, "_", theme.over("ui.gutter", "diff.minus"));
         }
     }
 }
@@ -3729,35 +3888,18 @@ List<int> App.search_spans(MED_editor.Editor subject, MED_regex.Regex regex, int
     return spans;
 }
 
-/// The background of the cursor line, cursor column and 'colorcolumn' (dark
-/// or light by 'background').
-int App.highlight_background(MED_editor.Editor subject, int kind) {
-    bool is_dark = subject.opts.get("background").or("dark") != "light";
-    if (kind == 0) {
-        if (is_dark) {
-            return 236;
-        }
-        return 254;
-    }
-    if (is_dark) {
-        return 52;
-    }
-    return 224;
-}
-
 void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left, bool is_active, int row, int x_start, int y, int text_width, int from, int stop_at, List<int> spans) {
     str line = subject.buffer.line(row);
     List<int> syntax_classes = MED_hl.classes_of(subject, row, syntax_lang);
-    bool is_dark = subject.opts.get("background").or("dark") != "light";
-    TUI_style.Style plain = TUI_style.Style.plain;
-    TUI_style.Style selected = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTION_COLOUR));
-    TUI_style.Style found = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(3));
+    TUI_style.Style plain = theme.text_look(MED_theme.PLAIN);
+    TUI_style.Style selected = theme.style("ui.selection");
+    TUI_style.Style found = theme.look("search.match");
     bool is_list = subject.is_option_on("list", false);
     ListChars list_chars = ListChars();
     if (is_list) {
         list_chars = parse_listchars(subject.opts.get("listchars").or("tab:> ,trail:-,nbsp:+"));
     }
-    TUI_style.Style special = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
+    TUI_style.Style special = theme.look("ui.virtual.whitespace");
     bool is_cursor_line = is_active && row == subject.row && subject.is_option_on("cursorline", false);
     bool is_cursor_column = is_active && subject.is_option_on("cursorcolumn", false);
     str color_columns = subject.opts.get("colorcolumn").or("");
@@ -3765,11 +3907,9 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
     if (is_cursor_column) {
         cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
     }
-    int line_background = highlight_background(subject, 0);
-    int column_background = highlight_background(subject, 1);
     if (is_cursor_line) {
-        plain = TUI_style.Style(background: TUI_style.Colour.Indexed(line_background));
-        special = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4), background: TUI_style.Colour.Indexed(line_background));
+        plain = theme.text_look(MED_theme.ON_CURSOR_LINE);
+        special = special.merged(TUI_style.Style(background: plain.background));
         for (int cell in 0 .. text_width) {
             buffer.set_str(x_start + cell, y, " ", plain);
         }
@@ -3781,11 +3921,11 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
             bool is_column = cell_spot == cursor_spot;
             bool is_colored = is_color_column(subject, color_columns, cell_spot);
             if (is_column || is_colored) {
-                int background = line_background;
+                int variant = MED_theme.ON_CURSOR_LINE;
                 if (is_colored && !is_column) {
-                    background = column_background;
+                    variant = MED_theme.ON_RULER;
                 }
-                buffer.set_str(x_start + cell, y, " ", TUI_style.Style(background: TUI_style.Colour.Indexed(background)));
+                buffer.set_str(x_start + cell, y, " ", theme.text_look(variant));
             }
         }
     }
@@ -3821,38 +3961,36 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
         int width = MED_text.cell_width(line, offset, spot, subject.tab);
         int next = MED_text.next_col(line, offset);
         if (spot >= left && spot + width <= left + text_width) {
-            TUI_style.Style style = plain;
-            int style_background = -1;
+            int variant = MED_theme.PLAIN;
             if (is_cursor_line) {
-                style_background = line_background;
+                variant = MED_theme.ON_CURSOR_LINE;
             }
             if (spot == cursor_spot) {
-                style_background = line_background;
+                variant = MED_theme.ON_CURSOR_LINE;
             } else if (is_color_column(subject, color_columns, spot)) {
-                style_background = column_background;
+                variant = MED_theme.ON_RULER;
             }
+            TUI_style.Style style = theme.text_look(variant);
             if (offset < syntax_classes.size()) {
-                style = syntax_style(syntax_classes[offset], is_dark, style_background);
-            } else if (style_background >= 0) {
-                style = TUI_style.Style(background: TUI_style.Colour.Indexed(style_background));
+                style = theme.class_look(syntax_classes[offset], variant);
             }
             if (offset >= todo_from && offset < todo_to && (offset >= syntax_classes.size() || syntax_classes[offset] == SYN_class.COMMENT)) {
-                style = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(3), attrs: TUI_style.BOLD);
+                style = theme.look("ui.todo");
             }
             if (is_in_spans(spans, offset)) {
                 style = found;
             }
             if (inc_row >= 0 && is_in_preview(row, offset, line.size())) {
-                style = TUI_style.Style(attrs: TUI_style.REVERSE);
+                style = theme.look("search.current");
             }
             if (is_active && is_selected(row, offset, spot)) {
-                style = selected;
+                style = style.merged(selected);
             }
             str text = shown(line, offset, next, width);
             int code_point = MED_text.cp_at(line, offset);
             if (is_guides && code_point == 32 && offset < lead_to && spot % guide_step == 0 && !is_selected(row, offset, spot) && !is_in_spans(spans, offset)) {
                 text = "\u{2502}";
-                style = TUI_style.Style(attrs: TUI_style.DIM, background: style.background);
+                style = theme.look("ui.virtual.indent-guide").merged(TUI_style.Style(background: style.background));
             }
             if (is_list) {
                 bool is_marked = false;
@@ -3889,7 +4027,7 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
                     }
                 }
                 if (is_marked && !is_selected(row, offset, spot) && !is_in_spans(spans, offset)) {
-                    style = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4), background: style.background);
+                    style = theme.look("ui.virtual.whitespace").merged(TUI_style.Style(background: style.background));
                 }
             }
             buffer.set_str(x_start + spot - left, y, text, style);
@@ -3916,7 +4054,7 @@ void App.draw_line(TUI_buffer.Buffer buffer, MED_editor.Editor subject, int left
                 if (hint_text.size() > room) {
                     hint_text = hint_text.substr(0, room);
                 }
-                buffer.set_str(x_start + end_spot - left, y, hint_text, TUI_style.Style(foreground: TUI_style.Colour.Indexed(8), attrs: TUI_style.DIM));
+                buffer.set_str(x_start + end_spot - left, y, hint_text, theme.look("ui.virtual.inlay-hint"));
             }
         }
     }
@@ -3944,8 +4082,12 @@ str App.pending_text() {
 /// A window's status line at its last row: (the mode of the active one,) name
 /// and modified flag on the left; position on the right.
 void App.draw_status(TUI_buffer.Buffer buffer, MED_window.Placed frame, MED_editor.Editor subject, str file, bool is_changed, bool is_active) {
-    TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.REVERSE);
-    TUI_style.Style strong = TUI_style.Style(attrs: TUI_style.REVERSE | TUI_style.BOLD);
+    TUI_style.Style bar = theme.look("ui.statusline.inactive");
+    TUI_style.Style strong = bar;
+    if (is_active) {
+        bar = theme.look("ui.statusline");
+        strong = theme.over("ui.statusline", "ui.statusline." + mode_scope());
+    }
     int y = frame.y + frame.height - 1;
     buffer.fill(TUI_geometry.Rect(frame.x, y, frame.width, 1), " ", bar);
     str name = file;
@@ -4019,8 +4161,8 @@ void App.draw_status(TUI_buffer.Buffer buffer, MED_window.Placed frame, MED_edit
 
 /// The command line (while typing `:` or `/`) or the message.
 void App.draw_message(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int y) {
-    TUI_style.Style plain = TUI_style.Style.plain;
-    TUI_style.Style alert = TUI_style.Style(foreground: TUI_style.Colour.Indexed(1), attrs: TUI_style.BOLD);
+    TUI_style.Style plain = theme.look("ui.text");
+    TUI_style.Style alert = theme.look("error").with_attrs(TUI_style.BOLD);
     if (editor.mode == MED_editor.CMDLINE) {
         buffer.set_str(area.x, y, str.from_chars([editor.cmd_type]) + editor.cmdline, plain, max: area.width);
         return;
@@ -4046,8 +4188,8 @@ void App.draw_message(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int y) {
 
 /// The listing over the bottom of the text window, with Vim's prompt.
 void App.draw_overlay(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, int rows) {
-    TUI_style.Style plain = TUI_style.Style.plain;
-    TUI_style.Style prompt = TUI_style.Style(foreground: TUI_style.Colour.Indexed(2));
+    TUI_style.Style plain = theme.look("ui.popup");
+    TUI_style.Style prompt = theme.over("ui.popup", "ui.prompt");
     List<str> lines = overlay.slice(0, overlay.size());
     int shown_lines = lines.size() + 1;
     if (shown_lines > rows) {
@@ -4159,9 +4301,10 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
     bool is_wrap = subject.is_option_on("wrap", true);
     int cursor_spot = MED_text.display_col(subject.buffer.line(subject.row), subject.col, subject.tab);
     left = subject.view_left;
-    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
-    TUI_style.Style filler = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
-    TUI_style.Style current = TUI_style.Style(attrs: TUI_style.BOLD);
+    TUI_style.Style dim = theme.look("ui.linenr");
+    TUI_style.Style filler = theme.look("ui.virtual.whitespace");
+    TUI_style.Style current = theme.over("ui.linenr", "ui.linenr.selected");
+    TUI_style.Style gutter_style = theme.look("ui.gutter");
     MED_regex.Regex regex = MED_regex.compile("", false, false, "");
     bool is_highlight = false;
     if (preview_pattern.size() > 0) {
@@ -4197,7 +4340,7 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
                 cursor_screen_row = screen_row;
                 cursor_screen_x = 0;
             }
-            TUI_style.Style folded = TUI_style.Style(foreground: TUI_style.Colour.Indexed(4));
+            TUI_style.Style folded = theme.look("ui.text.inactive");
             if (subject.is_option_on("number", false) || subject.is_option_on("relativenumber", false)) {
                 buffer.set_str(frame.x + subject.sign_columns, y, number_text(subject, closed_start, gutter), dim);
             }
@@ -4280,6 +4423,9 @@ void App.draw_window(TUI_buffer.Buffer buffer, MED_window.Placed frame, bool is_
                 break;
             }
             int part_y = y + shown_part;
+            if (subject.sign_columns > 0) {
+                buffer.set_str(frame.x, part_y, " ", gutter_style);
+            }
             if (part == 0) {
                 buffer.set_str(frame.x + subject.sign_columns, part_y, number_text(subject, row, gutter), dim);
                 if (row == subject.row) {
@@ -4349,8 +4495,8 @@ void App.draw_wildmenu(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
     if (y < area.y) {
         return;
     }
-    TUI_style.Style bar = TUI_style.Style(attrs: TUI_style.REVERSE);
-    TUI_style.Style chosen = TUI_style.Style(foreground: TUI_style.Colour.Indexed(0), background: TUI_style.Colour.Indexed(2));
+    TUI_style.Style bar = theme.look("ui.menu");
+    TUI_style.Style chosen = theme.look("ui.menu.selected");
     for (int x in 0 .. area.width) {
         buffer.set_str(area.x + x, y, " ", bar);
     }
@@ -4389,6 +4535,10 @@ void App.draw_wildmenu(TUI_buffer.Buffer buffer, TUI_geometry.Rect area) {
 
 /// Draw the whole screen.
 pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
+    follow_background();
+    if (!MED_theme.is_empty(theme.base)) {
+        buffer.fill(full, " ", theme.base);
+    }
     save_active();
     int top = tabline_rows();
     TUI_geometry.Rect area = full;
@@ -4403,7 +4553,7 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
     if (tree.is_open && tree_columns(area.width) > 0) {
         draw_tree(buffer, area);
     }
-    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
+    TUI_style.Style dim = theme.look("ui.window");
     for (MED_window.Placed bar in placed.separators) {
         for (int offset in 0 .. bar.height) {
             buffer.set_str(bar.x, bar.y + offset, "|", dim);
@@ -4420,7 +4570,7 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
         draw_overlay(buffer, area, rows);
     }
     if (is_leader && is_which_key) {
-        TUI_menu.WhichKey menu = TUI_menu.WhichKey("<Space>" + leader, MED_keymap.next_items(leader_table(), leader, mode: leader_mode));
+        TUI_menu.WhichKey menu = TUI_menu.WhichKey("<Space>" + leader, MED_keymap.next_items(leader_table(), leader, mode: leader_mode), style: theme.look("ui.which-key"), title_style: theme.over("ui.which-key", "ui.which-key.title"));
         menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
     } else if (jump_stage == 2) {
         List<TUI_menu.Item> items = [];
@@ -4428,13 +4578,13 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
             str line_text = editor.buffer.line(jump_rows[index]).trim();
             items.push(TUI_menu.Item(jump_label(index), (jump_rows[index] + 1).to_str() + ":" + (jump_columns[index] + 1).to_str() + "  " + line_text));
         }
-        TUI_menu.WhichKey menu = TUI_menu.WhichKey("jump", items);
+        TUI_menu.WhichKey menu = TUI_menu.WhichKey("jump", items, style: theme.look("ui.which-key"), title_style: theme.over("ui.which-key", "ui.which-key.title"));
         menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
     } else if (is_prefix_help && !is_leader) {
         str typed = prefix_typed();
         List<TUI_menu.Item> items = MED_keymap.next_items(prefix_table(typed), typed);
         if (items.size() > 0) {
-            TUI_menu.WhichKey menu = TUI_menu.WhichKey(MED_keymap.shown_keys(typed), items);
+            TUI_menu.WhichKey menu = TUI_menu.WhichKey(MED_keymap.shown_keys(typed), items, style: theme.look("ui.which-key"), title_style: theme.over("ui.which-key", "ui.which-key.title"));
             menu.render(buffer, TUI_geometry.Rect(area.x, area.y, area.width, rows));
         }
     }
@@ -4446,11 +4596,11 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
                 preview.first = 0;
             }
         }
-        MED_picker_view.render(buffer, area, picker, preview);
+        MED_picker_view.render(buffer, area, picker, preview, theme);
     }
     int message_y = area.y + area.height - 1;
     draw_message(buffer, area, message_y);
-    TUI_style.Style cursor_style = TUI_style.Style(attrs: TUI_style.REVERSE);
+    TUI_style.Style cursor_style = theme.cursor(cursor_mode());
     if (overlay.size() > 0 || has_picker || is_leader) {
         return;
     }
@@ -4563,8 +4713,13 @@ pub void App.load_keymap(str file, bool is_required) {
     }
     match (io.read(file)) {
         case Ok(str content): {
-            notice = run_script(content, file);
+            str failure = run_script(content, file);
             editor.message = "";
+            // the file's :theme / :colorscheme lines take effect before the first frame
+            run_requests();
+            if (failure.size() > 0) {
+                notice = failure;
+            }
         }
         case Err(io.Error error): {
             notice = "E484: Can't open file " + file;
@@ -4755,6 +4910,17 @@ bool App.did_open_list_picker(str name, str arg) {
             }
             entries.push(MED_picker.Entry(option + " = " + value, action: action));
         }
+    } else if (name == "themes") {
+        title = "Themes";
+        for (str known in MED_theme.available(theme_directory)) {
+            str shown_name = known;
+            if (known == theme.name) {
+                shown_name = known + "  (current)";
+            }
+            entries.push(MED_picker.Entry(shown_name, action: "ex:theme " + known));
+        }
+        is_theme_picker = true;
+        theme_before = theme.name;
     } else if (name == "plugins") {
         title = "Plugins (Enter toggles)";
         for (MED_plugin.Plugin one in MED_plugin.all()) {
@@ -4836,6 +5002,14 @@ bool App.did_open_list_picker(str name, str arg) {
     }
     picker = MED_picker.make(MED_picker.KIND_LIST, title);
     picker.set_entries(entries);
+    if (is_theme_picker) {
+        picker.is_side = true;
+        for (int rank in 0 .. picker.shown.size()) {
+            if (picker.entries[picker.shown[rank]].action == "ex:theme " + theme.name) {
+                picker.selected = rank;
+            }
+        }
+    }
     return true;
 }
 
@@ -6636,108 +6810,6 @@ pub str server_language_of(str path, str first_line) {
     return lang;
 }
 
-/// The colour of a syntax class, by 16-colour index (the terminal's own
-/// palette, so it works at every colour depth and in light and dark themes).
-TUI_style.Style syntax_style(int class_value, bool is_dark, int background) {
-    int colour = -1;
-    int attrs = 0;
-    if (class_value == SYN_class.COMMENT) {
-        colour = 8;
-    } else if (class_value == SYN_class.STRING) {
-        colour = 2;
-    } else if (class_value == SYN_class.NUMBER) {
-        colour = 1;
-        if (is_dark) {
-            colour = 3;
-        }
-    } else if (class_value == SYN_class.KEYWORD) {
-        colour = 5;
-        attrs = TUI_style.BOLD;
-    } else if (class_value == SYN_class.TYPE) {
-        colour = 6;
-        if (!is_dark) {
-            colour = 4;
-        }
-    } else if (class_value == SYN_class.FUNCTION) {
-        colour = 4;
-        if (is_dark) {
-            colour = 12;
-        }
-    } else if (class_value == SYN_class.PREPROC) {
-        colour = 5;
-    } else if (class_value == SYN_class.CONSTANT) {
-        colour = 3;
-        if (!is_dark) {
-            colour = 1;
-        }
-    } else if (class_value == SYN_class.SPECIAL) {
-        colour = 6;
-    } else if (class_value == SYN_class.TITLE) {
-        colour = 3;
-        attrs = TUI_style.BOLD;
-        if (!is_dark) {
-            colour = 1;
-        }
-    } else if (class_value == SYN_class.CALL) {
-        colour = 4;
-        if (is_dark) {
-            colour = 12;
-        }
-    } else if (class_value == SYN_class.PROPERTY) {
-        colour = 6;
-        if (!is_dark) {
-            colour = 4;
-        }
-    } else if (class_value == SYN_class.TAG) {
-        colour = 1;
-        if (is_dark) {
-            colour = 9;
-        }
-    } else if (class_value == SYN_class.ATTRIBUTE) {
-        colour = 3;
-        if (!is_dark) {
-            colour = 5;
-        }
-    } else if (class_value == SYN_class.PUNCTUATION) {
-        colour = 6;
-    } else if (class_value == SYN_class.ADDED) {
-        colour = 2;
-    } else if (class_value == SYN_class.REMOVED) {
-        colour = 1;
-    } else if (class_value == SYN_class.LINK) {
-        colour = 4;
-        if (is_dark) {
-            colour = 12;
-        }
-        attrs = TUI_style.UNDERLINE;
-    } else if (class_value == SYN_class.EMPHASIS) {
-        attrs = TUI_style.ITALIC;
-    } else if (class_value == SYN_class.STRONG) {
-        attrs = TUI_style.BOLD;
-    } else if (class_value == SYN_class.RAW) {
-        colour = 2;
-    } else if (class_value == SYN_class.BUILTIN_VAR) {
-        colour = 5;
-        attrs = TUI_style.ITALIC;
-    }
-    if (colour < 0 && attrs != 0) {
-        if (background >= 0) {
-            return TUI_style.Style(background: TUI_style.Colour.Indexed(background), attrs: attrs);
-        }
-        return TUI_style.Style(attrs: attrs);
-    }
-    if (colour < 0) {
-        if (background >= 0) {
-            return TUI_style.Style(background: TUI_style.Colour.Indexed(background));
-        }
-        return TUI_style.Style.plain;
-    }
-    if (background >= 0) {
-        return TUI_style.Style(foreground: TUI_style.Colour.Indexed(colour), background: TUI_style.Colour.Indexed(background), attrs: attrs);
-    }
-    return TUI_style.Style(foreground: TUI_style.Colour.Indexed(colour), attrs: attrs);
-}
-
 /// Draw the part [`from`, `to`) of a line of `subject` at screen row `y`:
 /// cells whose display column is in [`left`, `left` + `text_width`).
 /// What 'listchars' (default "tab:> ,trail:-,nbsp:+") draws.
@@ -7232,6 +7304,7 @@ pub Result<App, str> open_all(List<str> paths) {
     if (is_first) {
         return Result<App, str>.Err("no buffer");
     }
+    app.did_use_theme(MED_theme.DARK);
     return Result<App, str>.Ok(app);
 }
 

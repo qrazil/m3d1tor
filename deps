@@ -1,5 +1,5 @@
 # m3 project file (m31 v0.4.0+): this directory is the project root.
 name m3dit
-version 0.4.0
+version 0.5.0
 tui https://github.com/qrazil/tui 5327361f97af5e0a31ef74f51abb815bd4c16775
 syntax https://github.com/qrazil/syntax e49e01c32fba95d23b9ad2267a3cfaa967fb758b

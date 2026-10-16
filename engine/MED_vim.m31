@@ -7855,7 +7855,7 @@ int digraph_of(int first, int second) {
 // ('wildmode' "full": each press shows the next match, then the typed text).
 void cmdline_complete(MED_editor.Editor editor, bool is_backward) {
     if (editor.comp_items.size() == 0) {
-        MED_complete.Completion found = MED_complete.complete(editor.cmdline, editor.cmd_position, editor.buffer_names, editor.extra_commands);
+        MED_complete.Completion found = MED_complete.complete(editor.cmdline, editor.cmd_position, editor.buffer_names, editor.extra_commands, themes: editor.theme_names);
         if (found.items.size() == 0) {
             return;
         }

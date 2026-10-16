@@ -7,13 +7,14 @@ import tui.core.TUI_geometry;
 import tui.core.TUI_style;
 import tui.core.TUI_text;
 import tui.core.TUI_widget;
+import ui.MED_theme;
 import ui.MED_fuzzy;
 import ui.MED_picker;
 
 /// The box needs this much width for a preview pane beside the list.
 const int PREVIEW_MIN_WIDTH = 100;
-const int SELECTED_COLOUR = 237;
-const int MATCH_COLOUR = 3;
+/// The width of a side picker (the theme picker), which leaves the text visible.
+const int SIDE_WIDTH = 36;
 /// Rows of the screen left uncovered below the box (status and command line).
 const int FOOTER = 2;
 
@@ -27,7 +28,7 @@ pub type Preview {
 }
 
 /// The box a picker occupies in `area`.
-pub TUI_geometry.Rect box_of(TUI_geometry.Rect area) {
+pub TUI_geometry.Rect box_of(TUI_geometry.Rect area, bool is_side = false) {
     int margin_x = 2;
     if (area.width < 50) {
         margin_x = 0;
@@ -35,6 +36,9 @@ pub TUI_geometry.Rect box_of(TUI_geometry.Rect area) {
     int height = area.height - FOOTER - 1;
     if (height < 5) {
         height = area.height - FOOTER;
+    }
+    if (is_side && area.width >= 70) {
+        return TUI_geometry.Rect(area.x + margin_x, area.y, SIDE_WIDTH, height);
     }
     return TUI_geometry.Rect(area.x + margin_x, area.y, area.width - margin_x * 2, height);
 }
@@ -49,8 +53,7 @@ pub int list_rows(TUI_geometry.Rect area) {
 }
 
 /// Draw `text` with the characters at `matched` highlighted, `max` columns at most.
-void draw_matched(TUI_buffer.Buffer buffer, int x, int y, str text, List<int> matched, TUI_style.Style base, int max) {
-    TUI_style.Style hot = base.with_foreground(TUI_style.Colour.Indexed(MATCH_COLOUR)).with_attrs(TUI_style.BOLD);
+void draw_matched(TUI_buffer.Buffer buffer, int x, int y, str text, List<int> matched, TUI_style.Style base, TUI_style.Style hot, int max) {
     int spot = x;
     int index = 0;
     for (int code_point in text.chars()) {
@@ -69,10 +72,12 @@ void draw_matched(TUI_buffer.Buffer buffer, int x, int y, str text, List<int> ma
     }
 }
 
-void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Picker picker) {
+void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Picker picker, MED_theme.Theme theme) {
     MED_fuzzy.Query query = MED_fuzzy.parse(picker.query);
-    TUI_style.Style plain = TUI_style.Style.plain;
-    TUI_style.Style chosen = TUI_style.Style(background: TUI_style.Colour.Indexed(SELECTED_COLOUR), attrs: TUI_style.BOLD);
+    TUI_style.Style plain = theme.look("ui.picker");
+    TUI_style.Style chosen = theme.over("ui.picker", "ui.picker.selected");
+    TUI_style.Style plain_hot = theme.over("ui.picker", "ui.picker.match");
+    TUI_style.Style chosen_hot = chosen.merged(theme.style("ui.picker.match"));
     for (int row in 0 .. rect.height) {
         int rank = picker.top + row;
         if (rank >= picker.shown.size()) {
@@ -81,12 +86,14 @@ void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Pick
         MED_picker.Entry entry = picker.entries[picker.shown[rank]];
         int y = rect.y + row;
         TUI_style.Style style = plain;
+        TUI_style.Style hot = plain_hot;
         str marker = "  ";
         if (picker.marked.contains(picker.shown[rank])) {
             marker = "* ";
         }
         if (rank == picker.selected) {
             style = chosen;
+            hot = chosen_hot;
             marker = "> ";
             if (picker.marked.contains(picker.shown[rank])) {
                 marker = ">*";
@@ -98,15 +105,15 @@ void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Pick
         if (picker.is_filter()) {
             matched = query.positions(entry.text);
         }
-        draw_matched(buffer, rect.x + 2, y, entry.text, matched, style, rect.width - 2);
+        draw_matched(buffer, rect.x + 2, y, entry.text, matched, style, hot, rect.width - 2);
     }
 }
 
-void draw_preview(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, Preview preview) {
-    TUI_style.Style dim = TUI_style.Style(attrs: TUI_style.DIM);
-    TUI_style.Style focus = TUI_style.Style(attrs: TUI_style.BOLD | TUI_style.REVERSE);
-    TUI_style.Style plain = TUI_style.Style.plain;
-    buffer.set_str(rect.x, rect.y, TUI_text.truncate(preview.title, rect.width), TUI_style.Style(attrs: TUI_style.BOLD), max: rect.width);
+void draw_preview(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, Preview preview, MED_theme.Theme theme) {
+    TUI_style.Style dim = theme.over("ui.picker", "ui.linenr");
+    TUI_style.Style focus = theme.over("ui.picker", "ui.picker.selected");
+    TUI_style.Style plain = theme.look("ui.picker");
+    buffer.set_str(rect.x, rect.y, TUI_text.truncate(preview.title, rect.width), theme.over("ui.picker", "ui.picker.title"), max: rect.width);
     for (int row in 1 .. rect.height) {
         int index = preview.first + row - 1;
         if (index >= preview.lines.size()) {
@@ -130,9 +137,10 @@ void draw_preview(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, Preview prev
 }
 
 /// Draw the picker in `area`.
-pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Picker picker, Preview preview) {
-    TUI_geometry.Rect box = box_of(area);
-    TUI_style.Style plain = TUI_style.Style.plain;
+pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Picker picker, Preview preview, MED_theme.Theme theme) {
+    TUI_geometry.Rect box = box_of(area, is_side: picker.is_side);
+    TUI_style.Style plain = theme.look("ui.picker");
+    TUI_style.Style faint = theme.over("ui.picker", "ui.text.inactive");
     buffer.fill(box, " ", plain);
     str title = " " + picker.title + " " + picker.shown.size().to_str() + "/" + picker.entries.size().to_str() + " ";
     if (picker.is_loading) {
@@ -141,16 +149,16 @@ pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Pic
     if (picker.marked.size() > 0) {
         title = title + "[" + picker.marked.size().to_str() + " marked] ";
     }
-    TUI_widget.Block block = TUI_widget.Block(title: title, borders: TUI_widget.Borders.Rounded, style: plain, title_style: TUI_style.Style(attrs: TUI_style.BOLD), pad_x: 1);
+    TUI_widget.Block block = TUI_widget.Block(title: title, borders: TUI_widget.Borders.Rounded, style: plain, title_style: theme.over("ui.picker", "ui.picker.title"), pad_x: 1);
     block.render(buffer, box);
     TUI_geometry.Rect inner = block.inner(box);
     if (inner.height < 2 || inner.width < 4) {
         return;
     }
-    buffer.set_str(inner.x, inner.y, "> " + picker.query, TUI_style.Style(attrs: TUI_style.BOLD), max: inner.width);
+    buffer.set_str(inner.x, inner.y, "> " + picker.query, theme.over("ui.picker", "ui.prompt"), max: inner.width);
     int cursor_x = inner.x + 2 + TUI_text.width(picker.query);
     if (cursor_x < inner.x + inner.width) {
-        buffer.set_style(cursor_x, inner.y, TUI_style.Style(attrs: TUI_style.REVERSE));
+        buffer.set_style(cursor_x, inner.y, theme.cursor("normal"));
     }
     str hints = "";
     if (picker.kind == MED_picker.KIND_LIST) {
@@ -164,22 +172,22 @@ pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Pic
     }
     int used = 2 + TUI_text.width(picker.query) + 2;
     if (hints.size() > 0 && used + hints.size() < inner.width) {
-        buffer.set_str(inner.x + inner.width - hints.size(), inner.y, hints, TUI_style.Style(attrs: TUI_style.DIM));
+        buffer.set_str(inner.x + inner.width - hints.size(), inner.y, hints, faint);
     }
     TUI_geometry.Rect body = TUI_geometry.Rect(inner.x, inner.y + 2, inner.width, inner.height - 2);
     if (body.height < 1) {
         return;
     }
-    buffer.fill(TUI_geometry.Rect(inner.x, inner.y + 1, inner.width, 1), "\u{2500}", TUI_style.Style(attrs: TUI_style.DIM));
+    buffer.fill(TUI_geometry.Rect(inner.x, inner.y + 1, inner.width, 1), "\u{2500}", faint);
     if (inner.width >= PREVIEW_MIN_WIDTH && preview.title.size() > 0) {
         int list_width = inner.width * 2 / 5;
-        draw_list(buffer, TUI_geometry.Rect(body.x, body.y, list_width, body.height), picker);
+        draw_list(buffer, TUI_geometry.Rect(body.x, body.y, list_width, body.height), picker, theme);
         for (int row in 0 .. body.height) {
-            buffer.set_str(body.x + list_width, body.y + row, "\u{2502}", TUI_style.Style(attrs: TUI_style.DIM));
+            buffer.set_str(body.x + list_width, body.y + row, "\u{2502}", faint);
         }
-        draw_preview(buffer, TUI_geometry.Rect(body.x + list_width + 2, body.y, inner.width - list_width - 2, body.height), preview);
+        draw_preview(buffer, TUI_geometry.Rect(body.x + list_width + 2, body.y, inner.width - list_width - 2, body.height), preview, theme);
     } else {
-        draw_list(buffer, body, picker);
+        draw_list(buffer, body, picker, theme);
     }
 }
 
