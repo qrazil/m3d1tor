@@ -701,6 +701,89 @@ def user_maps_in_which_key(binary, root):
         s.close()
 
 
+@scenario
+def themes(binary, root):
+    import re as regex
+    # --theme paints the whole screen in the theme's background (truecolor)
+    s = Session(binary, root, ["--theme", "tokyonight", "src/main.py"])
+    try:
+        assert s.wait_for("return 42"), s.text()
+        assert s.screen.buffer[0][5].bg == "1a1b26" or s.screen.buffer[2][60].bg == "1a1b26", "background not painted"
+        assert s.screen.buffer[2][60].bg == "1a1b26", "empty cell is not the theme's background: %r" % s.screen.buffer[2][60].bg
+        s.send(":theme\r", settle=0.4)
+        assert "theme: tokyonight" in s.text(), s.text()
+        s.send(":colorscheme nord\r", settle=0.4)
+        assert "theme: nord" in s.text(), s.text()
+        assert s.screen.buffer[2][60].bg == "2e3440", "nord background: %r" % s.screen.buffer[2][60].bg
+        s.send(":theme nonesuch\r", settle=0.4)
+        assert 'unknown theme "nonesuch"' in s.text(), s.text()
+        assert s.screen.buffer[2][60].bg == "2e3440", "theme changed on an unknown name"
+        s.send(":theme gruvbox-m\t", settle=0.4)
+        assert ":theme gruvbox-material" in s.text(), "Tab completion:\n" + s.text()
+        s.send("\x1b", settle=0.3)
+        # the picker previews while moving, and Esc puts the theme back
+        s.send(" fC", settle=0.6)
+        assert "Themes" in s.text(), s.text()
+        s.send("\x0e", settle=0.5)
+        assert s.screen.buffer[2][60].bg != "2e3440", "moving the selection did not preview a theme"
+        s.send("\x1b", settle=0.4)
+        assert "Themes" not in s.text(), s.text()
+        assert s.screen.buffer[2][60].bg == "2e3440", "Esc did not restore the theme"
+    finally:
+        s.close()
+    # an unknown --theme falls back to the default with a message
+    s = Session(binary, root, ["--theme", "nonesuch", "hello.txt"])
+    try:
+        assert s.wait_for("hello world"), s.text()
+        assert 'unknown theme "nonesuch"' in s.text(), s.text()
+        s.send(":theme\r", settle=0.3)
+        assert "theme: default" in s.text(), s.text()
+    finally:
+        s.close()
+    # user themes: $XDG_CONFIG_HOME/m3/themes/NAME.toml, inheriting a built-in
+    themes = os.path.join(root, ".config", "m3", "themes")
+    os.makedirs(themes)
+    with open(os.path.join(themes, "mine.toml"), "w") as f:
+        f.write('inherits = "tokyonight"\n"ui.background" = { bg = "#102030" }\n"ui.text" = { bg = "#102030", fg = "#ffffff" }\n')
+    s = Session(binary, root, ["hello.txt"])
+    try:
+        assert s.wait_for("hello world"), s.text()
+        s.send(":theme mi\t", settle=0.4)
+        assert ":theme mine" in s.text(), s.text()
+        s.send("\r", settle=0.4)
+        assert s.screen.buffer[2][60].bg == "102030", "user theme background: %r" % s.screen.buffer[2][60].bg
+    finally:
+        s.close()
+    # the startup file's :colorscheme
+    keymap = os.path.join(root, "start.vim")
+    with open(keymap, "w") as f:
+        f.write("colorscheme dracula\n")
+    s = Session(binary, root, ["hello.txt"], keymap=keymap)
+    try:
+        assert s.wait_for("hello world"), s.text()
+        assert s.screen.buffer[2][60].bg == "282a36", "startup colorscheme: %r" % s.screen.buffer[2][60].bg
+    finally:
+        s.close()
+    # 16 colours: the default theme is the terminal's own palette, no 24-bit colour is written
+    s = Session(binary, root, ["src/main.py"], env={"TERM": "xterm", "COLORTERM": ""})
+    try:
+        assert s.wait_for("return 42"), s.text()
+        s.send(":theme\r", settle=0.4)
+        assert "theme: term16-dark" in s.text(), s.text()
+        for row in range(0, 5):
+            for col in range(0, 40):
+                cell = s.screen.buffer[row][col]
+                assert not regex.fullmatch("[0-9a-f]{6}", cell.fg) and not regex.fullmatch("[0-9a-f]{6}", cell.bg), (row, col, cell)
+        s.send(":theme tokyonight\r", settle=0.4)
+        assert s.wait_for("theme: tokyonight"), s.text()
+        for row in range(0, 5):
+            for col in range(0, 40):
+                cell = s.screen.buffer[row][col]
+                assert not regex.fullmatch("[0-9a-f]{6}", cell.fg) and not regex.fullmatch("[0-9a-f]{6}", cell.bg), ("quantised", row, col, cell)
+    finally:
+        s.close()
+
+
 def main():
     binary = os.path.abspath(sys.argv[1])
     only = None

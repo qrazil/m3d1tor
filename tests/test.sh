@@ -24,6 +24,8 @@ fi
 
 LANGC=${LANGC:-./m31c}
 WORK=$(mktemp -d)
+# unit programs that need scratch files (t_theme) put them here, not in /tmp
+export M3_TEST_TMP=$WORK
 trap 'rm -rf "$WORK"' EXIT
 pass=0
 fail=0

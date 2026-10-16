@@ -13,6 +13,23 @@ if build m3 m3.m31; then
     else
         bad "m3 --help" "$out"
     fi
+    # --dump-sample needs no terminal: a theme drawn as ANSI text at the depth asked for
+    if out=$("$WORK/m3" --theme tokyonight --colors true --dump-sample 2>&1 </dev/null) \
+        && printf '%s' "$out" | grep -q '== theme tokyonight ==' && printf '%s' "$out" | grep -q '38;2;'; then
+        note "m3 --dump-sample (truecolor)"
+    else
+        bad "m3 --dump-sample (truecolor)" "$(printf '%s' "$out" | head -5)"
+    fi
+    if out=$("$WORK/m3" --theme default --colors 16 --dump-sample 2>&1 </dev/null) && ! printf '%s' "$out" | grep -q '38;[25];'; then
+        note "m3 --dump-sample (16 colours has no 24-bit or 256-colour escape)"
+    else
+        bad "m3 --dump-sample (16 colours)" "$(printf '%s' "$out" | head -5)"
+    fi
+    if out=$("$WORK/m3" --theme nonesuch --dump-sample 2>&1 </dev/null) && printf '%s' "$out" | grep -q 'cannot load: unknown theme'; then
+        note "m3 --dump-sample (unknown theme says so)"
+    else
+        bad "m3 --dump-sample (unknown theme)" "$(printf '%s' "$out" | head -5)"
+    fi
     if out=$(python3 - "$WORK/m3" <<'PY' 2>&1
 import os, pty, select, struct, subprocess, sys, termios, fcntl, time
 binary = sys.argv[1]

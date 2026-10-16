@@ -1,0 +1,702 @@
+// Unit checks for the theme engine (ui/MED_theme.m31) and its use by the
+// editor: the file format, palettes, inheritance, scope fallback, colour depth,
+// the built-in themes (each must parse and define every scope the renderer asks
+// for), user themes from a temporary XDG directory, bad themes, and the
+// `:theme` / `:colorscheme` commands, completion, the picker and `--dump-sample`.
+
+import fs;
+import io;
+import os;
+import term;
+import tests.MED_check;
+import tui.core.TUI_buffer;
+import tui.core.TUI_style;
+import ui.MED_theme;
+import ui.MED_theme_data;
+import syntax.core.SYN_class;
+import ui.MED_app;
+import ui.MED_picker;
+import ui.MED_sample;
+
+MED_check.Check check = MED_check.Check();
+
+term.Event press(int code_point) {
+    return term.Event.Key(term.Key(term.Code.Char(code_point), 0));
+}
+
+term.Event named(term.Code code) {
+    return term.Event.Key(term.Key(code, 0));
+}
+
+void type_text(MED_app.App app, str text) {
+    for (int code_point in text.chars()) {
+        if (code_point == 10) {
+            app.handle(named(term.Code.Enter));
+        } else if (code_point == 9) {
+            app.handle(named(term.Code.Tab));
+        } else if (code_point == 27) {
+            app.handle(named(term.Code.Escape));
+        } else {
+            app.handle(press(code_point));
+        }
+    }
+}
+
+void write_file(str path, str text) {
+    match (io.write(path, text)) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+            print("cannot write " + path);
+        }
+    }
+}
+
+// where the temporary files go: the test runner's scratch directory, else $TMPDIR
+str work_directory() {
+    str base = os.env("M3_TEST_TMP").or("");
+    if (base == "") {
+        base = os.env("TMPDIR").or("/tmp");
+    }
+    str directory = base + "/m3_t_theme";
+    match (os.run(["rm", "-rf", directory])) {
+        case Ok(os.ExitStatus status): {
+        }
+        case Err(io.Error error): {
+        }
+    }
+    match (fs.makedirs(directory)) {
+        case Ok(bool did_make): {
+        }
+        case Err(io.Error error): {
+            print("cannot make " + directory);
+        }
+    }
+    return directory;
+}
+
+// the theme `text` parses to (no inheritance), or a "!" and the error
+str layer_error(str text) {
+    match (MED_theme.parse_layer("t", text)) {
+        case Ok(MED_theme.Layer layer): {
+            return "";
+        }
+        case Err(str message): {
+            return message;
+        }
+    }
+}
+
+MED_theme.Layer layer_of(str text) {
+    match (MED_theme.parse_layer("t", text)) {
+        case Ok(MED_theme.Layer layer): {
+            layer.resolve({});
+            return layer;
+        }
+        case Err(str message): {
+            print("unexpected: " + message);
+            return MED_theme.Layer("t");
+        }
+    }
+}
+
+MED_theme.Theme theme_of(str text) {
+    MED_theme.Layer layer = layer_of(text);
+    return MED_theme.Theme.make("t", layer.entries);
+}
+
+// a file's text, "" when it cannot be read
+str text_of(str path) {
+    match (io.read(path)) {
+        case Ok(str text): {
+            return text;
+        }
+        case Err(io.Error error): {
+            return "";
+        }
+    }
+}
+
+// the colour `text` parses to, as text, or the error
+str colour_of(str text) {
+    match (MED_theme.parse_colour(text)) {
+        case Ok(TUI_style.Colour colour): {
+            return colour.to_str();
+        }
+        case Err(str message): {
+            return "error: " + message;
+        }
+    }
+}
+
+// the SGR bytes that draw foreground `colour` at `depth`
+str escape_of(TUI_style.Colour colour, TUI_style.Depth depth) {
+    bytes out = [];
+    TUI_style.sgr(out, TUI_style.RESET_STYLE, TUI_style.Style(foreground: colour).pack(), depth);
+    match (out.utf8()) {
+        case Some(str text): {
+            return text.split("\x1b").join("E");
+        }
+        case None: {
+            return "";
+        }
+    }
+}
+
+// the `nth` (0-based) string literal after every `marker` of a source text;
+// `marker` ends with the opening quote of the first one
+List<str> literals_after(str text, str marker, int nth) {
+    List<str> found = [];
+    int from = 0;
+    while (true) {
+        match (text.substr(from, text.size()).index_of(marker)) {
+            case Some(int found_at): {
+                int open = from + found_at + marker.size() - 1;
+                int index = 0;
+                while (true) {
+                    int closing = open + 1 + text.substr(open + 1, text.size()).index_of("\"").or(0);
+                    if (index == nth) {
+                        found.push(text.substr(open + 1, closing));
+                        break;
+                    }
+                    index = index + 1;
+                    open = closing + 1 + text.substr(closing + 1, text.size()).index_of("\"").or(0);
+                }
+                from = open + 1;
+            }
+            case None: {
+                return found;
+            }
+        }
+    }
+}
+
+// --- colours ----------------------------------------------------------------
+check.eq_str("#rrggbb", colour_of("#1a2b3c"), "rgb 26,43,60");
+check.eq_str("#rgb is doubled", colour_of("#fa0"), "rgb 255,170,0");
+check.eq_str("#RRGGBB in capitals", colour_of("#FFA000"), "rgb 255,160,0");
+check.eq_str("#rrggbbaa drops the alpha", colour_of("#eaeef280"), "rgb 234,238,242");
+check.eq_str("ansi name", colour_of("light-red"), "index 9");
+check.eq_str("gray is bright black", colour_of("gray"), "index 8");
+check.eq_str("light-gray is plain white", colour_of("light-gray"), "index 7");
+check.eq_str("palette index", colour_of("196"), "index 196");
+check.eq_str("default colour", colour_of("default"), "default");
+check.ok("bad hex digit", MED_theme.parse_colour("#12345g").is_err());
+check.ok("bad hex length", MED_theme.parse_colour("#12345").is_err());
+check.ok("index out of range", MED_theme.parse_colour("256").is_err());
+check.ok("unknown name", MED_theme.parse_colour("mauve").is_err());
+// --- the file format -----------------------------------------------------------
+MED_theme.Layer basics = layer_of("# a comment\n\"keyword\" = { fg = \"#ff0000\", bg = '#00ff00', modifiers = [\"bold\", \"italic\"] } # trailing\nstring = \"blue\"\n\"markup.link\" = { underline = { color = \"red\", style = \"curl\" } }\n\"a.b-c_d\" = \"#102030\"\n");
+check.eq_int("four scopes", basics.entries.size(), 4);
+check.eq_str("inline table fg", basics.entries.get("keyword").or(TUI_style.Style()).foreground.to_str(), "rgb 255,0,0");
+check.eq_str("single-quoted bg", basics.entries.get("keyword").or(TUI_style.Style()).background.to_str(), "rgb 0,255,0");
+check.eq_int("modifiers", basics.entries.get("keyword").or(TUI_style.Style()).attrs, TUI_style.BOLD | TUI_style.ITALIC);
+check.eq_str("a bare colour is a foreground", basics.entries.get("string").or(TUI_style.Style()).foreground.to_str(), "index 4");
+check.eq_int("underline sets the underline attribute", basics.entries.get("markup.link").or(TUI_style.Style()).attrs, TUI_style.UNDERLINE);
+check.eq_str("odd characters in a key", basics.entries.get("a.b-c_d").or(TUI_style.Style()).foreground.to_str(), "rgb 16,32,48");
+check.eq_int("no warnings", basics.warnings.size(), 0);
+MED_theme.Layer spread = layer_of("keyword = {\n    fg = \"red\",   # the colour\n    modifiers = [\n        \"bold\",\n        \"dim\"\n    ]\n}\n\"x\" = \"blue\"\n");
+check.eq_int("a table over several lines", spread.entries.get("keyword").or(TUI_style.Style()).attrs, TUI_style.BOLD | TUI_style.DIM);
+check.eq_int("the line after it is read", spread.entries.size(), 2);
+MED_theme.Layer dotted = layer_of("\"diagnostic.info\".underline = { color = \"blue\", style = \"curl\" }\n\"x\" = { underline.style = \"line\", fg = \"red\" }\n");
+check.eq_int("a quoted key with a field", dotted.entries.get("diagnostic.info").or(TUI_style.Style()).attrs, TUI_style.UNDERLINE);
+check.eq_int("a dotted field inside a table", dotted.entries.get("x").or(TUI_style.Style()).attrs, TUI_style.UNDERLINE);
+check.eq_str("the rest of that table", dotted.entries.get("x").or(TUI_style.Style()).foreground.to_str(), "index 1");
+MED_theme.Layer every_modifier = layer_of("\"m\" = { modifiers = [\"bold\", \"dim\", \"italic\", \"underlined\", \"reversed\", \"crossed_out\", \"slow_blink\", \"rapid_blink\", \"hidden\"] }\n");
+check.eq_int("every modifier", every_modifier.entries.get("m").or(TUI_style.Style()).attrs, TUI_style.ATTR_ALL);
+check.eq_str("a string with an escaped quote and #", layer_error("\"k\" = \"a\\\"#b\"\n"), "");
+// --- errors -------------------------------------------------------------------------
+check.eq_str("unterminated string", layer_error("\"k\" = \"red\n"), "t:1: unterminated string");
+check.eq_str("missing =", layer_error("a = \"x\"\nb \"x\"\n"), "t:2: expected = after \"b\"");
+check.eq_str("missing value", layer_error("a =\n"), "t:1: missing value");
+check.eq_str("unclosed array", layer_error("a = [\"x\"\n"), "t:1: unterminated array");
+check.eq_str("junk after the value", layer_error("a = \"x\" y\n"), "t:1: unexpected text after the value of \"a\"");
+check.eq_str("other tables", layer_error("[ui]\n"), "t:1: unsupported table [ui] (only [palette])");
+check.eq_str("broken header", layer_error("[palette\n"), "t:1: malformed table header");
+check.eq_str("bad escape", layer_error("a = \"\\q\"\n"), "t:1: unsupported escape \\q in a string");
+check.eq_str("a good file", layer_error("a = \"red\"\n"), "");
+MED_theme.Layer lenient = layer_of("good = \"red\"\nbad = \"mauve\"\nworse = { fg = \"red\", wat = \"x\" }\nalso = { modifiers = [\"sparkle\"] }\nalso_good = { fg = \"blue\" }\n");
+check.eq_int("entries that cannot be read are left out", lenient.entries.size(), 2);
+check.eq_int("and reported", lenient.warnings.size(), 3);
+check.eq_str("with the line and the scope", lenient.warnings[0], "t:2: bad: unknown colour \"mauve\" (not in [palette], and not a #hex, a 16-colour name or 0..255)");
+check.eq_str("an unknown key", lenient.warnings[1], "t:3: worse: unknown style key \"wat\" (fg, bg, underline, modifiers)");
+check.eq_str("an unknown modifier", lenient.warnings[2], "t:4: also: unknown modifier \"sparkle\" (bold dim italic underlined reversed crossed_out)");
+// --- palettes ---------------------------------------------------------------------
+MED_theme.Theme palette_theme = theme_of("\"comment\" = { fg = \"grey\", bg = \"deep\" }\n\"string\" = \"alias\"\n\"loop\" = \"a\"\n\"selfish\" = \"red\"\n[palette]\ngrey = \"#808080\"\ndeep = \"#001122\"\nalias = \"grey\"\na = \"b\"\nb = \"a\"\nred = \"red\"\n");
+check.eq_str("a palette name is a colour", palette_theme.style("comment").foreground.to_str(), "rgb 128,128,128");
+check.eq_str("in a background too", palette_theme.style("comment").background.to_str(), "rgb 0,17,34");
+check.eq_str("a palette entry may name another", palette_theme.style("string").foreground.to_str(), "rgb 128,128,128");
+check.ok("a palette loop is dropped, not followed", !palette_theme.has_entry("loop"));
+check.eq_str("a palette name equal to its colour name is that colour", palette_theme.style("selfish").foreground.to_str(), "index 1");
+// --- scope lookup -------------------------------------------------------------
+MED_theme.Theme scopes = theme_of("\"keyword\" = \"red\"\n\"keyword.control\" = \"green\"\n\"ui.statusline\" = \"blue\"\n\"ui.statusline.select\" = \"magenta\"\n\"ui.cursorline.primary\" = { bg = \"#112233\" }\n\"comment\" = \"gray\"\n");
+check.eq_str("an exact scope", scopes.style("keyword.control").foreground.to_str(), "index 2");
+check.eq_str("falls back one dot", scopes.style("keyword.control.return").foreground.to_str(), "index 2");
+check.eq_str("falls back to the first word", scopes.style("keyword.operator").foreground.to_str(), "index 1");
+check.eq_str("falls back two dots", scopes.style("keyword.control.conditional.x").foreground.to_str(), "index 2");
+check.eq_str("the most specific one wins", scopes.style("keyword").foreground.to_str(), "index 1");
+check.ok("an unknown scope is not defined", !scopes.is_defined("nothing.here"));
+check.ok("and is plain", MED_theme.is_empty(scopes.style("nothing.here")));
+check.eq_str("a scope Helix themes lack is looked up under the Helix name", scopes.style("ui.statusline.visual").foreground.to_str(), "index 5");
+check.eq_str("ui.cursorline finds ui.cursorline.primary", scopes.style("ui.cursorline").background.to_str(), "rgb 17,34,51");
+check.eq_str("ui.text.inactive finds comment", scopes.style("ui.text.inactive").foreground.to_str(), "index 8");
+check.eq_str("a prefix after a fallback", scopes.style("ui.statusline.command").foreground.to_str(), "index 4");
+check.ok("a fallback chain ends", !scopes.is_defined("ui.gutter"));
+check.ok("a scope the theme has itself", scopes.has_entry("keyword") && !scopes.has_entry("keyword.operator"));
+// --- the base: ui.background and ui.text -----------------------------------------------
+MED_theme.Theme transparent = theme_of("\"keyword\" = \"red\"\n\"ui.text\" = {}\n");
+check.ok("no ui.background leaves the terminal's own", MED_theme.is_empty(transparent.base));
+check.eq_str("a look is just the style", transparent.look("keyword").to_str(), TUI_style.Style(foreground: TUI_style.Colour.Indexed(1)).to_str());
+MED_theme.Theme painted = theme_of("\"ui.background\" = { bg = \"#101010\", fg = \"#eeeeee\" }\n\"ui.text\" = { fg = \"#dddddd\" }\n\"keyword\" = \"red\"\n\"ui.linenr\" = { bg = \"#202020\" }\n\"comment\" = { modifiers = [\"italic\"] }\n");
+check.eq_str("the base takes the background's colours", painted.base.background.to_str(), "rgb 16,16,16");
+check.eq_str("and ui.text's foreground over them", painted.base.foreground.to_str(), "rgb 221,221,221");
+check.eq_str("a look keeps the base background", painted.look("keyword").background.to_str(), "rgb 16,16,16");
+check.eq_str("and its own foreground", painted.look("keyword").foreground.to_str(), "index 1");
+check.eq_str("its own background wins", painted.look("ui.linenr").background.to_str(), "rgb 32,32,32");
+check.eq_int("modifiers stay", painted.look("comment").attrs, TUI_style.ITALIC);
+check.eq_str("over() lays a scope over another", painted.over("ui.linenr", "keyword").background.to_str(), "rgb 32,32,32");
+check.eq_str("class looks carry the base", painted.class_look(SYN_class.KEYWORD, MED_theme.PLAIN).background.to_str(), "rgb 16,16,16");
+MED_theme.Theme lined = theme_of("\"ui.cursorline\" = { bg = \"#303030\" }\n\"ui.virtual.ruler\" = { bg = \"#400000\" }\n\"keyword\" = \"red\"\n");
+check.eq_str("on the cursor line", lined.class_look(SYN_class.KEYWORD, MED_theme.ON_CURSOR_LINE).background.to_str(), "rgb 48,48,48");
+check.eq_str("on a ruler", lined.class_look(SYN_class.KEYWORD, MED_theme.ON_RULER).background.to_str(), "rgb 64,0,0");
+check.eq_str("the foreground is the class's", lined.class_look(SYN_class.KEYWORD, MED_theme.ON_RULER).foreground.to_str(), "index 1");
+check.eq_str("plain text on the cursor line", lined.text_look(MED_theme.ON_CURSOR_LINE).background.to_str(), "rgb 48,48,48");
+check.eq_int("every class has a scope", SYN_class.COUNT, 25);
+check.ok("class_scope covers them", MED_theme.class_scope(SYN_class.MEMBER) == "variable.other.member" && MED_theme.class_scope(SYN_class.COMMENT) == "comment" && MED_theme.class_scope(99) == "variable");
+check.eq_str("the cursor is reversed when the theme says nothing", MED_theme.plain().cursor("normal").to_str(), TUI_style.Style(attrs: TUI_style.REVERSE).to_str());
+MED_theme.Theme moded = theme_of("\"ui.cursor\" = { fg = \"black\", bg = \"white\" }\n\"ui.cursor.insert\" = { bg = \"green\" }\n\"ui.cursor.primary.select\" = { bg = \"blue\" }\n");
+check.eq_str("ui.cursor", moded.cursor("normal").background.to_str(), "index 15");
+check.eq_str("ui.cursor.primary.select", moded.cursor("select").background.to_str(), "index 4");
+// --- colour depth ------------------------------------------------------------------------------
+TUI_style.Colour red = TUI_style.Colour.Rgb(255, 0, 0);
+check.eq_str("truecolour", escape_of(red, TUI_style.Depth.TrueColour), "E[38;2;255;0;0m");
+check.eq_str("the 256-colour cube", escape_of(red, TUI_style.Depth.Ansi256), "E[38;5;196m");
+check.eq_str("the nearest of 16", escape_of(red, TUI_style.Depth.Ansi16), "E[91m");
+check.eq_str("a grey at 256 colours", escape_of(TUI_style.Colour.Rgb(128, 128, 128), TUI_style.Depth.Ansi256), "E[38;5;244m");
+check.eq_str("an ANSI name stays an ANSI name at 16", escape_of(TUI_style.Colour.Indexed(2), TUI_style.Depth.Ansi16), "E[32m");
+check.eq_str("and at truecolour", escape_of(TUI_style.Colour.Indexed(2), TUI_style.Depth.TrueColour), "E[32m");
+// --- the built-in themes -----------------------------------------------------------------
+check.ok("there are built-in themes", MED_theme_data.NAMES.size >= 12);
+List<str> expected = ["default", "default-light", "term16-dark", "term16-light", "tokyonight", "nightfox", "gruvbox-material", "gruvbox", "catppuccin-mocha", "onedark", "nord", "dracula", "github-light"];
+for (str name in expected) {
+    check.ok("built-in " + name + " is listed", MED_theme.is_builtin(name));
+}
+List<str> files = [];
+match (fs.listdir("themes")) {
+    case Ok(List<str> found): {
+        files = found;
+    }
+    case Err(io.Error error): {
+    }
+}
+check.eq_int("themes/ and the embedded data agree on how many", files.size(), MED_theme_data.NAMES.size);
+for (str name in MED_theme_data.NAMES) {
+    str path = "themes/" + name + ".toml";
+    str on_disk = text_of(path);
+    check.ok(path + " is what is embedded (run scripts/gen_themes.sh)", on_disk.trim() == MED_theme_data.source_of(name).join("\n").trim());
+    match (MED_theme.load(name, "")) {
+        case Err(str message): {
+            check.ok("built-in " + name + " loads: " + message, false);
+        }
+        case Ok(MED_theme.Theme theme): {
+            check.eq_int(name + ": no unreadable entries" + theme.warnings.join(" | "), theme.warnings.size(), 0);
+            for (str scope in MED_theme.required_scopes()) {
+                check.ok(name + " defines " + scope, theme.is_defined(scope));
+            }
+            for (int class_value in 1 .. SYN_class.COUNT) {
+                check.ok(name + " draws " + MED_theme.class_scope(class_value) + " (class " + class_value.to_str() + ")", theme.is_defined(MED_theme.class_scope(class_value)));
+            }
+            check.ok(name + ": comments differ from keywords", theme.look("comment").to_str() != theme.look("keyword").to_str());
+            check.ok(name + ": the mode colours differ", theme.look("ui.statusline.normal").to_str() != theme.look("ui.statusline.insert").to_str());
+            check.ok(name + ": selection shows", theme.style("ui.selection").to_str() != TUI_style.Style().to_str());
+        }
+    }
+}
+// the scopes the renderer asks for are exactly the ones every built-in must define
+str app_source = text_of("ui/MED_app.m31");
+str picker_source = text_of("ui/MED_picker_view.m31");
+check.ok("the renderer source is there", app_source.size() > 1000 && picker_source.size() > 1000);
+List<str> asked = [];
+List<str> sources = [app_source, picker_source];
+List<str> markers = ["theme.look(\"", "theme.style(\"", "theme.over(\"", "theme.look_of_first(\""];
+for (str text in sources) {
+    for (str marker in markers) {
+        for (str scope in literals_after(text, marker, 0)) {
+            asked.push(scope);
+        }
+    }
+    // theme.over(under, scope): the second literal too
+    for (str scope in literals_after(text, "theme.over(\"", 1)) {
+        asked.push(scope);
+    }
+}
+check.ok("the renderer asks for scopes", asked.size() > 40);
+List<str> optional = ["ui.gutter", "ui.background", "ui.text.focus", "ui.picker.title", "ui.which-key.title", "ui.tree.hidden", "ui.picker.preview", "diagnostic.error"];
+for (str scope in asked) {
+    if (scope.ends_with(".")) {
+        // "ui.statusline." + the mode: the modes are in required_scopes
+        continue;
+    }
+    check.ok("the renderer's " + scope + " is a required scope", MED_theme.required_scopes().contains(scope) || optional.contains(scope));
+}
+// ...and every built-in resolves the optional ones sensibly too
+match (MED_theme.load("default", "")) {
+    case Ok(MED_theme.Theme loaded): {
+        check.ok("default has the title scopes", loaded.has_entry("ui.picker.title") && loaded.has_entry("ui.which-key.title") && loaded.has_entry("ui.tree.hidden"));
+        check.ok("default is transparent", MED_theme.is_empty(loaded.base));
+        check.ok("keywords, strings and comments differ", loaded.look("keyword").to_str() != loaded.look("string").to_str() && loaded.look("string").to_str() != loaded.look("comment").to_str());
+    }
+    case Err(str message): {
+        check.ok("default loads: " + message, false);
+    }
+}
+match (MED_theme.load("tokyonight", "")) {
+    case Ok(MED_theme.Theme loaded): {
+        check.eq_str("tokyonight night's background", loaded.base.background.to_str(), "rgb 26,27,38");
+        check.eq_str("and its text", loaded.base.foreground.to_str(), "rgb 192,202,245");
+        check.eq_str("keyword.control.return falls to tokyonight's own", loaded.style("keyword.control.return").foreground.to_str(), "rgb 157,124,216");
+    }
+    case Err(str message): {
+        check.ok("tokyonight loads: " + message, false);
+    }
+}
+match (MED_theme.load("gruvbox-material", "")) {
+    case Ok(MED_theme.Theme loaded): {
+        check.eq_str("gruvbox-material dark medium background", loaded.base.background.to_str(), "rgb 40,40,40");
+        check.eq_str("and its keyword is red", loaded.style("keyword").foreground.to_str(), "rgb 234,105,98");
+    }
+    case Err(str message): {
+        check.ok("gruvbox-material loads: " + message, false);
+    }
+}
+check.eq_str("the default for a dark background", MED_theme.default_for(false, false), "default");
+check.eq_str("for a light one", MED_theme.default_for(true, false), "default-light");
+check.eq_str("at 16 colours", MED_theme.default_for(false, true), "term16-dark");
+check.eq_str("light at 16 colours", MED_theme.default_for(true, true), "term16-light");
+// --- user themes ---------------------------------------------------------------------------------
+str work = work_directory();
+check.eq_str("XDG_CONFIG_HOME wins", MED_theme.user_directory("/x/cfg", "/home/u"), "/x/cfg/m3/themes");
+check.eq_str("else ~/.config", MED_theme.user_directory("", "/home/u"), "/home/u/.config/m3/themes");
+check.eq_str("else nothing", MED_theme.user_directory("", ""), "");
+str themes_directory = MED_theme.user_directory(work + "/xdg", "");
+match (fs.makedirs(themes_directory)) {
+    case Ok(bool did_make): {
+    }
+    case Err(io.Error error): {
+        check.ok("make the themes directory", false);
+    }
+}
+write_file(themes_directory + "/mine.toml", "inherits = \"tokyonight\"\n\"comment\" = \"mine\"\n\"keyword\" = { fg = \"#010203\" }\n[palette]\nmine = \"#ff00ff\"\n");
+write_file(themes_directory + "/nord.toml", "inherits = \"nord\"\n\"keyword\" = \"#abcdef\"\n");
+write_file(themes_directory + "/child.toml", "inherits = \"mine\"\n\"string\" = \"#999999\"\n\"comment\" = \"deep\"\n[palette]\ndeep = \"#00ff00\"\n");
+write_file(themes_directory + "/inherits_palette.toml", "inherits = \"tokyonight\"\n\"keyword\" = \"magenta\"\n\"string\" = \"orange\"\n");
+write_file(themes_directory + "/loop_a.toml", "inherits = \"loop_b\"\n");
+write_file(themes_directory + "/loop_b.toml", "inherits = \"loop_a\"\n");
+write_file(themes_directory + "/self.toml", "inherits = \"self\"\n");
+write_file(themes_directory + "/orphan.toml", "inherits = \"nowhere\"\n");
+write_file(themes_directory + "/broken.toml", "\"keyword\" = \n");
+write_file(themes_directory + "/partly.toml", "\"keyword\" = \"red\"\n\"string\" = \"mauve\"\n");
+write_file(themes_directory + "/notes.txt", "not a theme\n");
+write_file(themes_directory + "/.hidden.toml", "\"keyword\" = \"red\"\n");
+List<str> everything = MED_theme.available(themes_directory);
+check.ok("user themes are listed", everything.contains("mine") && everything.contains("child"));
+check.ok("with the built-ins", everything.contains("default") && everything.contains("tokyonight"));
+check.ok("a user theme named like a built-in is listed once", everything.index_of("nord").is_some() && everything.size() == MED_theme_data.NAMES.size + 9);
+check.ok("other files are not", !everything.contains("notes") && !everything.contains("notes.txt") && !everything.contains(".hidden"));
+List<str> sorted_names = everything.slice(0, everything.size());
+sorted_names.sort();
+check.ok("sorted", sorted_names.join(",") == everything.join(","));
+check.ok("no directory is just the built-ins", MED_theme.available("").size() == MED_theme_data.NAMES.size);
+check.ok("a missing directory too", MED_theme.available(work + "/nope").size() == MED_theme_data.NAMES.size);
+match (MED_theme.load("mine", themes_directory)) {
+    case Ok(MED_theme.Theme loaded): {
+        check.eq_str("a user theme's own palette", loaded.style("comment").foreground.to_str(), "rgb 255,0,255");
+        check.eq_str("its own scope", loaded.style("keyword").foreground.to_str(), "rgb 1,2,3");
+        check.eq_str("what it inherits", loaded.style("string").foreground.to_str(), "rgb 158,206,106");
+        check.eq_str("including the base", loaded.base.background.to_str(), "rgb 26,27,38");
+        check.eq_str("its name", loaded.name, "mine");
+    }
+    case Err(str message): {
+        check.ok("mine loads: " + message, false);
+    }
+}
+match (MED_theme.load("child", themes_directory)) {
+    case Ok(MED_theme.Theme loaded): {
+        check.eq_str("a theme that inherits a theme that inherits", loaded.style("string").foreground.to_str(), "rgb 153,153,153");
+        check.eq_str("its palette over the parent's", loaded.style("comment").foreground.to_str(), "rgb 0,255,0");
+        check.eq_str("the grandparent's scopes", loaded.style("keyword").foreground.to_str(), "rgb 1,2,3");
+        check.eq_str("and the great-grandparent's", loaded.style("type").foreground.to_str(), "rgb 42,195,222");
+    }
+    case Err(str message): {
+        check.ok("child loads: " + message, false);
+    }
+}
+match (MED_theme.load("nord", themes_directory)) {
+    case Ok(MED_theme.Theme loaded): {
+        check.eq_str("a user file shadows the built-in", loaded.style("keyword").foreground.to_str(), "rgb 171,205,239");
+        check.ok("and extends the built-in of its name", loaded.has_entry("comment") && loaded.has_entry("ui.statusline"));
+    }
+    case Err(str message): {
+        check.ok("nord loads: " + message, false);
+    }
+}
+match (MED_theme.load("inherits_palette", themes_directory)) {
+    case Ok(MED_theme.Theme loaded): {
+        check.eq_str("a name from the parent's palette", loaded.style("string").foreground.to_str(), "rgb 255,158,100");
+        check.eq_str("an ANSI name the parent's palette does not shadow", loaded.style("keyword").foreground.to_str(), "rgb 187,154,247");
+    }
+    case Err(str message): {
+        check.ok("inherits_palette loads: " + message, false);
+    }
+}
+match (MED_theme.load("partly", themes_directory)) {
+    case Ok(MED_theme.Theme loaded): {
+        check.ok("an unreadable entry is a warning, the rest loads", loaded.warnings.size() == 1 && loaded.has_entry("keyword") && !loaded.has_entry("string"));
+    }
+    case Err(str message): {
+        check.ok("partly loads: " + message, false);
+    }
+}
+check.ok("a loop of inherits is an error", MED_theme.load("loop_a", themes_directory).is_err());
+check.ok("a theme inheriting itself with no built-in is an error", MED_theme.load("self", themes_directory).is_err());
+match (MED_theme.load("loop_a", themes_directory)) {
+    case Err(str message): {
+        check.ok("that says so: " + message, message.contains("inherits from itself") || message.contains("nested too deep"));
+    }
+    case Ok(MED_theme.Theme loaded): {
+    }
+}
+match (MED_theme.load("orphan", themes_directory)) {
+    case Err(str message): {
+        check.eq_str("an unknown parent", message, "unknown theme \"nowhere\"");
+    }
+    case Ok(MED_theme.Theme loaded): {
+        check.ok("orphan should not load", false);
+    }
+}
+match (MED_theme.load("broken", themes_directory)) {
+    case Err(str message): {
+        check.eq_str("a syntax error names the file and the line", message, "broken:1: missing value");
+    }
+    case Ok(MED_theme.Theme loaded): {
+        check.ok("broken should not load", false);
+    }
+}
+match (MED_theme.load("nonesuch", themes_directory)) {
+    case Err(str message): {
+        check.eq_str("an unknown theme", message, "unknown theme \"nonesuch\"");
+    }
+    case Ok(MED_theme.Theme loaded): {
+        check.ok("nonesuch should not load", false);
+    }
+}
+List<str> bad_names = ["../mine", "a/b", "", ".hidden", "with space"];
+for (str bad_name in bad_names) {
+    check.ok("the name \"" + bad_name + "\" is refused", MED_theme.load(bad_name, themes_directory).is_err() && !MED_theme.is_valid_name(bad_name));
+}
+check.ok("names with dashes and plus are fine", MED_theme.is_valid_name("penumbra+") && MED_theme.is_valid_name("a-b_c.d"));
+// --- the editor: :theme, :colorscheme, completion, background, the picker ----------------------
+match (MED_app.open_all([""])) {
+    case Err(str message): {
+        check.ok("open for the theme tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        app.theme_directory = themes_directory;
+        check.eq_str("the default theme at the start", app.theme.name, "default");
+        type_text(app, "ihello world\x1b");
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(60, 6);
+        app.render(screen, screen.area());
+        check.ok("a transparent theme fills nothing", screen.style_at(40, 0) == 0);
+        int before = screen.style_at(0, 5);
+        type_text(app, ":theme\n");
+        app.render(screen, screen.area());
+        check.ok(":theme shows the current one", app.notice.starts_with("theme: default"));
+        type_text(app, ":theme tokyonight\n");
+        check.eq_str(":theme NAME switches", app.theme.name, "tokyonight");
+        check.eq_str("and says so", app.notice, "theme: tokyonight");
+        app.render(screen, screen.area());
+        check.ok("the screen is painted in its background", screen.style_at(40, 0) != 0 && screen.style_at(0, 5) != before);
+        check.ok("every cell has the theme's background", screen.get(59, 2).style.background.to_str() == "rgb 26,27,38" && screen.get(0, 5).style.background.to_str() == "rgb 26,27,38");
+        type_text(app, ":colorscheme nord\n");
+        check.eq_str(":colorscheme is the same", app.theme.name, "nord");
+        type_text(app, ":colo gruvbox\n");
+        check.eq_str("and :colo", app.theme.name, "gruvbox");
+        type_text(app, ":theme nonesuch\n");
+        check.eq_str("an unknown theme leaves the theme alone", app.theme.name, "gruvbox");
+        check.eq_str("and says what is wrong", app.notice, "unknown theme \"nonesuch\" (:theme <Tab> lists them)");
+        app.render(screen, screen.area());
+        type_text(app, ":theme broken\n");
+        check.eq_str("a broken theme leaves it alone", app.theme.name, "gruvbox");
+        check.eq_str("and names the line", app.notice, "broken:1: missing value");
+        type_text(app, ":theme partly\n");
+        check.eq_str("a theme with a bad entry still loads", app.theme.name, "partly");
+        check.ok("and reports it", app.notice.contains("partly:2: string: unknown colour \"mauve\""));
+        type_text(app, ":theme ../mine\n");
+        check.eq_str("a path is not a name", app.theme.name, "partly");
+        // completion
+        type_text(app, ":theme tok\t");
+        check.eq_str("Tab completes a theme name", app.editor.cmdline, "theme tokyonight");
+        type_text(app, "\x1b");
+        type_text(app, ":colorscheme gruvbox-m\t");
+        check.eq_str("after :colorscheme too", app.editor.cmdline, "colorscheme gruvbox-material");
+        type_text(app, "\t");
+        check.eq_str("the next match", app.editor.cmdline, "colorscheme gruvbox-material-soft");
+        type_text(app, "\x1b");
+        type_text(app, ":theme mi\t");
+        check.eq_str("a user theme completes", app.editor.cmdline, "theme mine");
+        type_text(app, "\x1b");
+        type_text(app, ":the\t");
+        check.eq_str(":theme completes as a command", app.editor.cmdline, "theme");
+        type_text(app, "\x1b");
+        // :set background follows the default pair, not a chosen theme
+        type_text(app, ":theme default\n");
+        check.eq_str("back to the default", app.theme.name, "default");
+        type_text(app, ":set background=light\n");
+        app.render(screen, screen.area());
+        check.eq_str(":set background=light picks default-light", app.theme.name, "default-light");
+        type_text(app, ":set background=dark\n");
+        app.render(screen, screen.area());
+        check.eq_str("and dark picks default", app.theme.name, "default");
+        type_text(app, ":theme nord\n");
+        type_text(app, ":set background=light\n");
+        app.render(screen, screen.area());
+        check.eq_str("another theme is not changed by it", app.theme.name, "nord");
+        type_text(app, ":set background=dark\n");
+        type_text(app, ":theme default-light\n");
+        app.render(screen, screen.area());
+        check.eq_str("naming default-light on a dark background keeps it", app.theme.name, "default-light");
+        // 16 colours
+        app.is_sixteen_colours = true;
+        type_text(app, ":theme default\n");
+        check.eq_str("the default is term16-dark at 16 colours", app.theme.name, "term16-dark");
+        type_text(app, ":theme default-light\n");
+        check.eq_str("default-light is term16-light", app.theme.name, "term16-light");
+        type_text(app, ":theme tokyonight\n");
+        check.eq_str("another theme is itself", app.theme.name, "tokyonight");
+        app.is_sixteen_colours = false;
+        // the picker: live preview, Esc puts the theme back, Enter keeps one
+        type_text(app, ":theme default\n");
+        type_text(app, " fC");
+        check.ok("<Space>fC opens the theme picker", app.has_picker && app.picker.title == "Themes");
+        MED_picker.Entry first = app.picker.current().or(MED_picker.Entry(""));
+        check.ok("it starts on the current theme", first.text.contains("(current)") && first.action == "ex:theme default");
+        app.handle(named(term.Code.Down));
+        check.ok("moving the selection previews the theme", app.theme.name != "default");
+        str previewed = app.theme.name;
+        app.handle(named(term.Code.Down));
+        check.ok("each move previews the next", app.theme.name != previewed);
+        app.render(screen, screen.area());
+        app.handle(named(term.Code.Escape));
+        check.ok("Esc closes it", !app.has_picker);
+        check.eq_str("and reverts the theme", app.theme.name, "default");
+        type_text(app, " fC");
+        app.handle(named(term.Code.Down));
+        str chosen = app.theme.name;
+        app.handle(named(term.Code.Enter));
+        check.ok("Enter closes it", !app.has_picker);
+        check.eq_str("and keeps the theme", app.theme.name, chosen);
+        type_text(app, " fCmine");
+        check.eq_str("typing filters, and previews the match", app.theme.name, "mine");
+        app.handle(named(term.Code.Escape));
+        check.eq_str("cancelling that too", app.theme.name, chosen);
+        type_text(app, ":Commands\n");
+        type_text(app, "colour scheme");
+        check.ok("the command palette offers the picker", app.has_picker && app.picker.current().or(MED_picker.Entry("")).action == "picker:themes");
+        app.handle(named(term.Code.Escape));
+        // :source and the startup file run :theme before the first frame
+        write_file(work + "/startup.vim", "\" a comment\nset number\ncolorscheme nord\n");
+        app.load_keymap(work + "/startup.vim", true);
+        check.eq_str("a startup file's :colorscheme applies at once", app.theme.name, "nord");
+        write_file(work + "/other.vim", "theme dracula\n");
+        type_text(app, ":source " + work + "/other.vim\n");
+        check.eq_str(":source of a :theme line", app.theme.name, "dracula");
+    }
+}
+// --- the renderer asks the theme for everything ----------------------------------------------------
+match (MED_app.open_all([""])) {
+    case Err(str message): {
+        check.ok("open for the render tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        app.editor.opts.set("cursorline", "true");
+        type_text(app, "ione\ntwo\x1b");
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(40, 8);
+        app.did_use_theme("tokyonight");
+        app.render(screen, screen.area());
+        // the status line (row 6) is in the theme's statusline colours, the mode in its own
+        check.eq_str("the statusline", screen.get(20, 6).style.background.to_str(), "rgb 22,22,30");
+        check.eq_str("the Normal-mode segment", screen.get(1, 6).style.background.to_str(), "rgb 122,162,247");
+        type_text(app, "i");
+        app.render(screen, screen.area());
+        check.eq_str("the Insert-mode segment", screen.get(1, 6).style.background.to_str(), "rgb 158,206,106");
+        type_text(app, "\x1bV");
+        app.render(screen, screen.area());
+        check.eq_str("the Visual-mode segment (ui.statusline.select)", screen.get(1, 6).style.background.to_str(), "rgb 187,154,247");
+        check.eq_str("the selection", screen.get(6, 1).style.background.to_str(), "rgb 40,52,87");
+        type_text(app, "\x1b");
+        app.render(screen, screen.area());
+        check.eq_str("the cursor line", screen.get(10, 1).style.background.to_str(), "rgb 22,22,30");
+        check.eq_str("line numbers", screen.get(2, 0).style.foreground.to_str(), "rgb 59,66,97");
+        check.eq_str("the current line number", screen.get(2, 1).style.foreground.to_str(), "rgb 115,122,162");
+        // the cursor is the theme's: reversed
+        check.ok("the cursor cell is reversed", (screen.get(app.cursor_x, app.cursor_y).style.attrs & TUI_style.REVERSE) != 0);
+        // which-key
+        type_text(app, " ");
+        app.render(screen, screen.area());
+        app.is_which_key = true;
+        TUI_buffer.Buffer tall = TUI_buffer.Buffer.sized(60, 20);
+        app.render(tall, tall.area());
+        bool is_popup_painted = false;
+        for (int x in 0 .. 60) {
+            if (tall.get(x, 10).style.background.to_str() == "rgb 22,22,30" && tall.get(x, 10).symbol != " ") {
+                is_popup_painted = true;
+            }
+        }
+        check.ok("the which-key popup is in the theme's popup colours", is_popup_painted);
+        type_text(app, "\x1b");
+    }
+}
+// a syntax-coloured line comes from the class scopes
+write_file(work + "/hl.py", "def f(): pass  # note\n");
+match (MED_app.open_all([work + "/hl.py"])) {
+    case Err(str message): {
+        check.ok("open for the syntax theme tests: " + message, false);
+    }
+    case Ok(MED_app.App app): {
+        TUI_buffer.Buffer screen = TUI_buffer.Buffer.sized(60, 6);
+        app.did_use_theme("tokyonight");
+        app.render(screen, screen.area());
+        int word = screen.row_text(0).index_of("pass").or(0);
+        int note = screen.row_text(0).index_of("note").or(0);
+        check.eq_str("a comment is tokyonight's comment colour", screen.get(note, 0).style.foreground.to_str(), "rgb 86,95,137");
+        check.eq_int("in italics", screen.get(note, 0).style.attrs & TUI_style.ITALIC, TUI_style.ITALIC);
+        check.eq_str("a keyword is its keyword colour", screen.get(word, 0).style.foreground.to_str(), "rgb 157,124,216");
+        check.ok("and keeps the theme's background", screen.get(word, 0).style.background.to_str() == "rgb 26,27,38");
+        app.did_use_theme("gruvbox-material");
+        app.render(screen, screen.area());
+        check.eq_str("another theme repaints it", screen.get(word, 0).style.foreground.to_str(), "rgb 234,105,98");
+        app.did_use_theme("term16-dark");
+        app.render(screen, screen.area());
+        check.eq_str("the 16-colour theme uses the ANSI colours", screen.get(note, 0).style.foreground.to_str(), "index 8");
+        check.eq_str("and no background", screen.get(note, 0).style.background.to_str(), "default");
+    }
+}
+// --- --dump-sample ----------------------------------------------------------------------------------
+str dark_dump = MED_sample.screens("tokyonight", "", TUI_style.Depth.TrueColour);
+check.ok("the dump has the theme's title", dark_dump.starts_with("== theme tokyonight ==\n"));
+check.ok("and truecolour escapes", dark_dump.contains("\x1b[38;2;") && dark_dump.contains("\x1b[0m"));
+check.ok("and code", dark_dump.contains("HashMap") && dark_dump.contains("Cache") && dark_dump.contains("Themes"));
+check.ok("and the statusline modes", dark_dump.contains("INSERT") && dark_dump.contains("V-LINE") && dark_dump.contains("COMMAND"));
+str sixteen_dump = MED_sample.screens("default", "", TUI_style.Depth.Ansi16);
+check.ok("at 16 colours there is no 24-bit or 256-colour escape", !sixteen_dump.contains("38;2") && !sixteen_dump.contains("38;5") && sixteen_dump.contains("\x1b[3"));
+check.ok("a theme that does not load says so", MED_sample.screens("nonesuch", "", TUI_style.Depth.TrueColour).contains("cannot load: unknown theme"));
+for (str name in MED_theme_data.NAMES) {
+    check.ok("--dump-sample draws " + name, MED_sample.screens(name, "", TUI_style.Depth.Ansi256).size() > 3000);
+}
+match (os.run(["rm", "-rf", work])) {
+    case Ok(os.ExitStatus status): {
+    }
+    case Err(io.Error error): {
+    }
+}
+check.finish("t_theme");
