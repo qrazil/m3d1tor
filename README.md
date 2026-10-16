@@ -6,7 +6,7 @@ library. IDE-lite: keyboard first, no toolbar or menu chrome, discoverable
 through which-key, a command palette and a keymap help picker. (`medit` is the
 design codename that `DESIGN.md` still uses.)
 
-**Status: v0.4.0.** The Vim engine is checked against `nvim --headless` on
+**Status: v0.5.0.** The Vim engine is checked against `nvim --headless` on
 more than 38,500 generated and hand-written cases (20 known divergences, listed in
 `tests/oracles/known_divergences.txt`); on top of it sit the built-in plugins that make it a daily editor:
 a fuzzy finder with async sources (rg / fd / git when installed, a built-in walker and grep when not), which-key for
@@ -57,7 +57,7 @@ On Alpine (musl) the installer picks the `-musl` Linux asset built by `scripts/c
 - Syntax highlighting for 77 languages (c, cpp, go, javascript/typescript, json, m31, markdown,
   python, rust, sh, toml, yaml, html, css, sql, java, ruby, lua, ...), by the shared
   [`syntax`](https://github.com/qrazil/syntax) library (`:syntax on|off`, `:set syntax=NAME`); the
-  colours are the terminal's palette, light or dark by `COLORFGBG` or `:set background=`.
+  colours come from the theme (see Themes below).
   Markdown: headings, emphasis, strong, strikethrough, code spans, links, lists and task boxes, quotes, rules,
   tables, and fenced blocks highlighted in the fence's language (```` ```rust ````, `py`, `sh`, `m31`, ...;
   unknown language = plain code colour).
@@ -81,6 +81,8 @@ On Alpine (musl) the installer picks the `-musl` Linux asset built by `scripts/c
   (`:set commentstring=`), matching Neovim 0.11's built-in `gc`.
 - A keymap file in Vim syntax: `:map` / `:noremap` for n, x, o, i, c modes, `:unmap`,
   `:mapclear`, `let mapleader`, `:source` (see below).
+- Themes: `:theme` / `:colorscheme`, a live-preview picker, truecolor with 256 and 16-colour fallback, Helix-format theme
+  files (see Themes below).
 
 The editing engine is tested differentially against `nvim --headless` (31k+ cases): motions, operators, text objects,
 counts, dot repeat, registers, undo, visual modes, macros, marks, search, ex commands, insert-mode keys (including
@@ -174,6 +176,79 @@ server is not installed): pyright, clangd, typescript-language-server, lua-langu
 the per-server table is in DESIGN.md section 13. The status line shows `LSP: ...` while a server reports progress
 (indexing). CTRL-Space in Insert mode completes from the server (a picker; Enter accepts).
 
+## Themes
+
+Colours are data, in Helix's model: a theme is a TOML file with a `[palette]` and a table from scope names to styles.
+Fourteen are built in (no files needed at run time): `default` and `default-light` (original to m3, no background colour
+of their own so the terminal's shows through), `term16-dark` and `term16-light` (only the terminal's 16 ANSI colours;
+what `default` becomes on a 16-colour terminal), `tokyonight` (night), `nightfox`, `gruvbox-material` (dark, medium)
+and `gruvbox-material-soft`, `gruvbox`, `catppuccin-mocha`, `onedark`, `nord`, `dracula`, `github-light`.
+The last nine are the Helix ports of those schemes, unchanged (see the header of `themes/*.toml` for the authors).
+
+```
+:theme                   show the theme in use
+:theme tokyonight        switch now (Tab completes names); :colorscheme NAME is the same
+<Space>fC                pick one: the text beside the list is redrawn as the selection moves, Esc goes back
+m3 --theme nord FILE     start with it
+m3 --dump-sample         every built-in theme drawn on sample code as ANSI text (--theme X, --colors 16|256|true)
+```
+
+`:set background=light|dark` switches between `default` and `default-light` (and only while one of them is in use).
+To keep a theme, put `colorscheme tokyonight` (or `theme tokyonight`) in `~/.config/m3/keymap.vim`; `--theme` wins over it.
+An unknown or broken theme is a message on the command line and the theme in use stays.
+
+Colour depth: truecolor when `COLORTERM` says so (or the terminal is iTerm2, WezTerm, VS Code, ghostty, kitty,
+alacritty), else the 256-colour cube for a `*256color` `TERM`, else the nearest of the 16 ANSI colours. Hex colours
+are rounded down to what the terminal has; `default` becomes `term16-dark` / `term16-light` at 16 colours.
+
+**Your own themes** are `~/.config/m3/themes/NAME.toml` (`$XDG_CONFIG_HOME/m3/themes`; macOS uses `~/.config` too).
+They show up in the picker and in completion, shadow a built-in of the same name, and can start from one:
+
+```toml
+inherits = "tokyonight"                 # a built-in or another user theme; the parent's palette is visible too
+"comment" = { fg = "gray", modifiers = ["italic"] }
+"ui.statusline.normal" = { fg = "bg", bg = "blue", modifiers = ["bold"] }
+"keyword" = "#ff79c6"                   # a bare colour is a foreground
+"ui.background" = { bg = "bg" }         # optional: without it the terminal's own background shows
+
+[palette]
+gray = "#565f89"
+bg = "#1a1b26"
+blue = "#7aa2f7"
+```
+
+Format: colours are `#rrggbb` (`#rgb`, and `#rrggbbaa` with the alpha ignored), a palette name, one of `black red green
+yellow blue magenta cyan gray light-red .. light-cyan light-gray white` (`gray` is bright black, `light-gray` plain white),
+`default`, or a number 0..255. A style has `fg`, `bg`, `modifiers` (`bold dim italic underlined reversed crossed_out`;
+`slow_blink`, `rapid_blink` and `hidden` are accepted and ignored) and `underline = { color, style }` (draws a plain
+underline: the terminal layer has no underline colour or curl). Only the TOML the format needs is read: comments,
+`[palette]`, `key = value`, strings, arrays and inline tables (which may span lines). A syntax error fails the theme
+with the file and line; an entry that cannot be read (an unknown colour, modifier or key) is left out and reported,
+as Helix does. Every theme in Helix's `runtime/themes` loads (checked against Helix 25.01).
+
+Scope lookup is Helix's: `keyword.control.return`, then `keyword.control`, then `keyword`. Scopes Helix themes do
+not have fall back to ones they do (`ui.statusline.visual` to `ui.statusline.select`, `ui.cursorline` to
+`ui.cursorline.primary`, `markup.heading` to `markup.heading.1`, ...: `FALLBACKS` in `ui/MED_theme.m31`), so a
+Helix theme works unchanged and looks right. What is drawn, and the scope for it:
+
+| area | scopes |
+|---|---|
+| text | `ui.background` (optional), `ui.text`, `ui.text.inactive`, `ui.gutter`, `ui.linenr`, `ui.linenr.selected` |
+| cursor and selection | `ui.cursor` (and `ui.cursor.primary.normal`/`insert`/`select`; reversed when absent), `ui.cursorline`, `ui.selection`, `search.match` (hlsearch), `search.current` (incsearch preview), `ui.todo` (TODO / FIXME) |
+| statusline | `ui.statusline`, `.inactive`, and the mode segment `.normal .insert .visual .replace .command .terminal` |
+| buffer / tab line | `ui.bufferline`, `ui.bufferline.active` |
+| popups | `ui.popup` (listings), `ui.which-key` (+ `.title`), `ui.menu`, `ui.menu.selected` (command-line completion row), `ui.picker` (+ `.title`, `.match`, `.selected`), `ui.prompt` |
+| editing area | `ui.virtual.indent-guide`, `ui.virtual.whitespace` (`:set list`, `~`, `<<<`), `ui.virtual.ruler` (`colorcolumn`), `ui.virtual.inlay-hint`, `ui.window` (split borders) |
+| file tree | `ui.tree.directory`, `ui.tree.hidden` |
+| signs | `error` `warning` `info` (diagnostics), `special` (marks), `diff.plus` `diff.delta` `diff.minus` (git gutter, tree status letters) |
+| messages | `error` |
+| syntax | the 25 `syntax` classes: `variable` (plain code), `comment`, `string`, `constant.numeric`, `keyword`, `type`, `function`, `keyword.directive`, `constant`, `operator`, `string.special`, `markup.heading`, `variable.other.member` (properties and members), `tag`, `attribute`, `punctuation.special`, `function.call`, `diff.plus`, `diff.minus`, `markup.link.url`, `markup.italic`, `markup.bold`, `markup.raw`, `variable.builtin` |
+
+A theme file that lacks a scope gets the fallbacks above, then plain text. Built-in themes must resolve every scope the
+renderer asks for: `tests/t_theme.m31` reads the renderer's source for the scopes it uses and fails when a built-in omits one.
+`diagnostic.*` is accepted (themes have it) but not drawn: diagnostics show in the sign column only.
+`scripts/gen_themes.sh` turns `themes/*.toml` into `ui/MED_theme_data.m31`; edit the `.toml`, then run it.
+
 ## Keymap file
 
 `~/.config/m3/keymap.vim` (or `$XDG_CONFIG_HOME/m3/keymap.vim`, or the file
@@ -253,9 +328,10 @@ Options: `:set treeglyphs` (Nerd Font icons), `:set treewidth=40`, `:set treehid
                        register regex search editor ex vim view
     ui/                drawing, input and navigation
                        app keymap plugin window picker picker_view fuzzy files grep ignore tree git clip
-                       sources state vt lsp shell
+                       sources state vt lsp shell theme theme_data sample
+    themes/            the built-in themes as .toml (scripts/gen_themes.sh embeds them in ui/MED_theme_data.m31)
     tests/             test.sh (entry), t_*.m31 unit programs, MED_check.m31, oracles/
-    scripts/           build.sh, oracle.sh, gen_keymap.sh (docs/KEYMAP.md from the keymap table)
+    scripts/           build.sh, oracle.sh, gen_keymap.sh (docs/KEYMAP.md from the keymap table), gen_themes.sh
     docs/              KEYMAP.md (generated)
     DESIGN.md          plan, plugin audit, architecture, oracle plan, v0.1.0 acceptance
     RENAMES.md         old-to-new import and file table for the grouped layout

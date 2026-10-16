@@ -56,6 +56,7 @@ A plugin can be switched off with `:PluginDisable NAME`; its rows then disappear
 | `<Space>fs` | Normal | Symbols in this file | finder | m3 |
 | `<Space>ft` | Normal | TODO comments | finder | m3 |
 | `<Space>fl` | Normal | Plugins | finder | m3 |
+| `<Space>fC` | Normal | Colour schemes (themes) | finder | m3 |
 | `<Space><Space>` | Normal | Find files | finder | m3 |
 | `<Space>,` | Normal | Switch buffer | finder | m3 |
 | `<Space>/` | Normal | Live grep | finder | m3 |

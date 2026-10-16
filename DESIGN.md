@@ -66,7 +66,7 @@ M3 picker; M4 is the stretch work between M3 and the tag).
 | vim-repeat | `.` for plugins | **v0.1**, built in: every command goes through the dot-repeat recorder | The grammar design makes plugins a non-issue |
 | incsearch / hlsearch | search UX | **v0.1** (M2/M3) | Built in |
 | lualine, vim-airline | statusline | **v0.1** (M2): built-in statusline with mode, file, modified flag, position | Plain widget |
-| themes (tokyonight, nightfox, gruvbox-material) | colours | **v0.1**: one built-in theme (dark, 16-colour fallback) + one light; theme as data. The user's three: later | Theme is a `Map` of style names to `TUI_style.Style` |
+| themes (tokyonight, nightfox, gruvbox-material) | colours | **Done (0.5.0)**: theme as data in Helix's TOML format, 14 built-in (the owner's three included), user themes, `:theme`, picker with live preview (section 3) | Was a hard-wired 16-colour mapping in 0.1.0 to 0.4.0 |
 | mini.indentscope, indent-blankline, indentLine | indent guides | **later** | Cosmetic |
 | neoscroll | smooth scroll | **never** | Animation through a polling loop is the wrong trade |
 | nvim-notify | popup notifications | **v0.1**: messages go to the command-line area; a `:messages` history | No popups |
@@ -245,6 +245,21 @@ search highlights, statusline, and the command/message line into a
 (wide characters take two). Tabs expand with `tabstop`. `nowrap` + horizontal
 scroll is the default (the user's setting); soft wrap is later.
 
+**Colour (0.5.0).** Nothing in the renderer names a colour. `ui/MED_theme.m31` parses Helix-format themes
+(`[palette]`, `"scope" = { fg, bg, underline, modifiers }`, `inherits`; only the TOML subset that needs: strings,
+arrays, inline tables, `#` comments) and answers `theme.look(scope)`: the scope's style laid over a base of
+`ui.background` and `ui.text`, so a theme without `ui.background` stays transparent and one with it paints every cell
+(`App.render` fills the screen with the base first, and every style the renderer builds already carries it, so no
+post-pass over the buffer is needed). Lookup tries the scope, the names Helix themes use for the scopes m3 adds
+(`FALLBACKS`), then dotted prefixes. The 25 `SYN_class` values map to scopes in `CLASS_SCOPES` (PROPERTY and MEMBER
+share `variable.other.member`); per-class styles and their cursor-line / colour-column variants are precomputed when a
+theme loads, so drawing a byte costs two list indexings. Colours are `TUI_style.Colour.Rgb` / `Indexed` and `tui`
+writes them at the terminal's depth (truecolor, the 256 cube, nearest of 16); on a 16-colour terminal `default` is
+swapped for `term16-dark` / `term16-light`, which use ANSI names only. The built-in themes are `themes/*.toml`,
+embedded as string lists in `ui/MED_theme_data.m31` by `scripts/gen_themes.sh` (m31 has no multi-line literals and no
+runtime file may be needed). `MED_theme` sits in `ui/` because it imports `TUI_style`; the engine only gets theme
+names for completion (`Editor.theme_names`).
+
 The loop is the tui `Loop` pattern (read with timeout, `Action.Redraw`), with the
 gitui-style idle `Ticker` for timeouts (`jk`), message expiry and picker results
 streaming in. Resize is detected by polling `term.size()` each tick (there is no
@@ -339,7 +354,7 @@ engine/MED_view.m31  drawing
 ui/MED_window.m31  window layout tree with nvim's frame sizes (win_split_ins, win_equal, frame_setheight / width, frame_new_height / width, win_exchange / win_rotate / win_totop), placement into screen rectangles, directional neighbours, the tab page record; tests/t_window.m31, tests/oracles/oracle_windows.py
 MED_help.m31       ? and which-key content from keymap data
 m3.m31        entry: args, terminal check, tui loop
-ui/MED_app.m31  front end (v0.4.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
+ui/MED_app.m31  front end (v0.5.0 tui): key translation, render, buffers (:e :ls :b :bn :bp :bd, CTRL-^, `:wa`), mouse (press, drag, wheel), :w/:q, ZZ; tests/t_app.m31
 ```
 
 ## 7. Oracle test plan
@@ -436,7 +451,7 @@ Helix 25.01 feature inventory and the v0.1.0 verdict. **Yes** = in the tag,
 | Auto pairs, comment toggle, surround | Yes | M4 |
 | Mouse (click, scroll, drag-select) | Partial | Click/scroll first; drag-select later |
 | Clipboard | Yes | `"+` `"*` and `clipboard=unnamedplus` through pbcopy / pbpaste, wl-clipboard, xclip or xsel (spawned through `sh` with a file in between: no pipes needed); without a tool the registers are the unnamed one, as in nvim |
-| Themes | Partial | The terminal's own 16-colour palette (works at 16, 256 and truecolor); dark and light by `COLORFGBG` or `:set background=`; no per-language scopes, no user schemes |
+| Themes | **Yes** (0.5.0) | Helix-format TOML themes with `[palette]`, `inherits` and dotted scope fallback; 14 built in, user themes in `~/.config/m3/themes`, `:theme` / `:colorscheme`, picker with live preview, truecolor / 256 / 16-colour output. Gaps: no underline colour or curl (the `tui` style has no bits for them), no blink / hidden, no diagnostic underlines in the text, one markdown heading class (no `markup.heading.N`), no theme saved from the picker |
 | Syntax highlighting | **Partial** | The shared `syntax` library (lexical, no parse tree; 77 languages, see section 14); `:syntax on/off`, `:set syntax=`. Multi-line comments, strings and code fences carry across lines |
 | Tree-sitter textobjects (`maf`, `mic`), indentation, selection expansion | **Impossible** (G3) | No tree-sitter runtime in m31 and the rule forbids Rust/FFI work |
 | LSP: diagnostics, completion, hover, goto, rename, code actions, signature help, inlay hints | **Partial** (0.1.0) | Section 13: diagnostics, hover, definition, references, rename, code action, format over `proc` pipes, tested with real servers. Completion is a picker on CTRL-Space (section 13); no signature help or inlay hints |
@@ -644,8 +659,8 @@ language detection and comment forms come from
   opens or closes nothing costs one line. Inserted and removed lines shift the
   cached states with them. Code that replaces `buffer.lines` wholesale sets
   `dirty_row = 0`.
-- The library has 25 classes; the editor draws the twelve it always had, so
-  `SYN_class.legacy` folds the rest onto them (colours as in 0.1.0). Markdown
+- The library has 25 classes; since 0.5.0 the editor draws all 25 (each has a theme scope, section 3);
+  `SYN_class.legacy`, the fold onto twelve, is no longer used by the renderer. Markdown
   fences are the library's: a fence in any known language (`rust`, `py`, `sh`,
   ...) is highlighted in that language, states carried line to line.
 - `commentstring` defaults (`gc`) come from `SYN_structure.comment_forms` of the

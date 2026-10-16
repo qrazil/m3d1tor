@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.5.0
+
+Themes. The hard-wired mapping onto the terminal's 16 colours is gone; every colour the renderer draws now comes from a
+theme, a Helix-format TOML file (`[palette]`, scope to style, `inherits`).
+
+- Fourteen built-in themes compiled into the binary: `default` (a new dark theme, truecolor, transparent background),
+  `default-light`, `term16-dark` / `term16-light` (the terminal's own 16 colours, used instead of the defaults on
+  16-colour terminals), and the Helix ports of `tokyonight` (night), `nightfox`, `gruvbox-material` (dark, medium) and
+  `-soft`, `gruvbox`, `catppuccin-mocha`, `onedark`, `nord`, `dracula`, `github-light`. Sources are `themes/*.toml`;
+  `scripts/gen_themes.sh` embeds them in `ui/MED_theme_data.m31`.
+- `:theme` (shows the current theme), `:theme NAME` and `:colorscheme NAME` switch at once; Tab completes names;
+  `<Space>fC` is a picker that previews each theme as the selection moves and goes back on Esc; `--theme NAME`;
+  `colorscheme NAME` in the startup file (`keymap.vim`). `:set background=light|dark` still moves between `default` and
+  `default-light`. A bad theme is a message and the old theme stays.
+- User themes: `~/.config/m3/themes/NAME.toml` (`$XDG_CONFIG_HOME`), shadowing or inheriting built-ins. All 154 themes
+  of Helix 25.01 load.
+- Scope lookup falls back by dotted prefix as in Helix, then through the names Helix themes do have for the scopes m3
+  adds (`ui.statusline.visual`, `ui.which-key`, `ui.picker.*`, `search.match`, ...). All 25 `syntax` classes have a
+  scope (`SYN_class.legacy`, the fold onto 12, is no longer used by the renderer). Statusline mode colours, git gutter,
+  signs, which-key, picker, tab line, indent guides, cursor line, colour columns, selection, search, TODO highlight and
+  the tree all go through scopes; a theme with `ui.background` paints the whole screen, one without leaves the
+  terminal's background alone.
+- Colours are written at the terminal's depth (truecolor, the 256 cube, or the nearest of 16).
+- `m3 --dump-sample [--theme NAME] [--colors 16|256|true]` draws sample code in six languages, the theme picker and the
+  which-key popup through the real renderer as ANSI text.
+- `:source` now runs requests that a sourced file queues (`:theme` lines) before the next key.
+- Tests: `tests/t_theme.m31` (parser, palettes, inheritance, fallback, depth, every built-in, user themes in a temporary
+  XDG directory, bad themes, the commands, the picker, `--dump-sample`; it reads the renderer's source and fails when a
+  built-in lacks a scope the renderer asks for), a pty scenario `themes` in `tests/e2e.py`.
+
+Not done: underline colour and curl (the `tui` style has six attribute bits and no underline colour), blink and hidden
+modifiers, diagnostic underlines in the text (only the sign column shows diagnostics), per-heading-level markdown
+colours (the lexical highlighter has one heading class), a theme setting saved from the picker.
+
 ## 0.4.0
 
 A round of queue items, each probed against nvim where the repo can.
