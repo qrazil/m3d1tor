@@ -1,0 +1,222 @@
+// Frecency for the file finder: how often and how lately each file was opened.
+//
+// Every file has a heat that falls by half every `half_life_days` days (exponential
+// decay) and goes up by one each time the file is opened:
+//
+//     heat_now = heat_then * 2 ^ (-(now - then) / half_life) + 1     (on a visit)
+//
+// so ten visits last week outweigh one visit today, and a file not opened for a few
+// months is as cold as one never opened. The finder turns the heat into a boost for
+// the ranking, `boost = BOOST_CAP * heat / (heat + 1)`: one fresh visit is half the cap,
+// a handful nearly all of it, and the cap stays well below one ranking tier, so
+// frecency reorders matches of the same kind and never lifts a worse match over a
+// better one (docs/FINDER.md). With an empty prompt the order is the heat itself.
+//
+// The state is one text file, `frecency`, in the state directory (`$XDG_STATE_HOME/m3`,
+// else `~/.local/state/m3`): `HEAT_MILLI TAB STAMP TAB PATH` per line, the heat in
+// thousandths as it was at the epoch second STAMP. At most `MAX_ENTRIES` lines are kept
+// (the hottest), cold ones are dropped, and the file is written to a temporary name
+// and renamed, so a reader never sees half a file. This module does no I/O itself except
+// `load` and `save`; `now` is always passed in, so every function is testable.
+
+import fs;
+import io;
+import math;
+import ui.MED_state;
+
+/// The most files remembered.
+pub const int MAX_ENTRIES = 2000;
+/// The heat below which a file is forgotten when the state is written (in thousandths).
+const int FORGET_BELOW = 20;
+/// The boost of a file that is infinitely hot (the ranking's tier is 100000 points).
+pub const int BOOST_CAP = 150;
+/// The boost from which the finder shows its marker.
+pub const int MARK_FROM = 45;
+pub const int DEFAULT_HALF_LIFE_DAYS = 14;
+const int DAY = 86400;
+const str FILE_NAME = "frecency";
+
+/// One file's heat in thousandths, as of the epoch second `stamp`.
+pub type Item {
+    pub int heat = 0;
+    pub int stamp = 0;
+}
+
+pub type Store {
+    pub Map<str, Item> items = {};
+    pub int half_life_days = 14;
+    pub bool is_changed = false;
+}
+
+/// The heat of `key` at `now`, in thousandths (0 for a file never opened).
+pub int Store.heat(str key, int now) {
+    match (items.get(key)) {
+        case Some(Item item): {
+            return decayed(item, now, half_life_days);
+        }
+        case None: {
+            return 0;
+        }
+    }
+}
+
+/// The epoch second `key` was last opened at (0 for never).
+pub int Store.last(str key) {
+    match (items.get(key)) {
+        case Some(Item item): {
+            return item.stamp;
+        }
+        case None: {
+            return 0;
+        }
+    }
+}
+
+/// A visit of `key` at `now`: its heat decays to now and gains one.
+pub void Store.visit(str key, int now) {
+    int heat = 1000;
+    match (items.get(key)) {
+        case Some(Item item): {
+            heat = heat + decayed(item, now, half_life_days);
+        }
+        case None: {
+        }
+    }
+    items.set(key, Item(heat: heat, stamp: now));
+    is_changed = true;
+}
+
+/// The lines to write: heats brought to `now`, the hottest `MAX_ENTRIES`, none below
+/// `FORGET_BELOW`, in a fixed order (so the file is the same for the same state).
+pub List<str> Store.to_lines(int now) {
+    List<Hot> hot = [];
+    List<str> keys = items.keys();
+    keys.sort();
+    for (str key in keys) {
+        match (items.get(key)) {
+            case Some(Item item): {
+                int heat = decayed(item, now, half_life_days);
+                if (heat >= FORGET_BELOW) {
+                    hot.push(Hot(key, heat, item.stamp));
+                }
+            }
+            case None: {
+            }
+        }
+    }
+    hot.sort();
+    List<str> out = [];
+    for (Hot one in hot) {
+        if (out.size() >= MAX_ENTRIES) {
+            break;
+        }
+        out.push(one.heat.to_str() + "\t" + now.to_str() + "\t" + one.key);
+    }
+    return out;
+}
+
+/// Write the store to `directory` atomically (a temporary file, then a rename);
+/// nothing when `directory` is "" (a clean run keeps no state) or nothing changed.
+pub void Store.save(str directory, int now) {
+    if (directory.size() == 0 || !is_changed) {
+        return;
+    }
+    match (fs.makedirs(directory)) {
+        case Ok(bool did_make): {
+        }
+        case Err(io.Error error): {
+            return;
+        }
+    }
+    str final_name = directory + "/" + FILE_NAME;
+    str temporary = final_name + ".tmp";
+    match (io.write(temporary, to_lines(now).join("\n") + "\n")) {
+        case Ok(int count): {
+        }
+        case Err(io.Error error): {
+            return;
+        }
+    }
+    match (fs.rename(temporary, final_name)) {
+        case Ok(bool did_rename): {
+            is_changed = false;
+        }
+        case Err(io.Error error): {
+        }
+    }
+}
+
+/// `item`'s heat at `now`: halved every `half_life_days`.
+pub int decayed(Item item, int now, int half_life_days) {
+    int age = now - item.stamp;
+    if (age <= 0) {
+        return item.heat;
+    }
+    float halves = float(age) / float(half_life_days * DAY);
+    float factor = math.exp(-0.6931471805599453 * halves);
+    return int(float(item.heat) * factor);
+}
+
+/// The ranking boost for a heat in thousandths: 0 to `BOOST_CAP`.
+pub int boost_of(int heat) {
+    if (heat <= 0) {
+        return 0;
+    }
+    return BOOST_CAP * heat / (heat + 1000);
+}
+
+/// The store a text file describes (lines that do not parse are skipped).
+pub Store parse(List<str> lines, int half_life_days) {
+    Store store = Store(half_life_days: half_life_days);
+    for (str line in lines) {
+        List<str> parts = line.split("\t");
+        if (parts.size() < 3) {
+            continue;
+        }
+        int heat = parts[0].parse_int().or(-1);
+        int stamp = parts[1].parse_int().or(-1);
+        if (heat < 0 || stamp < 0) {
+            continue;
+        }
+        str key = parts[2];
+        for (int more in 3 .. parts.size()) {
+            key = key + "\t" + parts[more];
+        }
+        if (key.size() > 0) {
+            store.items.set(key, Item(heat: heat, stamp: stamp));
+        }
+    }
+    return store;
+}
+
+/// A heat in the sort: hottest first, then the most recent (the sort is stable and the
+/// keys are put in byte order first, so ties come out by name).
+type Hot {
+    str key;
+    int heat;
+    int stamp;
+}
+
+int Hot.cmp(Hot other) {
+    if (heat != other.heat) {
+        if (heat > other.heat) {
+            return -1;
+        }
+        return 1;
+    }
+    if (stamp != other.stamp) {
+        if (stamp > other.stamp) {
+            return -1;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+/// Read the store from `directory` (an empty store when there is none, or `directory` is "").
+pub Store load(str directory, int half_life_days) {
+    if (directory.size() == 0) {
+        return Store(half_life_days: half_life_days);
+    }
+    return parse(MED_state.read_lines(directory, FILE_NAME), half_life_days);
+}

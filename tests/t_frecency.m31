@@ -1,0 +1,94 @@
+// Unit checks for MED_frecency: decay, visits, boosts, bounded atomic state.
+
+import fs;
+import io;
+import os;
+import tests.MED_check;
+import ui.MED_frecency;
+
+MED_check.Check check = MED_check.Check();
+
+const int DAY = 86400;
+const int EPOCH_START = 1700000000;
+
+MED_frecency.Store store = MED_frecency.Store();
+check.eq_int("a file never opened is cold", store.heat("/a", EPOCH_START), 0);
+store.visit("/a", EPOCH_START);
+check.eq_int("a visit is worth one", store.heat("/a", EPOCH_START), 1000);
+check.eq_int("half a life later it is half", store.heat("/a", EPOCH_START + 14 * DAY), 500);
+check.eq_int("two half lives later it is a quarter", store.heat("/a", EPOCH_START + 28 * DAY), 250);
+store.visit("/a", EPOCH_START + 14 * DAY);
+check.eq_int("a visit adds one to what is left", store.heat("/a", EPOCH_START + 14 * DAY), 1500);
+check.eq_int("the last visit is remembered", store.last("/a"), EPOCH_START + 14 * DAY);
+// frequency and recency
+MED_frecency.Store both = MED_frecency.Store();
+for (int visit in 0 .. 10) {
+    both.visit("/often", EPOCH_START + visit * 60);
+}
+both.visit("/once", EPOCH_START + 3600);
+check.ok("ten visits outweigh one a little later", both.heat("/often", EPOCH_START + 7200) > both.heat("/once", EPOCH_START + 7200));
+MED_frecency.Store lately = MED_frecency.Store();
+lately.visit("/old", EPOCH_START);
+lately.visit("/new", EPOCH_START + 60 * DAY);
+check.ok("one recent visit outweighs one long ago", lately.heat("/new", EPOCH_START + 60 * DAY) > 10 * lately.heat("/old", EPOCH_START + 60 * DAY));
+check.ok("an old visit fades", lately.heat("/old", EPOCH_START + 365 * DAY) < 10);
+MED_frecency.Store slow = MED_frecency.Store(half_life_days: 28);
+slow.visit("/a", EPOCH_START);
+check.eq_int("the half life is a setting", slow.heat("/a", EPOCH_START + 28 * DAY), 500);
+// boosts
+check.eq_int("no heat, no boost", MED_frecency.boost_of(0), 0);
+check.eq_int("one visit is half the cap", MED_frecency.boost_of(1000), 75);
+check.ok("the boost grows with the heat", MED_frecency.boost_of(5000) > MED_frecency.boost_of(1000));
+check.ok("and never reaches the cap", MED_frecency.boost_of(1000000) < MED_frecency.BOOST_CAP + 1);
+check.ok("a cap far below one ranking tier", MED_frecency.BOOST_CAP * 100 < 100000);
+check.ok("one fresh visit shows the marker", MED_frecency.boost_of(1000) >= MED_frecency.MARK_FROM);
+check.ok("a faded visit does not", MED_frecency.boost_of(300) < MED_frecency.MARK_FROM);
+// the file: text round trip, bounded, deterministic
+MED_frecency.Store many = MED_frecency.Store();
+for (int index in 0 .. 2500) {
+    many.visit("/file/" + index.to_str(), EPOCH_START + index);
+}
+List<str> lines = many.to_lines(EPOCH_START + 3000);
+check.eq_int("at most MAX_ENTRIES lines", lines.size(), MED_frecency.MAX_ENTRIES);
+check.ok("the most recent of equally hot files come first", lines[0].ends_with("/file/2499"));
+check.eq_str("the same state writes the same lines", lines.join("|"), many.to_lines(EPOCH_START + 3000).join("|"));
+MED_frecency.Store back = MED_frecency.parse(lines, 14);
+check.eq_int("parsing gives the entries back", back.items.size(), MED_frecency.MAX_ENTRIES);
+check.eq_int("with their heat", back.heat("/file/2499", EPOCH_START + 3000), many.heat("/file/2499", EPOCH_START + 3000));
+check.eq_int("garbage lines are skipped", MED_frecency.parse(["x", "a\tb\tc", "-5\t1\t/neg", "1000\t5\t/ok", ""], 14).items.size(), 1);
+check.eq_int("a path with a tab survives", MED_frecency.parse(["1000\t5\t/a\tb"], 14).heat("/a\tb", 5), 1000);
+MED_frecency.Store cold = MED_frecency.Store();
+cold.visit("/gone", EPOCH_START);
+check.eq_int("a file cold for years is forgotten on write", cold.to_lines(EPOCH_START + 5000 * DAY).size(), 0);
+// the state directory: atomic write, nothing without a directory
+str base = os.env("M3_TEST_TMP").or("/tmp");
+str directory = base + "/frecency_test_" + EPOCH_START.to_str();
+MED_frecency.Store disk = MED_frecency.Store();
+disk.visit("/proj/a.txt", EPOCH_START);
+disk.visit("/proj/b.txt", EPOCH_START + 10);
+disk.visit("/proj/b.txt", EPOCH_START + 20);
+disk.save(directory, EPOCH_START + 30);
+check.ok("the state file is written", fs.is_file(directory + "/frecency"));
+check.ok("no temporary file is left behind", !fs.is_present(directory + "/frecency.tmp"));
+check.ok("saving marks the store clean", !disk.is_changed);
+MED_frecency.Store reread = MED_frecency.load(directory, 14);
+check.eq_int("read back: both files", reread.items.size(), 2);
+check.ok("read back: b is hotter than a", reread.heat("/proj/b.txt", EPOCH_START + 30) > reread.heat("/proj/a.txt", EPOCH_START + 30));
+MED_frecency.Store clean = MED_frecency.Store();
+clean.visit("/x", EPOCH_START);
+clean.save("", EPOCH_START);
+check.ok("an empty directory (a clean run) writes nothing", true);
+check.eq_int("loading from no directory is empty", MED_frecency.load("", 14).items.size(), 0);
+match (fs.remove(directory + "/frecency")) {
+    case Ok(bool did_remove): {
+    }
+    case Err(io.Error error): {
+    }
+}
+match (fs.rmdir(directory)) {
+    case Ok(bool did_remove): {
+    }
+    case Err(io.Error error): {
+    }
+}
+check.finish("t_frecency");
