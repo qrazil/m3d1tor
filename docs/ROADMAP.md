@@ -46,6 +46,10 @@ Rows of the Helix table that are stale or still open, with the verdict used belo
 
 ## 2. The queue
 
+> **0.10.0 shipped out of queue: the file finder** (drawing safety, hints, name-first ranking, relevance,
+> frecency; docs/FINDER.md). The groups below keep their order; the one headed 0.10.0 is the next free minor
+> after it (read it as 0.11.0, and each later heading one minor up).
+
 Each row: scope; reference behaviour; test; dependencies; size; decision.
 
 ### 0.7.0 Persistence and project settings (engine-centred)

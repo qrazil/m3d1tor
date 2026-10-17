@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.10.0
+
+The file finder: no corrupted borders, hints on the bottom edge, name-first ranking with a relevance and
+frecency. The design, numbers and knobs are in docs/FINDER.md; needs tui 0.9.1.
+
+- Drawing: a control character in a file name or in a previewed file (a tab, the CR of a CRLF file, an ESC
+  sequence) was written to the terminal as it was and shifted or cleared whatever followed, the right border
+  included; the library now draws its picture instead (tui `Buffer`). Emoji ZWJ sequences, flags and
+  variation-selector emoji, which terminals draw at different widths, no longer move the rest of the row (tui
+  `TUI_diff`: the cursor is placed again after one, the two columns after it are written again). Names are
+  drawn one grapheme cluster at a time, so combining marks and flags survive. The preview expands tabs to the
+  next stop of four, drops the CR of CRLF lines, cuts very long lines when the file is read, and reads the file
+  again when it changes on disk. CTRL-L in a picker (and a focus-in report) writes the whole screen again.
+- Key hints sit in the bottom border of the box as one dim row, by picker, cut to fit.
+- Ranking (`ui/MED_fuzzy.m31`): the file name first: exact name, name without extension, name prefix, run in
+  the name, tight subsequence of the name (or an initialism), subsequence of the path, scattered; inside a
+  tier the fzf-style placement score, then the shorter path. `pom` lists `pom.xml`, `parent/pom.xml`, then
+  `poxm.txt`, then `pxxxxxxoxxxxxxxx_fbdjdk_m`. A relevance percentage per row (`:set nofinderscore` hides it).
+- Frecency (`ui/MED_frecency.m31`): per file a heat with a 14 day half life (`:set finderhalflife=N`),
+  `$XDG_STATE_HOME/m3/frecency`, 2000 files at most, written atomically, nothing with `--keymap NONE`. It lifts
+  a match inside its tier (a dim `*` marks frecent files) and orders the empty prompt.
+- Speed: 100,000 paths rank in 25 to 50 ms for the first keystroke and less after it (a longer prompt only looks
+  at what the shorter one matched); typing is ranked once per batch of keys.
+- Tests: `tests/finder_pty.py` (hostile names and files, diff renderer against a full redraw after every key,
+  resizes, ranking, frecency, clean run; skipped without pyte), `t_frecency.m31`, new cases in `t_fuzzy.m31` and
+  `t_picker.m31`, renderer tests in tui; `bench/finder_bench.m31`.
+
 ## 0.8.0
 
 Smooth, polished, never abrupt (docs/UX-PERF.md has the numbers; needs tui with the `feat/render` changes,

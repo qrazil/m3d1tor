@@ -333,6 +333,10 @@ produces items asynchronously.
   `path:line:col:text`. `<C-q>` sends all to a quickfix-style list. A literal
   scan over a few hundred MB is memory-bandwidth bound in this runtime; the
   benchmark plan includes it against `rg` honestly.
+* **File ranking** (0.10.0): paths are ranked by what the query is to the file name before the score below
+  matters (exact name, stem, prefix, run, tight subsequence, path subsequence, scattered), with a relevance
+  percentage and a frecency boost that cannot cross a tier; see `docs/FINDER.md`. The generic scorer below stays
+  what grep, symbols and the palette use, and what highlights.
 * **Fuzzy scoring** (the scorer is a pure module, `MED_fuzzy`): an fzf-v2
   style Smith-Waterman-like dynamic program, chosen because it is the algorithm
   users already have intuition for (fzf, fzf-lua, Helix's nucleo are all this
