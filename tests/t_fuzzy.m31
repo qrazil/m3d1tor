@@ -22,6 +22,14 @@ str joined(List<int> numbers) {
     return parts.join(",");
 }
 
+str joined_items(List<MED_fuzzy.Ranked> ranked) {
+    List<int> numbers = [];
+    for (MED_fuzzy.Ranked one in ranked) {
+        numbers.push(one.item_index);
+    }
+    return joined(numbers);
+}
+
 str best_of(str query, List<str> candidates) {
     List<MED_fuzzy.Ranked> ranked = MED_fuzzy.rank(MED_fuzzy.parse(query), candidates, -1);
     if (ranked.size() == 0) {
@@ -71,4 +79,86 @@ check.eq_str("two terms merge", joined(MED_fuzzy.parse("sr ap").positions("src/a
 str long_text = "x".repeat(300) + "needle";
 check.ok("long candidate", is_match("needle", long_text));
 check.ok("long candidate, no match", !is_match("needlz", long_text));
+
+// --- paths: the name first (docs/FINDER.md) ---------------------------------------
+
+/// The candidates that match `query` as paths, best first, joined with " | ".
+str path_order(str query, List<str> candidates) {
+    MED_fuzzy.Ranking ranking = MED_fuzzy.rank_path(MED_fuzzy.parse(query), candidates, [], false, [], -1);
+    List<str> names = [];
+    for (MED_fuzzy.Ranked one in ranking.top) {
+        names.push(candidates[one.item_index]);
+    }
+    return names.join(" | ");
+}
+
+int percent_of(str query, str candidate) {
+    return MED_fuzzy.parse(query).match_path(candidate).percent;
+}
+
+str scattered = "pxxxxxxoxxxxxxxx_fbdjdk_m";
+check.eq_str("pom: pom files, then poxm, then the scattered one", path_order("pom", [scattered, "poxm.txt", "parent/pom.xml", "pom.xml"]), "pom.xml | parent/pom.xml | poxm.txt | " + scattered);
+check.eq_str("pom: input order does not matter", path_order("pom", ["pom.xml", "poxm.txt", scattered, "parent/pom.xml"]), "pom.xml | parent/pom.xml | poxm.txt | " + scattered);
+check.eq_str("every tier in order", path_order("pom", ["a/b/pxxxxxxoxxxxxxxx_m", "src/po/m.txt", "poxm.txt", "xpomx.txt", "pomelo.txt", "pom.xml", "pom"]), "pom | pom.xml | pomelo.txt | xpomx.txt | poxm.txt | src/po/m.txt | a/b/pxxxxxxoxxxxxxxx_m");
+check.eq_str("a name beats a directory", path_order("main", ["main/zzz.txt", "src/main.rs", "docs/maintenance_notes.md"]), "src/main.rs | docs/maintenance_notes.md | main/zzz.txt");
+check.eq_str("a typed path suffix wins", path_order("ui/med_app", ["ui/MED_app.m31", "xx/ui/other/MED_app.m31", "ui/MED_application_notes.m31"]), "ui/MED_app.m31 | ui/MED_application_notes.m31 | xx/ui/other/MED_app.m31");
+check.eq_str("shorter path breaks a tie", path_order("a", ["dir/dir/a", "a", "dir/a"]), "a | dir/a | dir/dir/a");
+check.eq_str("equal candidates keep their input order", path_order("x", ["b/x", "a/x"]), "b/x | a/x");
+check.eq_str("non-matching are dropped", path_order("zzq", ["pom.xml", "poxm.txt"]), "");
+check.eq_str("negation drops", path_order("pom !parent", ["pom.xml", "parent/pom.xml"]), "pom.xml");
+check.eq_str("two terms are ANDed", path_order("src app", ["src/MED_app.m31", "src/other.m31"]), "src/MED_app.m31");
+check.eq_str("capital makes it exact", path_order("Pom", ["pom.xml", "POM.xml", "Pom.java"]), "Pom.java");
+check.eq_str("empty query keeps all in order", path_order("", ["b", "a"]), "b | a");
+check.eq_str("determinism: a second run is identical", path_order("pom", [scattered, "poxm.txt", "parent/pom.xml", "pom.xml"]), path_order("pom", [scattered, "poxm.txt", "parent/pom.xml", "pom.xml"]));
+// percentages
+check.eq_int("the basename itself is 100", percent_of("pom", "pom"), 100);
+check.ok("the stem is a few short of it", percent_of("pom", "pom.xml") < 100 && percent_of("pom", "pom.xml") >= 95);
+check.ok("percent falls with the tier", percent_of("pom", "pom.xml") > percent_of("pom", "pomelo.txt") && percent_of("pom", "pomelo.txt") > percent_of("pom", "xpomx.txt") && percent_of("pom", "xpomx.txt") > percent_of("pom", "poxm.txt") && percent_of("pom", "poxm.txt") > percent_of("pom", "src/po/m.txt") && percent_of("pom", "src/po/m.txt") > percent_of("pom", scattered));
+check.ok("a scattered match is low but not zero", percent_of("pom", scattered) > 0 && percent_of("pom", scattered) < 30);
+check.ok("a shorter name is a closer prefix", percent_of("pom", "pomx") > percent_of("pom", "pom_extra_long.txt"));
+check.eq_int("no match, no percent", percent_of("pom", "readme"), 0);
+// frecency boosts reorder inside a tier and never across one
+List<str> pair = ["pom.xml", "parent/pom.xml"];
+MED_fuzzy.Ranking plain = MED_fuzzy.rank_path(MED_fuzzy.parse("pom"), pair, [], false, [], -1);
+MED_fuzzy.Ranking boosted = MED_fuzzy.rank_path(MED_fuzzy.parse("pom"), pair, [], false, [0, 150], -1);
+check.eq_int("without a boost the shorter is first", plain.top[0].item_index, 0);
+check.eq_int("a boost lifts the visited one", boosted.top[0].item_index, 1);
+check.ok("and shows in its percent", boosted.top[0].percent > plain.top[1].percent);
+MED_fuzzy.Ranking tiers = MED_fuzzy.rank_path(MED_fuzzy.parse("pom"), ["poxm.txt", "pom.xml"], [], false, [150, 0], -1);
+check.eq_int("a boost never crosses a tier", tiers.top[0].item_index, 1);
+check.eq_int("percent stays at 100", MED_fuzzy.rank_path(MED_fuzzy.parse("pom"), ["pom"], [], false, [150], -1).top[0].percent, 100);
+// narrowing: the pool of a shorter query gives the same answer as everything
+List<str> tree = ["src/MED_app.m31", "src/MED_fuzzy.m31", "pom.xml", "docs/ROADMAP.md", "apple.txt", "tests/t_app.m31"];
+MED_fuzzy.Ranking wide = MED_fuzzy.rank_path(MED_fuzzy.parse("ap"), tree, [], false, [], -1);
+MED_fuzzy.Ranking narrow = MED_fuzzy.rank_path(MED_fuzzy.parse("app"), tree, wide.matches, true, [], -1);
+MED_fuzzy.Ranking direct = MED_fuzzy.rank_path(MED_fuzzy.parse("app"), tree, [], false, [], -1);
+check.eq_int("narrowing finds the same number", narrow.top.size(), direct.top.size());
+check.eq_str("narrowing finds the same order", joined_items(narrow.top), joined_items(direct.top));
+check.ok("the pool is a superset", wide.matches.size() >= direct.matches.size());
+// limits
+check.eq_int("limit cuts the list, not the pool", MED_fuzzy.rank_path(MED_fuzzy.parse("a"), tree, [], false, [], 2).top.size(), 2);
+check.eq_int("the pool keeps every match", MED_fuzzy.rank_path(MED_fuzzy.parse("a"), tree, [], false, [], 2).matches.size(), 4);
+// the byte prefilter never rejects a match
+check.ok("prefilter: non-ASCII candidate is never rejected early", MED_fuzzy.parse("cafe").can_match("Caf\u{E9}/x"));
+check.ok("prefilter: rejects an impossible ASCII candidate", !MED_fuzzy.parse("zzz").can_match("pom.xml"));
+check.ok("prefilter: case folds", MED_fuzzy.parse("pom").can_match("POM.XML"));
+check.ok("prefilter: sensitive pattern is exact", !MED_fuzzy.parse("Pom").can_match("pom.xml"));
+// the allocation-free byte matcher and the code point matcher give the same answers
+List<str> parity_paths = ["pom.xml", "parent/pom.xml", "poxm.txt", "src/MED_app.m31", "foo_bar", "fooBar", "a/b/c/d.txt", "x", "src/main/java/com/Example.java", "README.md", "docs/ROADMAP.md", "pxxxxxxoxxxxxxxx_fbdjdk_m", "ui/MED_picker_view.m31"];
+List<str> parity_queries = ["pom", "fb", "app", "e", "rd", "mj", "po m", "^pom", "Pom", "ex", "med", "zz", "src app", "r", "ui/med"];
+int parity_bad = 0;
+for (str parity_query in parity_queries) {
+    MED_fuzzy.Query parity = MED_fuzzy.parse(parity_query);
+    for (str parity_path in parity_paths) {
+        MED_fuzzy.Match fast = parity.match_path(parity_path);
+        MED_fuzzy.Match slow = parity.match_path(parity_path, is_slow: true);
+        if (fast.score != slow.score || fast.percent != slow.percent) {
+            parity_bad = parity_bad + 1;
+            print("parity " + parity_query + " on " + parity_path + ": fast " + fast.score.to_str() + "/" + fast.percent.to_str() + " slow " + slow.score.to_str() + "/" + slow.percent.to_str());
+        }
+    }
+}
+check.eq_int("fast and slow path matchers agree", parity_bad, 0);
+check.ok("an initialism is a tight match", percent_of("fb", "foo_bar") > percent_of("fb", "fxxxxxxxxxxxxxxxxxbx"));
+check.eq_str("an initialism beats a loose one", path_order("fb", ["fxxxxxxxxxxxxxxxxxbx", "foo_bar", "fooBar"]), "fooBar | foo_bar | fxxxxxxxxxxxxxxxxxbx");
 check.finish("t_fuzzy");

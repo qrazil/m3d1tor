@@ -1,0 +1,155 @@
+// How long the finder's ranking takes on a big tree: 100,000 synthetic paths.
+//
+//   m31c -emit-c bench/finder_bench.m31 --out finder_bench.c   (then link as tests/test.sh does)
+//
+// Prints milliseconds for: a full rescore per query, typing a query one character at a time
+// without narrowing and with it (the pool of the previous keystroke), and the old generic scorer.
+
+import io;
+import os;
+import timer;
+import ui.MED_frecency;
+import ui.MED_fuzzy;
+import ui.MED_picker;
+
+const int COUNT = 100000;
+
+int next_random(int state) {
+    return (state * 1103515245 + 12345) % 2147483648;
+}
+
+List<str> make_paths() {
+    List<str> words = ["src", "lib", "app", "main", "util", "core", "model", "view", "controller", "test", "docs", "build", "parent", "pom", "index", "config", "service", "handler", "router", "client", "server", "buffer", "window", "picker", "render", "theme", "syntax", "engine", "session", "plugin"];
+    List<str> extensions = [".m31", ".rs", ".md", ".xml", ".json", ".txt", ".toml", ".c", ".h", ".py"];
+    List<str> out = [];
+    int state = 7;
+    for (int index in 0 .. COUNT) {
+        state = next_random(state);
+        int depth = 1 + state / 65536 % 5;
+        List<str> parts = [];
+        for (int level in 0 .. depth) {
+            state = next_random(state);
+            parts.push(words[state / 65536 % words.size()]);
+        }
+        state = next_random(state);
+        str name = words[state / 65536 % words.size()];
+        state = next_random(state);
+        if (state / 65536 % 3 == 0) {
+            name = name + "_" + words[state / 7 % words.size()];
+        }
+        state = next_random(state);
+        parts.push(name + index.to_str() + extensions[state / 65536 % extensions.size()]);
+        out.push(parts.join("/"));
+    }
+    out.push("parent/pom.xml");
+    out.push("pom.xml");
+    out.push("poxm.txt");
+    return out;
+}
+
+int ms_since(int started) {
+    return (timer.monotonic_ns() - started) / 1000000;
+}
+
+void full(str label, List<str> paths, str query) {
+    int started = timer.monotonic_ns();
+    MED_fuzzy.Ranking ranking = MED_fuzzy.rank_path(MED_fuzzy.parse(query), paths, [], false, [], 5000);
+    print("  full rescore  " + label + ": " + ms_since(started).to_str() + " ms, " + ranking.matches.size().to_str() + " matches");
+}
+
+void typing(str query, List<str> paths) {
+    int plain_total = 0;
+    int pooled_total = 0;
+    MED_fuzzy.Ranking previous = MED_fuzzy.Ranking();
+    bool is_first = true;
+    List<int> plain_steps = [];
+    List<int> pooled_steps = [];
+    for (int length in 1 .. query.size() + 1) {
+        str typed = query.substr(0, length);
+        int started = timer.monotonic_ns();
+        MED_fuzzy.Ranking wide = MED_fuzzy.rank_path(MED_fuzzy.parse(typed), paths, [], false, [], 5000);
+        int plain = ms_since(started);
+        started = timer.monotonic_ns();
+        MED_fuzzy.Ranking narrow = MED_fuzzy.rank_path(MED_fuzzy.parse(typed), paths, previous.matches, !is_first, [], 5000);
+        int pooled = ms_since(started);
+        plain_steps.push(plain);
+        pooled_steps.push(pooled);
+        plain_total = plain_total + plain;
+        pooled_total = pooled_total + pooled;
+        previous = narrow;
+        is_first = false;
+        if (narrow.matches.size() != wide.matches.size()) {
+            print("  MISMATCH at " + typed);
+        }
+    }
+    print("  typing '" + query + "': each keystroke without narrowing " + join_ms(plain_steps) + " (total " + plain_total.to_str() + " ms); with narrowing " + join_ms(pooled_steps) + " (total " + pooled_total.to_str() + " ms)");
+}
+
+str join_ms(List<int> steps) {
+    List<str> parts = [];
+    for (int one in steps) {
+        parts.push(one.to_str());
+    }
+    return "[" + parts.join(" ") + "]";
+}
+
+int started_generate = timer.monotonic_ns();
+List<str> paths = make_paths();
+List<str> arguments = os.arguments();
+if (arguments.size() > 1) {
+    // a real listing: one path per line (find DIR -type f | head -100000)
+    paths = [];
+    match (io.read(arguments[1])) {
+        case Ok(str text): {
+            for (str line in text.split("\n")) {
+                if (line.size() > 0) {
+                    paths.push(line);
+                }
+            }
+        }
+        case Err(io.Error error): {
+            print("cannot read " + arguments[1]);
+            os.exit(1);
+        }
+    }
+}
+print("finder_bench: " + paths.size().to_str() + " paths (generated in " + ms_since(started_generate).to_str() + " ms)");
+full("empty query ", paths, "");
+full("pom         ", paths, "pom");
+full("po          ", paths, "po");
+full("e           ", paths, "e");
+full("mdapp       ", paths, "mdapp");
+full("srcmain     ", paths, "srcmain");
+full("zzzq        ", paths, "zzzq");
+full("src app rs  ", paths, "src app rs");
+typing("controller", paths);
+typing("readme", paths);
+typing("srcmain", paths);
+int started_old = timer.monotonic_ns();
+List<MED_fuzzy.Ranked> old = MED_fuzzy.rank(MED_fuzzy.parse("pom"), paths, 5000);
+print("  old generic scorer, 'pom': " + ms_since(started_old).to_str() + " ms, " + old.size().to_str() + " matches");
+// opening the finder with a state file of 2,000 visited files: the heat of every entry
+MED_frecency.Store store = MED_frecency.Store();
+for (int index in 0 .. 2000) {
+    store.visit("/proj/" + paths[index * 40], 1700000000 + index);
+}
+int started_heat = timer.monotonic_ns();
+List<int> heat = [];
+List<int> stamps = [];
+for (str path in paths) {
+    str key = "/proj/" + path;
+    heat.push(store.heat(key, 1700100000));
+    stamps.push(store.last(key));
+}
+print("  frecency lookup of " + paths.size().to_str() + " entries: " + ms_since(started_heat).to_str() + " ms");
+MED_picker.Picker picker = MED_picker.make(MED_picker.KIND_FILES, "Files");
+List<MED_picker.Entry> entries = [];
+for (str path in paths) {
+    entries.push(MED_picker.Entry(path));
+}
+int started_set = timer.monotonic_ns();
+picker.set_entries(entries);
+print("  picker.set_entries (empty prompt): " + ms_since(started_set).to_str() + " ms");
+started_set = timer.monotonic_ns();
+picker.set_frecency(heat, stamps);
+print("  picker.set_frecency (empty prompt, ordered by heat): " + ms_since(started_set).to_str() + " ms");

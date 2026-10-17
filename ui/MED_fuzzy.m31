@@ -19,6 +19,20 @@
 //
 // `rank` orders candidates by score (high first), then the shorter candidate,
 // then the original order. Positions are code point indices, for highlighting.
+//
+// Paths (`rank_path`, `Query.match_path`) are ranked by what the query is to the
+// file NAME first, and only then by the fzf-style score: a tier decides
+//
+//   7 the basename is the query            6 the basename without its extension is
+//   5 the basename starts with the query   4 the basename contains it as a run
+//   3 a subsequence of the basename, tight (spanning at most twice its length)
+//   2 a subsequence of the whole path, compact (at most four times its length)
+//   1 anything else that is a subsequence: scattered
+//
+// and `tier * TIER_STEP + refinement` is the score, so nothing a tier below can
+// earn (a long streak, a frecency boost) lifts a candidate over the tier above.
+// Each match also gets a percentage, 0 to 100, from the tier and how tidy the
+// placement is inside it. docs/FINDER.md has the numbers.
 
 import engine.MED_case;
 
@@ -34,6 +48,20 @@ const int NO_SCORE = -1000000;
 /// Pattern length times candidate length above which the scorer places the
 /// characters greedily instead of running the dynamic program.
 const int MAX_CELLS = 40000;
+/// One tier of path ranking is worth this many points; the refinement inside a tier
+/// (the placement score, the share of the name covered) stays far below it.
+pub const int TIER_STEP = 100000;
+pub const int TIER_BASENAME = 7;
+pub const int TIER_STEM = 6;
+pub const int TIER_PREFIX = 5;
+pub const int TIER_RUN = 4;
+pub const int TIER_TIGHT = 3;
+pub const int TIER_PATH = 2;
+pub const int TIER_SCATTERED = 1;
+/// A basename subsequence is tight when it spans at most this many times the query.
+const int TIGHT_SPAN = 2;
+/// A path subsequence is compact when it spans at most this many times the query.
+const int COMPACT_SPAN = 4;
 const int KIND_FUZZY = 0;
 const int KIND_EXACT = 1;
 const int KIND_PREFIX = 2;
@@ -44,6 +72,10 @@ pub type Term {
     pub bool is_negated = false;
     pub List<int> pattern = [];
     pub bool is_sensitive = false;
+    /// The pattern as ASCII text (lower case unless it is sensitive), "" when it holds
+    /// anything else: a candidate with no such subsequence of bytes cannot match, which
+    /// is a test that costs no allocation.
+    pub str ascii = "";
 }
 
 pub type Query {
@@ -52,6 +84,9 @@ pub type Query {
 
 /// The score of `candidate` for the whole query, or -1 when it does not match.
 pub int Query.score(str candidate) {
+    if (!can_match(candidate)) {
+        return -1;
+    }
     List<int> text = candidate.chars();
     int total = 0;
     for (Term term in terms) {
@@ -68,6 +103,21 @@ pub int Query.score(str candidate) {
         total = total + value;
     }
     return total;
+}
+
+/// False when some fuzzy term cannot possibly match `candidate`: its ASCII pattern is
+/// not a subsequence of the candidate's bytes. True when unsure (a non-ASCII byte
+/// shows up before the answer is known).
+pub bool Query.can_match(str candidate) {
+    for (Term term in terms) {
+        if (term.is_negated || term.kind != KIND_FUZZY || term.ascii.size() == 0) {
+            continue;
+        }
+        if (!has_byte_subsequence(term.ascii, term.is_sensitive, candidate)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /// The code point indices of `candidate` the query matched, ascending.
@@ -104,11 +154,118 @@ pub bool Query.is_empty() {
     return terms.size() == 0;
 }
 
+/// How `candidate`, a path, matches the whole query: a score to order by and a
+/// percentage to show. `score` is -1 when it does not match. `is_slow` makes it take the
+/// path every non-ASCII candidate takes (tests check the two agree).
+pub Match Query.match_path(str candidate, bool is_slow = false) {
+    if (!can_match(candidate)) {
+        return Match();
+    }
+    int length = candidate.size();
+    int base = 0;
+    bool is_ascii = true;
+    for (int index in 0 .. length) {
+        int byte_value = candidate.byte_at(index);
+        if (byte_value > 127) {
+            is_ascii = false;
+            break;
+        }
+        if (byte_value == 47) {
+            base = index + 1;
+        }
+    }
+    List<int> text = [];
+    bool has_text = false;
+    int total = 0;
+    int percents = 0;
+    int counted = 0;
+    for (Term term in terms) {
+        Match one = Match(score: UNDECIDED);
+        if (term.kind == KIND_FUZZY && !term.is_negated && is_ascii && !is_slow && term.ascii.size() > 0) {
+            int packed = fast_tier(term.ascii, !term.is_sensitive, candidate, base);
+            if (packed == -1) {
+                return Match();
+            }
+            if (packed != UNDECIDED) {
+                one = Match(score: packed / 128, percent: packed % 128);
+            }
+        }
+        if (one.score == UNDECIDED) {
+            if (!has_text) {
+                text = candidate.chars();
+                has_text = true;
+                if (!is_ascii) {
+                    base = base_start(text);
+                }
+            }
+            if (term.is_negated) {
+                if (term_score(term, text) > NO_SCORE) {
+                    return Match();
+                }
+                continue;
+            }
+            if (term.kind == KIND_FUZZY) {
+                one = fuzzy_path(term, text, base);
+            } else {
+                int value = term_score(term, text);
+                one = Match();
+                if (value > NO_SCORE) {
+                    one = Match(score: TIER_RUN * TIER_STEP + value, percent: 85);
+                }
+            }
+        }
+        if (one.score < 0) {
+            return Match();
+        }
+        total = total + one.score;
+        percents = percents + one.percent;
+        counted = counted + 1;
+    }
+    if (counted == 0) {
+        return Match(score: 0, percent: 0);
+    }
+    return Match(score: total, percent: percents / counted);
+}
+
+/// A path's match: the score to order by (`-1`: no match) and the percentage to show.
+pub type Match {
+    pub int score = -1;
+    pub int percent = 0;
+}
+
+/// Whether the bytes of `pattern` appear in order in `candidate`, case folded unless
+/// `is_sensitive`. A byte above 127 makes the answer "maybe": true.
+bool has_byte_subsequence(str pattern, bool is_sensitive, str candidate) {
+    int want = pattern.size();
+    int next = 0;
+    int length = candidate.size();
+    int target = pattern.byte_at(0);
+    for (int index in 0 .. length) {
+        int byte_value = candidate.byte_at(index);
+        if (byte_value > 127) {
+            return true;
+        }
+        if (!is_sensitive && byte_value >= 65 && byte_value <= 90) {
+            byte_value = byte_value + 32;
+        }
+        if (byte_value == target) {
+            next = next + 1;
+            if (next == want) {
+                return true;
+            }
+            target = pattern.byte_at(next);
+        }
+    }
+    return false;
+}
+
 /// A candidate that matched: where it was in the input and how well.
 pub type Ranked {
     pub int item_index;
     pub int score;
     pub int length;
+    /// 0 to 100, for path matches (`rank_path`); 0 elsewhere.
+    pub int percent = 0;
 }
 
 pub int Ranked.cmp(Ranked other) {
@@ -308,7 +465,12 @@ List<int> fuzzy_positions(Term term, List<int> text) {
         return greedy_positions(term.pattern, compare);
     }
     Table table = build_table(term.pattern, text, compare);
-    int columns = text.size();
+    return backtrace(table, rows, text);
+}
+
+/// The best placement read back out of the tables.
+List<int> backtrace(Table table, int rows, List<int> text) {
+    int columns = table.columns;
     int best = NO_SCORE;
     int col = 0;
     for (int candidate in 0 .. columns) {
@@ -429,6 +591,532 @@ int term_score(Term term, List<int> text) {
     return anchored_score(term, text, term_start(term, text));
 }
 
+// --- paths: the name first -------------------------------------------------------
+
+/// What `window` and `window_cp` find: the score of the placement, how far apart its
+/// first and last characters are, and whether every one sits on a boundary (an initialism
+/// such as `fb` for `foo_bar`), in one integer: `score * 8192 + span * 2 + initialism`.
+int pack_window(int score, int span, bool is_initialism) {
+    int clipped = score;
+    if (clipped < 0) {
+        clipped = 0;
+    }
+    int wide = span;
+    if (wide > 4095) {
+        wide = 4095;
+    }
+    int bit = 0;
+    if (is_initialism) {
+        bit = 1;
+    }
+    return clipped * 8192 + wide * 2 + bit;
+}
+
+/// The placement fzf finds first (earliest end, then pulled back to the latest start) of
+/// the ASCII `pattern` in `candidate` from byte `from` on, packed by `pack_window`; -1 when
+/// it is not a subsequence there. Scored as the dynamic program scores a placement, but
+/// without trying the others, and without allocating.
+int window(str pattern, bool is_folded, str candidate, int from) {
+    int count = pattern.size();
+    int length = candidate.size();
+    int next = 0;
+    int target = pattern.byte_at(0);
+    int end = -1;
+    for (int index in from .. length) {
+        int byte_value = candidate.byte_at(index);
+        if (is_folded && byte_value >= 65 && byte_value <= 90) {
+            byte_value = byte_value + 32;
+        }
+        if (byte_value == target) {
+            next = next + 1;
+            if (next == count) {
+                end = index;
+                break;
+            }
+            target = pattern.byte_at(next);
+        }
+    }
+    if (end < 0) {
+        return -1;
+    }
+    int score = 0;
+    int later = -1;
+    int later_bonus = 0;
+    bool is_initialism = true;
+    int spot = end;
+    int step = count - 1;
+    while (step >= 0) {
+        int wanted = pattern.byte_at(step);
+        int byte_value = candidate.byte_at(spot);
+        if (is_folded && byte_value >= 65 && byte_value <= 90) {
+            byte_value = byte_value + 32;
+        }
+        while (byte_value != wanted) {
+            spot = spot - 1;
+            byte_value = candidate.byte_at(spot);
+            if (is_folded && byte_value >= 65 && byte_value <= 90) {
+                byte_value = byte_value + 32;
+            }
+        }
+        int bonus = bonus_byte(candidate, spot);
+        if (bonus == 0) {
+            is_initialism = false;
+        }
+        score = score + MATCH_SCORE;
+        if (step < count - 1) {
+            if (later == spot + 1) {
+                score = score + larger(later_bonus, CONSECUTIVE_BONUS);
+            } else {
+                score = score + later_bonus - (GAP_OPEN + (later - spot - 2) * GAP_EXTEND);
+            }
+        }
+        later = spot;
+        later_bonus = bonus;
+        spot = spot - 1;
+        step = step - 1;
+    }
+    score = score + 2 * later_bonus;
+    return pack_window(score, end - later + 1, is_initialism);
+}
+
+/// `window` over code points: `text` is the candidate, `compare` its folded form, the
+/// pattern is already folded, and the search starts at index `from`.
+int window_cp(List<int> pattern, List<int> text, List<int> compare, int from) {
+    int count = pattern.size();
+    int length = text.size();
+    int next = 0;
+    int end = -1;
+    for (int index in from .. length) {
+        if (compare[index] == pattern[next]) {
+            next = next + 1;
+            if (next == count) {
+                end = index;
+                break;
+            }
+        }
+    }
+    if (end < 0) {
+        return -1;
+    }
+    int score = 0;
+    int later = -1;
+    int later_bonus = 0;
+    bool is_initialism = true;
+    int spot = end;
+    int step = count - 1;
+    while (step >= 0) {
+        while (compare[spot] != pattern[step]) {
+            spot = spot - 1;
+        }
+        int bonus = bonus_at(text, spot);
+        if (bonus == 0) {
+            is_initialism = false;
+        }
+        score = score + MATCH_SCORE;
+        if (step < count - 1) {
+            if (later == spot + 1) {
+                score = score + larger(later_bonus, CONSECUTIVE_BONUS);
+            } else {
+                score = score + later_bonus - (GAP_OPEN + (later - spot - 2) * GAP_EXTEND);
+            }
+        }
+        later = spot;
+        later_bonus = bonus;
+        spot = spot - 1;
+        step = step - 1;
+    }
+    score = score + 2 * later_bonus;
+    return pack_window(score, end - later + 1, is_initialism);
+}
+
+/// The tier and percentage of a placement below the basename-run tier, from a packed
+/// window: `in_name` when the whole pattern lies in the basename. Packed with `pack_tier`.
+int tier_of_window(int packed, int count, bool is_in_name) {
+    if (packed < 0) {
+        return -1;
+    }
+    int score = packed / 8192;
+    int span = packed % 8192 / 2;
+    bool is_initialism = packed % 2 == 1;
+    int tier = TIER_SCATTERED;
+    if (is_in_name) {
+        if (span <= TIGHT_SPAN * count || is_initialism) {
+            tier = TIER_TIGHT;
+        }
+    } else if (span == count) {
+        tier = TIER_TIGHT;
+    } else if (span <= COMPACT_SPAN * count || is_initialism) {
+        tier = TIER_PATH;
+    }
+    int share = tidy_share(score, count);
+    int percent = 5 + 22 * share / 100;
+    if (tier == TIER_TIGHT) {
+        percent = 50 + 21 * share / 100;
+    } else if (tier == TIER_PATH) {
+        percent = 28 + 21 * share / 100;
+    }
+    return pack_tier(tier * TIER_STEP + score, percent);
+}
+
+/// The score of a perfect placement of `count` characters: all consecutive, the first
+/// on a boundary.
+int perfect_score(int count) {
+    return count * MATCH_SCORE + (count - 1) * BOUNDARY_SLASH + BOUNDARY_START * 2;
+}
+
+/// 0 to 100: how close `score` is to a perfect placement of `count` characters.
+int tidy_share(int score, int count) {
+    int share = score * 100 / perfect_score(count);
+    if (share < 0) {
+        return 0;
+    }
+    if (share > 100) {
+        return 100;
+    }
+    return share;
+}
+
+/// Where the basename of `text` starts (after the last `/`).
+int base_start(List<int> text) {
+    int spot = text.size() - 1;
+    while (spot >= 0) {
+        if (text[spot] == 47) {
+            return spot + 1;
+        }
+        spot = spot - 1;
+    }
+    return 0;
+}
+
+/// The length of `name` without its extension (the last `.` that is not the first character).
+int stem_length(List<int> name) {
+    int spot = name.size() - 1;
+    while (spot > 0) {
+        if (name[spot] == 46) {
+            return spot;
+        }
+        spot = spot - 1;
+    }
+    return name.size();
+}
+
+bool has_prefix(List<int> haystack, List<int> needle) {
+    if (needle.size() > haystack.size()) {
+        return false;
+    }
+    for (int step in 0 .. needle.size()) {
+        if (haystack[step] != needle[step]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/// A fuzzy term against a path whose basename starts at `base`: tier, refinement, percentage.
+Match fuzzy_path(Term term, List<int> text, int base) {
+    int count = term.pattern.size();
+    List<int> compare = compared(text, term.is_sensitive);
+    if (!is_subsequence(term.pattern, compare)) {
+        return Match();
+    }
+    int size = text.size() - base;
+    List<int> name = compare.slice(base, text.size());
+    int ratio = count * 100 / size;
+    if (has_prefix(name, term.pattern)) {
+        if (size == count) {
+            return Match(score: TIER_BASENAME * TIER_STEP, percent: 100);
+        }
+        if (stem_length(name) == count) {
+            return Match(score: TIER_STEM * TIER_STEP, percent: 97);
+        }
+        return Match(score: TIER_PREFIX * TIER_STEP + ratio, percent: 88 + 6 * ratio / 100);
+    }
+    int found = best_run(term, text, name, base);
+    if (found >= 0) {
+        int bonus = bonus_at(text, base + found);
+        int percent = 72 + 12 * ratio / 100;
+        if (bonus > 0) {
+            percent = percent + 3;
+        }
+        return Match(score: TIER_RUN * TIER_STEP + bonus * 10 + ratio, percent: percent);
+    }
+    int in_name = window_cp(term.pattern, text, compare, base);
+    int packed = 0;
+    if (in_name >= 0) {
+        packed = tier_of_window(in_name, count, true);
+    } else {
+        packed = tier_of_window(window_cp(term.pattern, text, compare, 0), count, false);
+    }
+    return Match(score: packed / 128, percent: packed % 128);
+}
+
+/// Where in the basename `name` the term occurs as a run, taking the occurrence on the
+/// best boundary; -1 when it does not.
+int best_run(Term term, List<int> text, List<int> name, int base) {
+    int best_start = -1;
+    int best_bonus = -1;
+    int start = find_from(name, term.pattern, 0);
+    while (start >= 0) {
+        int bonus = bonus_at(text, base + start);
+        if (bonus > best_bonus) {
+            best_bonus = bonus;
+            best_start = start;
+        }
+        start = find_from(name, term.pattern, start + 1);
+    }
+    return best_start;
+}
+
+/// What the byte-level path matcher answers when the tiers it knows (basename, stem,
+/// prefix, run) do not decide: ask the slow one.
+const int UNDECIDED = -2;
+
+/// The bonus for a match at byte `spot` of an ASCII `candidate` (`bonus_at`, without a list).
+int bonus_byte(str candidate, int spot) {
+    if (spot == 0) {
+        return BOUNDARY_START;
+    }
+    int before = candidate.byte_at(spot - 1);
+    int here = candidate.byte_at(spot);
+    if (before == 47) {
+        return BOUNDARY_SLASH;
+    }
+    if (before == 95 || before == 45 || before == 46 || before == 32) {
+        return BOUNDARY_WORD;
+    }
+    if (before >= 97 && before <= 122 && here >= 65 && here <= 90) {
+        return BOUNDARY_CAMEL;
+    }
+    return 0;
+}
+
+/// Whether the ASCII `pattern` is at byte `start` of `candidate` (case folded when `is_folded`).
+bool is_at(str candidate, int start, str pattern, bool is_folded) {
+    int count = pattern.size();
+    for (int step in 0 .. count) {
+        int byte_value = candidate.byte_at(start + step);
+        if (is_folded && byte_value >= 65 && byte_value <= 90) {
+            byte_value = byte_value + 32;
+        }
+        if (byte_value != pattern.byte_at(step)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/// A tier answer in one integer: `score * 128 + percent`.
+int pack_tier(int score, int percent) {
+    return score * 128 + percent;
+}
+
+/// `fuzzy_path` for an ASCII pattern against an ASCII path that is known to hold it as a
+/// subsequence: no allocation. The answer is `pack_tier(score, percent)`.
+int fast_tier(str pattern, bool is_folded, str candidate, int base) {
+    int count = pattern.size();
+    int length = candidate.size();
+    int size = length - base;
+    if (size < count) {
+        return tier_of_window(window(pattern, is_folded, candidate, 0), count, false);
+    }
+    int ratio = count * 100 / size;
+    if (is_at(candidate, base, pattern, is_folded)) {
+        if (size == count) {
+            return pack_tier(TIER_BASENAME * TIER_STEP, 100);
+        }
+        int dot = length - 1;
+        while (dot > base && candidate.byte_at(dot) != 46) {
+            dot = dot - 1;
+        }
+        if (dot > base && dot - base == count) {
+            return pack_tier(TIER_STEM * TIER_STEP, 97);
+        }
+        return pack_tier(TIER_PREFIX * TIER_STEP + ratio, 88 + 6 * ratio / 100);
+    }
+    int first = pattern.byte_at(0);
+    int best_start = -1;
+    int best_bonus = -1;
+    for (int start in base + 1 .. length - count + 1) {
+        int byte_value = candidate.byte_at(start);
+        if (is_folded && byte_value >= 65 && byte_value <= 90) {
+            byte_value = byte_value + 32;
+        }
+        if (byte_value == first && is_at(candidate, start, pattern, is_folded)) {
+            int bonus = bonus_byte(candidate, start);
+            if (bonus > best_bonus) {
+                best_bonus = bonus;
+                best_start = start;
+            }
+        }
+    }
+    if (best_start < 0) {
+        int in_name = window(pattern, is_folded, candidate, base);
+        if (in_name >= 0) {
+            return tier_of_window(in_name, count, true);
+        }
+        return tier_of_window(window(pattern, is_folded, candidate, 0), count, false);
+    }
+    int percent = 72 + 12 * ratio / 100;
+    if (best_bonus > 0) {
+        percent = percent + 3;
+    }
+    return pack_tier(TIER_RUN * TIER_STEP + best_bonus * 10 + ratio, percent);
+}
+
+/// The whole of a one-term fuzzy query against one path, without allocating: -1 for no
+/// match, `UNDECIDED` when the path is not ASCII (use `match_path`), else
+/// `pack_tier(score, percent)`.
+int single_tier(str pattern, bool is_folded, str candidate) {
+    int length = candidate.size();
+    int want = pattern.size();
+    int next = 0;
+    int target = pattern.byte_at(0);
+    int base = 0;
+    for (int index in 0 .. length) {
+        int byte_value = candidate.byte_at(index);
+        if (byte_value > 127) {
+            return UNDECIDED;
+        }
+        if (byte_value == 47) {
+            base = index + 1;
+        }
+        if (next < want) {
+            int folded = byte_value;
+            if (is_folded && folded >= 65 && folded <= 90) {
+                folded = folded + 32;
+            }
+            if (folded == target) {
+                next = next + 1;
+                if (next < want) {
+                    target = pattern.byte_at(next);
+                }
+            }
+        }
+    }
+    if (next < want) {
+        return -1;
+    }
+    return fast_tier(pattern, is_folded, candidate, base);
+}
+
+/// The most percentage points a frecency boost adds.
+const int BOOST_PERCENT = 5;
+
+/// What `rank_path` found: the best `limit` matches in order, and every match (in input
+/// order), which is the pool a longer query is narrowed from.
+pub type Ranking {
+    pub List<Ranked> top = [];
+    pub List<int> matches = [];
+}
+
+/// The ranking key of one match, one integer so that sorting the list of them is a plain
+/// integer sort: score (24 bits), shorter first (10), earlier first (21), percent (7).
+int rank_key(int score, int length, int item_index, int percent) {
+    int clipped = score;
+    if (clipped > 16777215) {
+        clipped = 16777215;
+    }
+    if (clipped < 0) {
+        clipped = 0;
+    }
+    int short_bits = 1023 - length;
+    if (short_bits < 0) {
+        short_bits = 0;
+    }
+    int index_bits = 2097151 - item_index;
+    if (index_bits < 0) {
+        index_bits = 0;
+    }
+    return clipped * 274877906944 + short_bits * 268435456 + index_bits * 128 + percent;
+}
+
+/// Rank path candidates by `query`. Only `pool` is looked at when `is_pooled` (the indices
+/// of an earlier, shorter query's matches), else every candidate. `boosts[i]`, when there
+/// is one, is added to candidate `i`'s score (frecency); it is far below `TIER_STEP`.
+/// With an empty query every candidate matches and the order is the boosts, then the input.
+pub Ranking rank_path(Query query, List<str> candidates, List<int> pool, bool is_pooled, List<int> boosts, int limit) {
+    Ranking out = Ranking();
+    List<int> keys = [];
+    int count = candidates.size();
+    if (is_pooled) {
+        count = pool.size();
+    }
+    bool is_empty = query.is_empty();
+    bool is_single = false;
+    str single_pattern = "";
+    bool is_single_folded = true;
+    if (query.terms.size() == 1) {
+        Term only = query.terms[0];
+        if (only.kind == KIND_FUZZY && !only.is_negated && only.ascii.size() > 0) {
+            is_single = true;
+            single_pattern = only.ascii;
+            is_single_folded = !only.is_sensitive;
+        }
+    }
+    for (int step in 0 .. count) {
+        int item_index = step;
+        if (is_pooled) {
+            item_index = pool[step];
+        }
+        int score = 0;
+        int percent = 0;
+        if (is_single) {
+            int packed = single_tier(single_pattern, is_single_folded, candidates[item_index]);
+            if (packed == -1) {
+                continue;
+            }
+            if (packed == UNDECIDED) {
+                Match result = query.match_path(candidates[item_index]);
+                if (result.score < 0) {
+                    continue;
+                }
+                score = result.score;
+                percent = result.percent;
+            } else {
+                score = packed / 128;
+                percent = packed % 128;
+            }
+        } else if (!is_empty) {
+            Match result = query.match_path(candidates[item_index]);
+            if (result.score < 0) {
+                continue;
+            }
+            score = result.score;
+            percent = result.percent;
+        }
+        int boost = 0;
+        if (item_index < boosts.size()) {
+            boost = boosts[item_index];
+        }
+        if (boost > 0) {
+            score = score + boost;
+            if (!is_empty) {
+                int extra = boost / 30;
+                if (extra > BOOST_PERCENT) {
+                    extra = BOOST_PERCENT;
+                }
+                percent = percent + extra;
+                if (percent > 100) {
+                    percent = 100;
+                }
+            }
+        }
+        out.matches.push(item_index);
+        keys.push(rank_key(score, candidates[item_index].size(), item_index, percent));
+    }
+    keys.sort();
+    int taken = keys.size();
+    if (limit >= 0 && taken > limit) {
+        taken = limit;
+    }
+    for (int step in 0 .. taken) {
+        int key = keys[keys.size() - 1 - step];
+        int item_index = 2097151 - key / 128 % 2097152;
+        out.top.push(Ranked(item_index, key / 274877906944, 1023 - key / 268435456 % 1024, percent: key % 128));
+    }
+    return out;
+}
+
 /// Parse a query line into terms.
 pub Query parse(str line) {
     Query query = Query();
@@ -464,6 +1152,15 @@ pub Query parse(str line) {
         term.is_sensitive = has_upper(term.pattern);
         if (!term.is_sensitive) {
             term.pattern = compared(term.pattern, false);
+        }
+        bool is_ascii = true;
+        for (int code_point in term.pattern) {
+            if (code_point > 127) {
+                is_ascii = false;
+            }
+        }
+        if (is_ascii) {
+            term.ascii = str.from_chars(term.pattern);
         }
         query.terms.push(term);
     }
