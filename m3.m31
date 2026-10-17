@@ -218,6 +218,8 @@ match (MED_app.open_all(files)) {
         app.motion.configure(is_no_anim, is_truecolour(), !is_light_background());
         match (loop.run_with((TUI_buffer.Buffer buffer, TUI_geometry.Rect area) => app.render(buffer, area), (term.Event event) => app.handle(event), (int elapsed_ms) => app.tick(elapsed_ms), (TUI_mouse.Routed routed) => app.handle_mouse(routed))) {
             case Ok(int frames): {
+                // the file in front counts as visited even when the editor is closed within a tick
+                app.note_state();
                 if (is_project_session) {
                     app.save_session("");
                 }

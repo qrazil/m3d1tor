@@ -12,6 +12,7 @@
 
 import fs;
 import io;
+import date;
 import os;
 import term;
 import tui.app.TUI_app;
@@ -29,6 +30,7 @@ import syntax.core.SYN_class;
 import syntax.core.SYN_detect;
 import syntax.core.SYN_structure;
 import ui.MED_clip;
+import ui.MED_frecency;
 import ui.MED_files;
 import ui.MED_git;
 import ui.MED_grep;
@@ -77,6 +79,8 @@ const int WATCH_MS = 1000;
 /// How often (ms) the recent-files and cursor-position state is brought up to date.
 const int STATE_MS = 1000;
 const int PREVIEW_LINES = 3000;
+/// A preview line is kept this many columns long (the pane is never wider).
+const int PREVIEW_COLUMNS = 400;
 /// The smallest a window may get, status line included.
 const int VKIND_CHAR = 118;
 const int VKIND_LINE = 86;
@@ -168,6 +172,8 @@ pub type App {
     pub int idle_ms = 0;
     pub MED_picker_view.Preview preview = MED_picker_view.Preview();
     pub str preview_path = "";
+    /// Size and modification time of the previewed file when it was read.
+    pub str preview_stamp = "";
     pub List<str> preview_lines = [];
     /// <Space> was typed: the keys after it so far, and the wait for which-key.
     pub bool is_leader = false;
@@ -223,6 +229,10 @@ pub type App {
     /// Where recent files, positions and harpoon lists are kept ("" none).
     pub str state_directory = "";
     pub List<str> recent = [];
+    /// How often and how lately files were opened (the finder's frecency); read from the
+    /// state directory on first use, never with a clean run (`-u NONE`).
+    pub MED_frecency.Store frecency = MED_frecency.Store();
+    pub bool is_frecency_loaded = false;
     /// Buffers read `.editorconfig` and `.m3.toml` (off for `-u NONE`, so test runs stay hermetic).
     pub bool is_project_conf = false;
     pub List<str> positions = [];
@@ -2779,7 +2789,59 @@ pub void App.open_picker(str name, str arg) {
         return;
     }
     has_picker = true;
+    picker.is_deferred = true;
     update_preview();
+}
+
+/// The frecency store, read on first use.
+void App.load_frecency() {
+    int days = editor.option_number("finderhalflife", MED_frecency.DEFAULT_HALF_LIFE_DAYS);
+    if (days < 1) {
+        days = 1;
+    }
+    if (!is_frecency_loaded) {
+        frecency = MED_frecency.load(state_directory, days);
+        is_frecency_loaded = true;
+    }
+    frecency.half_life_days = days;
+}
+
+/// Give the path picker the heat and last visit of its files (nothing without a state directory).
+void App.apply_frecency() {
+    if (state_directory.size() == 0 || !picker.is_path) {
+        return;
+    }
+    load_frecency();
+    if (frecency.items.size() == 0) {
+        return;
+    }
+    int now = date.now();
+    str prefix = "";
+    if (picker.kind == MED_picker.KIND_FILES) {
+        prefix = absolute_of(root) + "/";
+    }
+    List<int> heat = [];
+    List<int> stamps = [];
+    for (MED_picker.Entry entry in picker.entries) {
+        str key = prefix + entry.text;
+        if (picker.kind != MED_picker.KIND_FILES) {
+            key = absolute_of(entry.path);
+        }
+        heat.push(frecency.heat(key, now));
+        stamps.push(frecency.last(key));
+    }
+    picker.set_frecency(heat, stamps);
+}
+
+/// Count a visit of `file` (an absolute path) for the finder and write the state.
+void App.note_visit(str file) {
+    if (state_directory.size() == 0) {
+        return;
+    }
+    load_frecency();
+    int now = date.now();
+    frecency.visit(file, now);
+    frecency.save(state_directory, now);
 }
 
 void App.load_files() {
@@ -2793,6 +2855,7 @@ void App.load_files() {
         entries.push(MED_picker.Entry(relative, path: MED_files.path_of(root, relative)));
     }
     picker.set_entries(entries);
+    apply_frecency();
 }
 
 void App.load_marks() {
@@ -2934,13 +2997,13 @@ void App.update_preview() {
                 int position = index_of(entry.id);
                 if (position >= 0) {
                     Slot slot = slots[position];
-                    preview = MED_picker_view.Preview(title: slot_name(slot), lines: slot.editor.buffer.dump().split("\n"), focus: slot.editor.row);
+                    preview = MED_picker_view.Preview(title: slot_name(slot), lines: preview_ready(slot.editor.buffer.dump().split("\n")), focus: slot.editor.row);
                 }
                 return;
             }
             if (picker.kind == MED_picker.KIND_LIST && entry.detail.size() > 0) {
                 if (preview_path != "commit:" + entry.detail) {
-                    preview_lines = MED_shell.lines(["git", "show", "--stat", "--format=fuller", "--no-color", "-n", "1", entry.detail], root).or([]);
+                    preview_lines = preview_ready(MED_shell.lines(["git", "show", "--stat", "--format=fuller", "--no-color", "-n", "1", entry.detail], root).or([]));
                     preview_path = "commit:" + entry.detail;
                 }
                 preview = MED_picker_view.Preview(title: entry.detail, lines: preview_lines, focus: -1);
@@ -2950,9 +3013,12 @@ void App.update_preview() {
             if (!is_file || entry.path.size() == 0 || entry.text.ends_with("/")) {
                 return;
             }
-            if (entry.path != preview_path) {
+            // the file is read again when the selection moved or when it changed on disk
+            str stamp = MED_persist.disk_stamp(entry.path);
+            if (entry.path != preview_path || stamp != preview_stamp) {
                 preview_lines = read_preview(entry.path);
                 preview_path = entry.path;
+                preview_stamp = stamp;
             }
             int focus = -1;
             if (picker.kind == MED_picker.KIND_GREP || picker.kind == MED_picker.KIND_LIST) {
@@ -3077,6 +3143,10 @@ TUI_app.Action App.handle_picker(term.Event event) {
         }
     }
     for (int key in keys) {
+        if (key == 12) {
+            // CTRL-L: something else wrote on the screen; write every cell again
+            motion.loop.should_repaint = true;
+        }
         match (picker.feed(key)) {
             case Stay: {
             }
@@ -3119,6 +3189,7 @@ TUI_app.Action App.handle_picker(term.Event event) {
         }
     }
     if (has_picker) {
+        picker.refresh();
         update_preview();
     }
     return TUI_app.Action.Redraw;
@@ -5073,6 +5144,7 @@ pub void App.render(TUI_buffer.Buffer buffer, TUI_geometry.Rect full) {
         preview.is_pane = false;
     }
     if (has_picker) {
+        picker.is_score_shown = editor.is_option_on("finderscore", true);
         picker.scroll_to(MED_picker_view.list_rows(area));
         if (preview.focus >= 0) {
             preview.first = preview.focus - MED_picker_view.list_rows(area) / 3;
@@ -5286,6 +5358,9 @@ bool App.did_poll_source(int elapsed_ms) {
         if (source.is_done) {
             picker.is_loading = false;
             is_changed = true;
+            if (source_kind == "files") {
+                apply_frecency();
+            }
         }
     }
     if (picker.is_dirty && (source.is_done || source_ms >= 150)) {
@@ -5498,7 +5573,10 @@ bool App.did_open_list_picker(str name, str arg) {
         return false;
     }
     picker = MED_picker.make(MED_picker.KIND_LIST, title);
+    picker.is_path = name == "recent";
     picker.set_entries(entries);
+    picker.is_deferred = true;
+    apply_frecency();
     if (is_theme_picker) {
         picker.is_side = true;
         for (int rank in 0 .. picker.shown.size()) {
@@ -5575,7 +5653,7 @@ List<MED_picker.Entry> App.recent_entries() {
 }
 
 /// Bring the recent list and the cursor positions up to date (every STATE_MS).
-void App.note_state() {
+pub void App.note_state() {
     if (state_directory.size() == 0 || !is_plugin_on("session") || path.size() == 0 || is_in_listing()) {
         return;
     }
@@ -5590,6 +5668,7 @@ void App.note_state() {
         }
         recent = MED_state.mru_add(recent, file, 200);
         MED_state.write_lines(state_directory, "recent", recent);
+        note_visit(file);
         noted_row = -1;
     }
     if (editor.row != noted_row) {
@@ -8016,6 +8095,15 @@ str child_path(str directory, str name) {
     return directory + "/" + name;
 }
 
+/// Lines ready for the preview pane: tabs expanded, long lines cut.
+List<str> preview_ready(List<str> lines) {
+    List<str> ready = [];
+    for (str line in lines) {
+        ready.push(MED_picker_view.expand_tabs(line, 4, PREVIEW_COLUMNS));
+    }
+    return ready;
+}
+
 /// The lines of a file for the preview pane.
 List<str> read_preview(str file) {
     if (!fs.is_file(file)) {
@@ -8033,9 +8121,16 @@ List<str> read_preview(str file) {
             }
             List<str> lines = text.split("\n");
             if (lines.size() > PREVIEW_LINES) {
-                return lines.slice(0, PREVIEW_LINES);
+                lines = lines.slice(0, PREVIEW_LINES);
             }
-            return lines;
+            // CRLF files: the carriage return is not part of the line
+            for (int spot in 0 .. lines.size()) {
+                if (lines[spot].ends_with("\r")) {
+                    lines[spot] = lines[spot].substr(0, lines[spot].size() - 1);
+                }
+            }
+            // tabs and over-long lines are dealt with once here, not on every frame
+            return preview_ready(lines);
         }
         case Err(io.Error error): {
             return ["(cannot read: " + error.to_str() + ")"];

@@ -152,6 +152,8 @@ const List<str> SPECS = [
     "animatefade::bool:true",
     "animateflash::bool:true",
     "scrollbar::bool:false",
+    "finderscore::bool:true",
+    "finderhalflife::num:14",
     "cursorshape::bool:true",
     "breakindent:bri:bool:false",
     "showbreak:sbr:str:",

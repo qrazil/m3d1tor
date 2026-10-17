@@ -55,24 +55,53 @@ pub int list_rows(TUI_geometry.Rect area) {
     return rows;
 }
 
-/// Draw `text` with the characters at `matched` highlighted, `max` columns at most.
+/// Draw `text` with the characters at `matched` (code point indices) highlighted,
+/// `max` columns at most. It goes one grapheme cluster at a time: a combining mark, a
+/// joiner or a flag is part of the cell before it, not a cell of its own, and a
+/// two-column cluster that does not fit is left out whole.
 void draw_matched(TUI_buffer.Buffer buffer, int x, int y, str text, List<int> matched, TUI_style.Style base, TUI_style.Style hot, int max) {
     int spot = x;
     int index = 0;
-    for (int code_point in text.chars()) {
-        str symbol = str.from_chars([code_point]);
-        int width = TUI_text.width(symbol);
+    for (str cluster in TUI_text.clusters(text)) {
+        int width = TUI_text.width(cluster);
+        int length = cluster.chars().size();
         if (spot - x + width > max) {
             break;
         }
         TUI_style.Style style = base;
-        if (matched.contains(index)) {
-            style = hot;
+        for (int step in 0 .. length) {
+            if (matched.contains(index + step)) {
+                style = hot;
+            }
         }
-        buffer.set_str(spot, y, symbol, style, max: width);
+        buffer.set_str(spot, y, cluster, style, max: max - (spot - x));
         spot = spot + width;
-        index = index + 1;
+        index = index + length;
     }
+}
+
+/// The columns the score column takes at the right of a row: a marker and "100%".
+const int SCORE_WIDTH = 5;
+
+/// `text` padded with blanks on the left to `width` columns.
+pub str pad_left(str text, int width) {
+    int missing = width - TUI_text.width(text);
+    if (missing <= 0) {
+        return text;
+    }
+    return " ".repeat(missing) + text;
+}
+
+/// The score column of one row: `*` when the file is frecent, then the relevance.
+pub str score_label(MED_picker.Picker picker, int rank) {
+    str star = " ";
+    if (picker.is_frecent(picker.shown[rank])) {
+        star = "*";
+    }
+    if (rank < picker.percents.size()) {
+        return star + pad_left(picker.percents[rank].to_str() + "%", SCORE_WIDTH - 1);
+    }
+    return star + " ".repeat(SCORE_WIDTH - 1);
 }
 
 void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Picker picker, MED_theme.Theme theme) {
@@ -81,6 +110,12 @@ void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Pick
     TUI_style.Style chosen = theme.over("ui.picker", "ui.picker.selected");
     TUI_style.Style plain_hot = theme.over("ui.picker", "ui.picker.match");
     TUI_style.Style chosen_hot = chosen.merged(theme.style("ui.picker.match"));
+    TUI_style.Style faint = theme.over("ui.picker", "ui.text.inactive");
+    bool is_scored = picker.is_path && picker.is_score_shown && rect.width >= 24;
+    int text_width = rect.width - 2;
+    if (is_scored) {
+        text_width = text_width - SCORE_WIDTH - 2;
+    }
     for (int row in 0 .. rect.height) {
         int rank = picker.top + row;
         if (rank >= picker.shown.size()) {
@@ -108,7 +143,14 @@ void draw_list(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, MED_picker.Pick
         if (picker.is_filter()) {
             matched = query.positions(entry.text);
         }
-        draw_matched(buffer, rect.x + 2, y, entry.text, matched, style, hot, rect.width - 2);
+        draw_matched(buffer, rect.x + 2, y, entry.text, matched, style, hot, text_width);
+        if (is_scored) {
+            TUI_style.Style score_style = faint;
+            if (rank == picker.selected) {
+                score_style = chosen;
+            }
+            buffer.set_str(rect.x + rect.width - SCORE_WIDTH - 2, y, " " + score_label(picker, rank), score_style, max: SCORE_WIDTH + 1);
+        }
     }
 }
 
@@ -134,7 +176,7 @@ void draw_preview(TUI_buffer.Buffer buffer, TUI_geometry.Rect rect, Preview prev
             buffer.fill(TUI_geometry.Rect(rect.x, y, rect.width, 1), " ", focus);
         }
         buffer.set_str(rect.x, y, gutter, dim, max: rect.width);
-        str text = preview.lines[index].split("\t").join("    ");
+        str text = preview.lines[index];
         buffer.set_str(rect.x + gutter.size(), y, text, style, max: rect.width - gutter.size());
     }
 }
@@ -163,20 +205,7 @@ pub void render(TUI_buffer.Buffer buffer, TUI_geometry.Rect area, MED_picker.Pic
     if (cursor_x < inner.x + inner.width) {
         buffer.set_style(cursor_x, inner.y, theme.cursor("normal"));
     }
-    str hints = "";
-    if (picker.kind == MED_picker.KIND_LIST) {
-        hints = "^T mark ^Q quickfix";
-    }
-    if (picker.kind == MED_picker.KIND_FILES || picker.kind == MED_picker.KIND_GREP) {
-        hints = "^H hidden:" + flag(picker.is_hidden_shown) + " Tab ignore:" + flag(picker.is_ignore_used);
-        if (picker.kind == MED_picker.KIND_GREP) {
-            hints = hints + " ^F fixed:" + flag(picker.is_fixed);
-        }
-    }
-    int used = 2 + TUI_text.width(picker.query) + 2;
-    if (hints.size() > 0 && used + hints.size() < inner.width) {
-        buffer.set_str(inner.x + inner.width - hints.size(), inner.y, hints, faint);
-    }
+    draw_hints(buffer, box, picker, faint);
     TUI_geometry.Rect body = TUI_geometry.Rect(inner.x, inner.y + 2, inner.width, inner.height - 2);
     if (body.height < 1) {
         return;
@@ -202,4 +231,95 @@ str flag(bool is_on) {
         return "on";
     }
     return "off";
+}
+
+/// `line` with each tab expanded to the next multiple of `stops` columns (clusters are
+/// measured in columns, so a wide character moves the next stop), cut after `limit`
+/// columns: a preview line is only ever drawn that far, and a minified file may have a
+/// single line of megabytes.
+pub str expand_tabs(str line, int stops, int limit) {
+    if (!line.contains("\t") && line.size() <= limit) {
+        return line;
+    }
+    List<str> out = [];
+    int column = 0;
+    for (str cluster in TUI_text.clusters(line)) {
+        if (column >= limit) {
+            break;
+        }
+        if (cluster == "\t") {
+            int spaces = stops - column % stops;
+            out.push(" ".repeat(spaces));
+            column = column + spaces;
+        } else {
+            out.push(cluster);
+            column = column + TUI_text.width(cluster);
+        }
+    }
+    return out.join("");
+}
+
+/// The key hints for this picker, most useful first. `hint_text` drops what does not fit.
+pub List<str> hints_for(MED_picker.Picker picker) {
+    List<str> items = [];
+    if (picker.is_side) {
+        return items;
+    }
+    int kind = picker.kind;
+    if (kind == MED_picker.KIND_COMMANDS) {
+        items.push("Enter run");
+    } else if (kind == MED_picker.KIND_HELP || kind == MED_picker.KIND_MARKS) {
+        items.push("Enter select");
+    } else {
+        items.push("Enter open");
+        items.push("^S split");
+        items.push("^V vsplit");
+    }
+    if (kind == MED_picker.KIND_EXPLORE) {
+        items.push("- up");
+    }
+    if (kind == MED_picker.KIND_FILES || kind == MED_picker.KIND_GREP || kind == MED_picker.KIND_LIST) {
+        items.push("^T mark");
+        if (picker.marked.size() > 0 || kind == MED_picker.KIND_GREP || kind == MED_picker.KIND_LIST) {
+            items.push("^Q quickfix");
+        }
+    }
+    if (kind == MED_picker.KIND_FILES || kind == MED_picker.KIND_GREP) {
+        items.push("^H hidden:" + flag(picker.is_hidden_shown));
+        items.push("Tab ignore:" + flag(picker.is_ignore_used));
+    }
+    if (kind == MED_picker.KIND_GREP) {
+        items.push("^F fixed:" + flag(picker.is_fixed));
+    }
+    items.push("^L redraw");
+    items.push("Esc close");
+    return items;
+}
+
+/// The hints joined with two spaces, as many as fit in `columns`.
+pub str hint_text(List<str> items, int columns) {
+    str out = "";
+    for (str item in items) {
+        str next = item;
+        if (out.size() > 0) {
+            next = out + "  " + item;
+        }
+        if (TUI_text.width(next) > columns) {
+            break;
+        }
+        out = next;
+    }
+    return out;
+}
+
+/// The hint line: on the bottom edge of the box, dim, in the border row, never in the list.
+void draw_hints(TUI_buffer.Buffer buffer, TUI_geometry.Rect box, MED_picker.Picker picker, TUI_style.Style faint) {
+    if (box.height < 5 || box.width < 14) {
+        return;
+    }
+    str line = hint_text(hints_for(picker), box.width - 6);
+    if (line.size() == 0) {
+        return;
+    }
+    buffer.set_str(box.x + 2, box.y + box.height - 1, " " + line + " ", faint, max: box.width - 4);
 }
